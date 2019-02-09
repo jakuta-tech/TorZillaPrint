@@ -65,12 +65,21 @@ try {
 }
 catch(e) {dom.IsPBMode = "unknown: " + e.name;};
 
-dom.Viewport = (function () {
-  var e=document.createElement( "div" );
-  e.style.cssText="position:fixed;top:0;left:0;bottom:0;right:0;";
-  document.documentElement.insertBefore(e,document.documentElement.firstChild);
-  var vw=e.offsetWidth;
-  var vh=e.offsetHeight;
-  document.documentElement.removeChild(e);
-  return vw + " x " + vh
-})();
+// viewport
+var e=document.createElement( "div" );
+e.style.cssText="position:fixed;top:0;left:0;bottom:0;right:0;";
+document.documentElement.insertBefore(e,document.documentElement.firstChild);
+var vw=e.offsetWidth;
+var vh=e.offsetHeight;
+document.documentElement.removeChild(e);
+dom.Viewport = vw + " x " + vh;
+
+// scrollbar width: note: this is in the language section but everything we need is in screen.js
+var sWidth = (window.innerWidth-vw);
+if (jsZoom == 100) {
+  dom.scrollbarWidth=sWidth+"px [os logic to follow]";
+}
+else {
+  // recalculate width based on zoom
+  dom.scrollbarWidth=sWidth+"px at "+jsZoom+"% zoom [os logic to follow]";
+};
