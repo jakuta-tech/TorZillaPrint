@@ -75,11 +75,25 @@ document.documentElement.removeChild(e);
 dom.Viewport = vw + " x " + vh;
 
 // scrollbar width: note: this is in the language section but everything we need is in screen.js
-var sWidth = (window.innerWidth-vw);
-if (jsZoom == 100) {
-  dom.scrollbarWidth=sWidth+"px [os logic to follow]";
-}
-else {
-  // recalculate width based on zoom
-  dom.scrollbarWidth=sWidth+"px at "+jsZoom+"% zoom [os logic to follow]";
+// only run the function for Firefox
+if (isNaN(window.mozInnerScreenX) === false){
+  var sbWidth = (window.innerWidth-vw);
+  var sbWidthZoom = sbWidth;
+  var sbOS = ""; var sbZoom = "";
+  if (sbWidth == 0) {sbOS= "[MacOS, mobile device, or floating scrollbars]";}
+  else {
+    if (jsZoom == 100) {}
+    else {
+      // recalculate width based on zoom: this is not exact
+      sbZoom = " at "+jsZoom+"% zoom ";
+      sbWidthZoom = sbWidth * (((varDPI/dpi_x)*100)/100);
+    };
+    // os logic
+    if (sbWidthZoom>=20.5) {sbOS="[Windows 10]"}
+      else if (sbWidthZoom>=16.5) {sbOS="[Windows]"}
+        else if (sbWidthZoom>=14.5) {sbOS="[Linux or MacOSX]"}
+          else if (sbWidthZoom==12) {sbOS="[Linux]"}
+            else {sbOS="[Linux]"};
+  };
+  dom.scrollbarWidth = sbWidth+"px " + sbZoom + sbOS;
 };
