@@ -59,15 +59,3 @@ function getVerNo(){
   };
 // only run the function for Firefox
 if (isNaN(window.mozInnerScreenX) === false){dom.versionNo = getVerNo();}
-
-/* css line-height */
-function getStyle(el,styleProp) {
-  el = document.getElementById(el);
-  if (el.currentStyle)
-    var el = el.currentStyle[styleProp];
-    else if (window.getComputedStyle)
-      var el = document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
-  return el;
-};
-var lineHeight = getStyle ('testLH', 'line-height');
-dom.cssLH=lineHeight + " [os logic to follow]";
