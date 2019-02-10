@@ -80,7 +80,8 @@ var vh=e.offsetHeight;
 document.documentElement.removeChild(e);
 dom.Viewport = vw + " x " + vh;
 
-// scrollbar width: note: this is in the language section but everything we need is in screen.js
+// scrollbar width
+// note: this is in the language section but everything we need is in screen.js
 // only run the function for Firefox
 if (isNaN(window.mozInnerScreenX) === false){
   var sbWidth = (window.innerWidth-vw);
@@ -106,4 +107,48 @@ if (isNaN(window.mozInnerScreenX) === false){
             else {sbOS="[Linux]"};
   };
   dom.scrollbarWidth = sbWidth+"px " + sbZoom + sbOS;
+};
+
+// css line-height
+// note: this is in the language section but I want the zoom from screen.js
+function getStyle(el,styleProp) {
+  el = document.getElementById(el);
+  if (el.currentStyle)
+    var el = el.currentStyle[styleProp];
+    else if (window.getComputedStyle)
+      var el = document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
+  return el;
+};
+// only run the function for Firefox
+if (isNaN(window.mozInnerScreenX) === false){
+  var lh = getStyle ('testLH', 'line-height');
+  lh = lh.slice(0, -2);
+  var lhOS = "";
+  if (jsZoom == 100) {
+    console.time("vsn62");
+    try {console.timeLog("vsn62");
+      // FF62 or higher
+      if (lh=="19.5") {lhOS="[Android]"}
+      else if (lh=="19.2") {lhOS="[MacOS]"}
+      else if (lh=="19") {lhOS="[Linux]"}
+      else if (lh=="18") {lhOS="[Windows]"}
+      else if (lh=="17") {lhOS="[Linux]"}
+      else lhOS="[unknown]";
+    }
+    catch(e) {
+      // FF61 or lower
+      if (lh=="20") {lhOS="[Windows]"}
+      else if (lh=="19.5167") {lhOS="[MacOS]"}
+      else if (lh=="19.2") {lhOS="[Windows] [or unknown: Tor Browser]"}
+      else if (lh=="19") {lhOS="[Linux]"}
+      else if (lh=="17") {lhOS="[Linux]"}
+      else lhOS="[unknown]";
+    };
+    console.timeEnd("vsn62");
+  }
+  else {
+    lhOS = "[unknown: zoom at "+jsZoom+"%]";
+    if (lh=="19.2") {lhOS=lhOS+" [Tor Browser detected]"}
+  };
+  dom.cssLH=lh + "px " + lhOS;
 };
