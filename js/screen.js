@@ -89,23 +89,79 @@ if (isNaN(window.mozInnerScreenX) === false){
   var sbOS = ""; var sbZoom = "";
   if (sbWidth == 0) {sbOS= "[MacOS, mobile device, or floating scrollbars]";}
   else {
-    if (jsZoom == 100) {}
-    else {
-      // recalculate width based on zoom: this is not exact
-      sbZoom = " at "+jsZoom+"% zoom ";
-      if (window.devicePixelRatio == 1) {
-        sbWidthZoom = sbWidth * (((varDPI/dpi_x)*100)/100);
-      } else {
-        sbWidthZoom = sbWidth * window.devicePixelRatio;
-      };
+    // start with known metrics at preset FF zoom levels
+    if (jsZoom == 300) {
+      if (sbWidth==6) {sbOS="[Windows 10]"};
+      if (sbWidth==5) {sbOS="[Windows 7]"};
+      if (sbWidth==4) {sbOS="[Linux]"};
+    } else if (jsZoom == 240) {
+      if (sbWidth==7) {sbOS="[Windows]"};
+      if (sbWidth==5) {sbOS="[Linux]"};
+    } else if (jsZoom == 200) {
+      if (sbWidth==8) {sbOS="[Windows]"};
+      if (sbWidth==6) {sbOS="[Linux]"};
+    } else if (jsZoom == 170) {
+      if (sbWidth==10) {sbOS="[Windows]"};
+      if (sbWidth==7) {sbOS="[Linux]"};
+    } else if (jsZoom == 150) {
+      if (sbWidth==12) {sbOS="[Windows 7]"};
+      if (sbWidth==11) {sbOS="[Windows 10]"};
+      if (sbWidth==8) {sbOS="[Linux]"};
+    } else if (jsZoom == 133) {
+      if (sbWidth==13) {sbOS="[Windows]"};
+      if (sbWidth==9) {sbOS="[Linux]"};
+    } else if (jsZoom == 120) {
+      if (sbWidth==14) {sbOS="[Windows]"};
+      if (sbWidth==10) {sbOS="[Linux]"};
+    } else if (jsZoom == 110) {
+      if (sbWidth==16) {sbOS="[Windows]"};
+      if (sbWidth==15) {sbOS="[Windows 10]"}; // FF60+61
+      if (sbWidth==11) {sbOS="[Linux]"};
+    } else if (jsZoom == 100) {
+      if (sbWidth==17) {sbOS="[Windows]"};
+      if (sbWidth==12) {sbOS="[Linux]"};
+    } else if (jsZoom == 90) {
+      if (sbWidth==19) {sbOS="[Windows]"};
+      if (sbWidth==13) {sbOS="[Linux]"};
+    } else if (jsZoom == 80) {
+      if (sbWidth==21) {sbOS="[Windows]"};
+      if (sbWidth==15) {sbOS="[Linux]"};
+    } else if (jsZoom == 67) {
+      if (sbWidth==25) {sbOS="[Windows]"};
+      if (sbWidth==18) {sbOS="[Linux]"};
+    } else if (jsZoom == 50) {
+      if (sbWidth==34) {sbOS="[Windows]"};
+      if (sbWidth==24) {sbOS="[Linux]"};
+    } else if (jsZoom == 30) {
+      if (sbWidth==57) {sbOS="[Windows 10]"};
+      if (sbWidth==56) {sbOS="[Windows 7]"};
+      if (sbWidth==40) {sbOS="[Linux]"};
     };
-    // os logic
-    if (sbWidthZoom>=20.5) {sbOS="[Windows 10]"}
-      else if (sbWidthZoom>=16.5) {sbOS="[Windows]"}
-        else if (sbWidthZoom>=14.5) {sbOS="[Linux or MacOSX]"}
-          else if (sbWidthZoom==12) {sbOS="[Linux]"}
+    if (sbOS == "") {
+      // not a preset FF zoom and known metric
+      if (jsZoom == 100) {}
+      else {
+        // recalculate width based on zoom: this is not perfect
+        if (window.devicePixelRatio == 1) {
+          sbWidthZoom = sbWidth * (((varDPI/dpi_x)*100)/100);
+        } else {
+          sbWidthZoom = sbWidth * window.devicePixelRatio;
+        };
+      };
+      // os logic
+      if (sbWidthZoom>=20.5) {sbOS="[Windows 10]"}
+        else if (sbWidthZoom>=16.5) {sbOS="[Windows]"}
+          else if (sbWidthZoom>=14.5) {sbOS="[Linux or MacOSX]"}
             else {sbOS="[Linux]"};
+      // add in notation if this is a best guess
+      sbOS = sbOS+" [logical guess]"
+    } else {
+      // add in notation if this is a known metric
+      sbOS = sbOS+" [known metric]"
+    };
   };
+  // add in zoom info if relevant
+  if (jsZoom == 100) {} else { sbZoom = " at "+jsZoom+"% "};
   dom.scrollbarWidth = sbWidth+"px " + sbZoom + sbOS;
 };
 
