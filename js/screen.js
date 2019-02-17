@@ -91,21 +91,22 @@ if (isNaN(window.mozInnerScreenX) === false){
   else {
     // start with known metrics at preset FF zoom levels
     if (jsZoom == 300) {
-      if (sbWidth==6) {sbOS="[Windows 10]"};
-      if (sbWidth==5) {sbOS="[Windows 7]"};
+      if (sbWidth==6) {sbOS="[Windows]"};
+      if (sbWidth==5) {sbOS="[Windows]"};
       if (sbWidth==4) {sbOS="[Linux]"};
     } else if (jsZoom == 240) {
       if (sbWidth==7) {sbOS="[Windows]"};
       if (sbWidth==5) {sbOS="[Linux]"};
     } else if (jsZoom == 200) {
+      if (sbWidth==9) {sbOS="[Windows]"};
       if (sbWidth==8) {sbOS="[Windows]"};
       if (sbWidth==6) {sbOS="[Linux]"};
     } else if (jsZoom == 170) {
       if (sbWidth==10) {sbOS="[Windows]"};
       if (sbWidth==7) {sbOS="[Linux]"};
     } else if (jsZoom == 150) {
-      if (sbWidth==12) {sbOS="[Windows 7]"};
-      if (sbWidth==11) {sbOS="[Windows 10]"};
+      if (sbWidth==12) {sbOS="[Windows]"};
+      if (sbWidth==11) {sbOS="[Windows]"};
       if (sbWidth==8) {sbOS="[Linux]"};
     } else if (jsZoom == 133) {
       if (sbWidth==13) {sbOS="[Windows]"};
@@ -115,7 +116,7 @@ if (isNaN(window.mozInnerScreenX) === false){
       if (sbWidth==10) {sbOS="[Linux]"};
     } else if (jsZoom == 110) {
       if (sbWidth==16) {sbOS="[Windows]"};
-      if (sbWidth==15) {sbOS="[Windows 10]"}; // FF60+61
+      if (sbWidth==15) {sbOS="[Windows]"};
       if (sbWidth==11) {sbOS="[Linux]"};
     } else if (jsZoom == 100) {
       if (sbWidth==17) {sbOS="[Windows]"};
@@ -127,14 +128,15 @@ if (isNaN(window.mozInnerScreenX) === false){
       if (sbWidth==21) {sbOS="[Windows]"};
       if (sbWidth==15) {sbOS="[Linux]"};
     } else if (jsZoom == 67) {
+      if (sbWidth==26) {sbOS="[Windows]"};
       if (sbWidth==25) {sbOS="[Windows]"};
       if (sbWidth==18) {sbOS="[Linux]"};
     } else if (jsZoom == 50) {
       if (sbWidth==34) {sbOS="[Windows]"};
       if (sbWidth==24) {sbOS="[Linux]"};
     } else if (jsZoom == 30) {
-      if (sbWidth==57) {sbOS="[Windows 10]"};
-      if (sbWidth==56) {sbOS="[Windows 7]"};
+      if (sbWidth==57) {sbOS="[Windows]"};
+      if (sbWidth==56) {sbOS="[Windows]"};
       if (sbWidth==40) {sbOS="[Linux]"};
     };
     if (sbOS == "") {
