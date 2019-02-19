@@ -81,63 +81,57 @@ document.documentElement.removeChild(e);
 dom.Viewport = vw + " x " + vh;
 
 // scrollbar width
-// note: this is in the language section but everything we need is in screen.js
+// note: this is in the user agent section but everything we need is in screen.js
 // only run the function for Firefox
 if (isNaN(window.mozInnerScreenX) === false){
   var sbWidth = (window.innerWidth-vw);
   var sbWidthZoom = sbWidth;
-  var sbOS = ""; var sbZoom = "";
+  var sbOS = ""; var sbZoom = ""; var strW = "[Windows]"; var strL = "[Linux]"
   if (sbWidth == 0) {sbOS= "[MacOS, mobile device, or floating scrollbars]";}
   else {
     // start with known metrics at preset FF zoom levels
     if (jsZoom == 300) {
-      if (sbWidth==6) {sbOS="[Windows]"};
-      if (sbWidth==5) {sbOS="[Windows]"};
-      if (sbWidth==4) {sbOS="[Linux]"};
+      if (sbWidth==6 || 5) {sbOS=strW};
+      if (sbWidth==4) {sbOS=strL};
     } else if (jsZoom == 240) {
-      if (sbWidth==7) {sbOS="[Windows]"};
-      if (sbWidth==5) {sbOS="[Linux]"};
+      if (sbWidth==7) {sbOS=strW};
+      if (sbWidth==5) {sbOS=strL};
     } else if (jsZoom == 200) {
-      if (sbWidth==9) {sbOS="[Windows]"};
-      if (sbWidth==8) {sbOS="[Windows]"};
-      if (sbWidth==6) {sbOS="[Linux]"};
+      if (sbWidth==9 || 8) {sbOS=strW};
+      if (sbWidth==6) {sbOS=strL};
     } else if (jsZoom == 170) {
-      if (sbWidth==10) {sbOS="[Windows]"};
-      if (sbWidth==7) {sbOS="[Linux]"};
+      if (sbWidth==10) {sbOS=strW};
+      if (sbWidth==7) {sbOS=strL};
     } else if (jsZoom == 150) {
-      if (sbWidth==12) {sbOS="[Windows]"};
-      if (sbWidth==11) {sbOS="[Windows]"};
-      if (sbWidth==8) {sbOS="[Linux]"};
+      if (sbWidth==12 || 11) {sbOS=strW};
+      if (sbWidth==8) {sbOS=strL};
     } else if (jsZoom == 133) {
-      if (sbWidth==13) {sbOS="[Windows]"};
-      if (sbWidth==9) {sbOS="[Linux]"};
+      if (sbWidth==13) {sbOS=strW};
+      if (sbWidth==9) {sbOS=strL};
     } else if (jsZoom == 120) {
-      if (sbWidth==14) {sbOS="[Windows]"};
-      if (sbWidth==10) {sbOS="[Linux]"};
+      if (sbWidth==14) {sbOS=strW};
+      if (sbWidth==10) {sbOS=strL};
     } else if (jsZoom == 110) {
-      if (sbWidth==16) {sbOS="[Windows]"};
-      if (sbWidth==15) {sbOS="[Windows]"};
-      if (sbWidth==11) {sbOS="[Linux]"};
+      if (sbWidth==16 || 15) {sbOS=strW};
+      if (sbWidth==11) {sbOS=strL};
     } else if (jsZoom == 100) {
-      if (sbWidth==17) {sbOS="[Windows]"};
-      if (sbWidth==12) {sbOS="[Linux]"};
+      if (sbWidth==17) {sbOS=strW};
+      if (sbWidth==12) {sbOS=strL};
     } else if (jsZoom == 90) {
-      if (sbWidth==19) {sbOS="[Windows]"};
-      if (sbWidth==13) {sbOS="[Linux]"};
+      if (sbWidth==19) {sbOS=strW};
+      if (sbWidth==13) {sbOS=strL};
     } else if (jsZoom == 80) {
-      if (sbWidth==21) {sbOS="[Windows]"};
-      if (sbWidth==15) {sbOS="[Linux]"};
+      if (sbWidth==21) {sbOS=strW};
+      if (sbWidth==15) {sbOS=strL};
     } else if (jsZoom == 67) {
-      if (sbWidth==26) {sbOS="[Windows]"};
-      if (sbWidth==25) {sbOS="[Windows]"};
-      if (sbWidth==18) {sbOS="[Linux]"};
+      if (sbWidth==26 || 25) {sbOS=strW};
+      if (sbWidth==18) {sbOS=strL};
     } else if (jsZoom == 50) {
-      if (sbWidth==34) {sbOS="[Windows]"};
-      if (sbWidth==24) {sbOS="[Linux]"};
+      if (sbWidth==34) {sbOS=strW};
+      if (sbWidth==24) {sbOS=strL};
     } else if (jsZoom == 30) {
-      if (sbWidth==57) {sbOS="[Windows]"};
-      if (sbWidth==56) {sbOS="[Windows]"};
-      if (sbWidth==40) {sbOS="[Linux]"};
+      if (sbWidth==57 || 56) {sbOS=strW};
+      if (sbWidth==40) {sbOS=strL};
     };
     if (sbOS == "") {
       // not a preset FF zoom and known metric
@@ -151,10 +145,9 @@ if (isNaN(window.mozInnerScreenX) === false){
         };
       };
       // os logic
-      if (sbWidthZoom>=20.5) {sbOS="[Windows 10]"}
-        else if (sbWidthZoom>=16.5) {sbOS="[Windows]"}
-          else if (sbWidthZoom>=14.5) {sbOS="[Linux or MacOSX]"}
-            else {sbOS="[Linux]"};
+      if (sbWidthZoom>=16.5) {sbOS=strW}
+        else if (sbWidthZoom>=14.5) {sbOS="[Linux or MacOSX]"}
+          else {sbOS=strL};
       // add in notation if this is a best guess
       sbOS = sbOS+" [logical guess]"
     } else {
@@ -168,7 +161,7 @@ if (isNaN(window.mozInnerScreenX) === false){
 };
 
 // css line-height
-// note: this is in the language section but I want the zoom from screen.js
+// note: this is in the user agent section but I want the zoom from screen.js
 function getStyle(el,styleProp) {
   el = document.getElementById(el);
   if (el.currentStyle)
@@ -197,7 +190,7 @@ if (isNaN(window.mozInnerScreenX) === false){
       // FF61 or lower
       if (lh=="20") {lhOS="[Windows]"}
       else if (lh=="19.5167") {lhOS="[MacOS]"}
-      else if (lh=="19.2") {lhOS="[Windows] [or unknown: Tor Browser]"}
+      else if (lh=="19.2") {lhOS="[Windows or Tor Browser]"}
       else if (lh=="19") {lhOS="[Linux]"}
       else if (lh=="17") {lhOS="[Linux]"}
       else lhOS="[unknown]";
@@ -205,8 +198,9 @@ if (isNaN(window.mozInnerScreenX) === false){
     console.timeEnd("vsn62");
   }
   else {
-    lhOS = "[unknown: zoom at "+jsZoom+"%]";
+    // zoom not at 100% - css line-height outside 100% is not reliable or unique per OS
     if (lh=="19.2") {lhOS=lhOS+" [Tor Browser detected]"}
   };
-  dom.cssLH=lh + "px " + lhOS;
+  // sbZoom already set in scrollbar width code
+  dom.cssLH=lh + "px " + sbZoom + lhOS;
 };
