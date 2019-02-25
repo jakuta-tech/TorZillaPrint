@@ -19,7 +19,7 @@ const FFImg = new Image();
 FFImg.src = "chrome://browser/content/aboutRobots-icon.png";
 FFImg.onload = e => {if (!dom.fdResource.textContent) dom.fdResource = "Firefox";};
 
-// browesr: feature detection
+// browser: feature detection
 if (isNaN(window.mozPaintCount) === false){ dom.fdPaintCount="Firefox"};
 /* 
   if (isNaN(window.mozInnerScreenX) === false){ dom.fdScreenX="Firefox"};
@@ -28,9 +28,28 @@ if (isNaN(window.mozPaintCount) === false){ dom.fdPaintCount="Firefox"};
 */
 
 // browser: math values
+/* 64bit builds
+  expm1(1) = "1.7182818284590455" AND
+   sinh(1) = "1.1752011936438016"
+  then 64bit builds, or 32bit builds on 64bit windows */
 let xfd; xfd = 1;
-if ((Math.exp(xfd) - 1) == 1.7182818284590455) {let yfd; yfd = Math.exp(xfd);
-  if (((yfd - 1 / yfd) / 2) == 1.1752011936438016) {dom.fdMath="Firefox"};};
+if ((Math.exp(xfd) - 1) == 1.7182818284590455) {
+  let yfd; yfd = Math.exp(xfd);
+  if (((yfd - 1 / yfd) / 2) == 1.1752011936438016) {dom.fdMath="Firefox"};
+};
+/* 32bit builds
+   expm1(1) = "1.718281828459045"  AND
+    sinh(1) = "1.1752011936438014" AND
+ atanh(0.5) = "0.5493061443340549"
+  then 32bit tor browser (on 32 or 64 bit platform) or 32bit firefox (on 32bit linux)
+*/
+if ((Math.exp(xfd) - 1) == 1.718281828459045) {
+  let yfd; yfd = Math.exp(xfd);
+  if (((yfd - 1 / yfd) / 2) == 1.1752011936438014) {
+    let zfd; zfd = 0.5;
+    if ( (Math.log((1 + zfd) / (1 - zfd)) / 2) == 0.5493061443340549) {dom.fdMath="Firefox"};
+  };
+};
 
 /* Firefox Version 60+ Detection */
 function getVerNo(){
@@ -58,4 +77,4 @@ function getVerNo(){
   return verNo;
   };
 // only run the function for Firefox
-if (isNaN(window.mozInnerScreenX) === false){dom.versionNo = getVerNo();}
+if (isNaN(window.mozInnerScreenX) === false){dom.versionNo = getVerNo();};
