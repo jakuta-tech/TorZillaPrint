@@ -27,8 +27,9 @@ dom.nLanguages0 = navigator.languages[0];
 // locale
 dom.localeIPR = new Intl.PluralRules().resolvedOptions().locale;
 dom.localeRO = rOptions.locale;
-// timezone offsets
+// timezone
 dom.tzOffsets = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset();
+dom.tzRO = Intl.DateTimeFormat().resolvedOptions().timeZone;
 // date/time
 dom.dateSystem = dateUsed;
 dom.dateString = dateUsed.toString();
