@@ -101,8 +101,8 @@ if (isNaN(window.mozInnerScreenX) === false) {
   };
   // tan: always Windows and Tor Browser
   if (strosHash == "8464b989070dcff22c136e4d0fe21d466b708ece") {dom.fdMathOS="Windows";
-    // within Windows: yellow is always TB 32-bit; bright blue is always TB 64-bit
-    if (strbrHash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {dom.fdMath="Tor Browser [64-bit]"};
+    // within Windows: yellow is always TB 32-bit; bright blue is always TB 64-bit and therefore on Windows 64=bit
+    if (strbrHash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {dom.fdMath="Tor Browser [64-bit]"; dom.fdMathOS="Windows [64-bit]"};
     if (strbrHash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMath="Tor Browser [32-bit]"};
   };
   // orange: android
