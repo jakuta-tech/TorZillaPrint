@@ -81,7 +81,7 @@ if (strbrHash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMath="Firefo
   purple = 97eee44856b0d2339f7add0d22feb01bcc0a430e
     blue = 96895e004b623552b9543dcdc030640d1b108816
      tan = 8464b989070dcff22c136e4d0fe21d466b708ece
-  orange = 96895e004b623552b9543dcdc030640d1b108816
+  orange = ae434b101452888b756da5916d81f68adeb2b6ae
     pink = 06a01549b5841e0ac26c875b456a33f95b5c5c11
 */
 // refine browser build if we go
@@ -102,7 +102,7 @@ if (isNaN(window.mozInnerScreenX) === false) {
     if (strbrHash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMath="Tor Browser [32-bit]"};
   };
   // orange: android
-  if (strosHash == "96895e004b623552b9543dcdc030640d1b108816") {dom.fdMathOS="Android";};
+  if (strosHash == "ae434b101452888b756da5916d81f68adeb2b6ae") {dom.fdMathOS="Android";};
   // pink: macos
   if (strosHash == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {dom.fdMathOS="macOS";};
 };
