@@ -101,7 +101,7 @@ input[type='checkbox'] { display: none; }
   cursor: pointer;
 }
 
-.togA, .togD { display: none; }
+.togA, .togD, .togM { display: none; }
 
 /* Icons */
 .icon {
