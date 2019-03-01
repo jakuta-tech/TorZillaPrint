@@ -94,10 +94,11 @@ if (isNaN(window.mozInnerScreenX) === false) {
   // purple: always Windows, FF-32bit
   if (strosHash == "97eee44856b0d2339f7add0d22feb01bcc0a430e") {dom.fdMathOS="Windows"; dom.fdMath="Firefox [32-bit]"};
   // blue: always linux
-  if (strosHash == "96895e004b623552b9543dcdc030640d1b108816") {dom.fdMathOS="Linux"};
+  if (strosHash == "96895e004b623552b9543dcdc030640d1b108816") {dom.fdMathOS="Linux";
     // within Linux: yellow is always 32-bit platform; bright blue is always 64-bit platform
     if (strbrHash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {dom.fdMathOS="Linux [64-bit]"};
     if (strbrHash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMathOS="Linux [32-bit]"};
+  };
   // tan: always Windows and Tor Browser
   if (strosHash == "8464b989070dcff22c136e4d0fe21d466b708ece") {dom.fdMathOS="Windows";
     // within Windows: yellow is always TB 32-bit; bright blue is always TB 64-bit
