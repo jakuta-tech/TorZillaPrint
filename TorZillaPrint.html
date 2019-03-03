@@ -76,11 +76,12 @@
     <thead><tr><th colspan="2">
       <div class="nav-title"><a href="#useragent">User Agent</a>
         <div class="nav-up"><a href="#screen">&#9650;</a></div>
-        <div class="nav-down"><a href="#language">&#9660;</a></div></div>
+        <div class="nav-down"><a href="#math">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td colspan="2" class="intro"><span class="no_color">The <code>browser</code>, <code>version</code> and <code>os</code> tests
-    are only to show how trivial it is to detect that you are using Firefox, the version and possibly your os. Extrapolating your os
-    from <code>css line-height</code> and <code>scrollbar width</code> are for fun - the actual entropy is the pixel value [per zoom setting].</span></td></tr>
+    <tr><td colspan="2" class="intro"><span class="no_color">The <code>browser</code>, <code>version</code> and <code>os</code> tests are only to
+    show how trivial it is to detect that you are using Firefox, the version and possibly your os. If narrowed down to the Tor Browser, that's just
+    a bonus, as there are other ways to detect that. Extrapolating your os from <code>css line-height</code> and <code>scrollbar width</code> are
+    for fun - the actual entropy is the pixel value [per zoom setting].</span></td></tr>
     <tr><td>[header] http_user_agent</td><td></td></tr>
     <tr><td>[navigator] userAgent</td><td id="nUserAgent"></td></tr>
     <tr><td>[navigator] appCodeName</td><td id="nCodeName"></td></tr>
@@ -110,29 +111,8 @@
     <tr><td>[math] os</td><td id="fdMathOS"></td></tr>
     <tr><td>[tcp/ip] os</td><td></td></tr>
     <!--<tr><td>[math] ISA</td><td id="ISA"></td></tr>-->
-    <tr><td>----</td><td></td></tr>
-    <tr><td>[logic] everything</td><td></td></tr>
-    <tr><td colspan="2" class="showhide">
-        <input id="collapseM" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M`)">
-        <label for="collapseM" class="lbl-toggle" id="labelM">&#9660; show details</label>
-    </td></tr>
-    <tr class="togM"><td>[browser] hash</td><td id="brmhash"></td></tr>
-    <tr class="togM"><td>atanh(0.5)</td><td id="brm1"></td></tr>
-    <tr class="togM"><td>expm1(1)</td><td id="brm2"></td></tr>
-    <tr class="togM"><td>sinh(1)</td><td id="brm3"></td></tr>
-    <tr class="togM"><td>----</td><td></td></tr>
-    <tr class="togM"><td>[os] hash</td><td id="osmhash"></td></tr>
-    <tr class="togM"><td>cos(1e251)</td><td id="osm1"></td></tr>
-    <tr class="togM"><td>cos(1e140)</td><td id="osm2"></td></tr>
-    <tr class="togM"><td>cos(1e12)</td><td id="osm3"></td></tr>
-    <tr class="togM"><td>cos(1e130)</td><td id="osm4"></td></tr>
-    <tr class="togM"><td>cos(1e272)</td><td id="osm5"></td></tr>
-    <tr class="togM"><td>cos(1e0)</td><td id="osm6"></td></tr>
-    <tr class="togM"><td>cos(1e284)</td><td id="osm7"></td></tr>
-    <tr class="togM"><td>cos(1e75)</td><td id="osm8"></td></tr>
-    <tr class="togM"><td>----</td><td></td></tr>
-    <tr class="togM"><td>[combined] hash</td><td id="comhash"></td></tr>
-    <tr class="togM"><td colspan="2"></td></tr>
+    <!--<tr><td>----</td><td></td></tr>-->
+    <!--<tr><td>[logic] everything</td><td></td></tr>-->
     <tr><td colspan="2"><span class="no_color">code based on work by </span>
       <sup>1</sup><a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/os-detection-font-css.html">Arthur Edelstein</a>
       <span class="no_color">, </span>
@@ -141,12 +121,45 @@
       <sup>3</sup> <a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a></td></tr>
   </table>
 
-  <!-- TABLE 3:  Language & Locale / Time Zone & Date Format / Geolocation - language.js -->
+  <!-- TABLE 3: Math - part of useragent.js-->
   <table id="tb3">
+    <col width="35%"><a name="math"></a><col width="65%">
+    <thead><tr><th colspan="2">
+        <div class="nav-title"><a href="#math">Math</a>
+        <div class="nav-up"><a href="#useragent">&#9650;</a></div>
+        <div class="nav-down"><a href="#language">&#9660;</a></div></div>
+    </th></tr></thead>
+    <tr><td>1st edition</td><td id="math1hash"></td></tr>
+    <tr><td>6th edition</td><td id="math6hash"></td></tr>
+    <tr><td>overall</td><td id="mathhash"></td></tr>
+    <tr><td colspan="2" class="showhide">
+        <input id="collapseM" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M`)">
+        <label for="collapseM" class="lbl-toggle" id="labelM">&#9660; show details</label>
+    </td></tr>
+    <tr class="togM"><td></td><td class="sub3">ECMAScript 1st Edition</td></tr>
+      <tr class="togM"><td>cos(1e251)</td><td id="cos1"></td></tr>
+      <tr class="togM"><td>cos(1e140)</td><td id="cos2"></td></tr>
+      <tr class="togM"><td>cos(1e12)</td><td id="cos3"></td></tr>
+      <tr class="togM"><td>cos(1e130)</td><td id="cos4"></td></tr>
+      <tr class="togM"><td>cos(1e272)</td><td id="cos5"></td></tr>
+      <tr class="togM"><td>cos(1e0)</td><td id="cos6"></td></tr>
+      <tr class="togM"><td>cos(1e284)</td><td id="cos7"></td></tr>
+      <tr class="togM"><td>cos(1e75)</td><td id="cos8"></td></tr>
+    <tr class="togM"><td></td><td class="sub3">ECMAScript 6th Edition</td></tr>
+      <tr class="togM"><td>atanh(0.5)</td><td id="math1"></td></tr>
+      <tr class="togM"><td>expm1(1)</td><td id="math2"></td></tr>
+      <tr class="togM"><td>sinh(1)</td><td id="math3"></td></tr>
+    <tr class="togM"><td colspan="2"></td></tr>
+    <tr><td colspan="2"><span class="no_color">ECMAScript 6th edition math code courtesy of </span>
+      <a target="_blank" class="blue" href="https://fpcentral.tbb.torproject.org/">Fingerprint Central</a></td></tr>
+  </table>
+
+  <!-- TABLE 4:  Language & Locale / Time Zone & Date Format / Geolocation - language.js -->
+  <table id="tb4">
     <col width="35%"><a name="language"></a><col width="65%">
     <thead><tr><th colspan="2">
       <div class="nav-title"><a href="#language">Language & Locale / Time Zone & Date Format / Geolocation</a>
-        <div class="nav-up"><a href="#useragent">&#9650;</a></div>
+        <div class="nav-up"><a href="#math">&#9650;</a></div>
         <div class="nav-down"><a href="#headers">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>[header] http_accept_language</td><td></td></tr>
@@ -181,8 +194,8 @@
     <tr><td>[permission] geolocation</td><td id="pGeolocation"></td></tr>
   </table>
 
-  <!-- TABLE 4:  HTTP Headers - headers.js -->
-  <table id="tb4">
+  <!-- TABLE 5:  HTTP Headers - headers.js -->
+  <table id="tb5">
     <col width="50%"><a name="headers"></a><col width="50%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#headers">HTTP Headers</a>
@@ -199,8 +212,8 @@
     <tr><td>[navigator] onLine</td><td id="nOnLine"></td></tr>
   </table>
 
-  <!-- TABLE 5: Cookies & Storage - cookies.js -->
-  <table id="tb5">
+  <!-- TABLE 6: Cookies & Storage - cookies.js -->
+  <table id="tb6">
     <col width="50%"><a name="cookies"></a><col width="50%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#cookies">Cookies & Storage</a>
@@ -240,36 +253,15 @@
     <tr><td>[test] storage access</td><td id="storageATest"></td></tr>
   </table>
 
-  <!-- TABLE 6: Devices & Hardware - devices.js -->
-  <table id="tb6">
+  <!-- TABLE 7: Devices & Hardware - devices.js -->
+  <table id="tb7">
     <col width="50%"><a name="devices"></a><col width="50%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#devices">Devices & Hardware</a>
         <div class="nav-up"><a href="#cookies">&#9650;</a></div>
-        <div class="nav-down"><a href="#math">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td>[navigator] hardwareConcurrency</td><td id="nHardwareConcurrency"></td></tr>
-  </table>
-
-  <!-- TABLE 7: Math - math.js-->
-  <table id="tb7">
-    <col width="50%"><a name="math"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#math">Math</a>
-        <div class="nav-up"><a href="#devices">&#9650;</a></div>
         <div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td>asinh(1)</td><td id="math1"></td></tr>
-    <tr><td>acosh(1e300)</td><td id="math2"></td></tr>
-    <tr><td>atanh(0.5)</td><td id="math3"></td></tr>
-    <tr><td>expm1(1)</td><td id="math4"></td></tr>
-    <tr><td>cbrt(100)</td><td id="math5"></td></tr>
-    <tr><td>log1p(10)</td><td id="math6"></td></tr>
-    <tr><td>sinh(1)</td><td id="math7"></td></tr>
-    <tr><td>cosh(10)</td><td id="math8"></td></tr>
-    <tr><td>tanh(1)</td><td id="math9"></td></tr>
-    <tr><td colspan="2"><span class="no_color">math code courtesy of </span>
-      <a target="_blank" class="blue" href="https://fpcentral.tbb.torproject.org/">Fingerprint Central</a></td></tr>
+    <tr><td>[navigator] hardwareConcurrency</td><td id="nHardwareConcurrency"></td></tr>
   </table>
 
   <!-- TABLE 8: Canvas - canvas.js -->
@@ -277,7 +269,7 @@
     <col width="25%"><a name="canvas"></a><col width="75%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#canvas">Canvas</a>
-        <div class="nav-up"><a href="#math">&#9650;</a></div>
+        <div class="nav-up"><a href="#devices">&#9650;</a></div>
         <div class="nav-down"><a href="#domrect">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>getContext</td><td class="getContext"></td></tr>
@@ -506,7 +498,6 @@
   <script src="js/headers.js"></script>
   <script src="js/cookies.js"></script>
   <script src="js/devices.js"></script>
-  <script src="js/math.js"></script>
   <script src="js/canvas.js"></script>
   <script src="js/domrect.js"></script>
   <script src="js/audio.js"></script>
