@@ -220,6 +220,7 @@ table td.showhide {
   padding-bottom: 7px;
 }
 
+table td.sub3 { color: var(--test3); }
 table td.sub9 { color: var(--test9); }
 
 /* Table Header Backgrounds */
