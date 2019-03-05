@@ -87,68 +87,79 @@ if (isNaN(window.mozInnerScreenX) === false){
   var sbWidth = (window.innerWidth-vw);
   var sbWidthZoom = sbWidth;
   var sbOS = ""; var sbZoom = "";
-  var strW = "[Windows]"; var strL = "[Linux]";
-  var strWL1 = "[Windows, or Linux & KDE Plasma]"
-  if (sbWidth == 0) {sbOS= "[MacOS, mobile device, or floating scrollbars]";}
+  var strW = "[Windows]"; var strWL = "[Windows or Linux]";
+  var strWM = "[Windows or MacOS]"; var strWLM = "[Windows, Linux or MacOS]";
+  var strL = "[Linux]"; var strLM = "[Linux or MacOS]";
+  var strM = "[MacOS]";
+  if (sbWidth == 0) {sbOS= "[mobile or floating scrollbars]";}
   else {
     // start with known metrics at preset FF zoom levels
     if (jsZoom == 300) {
-      if (sbWidth==6) {sbOS=strWL1};
-      if (sbWidth==5) {sbOS=strW};
+      if (sbWidth==6) {sbOS=strWL};
+      if (sbWidth==5) {sbOS=strWM};
       if (sbWidth==4) {sbOS=strL};
     } else if (jsZoom == 240) {
-      if (sbWidth==7) {sbOS=strW};
+      if (sbWidth==7) {sbOS=strWM};
       if (sbWidth==6) {sbOS=strL};
       if (sbWidth==5) {sbOS=strL};
     } else if (jsZoom == 200) {
       if (sbWidth==9) {sbOS=strW};
-      if (sbWidth==8) {sbOS=strWL1};
+      if (sbWidth==8) {sbOS=strWLM};
       if (sbWidth==6) {sbOS=strL};
     } else if (jsZoom == 170) {
-      if (sbWidth==10) {sbOS=strWL1};
+      if (sbWidth==10) {sbOS=strWL};
+      if (sbWidth==8) {sbOS=strM};
       if (sbWidth==7) {sbOS=strL};
     } else if (jsZoom == 150) {
       if (sbWidth==12) {sbOS=strW};
       if (sbWidth==11) {sbOS=strW};
-      if (sbWidth==10) {sbOS=strL};
+      if (sbWidth==10) {sbOS=strLM};
       if (sbWidth==8) {sbOS=strL};
     } else if (jsZoom == 133) {
       if (sbWidth==13) {sbOS=strW};
       if (sbWidth==12) {sbOS=strL};
+      if (sbWidth==11) {sbOS=strM};
       if (sbWidth==9) {sbOS=strL};
     } else if (jsZoom == 120) {
-      if (sbWidth==14) {sbOS=strWL1};
+      if (sbWidth==14) {sbOS=strWL};
+      if (sbWidth==12) {sbOS=strM};
       if (sbWidth==10) {sbOS=strL};
     } else if (jsZoom == 110) {
       if (sbWidth==16) {sbOS=strW};
       if (sbWidth==15) {sbOS=strW};
-      if (sbWidth==14) {sbOS=strL};
+      if (sbWidth==14) {sbOS=strLM};
       if (sbWidth==11) {sbOS=strL};
     } else if (jsZoom == 100) {
       if (sbWidth==17) {sbOS=strW};
       if (sbWidth==16) {sbOS=strL};
+      if (sbWidth==15) {sbOS=strM};
       if (sbWidth==12) {sbOS=strL};
     } else if (jsZoom == 90) {
       if (sbWidth==19) {sbOS=strW};
       if (sbWidth==18) {sbOS=strL};
+      if (sbWidth==17) {sbOS=strM};
       if (sbWidth==13) {sbOS=strL};
     } else if (jsZoom == 80) {
       if (sbWidth==21) {sbOS=strW};
       if (sbWidth==20) {sbOS=strL};
+      if (sbWidth==19) {sbOS=strM};
       if (sbWidth==15) {sbOS=strL};
     } else if (jsZoom == 67) {
       if (sbWidth==26) {sbOS=strW};
       if (sbWidth==25) {sbOS=strW};
       if (sbWidth==24) {sbOS=strL};
+      if (sbWidth==23) {sbOS=strM};
       if (sbWidth==18) {sbOS=strL};
     } else if (jsZoom == 50) {
       if (sbWidth==34) {sbOS=strW};
       if (sbWidth==32) {sbOS=strL};
+      if (sbWidth==30) {sbOS=strM};
       if (sbWidth==24) {sbOS=strL};
     } else if (jsZoom == 30) {
       if (sbWidth==57) {sbOS=strW};
       if (sbWidth==56) {sbOS=strW};
       if (sbWidth==54) {sbOS=strL};
+      if (sbWidth==50) {sbOS=strM};
       if (sbWidth==40) {sbOS=strL};
     };
     if (sbOS == "") {
@@ -164,8 +175,7 @@ if (isNaN(window.mozInnerScreenX) === false){
       };
       // os logic
       if (sbWidthZoom>=16.5) {sbOS=strW}
-        else if (sbWidthZoom>=14.5) {sbOS="[Linux or MacOSX]"}
-          else {sbOS=strL};
+        else if (sbWidthZoom>=14.5) {sbOS=strL};
       // add in notation if this is a best guess
       sbOS = sbOS+" [logical guess]"
     } else {
@@ -198,6 +208,7 @@ if (isNaN(window.mozInnerScreenX) === false){
     try {console.timeLog("vsn62");
       // FF62 or higher
       if (lh=="19.5") {lhOS="[Android]"}
+      else if (lh=="19.6833") {lhOS="[MacOS]"}
       else if (lh=="19.2") {lhOS="[MacOS]"}
       else if (lh=="19") {lhOS="[Linux]"}
       else if (lh=="18") {lhOS="[Windows]"}
