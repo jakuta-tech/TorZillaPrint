@@ -50,15 +50,19 @@ function getVerNo(){
   //65
   try {const rtf = new Intl.RelativeTimeFormat("en", {style: "long",}); verNo="65+"} catch(e) {};
   //66
+  // https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/66#APIs
   //try {
-    // no idea what to use here yet
     //verNo="66+"}
   //catch(e) {};
   // reminder: ^^ always append + ONLY on the LAST test
   return verNo;
-  };
+};
 // only run the function for Firefox
-if (isNaN(window.mozInnerScreenX) === false){dom.versionNo = getVerNo();};
+if (isNaN(window.mozInnerScreenX) === false){
+   var intVerNo = getVerNo();
+   dom.versionNo = intVerNo;
+   intVerNo = intVerNo.substring(0, 2);
+};
 
 // MATH table section
   var strR = ""; var strH = "";
@@ -142,5 +146,9 @@ if (isNaN(window.mozInnerScreenX) === false) {
   // orange: android
   if (math1hash == "ae434b101452888b756da5916d81f68adeb2b6ae") {dom.fdMathOS="Android";};
   // pink: macos
-  if (math1hash == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {dom.fdMathOS="macOS";};
+  if (math1hash == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {
+    // tested on Mojave, High Sierra, Sierra, El Capitan, Yosemite = 64bit only [Lion 10.8 was the last to support 32bit]
+    // FF60+ is not supported prior to 10.9 (which wasn't tested), so therefore the browser is 64-bit as well
+    dom.fdMathOS="macOS"; dom.fdMath="Firefox [64-bit]";
+  };
 };
