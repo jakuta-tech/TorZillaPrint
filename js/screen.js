@@ -88,9 +88,7 @@ if (isNaN(window.mozInnerScreenX) === false){
   imgLogo.style.visibility = "hidden";    // Maybe you can remove this
   document.body.appendChild(imgLogo);
   imgLogo.addEventListener("load", function() {
-    console.log("image has loaded");
   var imgLogoW = imgLogo.width;
-  var imgLogoH = imgLogo.height;
   if (imgLogoW == 300) {dom.fdResourceOS = "Desktop"}
     else if (imgLogoW == 258) {dom.fdResourceOS = "Android"};
   });
@@ -104,9 +102,9 @@ if (isNaN(window.mozInnerScreenX) === false){
   var sbWidthZoom = sbWidth;
   var sbOS = ""; var sbZoom = "";
   var strW = "[Windows]"; var strWL = "[Windows or Linux]";
-  var strWM = "[Windows or MacOS]"; var strWLM = "[Windows, Linux or MacOS]";
-  var strL = "[Linux]"; var strLM = "[Linux or MacOS]";
-  var strM = "[MacOS]";
+  var strWM = "[Windows or Mac]"; var strWLM = "[Windows, Linux or Mac]";
+  var strL = "[Linux]"; var strLM = "[Linux or Mac]";
+  var strM = "[Mac]";
   if (sbWidth == 0) {sbOS= "[mobile or floating scrollbars]";}
   else {
     // start with known metrics at preset FF zoom levels
@@ -224,8 +222,7 @@ if (isNaN(window.mozInnerScreenX) === false){
     try {console.timeLog("vsn62");
       // FF62 or higher
       if (lh=="19.5") {lhOS="[Android]"}
-      else if (lh=="19.6833") {lhOS="[MacOS]"}
-      else if (lh=="19.2") {lhOS="[MacOS]"}
+      else if (lh=="19.6833") {lhOS="[Mac]"}
       else if (lh=="19") {lhOS="[Linux]"}
       else if (lh=="18") {lhOS="[Windows]"}
       else if (lh=="17") {lhOS="[Linux]"}
@@ -234,18 +231,15 @@ if (isNaN(window.mozInnerScreenX) === false){
     catch(e) {
       // FF61 or lower
       if (lh=="20") {lhOS="[Windows]"}
-      else if (lh=="19.5167") {lhOS="[MacOS]"}
-      else if (lh=="19.2") {lhOS="[Windows or Tor Browser]"}
+      else if (lh=="19.5167") {lhOS="[Mac]"}
       else if (lh=="19") {lhOS="[Linux]"}
       else if (lh=="17") {lhOS="[Linux]"}
       else lhOS="[unknown]";
     };
     console.timeEnd("vsn62");
   }
-  else {
-    // zoom not at 100% - css line-height outside 100% is not reliable or unique per OS
-    if (lh=="19.2") {lhOS=lhOS+" [Tor Browser detected]"}
-  };
+  // cannot get 19.2 on any other zoom level when not TB
+  if (lh=="19.2") {lhOS=lhOS+" [Tor Browser detected]"}
   // sbZoom already set in scrollbar width code
   dom.cssLH=lh + "px " + sbZoom + lhOS;
 };
