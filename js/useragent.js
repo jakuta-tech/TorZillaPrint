@@ -12,20 +12,37 @@ dom.nProduct = navigator.product;
 dom.nProductSub = navigator.productSub;
 dom.nUserAgent = navigator.userAgent;
 
-// browser: resource/chrome
+/* browser: resource/chrome */
+// A: Firefox
 // about:logo > dimensions in android vs desktop: 300x236 desktop / 258x99 mobile
-// note: chrome://browser/content/aboutRobots-icon.png - does not exist in Android
-// note: resource://normandy-content/about-studies/img/shield-logo.png"
-var imgLogo = new Image();
-imgLogo.src = "about:logo";
-imgLogo.style.visibility = "hidden";
-document.body.appendChild(imgLogo);
-imgLogo.addEventListener("load", function() {
-  var imgLogoW = imgLogo.width;
-  if (imgLogoW == 300) {dom.fdResourceOS = "Desktop"};
-  if (imgLogoW == 258) {dom.fdResourceOS = "Android"};
-  if (imgLogoW > 0) {dom.fdResource = "Firefox"};
-  document.body.removeChild(imgLogo);
+// chrome://branding/content/icon64.png (not on android)
+var imgLogoA = new Image();
+imgLogoA.src = "about:logo";
+imgLogoA.style.visibility = "hidden";
+document.body.appendChild(imgLogoA);
+imgLogoA.addEventListener("load", function() {
+  var imgLogoAW = imgLogoA.width;
+  if (imgLogoAW == 300) {
+    dom.fdResourceOS = "Desktop";
+    // change the displayed resource to icon64
+    document.getElementById("fdResourceCss").style.backgroundImage="url('chrome://branding/content/icon64.png')";
+  };
+  if (imgLogoAW == 258) {dom.fdResourceOS = "Android"};
+  if (imgLogoAW > 0) {dom.fdResource = "Firefox"};
+  document.body.removeChild(imgLogoA);
+});
+// B: Tor Browser
+// chrome://torbutton/skin/searchLogo.png
+// resource://torbutton-assets/torbrowser_mobile_logo.png
+// resource://onboarding/img/tor-watermark.png
+var imgLogoB = new Image();
+imgLogoB.src = "resource://onboarding/img/tor-watermark.png";
+imgLogoB.style.visibility = "hidden";
+document.body.appendChild(imgLogoB);
+imgLogoB.addEventListener("load", function() {
+  var imgLogoBW = imgLogoB.width;
+  if (imgLogoBW > 0) {dom.fdResource = "Tor Browser"};
+  document.body.removeChild(imgLogoB);
 });
 
 // browser: feature detection
