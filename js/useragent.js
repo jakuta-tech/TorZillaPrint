@@ -32,12 +32,12 @@ if (isNaN(window.mozPaintCount) === false){ dom.fdPaintCount="Firefox"};
 if (isNaN(window.mozInnerScreenX) === false){
   var imgLogo = new Image();
   imgLogo.src = "about:logo";
-  imgLogo.style.visibility = "hidden";    // Maybe you can remove this
+  imgLogo.style.visibility = "hidden";
   document.body.appendChild(imgLogo);
   imgLogo.addEventListener("load", function() {
-  var imgLogoW = imgLogo.width;
-  if (imgLogoW == 300) {dom.fdResourceOS = "Desktop"}
-    else { alert (imgLogoW) };
+    var imgLogoW = imgLogo.width;
+    if (imgLogoW == 300) {dom.fdResourceOS = "Desktop"};
+    if (imgLogoW == 258) {dom.fdResourceOS = "Android"};
   });
 };
 
