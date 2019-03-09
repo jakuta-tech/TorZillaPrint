@@ -27,6 +27,20 @@ if (isNaN(window.mozPaintCount) === false){ dom.fdPaintCount="Firefox"};
   if (navigator.oscpu == undefined){} else { dom.fdOscpu="Firefox"};
 */
 
+/* about:logo dimensions in android vs desktop: 300x236 desktop / 258x99 mobile */
+// only run the function for Firefox
+if (isNaN(window.mozInnerScreenX) === false){
+  var imgLogo = new Image();
+  imgLogo.src = "about:logo";
+  imgLogo.style.visibility = "hidden";    // Maybe you can remove this
+  document.body.appendChild(imgLogo);
+  imgLogo.addEventListener("load", function() {
+  var imgLogoW = imgLogo.width;
+  if (imgLogoW == 300) {dom.fdResourceOS = "Desktop"}
+    else if (imgLogoW == 258) {dom.fdResourceOS = "Android"};
+  });
+};
+
 // Firefox 60+ feature detection
 function getVerNo(){
   //59 or lower
@@ -159,6 +173,11 @@ if (isNaN(window.mozInnerScreenX) === false) {
 /* get width of the fdCssOS* elements > dom.fontOS */
 // only run the function for Firefox
 if (isNaN(window.mozInnerScreenX) === false){
+  // to ensure fonts are loaded, set them
+  document.getElementById("fdCssOSW").style.fontFamily = "Segoe UI, Adobe Blank Not Windows";
+  document.getElementById("fdCssOSM").style.fontFamily = "Lucida Grande, Adobe Blank Not Mac";
+  document.getElementById("fdCssOSL").style.fontFamily = "Arimo, DejaVu Serif, Adobe Blank Not Linux";
+
   var elCount = 0; var elCssOS = "";
   var elCssOSW = document.getElementById("fdCssOSW").offsetWidth;
   if (elCssOSW > 0) {elCount = elCount+1; elCssOS = "Windows"};
