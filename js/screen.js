@@ -80,20 +80,6 @@ var vh=e.offsetHeight;
 document.documentElement.removeChild(e);
 dom.Viewport = vw + " x " + vh;
 
-/* about:logo dimensions in android vs desktop: 300x236 desktop / 258x99 mobile */
-// only run the function for Firefox
-if (isNaN(window.mozInnerScreenX) === false){
-  var imgLogo = new Image();
-  imgLogo.src = "about:logo";
-  imgLogo.style.visibility = "hidden";    // Maybe you can remove this
-  document.body.appendChild(imgLogo);
-  imgLogo.addEventListener("load", function() {
-  var imgLogoW = imgLogo.width;
-  if (imgLogoW == 300) {dom.fdResourceOS = "Desktop"}
-    else if (imgLogoW == 258) {dom.fdResourceOS = "Android"};
-  });
-};
-
 // scrollbar width
 // note: this is in the user agent section but everything we need is in screen.js
 // only run the function for Firefox
