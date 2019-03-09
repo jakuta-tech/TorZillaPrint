@@ -267,6 +267,7 @@ table td.sub9 { color: var(--test9); }
   background-image: url("about:logo"), url("not_firefox.png");
   background-size: auto 100%;
   background-repeat: no-repeat;
+  background-position: 10px 0px;
 }
 
 /* css line-height test */
