@@ -171,24 +171,22 @@ if (isNaN(window.mozInnerScreenX) === false) {
 };
 
 /* get width of the fdCssOS* elements > dom.fontOS */
+// artifically delay it so the fonts have time to load
+setTimeout(function(){ 
 // only run the function for Firefox
-if (isNaN(window.mozInnerScreenX) === false){
-  // to ensure fonts are loaded, set them
-  document.getElementById("fdCssOSW").style.fontFamily = "Segoe UI, Adobe Blank Not Windows";
-  document.getElementById("fdCssOSM").style.fontFamily = "Lucida Grande, Adobe Blank Not Mac";
-  document.getElementById("fdCssOSL").style.fontFamily = "Arimo, DejaVu Serif, Adobe Blank Not Linux";
-
-  var elCount = 0; var elCssOS = "";
-  var elCssOSW = document.getElementById("fdCssOSW").offsetWidth;
-  if (elCssOSW > 0) {elCount = elCount+1; elCssOS = "Windows"};
-  var elCssOSL = document.getElementById("fdCssOSL").offsetWidth;
-  if (elCssOSL > 0) {elCount = elCount+1; elCssOS = "Linux"};
-  var elCssOSM = document.getElementById("fdCssOSM").offsetWidth;
-  if (elCssOSM > 0) {elCount = elCount+1; elCssOS = "Mac"};
-  // set a default
-  dom.fontOS = "unknown";
-  // if all three don't load then it's android
-  if (elCount == 0) {dom.fontOS="Android"};
-  // if only one loads then it's that one
-  if (elCount == 1) {dom.fontOS=elCssOS};
-};
+  if (isNaN(window.mozInnerScreenX) === false){
+    var elCount = 0; var elCssOS = "";
+    var elCssOSW = document.getElementById("fdCssOSW").offsetWidth;
+    if (elCssOSW > 0) {elCount = elCount+1; elCssOS = "Windows"};
+    var elCssOSL = document.getElementById("fdCssOSL").offsetWidth;
+    if (elCssOSL > 0) {elCount = elCount+1; elCssOS = "Linux"};
+    var elCssOSM = document.getElementById("fdCssOSM").offsetWidth;
+    if (elCssOSM > 0) {elCount = elCount+1; elCssOS = "Mac"};
+    // set a default
+    dom.fontOS = "unknown";
+    // if all three don't load then it's android
+    if (elCount == 0) {dom.fontOS="Android"};
+    // if only one loads then it's that one
+    if (elCount == 1) {dom.fontOS=elCssOS};
+  };
+}, 4000);
