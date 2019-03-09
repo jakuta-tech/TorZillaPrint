@@ -37,7 +37,7 @@ if (isNaN(window.mozInnerScreenX) === false){
   imgLogo.addEventListener("load", function() {
   var imgLogoW = imgLogo.width;
   if (imgLogoW == 300) {dom.fdResourceOS = "Desktop"}
-    else if (imgLogoW == 258) {dom.fdResourceOS = "Android"};
+    else { alert (imgLogoW) };
   });
 };
 
