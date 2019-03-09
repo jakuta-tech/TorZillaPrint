@@ -62,9 +62,9 @@ function getVerNo(){
 };
 // only run the function for Firefox
 if (isNaN(window.mozInnerScreenX) === false){
-   var intVerNo = getVerNo();
-   dom.versionNo = intVerNo;
-   intVerNo = intVerNo.substring(0, 2);
+  var intVerNo = getVerNo();
+  dom.versionNo = intVerNo;
+  intVerNo = intVerNo.substring(0, 2);
 };
 
 // MATH table section
@@ -148,10 +148,28 @@ if (isNaN(window.mozInnerScreenX) === false) {
   };
   // orange: android
   if (math1hash == "ae434b101452888b756da5916d81f68adeb2b6ae") {dom.fdMathOS="Android";};
-  // pink: macos
+  // pink: mac
   if (math1hash == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {
     // tested on Mojave, High Sierra, Sierra, El Capitan, Yosemite = 64bit only [Lion 10.8 was the last to support 32bit]
     // FF60+ is not supported prior to 10.9 (which wasn't tested), so therefore the browser is 64-bit as well
-    dom.fdMathOS="macOS"; dom.fdMath="Firefox [64-bit]";
+    dom.fdMathOS="Mac"; dom.fdMath="Firefox [64-bit]";
   };
+};
+
+/* get width of the fdCssOS* elements > dom.fontOS */
+// only run the function for Firefox
+if (isNaN(window.mozInnerScreenX) === false){
+  var elCount = 0; var elCssOS = "";
+  var elCssOSW = document.getElementById("fdCssOSW").offsetWidth;
+  if (elCssOSW > 0) {elCount = elCount+1; elCssOS = "Windows"};
+  var elCssOSL = document.getElementById("fdCssOSL").offsetWidth;
+  if (elCssOSL > 0) {elCount = elCount+1; elCssOS = "Linux"};
+  var elCssOSM = document.getElementById("fdCssOSM").offsetWidth;
+  if (elCssOSM > 0) {elCount = elCount+1; elCssOS = "Mac"};
+  // set a default
+  dom.fontOS = "unknown";
+  // if all three don't load then it's android
+  if (elCount == 0) {dom.fontOS="Android"};
+  // if only one loads then it's that one
+  if (elCount == 1) {dom.fontOS=elCssOS};
 };
