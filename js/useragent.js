@@ -48,12 +48,15 @@ function getVerNo(){
   //64
   if (window.screenLeft == undefined){} else { verNo="64"};
   //65
-  try {const rtf = new Intl.RelativeTimeFormat("en", {style: "long",}); verNo="65+"} catch(e) {};
+  try {const rtf = new Intl.RelativeTimeFormat("en", {style: "long",}); verNo="65"} catch(e) {};
   //66
-  // https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/66#APIs
-  //try {
-    //verNo="66+"}
-  //catch(e) {};
+  try {
+    const string66 = "this is a test for firefox 66";
+    const textEncoder = new TextEncoder();
+    const utf8 = new Uint8Array(string66.length);
+    let encodedResults = textEncoder.encodeInto(string66, utf8);
+    verNo="66+"}
+  catch(e) {};
   // reminder: ^^ always append + ONLY on the LAST test
   return verNo;
 };
