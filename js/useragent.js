@@ -25,6 +25,7 @@ imgLogo.addEventListener("load", function() {
   if (imgLogoW == 300) {dom.fdResourceOS = "Desktop"};
   if (imgLogoW == 258) {dom.fdResourceOS = "Android"};
   if (imgLogoW > 0) {dom.fdResource = "Firefox"};
+  document.body.removeChild(imgLogo);
 });
 
 // browser: feature detection
