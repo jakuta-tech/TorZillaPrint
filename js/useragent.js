@@ -13,11 +13,19 @@ dom.nProductSub = navigator.productSub;
 dom.nUserAgent = navigator.userAgent;
 
 // browser: resource/chrome
-// could also use: resource://normandy-content/about-studies/img/shield-logo.png"
-// could also use: about:logo
-const FFImg = new Image();
-FFImg.src = "chrome://browser/content/aboutRobots-icon.png";
-FFImg.onload = e => {if (!dom.fdResource.textContent) dom.fdResource = "Firefox";};
+// about:logo > dimensions in android vs desktop: 300x236 desktop / 258x99 mobile
+// note: chrome://browser/content/aboutRobots-icon.png - does not exist in Android
+// note: resource://normandy-content/about-studies/img/shield-logo.png"
+var imgLogo = new Image();
+imgLogo.src = "about:logo";
+imgLogo.style.visibility = "hidden";
+document.body.appendChild(imgLogo);
+imgLogo.addEventListener("load", function() {
+  var imgLogoW = imgLogo.width;
+  if (imgLogoW == 300) {dom.fdResourceOS = "Desktop"};
+  if (imgLogoW == 258) {dom.fdResourceOS = "Android"};
+  if (imgLogoW > 0) {dom.fdResource = "Firefox"};
+});
 
 // browser: feature detection
 if (isNaN(window.mozPaintCount) === false){ dom.fdPaintCount="Firefox"};
@@ -26,20 +34,6 @@ if (isNaN(window.mozPaintCount) === false){ dom.fdPaintCount="Firefox"};
   if (isNaN(window.window.scrollMaxX) === false){ dom.fdScrollMaxX="Firefox"};
   if (navigator.oscpu == undefined){} else { dom.fdOscpu="Firefox"};
 */
-
-/* about:logo dimensions in android vs desktop: 300x236 desktop / 258x99 mobile */
-// only run the function for Firefox
-if (isNaN(window.mozInnerScreenX) === false){
-  var imgLogo = new Image();
-  imgLogo.src = "about:logo";
-  imgLogo.style.visibility = "hidden";
-  document.body.appendChild(imgLogo);
-  imgLogo.addEventListener("load", function() {
-    var imgLogoW = imgLogo.width;
-    if (imgLogoW == 300) {dom.fdResourceOS = "Desktop"};
-    if (imgLogoW == 258) {dom.fdResourceOS = "Android"};
-  });
-};
 
 // Firefox 60+ feature detection
 function getVerNo(){
