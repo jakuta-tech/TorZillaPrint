@@ -1,76 +1,61 @@
-/* TABLE: Screen */
+/* TABLES: Screen, User Agent, Math */
 
 'use strict';
 
-// Test DPI
-const devicePixelRatio = window.devicePixelRatio || 1;
-const dpi_x = Math.round(dom.testdpi.offsetWidth * devicePixelRatio);
-const dpi_y = Math.round(dom.testdpi.offsetHeight * devicePixelRatio);
-dom.jsDPI = dpi_x;
+/* FUNCTIONS */
 
-// handles FF default zoom levels 30%-300%
-const varDPI = (function () {
-for (var i = 27; i < 2000; i++) {
-    if (matchMedia("(max-resolution: " + i + "dpi)").matches === true) {
-        return i;}}return i;})();
-dom.mmDPI = varDPI;
-
-// zoom: calculate from js dpi vs mediaMatch dpi
-// use devicePixelRatio if RFP is off
-if (window.devicePixelRatio == 1) {
-  var jsZoom = Math.round((varDPI/dpi_x)*100).toString();
-} else {
-  var jsZoom = Math.round(window.devicePixelRatio*100).toString();
+function getStyle(el,styleProp) {
+  el = document.getElementById(el);
+  if (el.currentStyle)
+    var el = el.currentStyle[styleProp];
+    else if (window.getComputedStyle)
+      var el = document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
+  return el;
 };
-/* based on FF zoom levels, fixup some numbers */
-if (jsZoom == 109) {jsZoom=110};
-if (jsZoom == 121) {jsZoom=120};
-if (jsZoom == 171) {jsZoom=170};
-if (jsZoom == 172) {jsZoom=170};
-if (jsZoom == 241) {jsZoom=240};
-dom.jsZoom = jsZoom;
+function getVerNo(){
+  //59 or lower
+  var verNo = "59 or lower";
+  //60
+  try {(Object.getOwnPropertyDescriptor(Document.prototype, "body")
+    || Object.getOwnPropertyDescriptor(HTMLDocument.prototype, "body")).get.call((new DOMParser).parseFromString(
+      "<html xmlns='http://www.w3.org/1999/xhtml'><body/></html>","application/xhtml+xml")) !== null; verNo="60";}
+  catch(e) {};
+  //61
+  var str61=" blah";
+  try {str61 = str61.trimStart(); verNo="61"} catch(e) {};
+  //62
+  console.time("ver62");
+  try {console.timeLog("ver62"); verNo="62"} catch(e) {};
+  console.timeEnd("ver62");
+  //63
+  if (Symbol.for(`foo`).description == "foo"){ verNo="63"};
+  //64
+  if (window.screenLeft == undefined){} else { verNo="64"};
+  //65
+  try {const rtf = new Intl.RelativeTimeFormat("en", {style: "long",}); verNo="65"} catch(e) {};
+  //66
+  try {
+    const string66 = "this is a test for firefox 66";
+    const textEncoder = new TextEncoder();
+    const utf8 = new Uint8Array(string66.length);
+    let encodedResults = textEncoder.encodeInto(string66, utf8);
+    verNo="66+"}
+  catch(e) {};
+  // reminder: ^^ always append + ONLY on the LAST test
+  return verNo;
+};
 
+/* SCREEN */
+
+// screen/window
 dom.ScrRes = screen.width+" x "+screen.height+" ("+screen.left+","+screen.top+")";
 dom.ScrAvail = screen.availWidth+" x "+screen.availHeight+" ("+screen.availLeft+","+screen.availTop+")";
 dom.WndOut = window.outerWidth+" x "+window.outerHeight+" ("+window.screenX+","+window.screenY+")";
 dom.WndIn = window.innerWidth+" x "+window.innerHeight+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")";
 dom.PixDepth = screen.pixelDepth;
 dom.ColDepth = screen.colorDepth;
-
 dom.fsState = window.fullScreen;
-// full-screen-api.enabled
-try {
-  if (document.mozFullScreenEnabled) { dom.fsSupport="enabled"; }
-  else {dom.fsSupport="disabled"; dom.fsLeak="no"};}
-catch(e) {dom.fsSupport="no: " + e.name; dom.fsLeak="no"};
-
-dom.ScrOrient = (function () {
-	var orientation = screen.msOrientation || (screen.orientation || screen.mozOrientation || {}).type;
-	if (orientation === "landscape-primary") return "landscape";
-	if (orientation === "landscape-secondary") return "landscape upside down";
-	if (orientation === "portrait-secondary" || orientation === "portrait-primary") return "portrait";
-	if (orientation === undefined) return "undefined";
-})();
-dom.mmOrient = (function () {
-	if (window.matchMedia("(orientation: portrait)").matches) return "portrait";
-	if (window.matchMedia("(orientation: landscape)").matches) return "landscape";
-})();
-dom.mathOrient = (function () {
-// this method is a dirty hack: doesn't always work e.g. if a smartphone keyboard reduces the height
-	if (window.innerHeight === window.innerWidth) return "no idea, you're square!";
-	if (window.innerHeight < window.innerWidth) return "landscape";
-	return "portrait";
-})();
 dom.DevPR = window.devicePixelRatio;
-
-// PB Mode
-try {
-  var db = indexedDB.open("IsPBMode");
-  db.onerror = function() {dom.IsPBMode = "true";};
-  db.onsuccess = function() {dom.IsPBMode = "false";};
-}
-catch(e) {dom.IsPBMode = "unknown: " + e.name;};
-
 // viewport
 var e=document.createElement( "div" );
 e.style.cssText="position:fixed;top:0;left:0;bottom:0;right:0;";
@@ -79,18 +64,187 @@ var vw=e.offsetWidth;
 var vh=e.offsetHeight;
 document.documentElement.removeChild(e);
 dom.Viewport = vw + " x " + vh;
+// full-screen-api.enabled
+try {
+  if (document.mozFullScreenEnabled) { dom.fsSupport="enabled"; }
+  else {dom.fsSupport="disabled"; dom.fsLeak="no"};}
+catch(e) {dom.fsSupport="no: " + e.name; dom.fsLeak="no"};
+// private window
+try {
+  var db = indexedDB.open("IsPBMode");
+  db.onerror = function() {dom.IsPBMode = "true";};
+  db.onsuccess = function() {dom.IsPBMode = "false";};
+}
+catch(e) {dom.IsPBMode = "unknown: " + e.name;};
+// orientation
+dom.ScrOrient = (function () {
+  var orientation = screen.msOrientation || (screen.orientation || screen.mozOrientation || {}).type;
+  if (orientation === "landscape-primary") return "landscape";
+  if (orientation === "landscape-secondary") return "landscape upside down";
+  if (orientation === "portrait-secondary" || orientation === "portrait-primary") return "portrait";
+  if (orientation === undefined) return "undefined";
+})();
+dom.mmOrient = (function () {
+  if (window.matchMedia("(orientation: portrait)").matches) return "portrait";
+  if (window.matchMedia("(orientation: landscape)").matches) return "landscape";
+})();
+dom.mathOrient = (function () {
+  // dirty hack: doesn't always work e.g. if a smartphone keyboard reduces the height
+  if (window.innerHeight === window.innerWidth) return "no idea, you're square!";
+  if (window.innerHeight < window.innerWidth) return "landscape";
+  return "portrait";
+})();
+// js dpi
+const devicePixelRatio = window.devicePixelRatio || 1;
+const dpi_x = Math.round(dom.testdpi.offsetWidth * devicePixelRatio);
+const dpi_y = Math.round(dom.testdpi.offsetHeight * devicePixelRatio);
+dom.jsDPI = dpi_x;
+// matchmedia dpi: handles FF default zoom levels 30%-300%
+const varDPI = (function () {
+for (var i = 27; i < 2000; i++) {
+    if (matchMedia("(max-resolution: " + i + "dpi)").matches === true) {
+        return i;}}return i;})();
+dom.mmDPI = varDPI;
+// zoom: calculate from js dpi vs mediaMatch dpi
+   // use devicePixelRatio if RFP is off
+if (window.devicePixelRatio == 1) {
+  var jsZoom = Math.round((varDPI/dpi_x)*100).toString();
+} else {
+  var jsZoom = Math.round(window.devicePixelRatio*100).toString();
+};
+  // fixup some numbers
+if (jsZoom == 109) {jsZoom=110};
+if (jsZoom == 121) {jsZoom=120};
+if (jsZoom == 171) {jsZoom=170};
+if (jsZoom == 172) {jsZoom=170};
+if (jsZoom == 241) {jsZoom=240};
+dom.jsZoom = jsZoom;
 
-// scrollbar width
-// note: this is in the user agent section but everything we need is in screen.js
-// only run the function for Firefox
-if (isNaN(window.mozInnerScreenX) === false){
-  var sbWidth = (window.innerWidth-vw);
-  var sbWidthZoom = sbWidth;
-  var sbOS = ""; var sbZoom = "";
+/* MATH */
+
+// ECMASCript 1st edtion: using cos values
+var strR = ""; var strH = "";
+strR = Math.cos(1e251); dom.cos1 = strR; strH = strR;
+strR = Math.cos(1e140); dom.cos2 = strR; strH = strH + "-" + strR;
+strR = Math.cos(1e12); dom.cos3 = strR; strH = strH + "-" + strR;
+strR = Math.cos(1e130); dom.cos4 = strR; strH = strH + "-" + strR;
+strR = Math.cos(1e272); dom.cos5 = strR; strH = strH + "-" + strR;
+strR = Math.cos(1e0); dom.cos6 = strR; strH = strH + "-" + strR;
+strR = Math.cos(1e284); dom.cos7 = strR; strH = strH + "-" + strR;
+strR = Math.cos(1e75); dom.cos8 = strR; strH = strH + "-" + strR;
+var math1hash = sha1(strH);
+var str1math = strH;
+dom.math1hash = math1hash;
+// ECMASCript 6th edtion
+strR = ""; strH = ""; let x; let y;
+x = 0.5; strR = Math.log((1 + x) / (1 - x)) / 2; // atanh(0.5)
+dom.math1 = strR; strH = strR;
+x=1; strR = Math.exp(x) - 1;   // expm1(1)
+dom.math2 = strR; strH = strH + "-" + strR;
+x = 1; y = Math.exp(x); strR = (y - 1 / y) / 2; // sinh(1)
+dom.math3 = strR; strH = strH + "-" + strR;
+var math6hash = sha1(strH);
+var str6math = strH;
+dom.math6hash = math6hash;
+// HASH
+var mathhash = sha1(str1math+"-"+str6math);
+dom.mathhash = mathhash;
+
+/* NAVIGATOR */
+
+dom.nAppName = navigator.appName;
+dom.nAppVersion = navigator.appVersion;
+dom.nBuildID = navigator.buildID;
+dom.nCodeName = navigator.appCodeName;
+dom.nOscpu = navigator.oscpu;
+dom.nPlatform = navigator.platform;
+dom.nProduct = navigator.product;
+dom.nProductSub = navigator.productSub;
+dom.nUserAgent = navigator.userAgent;
+
+/* USER AGENT */
+
+// browser: chrome: Firefox
+// about:logo: desktop 300x236 vs 258x99 android dimensions
+var imgLogoA = new Image();
+imgLogoA.src = "about:logo";
+imgLogoA.style.visibility = "hidden";
+document.body.appendChild(imgLogoA);
+imgLogoA.addEventListener("load", function() {
+  var imgLogoAW = imgLogoA.width;
+  if (imgLogoAW == 300) {
+    dom.fdResourceOS = "Desktop";
+    // change displayed resource to icon64 (not on android)
+    document.getElementById("fdResourceCss").style.backgroundImage="url('chrome://branding/content/icon64.png')";
+  };
+  if (imgLogoAW == 258) {dom.fdResourceOS = "Android"};
+  if (imgLogoAW > 0) {dom.fdResource = "Firefox"};
+  document.body.removeChild(imgLogoA);
+});
+// browser: chrome: refine if Tor Browser
+var imgLogoB = new Image();
+imgLogoB.src = "resource://onboarding/img/tor-watermark.png";
+imgLogoB.style.visibility = "hidden";
+document.body.appendChild(imgLogoB);
+imgLogoB.addEventListener("load", function() {
+  var imgLogoBW = imgLogoB.width;
+  if (imgLogoBW > 0) {dom.fdResource = "Tor Browser"};
+  document.body.removeChild(imgLogoB);
+});
+// browser: math
+if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {dom.fdMath="Firefox"};
+if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMath="Firefox [32-bit]"};
+// browser: feature detection
+  // if (isNaN(window.mozInnerScreenX) === false) {"Firefox"};
+  // if (isNaN(window.window.scrollMaxX) === false) {"Firefox"};
+  // if (navigator.oscpu == undefined){} else {"Firefox"};
+if (isNaN(window.mozPaintCount) === false){
+  dom.fdPaintCount="Firefox";
+  // only run these subsequent tests for Firefox
+  // browser: version
+  var intVerNo = getVerNo();
+  dom.versionNo = intVerNo;
+  intVerNo = intVerNo.substring(0, 2);
+  // math: os (refine browser)
+  dom.fdMathOS="I just haven't worked out your combo yet"
+  if (math1hash == "46f7c2bbe55a2cd28252d059604f8c3bac316c23") {dom.fdMathOS="Windows [64-bit]"; dom.fdMath="Firefox [64-bit]"};
+  if (math1hash == "97eee44856b0d2339f7add0d22feb01bcc0a430e") {dom.fdMathOS="Windows"; dom.fdMath="Firefox [32-bit]"};
+  if (math1hash == "96895e004b623552b9543dcdc030640d1b108816") {dom.fdMathOS="Linux";
+    if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {dom.fdMathOS="Linux [64-bit]"};
+    if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMathOS="Linux [32-bit]"};};
+  if (math1hash == "8464b989070dcff22c136e4d0fe21d466b708ece") {dom.fdMathOS="Windows";
+    if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {dom.fdMath="Tor Browser [64-bit]"; dom.fdMathOS="Windows [64-bit]"};
+    if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMath="Tor Browser [32-bit]"};};
+  if (math1hash == "ae434b101452888b756da5916d81f68adeb2b6ae") {dom.fdMathOS="Android";};
+  if (math1hash == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {dom.fdMathOS="Mac"; dom.fdMath="Firefox [64-bit]";};
+
+  // font: os: use width of the fdCssOS* elements: delay it so fonts have loaded */
+  setTimeout(function(){
+    var elCount = 0; var elCssOS = "";
+    var elCssOSW = document.getElementById("fdCssOSW").offsetWidth;
+    if (elCssOSW > 0) {elCount = elCount+1; elCssOS = "Windows"};
+    var elCssOSL = document.getElementById("fdCssOSL").offsetWidth;
+    if (elCssOSL > 0) {elCount = elCount+1; elCssOS = "Linux"};
+    var elCssOSM = document.getElementById("fdCssOSM").offsetWidth;
+    if (elCssOSM > 0) {elCount = elCount+1; elCssOS = "Mac"};
+    // set a default
+    dom.fontOS = "unknown";
+    // if all three don't load then it's android
+    if (elCount == 0) {dom.fontOS="Android"};
+    // if only one loads then it's that one
+    if (elCount == 1) {dom.fontOS=elCssOS};
+  }, 4000);
+
+  // os: strings
   var strW = "[Windows]"; var strWL = "[Windows or Linux]";
   var strWM = "[Windows or Mac]"; var strWLM = "[Windows, Linux or Mac]";
   var strL = "[Linux]"; var strLM = "[Linux or Mac]";
-  var strM = "[Mac]";
+  var strM = "[Mac]"; var strA = "[Android]";
+
+  // os: scrollbar width
+  var sbWidth = (window.innerWidth-vw);
+  var sbWidthZoom = sbWidth;
+  var sbOS = ""; var sbZoom = "";
   if (sbWidth == 0) {sbOS= "[mobile or floating scrollbars]";}
   else {
     // start with known metrics at preset FF zoom levels
@@ -186,43 +340,27 @@ if (isNaN(window.mozInnerScreenX) === false){
   // add in zoom info if relevant
   if (jsZoom == 100) {} else { sbZoom = " at "+jsZoom+"% "};
   dom.scrollbarWidth = sbWidth+"px " + sbZoom + sbOS;
-};
 
-// css line-height
-// note: this is in the user agent section but I want the zoom from screen.js
-function getStyle(el,styleProp) {
-  el = document.getElementById(el);
-  if (el.currentStyle)
-    var el = el.currentStyle[styleProp];
-    else if (window.getComputedStyle)
-      var el = document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
-  return el;
-};
-// only run the function for Firefox
-if (isNaN(window.mozInnerScreenX) === false){
+  // os: css line-height
   var lh = getStyle ('testLH', 'line-height');
   lh = lh.slice(0, -2);
-  var lhOS = "";
+  var lhOS = "[unknown]";
   if (jsZoom == 100) {
-    console.time("vsn62");
-    try {console.timeLog("vsn62");
+    if (intVerNo > 61) {
       // FF62 or higher
-      if (lh=="19.5") {lhOS="[Android]"}
-      else if (lh=="19.6833") {lhOS="[Mac]"}
-      else if (lh=="19") {lhOS="[Linux]"}
-      else if (lh=="18") {lhOS="[Windows]"}
-      else if (lh=="17") {lhOS="[Linux]"}
-      else lhOS="[unknown]";
+      if (lh=="19.5") {lhOS=strA} // droid is not always 100% zoom
+      else if (lh=="19.6833") {lhOS=strM}
+      else if (lh=="19") {lhOS=strL}
+      else if (lh=="18") {lhOS=strW}
+      else if (lh=="17") {lhOS=strL};
     }
-    catch(e) {
+    else {
       // FF61 or lower
-      if (lh=="20") {lhOS="[Windows]"}
-      else if (lh=="19.5167") {lhOS="[Mac]"}
-      else if (lh=="19") {lhOS="[Linux]"}
-      else if (lh=="17") {lhOS="[Linux]"}
-      else lhOS="[unknown]";
+      if (lh=="20") {lhOS=strW}
+      else if (lh=="19.5167") {lhOS=strM}
+      else if (lh=="19") {lhOS=strL}
+      else if (lh=="17") {lhOS=strL};
     };
-    console.timeEnd("vsn62");
   }
   // cannot get 19.2 on any other zoom level when not TB
   if (lh=="19.2") {lhOS=lhOS+" [Tor Browser detected]"}
