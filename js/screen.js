@@ -39,8 +39,10 @@ function getVerNo(){
     const textEncoder = new TextEncoder();
     const utf8 = new Uint8Array(string66.length);
     let encodedResults = textEncoder.encodeInto(string66, utf8);
-    verNo="66+"}
+    verNo="66"}
   catch(e) {};
+  //67
+  if (!Symbol.hasOwnProperty('matchAll')) {} else { verNo="67+" };
   // reminder: ^^ always append + ONLY on the LAST test
   return verNo;
 };
