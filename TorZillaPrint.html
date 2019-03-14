@@ -78,10 +78,13 @@
         <div class="nav-up"><a href="#screen">&#9650;</a></div>
         <div class="nav-down"><a href="#math">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td colspan="2" class="intro"><span class="no_color">The <code>browser</code>, <code>version</code> and <code>os</code> tests are only to
-    show how trivial it is to detect that you are using Firefox, the version and possibly your os. If narrowed down to the Tor Browser, that's just
-    a bonus, as there are other ways to detect that. Extrapolating your os from <code>css line-height</code> and <code>scrollbar width</code> are
-    for fun - the actual entropy is the pixel value [per zoom setting].</span></td></tr>
+    <tr><td colspan="2" class="intro"><span class="no_color">
+      <code>Browser</code>, <code>version</code> and <code>os</code> tests are to show how trivial it is to detect that
+      you are using Firefox, the version and your os. However, some have real entropy, such as the math hashes used or
+      the pixel values per zoom setting, and returning the <code>browser/os</code> here is just for fun. <code>Firefox</code>
+      includes the <code>Tor Browser</code>. Detecting <code>Tor Browser</code> as a subset is a bonus: there are other
+      ways to detect <code>Tor</code>. Each test is independent of the others.</span>
+    </td></tr>
     <tr><td>[header] http_user_agent</td><td></td></tr>
     <tr><td>[navigator] userAgent</td><td id="nUserAgent"></td></tr>
     <tr><td>[navigator] appCodeName</td><td id="nCodeName"></td></tr>
