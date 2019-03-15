@@ -329,9 +329,9 @@ if (isNaN(window.mozPaintCount) === false){
           sbWidthZoom = sbWidth * window.devicePixelRatio;
         };
       };
-      // os logic
-      if (sbWidthZoom>=16.5) {sbOS=strW}
-        else if (sbWidthZoom>=14.5) {sbOS=strL};
+      // os logic: need more Mac / Android data
+      // for now at least always return Linux as a minimum
+      if (sbWidthZoom>=16.5) {sbOS=strW} else {sbOS=strL};
       // add in notation if this is a best guess
       sbOS = sbOS+" [logical guess]"
     } else {
