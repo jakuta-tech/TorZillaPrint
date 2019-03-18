@@ -21,6 +21,18 @@
   -webkit-transform-origin: 0.1111px 0.2222px 0.3333px;
   transform-origin: 0.1111px 0.2222px 0.3333px;
 }
+#rect3 { transform: rotate(1.23deg); }
+#rect4 {
+  transform: scale(3.14);
+  position: absolute;
+  top: 300px;
+  left: 200px;
+}
+#rect5 {
+  padding: 4.937px;
+  margin: 9.876px;
+}
+.testRect {	outline: 2px dotted lightblue; }
 </style>
 </head>
 
@@ -32,8 +44,12 @@
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span id="rect2">F i n g e r p r i n t i n g ?</span>
+  <span id="rect2" class="testRect">F i n g e r p r i n t i n g ?</span>
 </div>
-
+<select id="rect3" class="testRect">
+	<option>&minus;&#1726;-</option>
+</select>
+<progress id="rect4" class="testRect">test</progress>
+<button id="rect5" class="testRect"></button>
 </body>
 </html>
