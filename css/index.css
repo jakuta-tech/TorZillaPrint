@@ -159,7 +159,7 @@ input[type='checkbox'] { display: none; }
 /* Table header nav elements */
 div.nav-title {
   position: relative;
-  width: 800px;
+  width: 900px;
 }
 
 div.nav-down {
