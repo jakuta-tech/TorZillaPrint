@@ -193,6 +193,35 @@ imgLogoB.addEventListener("load", function() {
   if (imgLogoBW > 0) {dom.fdResource = "Tor Browser"};
   document.body.removeChild(imgLogoB);
 });
+// browser: errors
+var errh = "";
+  // InternalError
+  try { var err1 = new Array(1);
+    function recurse(err1){
+      err1[0] = new Array(1);
+      recurse(err1[0]);
+    }
+   recurse(err1);
+  } catch(e) {errh = errh+e};
+  // RangeError
+  try { var foodate = new Date(); var bar = new Date(foodate.endDate).toISOString();
+  } catch(e) {errh = errh+e};
+  // ReferenceError
+  try {foo=2} catch(e) {errh = errh+e};
+  // TypeError
+  try {
+    function foobar() {
+      var foo = document.getElementById("bar");
+      foo.value = screen.width;
+     }
+    window.onload = foobar();
+  } catch(e) {errh = errh+e};
+  // TypeError
+  try {var bar = new Date(bar[0].endDate).toISOString()} catch(e) {errh = errh+e};
+  // URIError
+  try {decodeURIComponent("%")} catch(e) {errh = errh+e};
+  // error hash
+  if (sha1(errh) == "7f5472aff63b6ed45eae2af94d1db8b729738d8b") {dom.fdError = "Firefox"};
 // browser: math
 if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {dom.fdMath="Firefox"};
 if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMath="Firefox [32-bit]"};
@@ -247,7 +276,8 @@ if (isNaN(window.mozPaintCount) === false){
   var sbWidth = (window.innerWidth-vw);
   var sbWidthZoom = sbWidth;
   var sbOS = ""; var sbZoom = "";
-  if (sbWidth == 0) {sbOS= "[mobile or floating scrollbars]";}
+  // note: only Mac OS X (el capitan or lower) have zero width
+  if (sbWidth == 0) {sbOS= "[Mac OS X, mobile or floating scrollbars]";}
   else {
     // start with known metrics at preset FF zoom levels
     if (jsZoom == 300) {
@@ -350,7 +380,7 @@ if (isNaN(window.mozPaintCount) === false){
   if (jsZoom == 100) {
     if (intVerNo > 61) {
       // FF62 or higher
-      if (lh=="19.5") {lhOS=strA} // droid is not always 100% zoom
+      if (lh=="19.5") {lhOS=strA} // zoom is not reliable on droid: needs work
       else if (lh=="19.6833") {lhOS=strM}
       else if (lh=="19") {lhOS=strL}
       else if (lh=="18") {lhOS=strW}
