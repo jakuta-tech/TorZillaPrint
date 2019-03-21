@@ -21,7 +21,6 @@
 </head>
 
 <body>
-
   <a anchor="top"></a>
   <h2>TorZillaPrint</h2>
   <h3>TZP is only designed for Firefox and the Tor Browser, and only expected to work in 60 or higher.<br>
@@ -97,15 +96,16 @@
     <tr><td>[navigator] productSub</td><td id="nProductSub"></td></tr>
     <tr><td colspan="2" class="center">---browser, version, os---</td></tr>
     <tr><td>[css] browser</td><td id="fdResourceCss"></td></tr>
-    <tr><td>[chrome://] browser</td><td id="fdResource"></td></tr>
+    <tr><td>[chrome://] browser</td><td id="fdChrome"></td></tr>
     <tr><td>[error messages] browser</td><td id="fdError"></td></tr>
     <tr><td><div class="tooltip"><code>[i]</code><span class="tooltiptext"><b>mozPaintCount:</b>
       <br>we could also use<br>mozGetAsFile<br>mozInnerScreenX<br>mozScreenX<br>oscpu<br>scrollMaxX</span>
       </div> [feature detection] browser</td><td id="fdPaintCount"></td></tr>
     <tr><td>[math] browser</td><td id="fdMath"></td></tr>
+    <tr><td>[resource://] browser</td><td id="fdResource"></td></tr>
     <tr><td><div class="tooltip"><code>[i]</code><span class="tooltiptext">Firefox 60+ builds only</span>
        </div> [feature detection] version</td><td id="versionNo"></td></tr>
-    <tr><td>[chrome://] os</td><td id="fdResourceOS"></td></tr>
+    <tr><td>[chrome://] os</td><td id="fdChromeOS"></td></tr>
     <tr><td><div class="tooltip"><code>[i]</code>
       <span class="tooltiptext">Linux, Mac or Windows:<br>use_document_fonts<br>= 0 may break this</span></div> [css] os <sup>1</sup></td>
       <td>
@@ -118,8 +118,21 @@
     <tr><td><div class="tooltip"><code>[i]</code>
       <span class="tooltiptext">three font test to<br>detect four OSes:<br> based on <b>[css] os</b></span></div> [font] os <sup>1</sup></td><td id="fontOS"></td></tr>
     <tr><td>[math] os</td><td id="fdMathOS"></td></tr>
+    <tr><td>[resource://] os</td><td id="fdResourceOS"></td></tr>
     <tr><td>[scrollbar width] os <sup>2, 3</sup></td><td id="scrollbarWidth"></td></tr>
     <tr><td>[tcp/ip] os</td><td></td></tr>
+    <tr><td colspan="2" class="showhide">
+        <input id="collapseE" class="toggle" type="checkbox" checked onchange="toggleitems(this, `E`)">
+        <label for="collapseE" class="lbl-toggle" id="labelE">&#9660; show details</label>
+    </td></tr>
+    <tr class="togE"><td>error hash</td><td class="mono" id="errh"></td></tr>
+    <tr class="togE"><td>error1</td><td id="err1"></td></tr>
+    <tr class="togE"><td>error2</td><td id="err2"></td></tr>
+    <tr class="togE"><td>error3</td><td id="err3"></td></tr>
+    <tr class="togE"><td>error4</td><td id="err4"></td></tr>
+    <tr class="togE"><td>error5</td><td id="err5"></td></tr>
+    <tr class="togE"><td>error6</td><td id="err6"></td></tr>
+    <tr class="togE"><td colspan="2"></td></tr>
     <tr><td colspan="2"><span class="no_color">code based on work by </span>
       <sup>1</sup><a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/os-detection-font-css.html">Arthur Edelstein</a>
       <span class="no_color">, </span>
@@ -134,11 +147,11 @@
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#math">Math</a>
         <div class="nav-up"><a href="#useragent">&#9650;</a></div>
-        <div class="nav-down"><a href="#language">&#9660;</a></div></div>
+        <div class="nav-down"><a href="#chrome">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td>1st edition</td><td id="math1hash"></td></tr>
-    <tr><td>6th edition</td><td id="math6hash"></td></tr>
-    <tr><td>overall</td><td id="mathhash"></td></tr>
+    <tr><td>1st edition</td><td class="mono" id="math1hash"></td></tr>
+    <tr><td>6th edition</td><td class="mono" id="math6hash"></td></tr>
+    <tr><td>combined</td><td class="mono" id="mathhash"></td></tr>
     <tr><td colspan="2" class="showhide">
         <input id="collapseM" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M`)">
         <label for="collapseM" class="lbl-toggle" id="labelM">&#9660; show details</label>
@@ -161,12 +174,36 @@
       <a target="_blank" class="blue" href="https://fpcentral.tbb.torproject.org/">Fingerprint Central</a></td></tr>
   </table>
 
-  <!-- TABLE 4:  Language & Locale / Time Zone & Date Format / Geolocation - language.js -->
+  <!-- TABLE 4: chrome:// - part of screen.js-->
   <table id="tb4">
+    <col width="37%"><a name="chrome"></a><col width="63%">
+    <thead><tr><th colspan="2">
+      <div class="nav-title"><a href="#chrome">chrome://</a>
+        <div class="nav-up"><a href="#math">&#9650;</a></div>
+        <div class="nav-down"><a href="#language">&#9660;</a></div></div>
+    </th></tr></thead>
+    <tr><td>images</td><td class="mono" id="imgHash"></td></tr>
+    <tr><td>js</td><td class="mono" id="jsHash"></td></tr>
+    <tr><td>css</td><td class="mono" id="cssHash"></td></tr>
+    <tr><td>combined</td></td><td class="mono" id="allHash"></td></tr>
+    <tr><td colspan="2" class="showhide">
+        <input id="collapseC" class="toggle" type="checkbox" checked onchange="toggleitems(this, `C`)">
+        <label for="collapseC" class="lbl-toggle" id="labelC">&#9660; show details</label>
+    </td></tr>
+    <tr class="togC"><td>images</td><td id="imgLoaded"></td></tr>
+    <tr class="togC"><td>js</td><td id="jsLoaded"></td></tr>
+    <tr class="togC"><td>css</td><td id="cssLoaded"></td></tr>
+    <tr class="togC"><td colspan="2"></td></tr>
+    <tr><td colspan="2"><span class="no_color">chrome:// code based on work by </span>
+      <a target="_blank" class="blue" href="https://privacycheck.sec.lrz.de/index.html">privacycheck.sec.lrz.de</a></td></tr>
+  </table>
+
+  <!-- TABLE 5: Language & Locale / Time Zone & Date Format / Geolocation - language.js -->
+  <table id="tb5">
     <col width="37%"><a name="language"></a><col width="63%">
     <thead><tr><th colspan="2">
       <div class="nav-title"><a href="#language">Language & Locale / Time Zone & Date Format / Geolocation</a>
-        <div class="nav-up"><a href="#math">&#9650;</a></div>
+        <div class="nav-up"><a href="#chrome">&#9650;</a></div>
         <div class="nav-down"><a href="#headers">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>[header] http_accept_language</td><td></td></tr>
@@ -201,8 +238,8 @@
     <tr><td>[permission] geolocation</td><td id="pGeolocation"></td></tr>
   </table>
 
-  <!-- TABLE 5:  HTTP Headers - headers.js -->
-  <table id="tb5">
+  <!-- TABLE 6:  HTTP Headers - headers.js -->
+  <table id="tb6">
     <col width="50%"><a name="headers"></a><col width="50%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#headers">HTTP Headers</a>
@@ -220,13 +257,13 @@
     <tr><td>[navigator] onLine</td><td id="nOnLine"></td></tr>
   </table>
 
-  <!-- TABLE 6: Cookies & Storage - cookies.js -->
-  <table id="tb6">
+  <!-- TABLE 7: Cookies & Storage - cookies.js -->
+  <table id="tb7">
     <col width="50%"><a name="cookies"></a><col width="50%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#cookies">Cookies & Storage</a>
         <div class="nav-up"><a href="#headers">&#9650;</a></div>
-        <div class="nav-down"><a href="#devices">&#9660;</a></div></div>
+        <div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td colspan="2" class="intro"><span class="no_color">The <code>[cookie]</code>, <code>[localStorage]</code>, 
       <code>[sessionStorage]</code> and <code> [indexedDB]</code> tests, on each run, each use a new random name and
@@ -261,23 +298,12 @@
     <tr><td>[test] storage access</td><td id="storageATest"></td></tr>
   </table>
 
-  <!-- TABLE 7: Devices & Hardware - devices.js -->
-  <table id="tb7">
-    <col width="50%"><a name="devices"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#devices">Devices & Hardware</a>
-        <div class="nav-up"><a href="#cookies">&#9650;</a></div>
-        <div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td>[navigator] hardwareConcurrency</td><td id="nHardwareConcurrency"></td></tr>
-  </table>
-
   <!-- TABLE 8: Canvas - canvas.js -->
   <table id="tb8">
     <col width="37%"><a name="canvas"></a><col width="63%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#canvas">Canvas</a>
-        <div class="nav-up"><a href="#devices">&#9650;</a></div>
+        <div class="nav-up"><a href="#cookies">&#9650;</a></div>
         <div class="nav-down"><a href="#domrect">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>getContext</td><td class="getContext"></td></tr>
@@ -367,40 +393,20 @@
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#fonts">Fonts</a>
         <div class="nav-up"><a href="#domrect">&#9650;</a></div>
-        <div class="nav-down"><a href="#fontsunicode">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td>test</td><td>result</td></tr>
-  </table>
-
-  <!-- TABLE 11: Fonts - fontsunicode.js -->
-  <table id="tb11">
-    <col width="50%"><a name="fontsunicode"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#fontsunicode">Fonts [Unicode Glyphs Measurement]</a>
-        <div class="nav-up"><a href="#fonts">&#9650;</a></div>
-        <div class="nav-down"><a href="#media">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td>test</td><td>result</td></tr>
-  </table>
-
-  <!-- TABLE 12: Media - media.js -->
-  <table id="tb12">
-    <col width="50%"><a name="media"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#media">Media</a>
-        <div class="nav-up"><a href="#fontsunicode">&#9650;</a></div>
         <div class="nav-down"><a href="#audio">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td>[navigator] mediaCapabilities</td><td id="nMediaCapabilities"></td></tr>
+    <tr><td>css</td><td>result</td></tr>
+    <tr><td>js</td><td>result</td></tr>
+    <tr><td>unicode glyphs</td><td>result</td></tr>
   </table>
 
-  <!-- TABLE 13: Audio - audio.js -->
+  <!-- TABLE 11: Audio - audio.js -->
   <table id="tb13">
     <col width="37%"><a name="audio"></a><col width="63%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#audio">Audio</a>
-        <div class="nav-up"><a href="#media">&#9650;</a></div>
-        <div class="nav-down"><a href="#webgl">&#9660;</a></div></div>
+        <div class="nav-up"><a href="#fonts">&#9650;</a></div>
+        <div class="nav-down"><a href="#media">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>[api] web audio</td><td id="audioSupport"></td></tr>
     <tr><td>getChannelData</td><td id="audioGet"></td></tr>
@@ -438,15 +444,37 @@
       <a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
   </table>
 
-  <!-- TABLE 14: WebGL - webgl.js -->
-  <table id="tb14">
+  <!-- TABLE 12: Media - media.js -->
+  <table id="tb12">
+    <col width="50%"><a name="media"></a><col width="50%">
+    <thead><tr><th colspan="2">
+        <div class="nav-title"><a href="#media">Media</a>
+        <div class="nav-up"><a href="#audio">&#9650;</a></div>
+        <div class="nav-down"><a href="#webgl">&#9660;</a></div></div>
+    </th></tr></thead>
+    <tr><td>[navigator] mediaCapabilities</td><td id="nMediaCapabilities"></td></tr>
+  </table>
+
+  <!-- TABLE 13: WebGL - webgl.js -->
+  <table id="tb13">
     <col width="50%"><a name="webgl"></a><col width="50%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#webgl">WebGL</a>
-        <div class="nav-up"><a href="#audio">&#9650;</a></div>
-        <div class="nav-down"><a href="#css">&#9660;</a></div></div>
+        <div class="nav-up"><a href="#media">&#9650;</a></div>
+        <div class="nav-down"><a href="#devices">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>test</td><td>result</td></tr>
+  </table>
+
+  <!-- TABLE 14: Devices & Hardware - devices.js -->
+  <table id="tb14">
+    <col width="50%"><a name="devices"></a><col width="50%">
+    <thead><tr><th colspan="2">
+        <div class="nav-title"><a href="#devices">Devices & Hardware</a>
+        <div class="nav-up"><a href="#webgl">&#9650;</a></div>
+        <div class="nav-down"><a href="#css">&#9660;</a></div></div>
+    </th></tr></thead>
+    <tr><td>[navigator] hardwareConcurrency</td><td id="nHardwareConcurrency"></td></tr>
   </table>
 
   <!-- TABLE 15: CSS - css.js -->
@@ -454,7 +482,7 @@
     <col width="50%"><a name="css"></a><col width="50%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#css">CSS</a>
-        <div class="nav-up"><a href="#webgl">&#9650;</a></div>
+        <div class="nav-up"><a href="#devices">&#9650;</a></div>
         <div class="nav-down"><a href="#ciphers">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>test</td><td>result</td></tr>
