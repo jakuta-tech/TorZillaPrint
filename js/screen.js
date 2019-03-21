@@ -940,10 +940,14 @@ cssUris.forEach(function(cssUri) {
  });
 // RESULTS: wait for all the resources to succeed/fail
 setTimeout(function(){
-  dom.jsHash = sha1(jsHash.sort()) + " ["+jsYes+"/"+jsAll+"]";
-  dom.imgHash = sha1(imgHash.sort()) + " ["+imgYes+"/"+imgAll+"]";
-  dom.cssHash = sha1(cssHash.sort()) + " ["+cssYes+"/"+cssAll+"]";
+  var hashJ = sha1(jsHash.sort());
+  var hashI = sha1(imgHash.sort());
+  var hashC = sha1(cssHash.sort());
+  dom.jsHash = hashJ + " ["+jsYes+"/"+jsAll+"]";
+  dom.imgHash = hashI + " ["+imgYes+"/"+imgAll+"]";
+  dom.cssHash = hashC + " ["+cssYes+"/"+cssAll+"]";
   var allTrue = jsYes+imgYes+cssYes;
   var allTried = jsAll+imgAll+cssAll;
-  dom.allHash = " ["+allTrue+"/"+allTried+"]";
+  // just hash the three hashes
+  dom.allHash = sha1(hashJ+hashI+hashC) + " ["+allTrue+"/"+allTried+"]";
 }, 5000);
