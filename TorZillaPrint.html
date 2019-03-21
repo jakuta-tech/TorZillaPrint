@@ -17,6 +17,19 @@
     if (chkbxState.checked) {showhide("none", chkbxID, "&#9660; show");}
     else {showhide("table-row", chkbxID, "&#9650; hide");}
   };
+  function copyclip(element) {
+    if (document.selection) {
+      var range = document.body.createTextRange();
+      range.moveToElementText(document.getElementById(element));
+      range.select().createTextRange();
+      document.execCommand("copy");
+    } else if (window.getSelection) {
+      var range = document.createRange();
+      range.selectNode(document.getElementById(element));
+      window.getSelection().addRange(range);
+      document.execCommand("copy");
+    }
+  };
   </script>
 </head>
 
