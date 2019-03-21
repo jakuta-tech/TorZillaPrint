@@ -103,8 +103,8 @@ input[type='checkbox'] { display: none; }
   cursor: pointer;
 }
 
-/* audio, domrect, math, chrome */
-.togA, .togD, .togM, .togC { display: none; }
+/* audio, domrect, math, chrome, errors */
+.togA, .togD, .togM, .togC, .togE { display: none; }
 
 /* Icons */
 .icon {
