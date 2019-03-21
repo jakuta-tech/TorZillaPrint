@@ -891,10 +891,12 @@ var cssUris = [b+'aboutDialog.css', c+'aboutDialog.css', c+'aboutPrivateBrowsing
  g+'aboutTelemetry.css', g+'aboutUrlClassifier.css', g+'aboutwebrtc/aboutWebrtc.css', g+'accessibility/AccessFu.css',
  g+'alerts/alert.css', g+'autocomplete.css', g+'bindings/datetimebox.css', g+'bindings/videocontrols.css', g+'buildconfig.css',
  g+'commonDialog.css', g+'components.css', g+'console.css', g+'crashes.css', g+'customizeToolbar.css',
- g+'menulist.css', g+'minimal-xul.css', g+'plugins.css', g+'resetProfile.css', g+'simplifyMode.css',
+ g+'menulist.css', g+'plugins.css', g+'resetProfile.css', g+'simplifyMode.css',
  g+'tabprompts.css', g+'textbox.css', g+'viewSource.css', g+'xml/XMLMonoPrint.css', g+'xml/XMLPrettyPrint.css',
  g+'xul.css'
 ];
+// g+'minimal-xul.css' removed : causes crashes in Windows7 FF60+61+ESR, but not TB8
+// var cssUris = [g+'minimal-xul.css'];
 
 // JS
 var allHash = [];
@@ -904,11 +906,9 @@ jsUris.forEach(function(src) {
   script.src = src;
   document.head.appendChild(script);
   script.onload = function() {
-    //dom.jsLoaded.innerHTML += src + "<br>";
     jsHash.push(src); jsYes++;
     allHash.push(src);
   };
-  script.onerror = function() { };
   document.head.removeChild(script);
   jsAll++;
 });
@@ -920,7 +920,6 @@ imgUris.forEach(function(imgUri) {
   img.style.height = "20px";
   img.style.width = "20px";
   img.onload = function() {
-    //dom.imgLoaded.innerHTML += imgUri + "<br>";
     imgHash.push(imgUri); imgYes++;
     allHash.push(imgUri);
   };
@@ -935,7 +934,6 @@ cssUris.forEach(function(cssUri) {
   css.rel = "stylesheet";
   document.head.appendChild(css);
   css.onload = function() {
-    //dom.cssLoaded.innerHTML += cssUri + "<br>";
     cssHash.push(cssUri); cssYes++;
     allHash.push(cssUri);
   };
