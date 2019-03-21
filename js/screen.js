@@ -897,14 +897,16 @@ var cssUris = [b+'aboutDialog.css', c+'aboutDialog.css', c+'aboutPrivateBrowsing
 ];
 
 // JS
+var allHash = [];
 var jsYes=0; var jsAll=0; var jsHash = [];
 jsUris.forEach(function(src) {
   var script = document.createElement('script');
   script.src = src;
   document.head.appendChild(script);
   script.onload = function() {
-    dom.jsLoaded.innerHTML += src + "<br>";
+    //dom.jsLoaded.innerHTML += src + "<br>";
     jsHash.push(src); jsYes++;
+    allHash.push(src);
   };
   script.onerror = function() { };
   document.head.removeChild(script);
@@ -918,8 +920,9 @@ imgUris.forEach(function(imgUri) {
   img.style.height = "20px";
   img.style.width = "20px";
   img.onload = function() {
-    dom.imgLoaded.innerHTML += imgUri + "<br>";
+    //dom.imgLoaded.innerHTML += imgUri + "<br>";
     imgHash.push(imgUri); imgYes++;
+    allHash.push(imgUri);
   };
   imgAll++;
 });
@@ -932,8 +935,9 @@ cssUris.forEach(function(cssUri) {
   css.rel = "stylesheet";
   document.head.appendChild(css);
   css.onload = function() {
-    dom.cssLoaded.innerHTML += cssUri + "<br>";
+    //dom.cssLoaded.innerHTML += cssUri + "<br>";
     cssHash.push(cssUri); cssYes++;
+    allHash.push(cssUri);
   };
   document.head.removeChild(css);
   cssAll++;
@@ -943,11 +947,15 @@ setTimeout(function(){
   var hashJ = sha1(jsHash.sort());
   var hashI = sha1(imgHash.sort());
   var hashC = sha1(cssHash.sort());
+  var hashA = sha1(allHash.sort());
   dom.jsHash = hashJ + " ["+jsYes+"/"+jsAll+"]";
   dom.imgHash = hashI + " ["+imgYes+"/"+imgAll+"]";
   dom.cssHash = hashC + " ["+cssYes+"/"+cssAll+"]";
   var allTrue = jsYes+imgYes+cssYes;
   var allTried = jsAll+imgAll+cssAll;
-  // just hash the three hashes
-  dom.allHash = sha1(hashJ+hashI+hashC) + " ["+allTrue+"/"+allTried+"]";
+  dom.allHash = sha1(hashA) + " ["+allTrue+"/"+allTried+"]";
+  // output all sorted with line breaks
+  var strAll = allHash.sort().toString();
+  var strOut = strAll.replace(/,/gi, '<br>');
+  dom.allLoaded.innerHTML = strOut;
 }, 5000);
