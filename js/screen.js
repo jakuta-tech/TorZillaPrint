@@ -926,6 +926,9 @@ imgUris.forEach(function(imgUri) {
     allHash.push(imgUri);
     if (imgUri === s+"Toolbar-win7.png" || imgUri === s+"sync-horizontalbar-XPVista7.png") {chromeOS ="Windows"};
   };
+  // not all android releases have ext-android.js
+  // if chrome://branding/content/icon64.png is missing then it's android
+  img.onerror = function() {if (src === b+"icon64.png") {chromeOS = "Android"};};
   imgAll++;
 });
 // CSS
