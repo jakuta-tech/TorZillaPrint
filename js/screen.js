@@ -166,6 +166,7 @@ dom.nUserAgent = navigator.userAgent;
 
 /* USER AGENT */
 
+// chrome:// and resource:// tests only work on Firefox, no need to check first
 // browser: chrome: Firefox
 // about:logo: desktop 300x236 vs 258x99 android dimensions
 var imgLogoA = new Image();
@@ -179,7 +180,7 @@ imgLogoA.addEventListener("load", function() {
     // change displayed resource to icon64 (not on android)
     document.getElementById("fdResourceCss").style.backgroundImage="url('chrome://branding/content/icon64.png')";
   };
-  if (imgLogoAW == 258) {dom.fdResourceOS = "Android"};
+  if (imgLogoAW == 258) {dom.fdResourceOS = "Android"; var chromeOS = "Android";};
   if (imgLogoAW > 0) {dom.fdResource = "Firefox"};
   document.body.removeChild(imgLogoA);
 });
@@ -928,7 +929,9 @@ imgUris.forEach(function(imgUri) {
   };
   // not all android releases have ext-android.js
   // if chrome://branding/content/icon64.png is missing then it's android
-  img.onerror = function() {if (src === b+"icon64.png") {chromeOS = "Android"};};
+  img.onerror = function() {
+    if (src === b+"icon64.png") {chromeOS = "Android"};
+  };
   imgAll++;
 });
 // CSS
