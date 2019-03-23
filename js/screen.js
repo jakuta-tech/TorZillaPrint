@@ -266,7 +266,7 @@ if (isNaN(window.mozPaintCount) === false){
     if (elCount == 0) {dom.fontOS="Android"};
     // if only one loads then it's that one
     if (elCount == 1) {dom.fontOS=elCssOS};
-  }, 4000);
+  }, 5000);
 
   // os: strings
   var strW = "[Windows]"; var strWL = "[Windows or Linux]";
