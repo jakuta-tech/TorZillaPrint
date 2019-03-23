@@ -898,6 +898,7 @@ var cssUris = [b+'aboutDialog.css', c+'aboutDialog.css', c+'aboutPrivateBrowsing
 // g+'minimal-xul.css' removed : causes crashes in Windows7 FF60+61+ESR, but not TB8
 // var cssUris = [g+'minimal-xul.css'];
 
+var chromeOS = "Linux"; // default if we can't detect Windows/Android/Mac
 // JS
 var allHash = [];
 var jsYes=0; var jsAll=0; var jsHash = [];
@@ -908,6 +909,7 @@ jsUris.forEach(function(src) {
   script.onload = function() {
     jsHash.push(src); jsYes++;
     allHash.push(src);
+    if (src === c+"ext-android.js") {chromeOS = "Android"};
   };
   document.head.removeChild(script);
   jsAll++;
@@ -922,6 +924,7 @@ imgUris.forEach(function(imgUri) {
   img.onload = function() {
     imgHash.push(imgUri); imgYes++;
     allHash.push(imgUri);
+    if (imgUri === s+"Toolbar-win7.png" || imgUri === s+"sync-horizontalbar-XPVista7.png") {chromeOS ="Windows"};
   };
   imgAll++;
 });
@@ -936,10 +939,13 @@ cssUris.forEach(function(cssUri) {
   css.onload = function() {
     cssHash.push(cssUri); cssYes++;
     allHash.push(cssUri);
+    if (cssUri === c+"extension-win-panel.css") {chromeOS ="Windows"}
+    else if (cssUri === c+"extension-mac-panel.css") {chromeOS ="Mac"};
   };
   document.head.removeChild(css);
   cssAll++;
  });
+
 // RESULTS: wait for all the resources to succeed/fail
 setTimeout(function(){
   var hashJ = sha1(jsHash.sort());
@@ -956,4 +962,6 @@ setTimeout(function(){
   var strAll = allHash.sort().toString();
   var strOut = strAll.replace(/,/gi, '<br>');
   dom.allLoaded.innerHTML = strOut;
+  // check if Firefox: since we assume a default value = Linux
+  if (isNaN(window.mozPaintCount) === false) {dom.fdChromeOS = chromeOS};
 }, 5000);
