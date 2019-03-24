@@ -176,12 +176,9 @@ document.body.appendChild(imgLogoA);
 imgLogoA.addEventListener("load", function() {
   var imgLogoAW = imgLogoA.width;
   if (imgLogoAW == 300) {
-    dom.fdResourceOS = "Desktop";
     // change displayed resource to icon64 (not on android)
     document.getElementById("fdResourceCss").style.backgroundImage="url('chrome://branding/content/icon64.png')";
   };
-  if (imgLogoAW == 258) {dom.fdResourceOS = "Android"};
-  if (imgLogoAW > 0) {dom.fdResource = "Firefox"};
   document.body.removeChild(imgLogoA);
 });
 // browser: chrome: refine if Tor Browser
