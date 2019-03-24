@@ -179,6 +179,7 @@ imgLogoA.addEventListener("load", function() {
     // change displayed resource to icon64 (not on android)
     document.getElementById("fdResourceCss").style.backgroundImage="url('chrome://branding/content/icon64.png')";
   };
+  if (imgLogoAW > 0) {dom.fdResource = "Firefox"};
   document.body.removeChild(imgLogoA);
 });
 // browser: chrome: refine if Tor Browser
