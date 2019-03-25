@@ -17,29 +17,18 @@
     if (chkbxState.checked) {showhide("none", chkbxID, "&#9660; show");}
     else {showhide("table-row", chkbxID, "&#9650; hide");}
   };
-  function copyclip(element) {
-    if (document.selection) {
-      var range = document.body.createTextRange();
-      range.moveToElementText(document.getElementById(element));
-      range.select().createTextRange();
-      document.execCommand("copy");
-    } else if (window.getSelection) {
-      var range = document.createRange();
-      range.selectNode(document.getElementById(element));
-      window.getSelection().addRange(range);
-      document.execCommand("copy");
-    }
-  };
   </script>
 </head>
 
 <body>
-  <a anchor="top"></a>
-  <h2>TorZillaPrint</h2>
-  <h3>TZP is only designed for Firefox and the Tor Browser, and only expected to work in 60 or higher.<br>
+  <table>
+  <tr><td><a anchor="top"></a><h2>TorZillaPrint</h2></td></tr>
+  <tr><td><h3>TZP is only designed for Firefox and the Tor Browser, and only expected to work in 60 or higher.
     If you want to know more, find bugs, or wish to contribute, come and visit us at <a target="_blank"
-    class="blue" href="https://github.com/ghacksuserjs/TorZillaPrint">github</a>
-  <br>&nbsp;</h3>
+    class="blue" href="https://github.com/ghacksuserjs/TorZillaPrint">github</a>. Additonal tests can be
+    found on <a class="blue" href="extra.html">this</a> extras page.</h3>
+  </td></tr>
+  </table>
 
   <!-- TABLE 1: Screen - screen.js -->
   <table id="tb1">
@@ -158,7 +147,7 @@
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#math">Math</a>
         <div class="nav-up"><a href="#useragent">&#9650;</a></div>
-        <div class="nav-down"><a href="#chrome">&#9660;</a></div></div>
+        <div class="nav-down"><a href="#language">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>1st edition</td><td class="mono" id="math1hash"></td></tr>
     <tr><td>6th edition</td><td class="mono" id="math6hash"></td></tr>
@@ -185,42 +174,12 @@
       <a target="_blank" class="blue" href="https://fpcentral.tbb.torproject.org/">Fingerprint Central</a></td></tr>
   </table>
 
-  <!-- TABLE 4: chrome:// - part of screen.js-->
+  <!-- TABLE 4: Language & Locale / Time Zone & Date Format / Geolocation - language.js -->
   <table id="tb4">
-    <col width="37%"><a name="chrome"></a><col width="63%">
-    <thead><tr><th colspan="2">
-      <div class="nav-title"><a href="#chrome">chrome://</a>
-        <div class="nav-up"><a href="#math">&#9650;</a></div>
-        <div class="nav-down"><a href="#language">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td colspan="2" class="intro"><span class="no_color">The <code>chrome://</code> list from
-      <a target="_blank" class="blue" href="https://privacycheck.sec.lrz.de/index.html">privacycheck.sec.lrz.de</a> was created from
-      all Firefox 10-62 releases, for Windows/Linux/Mac, and does not include any new resources which may be present in subsequent
-      releases. This test removed one item, <code>chrome://global/content/minimal-xul.css</code>, for stability purposes on this site.</span>
-    </td></tr>
-    <tr><td>images</td><td class="mono" id="imgHash"></td></tr>
-    <tr><td>js</td><td class="mono" id="jsHash"></td></tr>
-    <tr><td>css</td><td class="mono" id="cssHash"></td></tr>
-    <tr><td>combined</td></td><td class="mono" id="allHash"></td></tr>
-    <tr><td colspan="2" class="showhide">
-        <input id="collapseC" class="toggle" type="checkbox" checked onchange="toggleitems(this, `C`)">
-        <label for="collapseC" class="lbl-toggle" id="labelC">&#9660; show details</label>
-    </td></tr>
-    <tr class="togC">
-     <td>[alphabetically sorted] all<br><br><button class="button4" onClick="copyclip(`allLoaded`)">copy to clipboard</button></td>
-     <td id="allLoaded"></td>
-    </tr>
-    <tr class="togC"><td colspan="2"></td></tr>
-    <tr><td colspan="2"><span class="no_color">chrome:// code based on work by </span>
-      <a target="_blank" class="blue" href="https://privacycheck.sec.lrz.de/index.html">privacycheck.sec.lrz.de</a></td></tr>
-  </table>
-
-  <!-- TABLE 5: Language & Locale / Time Zone & Date Format / Geolocation - language.js -->
-  <table id="tb5">
     <col width="37%"><a name="language"></a><col width="63%">
     <thead><tr><th colspan="2">
       <div class="nav-title"><a href="#language">Language & Locale / Time Zone & Date Format / Geolocation</a>
-        <div class="nav-up"><a href="#chrome">&#9650;</a></div>
+        <div class="nav-up"><a href="#math">&#9650;</a></div>
         <div class="nav-down"><a href="#headers">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>[header] http_accept_language</td><td></td></tr>
@@ -255,8 +214,8 @@
     <tr><td>[permission] geolocation</td><td id="pGeolocation"></td></tr>
   </table>
 
-  <!-- TABLE 6:  HTTP Headers - headers.js -->
-  <table id="tb6">
+  <!-- TABLE 5:  HTTP Headers - headers.js -->
+  <table id="tb5">
     <col width="50%"><a name="headers"></a><col width="50%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#headers">HTTP Headers</a>
@@ -274,13 +233,13 @@
     <tr><td>[navigator] onLine</td><td id="nOnLine"></td></tr>
   </table>
 
-  <!-- TABLE 7: Cookies & Storage - cookies.js -->
-  <table id="tb7">
+  <!-- TABLE 6: Cookies & Storage - cookies.js -->
+  <table id="tb6">
     <col width="50%"><a name="cookies"></a><col width="50%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#cookies">Cookies & Storage</a>
         <div class="nav-up"><a href="#headers">&#9650;</a></div>
-        <div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
+        <div class="nav-down"><a href="#devices">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td colspan="2" class="intro"><span class="no_color">The <code>[cookie]</code>, <code>[localStorage]</code>, 
       <code>[sessionStorage]</code> and <code> [indexedDB]</code> tests, on each run, each use a new random name and
@@ -315,12 +274,23 @@
     <tr><td>[test] storage access</td><td id="storageATest"></td></tr>
   </table>
 
+  <!-- TABLE 7: Devices & Hardware - devices.js -->
+  <table id="tb7">
+    <col width="50%"><a name="devices"></a><col width="50%">
+    <thead><tr><th colspan="2">
+        <div class="nav-title"><a href="#devices">Devices & Hardware</a>
+        <div class="nav-up"><a href="#cookies">&#9650;</a></div>
+        <div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
+    </th></tr></thead>
+    <tr><td>[navigator] hardwareConcurrency</td><td id="nHardwareConcurrency"></td></tr>
+  </table>
+
   <!-- TABLE 8: Canvas - canvas.js -->
   <table id="tb8">
     <col width="37%"><a name="canvas"></a><col width="63%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#canvas">Canvas</a>
-        <div class="nav-up"><a href="#cookies">&#9650;</a></div>
+        <div class="nav-up"><a href="#devices">&#9650;</a></div>
         <div class="nav-down"><a href="#domrect">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>getContext</td><td class="getContext"></td></tr>
@@ -418,7 +388,7 @@
   </table>
 
   <!-- TABLE 11: Audio - audio.js -->
-  <table id="tb13">
+  <table id="tb11">
     <col width="37%"><a name="audio"></a><col width="63%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#audio">Audio</a>
@@ -478,35 +448,24 @@
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#webgl">WebGL</a>
         <div class="nav-up"><a href="#media">&#9650;</a></div>
-        <div class="nav-down"><a href="#devices">&#9660;</a></div></div>
+        <div class="nav-down"><a href="#css">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>test</td><td>result</td></tr>
   </table>
 
-  <!-- TABLE 14: Devices & Hardware - devices.js -->
+  <!-- TABLE 14: CSS - css.js -->
   <table id="tb14">
-    <col width="50%"><a name="devices"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#devices">Devices & Hardware</a>
-        <div class="nav-up"><a href="#webgl">&#9650;</a></div>
-        <div class="nav-down"><a href="#css">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td>[navigator] hardwareConcurrency</td><td id="nHardwareConcurrency"></td></tr>
-  </table>
-
-  <!-- TABLE 15: CSS - css.js -->
-  <table id="tb15">
     <col width="50%"><a name="css"></a><col width="50%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#css">CSS</a>
-        <div class="nav-up"><a href="#devices">&#9650;</a></div>
+        <div class="nav-up"><a href="#webgl">&#9650;</a></div>
         <div class="nav-down"><a href="#ciphers">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>test</td><td>result</td></tr>
   </table>
 
-  <!-- TABLE 16: Ciphers / TLS - ciphers.js -->
-  <table id="tb16">
+  <!-- TABLE 15: Ciphers / TLS - ciphers.js -->
+  <table id="tb15">
     <col width="50%"><a name="ciphers"></a><col width="50%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#ciphers">Ciphers / TLS</a>
@@ -516,12 +475,23 @@
     <tr><td>test</td><td>result</td></tr>
   </table>
 
-  <!-- TABLE 17: -->
-  <table id="tb17">
+  <!-- TABLE 16: -->
+  <table id="tb16">
     <col width="50%"><a name="spare"></a><col width="50%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#spare">oh no, i'm empty</a>
         <div class="nav-up"><a href="#ciphers">&#9650;</a></div>
+        <div class="nav-down"><a href="#spare2">&#9660;</a></div></div>
+    </th></tr></thead>
+    <tr><td>test</td><td>result</td></tr>
+  </table>
+
+  <!-- TABLE 17: -->
+  <table id="tb17">
+    <col width="50%"><a name="spare2"></a><col width="50%">
+    <thead><tr><th colspan="2">
+        <div class="nav-title"><a href="#spare2">oh no, i'm empty as well</a>
+        <div class="nav-up"><a href="#spare">&#9650;</a></div>
         <div class="nav-down"><a href="#misc">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>test</td><td>result</td></tr>
@@ -532,7 +502,7 @@
     <col width="50%"><a name="misc"></a><col width="50%">
     <thead><tr><th colspan="2">
         <div class="nav-title"><a href="#misc">Miscellaneous</a>
-        <div class="nav-up"><a href="#spare">&#9650;</a></div>
+        <div class="nav-up"><a href="#spare2">&#9650;</a></div>
         <div class="nav-down"><a href="#theend">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>[navigator] clipboard</td><td id="nClipboard"></td></tr>
