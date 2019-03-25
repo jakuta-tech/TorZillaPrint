@@ -43,7 +43,6 @@
 18  340 : #dc8ca7 : #f078a0
 */
 
-
 /* Main Set-up */
 body {
   background-color: #1a1a1a; 
@@ -56,7 +55,7 @@ h2 {
   color: white; 
   font-size 14px; 
   text-align: center; 
-  padding-top: 15px;
+  padding-top: 0px;
 }
 
 h3 {
@@ -196,7 +195,7 @@ div.nav-up {
 
 /* Tables */
 table {
-  width: 800px; 
+  width: 900px; 
   border-collapse: collapse;
   margin: 0 auto 10px auto;
 }
