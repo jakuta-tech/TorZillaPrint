@@ -249,23 +249,16 @@ if (isNaN(window.mozPaintCount) === false){
   if (math1hash == "ae434b101452888b756da5916d81f68adeb2b6ae") {dom.fdMathOS="Android";};
   if (math1hash == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {dom.fdMathOS="Mac"; dom.fdMath="Firefox [64-bit]";};
 
-  // font: os: use width of the fdCssOS* elements: delay it so fonts have loaded
-  // This needs work: despite setting the default as Android, sometimes
-  // it returns "unknown" despite no fonts showing, but not if you refresh
-  // experiment by setting delay to 10 secs to see if it is a timing issue
+  // font: os: use width of the fdCssOS* elements
+  // delay it so fonts have loaded: large delay due to slowness of Android
   setTimeout(function(){
     var elCount = 0; var elCssOS = "Android";
-    var elCssOSW = dom.fdCssOSW.offsetWidth;
-    if (elCssOSW > 0) {elCount = elCount+1; elCssOS = "Windows"};
-    var elCssOSL = dom.fdCssOSL.offsetWidth;
-    if (elCssOSL > 0) {elCount = elCount+1; elCssOS = "Linux"};
-    var elCssOSM = dom.fdCssOSM.offsetWidth;
-    if (elCssOSM > 0) {elCount = elCount+1; elCssOS = "Mac"};
-    // otherwise it 2 or 3 it can't be determined (e.g doc fonts = 0)
-    if (elCount == 2) {elCssOS = "unknown"}
-    else if (elCount == 3) {elCssOS = "unknown"};
+    if (dom.fdCssOSW.offsetWidth > 0) {elCount = elCount+1; elCssOS = "Windows"};
+    if (dom.fdCssOSL.offsetWidth > 0) {elCount = elCount+1; elCssOS = "Linux"};
+    if (dom.fdCssOSM.offsetWidth > 0) {elCount = elCount+1; elCssOS = "Mac"};
+    if (elCount == 2 || elCount == 3) {elCssOS = "unknown"};
     dom.fontOS = elCssOS;
-  }, 10000);
+  }, 8000);
 
   // os: strings
   var strW = "[Windows]"; var strWL = "[Windows or Linux]";
