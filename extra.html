@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <title>TorZillaPrint: chrome://</title>
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script src="js/generic.js"></script>
+  <script src="js/globals.js"></script>
+  <script>
+  function showhide(toggleType, toggleID, togWord) {
+    var xyz = document.getElementsByClassName("tog"+toggleID); var abc;
+    for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = toggleType;}
+    document.getElementById("label"+toggleID).innerHTML = togWord+" details";
+  };
+  function toggleitems(chkbxState, chkbxID) {
+    if (chkbxState.checked) {showhide("none", chkbxID, "&#9660; show");}
+    else {showhide("table-row", chkbxID, "&#9650; hide");}
+  };
+  function copyclip(element) {
+    if (document.selection) {
+      var range = document.body.createTextRange();
+      range.moveToElementText(document.getElementById(element));
+      range.select().createTextRange();
+      document.execCommand("copy");
+    } else if (window.getSelection) {
+      var range = document.createRange();
+      range.selectNode(document.getElementById(element));
+      window.getSelection().addRange(range);
+      document.execCommand("copy");
+    }
+  };
+  </script>
+</head>
+
+<body>
+  <table>
+  <tr><td><a anchor="top"><h2>TorZillaPrint: Additional Tests</h2></td></tr>
+  <tr><td><h3><a class="blue" href="TorZillaPrint.html">return to the main test</a></td></tr>
+  </table>
+
+  <!-- TABLE 4: chrome:// -->
+  <table id="tb4">
+    <col width="37%"><a name="chrome"></a><col width="63%">
+    <thead><tr><th colspan="2"><div class="nav-title">chrome://</div></th></tr></thead>
+    <tr><td colspan="2" class="intro"><span class="no_color">The <code>chrome://</code> list from
+      <a target="_blank" class="blue" href="https://privacycheck.sec.lrz.de/index.html">privacycheck.sec.lrz.de</a> was created from
+      all Firefox 10-62 releases, for Windows/Linux/Mac, and does not include any new resources which may be present in subsequent
+      releases. This test removed one item, <code>chrome://global/content/minimal-xul.css</code>, for stability purposes on this site.</span>
+    </td></tr>
+    <tr><td>images</td><td class="mono" id="imgHash"></td></tr>
+    <tr><td>js</td><td class="mono" id="jsHash"></td></tr>
+    <tr><td>css</td><td class="mono" id="cssHash"></td></tr>
+    <tr><td>combined</td></td><td class="mono" id="allHash"></td></tr>
+    <tr><td colspan="2" class="showhide">
+        <input id="collapseC" class="toggle" type="checkbox" checked onchange="toggleitems(this, `C`)">
+        <label for="collapseC" class="lbl-toggle" id="labelC">&#9660; show details</label>
+    </td></tr>
+    <tr class="togC">
+     <td>[alphabetically sorted] all<br><br><button class="button4" onClick="copyclip(`allLoaded`)">copy to clipboard</button></td>
+     <td id="allLoaded"></td>
+    </tr>
+    <tr class="togC"><td colspan="2"></td></tr>
+    <tr><td colspan="2"><span class="no_color">chrome:// code based on work by </span>
+      <a target="_blank" class="blue" href="https://privacycheck.sec.lrz.de/index.html">privacycheck.sec.lrz.de</a></td></tr>
+  </table>
+  <br>
+
+  <script src="js/main.js"></script>
+  <script src="js/chrome.js"></script>
+
+</body>
+</html>
