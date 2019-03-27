@@ -103,7 +103,7 @@ input[type='checkbox'] { display: none; }
 }
 
 /* audio, domrect, math, chrome, errors */
-.togA, .togD, .togM, .togC, .togE { display: none; }
+.togA, .togD, .togD1, .togM, .togC, .togE { display: none; }
 
 /* Buttons */
 .button4 {
