@@ -15,8 +15,7 @@
     // if domrect hashes are NOT the same, unhide extra sections & change drFirstHeader text  
     if (toggleID == "D") {
       var drArray = [dom.dr1.innerHTML, dom.dr2.innerHTML, dom.dr3.innerHTML, dom.dr4.innerHTML];
-      if (drArray.every( (val, i, arr) => val === arr[0] ) ) {}
-      else {
+      if (drArray.every( (val, i, arr) => val === arr[0] ) ) {} else {
         dom.drFirstHeader.innerHTML = "Element.getClientRects";
         var xyz = document.getElementsByClassName("togD1"); var abc;
         for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = toggleType;};
@@ -339,7 +338,7 @@
         <label for="collapseD" class="lbl-toggle" id="labelD">&#9660; show details</label>
     </td></tr>
     <tr class="togD"><td></td><td>[ *browserleaks* ]</td><td>[ *getClientRects* ]</td><td>[ Fingerprinting? ]</td><td>[ select ]</td><td>[ progress bar ]</td><td>[ empty button ]</td></tr>
-    <tr class="togD"><td></td><td colspan="6" class="sub9" id="drFirstHeader">all four methods return the same results</td></tr>
+    <tr class="togD"><td></td><td colspan="6" class="sub9" id="drFirstHeader">Element.getClientRects<br>[note: the other three methods have the same hash and values]</td></tr>
       <!-- ^^ Element.getClientRects -->
       <tr class="togD"><td>x</td><td id="dr11"></td><td id="dr12"></td><td id="dr13"></td><td id="dr14"></td><td id="dr15"></td><td id="dr16"></td></tr>
       <tr class="togD"><td>y</td><td id="dr17"></td><td id="dr18"></td><td id="dr19"></td><td id="dr110"></td><td id="dr111"></td><td id="dr112"></tr>
