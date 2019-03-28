@@ -110,13 +110,22 @@ input[type='checkbox'] { display: none; }
   background-color: #f0f078;
   border: none;
   color: black;
-  padding: 5px 13px;
+  padding: 3px 10px;
   text-align: center;
-  text-decoration: none;
   display: inline-block;
   font-size: 12px;
   font-weight: bold;
-  margin: 4px 2px;
+  cursor: pointer;
+}
+.button10 {
+  background-color: #78f0f0;
+  border: none;
+  color: black;
+  padding: 3px 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
   cursor: pointer;
 }
 
