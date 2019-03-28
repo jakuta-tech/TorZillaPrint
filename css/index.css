@@ -102,8 +102,8 @@ input[type='checkbox'] { display: none; }
   cursor: pointer;
 }
 
-/* audio, domrect, math, chrome, errors */
-.togA, .togD, .togD1, .togM, .togC, .togE { display: none; }
+/* audio, domrect(s), math, chrome, errors, font */
+.togA, .togD, .togD1, .togM, .togC, .togE, .togF { display: none; }
 
 /* Buttons */
 .button4 {
@@ -239,6 +239,7 @@ table td.showhide {
 
 table td.sub3 { color: var(--test3); }
 table td.sub9 { color: var(--test9); }
+table td.sub10 { color: var(--test10); }
 
 /* Table Header Backgrounds */
 #tb1 th { background-color : #f07878 }
