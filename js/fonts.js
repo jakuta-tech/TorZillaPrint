@@ -8,6 +8,7 @@ var iframeFF = document.getElementById("iframeFF");
 iframeFF.src = "iframes/fontfallback.html";
 // listen for it
 iframeFF.addEventListener("load", function(){
+  dom.fontFB = "test is running... please wait";
   var fontFBTest = iframeFF.contentWindow.document.getElementById("fontFBTest");
   fontFBTest.style.fontSize = "256px";
   // return width of the element with a given fontFamily
