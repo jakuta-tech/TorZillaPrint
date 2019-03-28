@@ -26,6 +26,19 @@
     if (chkbxState.checked) {showhide("none", chkbxID, "&#9660; show");}
     else {showhide("table-row", chkbxID, "&#9650; hide");}
   };
+  function copyclip(element) {
+    if (document.selection) {
+      var range = document.body.createTextRange();
+      range.moveToElementText(document.getElementById(element));
+      range.select().createTextRange();
+      document.execCommand("copy");
+    } else if (window.getSelection) {
+      var range = document.createRange();
+      range.selectNode(document.getElementById(element));
+      window.getSelection().addRange(range);
+      document.execCommand("copy");
+    }
+  };
   </script>
 </head>
 
@@ -38,6 +51,10 @@
     found on <a class="blue" href="extra.html">this</a> extras page.</h3>
   </td></tr>
   </table>
+
+  <!-- iframes: get them in early-->
+  <iframe id="iframeDR" style='position: absolute; top: -2000%;'></iframe>
+  <iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
 
   <!-- TABLE 1: Screen - screen.js -->
   <table id="tb1">
@@ -319,7 +336,6 @@
   </table>
 
   <!-- TABLE 9: DOMRect - domrect.js -->
-  <iframe id="iframeDR" style='position: absolute; top: -2000%;'></iframe>
   <table id="tb9">
     <col width="7%"><a name="domrect"></a><col width="15%"><col width="15%"><col width="15%"><col width="15%"><col width="15%"><col width="18%">
     <thead><tr><th colspan="7">
@@ -404,7 +420,8 @@
         <input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
         <label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
     </td></tr>
-    <tr class="togF"><td></td><td colspan="8" class="sub10">css font fallback</td></tr>
+    <tr class="togF"><td></td><td colspan="8" class="sub10">css font fallback &nbsp
+       <button class="button10" onClick="copyclip(`fontFBFound`)">copy to clipboard</button></td></tr>
     <tr class="togF"><td></td><td colspan="8" class="intro" id="fontFBFound"></td></tr>
     <tr class="togF"><td colspan="9"></td></tr>
   </table>
