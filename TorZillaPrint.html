@@ -386,16 +386,27 @@
   </table>
 
   <!-- TABLE 10: Fonts - fonts.js -->
+  <iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
   <table id="tb10">
-    <col width="50%"><a name="fonts"></a><col width="50%">
-    <thead><tr><th colspan="2">
+    <!-- 9 columns: first 4 = 37%, comnbine cols 5+6 to create columns for unicode glyphs -->
+    <col width="2%"><a name="fonts"></a><col width="14%"><col width="14%"><col width="7%"><col width="7%">
+    <col width="14%"><col width="14%"><col width="14%"><col width="14%">
+    <thead><tr><th colspan="9">
         <div class="nav-title"><a href="#fonts">Fonts</a>
         <div class="nav-up"><a href="#domrect">&#9650;</a></div>
         <div class="nav-down"><a href="#audio">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td>css</td><td>result</td></tr>
-    <tr><td>js</td><td>result</td></tr>
-    <tr><td>unicode glyphs</td><td>result</td></tr>
+    <tr><td colspan="4">css font fallback</td><td colspan="5" class="mono" id="fontFB"></td></tr>
+    <tr><td colspan="4">js</td><td colspan="5" class="mono"></td></tr>
+    <tr><td colspan="4">the other js</td><td colspan="5" class="mono"></td></tr>
+    <tr><td colspan="4">unicode glyphs</td><td colspan="5" class="mono"></td></tr>
+    <tr><td colspan="9" class="showhide">
+        <input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
+        <label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
+    </td></tr>
+    <tr class="togF"><td></td><td colspan="8" class="sub10">css font fallback</td></tr>
+    <tr class="togF"><td></td><td colspan="8" class="intro" id="fontFBFound"></td></tr>
+    <tr class="togF"><td colspan="9"></td></tr>
   </table>
 
   <!-- TABLE 11: Audio - audio.js -->
@@ -536,6 +547,7 @@
   <script src="js/devices.js"></script>
   <script src="js/canvas.js"></script>
   <script src="js/domrect.js"></script>
+  <script src="js/fonts.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/media.js"></script>
   <script src="js/misc.js"></script>
