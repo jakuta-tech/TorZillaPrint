@@ -106,6 +106,17 @@ input[type='checkbox'] { display: none; }
 .togA, .togD, .togD1, .togM, .togC, .togE, .togF { display: none; }
 
 /* Buttons */
+.button1 {
+  background-color: #f07878;
+  border: none;
+  color: black;
+  padding: 3px 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
 .button4 {
   background-color: #f0f078;
   border: none;
