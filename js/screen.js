@@ -317,6 +317,7 @@ if (isNaN(window.mozPaintCount) === false){
     } else if (jsZoom == 200) {
       if (sbWidth==9) {sbOS=strW};
       if (sbWidth==8) {sbOS=strWLM};
+      if (sbWidth==7) {sbOS=strM};
       if (sbWidth==6) {sbOS=strL};
     } else if (jsZoom == 170) {
       if (sbWidth==10) {sbOS=strWL};
@@ -350,6 +351,7 @@ if (isNaN(window.mozPaintCount) === false){
       if (sbWidth==19) {sbOS=strW};
       if (sbWidth==18) {sbOS=strL};
       if (sbWidth==17) {sbOS=strM};
+      if (sbWidth==16) {sbOS=strM};
       if (sbWidth==13) {sbOS=strL};
     } else if (jsZoom == 80) {
       if (sbWidth==21) {sbOS=strW};
@@ -361,6 +363,7 @@ if (isNaN(window.mozPaintCount) === false){
       if (sbWidth==25) {sbOS=strW};
       if (sbWidth==24) {sbOS=strL};
       if (sbWidth==23) {sbOS=strM};
+      if (sbWidth==22) {sbOS=strM};
       if (sbWidth==18) {sbOS=strL};
     } else if (jsZoom == 50) {
       if (sbWidth==34) {sbOS=strW};
