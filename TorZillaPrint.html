@@ -7,6 +7,7 @@
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <script src="js/generic.js"></script>
   <script src="js/globals.js"></script>
+  <script src="js/fonts.js"></script>
   <script>
   function showhide(toggleType, toggleID, togWord) {
     var xyz = document.getElementsByClassName("tog"+toggleID); var abc;
@@ -428,7 +429,8 @@
     <tr><td colspan="9" class="intro"><span class="no_color">The real world might strike a balance between efficiency vs
       entropy [ <a target="_blank" class="blue" href="https://valve.github.io/fingerprintjs2/">fingerprintjs2</a> checks 64
       fonts by default], but these tests are designed to be comprehensive, not small and fast. As such, the tests are, hopefully,
-      disabled for <code>Android</code> as they are not suitable [e.g. limted fonts to detect, <code>slow script</code> prompts].</span>
+      disabled for <code>Android</code> as they are not suitable [e.g. limted fonts to detect, <code>slow script</code> prompts].
+      &nbsp <button class="button10" onClick="runFontTests()">run tests</button> </span>
     </td></tr>
     <tr><td colspan="4">enumerate fonts <sup>1</sup></td><td colspan="5" class="mono" id="fontFB"></td></tr>
     <tr><td colspan="4">js <sup>2</sup></td><td colspan="5" class="mono"></td></tr>
@@ -590,7 +592,7 @@
   <script src="js/devices.js"></script>
   <script src="js/canvas.js"></script>
   <script src="js/domrect.js"></script>
-  <script src="js/fonts.js"></script>
+  <!--<script src="js/fonts.js"></script>-->
   <script src="js/audio.js"></script>
   <script src="js/media.js"></script>
   <script src="js/misc.js"></script>
