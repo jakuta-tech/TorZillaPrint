@@ -12,6 +12,8 @@ strA = Math.cos(1e251) + "-" + Math.cos(1e140) + "-" + Math.cos(1e12) + "-" + Ma
   Math.cos(1e272) + "-" + Math.cos(1e0) + "-" + Math.cos(1e284) + "-" + Math.cos(1e75);
 if ( sha1(strA) == "ae434b101452888b756da5916d81f68adeb2b6ae") { amDoid = true };
 
+/* temp disable */
+amDroid = true;
 
 /* ARTHUR'S TEST: ENUMERATE FONTS
    https://github.com/arthuredelstein/tordemos */
