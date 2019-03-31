@@ -415,7 +415,8 @@ if (isNaN(window.mozPaintCount) === false){
     else {
       // FF61 or lower
       if (lh=="20") {lhOS=strW}
-      else if (lh=="19.5167") {lhOS=strM}
+      else if (lh=="19.6833") {lhOS=strM}
+      else if (lh=="19.5167") {lhOS=strM} // never seen this in testing
       else if (lh=="19") {lhOS=strL}
       else if (lh=="17") {lhOS=strL};
     };
