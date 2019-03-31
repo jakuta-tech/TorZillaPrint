@@ -20,6 +20,7 @@ function runFontTests(){
     iframeFF.src = "iframes/fontfallback.html";
     iframeFF.addEventListener("load", function(){
       dom.fontFB = "test is running... please wait";
+      dom.fontFBFound = "";
       var fontFBTest = iframeFF.contentWindow.document.getElementById("fontFBTest");
       fontFBTest.style.fontSize = "256px";
       // return width of the element with a given fontFamily
