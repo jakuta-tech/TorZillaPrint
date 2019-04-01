@@ -38,10 +38,17 @@
     }
     performTest();
   }
-  // set the iframe source here
-  iframeDR.src = "iframes/domrect.html";
-  // listen for it
-  iframeDR.addEventListener("load", function(){
+  // iframe-load & button-eventListener
+  function drTest() {
+    // clear data regardless of auto-run or re-run
+    var drA = 1;
+    while (drA < 5) {
+      document.getElementById("dr"+drA).textContent = ""; var drB = 1;
+      while (drB < 49) {document.getElementById("dr"+drA+drB).textContent = ""; drB++;}
+      drA++;
+    };
+    setTimeout(function(){
+    // run the four tests
     createTest("dr1", function(element){return element.getClientRects()[0];});
     createTest("dr2", function(element){return element.getBoundingClientRect();});
     createTest("dr3", function(element){
@@ -54,5 +61,22 @@
       range.selectNode(element);
       return range.getBoundingClientRect();
     });
+    // show/hide relevant details sections if dr details is showing
+    // but give it slight timer (don't run in perform test=screen jitter)
+    setTimeout(function(){
+      if (drState == true) {
+        showhide("table-row", "D", "&#9650; hide");
+      };
+    }, 40); // delay for testing
+    }, 130); // artifical delay to show clearing and stop jitter
+  };
+
+  // set the iframe source here
+  iframeDR.src = "iframes/domrect.html";
+  // listen for it
+  iframeDR.addEventListener("load", function(){
+    drTest();
+    // add event listener to rerun button
+    document.getElementById("drRerun").addEventListener("click", drTest);
   });
 }());
