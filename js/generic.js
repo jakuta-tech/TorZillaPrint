@@ -15,6 +15,52 @@ function getUniqueElements() {
   });
 };
 
+function showhide(toggleType, toggleID, togWord) {
+  var xyz = document.getElementsByClassName("tog"+toggleID); var abc;
+  for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = toggleType;}
+  document.getElementById("label"+toggleID).innerHTML = togWord+" details";
+  // domrect show/hide extra sections & change drFirstHeader text
+  if (toggleID == "D") {
+    var drArray = [dom.dr1.innerHTML, dom.dr2.innerHTML, dom.dr3.innerHTML, dom.dr4.innerHTML];
+    var xyz = document.getElementsByClassName("togD1"); var abc;
+    if (drArray.every( (val, i, arr) => val === arr[0] )) {
+      // hide last three
+      dom.drFirstHeader.innerHTML = "Element.getClientRects"+`<br>`+"[note: the other three methods have the same hash and values]";
+      for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = "none";};
+    } else {
+      // display last three
+      dom.drFirstHeader.innerHTML = "Element.getClientRects";
+      for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = toggleType;};
+    };
+  };
+};
+
+var drState = false; // track domrect details state
+function toggleitems(chkbxState, chkbxID) {
+  if (chkbxState.checked) {
+    if (chkbxID == "D") {drState = false};
+    showhide("none", chkbxID, "&#9660; show");
+  }
+  else {
+    if (chkbxID == "D") {drState = true};
+    showhide("table-row", chkbxID, "&#9650; hide");
+  }
+};
+
+function copyclip(element) {
+  if (document.selection) {
+    var range = document.body.createTextRange();
+    range.moveToElementText(document.getElementById(element));
+    range.select().createTextRange();
+    document.execCommand("copy");
+  } else if (window.getSelection) {
+    var range = document.createRange();
+    range.selectNode(document.getElementById(element));
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+  }
+};
+
 function base64Encode(str, encoding = 'utf-8') {
     var bytes = new (TextEncoder || TextEncoderLite)(encoding).encode(str);
     return base64js.fromByteArray(bytes);
@@ -119,4 +165,3 @@ let spawn = (function () {
   // __spawn(generatorFunction)__.
   return generatorFunction => promiseFromGenerator(generatorFunction());
 })();
-
