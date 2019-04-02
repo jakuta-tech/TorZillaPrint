@@ -7,30 +7,6 @@
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <script src="js/generic.js"></script>
   <script src="js/globals.js"></script>
-  <script>
-  function showhide(toggleType, toggleID, togWord) {
-    var xyz = document.getElementsByClassName("tog"+toggleID); var abc;
-    for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = toggleType;}
-    document.getElementById("label"+toggleID).innerHTML = togWord+" details";
-  };
-  function toggleitems(chkbxState, chkbxID) {
-    if (chkbxState.checked) {showhide("none", chkbxID, "&#9660; show");}
-    else {showhide("table-row", chkbxID, "&#9650; hide");}
-  };
-  function copyclip(element) {
-    if (document.selection) {
-      var range = document.body.createTextRange();
-      range.moveToElementText(document.getElementById(element));
-      range.select().createTextRange();
-      document.execCommand("copy");
-    } else if (window.getSelection) {
-      var range = document.createRange();
-      range.selectNode(document.getElementById(element));
-      window.getSelection().addRange(range);
-      document.execCommand("copy");
-    }
-  };
-  </script>
 </head>
 
 <body>
@@ -57,7 +33,7 @@
         <label for="collapseC" class="lbl-toggle" id="labelC">&#9660; show details</label>
     </td></tr>
     <tr class="togC">
-     <td>[alphabetically sorted] all<br><br><button class="button4" onClick="copyclip(`allLoaded`)">copy to clipboard</button></td>
+     <td>[alphabetically sorted] all<br><br><button class="btn4" onClick="copyclip(`allLoaded`)">copy to clipboard</button></td>
      <td id="allLoaded"></td>
     </tr>
     <tr class="togC"><td colspan="2"></td></tr>
