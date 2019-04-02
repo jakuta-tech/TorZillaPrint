@@ -55,7 +55,7 @@
     <tr><td>viewport <sup>3</sup></td><td id="Viewport"></td></tr>
     <tr><td>full screen</td><td id="fsState"></td></tr>
     <tr><td>[api] full screen</td><td id="fsSupport"></td></tr>
-    <tr><td><button class="button1" onClick="goFS()">click here</button> &nbsp [leak] full screen <sup>3</sup></td><td id="fsLeak"></td></tr>
+    <tr><td><button class="btn1" onClick="goFS()">click here</button> &nbsp [leak] full screen <sup>3</sup></td><td id="fsLeak"></td></tr>
     <tr><td>private window</td><td id="IsPBMode"></td></tr>
     <tr><td>orientation</td><td id="ScrOrient"></td></tr>
     <tr><td>[matchMedia] window orientation</td><td id="mmOrient"></td></tr>
@@ -325,8 +325,8 @@
         <div class="nav-up"><a href="#canvas">&#9650;</a></div>
         <div class="nav-down"><a href="#fonts">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td colspan="2" class="intro"></span><button class="button9" id="drRerun">re-run tests</button></td></tr>
-    <tr><td colspan="3">Element.getClientRects</td><td colspan="4" id="dr1"></td></tr>
+    <tr><td colspan="3"><button class="btn9" id="drRun">re-run tests</button>
+      &nbsp Element.getClientRects</td><td colspan="4" id="dr1"></td></tr>
     <tr><td colspan="3">Element.getBoundingClientRect</td><td colspan="4" id="dr2"></td></tr>
     <tr><td colspan="3">Range.getClientRects</td><td colspan="4" id="dr3"></td></tr>
     <tr><td colspan="3">Range.getBoundingClientRect</td><td colspan="4" id="dr4"></td></tr>
@@ -398,10 +398,10 @@
     <tr><td colspan="9" class="intro"><span class="no_color">The real world might strike a balance between efficiency vs
       entropy [ <a target="_blank" class="blue" href="https://valve.github.io/fingerprintjs2/">fingerprintjs2</a> checks 64
       fonts by default], but these tests are designed to be comprehensive, not small and fast. As such, the tests are, hopefully,
-      disabled for <code>Android</code> as they are not suitable [e.g. limted fonts to detect, <code>slow script</code> prompts].
-      &nbsp <button class="button10" onClick="runFontTests()">run tests</button></span>
+      disabled for <code>Android</code> as they are not suitable [e.g. limted fonts to detect, <code>slow script</code> prompts].</span>
     </td></tr>
-    <tr><td colspan="4">enumerate fonts <sup>1</sup></td><td colspan="5" class="mono" id="fontFB"></td></tr>
+    <tr><td colspan="4"><button class="btn10" id="fontRun" onClick="runFont()">run tests</button>
+      &nbsp enumerate fonts <sup>1</sup></td><td colspan="5" class="mono" id="fontFB"></td></tr>
     <tr><td colspan="4">js <sup>2</sup></td><td colspan="5" class="mono"></td></tr>
     <tr><td colspan="4">the other js <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
     <tr><td colspan="4">unicode glyphs <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
@@ -411,7 +411,7 @@
         <label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
     </td></tr>
     <tr class="togF"><td></td><td colspan="8" class="sub10">enumerate fonts &nbsp
-       <button class="button10" onClick="copyclip(`fontFBFound`)">copy to clipboard</button></td></tr>
+       <button class="btn10" onClick="copyclip(`fontFBFound`)">copy to clipboard</button></td></tr>
     <tr class="togF"><td></td><td colspan="8" class="intro" id="fontFBFound"></td></tr>
     <tr class="togF"><td colspan="9"></td></tr>
     <tr><td colspan="9"><span class="no_color">code based on work by </span>
