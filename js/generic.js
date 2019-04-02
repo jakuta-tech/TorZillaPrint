@@ -61,6 +61,13 @@ function copyclip(element) {
   }
 };
 
+// check one: math (not sure if this detects 64bit android)
+// we may need more tests: a chrome:// branding check takes too long
+var amDroid = false;
+var strDroid = Math.cos(1e251) + "-" + Math.cos(1e140) + "-" + Math.cos(1e12) + "-" + Math.cos(1e130) + "-" + 
+  Math.cos(1e272) + "-" + Math.cos(1e0) + "-" + Math.cos(1e284) + "-" + Math.cos(1e75);
+if ( sha1(strDroid) == "ae434b101452888b756da5916d81f68adeb2b6ae") { amDoid = true };
+
 function base64Encode(str, encoding = 'utf-8') {
     var bytes = new (TextEncoder || TextEncoderLite)(encoding).encode(str);
     return base64js.fromByteArray(bytes);
