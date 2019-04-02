@@ -106,50 +106,36 @@ input[type='checkbox'] { display: none; }
 .togA, .togD, .togD1, .togM, .togC, .togE, .togF { display: none; }
 
 /* Buttons */
-.button1 {
-  background-color: #f07878;
-  border: none;
-  color: black;
-  padding: 3px 10px;
+button {
+  /* background-color: #1a1a1a; */
+  background-color: #2e2e2e;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 3px 12px;
   text-align: center;
   display: inline-block;
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
 }
-.button4 {
-  background-color: #f0f078;
-  border: none;
-  color: black;
-  padding: 3px 10px;
-  text-align: center;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
+.btn1 {
+  border-color: var(--test1);
+  color: var(--test1);
 }
-.button9 {
-  background-color: #78f0c8;
-  border: none;
-  color: black;
-  padding: 3px 10px;
-  text-align: center;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
+.btn4 {
+  border-color: var(--test4);
+  color: var(--test4);
 }
-.button10 {
-  background-color: #78f0f0;
-  border: none;
-  color: black;
-  padding: 3px 10px;
-  text-align: center;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
+.btn9 {
+  border-color: var(--test9);
+  color: var(--test9);
 }
+.btn10 {
+  border-color: var(--test10);
+  color: var(--test10);
+}
+
 
 /* Icons */
 .icon {
