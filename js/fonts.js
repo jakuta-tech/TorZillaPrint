@@ -2,20 +2,10 @@
 
 'use strict';
 
-function runFontTests(){
-  // exclude Android from the tests: Android (I think) only returns noto* & nanmum*
-  // and these tests can be prohibitve on Android causing script slowdown messages
-  var amDroid = false;
-  // check one: math (not sure if this detects 64bit android)
-  // we may need more tests: a chrome:// branding check takes too long
-  var strA = "";
-  strA = Math.cos(1e251) + "-" + Math.cos(1e140) + "-" + Math.cos(1e12) + "-" + Math.cos(1e130) + "-" + 
-    Math.cos(1e272) + "-" + Math.cos(1e0) + "-" + Math.cos(1e284) + "-" + Math.cos(1e75);
-  if ( sha1(strA) == "ae434b101452888b756da5916d81f68adeb2b6ae") { amDoid = true };
+function runFont(){
 
   /* ARTHUR'S TEST: ENUMERATE FONTS
      https://github.com/arthuredelstein/tordemos */
-  if (amDroid == false) {
     var iframeFF = document.getElementById("iframeFF");
     iframeFF.src = "iframes/fontfallback.html";
     iframeFF.addEventListener("load", function(){
@@ -104,10 +94,11 @@ function runFontTests(){
         }, 1000);
       });
     });
-  };
 
   /* FINGERPRINTJS2 based
      https://valve.github.io/fingerprintjs2/ */
 
+  /* FONT GLYPHS
+     Fifield and Egelman (2015) */
 
 };
