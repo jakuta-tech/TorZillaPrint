@@ -43,8 +43,8 @@
     // clear data regardless of auto-run or re-run
     var drA = 1;
     while (drA < 5) {
-      document.getElementById("dr"+drA).textContent = ""; var drB = 1;
-      while (drB < 49) {document.getElementById("dr"+drA+drB).textContent = ""; drB++;}
+      document.getElementById("dr"+drA).innerHTML = "&nbsp"; var drB = 1;
+      while (drB < 49) {document.getElementById("dr"+drA+drB).innerHTML = "&nbsp"; drB++;}
       drA++;
     };
     setTimeout(function(){
