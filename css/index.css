@@ -85,7 +85,15 @@ a.blue {
 
 .hidden { display: none; }
 
-.mono { font-family: monospace, monospace; }
+.mono {
+  font-family: monospace, monospace;
+}
+
+/* kkapsner used classes rather than ids, but I want the ouputs in mono */
+.toDataURL, .toBlob, .winding, .getImageData, .isPointInPath, .fillText,
+  .isPointInStroke, .readPixels, .getContext, .mozGetAsFile, .strokeText {
+  font-family: monospace, monospace; 
+}
 
 code {
   background: #303030 !important;
@@ -107,7 +115,6 @@ input[type='checkbox'] { display: none; }
 
 /* Buttons */
 button {
-  /* background-color: #1a1a1a; */
   background-color: #2e2e2e;
   border-style: solid;
   border-width: 1px;
@@ -127,6 +134,10 @@ button {
   border-color: var(--test4);
   color: var(--test4);
 }
+.btn8 {
+  border-color: var(--test8);
+  color: var(--test8);
+}
 .btn9 {
   border-color: var(--test9);
   color: var(--test9);
@@ -135,20 +146,24 @@ button {
   border-color: var(--test10);
   color: var(--test10);
 }
-
+.btn11 {
+  border-color: var(--test11);
+  color: var(--test11);
+}
 
 /* Icons */
 .icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: middle;
+  background-color: #2e2e2e;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 2px;
+  padding: 2px 6px;
+  text-align: center;
   display: inline-block;
-  mask: url(../fonts/info-circle-solid.svg) no-repeat 50% 50%;
-  -webkit-mask: url(../fonts/info-circle-solid.svg) no-repeat 50% 50%;
-  mask-size: cover;
-  -webkit-mask-size: cover;
-  background-color: #b3b3b3;
-  margin-right: 4px;
+  font-size: 10px;
+  border-color: #b3b3b3;
+  color: white;
+  cursor: default;
 }
 
 /* Tooltips */
