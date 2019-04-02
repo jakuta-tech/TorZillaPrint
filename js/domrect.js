@@ -67,8 +67,8 @@
       if (drState == true) {
         showhide("table-row", "D", "&#9650; hide");
       };
-    }, 40); // delay for testing
-    }, 130); // artifical delay to show clearing and stop jitter
+    }, 50); // delay to make sure things are loaded
+    }, 120); // artifical delay to show clearing and stop jitter
   };
 
   // set the iframe source here
@@ -77,6 +77,6 @@
   iframeDR.addEventListener("load", function(){
     drTest();
     // add event listener to rerun button
-    document.getElementById("drRerun").addEventListener("click", drTest);
+    document.getElementById("drRun").addEventListener("click", drTest);
   });
 }());
