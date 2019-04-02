@@ -101,4 +101,7 @@ function runFont(){
   /* FONT GLYPHS
      Fifield and Egelman (2015) */
 
+  /* finally, retitle the button */
+    dom.fontRun = "re-run tests";
+
 };
