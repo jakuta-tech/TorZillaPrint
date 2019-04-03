@@ -19,48 +19,68 @@ var rOptions = dateFormatted.resolvedOptions();
 // date/time format options
 var dateOpt = { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long" };
 
-// output
-// language
-dom.nLanguages = navigator.languages;
-dom.nLanguage = navigator.language;
-dom.nLanguages0 = navigator.languages[0];
-// locale
-dom.localeIPR = new Intl.PluralRules().resolvedOptions().locale;
-dom.localeRO = rOptions.locale;
-// timezone
-dom.tzOffsets = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset();
-dom.tzRO = Intl.DateTimeFormat().resolvedOptions().timeZone;
-// date/time
-dom.dateSystem = dateUsed;
-dom.dateString = dateUsed.toString();
-// long versions
-dom.lngdateLS = dateUsed.toLocaleString(undefined, dateOpt);
-dom.lngdateLDS = dateUsed.toLocaleDateString(undefined, dateOpt);
-dom.lngdateLTS = dateUsed.toLocaleTimeString(undefined, dateOpt);
-dom.lngdateIDTF = Intl.DateTimeFormat(undefined, dateOpt).format(dateUsed);
-dom.dateFTP = cleanify(dateFormatted.formatToParts(dateUsed));
-// various
-dom.dateGMT = dateUsed.toGMTString();;
-dom.dateUTC = dateUsed.toUTCString();
-dom.dateLS = dateUsed.toLocaleString();
-dom.dateTAtoLS = [dateUsed].toLocaleString();
-dom.dateLDS = dateUsed.toLocaleDateString();
-dom.dateIDTF = Intl.DateTimeFormat().format(dateUsed);
-dom.dateLTS = dateUsed.toLocaleTimeString();
-dom.dateTS = dateUsed.toTimeString();
-dom.numFTP = JSON.stringify(new Intl.NumberFormat().formatToParts(1000)[1]);
-dom.hourRO = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle;
-try {
-  // return "day after tomorrow" in your locale
-  const rtf = new Intl.RelativeTimeFormat (undefined, {numeric: "auto"});
-    dom.dateIRTF = rft.format(2, "day");
-  }
-catch(err) {dom.dateIRTF = "undefined"};
-// calendar
-dom.calendarRO = rOptions.calendar;
-// numbering
-dom.numsysRO = rOptions.numberingSystem;
+function outputLanguage() {
+  // language
+  dom.nLanguages = navigator.languages;
+  dom.nLanguage = navigator.language;
+  dom.nLanguages0 = navigator.languages[0];
+  // locale
+  dom.localeIPR = new Intl.PluralRules().resolvedOptions().locale;
+  dom.localeRO = rOptions.locale;
+  // timezone
+  dom.tzOffsets = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset();
+  dom.tzRO = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // date/time
+  dom.dateSystem = dateUsed;
+  dom.dateString = dateUsed.toString();
+  // long versions
+  dom.lngdateLS = dateUsed.toLocaleString(undefined, dateOpt);
+  dom.lngdateLDS = dateUsed.toLocaleDateString(undefined, dateOpt);
+  dom.lngdateLTS = dateUsed.toLocaleTimeString(undefined, dateOpt);
+  dom.lngdateIDTF = Intl.DateTimeFormat(undefined, dateOpt).format(dateUsed);
+  dom.dateFTP = cleanify(dateFormatted.formatToParts(dateUsed));
+  // various
+  dom.dateGMT = dateUsed.toGMTString();;
+  dom.dateUTC = dateUsed.toUTCString();
+  dom.dateLS = dateUsed.toLocaleString();
+  dom.dateTAtoLS = [dateUsed].toLocaleString();
+  dom.dateLDS = dateUsed.toLocaleDateString();
+  dom.dateIDTF = Intl.DateTimeFormat().format(dateUsed);
+  dom.dateLTS = dateUsed.toLocaleTimeString();
+  dom.dateTS = dateUsed.toTimeString();
+  dom.numFTP = JSON.stringify(new Intl.NumberFormat().formatToParts(1000)[1]);
+  dom.hourRO = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle;
+  try {
+    // return "day after tomorrow" in your locale
+    const rtf = new Intl.RelativeTimeFormat (undefined, {numeric: "auto"});
+      dom.dateIRTF = rft.format(2, "day");
+    }
+  catch(err) {dom.dateIRTF = "undefined"};
+  // calendar
+  dom.calendarRO = rOptions.calendar;
+  // numbering
+  dom.numsysRO = rOptions.numberingSystem;
+  // geo
+  if ("geolocation" in navigator) {dom.nGeolocation="yes"} else (dom.nGeolocation="no");
+  navigator.permissions.query({name:"geolocation"}).then(e => dom.pGeolocation=e.state);
+};
 
-// geo
-if ("geolocation" in navigator) {dom.nGeolocation="yes"} else (dom.nGeolocation="no");
-navigator.permissions.query({name:"geolocation"}).then(e => dom.pGeolocation=e.state);
+function runLanguage(runType) {
+  // clear display
+  if (runType == "rerun") {
+    var langArray = ['nLanguages', 'nLanguage', 'nLanguages0', 'localeIPR', 'localeRO', 'tzOffsets', 'tzRO',
+      'dateSystem', 'dateString', 'lngdateLS', 'lngdateLDS', 'lngdateLTS', 'lngdateIDTF', 'dateFTP', 'dateGMT',
+      'dateUTC', 'dateLS', 'dateTAtoLS', 'dateLDS', 'dateIDTF', 'dateLTS', 'dateTS', 'numFTP', 'hourRO',
+      'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
+    langArray.forEach(function (arrayItem) {
+      document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
+    });
+    setTimeout(function(){
+      outputLanguage();
+    }, 170); // 170 is same as domrect rerun delay
+  } else {
+    outputLanguage();
+  };
+};
+
+runLanguage("first");
