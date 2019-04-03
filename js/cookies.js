@@ -19,16 +19,16 @@ var rndStr = "";
 
 // cookie support
 if (navigator.cookieEnabled == true) {dom.nCookieEnabled="enabled"} else {dom.nCookieEnabled="disabled"};
-// cookie test
+// cookie test: run even if cookieEnabled = false
 rndStr = rndString(); document.cookie = rndStr+"="+rndStr;
-if (getCookie(rndStr) != ""){dom.cookieTest="yes"} else { dom.cookieTest="no"};
+if (getCookie(rndStr) != ""){dom.cookieTest="yes"} else {dom.cookieTest="no"};
 
 // localStorage support
 try {
   if (typeof(localStorage) != "undefined") {dom.storageLSupport="enabled";}
   else {dom.storageLSupport="disabled: undefined"};
 } catch(e) {dom.storageLSupport="disabled: " + e.name};
-// localStorage test
+// localStorage test: run even if localStorage unavailable
 rndStr = rndString();
 try {localStorage.setItem(rndStr, rndStr);
   if(!localStorage.getItem(rndStr)) {dom.storageLTest="no"} else {dom.storageLTest="yes"};
@@ -39,7 +39,7 @@ try {
   if (typeof(sessionStorage) != "undefined") {dom.storageSSupport="enabled"}
   else {dom.storageSSupport="disabled: undefined"};
 } catch(e) {dom.storageSSupport="disabled: " + e.name};
-// sessionStorage test
+// sessionStorage test: run even if sessionStorage unavailable
 rndStr = rndString();
 try {sessionStorage.setItem(rndStr, rndStr);
   if(!sessionStorage.getItem(rndStr)) {dom.storageSTest="no"} else {dom.storageSTest="yes"};
@@ -48,7 +48,7 @@ try {sessionStorage.setItem(rndStr, rndStr);
 // indexedDB support
 try {if (!window.indexedDB) {dom.IDBSupport="disabled"} else {dom.IDBSupport="enabled"};
 } catch(e) {dom.IDBSupport="disabled: " + e.name};
-// indexedDB test
+// indexedDB test: run even if IDB unavailable
 rndStr = rndString();
 try {
   var openIDB = indexedDB.open(rndStr);
@@ -87,6 +87,7 @@ if ("applicationCache" in window) {
   // appCache test
   if ((location.protocol) === "https:") {
     // https://www.html5rocks.com/en/tutorials/appcache/beginner/
+    // working demo: https://archive.jonathanstark.com/labs/app-cache-2b/
     try {
       // var appCache = window.applicationCache;
       // appCache.update();
@@ -95,7 +96,11 @@ if ("applicationCache" in window) {
   }
   else {dom.appCacheTest="no: insecure context"};
 }
-else {dom.appCacheSupport="disabled"; dom.appCacheTest="no"};
+else {
+  dom.appCacheSupport="disabled";
+  // denote skipped tests with "n/a"
+  dom.appCacheTest="n/a";
+};
 
 // worker support
 if (typeof(Worker) !== "undefined") {
@@ -137,7 +142,12 @@ if (typeof(Worker) !== "undefined") {
   }
   else {dom.webWTest="no: file:///"; dom.sharedWTest="no: file:///"};
 }
-else {dom.workerSupport="disabled"; dom.webWTest="no"; dom.sharedWTest="no"};
+else {
+  dom.workerSupport="disabled";
+  // denote skipped tests with "n/a"
+  dom.webWTest="n/a";
+  dom.sharedWTest="n/a";
+};
 
 // service worker support (dom.serviceWorkers.enabled)
 // note: serviceWorker is automatically not available in PB Mode
@@ -167,13 +177,16 @@ if ((location.protocol) === "https:") {
       dom.notificationsSupport=swMsg; dom.notificationsTest=swMsg;
     });
   }
-  else {dom.serviceWSupport="disabled"; dom.serviceWTest="no";
-    dom.serviceWCacheSupport="no"; dom.serviceWCacheTest="no";
-    dom.notificationsSupport="no"; dom.notificationsTest="no"};
+  else {
+    // denote skipped tests with "n/a"
+    dom.serviceWSupport="disabled"; dom.serviceWTest="n/a";
+    dom.serviceWCacheSupport="n/a"; dom.serviceWCacheTest="n/a";
+    dom.notificationsSupport="n/a"; dom.notificationsTest="n/a"};
 }
 else {var swMsg="no: insecure context"; dom.serviceWSupport=swMsg; dom.serviceWTest=swMsg;
   dom.serviceWCacheSupport=swMsg; dom.serviceWCacheTest=swMsg;
-  dom.notificationsSupport=swMsg; dom.notificationsTest=swMsg};
+  dom.notificationsSupport=swMsg; dom.notificationsTest=swMsg;
+};
 
 // permissions notifications / push
 navigator.permissions.query({name:"notifications"}).then(e => dom.pNotifications=e.state);
@@ -199,9 +212,18 @@ if ("storage" in navigator) {
       // store some data, get usage/quota
       dom.storageMTest="test to come"
     } catch(e) {dom.storageMTest="no: " + e.name};
+  }
+  else {
+    dom.storageMProp="no: file:///";
+    dom.storageMTest="no: file:///";
   };
 }
-else {dom.storageMSupport="disabled"; dom.storageMProp="no"; dom.storageMTest="no"};
+else {
+  dom.storageMSupport="disabled";
+  // denote skipped tests with "n/a"
+  dom.storageMProp="n/a";
+  dom.storageMTest="n/a";
+};
 
 // permission persistent-storage
 navigator.permissions.query({name:"persistent-storage"}).then(e => dom.pPersistentStorage=e.state);
