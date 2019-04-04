@@ -6,7 +6,7 @@
 
 "use strict";
 
-(function(){
+function outputAudio() {
   var pxi_output;
   var pxi_full_buffer;
   function run_pxi_fp(){
@@ -59,4 +59,21 @@
     dom.audioSupport="disabled"
     dom.audioCopy = "n/a"; dom.audioGet = "n/a"; dom.audioSum = "n/a";
   };
-}());
+};
+
+function runAudio(runType) {
+  // clear display
+  if (runType == "rerun") {
+    var langArray = ['audioSupport', 'audioCopy', 'audioGet', 'audioSum'];
+    langArray.forEach(function (arrayItem) {
+      document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
+    });
+    setTimeout(function(){
+      outputAudio();
+    }, 170); // 170 is same as domrect rerun delay
+  } else {
+    outputAudio();
+  };
+};
+
+runAudio("onload");
