@@ -198,8 +198,10 @@
         <div class="nav-up"><a href="#math">&#9650;</a></div>
         <div class="nav-down"><a href="#headers">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td><button class="btn4" onClick="runLanguage(`rerun`)">re-run tests</button>
-      &nbsp [header] http_accept_language</td><td></td></tr>
+    <tr><td><div>
+        <div class="btn-left"><button class="btn4" onClick="runLanguage(`rerun`)">re-run tests</button></div>
+        <div>[header] http_accept_language</div></div></td>
+      <td></td></tr>
     <tr><td>[navigator] languages</td><td id="nLanguages"></td></tr>
     <tr><td>[navigator] language</td><td id="nLanguage"></td></tr>
     <tr><td>[navigator] languages[0]</td><td id="nLanguages0"></td></tr>
@@ -299,8 +301,11 @@
         <div class="nav-up"><a href="#cookies">&#9650;</a></div>
         <div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td><button class="btn7" onClick="runDevices(`rerun`)">re-run tests</button>
-      &nbsp [navigator] hardwareConcurrency</td><td id="nHardwareConcurrency"></td></tr>
+    <tr><td><div>
+        <div class="btn-left"><button class="btn7" onClick="runDevices(`rerun`)">re-run tests</button></div>
+        <div>[navigator] hardwareConcurrency</div></div></td>
+      <td id="nHardwareConcurrency"></td>
+    </tr>
     <tr><td>[api] gamepad</td><td id="nGetGamepads"></td></tr>
     <tr><td>mediaDevices</td><td id="nMediaDevices"></td></tr>
     <tr><td>enumerateDevices</td><td id="eMediaDevices"></td></tr>
@@ -319,8 +324,11 @@
         <div class="nav-up"><a href="#devices">&#9650;</a></div>
         <div class="nav-down"><a href="#domrect">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td><button class="btn8" onClick="runCanvas(`rerun`)">re-run tests</button>
-      &nbsp getContext</td><td class="getContext"></td></tr>
+    <tr><td><div>
+        <div class="btn-left"><button class="btn8" onClick="runCanvas(`rerun`)">re-run tests</button></div>
+        <div>getContext</div></div></td>
+      <td class="getContext"></td>
+    </tr>
     <tr><td>toDataURL</td><td class="toDataURL"></td></tr>
     <tr><td>toBlob</td><td class="toBlob"></td></tr>
     <tr><td>mozGetAsFile</td><td class="mozGetAsFile"></td></tr>
@@ -344,8 +352,11 @@
         <div class="nav-up"><a href="#canvas">&#9650;</a></div>
         <div class="nav-down"><a href="#fonts">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td colspan="3"><button class="btn9" id="drRun">re-run tests</button>
-      &nbsp Element.getClientRects</td><td colspan="4" class="mono" id="dr1"></td></tr>
+    <tr><td colspan="3"><div>
+        <div class="btn-left"><button class="btn9" id="drRun">re-run tests</button></div>
+        <div>Element.getClientRects</div></div></td>
+      <td colspan="4" class="mono" id="dr1"></td>
+    </tr>
     <tr><td colspan="3">Element.getBoundingClientRect</td><td colspan="4" class="mono" id="dr2"></td></tr>
     <tr><td colspan="3">Range.getClientRects</td><td colspan="4" class="mono" id="dr3"></td></tr>
     <tr><td colspan="3">Range.getBoundingClientRect</td><td colspan="4" class="mono" id="dr4"></td></tr>
@@ -419,8 +430,11 @@
       fonts by default], but these tests are designed to be comprehensive, not small and fast. As such, they are not automatically run.
       May be unsuitable on Android [e.g. limted fonts to detect, slow script prompts].</span>
     </td></tr>
-    <tr><td colspan="4"><button class="btn10" id="fontRun" onClick="runFont()">run tests</button>
-      &nbsp enumerate fonts <sup>1</sup></td><td colspan="5" class="mono" id="fontFB"></td></tr>
+    <tr><td colspan="4"><div>
+        <div class="btn-left"><button class="btn10" id="fontRun" onClick="runFont()">run tests</button></div>
+        <div>enumerate fonts <sup>1</sup></div></div></td>
+      <td colspan="5" class="mono" id="fontFB"></td>
+    </tr>
     <tr><td colspan="4">js <sup>2</sup></td><td colspan="5" class="mono"></td></tr>
     <tr><td colspan="4">the other js <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
     <tr><td colspan="4">unicode glyphs <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
@@ -450,7 +464,11 @@
         <div class="nav-up"><a href="#fonts">&#9650;</a></div>
         <div class="nav-down"><a href="#media">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td>[api] web audio</td><td id="audioSupport"></td></tr>
+    <tr><td><div>
+        <div class="btn-left"><button class="btn11" onClick="runAudio(`rerun`)">re-run tests</button></div>
+        <div>[api] web audio</div></div></td>
+      <td id="audioSupport"></td>
+    </tr>
     <tr><td>getChannelData</td><td id="audioGet"></td></tr>
     <tr><td>copyFromChannel</td><td id="audioCopy"></td></tr>
     <tr><td>sum</td><td id="audioSum"></td></tr>
