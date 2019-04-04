@@ -3,17 +3,12 @@
 'use strict';
 
 // functions
-function addDays(date, days) {
-  var result = new Date(date);
-  result.setDate(result.getDate() + days);
-  return result;
-};
 function cleanify(data){
   return data.map(function(entry){return entry.value;}).join("");
 };
 // date/time variables
-var dateUsed = new Date();
-var dateOld = addDays(dateUsed, -183); // second tz offset
+var dateUsed = new Date("January 30, 2019 13:00:00");
+var dateOld = new Date("July 30, 2018 13:00:00");
 var dateFormatted = new Intl.DateTimeFormat(undefined, { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long" });
 var rOptions = dateFormatted.resolvedOptions();
 // date/time format options
