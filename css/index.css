@@ -134,6 +134,10 @@ button {
   border-color: var(--test4);
   color: var(--test4);
 }
+.btn7 {
+  border-color: var(--test7);
+  color: var(--test7);
+}
 .btn8 {
   border-color: var(--test8);
   color: var(--test8);
