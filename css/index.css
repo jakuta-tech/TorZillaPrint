@@ -188,13 +188,12 @@ div.btn-left {
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 140px;
+  width: 150px;
   background-color: #b3b3b3;
   color: black;
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;
-
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
@@ -202,7 +201,22 @@ div.btn-left {
   left: 130%; 
 }
 
-.tooltip:hover .tooltiptext {
+.tooltip .tooltiptextbig {
+  visibility: hidden;
+  width: 210px;
+  background-color: #b3b3b3;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: -12px;
+  left: 130%; 
+}
+
+.tooltip:hover .tooltiptext, .tooltip:hover .tooltiptextbig {
   visibility: visible;
 }
 
