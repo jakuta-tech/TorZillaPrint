@@ -48,7 +48,7 @@
     </th></tr></thead>
     <tr><td>screen resolution</td><td id="ScrRes"></td></tr>
     <tr><td><div class="tooltip"><span class="icon">i</span>
-      <span class="tooltiptext">real time update if<br>spoofing inner window:<br>range 500-3000</span></div>
+      <span class="tooltiptextbig">real time update when spoofing<br>inner window: range 500-3000</span></div>
       &nbsp [css] screen resolution <sup>1</sup></td><td id="S"></td></tr>
     <tr><td>available resolution</td><td id="ScrAvail"></td></tr>
     <tr><td>outer window</td><td id="WndOut"></td></tr>
@@ -116,25 +116,25 @@
     <tr><td><div class="tooltip"><span class="icon">i</span>
       <span class="tooltiptext"><b>mozPaintCount:</b><br>we could also use<br>mozGetAsFile<br>mozInnerScreenX
       <br>mozScreenX<br>oscpu<br>scrollMaxX</span></div> &nbsp [feature detection] browser</td><td id="fdPaintCount"></td></tr>
-    <tr><td>[math] browser</td><td id="fdMath"></td></tr>
     <tr><td>[resource://] browser</td><td id="fdResource"></td></tr>
+    <tr><td>[math] browser</td><td id="fdMath"></td></tr>
     <tr><td><div class="tooltip"><span class="icon">i</span>
-       <span class="tooltiptext">Firefox 60+ builds only</span></div>
+       <span class="tooltiptext">Firefox 60+ only</span></div>
        &nbsp [feature detection] version</td><td id="versionNo"></td></tr>
     <tr><td>[chrome://] os</td><td id="fdChromeOS"></td></tr>
+    <tr><td>[math] os</td><td id="fdMathOS"></td></tr>
     <tr><td><div class="tooltip"><span class="icon">i</span>
-      <span class="tooltiptext">Linux, Mac or Windows:<br>use_document_fonts<br>= 0 may break this</span></div> &nbsp [css] os <sup>1</sup></td>
+      <span class="tooltiptextbig">Linux, Mac or Windows</div> &nbsp [css] os <sup>1</sup></td>
       <td>
         <span id="fdCssOSL" style="font-family: Arimo, DejaVu Serif, Adobe Blank Not Linux;">Linux</span>
         <span id="fdCssOSM" style="font-family: Lucida Grande, Adobe Blank Not Mac;">Mac</span>
         <span id="fdCssOSW" style="font-family: Segoe UI, Adobe Blank Not Windows;">Windows</span>
       </td>
     </tr>
-    <tr><td>[css line-height] os</td><td id="cssLH"></td></tr>
     <tr><td><div class="tooltip"><span class="icon">i</span>
-      <span class="tooltiptext">three font test to<br>detect four OSes:<br> based on <b>[css] os</b></span></div>
+      <span class="tooltiptextbig">based on <b>[css] os</b> above</span></div>
       &nbsp [font] os <sup>1</sup></td><td id="fontOS"></td></tr>
-    <tr><td>[math] os</td><td id="fdMathOS"></td></tr>
+    <tr><td>[css line-height] os</td><td id="cssLH"></td></tr>
     <tr><td>[scrollbar width] os <sup>2, 3</sup></td><td id="scrollbarWidth"></td></tr>
     <tr><td>[tcp/ip] os</td><td></td></tr>
     <tr><td colspan="2" class="showhide">
@@ -302,17 +302,28 @@
         <div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td><div>
-        <div class="btn-left"><button class="btn7" onClick="runDevices(`rerun`)">re-run tests</button></div>
+        <div class="btn-left"><button class="btn7" onClick="runDevices(`rerun`)">re-run tests</button>
+        &nbsp <div class="tooltip"><span class="icon">i</span>
+        <span class="tooltiptext">if toggling prefs, most<br>of these require a<br>a page refresh (<b>F5</b>)</span></div>
+        </div>
         <div>[navigator] hardwareConcurrency</div></div></td>
       <td id="nHardwareConcurrency"></td>
     </tr>
-    <tr><td>[api] gamepad</td><td id="nGetGamepads"></td></tr>
-    <tr><td>mediaDevices</td><td id="nMediaDevices"></td></tr>
+    <tr><td><div class="tooltip"><span class="icon">i</span>
+      <span class="tooltiptext">dom.gamepad.enabled</span></div>
+      &nbsp [api] gamepad</td><td id="nGetGamepads"></td></tr>
+    <tr><td><div class="tooltip"><span class="icon">i</span>
+      <span class="tooltiptextbig">media.navigator.enabled</span></div>
+      &nbsp mediaDevices</td><td id="nMediaDevices"></td></tr>
     <tr><td>enumerateDevices</td><td id="eMediaDevices"></td></tr>
     <tr><td>[navigator] maxTouchPoints</td><td id="nMaxTouchPoints"></td></tr>
-    <tr><td>speech synthesis</td><td id="speechSynth"></td></tr>
+    <tr><td><div class="tooltip"><span class="icon">i</span>
+      <span class="tooltiptextbig">media.webspeech.synth.enabled</span></div>
+      &nbsp speech synthesis</td><td id="speechSynth"></td></tr>
     <tr><td>speech engines</td><td id="speechEngines"></td></tr>
-    <tr><td>[api] webvr</td><td id="nGetVR"></td></tr>
+    <tr><td><div class="tooltip"><span class="icon">i</span>
+      <span class="tooltiptext">dom.vr.enabled</span></div>
+      &nbsp [api] webvr</td><td id="nGetVR"></td></tr>
     <tr><td>activeVRDisplays</td><td id="nActiveVR"></td></tr>
   </table>
 
@@ -466,7 +477,8 @@
     </th></tr></thead>
     <tr><td><div>
         <div class="btn-left"><button class="btn11" onClick="runAudio(`rerun`)">re-run tests</button></div>
-        <div>[api] web audio</div></div></td>
+        <div><div class="tooltip"><span class="icon">i</span>
+          <span class="tooltiptext">dom.webaudio.enabled</span></div> &nbsp [api] web audio</div></div></td>
       <td id="audioSupport"></td>
     </tr>
     <tr><td>getChannelData</td><td id="audioGet"></td></tr>
@@ -512,7 +524,9 @@
         <div class="nav-up"><a href="#audio">&#9650;</a></div>
         <div class="nav-down"><a href="#webgl">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td>[navigator] mediaCapabilities</td><td id="nMediaCapabilities"></td></tr>
+    <tr><td><div class="tooltip"><span class="icon">i</span>
+      <span class="tooltiptextbig">media.media-capabilities.enabled</span></div>
+      &nbsp [navigator] mediaCapabilities</td><td id="nMediaCapabilities"></td></tr>
   </table>
 
   <!-- TABLE 13: WebGL - webgl.js -->
@@ -579,8 +593,12 @@
         <div class="nav-down"><a href="#theend">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>[navigator] clipboard</td><td id="nClipboard"></td></tr>
-    <tr><td>[api] intersection observer</td><td id="intObserver"></td></tr>
-    <tr><td>requestIdleCallback</td><td id="reqIdleCB"></td></tr>
+    <tr><td><div class="tooltip"><span class="icon">i</span>
+      <span class="tooltiptextbig">dom.IntersectionObserver.enabled</span></div>
+      &nbsp [api] intersection observer</td><td id="intObserver"></td></tr>
+    <tr><td><div class="tooltip"><span class="icon">i</span>
+      <span class="tooltiptextbig">dom.requestIdleCallback.enabled</span></div>
+      &nbsp requestIdleCallback</td><td id="reqIdleCB"></td></tr>
   </table>
 
   <br><a name="theend"><br>
