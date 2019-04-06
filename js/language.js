@@ -46,9 +46,10 @@ function outputLanguage() {
   dom.numFTP = JSON.stringify(new Intl.NumberFormat().formatToParts(1000)[1]);
   dom.hourRO = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle;
   try {
-    // return "day after tomorrow" in your locale
-    const rtf = new Intl.RelativeTimeFormat (undefined, {numeric: "auto"});
-      dom.dateIRTF = rft.format(2, "day");
+    // return "7 days ago, yesterday, tomorrow, next month" in your locale
+    const rtf = new Intl.RelativeTimeFormat(undefined, { style: 'long', numeric: `auto` });
+    dom.dateIRTF = rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
+      rtf.format(1, "day") +", "+ rtf.format(1, "month");
     }
   catch(err) {dom.dateIRTF = "undefined"};
   // calendar
