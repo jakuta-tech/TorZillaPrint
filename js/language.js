@@ -60,22 +60,4 @@ function outputLanguage() {
   navigator.permissions.query({name:"geolocation"}).then(e => dom.pGeolocation=e.state);
 };
 
-function runLanguage(runType) {
-  // clear display
-  if (runType == "rerun") {
-    var langArray = ['nLanguages', 'nLanguage', 'nLanguages0', 'localeIPR', 'localeRO', 'tzOffsets', 'tzRO',
-      'dateSystem', 'dateString', 'lngdateLS', 'lngdateLDS', 'lngdateLTS', 'lngdateIDTF', 'dateFTP', 'dateGMT',
-      'dateUTC', 'dateLS', 'dateTAtoLS', 'dateLDS', 'dateIDTF', 'dateLTS', 'dateTS', 'numFTP', 'hourRO',
-      'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
-    langArray.forEach(function (arrayItem) {
-      document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
-    });
-    setTimeout(function(){
-      outputLanguage();
-    }, 170); // 170 is same as domrect rerun delay
-  } else {
-    outputLanguage();
-  };
-};
-
-runLanguage("first");
+outputLanguage();
