@@ -46,12 +46,12 @@ function outputLanguage() {
   dom.numFTP = JSON.stringify(new Intl.NumberFormat().formatToParts(1000)[1]);
   dom.hourRO = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle;
   try {
-    // return "7 days ago, yesterday, tomorrow, next month" in your locale
+    // return "7 days ago, yesterday, tomorrow, next month, in 2 years" in your locale
     const rtf = new Intl.RelativeTimeFormat(undefined, { style: 'long', numeric: `auto` });
     dom.dateIRTF = rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
-      rtf.format(1, "day") +", "+ rtf.format(1, "month");
+      rtf.format(1, "day") +", "+ rtf.format(1, "month") +", "+ rtf.format(2, "year");
     }
-  catch(err) {dom.dateIRTF = "undefined"};
+  catch(e) {dom.dateIRTF = "error: " + e.name};
   // calendar
   dom.calendarRO = rOptions.calendar;
   // numbering
