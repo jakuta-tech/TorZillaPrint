@@ -49,6 +49,19 @@ function outputDevices() {
     dom.nGetVR="disabled";
     dom.nActiveVR="n/a"; // always use n/a for skipped tests
   };
+  // system colors
+  var sColorStr = ""; var clrValue = "";
+  var sColorArray = ['ActiveBorder', 'ActiveCaption', 'AppWorkspace', 'Background', 'ButtonFace', 'ButtonHighlight', 'ButtonShadow',
+    'ButtonText', 'CaptionText', 'GrayText', 'Highlight', 'HighlightText', 'InactiveBorder', 'InactiveCaption', 'InactiveCaptionText',
+    'InfoBackground', 'InfoText', 'Menu', 'MenuText', 'Scrollbar', 'ThreeDDarkShadow','ThreeDFace', 'ThreeDHighlight',
+    'ThreeDLightShadow', 'ThreeDShadow', 'Window', 'WindowFrame', 'WindowText'];
+  var sColorElem = document.getElementById("sColorElement");
+  sColorArray.forEach(function (arrayItem) {
+    sColorElem.style.backgroundColor = arrayItem;
+    sColorStr = sColorStr + window.getComputedStyle(sColorElem, null).getPropertyValue("background-color")
+  });
+  dom.sColorHash = sha1(sColorStr);
+
 };
 
 function runDevices(runType) {
