@@ -64,20 +64,4 @@ function outputDevices() {
 
 };
 
-function runDevices(runType) {
-  // clear display
-  if (runType == "rerun") {
-    var langArray = [`nHardwareConcurrency`, 'nMaxTouchPoints', 'nGetGamepads', 'nMediaDevices', 'eMediaDevices',
-    'speechSynth', 'speechEngines', 'sColorHash', 'nGetVR', 'nActiveVR'];
-    langArray.forEach(function (arrayItem) {
-      document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
-    });
-    setTimeout(function(){
-      outputDevices();
-    }, 170); // 170 is same as domrect rerun delay
-  } else {
-    outputDevices();
-  };
-};
-
-runDevices("onload");
+outputDevices();
