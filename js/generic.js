@@ -83,15 +83,19 @@ function outputSection(section) {
       'dateUTC', 'dateLS', 'dateTAtoLS', 'dateLDS', 'dateIDTF', 'dateLTS', 'dateTS', 'numFTP', 'hourRO',
       'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
   };
+  if (section == "fonts") {
+    var clearArray = ['fontFB', 'fontFBFound'];
+  };
   // clear elements
   clearArray.forEach(function (arrayItem) {
     document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
   });
   // delay output so users can see the values being blank then re-calculated
   setTimeout(function(){
-    if (section == "audio") {outputAudio();};
-    if (section == "devices") {outputDevices();};
-    if (section == "language") {outputLanguage();};
+    if (section == "audio") {outputAudio()};
+    if (section == "devices") {outputDevices()};
+    if (section == "language") {outputLanguage()};
+    if (section == "fonts") {outputFonts()};
   }, 170);
 };
 
