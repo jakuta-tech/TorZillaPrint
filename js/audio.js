@@ -61,19 +61,4 @@ function outputAudio() {
   };
 };
 
-function runAudio(runType) {
-  // clear display
-  if (runType == "rerun") {
-    var langArray = ['audioSupport', 'audioCopy', 'audioGet', 'audioSum'];
-    langArray.forEach(function (arrayItem) {
-      document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
-    });
-    setTimeout(function(){
-      outputAudio();
-    }, 170); // 170 is same as domrect rerun delay
-  } else {
-    outputAudio();
-  };
-};
-
-runAudio("onload");
+outputAudio();
