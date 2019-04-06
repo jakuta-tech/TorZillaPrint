@@ -68,6 +68,33 @@ var strDroid = Math.cos(1e251) + "-" + Math.cos(1e140) + "-" + Math.cos(1e12) + 
   Math.cos(1e272) + "-" + Math.cos(1e0) + "-" + Math.cos(1e284) + "-" + Math.cos(1e75);
 if ( sha1(strDroid) == "ae434b101452888b756da5916d81f68adeb2b6ae") { amDoid = true };
 
+function outputSection(section) {
+  // elements to clear
+  if (section == "audio") {
+    var clearArray = ['audioSupport', 'audioCopy', 'audioGet', 'audioSum'];
+  };
+  if (section == "devices") {
+    var clearArray = [`nHardwareConcurrency`, 'nMaxTouchPoints', 'nGetGamepads', 'nMediaDevices', 'eMediaDevices',
+    'speechSynth', 'speechEngines', 'sColorHash', 'nGetVR', 'nActiveVR'];
+  };
+  if (section == "language") {
+    var clearArray = ['nLanguages', 'nLanguage', 'nLanguages0', 'localeIPR', 'localeRO', 'tzOffsets', 'tzRO',
+      'dateSystem', 'dateString', 'lngdateLS', 'lngdateLDS', 'lngdateLTS', 'lngdateIDTF', 'dateFTP', 'dateGMT',
+      'dateUTC', 'dateLS', 'dateTAtoLS', 'dateLDS', 'dateIDTF', 'dateLTS', 'dateTS', 'numFTP', 'hourRO',
+      'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
+  };
+  // clear elements
+  clearArray.forEach(function (arrayItem) {
+    document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
+  });
+  // delay output so users can see the values being blank then re-calculated
+  setTimeout(function(){
+    if (section == "audio") {outputAudio();};
+    if (section == "devices") {outputDevices();};
+    if (section == "language") {outputLanguage();};
+  }, 170);
+};
+
 function base64Encode(str, encoding = 'utf-8') {
     var bytes = new (TextEncoder || TextEncoderLite)(encoding).encode(str);
     return base64js.fromByteArray(bytes);
