@@ -2,7 +2,7 @@
 
 'use strict';
 
-function runFont(){
+function outputFonts(){
 
   /* ARTHUR'S TEST: ENUMERATE FONTS
      https://github.com/arthuredelstein/tordemos */
