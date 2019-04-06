@@ -68,7 +68,7 @@ function runDevices(runType) {
   // clear display
   if (runType == "rerun") {
     var langArray = [`nHardwareConcurrency`, 'nMaxTouchPoints', 'nGetGamepads', 'nMediaDevices', 'eMediaDevices',
-    'speechSynth', 'speechEngines', 'nGetVR', 'nActiveVR'];
+    'speechSynth', 'speechEngines', 'sColorHash', 'nGetVR', 'nActiveVR'];
     langArray.forEach(function (arrayItem) {
       document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
     });
