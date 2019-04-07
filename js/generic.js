@@ -84,7 +84,8 @@ function outputSection(section) {
       'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
   };
   if (section == "fonts") {
-    var clearArray = ['fontFB', 'fontFBFound'];
+    // only clear hashes with &nbsp: font lists to be cleared in the language function and not use &nbsp
+    var clearArray = ['fontFB'];
   };
   // clear elements
   clearArray.forEach(function (arrayItem) {
