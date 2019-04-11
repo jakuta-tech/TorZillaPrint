@@ -351,3 +351,18 @@ table td.sub10 { color: var(--test10); }
   font-size: 16px;
   font-family: "Times New Roman", Times, serif;
 }
+
+/* prefers-color-scheme */
+.themed {
+  background-color: red;
+  display: none;
+}
+@media (prefers-color-scheme: light) {
+  .themed { background-color: white; }
+}
+@media (prefers-color-scheme: dark) {
+  .themed { background-color: black; }
+}
+@media (prefers-color-scheme: no-preference) {
+  .themed { background-color: blue; }
+}
