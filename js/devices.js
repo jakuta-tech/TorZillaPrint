@@ -61,6 +61,15 @@ function outputDevices() {
     sColorStr = sColorStr + window.getComputedStyle(sColorElem, null).getPropertyValue("background-color")
   });
   dom.sColorHash = sha1(sColorStr);
+  // prefers-color-scheme
+  var pColorScheme = "";
+  var pColorElem = document.getElementById("pColorElement");
+  var pRGB = window.getComputedStyle(pColorElem, null).getPropertyValue("background-color");
+  if (pRGB == "rgb(255, 255, 255)") {pRGB = "light"}
+  else if (pRGB == "rgb(255, 0, 0)") {pRGB = "not supported"}
+  else if (pRGB == "rgb(0, 0, 0)") {pRGB = "dark"}
+  else if (pRGB == "rgb(0, 0, 255)") {pRGB = "no-preference"};
+  dom.pColorScheme = pRGB;
 
 };
 
