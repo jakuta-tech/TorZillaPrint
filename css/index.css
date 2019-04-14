@@ -130,9 +130,25 @@ button {
   border-color: var(--test1);
   color: var(--test1);
 }
+.btn2 {
+  border-color: var(--test2);
+  color: var(--test2);
+}
+.btn3 {
+  border-color: var(--test3);
+  color: var(--test3);
+}
 .btn4 {
   border-color: var(--test4);
   color: var(--test4);
+}
+.btn5 {
+  border-color: var(--test5);
+  color: var(--test5);
+}
+.btn6 {
+  border-color: var(--test6);
+  color: var(--test6);
 }
 .btn7 {
   border-color: var(--test7);
@@ -153,6 +169,34 @@ button {
 .btn11 {
   border-color: var(--test11);
   color: var(--test11);
+}
+.btn12 {
+  border-color: var(--test12);
+  color: var(--test12);
+}
+.btn13 {
+  border-color: var(--test13);
+  color: var(--test13);
+}
+.btn14 {
+  border-color: var(--test14);
+  color: var(--test14);
+}
+.btn15 {
+  border-color: var(--test15);
+  color: var(--test15);
+}
+.btn16 {
+  border-color: var(--test16);
+  color: var(--test16);
+}
+.btn17 {
+  border-color: var(--test17);
+  color: var(--test17);
+}
+.btn18 {
+  border-color: var(--test18);
+  color: var(--test18);
 }
 
 /* Table row run buttons */
