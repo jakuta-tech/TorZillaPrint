@@ -21,7 +21,7 @@ var rndStr = "";
 if (navigator.cookieEnabled == true) {dom.nCookieEnabled="enabled"} else {dom.nCookieEnabled="disabled"};
 // cookie test: run even if cookieEnabled = false
 rndStr = rndString(); document.cookie = rndStr+"="+rndStr;
-if (getCookie(rndStr) != ""){dom.cookieTest="yes"} else {dom.cookieTest="no"};
+if (getCookie(rndStr) != ""){dom.cookieTest="success"} else {dom.cookieTest="failed"};
 
 // localStorage support
 try {
@@ -31,8 +31,8 @@ try {
 // localStorage test: run even if localStorage unavailable
 rndStr = rndString();
 try {localStorage.setItem(rndStr, rndStr);
-  if(!localStorage.getItem(rndStr)) {dom.storageLTest="no"} else {dom.storageLTest="yes"};
-} catch(e) {dom.storageLTest="no: " + e.name};
+  if(!localStorage.getItem(rndStr)) {dom.storageLTest="failed"} else {dom.storageLTest="success"};
+} catch(e) {dom.storageLTest="failed: " + e.name};
 
 // sessionStorage support
 try {
@@ -42,8 +42,8 @@ try {
 // sessionStorage test: run even if sessionStorage unavailable
 rndStr = rndString();
 try {sessionStorage.setItem(rndStr, rndStr);
-  if(!sessionStorage.getItem(rndStr)) {dom.storageSTest="no"} else {dom.storageSTest="yes"};
-} catch(e) {dom.storageSTest="no: " + e.name};
+  if(!sessionStorage.getItem(rndStr)) {dom.storageSTest="failed"} else {dom.storageSTest="success"};
+} catch(e) {dom.storageSTest="failed: " + e.name};
 
 // indexedDB support
 try {if (!window.indexedDB) {dom.IDBSupport="disabled"} else {dom.IDBSupport="enabled"};
@@ -52,14 +52,14 @@ try {if (!window.indexedDB) {dom.IDBSupport="disabled"} else {dom.IDBSupport="en
 rndStr = rndString();
 try {
   var openIDB = indexedDB.open(rndStr);
-  openIDB.onerror = function(event) {dom.IDBTest = "no: onerror"};
+  openIDB.onerror = function(event) {dom.IDBTest = "failed: onerror"};
   // create objectStore
   openIDB.onupgradeneeded = function(event){
     var dbObject = event.target.result;
     var dbStore = dbObject.createObjectStore("testIDB", {keyPath: "id"});
   };
   // assume the test fails
-  dom.IDBTest="no";
+  dom.IDBTest="failed";
   // test
   openIDB.onsuccess = function(event) {
     var dbObject = event.target.result;
@@ -74,12 +74,12 @@ try {
     var getStr = dbStore.get(rndIndex);
     getStr.onsuccess = function() {
       // console.log("retrieved: name: "+rndStr+" id: "+getStr.result.id+" value: "+getStr.result.value);
-      if (getStr.result.value == rndValue) {dom.IDBTest="yes";};
+      if (getStr.result.value == rndValue) {dom.IDBTest="success";};
     };
     // close transaction
     dbTx.oncomplete = function() {dbObject.close();}
   };
-} catch(e) {dom.IDBTest="no: " + e.name};
+} catch(e) {dom.IDBTest="failed: " + e.name};
 
 // appCache support (browser.cache.offline.enable)
 if ("applicationCache" in window) {
@@ -92,14 +92,12 @@ if ("applicationCache" in window) {
       // var appCache = window.applicationCache;
       // appCache.update();
       dom.appCacheTest="test to come";
-    } catch(e) {dom.appCacheTest="no: " + e.name;};
+    } catch(e) {dom.appCacheTest="failed: " + e.name;};
   }
-  else {dom.appCacheTest="no: insecure context"};
+  else {dom.appCacheTest="n/a"}; // skip if insecure
 }
 else {
-  dom.appCacheSupport="disabled";
-  // denote skipped tests with "n/a"
-  dom.appCacheTest="n/a";
+  dom.appCacheSupport="disabled"; dom.appCacheTest="n/a"; // skip if no appCache
 };
 
 // worker support
@@ -112,41 +110,38 @@ if (typeof(Worker) !== "undefined") {
       wwt = new Worker("js/worker.js");
       var rndStr1 = rndString();
       // assume failure
-      dom.webWTest="no";
+      dom.webWTest="failed";
       // add listener
       wwt.addEventListener("message", function(e) {
         // console.log("data <- web worker: "+e.data);
-        if ("TZP-"+rndStr1 === e.data) {dom.webWTest="yes";}
+        if ("TZP-"+rndStr1 === e.data) {dom.webWTest="success";}
       }, false);
       // post data
       wwt.postMessage(rndStr1);
       // console.log ("data -> web worker: "+rndStr1);
-    } catch(e) {dom.webWTest="no: " + e.name};
+    } catch(e) {dom.webWTest="failed: " + e.name};
     // shared worker test
     var swt;
     try {
       swt = new SharedWorker("js/workershared.js");
       var rndStr2 = rndString();
       // assume failure
-      dom.sharedWTest="no"
+      dom.sharedWTest="failed"
       // add listener
       swt.port.addEventListener("message", function(e) {
         // console.log("data <- shared worker: "+e.data);
-        if ("TZP-"+rndStr2 === e.data) {dom.sharedWTest="yes";}
+        if ("TZP-"+rndStr2 === e.data) {dom.sharedWTest="success";}
       }, false);
       swt.port.start();
       // post data      
       swt.port.postMessage(rndStr2);
       // console.log ("data -> shared worker: "+rndStr2);
-    } catch(e) {dom.sharedWTest="no: " + e.name};
+    } catch(e) {dom.sharedWTest="failed: " + e.name};
   }
-  else {dom.webWTest="no: file:///"; dom.sharedWTest="no: file:///"};
+  else {dom.webWTest="n/a"; dom.sharedWTest="n/a"}; // skip if file
 }
 else {
-  dom.workerSupport="disabled";
-  // denote skipped tests with "n/a"
-  dom.webWTest="n/a";
-  dom.sharedWTest="n/a";
+  dom.workerSupport="disabled"; dom.webWTest="n/a"; dom.sharedWTest="n/a"; // skip if no worker
 };
 
 // service worker support (dom.serviceWorkers.enabled)
@@ -156,7 +151,7 @@ if ((location.protocol) === "https:") {
     dom.serviceWSupport="enabled";
     // service worker test
     navigator.serviceWorker.register("js/workerservice.js").then(function(registration) {
-      dom.serviceWTest="yes";
+      dom.serviceWTest="success";
 
       // service worker cache support (dom.caches.enabled)
       dom.serviceWCacheSupport="test to come";
@@ -171,19 +166,20 @@ if ((location.protocol) === "https:") {
     },
     function(e) {
       // catch e.name length for when scripts or extensions block it
-      if (e.name ==="") {var swMsg = "no: unknown error"} else {var swMsg = "no: "+ e.name;};
+      if (e.name ==="") {var swMsg = "failed: unknown error"} else {var swMsg = "failed: "+ e.name;};
       dom.serviceWTest=swMsg;
       dom.serviceWCacheSupport=swMsg; dom.serviceWCacheTest=swMsg;
       dom.notificationsSupport=swMsg; dom.notificationsTest=swMsg;
     });
   }
   else {
-    // denote skipped tests with "n/a"
+    // skip if no SW
     dom.serviceWSupport="disabled"; dom.serviceWTest="n/a";
     dom.serviceWCacheSupport="n/a"; dom.serviceWCacheTest="n/a";
     dom.notificationsSupport="n/a"; dom.notificationsTest="n/a"};
 }
-else {var swMsg="no: insecure context"; dom.serviceWSupport=swMsg; dom.serviceWTest=swMsg;
+else { // skip if insecure
+  var swMsg="n/a"; dom.serviceWSupport=swMsg; dom.serviceWTest=swMsg;
   dom.serviceWCacheSupport=swMsg; dom.serviceWCacheTest=swMsg;
   dom.notificationsSupport=swMsg; dom.notificationsTest=swMsg;
 };
@@ -206,23 +202,19 @@ if ("storage" in navigator) {
           dom.storageMProp.textContent += ` (${estimate.usage} of ${estimate.quota} bytes)`;
         });
       });
-    } catch(e) {dom.storageMProp="no: " + e.name};
+    } catch(e) {dom.storageMProp="failed: " + e.name};
     // storage manager test
     try {
       // store some data, get usage/quota
       dom.storageMTest="test to come"
-    } catch(e) {dom.storageMTest="no: " + e.name};
+    } catch(e) {dom.storageMTest="failed: " + e.name};
   }
   else {
-    dom.storageMProp="no: file:///";
-    dom.storageMTest="no: file:///";
+    dom.storageMProp="n/a"; dom.storageMTest="n/a"; // skip if file:
   };
 }
 else {
-  dom.storageMSupport="disabled";
-  // denote skipped tests with "n/a"
-  dom.storageMProp="n/a";
-  dom.storageMTest="n/a";
+  dom.storageMSupport="disabled"; dom.storageMProp="n/a"; dom.storageMTest="n/a"; // skip if no SM
 };
 
 // permission persistent-storage
