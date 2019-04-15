@@ -274,7 +274,8 @@ var canvas = {
           }
           catch (e){
             console.error(e);
-            displayValue = "error while testing";
+            // displayValue = "error while testing";
+            displayValue = e.name +": "+e.message;
           }
         }
         else {
