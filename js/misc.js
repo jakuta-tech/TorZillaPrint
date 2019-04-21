@@ -2,6 +2,12 @@
 
 'use strict';
 
+/* mathml */
+// use empty clipbooard as it has no tooltip which affects the height
+var mathml1 = document.getElementById("nClipboard").offsetHeight;
+var mathml2 = document.getElementById("mathml2").offsetHeight;
+if ( mathml1 == mathml2) {dom.mathml1="disabled"} else {dom.mathml1="enabled"};
+
 /* clipboard */
 if ("clipboard" in navigator) {dom.nClipboard="enabled"} else {dom.nClipboard="disabled"};
 
