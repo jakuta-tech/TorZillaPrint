@@ -92,7 +92,7 @@ function outputFonts(){
         else { dom.fontFBFound.innerHTML = "no fonts detected"};
         dom.fontFB = sha1(strFontFB) + " ["+fontfbYes+"/"+fontfbAll+"]";
         /* finally, retitle the button */
-        dom.fontRun = "re-run tests";
+        dom.fontRun = "[ re-run tests ]";
       }, 1000);
     });
   });
