@@ -47,19 +47,20 @@
         <div class="nav-down"><a href="#useragent">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>screen resolution</td><td id="ScrRes"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptextbig">real time update when spoofing<br>inner window: range 500-3000</span></div>
       &nbsp [css] screen resolution <sup>1</sup></td><td id="S"></td></tr>
     <tr><td>available resolution</td><td id="ScrAvail"></td></tr>
     <tr><td>outer window</td><td id="WndOut"></td></tr>
     <tr><td>inner window</td><td id="WndIn"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptext">real time update:<br>range 500-3000</span></div>
       &nbsp [css] inner window <sup>1, 2</sup></td><td id="D"></td></tr>
     <tr><td>viewport <sup>3</sup></td><td id="Viewport"></td></tr>
     <tr><td>full screen</td><td id="fsState"></td></tr>
     <tr><td>[api] full screen</td><td id="fsSupport"></td></tr>
-    <tr><td><button class="btn1" onClick="goFS()">click here</button> &nbsp [leak] full screen <sup>3</sup></td><td id="fsLeak"></td></tr>
+    <tr><td><button class="btn0" onClick="goFS()">[ click here ]</button>[test] full screen <sup>3</sup></td><td id="fsLeak"></td></tr>
+    <tr><td><button class="btn0" onClick="">[ click here ]</button>new window</td><td id="newWinLeak"></td></tr>
     <tr><td>private window</td><td id="IsPBMode"></td></tr>
     <tr><td>orientation</td><td id="ScrOrient"></td></tr>
     <tr><td>[matchMedia] window orientation</td><td id="mmOrient"></td></tr>
@@ -70,16 +71,21 @@
     <tr><td>[css] dpi</td><td id="P"></td></tr>
     <tr><td>[matchMedia] dpi</td><td id="mmDPI"></td></tr>
     <tr><td>hidpi</td><td></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptext">might break<br> with HiDPI</span></div>
       &nbsp zoom %</td><td id="jsZoom"></td></tr>
     <tr><td>devicePixelRatio</td><td id="DevPR"></td></tr>
+    <tr><td>[scrollY] devicePixelRatio <sup>4</sup></td><td id="DevPRscrollY"></td></tr>
+    <tr><td>[clientRect] devicePixelRatio <sup>4</sup></td><td id="DevPRclientRect"></td></tr>
     <tr><td colspan="2"><span class="no_color">code based on work by </span>
       <sup>1</sup><a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/media-query-fingerprint.html">Arthur Edelstein</a>
       <span class="no_color">,</span>
       <sup>2</sup> <a target="_blank" class="blue" href="https://matt.traudt.xyz/posts/how-css-alone-YF4ciVY6.html">Matt Traudt</a>
+      <span class="no_color">,</span>
+      <sup>3</sup> <a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a>
       <span class="no_color"> and </span>
-      <sup>3</sup> <a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a></td></tr>
+      <sup>4</sup> <a target="_blank" class="blue" href="https://acatarineu.github.io/fp/devicePixelRatio.html">Alex Catarineu</a>
+    </td></tr>
   </table>
 
     <div id='testdpi' style='height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;'></div>
@@ -113,17 +119,17 @@
     <tr><td colspan="2" class="center">---browser, version, os---</td></tr>
     <tr><td>[css] browser</td><td id="fdResourceCss"></td></tr>
     <tr><td>[error messages] browser</td><td id="fdError"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptext"><b>mozPaintCount:</b><br>we could also use<br>mozGetAsFile<br>mozInnerScreenX
       <br>mozScreenX<br>oscpu<br>scrollMaxX</span></div> &nbsp [feature detection] browser</td><td id="fdPaintCount"></td></tr>
     <tr><td>[resource://] browser</td><td id="fdResource"></td></tr>
     <tr><td>[math] browser</td><td id="fdMath"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
        <span class="tooltiptext">Firefox 60+ only</span></div>
        &nbsp [feature detection] version</td><td id="versionNo"></td></tr>
     <tr><td>[chrome://] os</td><td id="fdChromeOS"></td></tr>
     <tr><td>[math] os</td><td id="fdMathOS"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptextbig">Linux, Mac or Windows</div> &nbsp [css] os <sup>1</sup></td>
       <td>
         <span id="fdCssOSL" style="font-family: Arimo, DejaVu Serif, Adobe Blank Not Linux;">Linux</span>
@@ -131,7 +137,7 @@
         <span id="fdCssOSW" style="font-family: Segoe UI, Adobe Blank Not Windows;">Windows</span>
       </td>
     </tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptextbig">based on <b>[css] os</b> above</span></div>
       &nbsp [font] os <sup>1</sup></td><td id="fontOS"></td></tr>
     <tr><td>[css line-height] os</td><td id="cssLH"></td></tr>
@@ -199,7 +205,7 @@
         <div class="nav-down"><a href="#headers">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td><div>
-        <div class="btn-left"><button class="btn4" onClick="outputSection(`language`)">re-run tests</button></div>
+        <div class="btn-left"><button class="btn4" onClick="outputSection(`language`)">[ re-run tests ]</button></div>
         <div>[header] http_accept_language</div></div></td>
       <td></td></tr>
     <tr><td>[navigator] languages</td><td id="nLanguages"></td></tr>
@@ -304,28 +310,28 @@
         <div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td><div>
-        <div class="btn-left"><button class="btn7" onClick="outputSection(`devices`)">re-run tests</button>
-        &nbsp <div class="tooltip"><span class="icon">i</span>
+        <div class="btn-left"><button class="btn7" onClick="outputSection(`devices`)">[ re-run tests ]</button>
+        &nbsp <div class="tooltip"><span class="icon">[ i ]</span>
         <span class="tooltiptext">if toggling prefs, most<br>of these require a<br>a page refresh (<b>F5</b>)</span></div>
         </div>
         <div>[navigator] hardwareConcurrency</div></div></td>
       <td id="nHardwareConcurrency"></td>
     </tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptext">dom.gamepad.enabled</span></div>
       &nbsp [api] gamepad</td><td id="nGetGamepads"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptextbig">media.navigator.enabled</span></div>
       &nbsp mediaDevices</td><td id="nMediaDevices"></td></tr>
     <tr><td>enumerateDevices</td><td id="eMediaDevices"></td></tr>
     <tr><td>[navigator] maxTouchPoints</td><td id="nMaxTouchPoints"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptextbig">media.webspeech.synth.enabled</span></div>
       &nbsp speech synthesis</td><td id="speechSynth"></td></tr>
     <tr><td>speech engines</td><td id="speechEngines"></td></tr>
     <tr><td>system colors</td><td class="mono" id="sColorHash"></td></tr>
     <tr><td>prefers-color-scheme</td><td id="pColorScheme"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptext">dom.vr.enabled</span></div>
       &nbsp [api] webvr</td><td id="nGetVR"></td></tr>
     <tr><td>activeVRDisplays</td><td id="nActiveVR"></td></tr>
@@ -340,7 +346,7 @@
         <div class="nav-down"><a href="#domrect">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td><div>
-        <div class="btn-left"><button class="btn8" onClick="runCanvas(`rerun`)">re-run tests</button></div>
+        <div class="btn-left"><button class="btn8" onClick="runCanvas(`rerun`)">[ re-run tests ]</button></div>
         <div>getContext</div></div></td>
       <td class="getContext"></td>
     </tr>
@@ -368,7 +374,7 @@
         <div class="nav-down"><a href="#fonts">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td colspan="3"><div>
-        <div class="btn-left"><button class="btn9" id="drRun">re-run tests</button></div>
+        <div class="btn-left"><button class="btn9" id="drRun">[ re-run tests ]</button></div>
         <div>Element.getClientRects</div></div></td>
       <td colspan="4" class="mono" id="dr1"></td>
     </tr>
@@ -446,7 +452,7 @@
       May be unsuitable on Android [e.g. limted fonts to detect, slow script prompts].</span>
     </td></tr>
     <tr><td colspan="4"><div>
-        <div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`fonts`)">run tests</button></div>
+        <div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`fonts`)">[ run tests ]</button></div>
         <div>enumerate fonts <sup>1</sup></div></div></td>
       <td colspan="5" class="mono" id="fontFB"></td>
     </tr>
@@ -480,8 +486,8 @@
         <div class="nav-down"><a href="#media">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td><div>
-        <div class="btn-left"><button class="btn11" onClick="outputSection(`audio`)">re-run tests</button></div>
-        <div><div class="tooltip"><span class="icon">i</span>
+        <div class="btn-left"><button class="btn11" onClick="outputSection(`audio`)">[ re-run tests ]</button></div>
+        <div><div class="tooltip"><span class="icon">[ i ]</span>
           <span class="tooltiptext">dom.webaudio.enabled</span></div> &nbsp [api] web audio</div></div></td>
       <td id="audioSupport"></td>
     </tr>
@@ -528,7 +534,7 @@
         <div class="nav-up"><a href="#audio">&#9650;</a></div>
         <div class="nav-down"><a href="#webgl">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptextbig">media.media-capabilities.enabled</span></div>
       &nbsp [navigator] mediaCapabilities</td><td id="nMediaCapabilities"></td></tr>
   </table>
@@ -597,10 +603,10 @@
         <div class="nav-down"><a href="#theend">&#9660;</a></div></div>
     </th></tr></thead>
     <tr><td>[navigator] clipboard</td><td id="nClipboard"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptextbig">dom.IntersectionObserver.enabled</span></div>
       &nbsp [api] intersection observer</td><td id="intObserver"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptext">mathml.disabled</span></div>
       &nbsp mathml</td><td id="mathml1"></td>
     </tr>
@@ -613,7 +619,7 @@
         </math>
       </td>
     </tr>
-    <tr><td><div class="tooltip"><span class="icon">i</span>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptextbig">dom.requestIdleCallback.enabled</span></div>
       &nbsp requestIdleCallback</td><td id="reqIdleCB"></td></tr>
   </table>
