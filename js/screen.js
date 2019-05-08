@@ -229,6 +229,27 @@ if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMath="Firefo
   // if (isNaN(window.mozInnerScreenX) === false) {"Firefox"};
   // if (isNaN(window.window.scrollMaxX) === false) {"Firefox"};
   // if (navigator.oscpu == undefined){} else {"Firefox"};
+
+// widgets & elements
+const iframeWD = document.getElementById("iframeWD");
+iframeWD.src = "iframes/widgets.html";
+iframeWD.addEventListener("load", function(){
+  // loop 13 elements
+  var wdA = 1; var wdS = ""; var wdH = "";
+  while (wdA < 13) {
+    var wdItem = iframeWD.contentWindow.document.getElementById("widget"+wdA);
+    wdS = wdItem.offsetWidth + " x " + wdItem.offsetHeight + ", " +
+      wdItem.clientWidth + " x " + wdItem.clientHeight + ", " +
+      wdItem.scrollWidth + " x " + wdItem.scrollHeight + ", " +
+      getComputedStyle(wdItem).getPropertyValue("font-family") + ", " +
+      getComputedStyle(wdItem).getPropertyValue("font-size");
+    document.getElementById("wid"+wdA).innerHTML = wdS;
+    if (wdA == 1) {wdH = wdS} else {wdH = wdH + " - "+wdS};
+    wdA++;
+  };
+  dom.widgetH = sha1(wdH);
+});
+
 if (isNaN(window.mozPaintCount) === false){
   dom.fdPaintCount="Firefox";
   // only run these subsequent tests for Firefox
