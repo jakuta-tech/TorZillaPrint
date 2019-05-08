@@ -36,6 +36,7 @@
   <!-- iframes: get them in early-->
   <iframe id="iframeDR" style='position: absolute; top: -2000%;'></iframe>
   <iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
+  <iframe id="iframeWD" style='position: absolute; top: -1000%;'></iframe>
   <img class="hidden" width=0 height=0 id="elFS"></img>
 
   <!-- TABLE 1: Screen - screen.js -->
@@ -70,7 +71,7 @@
     <tr><td>dpi</td><td id="jsDPI"></td ></tr>
     <tr><td>[css] dpi</td><td id="P"></td></tr>
     <tr><td>[matchMedia] dpi</td><td id="mmDPI"></td></tr>
-    <tr><td>hidpi</td><td></td></tr>
+    <!--<tr><td>hidpi</td><td></td></tr>-->
     <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptext">might break<br> with HiDPI</span></div>
       &nbsp zoom %</td><td id="jsZoom"></td></tr>
@@ -142,19 +143,34 @@
       &nbsp [font] os <sup>1</sup></td><td id="fontOS"></td></tr>
     <tr><td>[css line-height] os</td><td id="cssLH"></td></tr>
     <tr><td>[scrollbar width] os <sup>2, 3</sup></td><td id="scrollbarWidth"></td></tr>
+    <tr><td>[hash] widget properties</td><td id="widgetH" class="mono"></td></tr>
     <tr><td>[tcp/ip] os</td><td></td></tr>
     <tr><td colspan="2" class="showhide">
         <input id="collapseE" class="toggle" type="checkbox" checked onchange="toggleitems(this, `E`)">
         <label for="collapseE" class="lbl-toggle" id="labelE">&#9660; show details</label>
     </td></tr>
-    <tr class="togE"><td>error hash</td><td class="mono" id="errh"></td></tr>
-    <tr class="togE"><td>error1</td><td id="err1"></td></tr>
-    <tr class="togE"><td>error2</td><td id="err2"></td></tr>
-    <tr class="togE"><td>error3</td><td id="err3"></td></tr>
-    <tr class="togE"><td>error4</td><td id="err4"></td></tr>
-    <tr class="togE"><td>error5</td><td id="err5"></td></tr>
-    <tr class="togE"><td>error6</td><td id="err6"></td></tr>
-    <tr class="togE"><td colspan="2"></td></tr>
+    <tr class="togE"><td></td><td class="sub2">error messages</td></tr>
+    <tr class="togE"><td>hash</td><td class="mono" id="errh"></td></tr>
+      <tr class="togE"><td>error1</td><td id="err1"></td></tr>
+      <tr class="togE"><td>error2</td><td id="err2"></td></tr>
+      <tr class="togE"><td>error3</td><td id="err3"></td></tr>
+      <tr class="togE"><td>error4</td><td id="err4"></td></tr>
+      <tr class="togE"><td>error5</td><td id="err5"></td></tr>
+      <tr class="togE"><td>error6</td><td id="err6"></td></tr>
+    <tr class="togE"><td></td><td class="sub2">widgets & elements</td></tr>
+      <tr class="togE"><td>checkbox</td><td id="wid1"></td></tr>
+      <tr class="togE"><td>radio</td><td id="wid2"></td></tr>
+      <tr class="togE"><td>button</td><td id="wid3"></td></tr>
+      <tr class="togE"><td>progress bar</td><td id="wid4"></td></tr>
+      <tr class="togE"><td>color</td><td id="wid5"></td></tr>
+      <tr class="togE"><td>combobox</td><td id="wid6"></td></tr>
+      <tr class="togE"><td>text</td><td id="wid7"></td></tr>
+      <tr class="togE"><td>datetime</td><td id="wid8"></td></tr>
+      <tr class="togE"><td>datetime-local</td><td id="wid9"></td></tr>
+      <tr class="togE"><td>textarea</td><td id="wid10"></td></tr>
+      <tr class="togE"><td>iframe</td><td id="wid11"></td></tr>
+      <tr class="togE"><td>image</td><td id="wid12"></td></tr>
+      <tr class="togE"><td colspan="2"></td></tr>
     <tr><td colspan="2"><span class="no_color">code based on work by </span>
       <sup>1</sup><a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/os-detection-font-css.html">Arthur Edelstein</a>
       <span class="no_color">, </span>
@@ -213,6 +229,8 @@
     <tr><td>[navigator] languages[0]</td><td id="nLanguages0"></td></tr>
     <tr><td>[Intl.PluralRules] locale</td><td id="localeIPR"></td></tr>
     <tr><td>[resolvedOptions] locale</td><td id="localeRO"></td></tr>
+    <tr><td>[DTD] locale</td><td id="localeDTD1"></td></tr>
+    <tr><td>[DTD] locale</td><td id="localeDTD2"></td></tr>
     <tr><td>timezone offsets</td><td id="tzOffsets"></td></tr>
     <tr><td>[resolvedOptions] timezone</td><td id="tzRO"></td></tr>
     <tr><td>system date/time</td><td id="dateSystem"></td></tr>
