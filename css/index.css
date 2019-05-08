@@ -340,7 +340,10 @@ table td.showhide {
   padding-bottom: 7px;
 }
 
+table td.sub2 { color: var(--test2); }
 table td.sub3 { color: var(--test3); }
+table td.sub6 { color: var(--test6); }
+table td.sub7 { color: var(--test7); }
 table td.sub9 { color: var(--test9); }
 table td.sub10 { color: var(--test10); }
 
