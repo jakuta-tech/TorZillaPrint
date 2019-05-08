@@ -411,3 +411,15 @@ table td.sub10 { color: var(--test10); }
 @media (prefers-color-scheme: no-preference) {
   .themed { background-color: blue; }
 }
+
+/* prefers-reduced-motions */
+.motion {
+  background-color: red;
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .motion { background-color: white; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion { background-color: black; }
+}
