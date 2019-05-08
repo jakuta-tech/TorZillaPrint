@@ -75,7 +75,7 @@ function outputSection(section) {
   };
   if (section == "devices") {
     var clearArray = [`nHardwareConcurrency`, 'nMaxTouchPoints', 'nGetGamepads', 'nMediaDevices', 'eMediaDevices',
-    'speechSynth', 'speechEngines', 'sColorHash', 'pColorScheme', 'nGetVR', 'nActiveVR'];
+    'speechSynth', 'speechEngines', 'sColorHash', 'pColorScheme', 'pReducedMotion', 'nGetVR', 'nActiveVR'];
   };
   if (section == "language") {
     var clearArray = ['nLanguages', 'nLanguage', 'nLanguages0', 'localeIPR', 'localeRO', 'tzOffsets', 'tzRO',
