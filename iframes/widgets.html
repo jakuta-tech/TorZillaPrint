@@ -4,7 +4,7 @@
 
 <head>
 <style>
-body {
+.normalize {
   font-family: "Times New Roman", Times, serif;
   font-size: 12px;
   font-weight: normal;
@@ -21,17 +21,21 @@ body {
 </style>
 </head>
 <body>
-  checkbox <input type="checkbox" id="widget1"><br>
-  radio <input type="radio" id="widget2"><br>
-  button <input type="reset" value="" id="widget3"><br>
-  progress bar <progress id="widget4"></progress><br>
-  color <input type="color" id="widget5"><br>
-  combobox <select id="widget6"><option value="a"></option><option value="b"></option></select><br>
+  <h2>widgets</h2>
+  button <input type="reset" value="" id="widget1"><br>
+  checkbox <input type="checkbox" id="widget2"><br>
+  color <input type="color" id="widget3"><br>
+  combobox <select id="widget4"><option value="a"></option><option value="b"></option></select><br>
+  datetime-local <input type="datetime-local" id="widget5"><br>
+  radio <input type="radio" id="widget6"><br>
   text <input type="text" id="widget7"><br>
-  date <input type="date" id="widget8"><br>
-  datetime-local <input type="datetime-local" id="widget9"><br>
-  textarea <textarea id="widget10"></textarea><br>
-  iframe <iframe id="widget11"></iframe><br>
-  image <img src="nothing.jpg" id="widget12"></img>
+  datetime <input type="date" id="widget8"><br>
+  textarea <textarea id="widget9"></textarea><br>
+  <h2>elements</h2>
+  <div class="normalize">
+    progress bar <progress id="elem1"></progress><br>
+    iframe <iframe id="elem2"></iframe><br>
+    image <img src="nothing.jpg" id="elem3"></img>
+  </div>
 </body>
 </html>
