@@ -230,23 +230,72 @@ if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMath="Firefo
   // if (isNaN(window.window.scrollMaxX) === false) {"Firefox"};
   // if (navigator.oscpu == undefined){} else {"Firefox"};
 
-// widgets & elements
+// widgets
 const iframeWD = document.getElementById("iframeWD");
 iframeWD.src = "iframes/widgets.html";
 iframeWD.addEventListener("load", function(){
   // loop 13 elements
-  var wdA = 1; var wdS = ""; var wdH = "";
-  while (wdA < 13) {
+  var wdA = 1; var wdS = ""; var wdH = ""; var wdC = ""; var wdOS = ""; var wdB = false; var wd7 = "";
+  while (wdA < 10) {
     var wdItem = iframeWD.contentWindow.document.getElementById("widget"+wdA);
-    wdS = wdItem.offsetWidth + " x " + wdItem.offsetHeight + ", " +
-      wdItem.clientWidth + " x " + wdItem.clientHeight + ", " +
-      wdItem.scrollWidth + " x " + wdItem.scrollHeight + ", " +
-      getComputedStyle(wdItem).getPropertyValue("font-family") + ", " +
+    wdS = getComputedStyle(wdItem).getPropertyValue("font-family") + ", " +
       getComputedStyle(wdItem).getPropertyValue("font-size");
+    // OS logic
+    if (wdA == 1) {
+      // just use the first item to detect OS
+      var wdFFN = getComputedStyle(wdItem).getPropertyValue("font-family");
+      if (wdFFN.slice(0,12) == "MS Shell Dlg") {wdOS = "Windows"}
+      else if (wdFFN == "Roboto") {wdOS="Android"}
+      else if (wdFFN == "-apple-system") {wdOS="Mac"}
+      else {
+        // refine Linux to spook the F out of people
+        if (wdFFN == "Ubuntu") {wdOS="Linux [Ubuntu?]"}
+        else if (wdFFN == "Cantarell") {wdOS="Linux [Debian?]"}
+        else if (wdFFN == "Noto Sans") {wdOS="Linux [Mint? openSUSE?]"}
+        else if (wdFFN == "Sans") {wdOS="Linux [openSUSE? + Tor Browser?]"}
+        else if (wdFFN == "DejaVu Sans") {wdOS="Linux [Xfce?]"}
+        else {wdOS="Linux [font: " + wdFFN + "]"};
+      };
+    };
+    // compare: values 1 to 7: should always be the same: track state
+    if (wdA < 8) {
+      // store previous string for comparing
+      // not even sure if these can be different: maybe a waste of time
+      wdC = wdS;
+      // build output in case the first seven differ
+        //test: trigger difference
+        //if (wdA == 3) {wdS = "-apple-system, 11px"};
+        //if (wdA == 4) {wdS = "MS Shell Dlg \\32 , 13px"};
+        //if (wdA == 6) {wdS = "DejaVu Sans, 16px"};
+      if (wdA == 1) {wd7 = "        button: "+wdS}
+      else if (wdA == 2) {wd7 = wd7+"<br>"+"      checkbox: "+wdS}
+      else if (wdA == 3) {wd7 = wd7+"<br>"+"         color: "+wdS}
+      else if (wdA == 4) {wd7 = wd7+"<br>"+"      combobox: "+wdS}
+      else if (wdA == 5) {wd7 = wd7+"<br>"+"datetime-local: "+wdS}
+      else if (wdA == 6) {wd7 = wd7+"<br>"+"         radio: "+wdS}
+      else if (wdA == 7) {wd7 = wd7+"<br>"+"          text: "+wdS};
+      // track if first seven items have any differences
+      if (wdA > 1) {if (wdS == wdC) {} else {wdB = true};};
+    };
+    // output individual results
     document.getElementById("wid"+wdA).innerHTML = wdS;
-    if (wdA == 1) {wdH = wdS} else {wdH = wdH + " - "+wdS};
+    // concatenate string for hash
+    if (wdA == 1) {wdH = wdS} else {wdH = wdH + " - "+wdS };
     wdA++;
   };
+  // change first output & style: unsure any widget properties can be
+  // changed without a restart, so this may be entirely pointless
+  if (wdB == true) {
+    wdOS = "unknown [mixed font/font-sise]";
+    document.getElementById("widfirst").innerHTML = "various"
+    document.getElementById("wid1").innerHTML = wd7;
+    document.getElementById("wid1").style.fontFamily = "monospace, monospace";}
+  else {
+    document.getElementById("widfirst").innerHTML = "button, checkbox, color, combobox, datetime-local, radio, text";
+    document.getElementById("wid1").style.fontFamily = "";
+  };
+  // output OS and hash
+  dom.widgetOS = wdOS;
   dom.widgetH = sha1(wdH);
 });
 
