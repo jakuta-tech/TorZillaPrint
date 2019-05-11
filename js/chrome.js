@@ -4,6 +4,8 @@
 
 /* CHROME:// */
 
+function outputChrome() {
+
 dom.jsHash = "tests are running";
 dom.cssHash = "give it 5 seconds";
 var c = "chrome://browser/content/";
@@ -557,4 +559,10 @@ setTimeout(function(){
   var strAll = allHash.sort().toString();
   var strOut = strAll.replace(/,/gi, '<br>');
   dom.allLoaded.innerHTML = strOut;
+  // fix label
+  dom.chromeRun = "[ re-run tests ]";
 }, 5000);
+
+};
+
+// outputChrome();
