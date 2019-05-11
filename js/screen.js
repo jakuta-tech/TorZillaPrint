@@ -552,9 +552,7 @@ function render() {
   for (let key in measurements) {
     document.getElementById("devPR"+key).innerHTML = `${measurements[key].maxVal}`;
     dprCounter++;
-    //console.log(dprCounter);
-    if (dprCounter == 50) {
-      // remove scroll event listener
+    if (dprCounter == 100) {
       window.removeEventListener('scroll', dprScroll);
     };
   };
@@ -584,18 +582,3 @@ function dprScroll() {
     }
   }
 };
-window.addEventListener('load', () => {
-  // maintain starting position, e.g anchors
-  var scrollStart = window.scrollY;
-  window.scrollTo({
-    top: scrollStart + 15,
-    behavior: 'smooth',
-  });
-  setTimeout(() => {
-    window.scrollTo({
-      top: scrollStart,
-      behavior: 'smooth',
-    });
-  }, 500);
-  render();
-});
