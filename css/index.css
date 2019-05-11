@@ -110,8 +110,8 @@ input[type='checkbox'] { display: none; }
   cursor: pointer;
 }
 
-/* audio, domrect(s), math, chrome, errors, font */
-.togA, .togD, .togD1, .togM, .togC, .togE, .togF { display: none; }
+/* audio, domrect(s), math, chrome, errors, fonts, widgets */
+.togA, .togD, .togD1, .togM, .togC, .togE, .togF, .togW { display: none; }
 
 /* Buttons */
 button {
