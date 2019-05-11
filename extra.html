@@ -15,8 +15,24 @@
   <tr><td><h3><a class="blue" href="TorZillaPrint.html">return to the main test</a></td></tr>
   </table>
 
-  <!-- TABLE 4: chrome:// -->
-  <table id="tb4">
+  <table id="tb2">
+    <col width="37%"><a name="form controls"></a><col width="63%">
+    <thead><tr><th colspan="2"><div class="nav-title">widgets / form controls</div></th></tr></thead>
+    <tr><td><div>
+        <div class="btn-left"><button class="btn2" onClick="outputSection(`widgets`)">[ re-run tests ]</button></div>
+        <div>one</div></div></td><td></td></tr>
+    <tr><td>two</td><td></td></tr>
+    <tr><td colspan="2" class="showhide">
+        <input id="collapseW" class="toggle" type="checkbox" checked onchange="toggleitems(this, `W`)">
+        <label for="collapseW" class="lbl-toggle" id="labelW">&#9660; show details</label>
+    </td></tr>
+    <tr class="togW"><td>one</td><td></td></tr>
+    <tr class="togW"><td>two</td><td></td></tr>
+    <tr class="togW"><td colspan="2"></td></tr>
+  </table>
+
+  <!-- TABLE 3: chrome:// -->
+  <table id="tb3">
     <col width="37%"><a name="chrome"></a><col width="63%">
     <thead><tr><th colspan="2"><div class="nav-title">chrome://</div></th></tr></thead>
     <tr><td colspan="2" class="intro"><span class="no_color">The <code>chrome://</code> list from
@@ -24,7 +40,10 @@
       all Firefox 10-62 releases, for Windows/Linux/Mac, and does not include any new resources which may be present in subsequent
       releases. This test removed one item, <code>chrome://global/content/minimal-xul.css</code>, for stability purposes on this site.</span>
     </td></tr>
-    <tr><td>images</td><td class="mono" id="imgHash"></td></tr>
+    <tr><td><div>
+        <div class="btn-left"><button class="btn3" id="chromeRun" onClick="outputSection(`chrome`)">[ run tests ]</button></div>
+        <div>images</div></div></td>
+      <td class="mono" id="imgHash"></td></tr>
     <tr><td>js</td><td class="mono" id="jsHash"></td></tr>
     <tr><td>css</td><td class="mono" id="cssHash"></td></tr>
     <tr><td>combined</td></td><td class="mono" id="allHash"></td></tr>
@@ -33,7 +52,7 @@
         <label for="collapseC" class="lbl-toggle" id="labelC">&#9660; show details</label>
     </td></tr>
     <tr class="togC">
-     <td>[alphabetically sorted] all<br><br><button class="btn4" onClick="copyclip(`allLoaded`)">copy to clipboard</button></td>
+     <td><button class="btn0" onClick="copyclip(`allLoaded`)">[ copy to clipboard ]</button>[alphabetically sorted] all</td>
      <td id="allLoaded"></td>
     </tr>
     <tr class="togC"><td colspan="2"></td></tr>
@@ -43,6 +62,7 @@
   <br>
 
   <script src="js/main.js"></script>
+  <script src="js/widgets.js"></script>
   <script src="js/chrome.js"></script>
 
 </body>
