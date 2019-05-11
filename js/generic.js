@@ -87,6 +87,9 @@ function outputSection(section) {
     // only clear hashes with &nbsp: font lists to be cleared in the language function and not use &nbsp
     var clearArray = ['fontFB'];
   };
+  if (section == "chrome") {
+    var clearArray = ['imgHash', 'jsHash', 'cssHash', 'allHash', 'allLoaded'];
+  };
   // clear elements
   clearArray.forEach(function (arrayItem) {
     document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
@@ -97,6 +100,7 @@ function outputSection(section) {
     if (section == "devices") {outputDevices()};
     if (section == "language") {outputLanguage()};
     if (section == "fonts") {outputFonts()};
+    if (section == "chrome") {outputChrome()};
   }, 170);
 };
 
