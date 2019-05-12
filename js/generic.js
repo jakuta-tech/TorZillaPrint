@@ -78,10 +78,10 @@ function outputSection(section) {
     'speechSynth', 'speechEngines', 'sColorHash', 'pColorScheme', 'pReducedMotion', 'nGetVR', 'nActiveVR'];
   };
   if (section == "language") {
-    var clearArray = ['nLanguages', 'nLanguage', 'nLanguages0', 'localeIPR', 'localeRO', 'tzOffsets', 'tzRO',
-      'dateSystem', 'dateString', 'lngdateLS', 'lngdateLDS', 'lngdateLTS', 'lngdateIDTF', 'dateFTP', 'dateGMT',
-      'dateUTC', 'dateLS', 'dateTAtoLS', 'dateLDS', 'dateIDTF', 'dateLTS', 'dateTS', 'numFTP', 'hourRO',
-      'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
+    var clearArray = ['nLanguages', 'nLanguage', 'nLanguages0', 'localeIPR', 'localeRO', `localeDTD`,
+      'tzOffsets', 'tzRO', 'dateSystem', 'dateString', 'lngdateLS', 'lngdateLDS', 'lngdateLTS', 'lngdateIDTF',
+      'dateFTP', 'dateGMT', 'dateUTC', 'dateLS', 'dateTAtoLS', 'dateLDS', 'dateIDTF', 'dateLTS', 'dateTS',
+      'numFTP', 'hourRO', 'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
   };
   if (section == "fonts") {
     // only clear hashes with &nbsp: font lists to be cleared in the language function and not use &nbsp
