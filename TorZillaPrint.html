@@ -25,7 +25,7 @@
   <iframe id="iframeDR" style='position: absolute; top: -2000%;'></iframe>
   <iframe id="iframeWD" style='position: absolute; top: -1000%;'></iframe>
   <iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
-  <img class="hidden" width=0 height=0 id="elFS"></img>
+  <img width=0 height=0 id="elFS"></img>
 
   <!-- TABLE 1: Screen - screen.js -->
   <table id="tb1">
@@ -48,8 +48,14 @@
     <tr><td>viewport <sup>3</sup></td><td id="Viewport"></td></tr>
     <tr><td>full screen</td><td id="fsState"></td></tr>
     <tr><td>[api] full screen</td><td id="fsSupport"></td></tr>
-    <tr><td><button class="btn0" onClick="goFS()">[ click here ]</button>[test] full screen <sup>3</sup></td><td id="fsLeak"></td></tr>
-    <tr><td><button class="btn0" onClick="goNW()">[ click here ]</button>new window</td><td id="newWinLeak"></td></tr>
+    <tr><td><button class="btn0" onClick="goFS()">[ click here ]</button>
+      <div class="tooltip"><span class="icon">[ i ]</span>
+      <span class="tooltiptextbig"><b>DON'T PANIC</b> as you briefly<br>enter and then exit full screen</span></div>
+      &nbsp [test] full screen <sup>3</sup></td><td id="fsLeak"></td></tr>
+    <tr><td><button class="btn0" onClick="goNW()">[ click here ]</button>
+      <div class="tooltip"><span class="icon">[ i ]</span>
+      <span class="tooltiptextbig">will attempt to open a new<br>window as big as possible<br>and grab the dimensions</span></div>
+      &nbsp new window</td><td id="newWinLeak"></td></tr>
     <tr><td>private window</td><td id="IsPBMode"></td></tr>
     <tr><td>orientation</td><td id="ScrOrient"></td></tr>
     <tr><td>[matchMedia] window orientation</td><td id="mmOrient"></td></tr>
@@ -217,8 +223,8 @@
     <tr><td>[Intl.PluralRules] locale</td><td id="localeIPR"></td></tr>
     <tr><td>[resolvedOptions] locale</td><td id="localeRO"></td></tr>
     <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptextbig">an error message using<br>your application locale</span></div>
-      &nbsp [test leak] DTD locale</td><td id="localeDTD"></td></tr>
+      <span class="tooltiptext">an error message using<br>your application locale</span></div>
+      &nbsp [test] DTD locale</td><td id="localeDTD"></td></tr>
     <tr><td>timezone offsets</td><td id="tzOffsets"></td></tr>
     <tr><td>[resolvedOptions] timezone</td><td id="tzRO"></td></tr>
     <tr><td>system date/time</td><td id="dateSystem"></td></tr>
