@@ -43,6 +43,7 @@ function getVerNo(){
   catch(e) {};
   //67
   if (!Symbol.hasOwnProperty('matchAll')) {} else { verNo="67+" };
+  //68
   // reminder: ^^ always append + ONLY on the LAST test
   return verNo;
 };
@@ -292,6 +293,7 @@ iframeWD.addEventListener("load", function(){
 });
 
 if (isNaN(window.mozPaintCount) === false){
+  var amFF = true;
   dom.fdPaintCount="Firefox";
   // only run these subsequent tests for Firefox
 
@@ -492,11 +494,36 @@ if (isNaN(window.mozPaintCount) === false){
   dom.cssLH=lh + "px " + sbZoom + lhOS;
 };
 
+/* USER TESTS */
+function getFS() {
+  if ( document.mozFullScreen ) {
+    dom.fsLeak = screen.width+" x "+screen.height+" [screen]";
+    if (intVerNo > 63) {
+      document.exitFullscreen();
+    } else {
+      document.mozCancelFullScreen();
+    };
+    document.removeEventListener("mozfullscreenchange", getFS)
+  };
+};
+function goFS() {
+  if (document.mozFullScreenEnabled) {
+    // since we only exit if FF, don't request if not FF
+    if (amFF == true) {
+      var elFS = document.getElementById("elFS");
+      elFS.mozRequestFullScreen();
+      document.addEventListener("mozfullscreenchange", getFS)
+    }
+  };
+};
+function goNW() {
+   dom.newWinLeak = "coming soon";
+}
+
 /* DEVICEPIXELRATIO LEAKS */
 
 // code based on work by Alex Catarineu
 // https://acatarineu.github.io/fp/devicePixelRatio.html
-
 function closest(a, b, x) {
   return Math.abs((a[0] / a[1]) - x) < Math.abs((b[0] / b[1]) - x) ? a : b;
 }
