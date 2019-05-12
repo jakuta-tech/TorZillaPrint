@@ -497,7 +497,9 @@ if (isNaN(window.mozPaintCount) === false){
 /* USER TESTS */
 function getFS() {
   if ( document.mozFullScreen ) {
-    dom.fsLeak = screen.width+" x "+screen.height+" [screen]";
+    let winFSw = document.mozFullScreenElement.clientWidth;
+    let winFSh = document.mozFullScreenElement.clientHeight;
+    dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
     if (intVerNo > 63) {
       document.exitFullscreen();
     } else {
@@ -507,9 +509,8 @@ function getFS() {
   };
 };
 function goFS() {
-  if (document.mozFullScreenEnabled) {
-    // since we only exit if FF, don't request if not FF
-    if (amFF == true) {
+  if (amFF == true) {
+    if (document.mozFullScreenEnabled) {
       var elFS = document.getElementById("elFS");
       elFS.mozRequestFullScreen();
       document.addEventListener("mozfullscreenchange", getFS)
@@ -517,7 +518,8 @@ function goFS() {
   };
 };
 function goNW() {
-   dom.newWinLeak = "coming soon";
+  var newWin = window.open("","","width=9000,height=9000");
+  dom.newWinLeak = newWin.outerWidth +" x "+ newWin.outerHeight + " [outer]";
 }
 
 /* DEVICEPIXELRATIO LEAKS */
@@ -579,7 +581,7 @@ function render() {
   for (let key in measurements) {
     document.getElementById("devPR"+key).innerHTML = `${measurements[key].maxVal}`;
     dprCounter++;
-    if (dprCounter == 100) {
+    if (dprCounter == 500) {
       window.removeEventListener('scroll', dprScroll);
     };
   };
