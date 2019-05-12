@@ -489,6 +489,7 @@ if (isNaN(window.mozPaintCount) === false){
       if (lh=="19.5") {lhOS=strA} // zoom is not reliable on droid: needs work
       else if (lh=="19.6833") {lhOS=strM}
       else if (lh=="19") {lhOS=strL}
+      else if (lh=="18.6833") {lhOS=strM}
       else if (lh=="18") {lhOS=strW}
       else if (lh=="17") {lhOS=strL};
     }
