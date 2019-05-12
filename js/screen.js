@@ -508,6 +508,7 @@ if (isNaN(window.mozPaintCount) === false){
 };
 
 /* USER TESTS */
+
 function getFS() {
   if ( document.mozFullScreen ) {
     let winFSw = document.mozFullScreenElement.clientWidth;
@@ -532,7 +533,8 @@ function goFS() {
 };
 function goNW() {
   var newWin = window.open("","","width=9000,height=9000");
-  dom.newWinLeak = newWin.outerWidth +" x "+ newWin.outerHeight + " [outer]";
+  dom.newWinLeak = newWin.outerWidth +" x "+ newWin.outerHeight + " [outer] "
+    + newWin.innerWidth +" x "+ newWin.innerHeight + " [inner]";  
 }
 
 /* DEVICEPIXELRATIO LEAKS */
