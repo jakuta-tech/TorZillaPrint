@@ -66,7 +66,7 @@ function outputLanguage() {
   window.addEventListener("load", dtdlocale1)
   function dtdlocale1() {
     dtd1 = iframeDTD1.contentDocument.getElementById("DTD1").innerText;
-    window.removeEventListener("load", dtdlocale2)
+    window.removeEventListener("load", dtdlocale1)
   };
   // DTD locale test 2
   const iframeDTD2 = document.getElementById("iframeDTD2");
