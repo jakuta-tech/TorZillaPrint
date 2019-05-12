@@ -80,8 +80,8 @@ function outputLanguage() {
   // to fix: why does dtd1 not repopulate on a "rerun"
   setTimeout(function(){
     if (dtd1 == "") {dom.localeDTD = dtd2} else {dom.localeDTD = dtd1 + " | " + dtd2}
-    iframeDTD1.src="";
-    iframeDTD2.src="";
+    //iframeDTD1.src="";
+    //iframeDTD2.src="";
   }, 1000);
 
 };
