@@ -34,9 +34,11 @@
   </table>
 
   <!-- iframes: get them in early-->
+  <iframe id="iframeDTD1" style='position: absolute; top: -2000%;'></iframe>
+  <iframe id="iframeDTD2" style='position: absolute; top: -2000%;'></iframe>
   <iframe id="iframeDR" style='position: absolute; top: -2000%;'></iframe>
-  <iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
   <iframe id="iframeWD" style='position: absolute; top: -1000%;'></iframe>
+  <iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
   <img class="hidden" width=0 height=0 id="elFS"></img>
 
   <!-- TABLE 1: Screen - screen.js -->
@@ -228,8 +230,9 @@
     <tr><td>[navigator] languages[0]</td><td id="nLanguages0"></td></tr>
     <tr><td>[Intl.PluralRules] locale</td><td id="localeIPR"></td></tr>
     <tr><td>[resolvedOptions] locale</td><td id="localeRO"></td></tr>
-    <tr><td>[DTD] locale</td><td id="localeDTD1"></td></tr>
-    <tr><td>[DTD] locale</td><td id="localeDTD2"></td></tr>
+    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+      <span class="tooltiptextbig">an error message using<br>your application locale</span></div>
+      &nbsp [test leak] DTD locale</td><td id="localeDTD"></td></tr>
     <tr><td>timezone offsets</td><td id="tzOffsets"></td></tr>
     <tr><td>[resolvedOptions] timezone</td><td id="tzRO"></td></tr>
     <tr><td>system date/time</td><td id="dateSystem"></td></tr>
@@ -254,6 +257,11 @@
     <tr><td>[resolvedOptions] numberingSystem</td><td id="numsysRO"></td></tr>
     <tr><td>[api] geolocation</td><td id="nGeolocation"></td></tr>
     <tr><td>[permission] geolocation</td><td id="pGeolocation"></td></tr>
+    <tr><td colspan="2"><span class="no_color">DTD locale leaks courtesy of Alex Catarineu</span>
+      <a target="_blank" class="blue" href="https://acatarineu.github.io/fp/locale.html">here</a>
+      <span class="no_color"> and </span>
+      <a target="_blank" class="blue" href="https://acatarineu.github.io/fp/locale_nullprincipal.html">here</a>
+    </td></tr>
   </table>
 
   <!-- TABLE 5:  HTTP Headers - headers.js -->
