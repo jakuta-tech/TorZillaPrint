@@ -467,6 +467,19 @@ if (isNaN(window.mozPaintCount) === false){
   dom.scrollbarWidth = sbWidth+"px " + sbZoom + sbOS;
 
   // os: css line-height
+  // font-family is "Times New Roman", Times, serif
+  // if TNR is blocked, it returns: e.g. serif, "Times New Roman", Times
+  var myLHElem = document.getElementById("testLH");
+  var myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
+  if ( myLHFont.slice(1,16) == "Times New Roman") {
+    // we're using Times New Roman
+    var isTNR = true;
+  } else {
+    // we're not using Times New Roman, so tests are pointless
+    // but we also need to see what Android returns, output it
+    var isTNR = false;
+  };
+
   var lh = getStyle ('testLH', 'line-height');
   lh = lh.slice(0, -2);
   var lhOS = "[unknown]";
@@ -491,7 +504,7 @@ if (isNaN(window.mozPaintCount) === false){
   // cannot get 19.2 on any other zoom level when not TB
   if (lh=="19.2") {lhOS=lhOS+" [Tor Browser detected]"}
   // sbZoom already set in scrollbar width code
-  dom.cssLH=lh + "px " + sbZoom + lhOS;
+  dom.cssLH=lh + "px " + sbZoom + lhOS + " [" + myLHFont + "]";
 };
 
 /* USER TESTS */
