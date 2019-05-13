@@ -83,6 +83,9 @@ function outputSection(section) {
       'dateFTP', 'dateGMT', 'dateUTC', 'dateLS', 'dateTAtoLS', 'dateLDS', 'dateIDTF', 'dateLTS', 'dateTS',
       'numFTP', 'hourRO', 'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
   };
+  if (section == "canvas") {
+    var clearArray = [`cnv1`, `cnv2`, `cnv3`, `cnv4`, `cnv5`, `cnv6`, `cnv7`, `cnv8`, `cnv9`, `cnv10`, `cnv11`];
+  };
   if (section == "fonts") {
     // only clear hashes with &nbsp: font lists to be cleared in the language function and not use &nbsp
     var clearArray = ['fontFB'];
@@ -99,6 +102,7 @@ function outputSection(section) {
     if (section == "audio") {outputAudio()};
     if (section == "devices") {outputDevices()};
     if (section == "language") {outputLanguage()};
+    if (section == "canvas") {outputCanvas()};
     if (section == "fonts") {outputFonts()};
     if (section == "chrome") {outputChrome()};
   }, 170);
