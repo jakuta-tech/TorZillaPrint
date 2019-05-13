@@ -317,9 +317,6 @@
   </table>
 
   <!-- TABLE 7: Devices & Hardware - devices.js -->
-  <div class="hidden"><span id="sColorElement"></span></div>
-  <div class="themed" id="pColorElement"></div>
-  <div class="motion" id="pMotionElement"></div>
   <table id="tb7">
     <col width="50%"><a name="devices"></a><col width="50%">
     <thead><tr><th colspan="2">
@@ -347,9 +344,6 @@
       <span class="tooltiptextbig">media.webspeech.synth.enabled</span></div>
       &nbsp speech synthesis</td><td id="speechSynth"></td></tr>
     <tr><td>speech engines</td><td id="speechEngines"></td></tr>
-    <tr><td>system colors</td><td class="mono" id="sColorHash"></td></tr>
-    <tr><td>prefers-color-scheme</td><td id="pColorScheme"></td></tr>
-    <tr><td>prefers-reduced-motion</td><td id="pReducedMotion"></td></tr>
     <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
       <span class="tooltiptext">dom.vr.enabled</span></div>
       &nbsp [api] webvr</td><td id="nGetVR"></td></tr>
@@ -570,6 +564,9 @@
   </table>
 
   <!-- TABLE 14: CSS - css.js -->
+  <div class="hidden"><span id="sColorElement"></span></div>
+  <div class="themed" id="pColorElement"></div>
+  <div class="motion" id="pMotionElement"></div>
   <table id="tb14">
     <col width="50%"><a name="css"></a><col width="50%">
     <thead><tr><th colspan="2">
@@ -577,7 +574,11 @@
         <div class="nav-up"><a href="#webgl">&#9650;</a></div>
         <div class="nav-down"><a href="#ciphers">&#9660;</a></div></div>
     </th></tr></thead>
-    <tr><td>test</td><td>result</td></tr>
+    <tr><td><div>
+        <div class="btn-left"><button class="btn13" onClick="outputSection(`css`)">[ re-run tests ]</button>
+        </div>prefers-color-scheme</td><td id="pColorScheme"></td></tr>
+    <tr><td>prefers-reduced-motion</td><td id="pReducedMotion"></td></tr>
+    <tr><td>system colors</td><td class="mono" id="sColorHash"></td></tr>
   </table>
 
   <!-- TABLE 15: Ciphers / TLS - ciphers.js -->
@@ -661,6 +662,7 @@
   <script src="js/fonts.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/media.js"></script>
+  <script src="js/css.js"></script>
   <script src="js/misc.js"></script>
 
 </body>
