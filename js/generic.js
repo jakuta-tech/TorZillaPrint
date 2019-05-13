@@ -149,6 +149,9 @@ function outputSection(section) {
       'dateFTP', 'dateGMT', 'dateUTC', 'dateLS', 'dateTAtoLS', 'dateLDS', 'dateIDTF', 'dateLTS', 'dateTS',
       'numFTP', 'hourRO', 'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
   };
+  if (section == "misc") {
+    var clearArray = ['nClipboard', 'intObserver', 'mathml', 'mathmltest', 'reqIdleCB'];
+  };
   // clear elements
   clearArray.forEach(function (arrayItem) {
     document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
@@ -162,5 +165,6 @@ function outputSection(section) {
     if (section == "devices") {outputDevices()};
     if (section == "fonts") {outputFonts()};
     if (section == "language") {outputLanguage()};
+    if (section == "misc") {outputMisc()};
   }, 170);
 };
