@@ -45,55 +45,43 @@
 
 /* Main Set-up */
 body {
-  background-color: #1a1a1a; 
-  color: #b3b3b3; 
+  background-color: #1a1a1a;
+  color: #b3b3b3;
   font-size: 12px;
 }
 
 /* Fonts */
 h2 {
-  color: white; 
-  font-size 14px; 
-  text-align: center; 
+  color: white;
+  font-size 14px;
+  text-align: center;
   padding-top: 0px;
 }
 
 h3 {
-  color: #b3b3b3; 
+  color: #b3b3b3;
   font-size 12px;
   text-align: center;
   line-height: 1.4em;
 }
 
 h4 {
-  color: #8abfda; 
-  font-size 12px; 
+  color: #8abfda;
+  font-size 12px;
   text-align: center;
 }
 
-a { 
-  color: black;
-  text-decoration: none;
-}
-
-a.blue { 
-  color: #8abfda;
-  text-decoration: none;
-}
-
-.no_color { color: #b3b3b3; }
-
-.hidden { display: none; }
-
-.mono {
-  font-family: monospace, monospace;
-}
-
-/* kkapsner used classes rather than ids, but I want the ouputs in mono */
+a {color: black; text-decoration: none;}
+a.blue {color: #8abfda; text-decoration: none;}
+.no_color {color: #b3b3b3;}
+.hidden {display: none;}
+.mono {font-family: monospace, monospace;}
 .toDataURL, .toBlob, .winding, .getImageData, .isPointInPath, .fillText,
   .isPointInStroke, .readPixels, .getContext, .mozGetAsFile, .strokeText {
-  font-family: monospace, monospace; 
+  font-family: monospace, monospace;
 }
+.bad {color: #ff4f4f;}
+.good {color: #7fff7f;}
 
 code {
   background: #303030 !important;
@@ -116,10 +104,6 @@ input[type='checkbox'] { display: none; }
 /* Buttons */
 button {
   background-color: #1a1a1a;
-  /* border-style: solid; */
-  /* border-width: 1px; */
-  /* border-radius: 5px; */
-  /* padding: 2px 12px; */
   border-width: 0px;
   text-align: center;
   display: inline-block;
@@ -127,82 +111,25 @@ button {
   font-weight: bold;
   cursor: pointer;
 }
-.btn0 {
-  border-color: #b3b3b3;
-  color: #b3b3b3;
-}
-.btn1 {
-  border-color: var(--test1);
-  color: var(--test1);
-}
-.btn2 {
-  border-color: var(--test2);
-  color: var(--test2);
-}
-.btn3 {
-  border-color: var(--test3);
-  color: var(--test3);
-}
-.btn4 {
-  border-color: var(--test4);
-  color: var(--test4);
-}
-.btn5 {
-  border-color: var(--test5);
-  color: var(--test5);
-}
-.btn6 {
-  border-color: var(--test6);
-  color: var(--test6);
-}
-.btn7 {
-  border-color: var(--test7);
-  color: var(--test7);
-}
-.btn8 {
-  border-color: var(--test8);
-  color: var(--test8);
-}
-.btn9 {
-  border-color: var(--test9);
-  color: var(--test9);
-}
-.btn10 {
-  border-color: var(--test10);
-  color: var(--test10);
-}
-.btn11 {
-  border-color: var(--test11);
-  color: var(--test11);
-}
-.btn12 {
-  border-color: var(--test12);
-  color: var(--test12);
-}
-.btn13 {
-  border-color: var(--test13);
-  color: var(--test13);
-}
-.btn14 {
-  border-color: var(--test14);
-  color: var(--test14);
-}
-.btn15 {
-  border-color: var(--test15);
-  color: var(--test15);
-}
-.btn16 {
-  border-color: var(--test16);
-  color: var(--test16);
-}
-.btn17 {
-  border-color: var(--test17);
-  color: var(--test17);
-}
-.btn18 {
-  border-color: var(--test18);
-  color: var(--test18);
-}
+.btn0 {border-color: #b3b3b3; color: #b3b3b3;}
+.btn1 {border-color: var(--test1); color: var(--test1);}
+.btn2 {border-color: var(--test2); color: var(--test2);}
+.btn3 {border-color: var(--test3); color: var(--test3);}
+.btn4 {border-color: var(--test4); color: var(--test4);}
+.btn5 {border-color: var(--test5); color: var(--test5);}
+.btn6 {border-color: var(--test6); color: var(--test6);}
+.btn7 {border-color: var(--test7); color: var(--test7);}
+.btn8 {border-color: var(--test8); color: var(--test8);}
+.btn9 {border-color: var(--test9); color: var(--test9);}
+.btn10 {border-color: var(--test10); color: var(--test10);}
+.btn11 {border-color: var(--test11); color: var(--test11);}
+.btn12 {border-color: var(--test12); color: var(--test12);}
+.btn13 {border-color: var(--test13); color: var(--test13);}
+.btn14 {border-color: var(--test14); color: var(--test14);}
+.btn15 {border-color: var(--test15); color: var(--test15);}
+.btn16 {border-color: var(--test16); color: var(--test16);}
+.btn17 {border-color: var(--test17); color: var(--test17);}
+.btn18 {border-color: var(--test18); color: var(--test18);}
 
 /* Table row run buttons */
 div.btn-left {
@@ -298,7 +225,7 @@ div.nav-up {
 
 /* Tables */
 table {
-  width: 900px; 
+  width: 900px;
   border-collapse: collapse;
   margin: 0 auto 10px auto;
 }
@@ -311,14 +238,14 @@ tbody:before {
 }
 
 td {
-  padding-bottom: 3px; 
-  padding-top: 3px;  
+  padding-bottom: 3px;
+  padding-top: 3px;
   padding-left: 10px;
 }
 
 th {
-  color: black; 
-  font-weight: bold; 
+  color: black;
+  font-weight: bold;
   font-size: 16px;
   padding: 3px 0;
 }
@@ -388,7 +315,7 @@ table td.sub10 { color: var(--test10); }
 
 /* about:logo css test */
 #fdResourceCss {
-  background-image: url("about:logo"), url("not_firefox.png");
+  background-image: url("about:logo"), url("nothing.png");
   background-size: auto 100%;
   background-repeat: no-repeat;
   background-position: 10px 0px;
@@ -401,12 +328,9 @@ table td.sub10 { color: var(--test10); }
 }
 
 /* prefers-color-scheme */
-.themed {
-  background-color: red;
-  display: none;
-}
+.themed {background-color: red; display: none;}
 @media (prefers-color-scheme: light) {
-  .themed { background-color: white; }
+ .themed { background-color: white; }
 }
 @media (prefers-color-scheme: dark) {
   .themed { background-color: black; }
@@ -416,13 +340,10 @@ table td.sub10 { color: var(--test10); }
 }
 
 /* prefers-reduced-motions */
-.motion {
-  background-color: red;
-  display: none;
-}
+.motion {background-color: red; display: none;}
 @media (prefers-reduced-motion: no-preference) {
-  .motion { background-color: white; }
+  .motion {background-color: white;}
 }
 @media (prefers-reduced-motion: reduce) {
-  .motion { background-color: black; }
+  .motion {background-color: black;}
 }
