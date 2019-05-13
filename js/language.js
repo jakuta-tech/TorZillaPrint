@@ -63,7 +63,7 @@ function outputLanguage() {
   var dtd1 = ""; var dtd2="";
   const iframeDTD1 = document.getElementById("iframeDTD1");
   iframeDTD1.src="iframes/dtdlocale.xml";
-  window.addEventListener("load", dtdlocale1)
+  iframeDTD1.addEventListener("load", dtdlocale1)
   function dtdlocale1() {
     dtd1 = iframeDTD1.contentDocument.getElementById("DTD1").innerText;
     window.removeEventListener("load", dtdlocale1)
