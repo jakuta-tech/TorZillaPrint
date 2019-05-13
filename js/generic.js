@@ -150,7 +150,8 @@ function outputSection(section) {
       'numFTP', 'hourRO', 'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
   };
   if (section == "misc") {
-    var clearArray = ['nClipboard', 'intObserver', 'mathml', 'mathmltest', 'reqIdleCB'];
+    // don't reset mathmltest, it is done by the test
+    var clearArray = ['nClipboard', 'intObserver', 'mathml', 'reqIdleCB'];
   };
   // clear elements
   clearArray.forEach(function (arrayItem) {
