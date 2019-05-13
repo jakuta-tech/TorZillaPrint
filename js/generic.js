@@ -68,66 +68,7 @@ var strDroid = Math.cos(1e251) + "-" + Math.cos(1e140) + "-" + Math.cos(1e12) + 
   Math.cos(1e272) + "-" + Math.cos(1e0) + "-" + Math.cos(1e284) + "-" + Math.cos(1e75);
 if ( sha1(strDroid) == "ae434b101452888b756da5916d81f68adeb2b6ae") { amDoid = true };
 
-function outputSection(section) {
-  // elements to clear
-  if (section == "audio") {
-    var clearArray = ['audioSupport', 'audioCopy', 'audioGet', 'audioSum'];
-  };
-  if (section == "devices") {
-    var clearArray = [`nHardwareConcurrency`, 'nMaxTouchPoints', 'nGetGamepads', 'nMediaDevices', 'eMediaDevices',
-    'speechSynth', 'speechEngines', 'sColorHash', 'pColorScheme', 'pReducedMotion', 'nGetVR', 'nActiveVR'];
-  };
-  if (section == "language") {
-    var clearArray = ['nLanguages', 'nLanguage', 'nLanguages0', 'localeIPR', 'localeRO', `localeDTD`,
-      'tzOffsets', 'tzRO', 'dateSystem', 'dateString', 'lngdateLS', 'lngdateLDS', 'lngdateLTS', 'lngdateIDTF',
-      'dateFTP', 'dateGMT', 'dateUTC', 'dateLS', 'dateTAtoLS', 'dateLDS', 'dateIDTF', 'dateLTS', 'dateTS',
-      'numFTP', 'hourRO', 'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
-  };
-  if (section == "canvas") {
-    var clearArray = [`cnv1`, `cnv2`, `cnv3`, `cnv4`, `cnv5`, `cnv6`, `cnv7`, `cnv8`, `cnv9`, `cnv10`, `cnv11`];
-  };
-  if (section == "fonts") {
-    // only clear hashes with &nbsp: font lists to be cleared in the language function and not use &nbsp
-    var clearArray = ['fontFB'];
-  };
-  if (section == "chrome") {
-    var clearArray = ['imgHash', 'jsHash', 'cssHash', 'allHash', 'allLoaded'];
-  };
-  // clear elements
-  clearArray.forEach(function (arrayItem) {
-    document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
-  });
-  // delay output so users can see the values being blank then re-calculated
-  setTimeout(function(){
-    if (section == "audio") {outputAudio()};
-    if (section == "devices") {outputDevices()};
-    if (section == "language") {outputLanguage()};
-    if (section == "canvas") {outputCanvas()};
-    if (section == "fonts") {outputFonts()};
-    if (section == "chrome") {outputChrome()};
-  }, 170);
-};
-
-function base64Encode(str, encoding = 'utf-8') {
-    var bytes = new (TextEncoder || TextEncoderLite)(encoding).encode(str);
-    return base64js.fromByteArray(bytes);
-};
-
-function base64Decode(str, encoding = 'utf-8') {
-    var bytes = base64js.toByteArray(str);
-    return new (TextDecoder || TextDecoderLite)(encoding).decode(bytes);
-};
-
-function byteArrayToHex(arrayBuffer){
-  var chunks = [];
-  (new Uint32Array(arrayBuffer)).forEach(function(num){
-    chunks.push(num.toString(16));
-  });
-  return chunks.map(function(chunk){
-    return "0".repeat(8 - chunk.length) + chunk;
-  }).join("");
-};
-
+/* SHA1 STUFF*/
 function sha1(str1){
   for (var blockstart=0,
     i = 0,
@@ -160,55 +101,66 @@ function sha1(str1){
   return str1;
 };
 
-let spawn = (function () {
-  // Declare ahead
-  let promiseFromGenerator;
-  // Returns true if aValue is a generator object.
-  let isGenerator = aValue => {
-    return Object.prototype.toString.call(aValue) === "[object Generator]";
+/* BASE64 STUFF */
+function base64Encode(str, encoding = 'utf-8') {
+    var bytes = new (TextEncoder || TextEncoderLite)(encoding).encode(str);
+    return base64js.fromByteArray(bytes);
+};
+function base64Decode(str, encoding = 'utf-8') {
+    var bytes = base64js.toByteArray(str);
+    return new (TextDecoder || TextDecoderLite)(encoding).decode(bytes);
+};
+function byteArrayToHex(arrayBuffer){
+  var chunks = [];
+  (new Uint32Array(arrayBuffer)).forEach(function(num){
+    chunks.push(num.toString(16));
+  });
+  return chunks.map(function(chunk){
+    return "0".repeat(8 - chunk.length) + chunk;
+  }).join("");
+};
+
+/* BUTTONS: (re)GENERATE SECTIONS */
+function outputSection(section) {
+  // elements to clear
+  if (section == "audio") {
+    var clearArray = ['audioSupport', 'audioCopy', 'audioGet', 'audioSum'];
   };
-  // Converts the right-hand argument of yield or return values to a Promise,
-  // according to Task.jsm semantics.
-  let asPromise = yieldArgument => {
-    if (yieldArgument instanceof Promise) {
-      return yieldArgument;
-    } else if (isGenerator(yieldArgument)) {
-      return promiseFromGenerator(yieldArgument);
-    } else if (yieldArgument instanceof Function) {
-      return asPromise(yieldArgument());
-    } else if (yieldArgument instanceof Error) {
-      return Promise.reject(yieldArgument);
-    } else if (yieldArgument instanceof Array) {
-      return Promise.all(yieldArgument.map(asPromise));
-    } else {
-      return Promise.resolve(yieldArgument);
-    }
+  if (section == "canvas") {
+    var clearArray = [`cnv1`, `cnv2`, `cnv3`, `cnv4`, `cnv5`, `cnv6`, `cnv7`, `cnv8`, `cnv9`, `cnv10`, `cnv11`];
   };
-  // Takes a generator object and runs it as an asynchronous task,
-  // returning a Promise with the result of that task.
-  promiseFromGenerator = generator => {
-    return new Promise((resolve, reject) => {
-      let processPromise;
-      let processPromiseResult = (success, result) => {
-        try {
-          let {value, done} = success ? generator.next(result)
-                                    : generator.throw(result);
-          if (done) {
-            asPromise(value).then(resolve, reject);
-          } else {
-            processPromise(asPromise(value));
-          }
-        } catch (error) {
-          reject(error);
-        }
-      };
-      processPromise = promise => {
-        promise.then(result => processPromiseResult(true, result),
-                   error => processPromiseResult(false, error));
-      };
-      processPromise(asPromise(undefined));
-    });
+  if (section == "chrome") {
+    var clearArray = ['imgHash', 'jsHash', 'cssHash', 'allHash', 'allLoaded'];
   };
-  // __spawn(generatorFunction)__.
-  return generatorFunction => promiseFromGenerator(generatorFunction());
-})();
+  if (section == "css") {
+    var clearArray = ['pColorScheme', 'pReducedMotion', 'sColorHash'];
+  };
+  if (section == "devices") {
+    var clearArray = [`nHardwareConcurrency`, 'nMaxTouchPoints', 'nGetGamepads', 'nMediaDevices', 'eMediaDevices',
+    'speechSynth', 'speechEngines', 'nGetVR', 'nActiveVR'];
+  };
+  if (section == "fonts") {
+    // only clear hashes with &nbsp: font lists to be cleared in the language function and not use &nbsp
+    var clearArray = ['fontFB'];
+  };
+  if (section == "language") {
+    var clearArray = ['nLanguages', 'nLanguage', 'nLanguages0', 'localeIPR', 'localeRO', `localeDTD`,
+      'tzOffsets', 'tzRO', 'dateSystem', 'dateString', 'lngdateLS', 'lngdateLDS', 'lngdateLTS', 'lngdateIDTF',
+      'dateFTP', 'dateGMT', 'dateUTC', 'dateLS', 'dateTAtoLS', 'dateLDS', 'dateIDTF', 'dateLTS', 'dateTS',
+      'numFTP', 'hourRO', 'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
+  };
+  // clear elements
+  clearArray.forEach(function (arrayItem) {
+    document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
+  });
+  // delay output so users can see the values being blank then re-calculated
+  setTimeout(function(){
+    if (section == "audio") {outputAudio()};
+    if (section == "canvas") {outputCanvas()};
+    if (section == "chrome") {outputChrome()};
+    if (section == "css") {outputCSS()};
+    if (section == "devices") {outputDevices()};
+    if (section == "fonts") {outputFonts()};
+    if (section == "language") {outputLanguage()};
+  }, 170);
+};
