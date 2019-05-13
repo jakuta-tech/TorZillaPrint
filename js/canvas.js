@@ -306,20 +306,8 @@ var canvas = {
   }
 };
 
-function runCanvas(runType) {
-  // clear display
-  if (runType == "rerun") {
-    var cvArray = [`getContext`, `toDataURL`, `toBlob`, `mozGetAsFile`, `getImageData`,
-      `winding`, `isPointInPath`, `isPointInStroke`, `fillText`, `strokeText`, `readPixels`];
-    cvArray.forEach(function (arrayItem) {
-      document.getElementsByClassName(arrayItem)[0].innerHTML="&nbsp"; // &nbsp stops line height jitter
-    });
-    setTimeout(function(){
-      canvas.output(canvas.createHashes(window), document.getElementById("tb8"));
-    }, 170); // 170 is same as domrect rerun delay
-  } else {
-    canvas.output(canvas.createHashes(window), document.getElementById("tb8"));
-  };
+function outputCanvas(runType) {
+  canvas.output(canvas.createHashes(window), document.getElementById("tb8"));
 };
 
-runCanvas("onload");
+outputCanvas();
