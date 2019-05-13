@@ -14,8 +14,6 @@ function outputMisc() {
   var mathmlnone = document.getElementById("pReducedMotion").offsetHeight;
   var mathmltest = document.getElementById("mathmltest").offsetHeight;
   if ( mathmltest == mathmlnone) {dom.mathml="disabled"} else {dom.mathml="enabled"};
-  console.log ("mathmlnone: " + mathmlnone + "; mathmltest: " + mathmltest);
-
   /* clipboard */
   if ("clipboard" in navigator) {dom.nClipboard="enabled"} else {dom.nClipboard="disabled"};
   /* Intersection Observer api (dom.IntersectionObserver.enabled) */
