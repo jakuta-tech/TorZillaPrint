@@ -4,14 +4,6 @@
 
 /* FUNCTIONS */
 
-function getStyle(el,styleProp) {
-  el = document.getElementById(el);
-  if (el.currentStyle)
-    var el = el.currentStyle[styleProp];
-    else if (window.getComputedStyle)
-      var el = document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
-  return el;
-};
 function getVerNo(){
   //59 or lower
   var verNo = "59 or lower";
@@ -467,45 +459,51 @@ if (isNaN(window.mozPaintCount) === false){
   dom.scrollbarWidth = sbWidth+"px " + sbZoom + sbOS;
 
   // os: css line-height
-  // font-family is "Times New Roman", Times, serif
-  // if TNR is blocked, it returns: e.g. serif, "Times New Roman", Times
+  // get line-height
   var myLHElem = document.getElementById("testLH");
+  var lh = getComputedStyle(myLHElem).getPropertyValue("line-height")
+  lh = lh.slice(0, -2);
+  // detect TNR
   var myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
-  if ( myLHFont.slice(1,16) == "Times New Roman") {
-    // we're using Times New Roman
+  if (myLHFont.slice(1,16) == "Times New Roman") {
     var isTNR = true;
   } else {
-    // we're not using Times New Roman, so tests are pointless
-    // but we also need to see what Android returns, output it
     var isTNR = false;
   };
-
-  var lh = getStyle ('testLH', 'line-height');
-  lh = lh.slice(0, -2);
+  // only bother with OS if TNR used
   var lhOS = "[unknown]";
-  if (jsZoom == 100) {
-    if (intVerNo > 61) {
-      // FF62 or higher
-      if (lh=="19.5") {lhOS=strA} // zoom is not reliable on droid: needs work
-      else if (lh=="19.6833") {lhOS=strM}
-      else if (lh=="19") {lhOS=strL}
-      else if (lh=="18.6833") {lhOS=strM}
-      else if (lh=="18") {lhOS=strW}
-      else if (lh=="17") {lhOS=strL};
-    }
-    else {
-      // FF61 or lower
-      if (lh=="20") {lhOS=strW}
-      else if (lh=="19.6833") {lhOS=strM}
-      else if (lh=="19.5167") {lhOS=strM} // never seen this in testing
-      else if (lh=="19") {lhOS=strL}
-      else if (lh=="17") {lhOS=strL};
+  if (isTNR == true) {
+    if (jsZoom == 100) {
+      if (intVerNo > 61) {
+        // FF62 or higher
+        if (lh=="19.5") {lhOS=strA} // zoom is not reliable on droid: needs work
+        else if (lh=="19.6833") {lhOS=strM}
+        else if (lh=="19") {lhOS=strL}
+        else if (lh=="18.6833") {lhOS=strM}
+        else if (lh=="18") {lhOS=strW}
+        else if (lh=="17") {lhOS=strL};
+      }
+      else {
+        // FF61 or lower
+        if (lh=="20") {lhOS=strW}
+        else if (lh=="19.6833") {lhOS=strM}
+        else if (lh=="18.6833") {lhOS=strM} // might as well: seems to be a unique Mac value
+        else if (lh=="19.5167") {lhOS=strM} // never seen this in testing
+        else if (lh=="19") {lhOS=strL}
+        else if (lh=="17") {lhOS=strL};
+      };
     };
+  };
+  // change output if TB used: only ever seen 19.2 with TB (on all zooms)
+  if (lh=="19.2") {
+    lhOS= " <span class='good'> &nbsp[Tor Browser detected, nice!]</span>"
   }
-  // cannot get 19.2 on any other zoom level when not TB
-  if (lh=="19.2") {lhOS=lhOS+" [Tor Browser detected]"}
-  // sbZoom already set in scrollbar width code
-  dom.cssLH=lh + "px " + sbZoom + lhOS + " [" + myLHFont + "]";
+  // change output if TNR not used
+  if (isTNR == false) {
+    lhOS = " <span class='bad'> &nbsp[blocking Times New Roman is very unique!]</span>";
+  }
+  // note: sbZoom was already set in scrollbar width code
+  dom.cssLH.innerHTML = lh + "px " + sbZoom + lhOS;
 };
 
 /* USER TESTS */
@@ -535,7 +533,7 @@ function goFS() {
 function goNW() {
   var newWin = window.open("","","width=9000,height=9000");
   dom.newWinLeak = newWin.outerWidth +" x "+ newWin.outerHeight + " [outer] "
-    + newWin.innerWidth +" x "+ newWin.innerHeight + " [inner]";  
+    + newWin.innerWidth +" x "+ newWin.innerHeight + " [inner]";
 }
 
 /* DEVICEPIXELRATIO LEAKS */
