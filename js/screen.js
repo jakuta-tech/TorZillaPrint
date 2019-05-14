@@ -464,38 +464,112 @@ if (isNaN(window.mozPaintCount) === false){
   var myLHElem = document.getElementById("testLH");
   var lh = getComputedStyle(myLHElem).getPropertyValue("line-height")
   lh = lh.slice(0, -2);
+  var lhOS = "";
+  var strTBL = " [Linux] <span class='good'> [Tor Browser detected]</span>";
   var myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
-  var lhOS = "[unknown]";
   if (myLHFont.slice(1,16) !== "Times New Roman") {
     // TNR not used
-    lhOS = " <span class='bad'> &nbsp[blocking Times New Roman is very unique!]</span>";
+    lhOS = " <span class='bad'> [blocking Times New Roman is very unique!]</span>";
   } else if (lh == "19.2") {
-    // TB: 19.2px seems to be unique to TB across all zooms
-    lhOS= " <span class='good'> &nbsp[Tor Browser detected, nice!]</span>"
+    // TB: 19.2px seems to be unique to TB at any zoom on any platform
+    lhOS= " <span class='good'> [Tor Browser detected, nice!]</span>";
   } else {
-    // using TBR and not TB: proceed   
-    if (jsZoom == 100) {
-      if (intVerNo > 61) {
-        // FF62 or higher
-        if (lh=="19.5") {lhOS=strA} // zoom is not reliable on droid: needs work
-        else if (lh=="19.6833") {lhOS=strM}
-        else if (lh=="19") {lhOS=strL}
-        else if (lh=="18.6833") {lhOS=strM}
-        else if (lh=="18") {lhOS=strW}
-        else if (lh=="17") {lhOS=strL};
-      }
-      else {
-        // FF61 or lower
-        if (lh=="20") {lhOS=strW}
-        else if (lh=="19.6833") {lhOS=strM}
-        else if (lh=="18.6833") {lhOS=strM} // might as well: seems to be a unique Mac value
-        else if (lh=="19.5167") {lhOS=strM} // never seen this in testing
-        else if (lh=="19") {lhOS=strL}
-        else if (lh=="17") {lhOS=strL};
-      };
+    // using TNR and not TB's 19.2
+    // detect WINDOWS / LINUX
+    if (jsZoom == 300) {
+      if (lh=="19") {lhOS=strW};
+      if (lh=="18.6667") {lhOS=strW};
+      if (lh=="18") {lhOS=strL};
+      if (lh=="17.6667") {lhOS=strL};
+    } else if (jsZoom == 240) {
+      if (lh=="19.1667") {lhOS=strW};
+      if (lh=="19") {lhOS=strTBL};
+      if (lh=="18.3333") {lhOS=strWL};
+      if (lh=="17.6667") {lhOS=strWL};
+    } else if (jsZoom == 200) {
+      if (lh=="19") {lhOS=strW};
+      if (lh=="18") {lhOS=strL};
+    } else if (jsZoom == 170) {
+      if (lh=="19.25") {lhOS=strW};
+      if (lh=="18.9") {lhOS=strTBL};
+      if (lh=="18.6667") {lhOS=strW};
+      if (lh=="18.0833") {lhOS=strL};
+      if (lh=="17.5") {lhOS=strL};
+    } else if (jsZoom == 150) {
+      if (lh=="20") {lhOS=strW};
+      if (lh=="18.6667") {lhOS=strWL};
+      if (lh=="17.3333") {lhOS=strL};
+    } else if (jsZoom == 133) {
+      if (lh=="19.5") {lhOS=strW};
+      if (lh=="18.9") {lhOS=strTBL};
+      if (lh=="18") {lhOS=strL};
+      if (lh=="18.75") {lhOS=strW};
+    } else if (jsZoom == 120) {
+      if (lh=="20") {lhOS=strW};
+      if (lh=="19.1667") {lhOS=strL};
+      if (lh=="19") {lhOS=strTBL};
+      if (lh=="18.3333") {lhOS=strW};
+      if (lh=="17.5") {lhOS=strL};
+    } else if (jsZoom == 110) {
+      if (lh=="19.25") {lhOS=strW};
+      if (lh=="18.7") {lhOS=strTBL};
+      if (lh=="18.3333") {lhOS=strL};
+      if (lh=="17.4167") {lhOS=strL};
+    } else if (jsZoom == 100) {
+        if (lh=="20") {lhOS=strW};
+        if (lh=="19") {lhOS=strL};
+        if (lh=="18") {lhOS=strW};
+        if (lh=="17") {lhOS=strL};
+    } else if (jsZoom == 90) {
+      if (lh=="20.1") {lhOS=strW};
+      if (lh=="18.9833") {lhOS=strWL};
+      if (lh=="18.7667") {lhOS=strTBL};
+      if (lh=="16.75") {lhOS=strL};
+    } else if (jsZoom == 80) {
+      if (lh=="20") {lhOS=strW};
+      if (lh=="19.5") {lhOS=strTBL};
+      if (lh=="18.75") {lhOS=strWL};
+    } else if (jsZoom == 67) {
+      if (lh=="21") {lhOS=strW};
+      if (lh=="19.8") {lhOS=strTBL};
+      if (lh=="19.5") {lhOS=strWL};
+      if (lh=="18") {lhOS=strL};
+    } else if (jsZoom == 50) {
+      if (lh=="22") {lhOS=strW};
+      if (lh=="20") {lhOS=strWL};
+      if (lh=="18") {lhOS=strL};
+    } else if (jsZoom == 30) {
+      if (lh=="20") {lhOS=strWL};
+      if (lh=="26.6667") {lhOS=strW};
     };
   };
-  // note: sbZoom was already set in scrollbar width code
+  // detect MAC
+  if (lhOS == "") {
+    /* mac unique decimal points: .0167 .1833 .35 .4333 .6833 .85
+       mac not unique: but still test because lhOS is blank: .7667 .6667
+       19.5167 : never seen this in testing: was listed in an that hackernews forum */
+    
+  };
+  // detect ANDROID
+  if (lhOS == "") {
+    // jsZoom is not reliable on droid
+    // 19.5 = linux at 67%, but I doubt droid will report less than 100% zoom
+    if (lh == "19.5") {
+      lhOS = strA
+    } else {
+      // if still blank test/improve zoom by looking at scrollbar width
+      
+    };
+  };
+  // best guess or known metric
+  if (lhOS == "") {
+    lhOS = "[Linux] [logical guess]"
+  } else {
+    if (myLHFont.slice(1,16) == "Times New Roman") {
+      lhOS = lhOS + " [known metric]"
+    };
+  };
+  // output: sbZoom was already set in scrollbar width code
   dom.cssLH.innerHTML = lh + "px " + sbZoom + lhOS;
 };
 
