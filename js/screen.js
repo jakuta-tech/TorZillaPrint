@@ -360,6 +360,7 @@ if (isNaN(window.mozPaintCount) === false){
   var sbOS = ""; var sbZoom = "";
   // note: only Mac OS X (el capitan or lower) have zero width
   if (sbWidth == 0) {sbOS= "[Mac OS X, mobile or floating scrollbars]";}
+  else if (sbWidth < 0) {sbOS= "[mobile]";}
   else {
     // start with known metrics at preset FF zoom levels
     if (jsZoom == 300) {
