@@ -463,16 +463,16 @@ if (isNaN(window.mozPaintCount) === false){
   var myLHElem = document.getElementById("testLH");
   var lh = getComputedStyle(myLHElem).getPropertyValue("line-height")
   lh = lh.slice(0, -2);
-  // detect TNR
   var myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
-  if (myLHFont.slice(1,16) == "Times New Roman") {
-    var isTNR = true;
-  } else {
-    var isTNR = false;
-  };
-  // only bother with OS if TNR used
   var lhOS = "[unknown]";
-  if (isTNR == true) {
+  if (myLHFont.slice(1,16) !== "Times New Roman") {
+    // TNR not used
+    lhOS = " <span class='bad'> &nbsp[blocking Times New Roman is very unique!]</span>";
+  } else if (lh == "19.2") {
+    // TB: 19.2px seems to be unique to TB across all zooms
+    lhOS= " <span class='good'> &nbsp[Tor Browser detected, nice!]</span>"
+  } else {
+    // using TBR and not TB: proceed   
     if (jsZoom == 100) {
       if (intVerNo > 61) {
         // FF62 or higher
@@ -494,14 +494,6 @@ if (isNaN(window.mozPaintCount) === false){
       };
     };
   };
-  // change output if TB used: only ever seen 19.2 with TB (on all zooms)
-  if (lh=="19.2") {
-    lhOS= " <span class='good'> &nbsp[Tor Browser detected, nice!]</span>"
-  }
-  // change output if TNR not used
-  if (isTNR == false) {
-    lhOS = " <span class='bad'> &nbsp[blocking Times New Roman is very unique!]</span>";
-  }
   // note: sbZoom was already set in scrollbar width code
   dom.cssLH.innerHTML = lh + "px " + sbZoom + lhOS;
 };
