@@ -108,8 +108,11 @@ if (window.devicePixelRatio == 1) {
   var jsZoom = Math.round(window.devicePixelRatio*100).toString();
 };
   // fixup some numbers
+if (jsZoom == 79) {jsZoom=80};
+if (jsZoom == 92) {jsZoom=90};
 if (jsZoom == 109) {jsZoom=110};
 if (jsZoom == 121) {jsZoom=120};
+if (jsZoom == 131) {jsZoom=133};
 if (jsZoom == 171) {jsZoom=170};
 if (jsZoom == 172) {jsZoom=170};
 if (jsZoom == 241) {jsZoom=240};
@@ -545,14 +548,14 @@ if (isNaN(window.mozPaintCount) === false){
   };
   // detect MAC
   if (lhOS == "") {
-    /*     mac unique: .0167 .1833 .35 .4333 .6833 .85
-       mac not unique: .7667 .6667 (but unique at those zoom values)
-       6667 -  mac 90 - WIN 30 + 150 + 170 + 300, LINUX 150
-       7667 - mac 170 - TB 90
-       19.5167 : never seen this in testing: was listed in an that hackernews forum */
+  /*  mac unique: .0167 .05 .0833 .1833 .35 .4333 .6833 .8333 .85
+  mac not unique: .7667 .6667 (but unique at those zoom values)
+  6667 -  mac 90 - WIN 30 + 150 + 170 + 300, LINUX 150
+  7667 - mac 170 - TB 90
+  19.5167 : never seen this in testing: was listed in an that hackernews forum */
     var lhDec = (lh+"").split(".")[1];
-    if (lhDec=="0167" | lhDec=="1833" | lhDec=="35" | lhDec=="4333" | lhDec=="6833"
-      | lhDec=="85" | lhDec=="7667" | lhDec=="6667" | lhDec=="5167") {lhOS=strM};
+    if (lhDec=="0167" | lhDec=="05" | lhDec=="0833" | lhDec=="1833" | lhDec=="35" | lhDec=="4333" | lhDec=="6833"
+      | lhDec=="8333" | lhDec=="85" | lhDec=="7667" | lhDec=="6667" | lhDec=="5167") {lhOS=strM};
   };
   // detect ANDROID
   if (lhOS == "") {
