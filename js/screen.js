@@ -475,7 +475,7 @@ if (isNaN(window.mozPaintCount) === false){
   var myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
   if (myLHFont.slice(1,16) !== "Times New Roman") {
     // TNR not used
-    lhOS = " <span class='bad'> [blocking Times New Roman is very unique!]</span>";
+    lhOS = " <span class='bad'> [you are blocking document fonts]</span>";
   } else if (lh == "19.2") {
     // TB: 19.2px seems to be unique to TB at any zoom on any platform
     lhOS= TBy;
