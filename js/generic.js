@@ -15,6 +15,11 @@ function getUniqueElements() {
   });
 };
 
+// unicode chars affect line-height = jitter when rerun, shuffling when filling
+var TBy = " <span class='good'> [TB]</span>"; // \u2714 = heavy checkmark
+var RFPy = " <span class='good'> [RFP]</span>";
+var RFPn =  " <span class='bad'> [RFP]</span>"; // \u2716 = heavy cross
+
 function showhide(toggleType, toggleID, togWord) {
   var xyz = document.getElementsByClassName("tog"+toggleID); var abc;
   for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = toggleType;}
@@ -140,7 +145,6 @@ function outputSection(section) {
     'speechSynth', 'speechEngines', 'nGetVR', 'nActiveVR'];
   };
   if (section == "fonts") {
-    // only clear hashes with &nbsp: font lists to be cleared in the language function and not use &nbsp
     var clearArray = ['fontFB'];
   };
   if (section == "language") {
@@ -157,7 +161,7 @@ function outputSection(section) {
   clearArray.forEach(function (arrayItem) {
     document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
   });
-  // delay output so users can see the values being blank then re-calculated
+  // delay output so users can see something happened
   setTimeout(function(){
     if (section == "audio") {outputAudio()};
     if (section == "canvas") {outputCanvas()};
