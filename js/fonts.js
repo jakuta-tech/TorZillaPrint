@@ -57,13 +57,15 @@ let spawn = (function () {
 
 function outputFonts(){
 
+  /* clear detail results with zero-length string */
+  dom.fontFBFound = "";
+
   /* ARTHUR'S TEST: ENUMERATE FONTS
      https://github.com/arthuredelstein/tordemos */
   var iframeFF = document.getElementById("iframeFF");
   iframeFF.src = "iframes/fontfallback.html";
   iframeFF.addEventListener("load", function(){
     dom.fontFB = "test is running... please wait";
-    dom.fontFBFound = "";
     var fontFBTest = iframeFF.contentWindow.document.getElementById("fontFBTest");
     fontFBTest.style.fontSize = "256px";
     // return width of the element with a given fontFamily
@@ -143,7 +145,12 @@ function outputFonts(){
           strFontFB = strFontFB.slice(0, -2);
           dom.fontFBFound.innerHTML = strFontFB; }
         else { dom.fontFBFound.innerHTML = "no fonts detected"};
-        dom.fontFB = sha1(strFontFB) + " ["+fontfbYes+"/"+fontfbAll+"]";
+        var fontFBhash = sha1(strFontFB);
+        var fontFBoutput = fontFBhash + " ["+fontfbYes+"/"+fontfbAll+"]";
+        // TB stuff
+        if (fontFBhash == "ad4ccd607603041d3e89aa8e03e2e203fc184653") {fontFBoutput = fontFBoutput+" [Windows]"+TBy};
+        if (fontFBhash == "09a4ee037c9082b9b8f0b7ae981c656d517faffa") {fontFBoutput = fontFBoutput+" [Linux]"+TBy};
+        dom.fontFB.innerHTML = fontFBoutput;
         /* finally, retitle the button */
         dom.fontRun = "[ re-run tests ]";
       }, 1000);
