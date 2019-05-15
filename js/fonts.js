@@ -150,6 +150,7 @@ function outputFonts(){
         // TB stuff
         if (fontFBhash == "ad4ccd607603041d3e89aa8e03e2e203fc184653") {fontFBoutput = fontFBoutput+" [Windows]"+TBy};
         if (fontFBhash == "09a4ee037c9082b9b8f0b7ae981c656d517faffa") {fontFBoutput = fontFBoutput+" [Linux]"+TBy};
+        if (fontFBhash == "4094aedc000205c711385fad32827e60462976dc") {fontFBoutput = fontFBoutput+" [Mac]"+TBy};
         dom.fontFB.innerHTML = fontFBoutput;
         /* finally, retitle the button */
         dom.fontRun = "[ re-run tests ]";
