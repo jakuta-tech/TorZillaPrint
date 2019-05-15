@@ -111,11 +111,14 @@ if (window.devicePixelRatio == 1) {
 if (jsZoom == 79) {jsZoom=80};
 if (jsZoom == 92) {jsZoom=90};
 if (jsZoom == 109) {jsZoom=110};
+if (jsZoom == 111) {jsZoom=110};
 if (jsZoom == 121) {jsZoom=120};
 if (jsZoom == 131) {jsZoom=133};
+if (jsZoom == 167) {jsZoom=170};
 if (jsZoom == 171) {jsZoom=170};
 if (jsZoom == 172) {jsZoom=170};
 if (jsZoom == 241) {jsZoom=240};
+if (jsZoom == 250) {jsZoom=240};
 dom.jsZoom = jsZoom;
 
 /* MATH */
@@ -468,14 +471,14 @@ if (isNaN(window.mozPaintCount) === false){
   var lh = getComputedStyle(myLHElem).getPropertyValue("line-height")
   lh = lh.slice(0, -2);
   var lhOS = "";
-  var strTBL = " [Linux] <span class='good'> [Tor Browser detected]</span>";
+  var strTBL = " [Linux]" + TBy;
   var myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
   if (myLHFont.slice(1,16) !== "Times New Roman") {
     // TNR not used
     lhOS = " <span class='bad'> [blocking Times New Roman is very unique!]</span>";
   } else if (lh == "19.2") {
     // TB: 19.2px seems to be unique to TB at any zoom on any platform
-    lhOS= " <span class='good'> [Tor Browser detected, nice!]</span>";
+    lhOS= TBy;
   } else {
     // using TNR and not TB's 19.2
     // detect WINDOWS / LINUX
@@ -605,9 +608,11 @@ function goFS() {
 };
 function goNW() {
   var newWin = window.open("","","width=9000,height=9000");
-  dom.newWinLeak = newWin.outerWidth +" x "+ newWin.outerHeight + " [outer] "
+  var newWinLeak = newWin.outerWidth +" x "+ newWin.outerHeight + " [outer] "
     + newWin.innerWidth +" x "+ newWin.innerHeight + " [inner]";
-}
+  if (newWinLeak == "10 x 10 [outer] 10 x 10 [inner]") {newWinLeak = newWinLeak+TBy};
+  dom.newWinLeak.innerHTML = newWinLeak;
+};
 
 /* DEVICEPIXELRATIO LEAKS */
 
