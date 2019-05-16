@@ -243,6 +243,7 @@ function outputUA() {
 	document.body.appendChild(imgLogoA);
 	imgLogoA.addEventListener("load", function() {
 		var imgLogoAW = imgLogoA.width;
+		console.log("imgLogoAW: "+imgLogoAW);
 		if (imgLogoAW == 300) {
 			// change displayed resource to icon64 (not on android)
 			dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/icon64.png')";
@@ -290,9 +291,6 @@ function outputUA() {
 		// error hash
 		errh = sha1(errh); dom.errh = errh;
 		if (errh == "7f5472aff63b6ed45eae2af94d1db8b729738d8b") {dom.fdError = "Firefox"};
-	// browser: math
-	if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {dom.fdMath="Firefox"};
-	if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMath="Firefox [32-bit]"};
 
 	// widgets
 	const iframeWD = document.getElementById("iframeWD");
@@ -656,6 +654,9 @@ function outputMath() {
 	var mathhash = sha1(str1math+"-"+str6math);
 	dom.mathhash = mathhash;
   // also output items based on math
+	// browser: math
+	if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {dom.fdMath="Firefox"};
+	if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMath="Firefox [32-bit]"};
   // os: math (refine browser as we go)
 	dom.fdMathOS="I just haven't worked out your combo yet"
 	if (math1hash == "46f7c2bbe55a2cd28252d059604f8c3bac316c23") {dom.fdMathOS="Windows [64-bit]"; dom.fdMath="Firefox [64-bit]"};
