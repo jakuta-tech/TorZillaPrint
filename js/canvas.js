@@ -1,10 +1,9 @@
 /* TABLE: canvas */
 
 /* code courtesy of kkapsner and canvasblocker
-	 https://canvasblocker.kkapsner.de/test/
-	 https://github.com/kkapsner/CanvasBlocker
-	 tiny modifications by newbie Thorin-Oakenpants
-*/
+- https://canvasblocker.kkapsner.de/test/
+- https://github.com/kkapsner/CanvasBlocker
+- tiny modifications by newbie Thorin-Oakenpants */
 
 "use strict";
 
@@ -308,25 +307,25 @@ var canvas = {
 function outputCanvas(runType) {
 	canvas.output(canvas.createHashes(window), document.getElementById("tb8"));
 	setTimeout(function(){
-	// output RFP checks
-	if (dom.cnv2.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc")
-	 {dom.cnv2.innerHTML = dom.cnv2.textContent + RFPy
-	 } else {dom.cnv2.innerHTML = dom.cnv2.textContent + RFPn};
-	if (dom.cnv3.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc")
-	 {dom.cnv3.innerHTML = dom.cnv3.textContent + RFPy
-	 } else {dom.cnv3.innerHTML = dom.cnv3.textContent + RFPn};
-	if (dom.cnv4.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc")
-	 {dom.cnv4.innerHTML = dom.cnv4.textContent + RFPy
-	 } else {dom.cnv4.innerHTML = dom.cnv4.textContent + RFPn};
-	if (dom.cnv5.textContent == "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282")
-	 {dom.cnv5.innerHTML = dom.cnv5.textContent + RFPy
-	 } else {dom.cnv5.innerHTML = dom.cnv5.textContent + RFPn};
-	if (dom.cnv7.textContent == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8")
-	 {dom.cnv7.innerHTML = dom.cnv7.textContent + RFPy
-	 } else {dom.cnv7.innerHTML = dom.cnv7.textContent + RFPn};
-	if (dom.cnv8.textContent == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8")
-	 {dom.cnv8.innerHTML = dom.cnv8.textContent + RFPy
-	 } else {dom.cnv8.innerHTML = dom.cnv8.textContent + RFPn};
+		// output RFP checks
+		if (dom.cnv2.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc")
+			{dom.cnv2.innerHTML = dom.cnv2.textContent + RFPy
+		} else {dom.cnv2.innerHTML = dom.cnv2.textContent + RFPn};
+		if (dom.cnv3.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc")
+			{dom.cnv3.innerHTML = dom.cnv3.textContent + RFPy
+		} else {dom.cnv3.innerHTML = dom.cnv3.textContent + RFPn};
+		if (dom.cnv4.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc")
+			{dom.cnv4.innerHTML = dom.cnv4.textContent + RFPy
+		} else {dom.cnv4.innerHTML = dom.cnv4.textContent + RFPn};
+		if (dom.cnv5.textContent == "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282")
+			{dom.cnv5.innerHTML = dom.cnv5.textContent + RFPy
+		} else {dom.cnv5.innerHTML = dom.cnv5.textContent + RFPn};
+		if (dom.cnv7.textContent == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8")
+			{dom.cnv7.innerHTML = dom.cnv7.textContent + RFPy
+		} else {dom.cnv7.innerHTML = dom.cnv7.textContent + RFPn};
+		if (dom.cnv8.textContent == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8")
+			{dom.cnv8.innerHTML = dom.cnv8.textContent + RFPy
+		} else {dom.cnv8.innerHTML = dom.cnv8.textContent + RFPn};
 	}, 170);
 };
 
