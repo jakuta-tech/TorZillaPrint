@@ -2,640 +2,658 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-  <title>TorZillaPrint</title>
-  <link rel="stylesheet" type="text/css" href="css/index.css">
-  <script src="js/generic.js"></script>
-  <script src="js/globals.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<title>TorZillaPrint</title>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<script src="js/generic.js"></script>
+	<script src="js/globals.js"></script>
 </head>
 
 <body>
-  <table>
-  <tr><td><a anchor="top"></a><h2>TorZillaPrint</h2></td></tr>
-  <tr><td><h3>TZP is only designed for Firefox and the Tor Browser, and only expected to work in 60 or higher.
-    If you want to know more, find bugs, or wish to contribute, come and visit us at <a target="_blank"
-    class="blue" href="https://github.com/ghacksuserjs/TorZillaPrint">github</a>. Additonal tests can be
-    found on <a class="blue" href="extra.html">this</a> extras page.</h3>
-  </td></tr>
-  </table>
+	<table>
+	<tr><td><a anchor="top"></a><h2>TorZillaPrint</h2></td></tr>
+	<tr><td><h3>TZP is only designed for Firefox and the Tor Browser, and only expected to work in 60 or higher.
+		If you want to know more, find bugs, or wish to contribute, come and visit us at <a target="_blank"
+		class="blue" href="https://github.com/ghacksuserjs/TorZillaPrint">github</a>. Additonal tests can be
+		found on <a class="blue" href="extra.html">this</a> extras page.</h3>
+	</td></tr>
+	</table>
 
-  <!-- iframes: get them in early-->
-  <iframe id="iframeDTD1" style='position: absolute; top: -2000%;'></iframe>
-  <iframe id="iframeDTD2" style='position: absolute; top: -2000%;'></iframe>
-  <iframe id="iframeDR" style='position: absolute; top: -2000%;'></iframe>
-  <iframe id="iframeWD" style='position: absolute; top: -1000%;'></iframe>
-  <iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
-  <img width=0 height=0 id="elFS"></img>
+	<!-- iframes: get them in early-->
+	<iframe id="iframeDTD1" style='position: absolute; top: -2000%;'></iframe>
+	<iframe id="iframeDTD2" style='position: absolute; top: -2000%;'></iframe>
+	<iframe id="iframeDR" style='position: absolute; top: -2000%;'></iframe>
+	<iframe id="iframeWD" style='position: absolute; top: -1000%;'></iframe>
+	<iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
+	<img width=0 height=0 id="elFS"></img>
 
-  <!-- TABLE 1: Screen - screen.js -->
-  <table id="tb1">
-    <col width="50%"><a name="screen"></a><col width="50%">
-    <thead><tr><th colspan="2">
-      <div class="nav-title"><a href="#screen">Screen</a>
-        <div class="nav-up"><a href="#top">&#9650;</a></div>
-        <div class="nav-down"><a href="#useragent">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td>screen resolution</td><td id="ScrRes"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptextbig">real time update when spoofing<br>inner window: range 500-2560</span></div>
-      &nbsp [css] screen resolution <sup>1</sup></td><td id="S"></td></tr>
-    <tr><td>available resolution</td><td id="ScrAvail"></td></tr>
-    <tr><td>outer window</td><td id="WndOut"></td></tr>
-    <tr><td>inner window</td><td id="WndIn"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptext">real time update:<br>range 500-2560</span></div>
-      &nbsp [css] inner window <sup>1, 2</sup></td><td id="D"></td></tr>
-    <tr><td>viewport <sup>3</sup></td><td id="Viewport"></td></tr>
-    <tr><td>full screen</td><td id="fsState"></td></tr>
-    <tr><td>[api] full screen</td><td id="fsSupport"></td></tr>
-    <tr><td><button class="btn0" onClick="goFS()">[ click here ]</button>
-      <div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptextbig"><b>DON'T PANIC</b> as you briefly<br>enter and then exit full screen</span></div>
-      &nbsp [test] full screen <sup>3</sup></td><td id="fsLeak"></td></tr>
-    <tr><td><button class="btn0" onClick="goNW()">[ click here ]</button>
-      <div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptextbig">will attempt to open a new<br>window as big as possible<br>and grab the dimensions</span></div>
-      &nbsp new window</td><td id="newWinLeak"></td></tr>
-    <tr><td>private window</td><td id="IsPBMode"></td></tr>
-    <tr><td>orientation</td><td id="ScrOrient"></td></tr>
-    <tr><td>[matchMedia] window orientation</td><td id="mmOrient"></td></tr>
-    <tr><td>[inner width vs inner height] window orientation</td><td id="mathOrient"></td></tr>
-    <tr><td>pixel depth</td><td id="PixDepth"></td></tr>
-    <tr><td>color depth</td><td id="ColDepth"></td></tr>
-    <tr><td>dpi</td><td id="jsDPI"></td ></tr>
-    <tr><td>[css] dpi</td><td id="P"></td></tr>
-    <tr><td>[matchMedia] dpi</td><td id="mmDPI"></td></tr>
-    <!--<tr><td>hidpi</td><td></td></tr>-->
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptext">might break<br> with HiDPI</span></div>
-      &nbsp zoom %</td><td id="jsZoom"></td></tr>
-    <tr><td>devicePixelRatio</td><td id="DevPR"></td></tr>
-    <tr><td>[scrollY] devicePixelRatio <sup>4</sup></td><td id="devPRscrollY"></td></tr>
-    <tr><td>[clientRect] devicePixelRatio <sup>4</sup></td><td id="devPRclientRect"></td></tr>
-    <tr><td colspan="2"><span class="no_color">code based on work by </span>
-      <sup>1</sup><a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/media-query-fingerprint.html">Arthur Edelstein</a>
-      <span class="no_color">,</span>
-      <sup>2</sup> <a target="_blank" class="blue" href="https://matt.traudt.xyz/posts/how-css-alone-YF4ciVY6.html">Matt Traudt</a>
-      <span class="no_color">,</span>
-      <sup>3</sup> <a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a>
-      <span class="no_color"> and </span>
-      <sup>4</sup> <a target="_blank" class="blue" href="https://acatarineu.github.io/fp/devicePixelRatio.html">Alex Catarineu</a>
-    </td></tr>
-  </table>
+	<!-- TABLE 1: Screen - screen.js -->
+	<table id="tb1">
+		<col width="50%"><a name="screen"></a><col width="50%">
+		<thead><tr><th colspan="2">
+			<div class="nav-title"><a href="#screen">Screen</a>
+				<div class="nav-up"><a href="#top">&#9650;</a></div>
+				<div class="nav-down"><a href="#useragent">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn1" onClick="outputSection(`screen`)">[ re-run tests ]</button></div>
+				<div>screen resolution</div></div></td><td id="ScrRes"></td>
+		</tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptextbig">real time update when spoofing<br>inner window: range 500-2560</span></div>
+			&nbsp [css] screen resolution <sup>1</sup></td><td id="S"></td></tr>
+		<tr><td>available resolution</td><td id="ScrAvail"></td></tr>
+		<tr><td>outer window</td><td id="WndOut"></td></tr>
+		<tr><td>inner window</td><td id="WndIn"></td></tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptext">real time update:<br>range 500-2560</span></div>
+			&nbsp [css] inner window <sup>1, 2</sup></td><td id="D"></td></tr>
+		<tr><td>viewport <sup>3</sup></td><td id="Viewport"></td></tr>
+		<tr><td>full screen</td><td id="fsState"></td></tr>
+		<tr><td>[api] full screen</td><td id="fsSupport"></td></tr>
+		<tr><td><button class="btn0" onClick="goFS()">[ click here ]</button>
+			<div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptextbig"><b>DON'T PANIC</b> as you briefly<br>enter and then exit full screen</span></div>
+			&nbsp [test] full screen <sup>3</sup></td><td id="fsLeak"></td></tr>
+		<tr><td><button class="btn0" onClick="goNW()">[ click here ]</button>
+			<div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptextbig">will attempt to open a new<br>window as big as possible<br>and grab the dimensions</span></div>
+			&nbsp new window</td><td id="newWinLeak"></td></tr>
+		<tr><td>private window</td><td id="IsPBMode"></td></tr>
+		<tr><td>orientation</td><td id="ScrOrient"></td></tr>
+		<tr><td>[matchMedia] window orientation</td><td id="mmOrient"></td></tr>
+		<tr><td>[inner width vs inner height] window orientation</td><td id="mathOrient"></td></tr>
+		<tr><td>pixel depth</td><td id="PixDepth"></td></tr>
+		<tr><td>color depth</td><td id="ColDepth"></td></tr>
+		<tr><td>dpi</td><td id="jsDPI"></td ></tr>
+		<tr><td>[css] dpi</td><td id="P"></td></tr>
+		<tr><td>[matchMedia] dpi</td><td id="mmDPI"></td></tr>
+		<!--<tr><td>hidpi</td><td></td></tr>-->
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptext">might break<br> with HiDPI</span></div>
+			&nbsp zoom %</td><td id="jsZoom"></td></tr>
+		<tr><td>devicePixelRatio</td><td id="DevPR"></td></tr>
+		<tr><td>[scrollY] devicePixelRatio <sup>4</sup></td><td id="devPRscrollY"></td></tr>
+		<tr><td>[clientRect] devicePixelRatio <sup>4</sup></td><td id="devPRclientRect"></td></tr>
+		<tr><td colspan="2"><span class="no_color">code based on work by </span>
+			<sup>1</sup><a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/media-query-fingerprint.html">Arthur Edelstein</a>
+			<span class="no_color">,</span>
+			<sup>2</sup> <a target="_blank" class="blue" href="https://matt.traudt.xyz/posts/how-css-alone-YF4ciVY6.html">Matt Traudt</a>
+			<span class="no_color">,</span>
+			<sup>3</sup> <a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a>
+			<span class="no_color"> and </span>
+			<sup>4</sup> <a target="_blank" class="blue" href="https://acatarineu.github.io/fp/devicePixelRatio.html">Alex Catarineu</a>
+		</td></tr>
+	</table>
 
-    <div id='testdpi' style='height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;'></div>
-    <div class="hidden"><span class="cssLH" id="testLH">css line height hopefully with Times New Roman</span></div>
+		<div id='testdpi' style='height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;'></div>
+		<div class="hidden"><span class="cssLH" id="testLH">css line height hopefully with Times New Roman</span></div>
 
-  <!-- TABLE 2: User Agent - part of screen.js-->
-  <table id="tb2">
-    <col width="37%"><a name="useragent"></a><col width="63%">
-    <thead><tr><th colspan="2">
-      <div class="nav-title"><a href="#useragent">User Agent</a>
-        <div class="nav-up"><a href="#screen">&#9650;</a></div>
-        <div class="nav-down"><a href="#math">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td colspan="2" class="intro"><span class="no_color">
-      <code>Browser</code>, <code>version</code> and <code>os</code> tests are to show how trivial it is to detect Firefox/Tor
-      Browser, the version and your os. However, some have real entropy, such as math hashes or pixel values.
-      Returning the <code>browser/os</code> here is just for fun. Each test is independent of the others.</span>
-    </td></tr>
-    <tr><td>[header] http_user_agent</td><td></td></tr>
-    <tr><td>[navigator] userAgent</td><td id="nUserAgent"></td></tr>
-    <tr><td>[navigator] appCodeName</td><td id="nCodeName"></td></tr>
-    <tr><td>[navigator] appName</td><td id="nAppName"></td></tr>
-    <tr><td>[navigator] product</td><td id="nProduct"></td></tr>
-    <tr><td>[navigator] appVersion</td><td id="nAppVersion"></td></tr>
-    <tr><td>[navigator] oscpu</td><td id="nOscpu"></td></tr>
-    <tr><td>[navigator] platform</td><td id="nPlatform"></td></tr>
-    <tr><td>[navigator] buildID</td><td id="nBuildID"></td></tr>
-    <tr><td>[navigator] productSub</td><td id="nProductSub"></td></tr>
-    <tr><td colspan="2" class="center">---browser, version, os---</td></tr>
-    <tr><td>[css] browser</td><td id="fdResourceCss"></td></tr>
-    <tr><td>[error messages] browser</td><td id="fdError"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptext"><b>mozPaintCount:</b><br>we could also use<br>mozGetAsFile<br>mozInnerScreenX
-      <br>mozScreenX<br>oscpu<br>scrollMaxX</span></div> &nbsp [feature detection] browser</td><td id="fdPaintCount"></td></tr>
-    <tr><td>[resource://] browser</td><td id="fdResource"></td></tr>
-    <tr><td>[math] browser</td><td id="fdMath"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-       <span class="tooltiptext">Firefox 60+ only</span></div>
-       &nbsp [feature detection] version</td><td id="versionNo"></td></tr>
-    <tr><td>[chrome://] os</td><td id="fdChromeOS"></td></tr>
-    <tr><td>[math] os</td><td id="fdMathOS"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptextbig">Linux, Mac or Windows</div> &nbsp [css] os <sup>1</sup></td>
-      <td>
-        <span id="fdCssOSL" style="font-family: Arimo, DejaVu Serif, Adobe Blank Not Linux;">Linux</span>
-        <span id="fdCssOSM" style="font-family: Lucida Grande, Adobe Blank Not Mac;">Mac</span>
-        <span id="fdCssOSW" style="font-family: Segoe UI, Adobe Blank Not Windows;">Windows</span>
-      </td>
-    </tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptextbig">based on <b>[css] os</b> above</span></div>
-      &nbsp [font] os <sup>1</sup></td><td id="fontOS"></td></tr>
-    <tr><td>[css line-height] os</td><td id="cssLH"></td></tr>
-    <tr><td>[scrollbar width] os <sup>2, 3</sup></td><td id="scrollbarWidth"></td></tr>
-    <tr><td>[tcp/ip] os</td><td></td></tr>
-    <tr><td>[widgets] os</td><td id="widgetOS"></td></tr>
-    <tr><td colspan="2" class="showhide">
-        <input id="collapseE" class="toggle" type="checkbox" checked onchange="toggleitems(this, `E`)">
-        <label for="collapseE" class="lbl-toggle" id="labelE">&#9660; show details</label>
-    </td></tr>
-    <tr class="togE"><td></td><td class="sub2">error messages</td></tr>
-    <tr class="togE"><td>hash</td><td class="mono" id="errh"></td></tr>
-      <tr class="togE"><td>error1</td><td id="err1"></td></tr>
-      <tr class="togE"><td>error2</td><td id="err2"></td></tr>
-      <tr class="togE"><td>error3</td><td id="err3"></td></tr>
-      <tr class="togE"><td>error4</td><td id="err4"></td></tr>
-      <tr class="togE"><td>error5</td><td id="err5"></td></tr>
-      <tr class="togE"><td>error6</td><td id="err6"></td></tr>
-    <tr class="togE"><td></td><td class="sub2">widgets</td></tr>
-      <tr class="togE"><td>hash</td><td class="mono" id="widgetH"></td></tr>
-      <tr class="togE"><td id="widfirst">button|checkbox|color|combobox|datetime-local|radio|text</td>
-        <td  style="white-space: pre;" id="wid1"></td></tr>
-      <tr class="hidden"><td>radio</td><td id="wid2"></td></tr>
-      <tr class="hidden"><td>button</td><td id="wid3"></td></tr>
-      <tr class="hidden"><td>combobox</td><td id="wid4"></td></tr>
-      <tr class="hidden"><td>text</td><td id="wid5"></td></tr>
-      <tr class="hidden"><td>datetime-local</td><td id="wid6"></td></tr>
-      <tr class="hidden"><td>color</td><td id="wid7"></td></tr>
-      <tr class="togE"><td>datetime</td><td id="wid8"></td></tr>
-      <tr class="togE"><td>textarea</td><td id="wid9"></td></tr>
-      <tr class="togE"><td colspan="2"></td></tr>
-    <tr><td colspan="2"><span class="no_color">code based on work by </span>
-      <sup>1</sup><a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/os-detection-font-css.html">Arthur Edelstein</a>
-      <span class="no_color">, </span>
-      <sup>2</sup> <a target="_blank" class="blue" href="https://www.hackerfactor.com/blog/index.php?/archives/761-Exploiting-the-TOR-Browser.html">Dr. Neal Krawetz</a>
-      <span class="no_color">and </span>
-      <sup>3</sup> <a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a></td></tr>
-  </table>
+	<!-- TABLE 2: User Agent - part of screen.js-->
+	<table id="tb2">
+		<col width="37%"><a name="useragent"></a><col width="63%">
+		<thead><tr><th colspan="2">
+			<div class="nav-title"><a href="#useragent">User Agent</a>
+				<div class="nav-up"><a href="#screen">&#9650;</a></div>
+				<div class="nav-down"><a href="#math">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td colspan="2" class="intro"><span class="no_color">
+			<code>Browser</code>, <code>version</code> and <code>os</code> tests are to show how trivial it is to detect Firefox/Tor
+			Browser, the version and your os. However, some have real entropy, such as math hashes or pixel values.
+			Returning the <code>browser/os</code> here is just for fun. Each test is independent of the others.</span>
+		</td></tr>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn2" onClick="outputSection(`ua`)">[ re-run tests ]</button></div>
+				<div>[header] http_user_agent</div></div></td><td></td>
+		</tr>
+		<tr><td>[navigator] userAgent</td><td id="nUserAgent"></td></tr>
+		<tr><td>[navigator] appCodeName</td><td id="nCodeName"></td></tr>
+		<tr><td>[navigator] appName</td><td id="nAppName"></td></tr>
+		<tr><td>[navigator] product</td><td id="nProduct"></td></tr>
+		<tr><td>[navigator] appVersion</td><td id="nAppVersion"></td></tr>
+		<tr><td>[navigator] oscpu</td><td id="nOscpu"></td></tr>
+		<tr><td>[navigator] platform</td><td id="nPlatform"></td></tr>
+		<tr><td>[navigator] buildID</td><td id="nBuildID"></td></tr>
+		<tr><td>[navigator] productSub</td><td id="nProductSub"></td></tr>
+		<tr><td colspan="2" class="center">---browser, version, os---</td></tr>
+		<tr><td>[css] browser</td><td id="fdResourceCss"></td></tr>
+		<tr><td>[error messages] browser</td><td id="fdError"></td></tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptext"><b>mozPaintCount:</b><br>we could also use<br>mozGetAsFile<br>mozInnerScreenX
+			<br>mozScreenX<br>oscpu<br>scrollMaxX</span></div> &nbsp [feature detection] browser</td><td id="fdPaintCount"></td></tr>
+		<tr><td>[resource://] browser</td><td id="fdResource"></td></tr>
+		<tr><td>[math] browser</td><td id="fdMath"></td></tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			 <span class="tooltiptext">Firefox 60+ only</span></div>
+			 &nbsp [feature detection] version</td><td id="versionNo"></td></tr>
+		<tr><td>[chrome://] os</td><td id="fdChromeOS"></td></tr>
+		<tr><td>[math] os</td><td id="fdMathOS"></td></tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptextbig">Linux, Mac or Windows</div> &nbsp [css] os <sup>1</sup></td>
+			<td>
+				<span id="fdCssOSL" style="font-family: Arimo, DejaVu Serif, Adobe Blank Not Linux;">Linux</span>
+				<span id="fdCssOSM" style="font-family: Lucida Grande, Adobe Blank Not Mac;">Mac</span>
+				<span id="fdCssOSW" style="font-family: Segoe UI, Adobe Blank Not Windows;">Windows</span>
+			</td>
+		</tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptextbig">based on <b>[css] os</b> above</span></div>
+			&nbsp [font] os <sup>1</sup></td><td id="fontOS"></td></tr>
+		<tr><td>[css line-height] os</td><td id="cssLH"></td></tr>
+		<tr><td>[scrollbar width] os <sup>2, 3</sup></td><td id="scrollbarWidth"></td></tr>
+		<tr><td>[tcp/ip] os</td><td></td></tr>
+		<tr><td>[widgets] os</td><td id="widgetOS"></td></tr>
+		<tr><td colspan="2" class="showhide">
+				<input id="collapseE" class="toggle" type="checkbox" checked onchange="toggleitems(this, `E`)">
+				<label for="collapseE" class="lbl-toggle" id="labelE">&#9660; show details</label>
+		</td></tr>
+		<tr class="togE"><td></td><td class="sub2">error messages</td></tr>
+		<tr class="togE"><td>hash</td><td class="mono" id="errh"></td></tr>
+			<tr class="togE"><td>error1</td><td id="err1"></td></tr>
+			<tr class="togE"><td>error2</td><td id="err2"></td></tr>
+			<tr class="togE"><td>error3</td><td id="err3"></td></tr>
+			<tr class="togE"><td>error4</td><td id="err4"></td></tr>
+			<tr class="togE"><td>error5</td><td id="err5"></td></tr>
+			<tr class="togE"><td>error6</td><td id="err6"></td></tr>
+		<tr class="togE"><td></td><td class="sub2">widgets</td></tr>
+			<tr class="togE"><td>hash</td><td class="mono" id="widgetH"></td></tr>
+			<tr class="togE"><td id="widfirst">button|checkbox|color|combobox|datetime-local|radio|text</td>
+				<td style="white-space: pre;" id="wid1"></td></tr>
+			<tr class="hidden"><td>radio</td><td id="wid2"></td></tr>
+			<tr class="hidden"><td>button</td><td id="wid3"></td></tr>
+			<tr class="hidden"><td>combobox</td><td id="wid4"></td></tr>
+			<tr class="hidden"><td>text</td><td id="wid5"></td></tr>
+			<tr class="hidden"><td>datetime-local</td><td id="wid6"></td></tr>
+			<tr class="hidden"><td>color</td><td id="wid7"></td></tr>
+			<tr class="togE"><td>datetime</td><td id="wid8"></td></tr>
+			<tr class="togE"><td>textarea</td><td id="wid9"></td></tr>
+			<tr class="togE"><td colspan="2"></td></tr>
+		<tr><td colspan="2"><span class="no_color">code based on work by </span>
+			<sup>1</sup><a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/os-detection-font-css.html">Arthur Edelstein</a>
+			<span class="no_color">, </span>
+			<sup>2</sup> <a target="_blank" class="blue" href="https://www.hackerfactor.com/blog/index.php?/archives/761-Exploiting-the-TOR-Browser.html">Dr. Neal Krawetz</a>
+			<span class="no_color">and </span>
+			<sup>3</sup> <a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a></td></tr>
+	</table>
 
-  <!-- TABLE 3: Math - part of screen.js-->
-  <table id="tb3">
-    <col width="37%"><a name="math"></a><col width="63%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#math">Math</a>
-        <div class="nav-up"><a href="#useragent">&#9650;</a></div>
-        <div class="nav-down"><a href="#language">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td>1st edition</td><td class="mono" id="math1hash"></td></tr>
-    <tr><td>6th edition</td><td class="mono" id="math6hash"></td></tr>
-    <tr><td>combined</td><td class="mono" id="mathhash"></td></tr>
-    <tr><td colspan="2" class="showhide">
-        <input id="collapseM" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M`)">
-        <label for="collapseM" class="lbl-toggle" id="labelM">&#9660; show details</label>
-    </td></tr>
-    <tr class="togM"><td></td><td class="sub3">ECMAScript 1st Edition</td></tr>
-      <tr class="togM"><td>cos(1e251)</td><td class="mono" id="cos1"></td></tr>
-      <tr class="togM"><td>cos(1e140)</td><td class="mono" id="cos2"></td></tr>
-      <tr class="togM"><td>cos(1e12)</td><td class="mono" id="cos3"></td></tr>
-      <tr class="togM"><td>cos(1e130)</td><td class="mono" id="cos4"></td></tr>
-      <tr class="togM"><td>cos(1e272)</td><td class="mono" id="cos5"></td></tr>
-      <tr class="togM"><td>cos(1e0)</td><td class="mono" id="cos6"></td></tr>
-      <tr class="togM"><td>cos(1e284)</td><td class="mono" id="cos7"></td></tr>
-      <tr class="togM"><td>cos(1e75)</td><td class="mono" id="cos8"></td></tr>
-    <tr class="togM"><td></td><td class="sub3">ECMAScript 6th Edition</td></tr>
-      <tr class="togM"><td>atanh(0.5)</td><td class="mono" id="math1"></td></tr>
-      <tr class="togM"><td>expm1(1)</td><td class="mono" id="math2"></td></tr>
-      <tr class="togM"><td>sinh(1)</td><td class="mono" id="math3"></td></tr>
-    <tr class="togM"><td colspan="2"></td></tr>
-    <tr><td colspan="2"><span class="no_color">ECMAScript 6th edition math code courtesy of </span>
-      <a target="_blank" class="blue" href="https://fpcentral.tbb.torproject.org/">Fingerprint Central</a></td></tr>
-  </table>
+	<!-- TABLE 3: Math - part of screen.js-->
+	<table id="tb3">
+		<col width="37%"><a name="math"></a><col width="63%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#math">Math</a>
+				<div class="nav-up"><a href="#useragent">&#9650;</a></div>
+				<div class="nav-down"><a href="#language">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn3" onClick="outputSection(`math`)">[ re-run tests ]</button></div>
+				<div>1st edition</div></div></td><td class="mono" id="math1hash"></td>
+		</tr>
+		<tr><td>6th edition</td><td class="mono" id="math6hash"></td></tr>
+		<tr><td>combined</td><td class="mono" id="mathhash"></td></tr>
+		<tr><td colspan="2" class="showhide">
+				<input id="collapseM" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M`)">
+				<label for="collapseM" class="lbl-toggle" id="labelM">&#9660; show details</label>
+		</td></tr>
+		<tr class="togM"><td></td><td class="sub3">ECMAScript 1st Edition</td></tr>
+			<tr class="togM"><td>cos(1e251)</td><td class="mono" id="cos1"></td></tr>
+			<tr class="togM"><td>cos(1e140)</td><td class="mono" id="cos2"></td></tr>
+			<tr class="togM"><td>cos(1e12)</td><td class="mono" id="cos3"></td></tr>
+			<tr class="togM"><td>cos(1e130)</td><td class="mono" id="cos4"></td></tr>
+			<tr class="togM"><td>cos(1e272)</td><td class="mono" id="cos5"></td></tr>
+			<tr class="togM"><td>cos(1e0)</td><td class="mono" id="cos6"></td></tr>
+			<tr class="togM"><td>cos(1e284)</td><td class="mono" id="cos7"></td></tr>
+			<tr class="togM"><td>cos(1e75)</td><td class="mono" id="cos8"></td></tr>
+		<tr class="togM"><td></td><td class="sub3">ECMAScript 6th Edition</td></tr>
+			<tr class="togM"><td>atanh(0.5)</td><td class="mono" id="math1"></td></tr>
+			<tr class="togM"><td>expm1(1)</td><td class="mono" id="math2"></td></tr>
+			<tr class="togM"><td>sinh(1)</td><td class="mono" id="math3"></td></tr>
+		<tr class="togM"><td colspan="2"></td></tr>
+		<tr><td colspan="2"><span class="no_color">ECMAScript 6th edition math code courtesy of </span>
+			<a target="_blank" class="blue" href="https://fpcentral.tbb.torproject.org/">Fingerprint Central</a></td></tr>
+	</table>
 
-  <!-- TABLE 4: Language & Locale / Time Zone & Date Format / Geolocation - language.js -->
-  <table id="tb4">
-    <col width="37%"><a name="language"></a><col width="63%">
-    <thead><tr><th colspan="2">
-      <div class="nav-title"><a href="#language">Language & Locale / Time Zone & Date Format / Geolocation</a>
-        <div class="nav-up"><a href="#math">&#9650;</a></div>
-        <div class="nav-down"><a href="#headers">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td><div>
-        <div class="btn-left"><button class="btn4" onClick="outputSection(`language`)">[ re-run tests ]</button></div>
-        <div>[header] http_accept_language</div></div></td>
-      <td></td></tr>
-    <tr><td>[navigator] languages</td><td id="nLanguages"></td></tr>
-    <tr><td>[navigator] language</td><td id="nLanguage"></td></tr>
-    <tr><td>[navigator] languages[0]</td><td id="nLanguages0"></td></tr>
-    <tr><td>[Intl.PluralRules] locale</td><td id="localeIPR"></td></tr>
-    <tr><td>[resolvedOptions] locale</td><td id="localeRO"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptextbig">test if the error message<br>uses your application locale</span></div>
-      &nbsp [test] DTD locale</td><td id="localeDTD"></td></tr>
-    <tr><td>timezone offsets</td><td id="tzOffsets"></td></tr>
-    <tr><td>[resolvedOptions] timezone</td><td id="tzRO"></td></tr>
-    <tr><td>system date/time</td><td id="dateSystem"></td></tr>
-    <tr><td>toString</td><td id="dateString"></td></tr>
-    <tr><td>[long] toLocaleString</td><td id="lngdateLS"></td></tr>
-    <tr><td>[long] toLocaleDateString</td><td id="lngdateLDS"></td></tr>
-    <tr><td>[long] toLocaleTimeString</td><td id="lngdateLTS"></td></tr>
-    <tr><td>[long] Intl.DateTimeFormat</td><td id="lngdateIDTF"></td></tr>
-    <tr><td>[formatToParts] Intl.DateTimeFormat</td><td id="dateFTP"></td></tr>
-    <tr><td>toGMTString</td><td id="dateGMT"></td></tr>
-    <tr><td>toUTCString</td><td id="dateUTC"></td></tr>
-    <tr><td>toLocaleString</td><td id="dateLS"></td></tr>
-    <tr><td>[Typed Array] toLocaleString</td><td id="dateTAtoLS"></td></tr>
-    <tr><td>toLocaleDateString</td><td id="dateLDS"></td></tr>
-    <tr><td>Intl.DateTimeFormat</td><td id="dateIDTF"></td></tr>
-    <tr><td>toLocaleTimeString</td><td id="dateLTS"></td></tr>
-    <tr><td>toTimeString</td><td id="dateTS"></td></tr>
-    <tr><td>[formatToParts] Intl.NumberFormat</td><td id="numFTP"></td></tr>
-    <tr><td>[resolvedOptions] hourCycle</td><td id="hourRO"></td></tr>
-    <tr><td>Intl.RelativeTimeFormat</td><td id="dateIRTF"></td></tr>
-    <tr><td>[resolvedOptions] calendar</td><td id="calendarRO"></td></tr>
-    <tr><td>[resolvedOptions] numberingSystem</td><td id="numsysRO"></td></tr>
-    <tr><td>[api] geolocation</td><td id="nGeolocation"></td></tr>
-    <tr><td>[permission] geolocation</td><td id="pGeolocation"></td></tr>
-    <tr><td colspan="2"><span class="no_color">DTD locale leaks courtesy of Alex Catarineu</span>
-      <a target="_blank" class="blue" href="https://acatarineu.github.io/fp/locale.html">here</a>
-      <span class="no_color"> and </span>
-      <a target="_blank" class="blue" href="https://acatarineu.github.io/fp/locale_nullprincipal.html">here</a>
-    </td></tr>
-  </table>
+	<!-- TABLE 4: Language & Locale / Time Zone & Date Format / Geolocation - language.js -->
+	<table id="tb4">
+		<col width="37%"><a name="language"></a><col width="63%">
+		<thead><tr><th colspan="2">
+			<div class="nav-title"><a href="#language">Language & Locale / Time Zone & Date Format / Geolocation</a>
+				<div class="nav-up"><a href="#math">&#9650;</a></div>
+				<div class="nav-down"><a href="#headers">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn4" onClick="outputSection(`language`)">[ re-run tests ]</button></div>
+				<div>[header] http_accept_language</div></div></td>
+			<td></td></tr>
+		<tr><td>[navigator] languages</td><td id="nLanguages"></td></tr>
+		<tr><td>[navigator] language</td><td id="nLanguage"></td></tr>
+		<tr><td>[navigator] languages[0]</td><td id="nLanguages0"></td></tr>
+		<tr><td>[Intl.PluralRules] locale</td><td id="localeIPR"></td></tr>
+		<tr><td>[resolvedOptions] locale</td><td id="localeRO"></td></tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptextbig">test if the error message<br>uses your application locale</span></div>
+			&nbsp [test] DTD locale</td><td id="localeDTD"></td></tr>
+		<tr><td>timezone offsets</td><td id="tzOffsets"></td></tr>
+		<tr><td>[resolvedOptions] timezone</td><td id="tzRO"></td></tr>
+		<tr><td>system date/time</td><td id="dateSystem"></td></tr>
+		<tr><td>toString</td><td id="dateString"></td></tr>
+		<tr><td>[long] toLocaleString</td><td id="lngdateLS"></td></tr>
+		<tr><td>[long] toLocaleDateString</td><td id="lngdateLDS"></td></tr>
+		<tr><td>[long] toLocaleTimeString</td><td id="lngdateLTS"></td></tr>
+		<tr><td>[long] Intl.DateTimeFormat</td><td id="lngdateIDTF"></td></tr>
+		<tr><td>[formatToParts] Intl.DateTimeFormat</td><td id="dateFTP"></td></tr>
+		<tr><td>toGMTString</td><td id="dateGMT"></td></tr>
+		<tr><td>toUTCString</td><td id="dateUTC"></td></tr>
+		<tr><td>toLocaleString</td><td id="dateLS"></td></tr>
+		<tr><td>[Typed Array] toLocaleString</td><td id="dateTAtoLS"></td></tr>
+		<tr><td>toLocaleDateString</td><td id="dateLDS"></td></tr>
+		<tr><td>Intl.DateTimeFormat</td><td id="dateIDTF"></td></tr>
+		<tr><td>toLocaleTimeString</td><td id="dateLTS"></td></tr>
+		<tr><td>toTimeString</td><td id="dateTS"></td></tr>
+		<tr><td>[formatToParts] Intl.NumberFormat</td><td id="numFTP"></td></tr>
+		<tr><td>[resolvedOptions] hourCycle</td><td id="hourRO"></td></tr>
+		<tr><td>Intl.RelativeTimeFormat</td><td id="dateIRTF"></td></tr>
+		<tr><td>[resolvedOptions] calendar</td><td id="calendarRO"></td></tr>
+		<tr><td>[resolvedOptions] numberingSystem</td><td id="numsysRO"></td></tr>
+		<tr><td>[api] geolocation</td><td id="nGeolocation"></td></tr>
+		<tr><td>[permission] geolocation</td><td id="pGeolocation"></td></tr>
+		<tr><td colspan="2"><span class="no_color">DTD locale leaks courtesy of Alex Catarineu</span>
+			<a target="_blank" class="blue" href="https://acatarineu.github.io/fp/locale.html">here</a>
+			<span class="no_color"> and </span>
+			<a target="_blank" class="blue" href="https://acatarineu.github.io/fp/locale_nullprincipal.html">here</a>
+		</td></tr>
+	</table>
 
-  <!-- TABLE 5:  HTTP Headers - headers.js -->
-  <table id="tb5">
-    <col width="50%"><a name="headers"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#headers">HTTP Headers</a>
-        <div class="nav-up"><a href="#language">&#9650;</a></div>
-        <div class="nav-down"><a href="#cookies">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td>http_accept</td><td></td></tr>
-    <tr><td>http_accept_encoding</td><td></td></tr>
-    <tr><td>http_dnt</td><td></td></tr>
-    <tr><td>[navigator] doNotTrack</td><td id="nDoNotTrack"></td></tr>
-    <tr><td>http_upgrade_insecure_requests</td><td></td></tr>
-    <tr><td>server_protocol</td><td></td></tr>
-    <tr><td>[api] network information</td><td id="nNetwork"></td></tr>
-    <tr><td>[navigator] connection</td><td id="nConnection"></td></tr>
-    <tr><td>[navigator] onLine</td><td id="nOnLine"></td></tr>
-  </table>
+	<!-- TABLE 5:	 HTTP Headers - headers.js -->
+	<table id="tb5">
+		<col width="50%"><a name="headers"></a><col width="50%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#headers">HTTP Headers</a>
+				<div class="nav-up"><a href="#language">&#9650;</a></div>
+				<div class="nav-down"><a href="#cookies">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn5" onClick="outputSection(`headers`)">[ re-run tests ]</button></div>
+				<div>[navigator] doNotTrack</div></div></td><td id="nDoNotTrack"></td>
+		</tr>
+		<tr><td>[api] network information</td><td id="nNetwork"></td></tr>
+		<tr><td>[navigator] connection</td><td id="nConnection"></td></tr>
+		<tr><td>[navigator] onLine</td><td id="nOnLine"></td></tr>
+		<tr><td colspan="2" class="center">------</td></tr>
+		<tr><td>http_accept</td><td></td></tr>
+		<tr><td>http_accept_encoding</td><td></td></tr>
+		<tr><td>http_dnt</td><td></td></tr>
+		<tr><td>http_upgrade_insecure_requests</td><td></td></tr>
+		<tr><td>server_protocol</td><td></td></tr>
+	</table>
 
-  <!-- TABLE 6: Cookies & Storage - cookies.js -->
-  <table id="tb6">
-    <col width="50%"><a name="cookies"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#cookies">Cookies & Storage</a>
-        <div class="nav-up"><a href="#headers">&#9650;</a></div>
-        <div class="nav-down"><a href="#devices">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td colspan="2" class="intro"><span class="no_color">The <code>[cookie]</code>, <code>[localStorage]</code>, 
-      <code>[sessionStorage]</code> and <code> [indexedDB]</code> tests, on each run, each use a new random name and
-      value, attempt to set them, and then to read the value back. Only when it successfully reads back the value
-      is it deemed to be available and working.</span></td></tr>
-    <tr><td>[navigator] cookieEnabled</td><td id="nCookieEnabled"></td></tr>
-    <tr><td>[test] 1st party cookie</td><td id="cookieTest"></td></tr>
-    <tr><td>localStorage</td><td id="storageLSupport"></td></tr>
-    <tr><td>[test] localStorage</td><td id="storageLTest"></td></tr>
-    <tr><td>sessionStorage</td><td id="storageSSupport"></td></tr>
-    <tr><td>[test] sessionStorage</td><td id="storageSTest"></td></tr>
-    <tr><td>indexedDB</td><td id="IDBSupport"></td></tr>
-    <tr><td>[test] indexedDB</td><td id="IDBTest"></td></tr>
-    <tr><td>appCache</td><td id="appCacheSupport"></td></tr>
-    <tr><td>[test] appCache</td><td id="appCacheTest"></td></tr>
-    <tr><td>worker</td><td id="workerSupport"></td></tr>
-    <tr><td>[test] web worker</td><td id="webWTest"></td></tr>
-    <tr><td>[test] shared worker</td><td id="sharedWTest"></td></tr>
-    <tr><td>service worker</td><td id="serviceWSupport"></td></tr>
-    <tr><td>[test] service worker</td><td id="serviceWTest"></td></tr>
-    <tr><td>service worker cache</td><td id="serviceWCacheSupport"></td></tr>
-    <tr><td>[test] service worker cache</td><td id="serviceWCacheTest"></td></tr>
-    <tr><td>notifications</td><td id="notificationsSupport"></td></tr>
-    <tr><td>[test] notifications</td><td id="notificationsTest"></td></tr>
-    <tr><td>[permission] notifications</td><td id="pNotifications"></td></tr>
-    <tr><td>[permission] push</td><td id="pPush"></td></tr>
-    <tr><td>storage manager</td><td id="storageMSupport"></td></tr>
-    <tr><td>[properties] storage manager</td><td id="storageMProp"></td></tr>
-    <tr><td>[test] storage manager</td><td id="storageMTest"></td></tr>
-    <tr><td>[permission] persistent storage</td><td id="pPersistentStorage"></td></tr>
-  </table>
+	<!-- TABLE 6: Cookies & Storage - cookies.js -->
+	<table id="tb6">
+		<col width="50%"><a name="cookies"></a><col width="50%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#cookies">Cookies & Storage</a>
+				<div class="nav-up"><a href="#headers">&#9650;</a></div>
+				<div class="nav-down"><a href="#devices">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td colspan="2" class="intro"><span class="no_color">The <code>[cookie]</code>, <code>[localStorage]</code>, 
+			<code>[sessionStorage]</code> and <code> [indexedDB]</code> tests, on each run, each use a new random name and
+			value, attempt to set them, and then to read the value back. Only when it successfully reads back the value
+			is it deemed to be available and working.</span></td></tr>
+		<tr><td>[navigator] cookieEnabled</td><td id="nCookieEnabled"></td></tr>
+		<tr><td>[test] 1st party cookie</td><td id="cookieTest"></td></tr>
+		<tr><td>localStorage</td><td id="storageLSupport"></td></tr>
+		<tr><td>[test] localStorage</td><td id="storageLTest"></td></tr>
+		<tr><td>sessionStorage</td><td id="storageSSupport"></td></tr>
+		<tr><td>[test] sessionStorage</td><td id="storageSTest"></td></tr>
+		<tr><td>indexedDB</td><td id="IDBSupport"></td></tr>
+		<tr><td>[test] indexedDB</td><td id="IDBTest"></td></tr>
+		<tr><td>appCache</td><td id="appCacheSupport"></td></tr>
+		<tr><td>[test] appCache</td><td id="appCacheTest"></td></tr>
+		<tr><td>worker</td><td id="workerSupport"></td></tr>
+		<tr><td>[test] web worker</td><td id="webWTest"></td></tr>
+		<tr><td>[test] shared worker</td><td id="sharedWTest"></td></tr>
+		<tr><td>service worker</td><td id="serviceWSupport"></td></tr>
+		<tr><td>[test] service worker</td><td id="serviceWTest"></td></tr>
+		<tr><td>service worker cache</td><td id="serviceWCacheSupport"></td></tr>
+		<tr><td>[test] service worker cache</td><td id="serviceWCacheTest"></td></tr>
+		<tr><td>notifications</td><td id="notificationsSupport"></td></tr>
+		<tr><td>[test] notifications</td><td id="notificationsTest"></td></tr>
+		<tr><td>[permission] notifications</td><td id="pNotifications"></td></tr>
+		<tr><td>[permission] push</td><td id="pPush"></td></tr>
+		<tr><td>storage manager</td><td id="storageMSupport"></td></tr>
+		<tr><td>[properties] storage manager</td><td id="storageMProp"></td></tr>
+		<tr><td>[test] storage manager</td><td id="storageMTest"></td></tr>
+		<tr><td>[permission] persistent storage</td><td id="pPersistentStorage"></td></tr>
+	</table>
 
-  <!-- TABLE 7: Devices & Hardware - devices.js -->
-  <table id="tb7">
-    <col width="50%"><a name="devices"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#devices">Devices & Hardware</a>
-        <div class="nav-up"><a href="#cookies">&#9650;</a></div>
-        <div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td><div>
-        <div class="btn-left"><button class="btn7" onClick="outputSection(`devices`)">[ re-run tests ]</button>
-        &nbsp <div class="tooltip"><span class="icon">[ i ]</span>
-        <span class="tooltiptextbig">be aware that some prefs <b>may</b>
-          <br>require a page refresh (<b>F5</b>)</br>or even a new browser session</span></div></div>
-        <div>[navigator] hardwareConcurrency</div></div></td><td id="nHardwareConcurrency"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptext">dom.gamepad.enabled</span></div>
-      &nbsp [api] gamepad</td><td id="nGetGamepads"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptextbig">media.navigator.enabled</span></div>
-      &nbsp mediaDevices</td><td id="nMediaDevices"></td></tr>
-    <tr><td>enumerateDevices</td><td id="eMediaDevices"></td></tr>
-    <tr><td>[navigator] maxTouchPoints</td><td id="nMaxTouchPoints"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptextbig">media.webspeech.synth.enabled</span></div>
-      &nbsp speech synthesis</td><td id="speechSynth"></td></tr>
-    <tr><td>speech engines</td><td id="speechEngines"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptext">dom.vr.enabled</span></div>
-      &nbsp [api] webvr</td><td id="nGetVR"></td></tr>
-    <tr><td>activeVRDisplays</td><td id="nActiveVR"></td></tr>
-  </table>
+	<!-- TABLE 7: Devices & Hardware - devices.js -->
+	<table id="tb7">
+		<col width="50%"><a name="devices"></a><col width="50%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#devices">Devices & Hardware</a>
+				<div class="nav-up"><a href="#cookies">&#9650;</a></div>
+				<div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn7" onClick="outputSection(`devices`)">[ re-run tests ]</button>
+				&nbsp <div class="tooltip"><span class="icon">[ i ]</span>
+				<span class="tooltiptextbig">be aware that some prefs <b>may</b>
+					<br>require a page refresh (<b>F5</b>)</br>or even a new browser session</span></div></div>
+				<div>[navigator] hardwareConcurrency</div></div></td><td id="nHardwareConcurrency"></td></tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptext">dom.gamepad.enabled</span></div>
+			&nbsp [api] gamepad</td><td id="nGetGamepads"></td></tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptextbig">media.navigator.enabled</span></div>
+			&nbsp mediaDevices</td><td id="nMediaDevices"></td></tr>
+		<tr><td>enumerateDevices</td><td id="eMediaDevices"></td></tr>
+		<tr><td>[navigator] maxTouchPoints</td><td id="nMaxTouchPoints"></td></tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptextbig">media.webspeech.synth.enabled</span></div>
+			&nbsp speech synthesis</td><td id="speechSynth"></td></tr>
+		<tr><td>speech engines</td><td id="speechEngines"></td></tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptext">dom.vr.enabled</span></div>
+			&nbsp [api] webvr</td><td id="nGetVR"></td></tr>
+		<tr><td>activeVRDisplays</td><td id="nActiveVR"></td></tr>
+	</table>
 
-  <!-- TABLE 8: Canvas - canvas.js -->
-  <table id="tb8">
-    <col width="37%"><a name="canvas"></a><col width="63%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#canvas">Canvas</a>
-        <div class="nav-up"><a href="#devices">&#9650;</a></div>
-        <div class="nav-down"><a href="#domrect">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td><div>
-        <div class="btn-left"><button class="btn8" onClick="outputSection(`canvas`)">[ re-run tests ]</button></div>
-        <div>getContext</div></div></td>
-      <td class="getContext" id="cnv1"></td>
-    </tr>
-    <tr><td>toDataURL</td><td class="toDataURL" id="cnv2"></td></tr>
-    <tr><td>toBlob</td><td class="toBlob" id="cnv3"></td></tr>
-    <tr><td>mozGetAsFile</td><td class="mozGetAsFile" id="cnv4"></td></tr>
-    <tr><td>getImageData</td><td class="getImageData" id="cnv5"></td></tr>
-    <tr><td>winding</td><td class="winding" id="cnv6"></td></tr>
-    <tr><td>isPointInPath</td><td class="isPointInPath" id="cnv7"></td></tr>
-    <tr><td>isPointInStroke</td><td class="isPointInStroke" id="cnv8"></td></tr>
-    <tr><td>fillText</td><td class="fillText" id="cnv9"></td></tr>
-    <tr><td>strokeText</td><td class="strokeText" id="cnv10"></td></tr>
-    <tr><td>[webgl] readPixels</td><td class="readPixels" id="cnv11"></td></tr>
-    <tr><td colspan="2"><span class="no_color">canvas code courtesy of </span>
-      <a target="_blank" class="blue" href="https://github.com/kkapsner">kkapsner</a><span class="no_color"> and </span>
-      <a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
-  </table>
+	<!-- TABLE 8: Canvas - canvas.js -->
+	<table id="tb8">
+		<col width="37%"><a name="canvas"></a><col width="63%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#canvas">Canvas</a>
+				<div class="nav-up"><a href="#devices">&#9650;</a></div>
+				<div class="nav-down"><a href="#domrect">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn8" onClick="outputSection(`canvas`)">[ re-run tests ]</button></div>
+				<div>getContext</div></div></td>
+			<td class="getContext" id="cnv1"></td>
+		</tr>
+		<tr><td>toDataURL</td><td class="toDataURL" id="cnv2"></td></tr>
+		<tr><td>toBlob</td><td class="toBlob" id="cnv3"></td></tr>
+		<tr><td>mozGetAsFile</td><td class="mozGetAsFile" id="cnv4"></td></tr>
+		<tr><td>getImageData</td><td class="getImageData" id="cnv5"></td></tr>
+		<tr><td>winding</td><td class="winding" id="cnv6"></td></tr>
+		<tr><td>isPointInPath</td><td class="isPointInPath" id="cnv7"></td></tr>
+		<tr><td>isPointInStroke</td><td class="isPointInStroke" id="cnv8"></td></tr>
+		<tr><td>fillText</td><td class="fillText" id="cnv9"></td></tr>
+		<tr><td>strokeText</td><td class="strokeText" id="cnv10"></td></tr>
+		<tr><td>[webgl] readPixels</td><td class="readPixels" id="cnv11"></td></tr>
+		<tr><td colspan="2"><span class="no_color">canvas code courtesy of </span>
+			<a target="_blank" class="blue" href="https://github.com/kkapsner">kkapsner</a><span class="no_color"> and </span>
+			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
+	</table>
 
-  <!-- TABLE 9: DOMRect - domrect.js -->
-  <table id="tb9">
-    <col width="7%"><a name="domrect"></a><col width="15%"><col width="15%"><col width="15%"><col width="15%"><col width="15%"><col width="18%">
-    <thead><tr><th colspan="7">
-        <div class="nav-title"><a href="#domrect">DOMRect</a>
-        <div class="nav-up"><a href="#canvas">&#9650;</a></div>
-        <div class="nav-down"><a href="#fonts">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td colspan="3"><div>
-        <div class="btn-left"><button class="btn9" id="drRun">[ re-run tests ]</button></div>
-        <div>Element.getClientRects</div></div></td>
-      <td colspan="4" class="mono" id="dr1"></td>
-    </tr>
-    <tr><td colspan="3">Element.getBoundingClientRect</td><td colspan="4" class="mono" id="dr2"></td></tr>
-    <tr><td colspan="3">Range.getClientRects</td><td colspan="4" class="mono" id="dr3"></td></tr>
-    <tr><td colspan="3">Range.getBoundingClientRect</td><td colspan="4" class="mono" id="dr4"></td></tr>
-    <tr><td colspan="7"></td></tr>
-    <tr><td colspan="7" class="center"><a target="_blank" class="blue" href="iframes/domrect.html">click here to view what is being rendered</a></td></tr>
-    <tr><td colspan="7" class="showhide">
-        <input id="collapseD" class="toggle" type="checkbox" checked onchange="toggleitems(this, `D`)"/>
-        <label for="collapseD" class="lbl-toggle" id="labelD">&#9660; show details</label>
-    </td></tr>
-    <tr class="togD"><td></td><td>[ *browserleaks* ]</td><td>[ *getClientRects* ]</td><td>[ Fingerprinting? ]</td><td>[ select ]</td><td>[ progress bar ]</td><td>[ empty button ]</td></tr>
-    <tr class="togD"><td></td><td colspan="6" class="sub9" id="drFirstHeader">Element.getClientRects<br>[note: the other three methods have the same hash and values]</td></tr>
-      <!-- ^^ Element.getClientRects -->
-      <tr class="togD"><td>x</td><td id="dr11"></td><td id="dr12"></td><td id="dr13"></td><td id="dr14"></td><td id="dr15"></td><td id="dr16"></td></tr>
-      <tr class="togD"><td>y</td><td id="dr17"></td><td id="dr18"></td><td id="dr19"></td><td id="dr110"></td><td id="dr111"></td><td id="dr112"></tr>
-      <tr class="togD"><td>width</td><td id="dr113"></td><td id="dr114"></td><td id="dr115"></td><td id="dr116"></td><td id="dr117"></td><td id="dr118"></td></tr>
-      <tr class="togD"><td>height</td><td id="dr119"></td><td id="dr120"></td><td id="dr121"></td><td id="dr122"></td><td id="dr123"></td><td id="dr124"></td></tr>
-      <tr class="togD"><td>top</td><td id="dr125"></td><td id="dr126"></td><td id="dr127"></td><td id="dr128"></td><td id="dr129"></td><td id="dr130"></td></tr>
-      <tr class="togD"><td>left</td><td id="dr131"></td><td id="dr132"></td><td id="dr133"></td><td id="dr134"></td><td id="dr135"></td><td id="dr136"></td></tr>
-      <tr class="togD"><td>right</td><td id="dr137"></td><td id="dr138"></td><td id="dr139"></td><td id="dr140"></td><td id="dr141"></td><td id="dr142"></td></tr>
-      <tr class="togD"><td>bottom</td><td id="dr143"></td><td id="dr144"></td><td id="dr145"></td><td id="dr146"></td><td id="dr147"></td><td id="dr148"></td></tr>
-      <tr class="togD"><td colspan="7"></td></tr>
-    <!-- class D1 is hidden and only shown if hashes differ -->
-    <tr class="togD1"><td></td><td colspan="6" class="sub9">Element.getBoundingClientRect</td></tr>
-      <tr class="togD1"><td>x</td><td id="dr21"></td><td id="dr22"></td><td id="dr23"></td><td id="dr24"></td><td id="dr25"></td><td id="dr26"></td></tr>
-      <tr class="togD1"><td>y</td><td id="dr27"></td><td id="dr28"></td><td id="dr29"></td><td id="dr210"></td><td id="dr211"></td><td id="dr212"></td></tr>
-      <tr class="togD1"><td>width</td><td id="dr213"></td><td id="dr214"></td><td id="dr215"></td><td id="dr216"></td><td id="dr217"></td><td id="dr218"></td></tr>
-      <tr class="togD1"><td>height</td><td id="dr219"></td><td id="dr220"></td><td id="dr221"><td id="dr222"></td><td id="dr223"></td><td id="dr224"></td></td></tr>
-      <tr class="togD1"><td>top</td><td id="dr225"></td><td id="dr226"></td><td id="dr227"></td><td id="dr228"></td><td id="dr229"></td><td id="dr230"></td></tr>
-      <tr class="togD1"><td>left</td><td id="dr231"></td><td id="dr232"></td><td id="dr233"></td><td id="dr234"></td><td id="dr235"></td><td id="dr236"></td></tr>
-      <tr class="togD1"><td>right</td><td id="dr237"></td><td id="dr238"></td><td id="dr239"></td><td id="dr240"></td><td id="dr241"></td><td id="dr242"></td></tr>
-      <tr class="togD1"><td>bottom</td><td id="dr243"></td><td id="dr244"></td><td id="dr245"></td><td id="dr246"></td><td id="dr247"></td><td id="dr248"></td></tr>
-      <tr class="togD1"><td colspan="7"></td></tr>
-    <tr class="togD1"><td></td><td colspan="6" class="sub9">Range.getClientRects</td></tr>
-      <tr class="togD1"><td>x</td><td id="dr31"></td><td id="dr32"></td><td id="dr33"></td><td id="dr34"></td><td id="dr35"></td><td id="dr36"></td></tr>
-      <tr class="togD1"><td>y</td><td id="dr37"></td><td id="dr38"></td><td id="dr39"></td><td id="dr310"></td><td id="dr311"></td><td id="dr312"></td></tr>
-      <tr class="togD1"><td>width</td><td id="dr313"></td><td id="dr314"></td><td id="dr315"></td><td id="dr316"></td><td id="dr317"></td><td id="dr318"></td></tr>
-      <tr class="togD1"><td>height</td><td id="dr319"></td><td id="dr320"></td><td id="dr321"></td><td id="dr322"></td><td id="dr323"></td><td id="dr324"></td></tr>
-      <tr class="togD1"><td>top</td><td id="dr325"></td><td id="dr326"></td><td id="dr327"></td><td id="dr328"></td><td id="dr329"></td><td id="dr330"></td></tr>
-      <tr class="togD1"><td>left</td><td id="dr331"></td><td id="dr332"></td><td id="dr333"></td><td id="dr334"></td><td id="dr335"></td><td id="dr336"></td></tr>
-      <tr class="togD1"><td>right</td><td id="dr337"></td><td id="dr338"></td><td id="dr339"></td><td id="dr340"></td><td id="dr341"></td><td id="dr342"></td></tr>
-      <tr class="togD1"><td>bottom</td><td id="dr343"></td><td id="dr344"></td><td id="dr345"></td><td id="dr346"></td><td id="dr347"></td><td id="dr348"></td></tr>
-      <tr class="togD1"><td colspan="7"></td></tr>
-    <tr class="togD1"><td></td><td colspan="6" class="sub9">Range.getBoundingClientRect</td></tr>
-      <tr class="togD1"><td>x</td><td id="dr41"></td><td id="dr42"></td><td id="dr43"></td><td id="dr44"></td><td id="dr45"></td><td id="dr46"></td></tr>
-      <tr class="togD1"><td>y</td><td id="dr47"></td><td id="dr48"></td><td id="dr49"></td><td id="dr410"></td><td id="dr411"></td><td id="dr412"></td></tr>
-      <tr class="togD1"><td>width</td><td id="dr413"></td><td id="dr414"></td><td id="dr415"></td><td id="dr416"></td><td id="dr417"></td><td id="dr418"></td></tr>
-      <tr class="togD1"><td>height</td><td id="dr419"></td><td id="dr420"></td><td id="dr421"></td><td id="dr422"></td><td id="dr423"></td><td id="dr424"></td></tr>
-      <tr class="togD1"><td>top</td><td id="dr425"></td><td id="dr426"></td><td id="dr427"></td><td id="dr428"></td><td id="dr429"></td><td id="dr430"></td></tr>
-      <tr class="togD1"><td>left</td><td id="dr431"></td><td id="dr432"></td><td id="dr433"></td><td id="dr434"></td><td id="dr435"></td><td id="dr436"></td></tr>
-      <tr class="togD1"><td>right</td><td id="dr437"></td><td id="dr438"></td><td id="dr439"></td><td id="dr440"></td><td id="dr441"></td><td id="dr442"></td></tr>
-      <tr class="togD1"><td>bottom</td><td id="dr443"></td><td id="dr444"></td><td id="dr445"></td><td id="dr446"></td><td id="dr447"></td><td id="dr448"></td></tr>
-      <tr class="togD"><td colspan="7"></td></tr>
-    <tr><td colspan="7"><span class="no_color">domrect code courtesy of </span>
-      <a target="_blank" class="blue" href="https://github.com/kkapsner">kkapsner</a><span class="no_color"> and </span>
-      <a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
-  </table>
+	<!-- TABLE 9: DOMRect - domrect.js -->
+	<table id="tb9">
+		<col width="7%"><a name="domrect"></a><col width="15%"><col width="15%"><col width="15%"><col width="15%"><col width="15%"><col width="18%">
+		<thead><tr><th colspan="7">
+				<div class="nav-title"><a href="#domrect">DOMRect</a>
+				<div class="nav-up"><a href="#canvas">&#9650;</a></div>
+				<div class="nav-down"><a href="#fonts">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td colspan="3"><div>
+				<div class="btn-left"><button class="btn9" id="drRun">[ re-run tests ]</button></div>
+				<div>Element.getClientRects</div></div></td>
+			<td colspan="4" class="mono" id="dr1"></td>
+		</tr>
+		<tr><td colspan="3">Element.getBoundingClientRect</td><td colspan="4" class="mono" id="dr2"></td></tr>
+		<tr><td colspan="3">Range.getClientRects</td><td colspan="4" class="mono" id="dr3"></td></tr>
+		<tr><td colspan="3">Range.getBoundingClientRect</td><td colspan="4" class="mono" id="dr4"></td></tr>
+		<tr><td colspan="7"></td></tr>
+		<tr><td colspan="7" class="center"><a target="_blank" class="blue" href="iframes/domrect.html">click here to view what is being rendered</a></td></tr>
+		<tr><td colspan="7" class="showhide">
+				<input id="collapseD" class="toggle" type="checkbox" checked onchange="toggleitems(this, `D`)"/>
+				<label for="collapseD" class="lbl-toggle" id="labelD">&#9660; show details</label>
+		</td></tr>
+		<tr class="togD"><td></td><td>[ *browserleaks* ]</td><td>[ *getClientRects* ]</td><td>[ Fingerprinting? ]</td><td>[ select ]</td><td>[ progress bar ]</td><td>[ empty button ]</td></tr>
+		<tr class="togD"><td></td><td colspan="6" class="sub9" id="drFirstHeader">Element.getClientRects<br>[note: the other three methods have the same hash and values]</td></tr>
+			<!-- ^^ Element.getClientRects -->
+			<tr class="togD"><td>x</td><td id="dr11"></td><td id="dr12"></td><td id="dr13"></td><td id="dr14"></td><td id="dr15"></td><td id="dr16"></td></tr>
+			<tr class="togD"><td>y</td><td id="dr17"></td><td id="dr18"></td><td id="dr19"></td><td id="dr110"></td><td id="dr111"></td><td id="dr112"></tr>
+			<tr class="togD"><td>width</td><td id="dr113"></td><td id="dr114"></td><td id="dr115"></td><td id="dr116"></td><td id="dr117"></td><td id="dr118"></td></tr>
+			<tr class="togD"><td>height</td><td id="dr119"></td><td id="dr120"></td><td id="dr121"></td><td id="dr122"></td><td id="dr123"></td><td id="dr124"></td></tr>
+			<tr class="togD"><td>top</td><td id="dr125"></td><td id="dr126"></td><td id="dr127"></td><td id="dr128"></td><td id="dr129"></td><td id="dr130"></td></tr>
+			<tr class="togD"><td>left</td><td id="dr131"></td><td id="dr132"></td><td id="dr133"></td><td id="dr134"></td><td id="dr135"></td><td id="dr136"></td></tr>
+			<tr class="togD"><td>right</td><td id="dr137"></td><td id="dr138"></td><td id="dr139"></td><td id="dr140"></td><td id="dr141"></td><td id="dr142"></td></tr>
+			<tr class="togD"><td>bottom</td><td id="dr143"></td><td id="dr144"></td><td id="dr145"></td><td id="dr146"></td><td id="dr147"></td><td id="dr148"></td></tr>
+			<tr class="togD"><td colspan="7"></td></tr>
+		<!-- class D1 is hidden and only shown if hashes differ -->
+		<tr class="togD1"><td></td><td colspan="6" class="sub9">Element.getBoundingClientRect</td></tr>
+			<tr class="togD1"><td>x</td><td id="dr21"></td><td id="dr22"></td><td id="dr23"></td><td id="dr24"></td><td id="dr25"></td><td id="dr26"></td></tr>
+			<tr class="togD1"><td>y</td><td id="dr27"></td><td id="dr28"></td><td id="dr29"></td><td id="dr210"></td><td id="dr211"></td><td id="dr212"></td></tr>
+			<tr class="togD1"><td>width</td><td id="dr213"></td><td id="dr214"></td><td id="dr215"></td><td id="dr216"></td><td id="dr217"></td><td id="dr218"></td></tr>
+			<tr class="togD1"><td>height</td><td id="dr219"></td><td id="dr220"></td><td id="dr221"><td id="dr222"></td><td id="dr223"></td><td id="dr224"></td></td></tr>
+			<tr class="togD1"><td>top</td><td id="dr225"></td><td id="dr226"></td><td id="dr227"></td><td id="dr228"></td><td id="dr229"></td><td id="dr230"></td></tr>
+			<tr class="togD1"><td>left</td><td id="dr231"></td><td id="dr232"></td><td id="dr233"></td><td id="dr234"></td><td id="dr235"></td><td id="dr236"></td></tr>
+			<tr class="togD1"><td>right</td><td id="dr237"></td><td id="dr238"></td><td id="dr239"></td><td id="dr240"></td><td id="dr241"></td><td id="dr242"></td></tr>
+			<tr class="togD1"><td>bottom</td><td id="dr243"></td><td id="dr244"></td><td id="dr245"></td><td id="dr246"></td><td id="dr247"></td><td id="dr248"></td></tr>
+			<tr class="togD1"><td colspan="7"></td></tr>
+		<tr class="togD1"><td></td><td colspan="6" class="sub9">Range.getClientRects</td></tr>
+			<tr class="togD1"><td>x</td><td id="dr31"></td><td id="dr32"></td><td id="dr33"></td><td id="dr34"></td><td id="dr35"></td><td id="dr36"></td></tr>
+			<tr class="togD1"><td>y</td><td id="dr37"></td><td id="dr38"></td><td id="dr39"></td><td id="dr310"></td><td id="dr311"></td><td id="dr312"></td></tr>
+			<tr class="togD1"><td>width</td><td id="dr313"></td><td id="dr314"></td><td id="dr315"></td><td id="dr316"></td><td id="dr317"></td><td id="dr318"></td></tr>
+			<tr class="togD1"><td>height</td><td id="dr319"></td><td id="dr320"></td><td id="dr321"></td><td id="dr322"></td><td id="dr323"></td><td id="dr324"></td></tr>
+			<tr class="togD1"><td>top</td><td id="dr325"></td><td id="dr326"></td><td id="dr327"></td><td id="dr328"></td><td id="dr329"></td><td id="dr330"></td></tr>
+			<tr class="togD1"><td>left</td><td id="dr331"></td><td id="dr332"></td><td id="dr333"></td><td id="dr334"></td><td id="dr335"></td><td id="dr336"></td></tr>
+			<tr class="togD1"><td>right</td><td id="dr337"></td><td id="dr338"></td><td id="dr339"></td><td id="dr340"></td><td id="dr341"></td><td id="dr342"></td></tr>
+			<tr class="togD1"><td>bottom</td><td id="dr343"></td><td id="dr344"></td><td id="dr345"></td><td id="dr346"></td><td id="dr347"></td><td id="dr348"></td></tr>
+			<tr class="togD1"><td colspan="7"></td></tr>
+		<tr class="togD1"><td></td><td colspan="6" class="sub9">Range.getBoundingClientRect</td></tr>
+			<tr class="togD1"><td>x</td><td id="dr41"></td><td id="dr42"></td><td id="dr43"></td><td id="dr44"></td><td id="dr45"></td><td id="dr46"></td></tr>
+			<tr class="togD1"><td>y</td><td id="dr47"></td><td id="dr48"></td><td id="dr49"></td><td id="dr410"></td><td id="dr411"></td><td id="dr412"></td></tr>
+			<tr class="togD1"><td>width</td><td id="dr413"></td><td id="dr414"></td><td id="dr415"></td><td id="dr416"></td><td id="dr417"></td><td id="dr418"></td></tr>
+			<tr class="togD1"><td>height</td><td id="dr419"></td><td id="dr420"></td><td id="dr421"></td><td id="dr422"></td><td id="dr423"></td><td id="dr424"></td></tr>
+			<tr class="togD1"><td>top</td><td id="dr425"></td><td id="dr426"></td><td id="dr427"></td><td id="dr428"></td><td id="dr429"></td><td id="dr430"></td></tr>
+			<tr class="togD1"><td>left</td><td id="dr431"></td><td id="dr432"></td><td id="dr433"></td><td id="dr434"></td><td id="dr435"></td><td id="dr436"></td></tr>
+			<tr class="togD1"><td>right</td><td id="dr437"></td><td id="dr438"></td><td id="dr439"></td><td id="dr440"></td><td id="dr441"></td><td id="dr442"></td></tr>
+			<tr class="togD1"><td>bottom</td><td id="dr443"></td><td id="dr444"></td><td id="dr445"></td><td id="dr446"></td><td id="dr447"></td><td id="dr448"></td></tr>
+			<tr class="togD"><td colspan="7"></td></tr>
+		<tr><td colspan="7"><span class="no_color">domrect code courtesy of </span>
+			<a target="_blank" class="blue" href="https://github.com/kkapsner">kkapsner</a><span class="no_color"> and </span>
+			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
+	</table>
 
-  <!-- TABLE 10: Fonts - fonts.js -->
-  <iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
-  <table id="tb10">
-    <!-- 9 columns: first 4 = 37%, comnbine cols 5+6 to create columns for unicode glyphs -->
-    <col width="2%"><a name="fonts"></a><col width="14%"><col width="14%"><col width="7%"><col width="7%">
-    <col width="14%"><col width="14%"><col width="14%"><col width="14%">
-    <thead><tr><th colspan="9">
-        <div class="nav-title"><a href="#fonts">Fonts</a>
-        <div class="nav-up"><a href="#domrect">&#9650;</a></div>
-        <div class="nav-down"><a href="#audio">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td colspan="9" class="intro"><span class="no_color">The real world strikes a balance between efficiency vs
-      entropy [<a target="_blank" class="blue" href="https://valve.github.io/fingerprintjs2/">fingerprintjs2</a> checks 64 fonts by
-      default], but these tests are designed to be comprehensive, not small and fast. As such, they are not automatically run.</span>
-    </td></tr>
-    <tr><td colspan="4"><div>
-        <div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`fonts`)">[ run tests ]</button></div>
-        <div>enumerate fonts <sup>1</sup></div></div></td>
-      <td colspan="5" class="mono" id="fontFB"></td>
-    </tr>
-    <tr><td colspan="4">js <sup>2</sup></td><td colspan="5" class="mono"></td></tr>
-    <tr><td colspan="4">the other js <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
-    <tr><td colspan="4">unicode glyphs <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
-    <tr><td colspan="4">canvas</td><td colspan="5" class="mono"></td></tr>
-    <tr><td colspan="9" class="showhide">
-        <input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
-        <label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
-    </td></tr>
-    <tr class="togF"><td></td><td colspan="8" class="sub10">enumerate fonts &nbsp
-       <button class="btn0" onClick="copyclip(`fontFBFound`)">[ copy to clipboard ]</button></td></tr>
-    <tr class="togF"><td></td><td colspan="8" class="intro" id="fontFBFound"></td></tr>
-    <tr class="togF"><td colspan="9"></td></tr>
-    <tr><td colspan="9"><span class="no_color">code based on work by </span>
-      <sup>1</sup><a target="_blank" class="blue" href="https://github.com/arthuredelstein/tordemos">Arthur Edelstein</a>
-      <span class="no_color">,</span>
-      <sup>2</sup> <a target="_blank" class="blue" href="https://github.com/Valve/fingerprintjs2">fingerprintjs2</a>
-      <span class="no_color"> and </span>
-      <sup>3</sup> <a target="_blank" class="blue" href="https://browserleaks.com/fonts">browserleaks</a>
-    </td></tr>
-  </table>
+	<!-- TABLE 10: Fonts - fonts.js -->
+	<iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
+	<table id="tb10">
+		<!-- 9 columns: first 4 = 37%, comnbine cols 5+6 to create columns for unicode glyphs -->
+		<col width="2%"><a name="fonts"></a><col width="14%"><col width="14%"><col width="7%"><col width="7%">
+		<col width="14%"><col width="14%"><col width="14%"><col width="14%">
+		<thead><tr><th colspan="9">
+				<div class="nav-title"><a href="#fonts">Fonts</a>
+				<div class="nav-up"><a href="#domrect">&#9650;</a></div>
+				<div class="nav-down"><a href="#audio">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td colspan="9" class="intro"><span class="no_color">The real world strikes a balance between efficiency vs
+			entropy [<a target="_blank" class="blue" href="https://valve.github.io/fingerprintjs2/">fingerprintjs2</a> checks 64 fonts by
+			default], but these tests are designed to be comprehensive, not small and fast. As such, they are not automatically run.</span>
+		</td></tr>
+		<tr><td colspan="4"><div>
+				<div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`fonts`)">[ run tests ]</button></div>
+				<div>@font-face</div></div></td>
+			<td colspan="5" class="mono" id="FontFace"></td>
+		</tr>
+		<tr><td colspan="4">document fonts</td><td colspan="5" class="mono" id="fontDoc"></td></tr>
+		<tr><td colspan="4">enumerate fonts <sup>1</sup></td><td colspan="5" class="mono" id="fontFB"></td></tr>
+		<tr><td colspan="4">js <sup>2</sup></td><td colspan="5" class="mono"></td></tr>
+		<tr><td colspan="4">the other js <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
+		<tr><td colspan="4">unicode glyphs <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
+		<tr><td colspan="4">canvas</td><td colspan="5" class="mono"></td></tr>
+		<tr><td colspan="9" class="showhide">
+				<input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
+				<label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
+		</td></tr>
+		<tr class="togF"><td></td><td colspan="8" class="sub10">enumerate fonts &nbsp
+			 <button class="btn0" onClick="copyclip(`fontFBFound`)">[ copy to clipboard ]</button></td></tr>
+		<tr class="togF"><td></td><td colspan="8" class="intro" id="fontFBFound"></td></tr>
+		<tr class="togF"><td colspan="9"></td></tr>
+		<tr><td colspan="9"><span class="no_color">code based on work by </span>
+			<sup>1</sup><a target="_blank" class="blue" href="https://github.com/arthuredelstein/tordemos">Arthur Edelstein</a>
+			<span class="no_color">,</span>
+			<sup>2</sup> <a target="_blank" class="blue" href="https://github.com/Valve/fingerprintjs2">fingerprintjs2</a>
+			<span class="no_color"> and </span>
+			<sup>3</sup> <a target="_blank" class="blue" href="https://browserleaks.com/fonts">browserleaks</a>
+		</td></tr>
+	</table>
 
-  <!-- TABLE 11: Audio - audio.js -->
-  <table id="tb11">
-    <col width="37%"><a name="audio"></a><col width="63%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#audio">Audio</a>
-        <div class="nav-up"><a href="#fonts">&#9650;</a></div>
-        <div class="nav-down"><a href="#media">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td><div>
-        <div class="btn-left"><button class="btn11" onClick="outputSection(`audio`)">[ re-run tests ]</button></div>
-        <div><div class="tooltip"><span class="icon">[ i ]</span>
-          <span class="tooltiptext">dom.webaudio.enabled</span></div> &nbsp [api] web audio</div></div></td>
-      <td id="audioSupport"></td>
-    </tr>
-    <tr><td>getChannelData</td><td id="audioGet"></td></tr>
-    <tr><td>copyFromChannel</td><td id="audioCopy"></td></tr>
-    <tr><td>sum</td><td id="audioSum"></td></tr>
-    <tr><td colspan="2"><span class="no_color">audio code courtesy of </span>
-      <a target="_blank" class="blue" href="https://github.com/kkapsner">kkapsner</a><span class="no_color"> and </span>
-      <a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
-  </table>
+	<!-- TABLE 11: Audio - audio.js -->
+	<table id="tb11">
+		<col width="37%"><a name="audio"></a><col width="63%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#audio">Audio</a>
+				<div class="nav-up"><a href="#fonts">&#9650;</a></div>
+				<div class="nav-down"><a href="#media">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn11" onClick="outputSection(`audio`)">[ re-run tests ]</button></div>
+				<div><div class="tooltip"><span class="icon">[ i ]</span>
+					<span class="tooltiptext">dom.webaudio.enabled</span></div> &nbsp [api] web audio</div></div></td>
+			<td id="audioSupport"></td>
+		</tr>
+		<tr><td>getChannelData</td><td id="audioGet"></td></tr>
+		<tr><td>copyFromChannel</td><td id="audioCopy"></td></tr>
+		<tr><td>sum</td><td id="audioSum"></td></tr>
+		<tr><td colspan="2"><span class="no_color">audio code courtesy of </span>
+			<a target="_blank" class="blue" href="https://github.com/kkapsner">kkapsner</a><span class="no_color"> and </span>
+			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
+	</table>
 
-  <!-- TABLE 12: Media - media.js -->
-  <table id="tb12">
-    <col width="50%"><a name="media"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#media">Media</a>
-        <div class="nav-up"><a href="#audio">&#9650;</a></div>
-        <div class="nav-down"><a href="#webgl">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptextbig">media.media-capabilities.enabled</span></div>
-      &nbsp [navigator] mediaCapabilities</td><td id="nMediaCapabilities"></td></tr>
-  </table>
+	<!-- TABLE 12: Media - media.js -->
+	<table id="tb12">
+		<col width="50%"><a name="media"></a><col width="50%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#media">Media</a>
+				<div class="nav-up"><a href="#audio">&#9650;</a></div>
+				<div class="nav-down"><a href="#webgl">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn12" onClick="outputSection(`media`)">[ re-run tests ]</button></div>
+				<div><div class="tooltip"><span class="icon">[ i ]</span>
+					<span class="tooltiptextbig">media.media-capabilities.enabled</span></div> &nbsp [navigator] mediaCapabilities</div></div></td>
+			<td id="nMediaCapabilities"></td>
+		</tr>
+	</table>
 
-  <!-- TABLE 13: WebGL - webgl.js -->
-  <table id="tb13">
-    <col width="50%"><a name="webgl"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#webgl">WebGL</a>
-        <div class="nav-up"><a href="#media">&#9650;</a></div>
-        <div class="nav-down"><a href="#css">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td>test</td><td>result</td></tr>
-  </table>
+	<!-- TABLE 13: WebGL - webgl.js -->
+	<table id="tb13">
+		<col width="50%"><a name="webgl"></a><col width="50%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#webgl">WebGL</a>
+				<div class="nav-up"><a href="#media">&#9650;</a></div>
+				<div class="nav-down"><a href="#css">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td>test</td><td>result</td></tr>
+	</table>
 
-  <!-- TABLE 14: CSS - css.js -->
-  <div class="hidden"><span id="sColorElement"></span></div>
-  <div class="themed" id="pColorElement"></div>
-  <div class="motion" id="pMotionElement"></div>
-  <table id="tb14">
-    <col width="50%"><a name="css"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#css">CSS</a>
-        <div class="nav-up"><a href="#webgl">&#9650;</a></div>
-        <div class="nav-down"><a href="#ciphers">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td><div>
-        <div class="btn-left"><button class="btn13" onClick="outputSection(`css`)">[ re-run tests ]</button>
-        </div>prefers-color-scheme</td><td id="pColorScheme"></td></tr>
-    <tr><td>prefers-reduced-motion</td><td id="pReducedMotion"></td></tr>
-    <tr><td>system colors</td><td class="mono" id="sColorHash"></td></tr>
-  </table>
+	<!-- TABLE 14: CSS - css.js -->
+	<div class="hidden"><span id="sColorElement"></span></div>
+	<div class="themed" id="pColorElement"></div>
+	<div class="motion" id="pMotionElement"></div>
+	<table id="tb14">
+		<col width="50%"><a name="css"></a><col width="50%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#css">CSS</a>
+				<div class="nav-up"><a href="#webgl">&#9650;</a></div>
+				<div class="nav-down"><a href="#ciphers">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn13" onClick="outputSection(`css`)">[ re-run tests ]</button>
+				</div>prefers-color-scheme</td><td id="pColorScheme"></td></tr>
+		<tr><td>prefers-reduced-motion</td><td id="pReducedMotion"></td></tr>
+		<tr><td>system colors</td><td class="mono" id="sColorHash"></td></tr>
+	</table>
 
-  <!-- TABLE 15: Ciphers / TLS - ciphers.js -->
-  <table id="tb15">
-    <col width="50%"><a name="ciphers"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#ciphers">Ciphers / TLS</a>
-        <div class="nav-up"><a href="#css">&#9650;</a></div>
-        <div class="nav-down"><a href="#spare">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td>test</td><td>result</td></tr>
-  </table>
+	<!-- TABLE 15: Ciphers / TLS - ciphers.js -->
+	<table id="tb15">
+		<col width="50%"><a name="ciphers"></a><col width="50%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#ciphers">Ciphers / TLS</a>
+				<div class="nav-up"><a href="#css">&#9650;</a></div>
+				<div class="nav-down"><a href="#spare">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td>test</td><td>result</td></tr>
+	</table>
 
-  <!-- TABLE 16: -->
-  <table id="tb16">
-    <col width="50%"><a name="spare"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#spare">oh no, i'm empty</a>
-        <div class="nav-up"><a href="#ciphers">&#9650;</a></div>
-        <div class="nav-down"><a href="#spare2">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td>test</td><td>result</td></tr>
-  </table>
+	<!-- TABLE 16: -->
+	<table id="tb16">
+		<col width="50%"><a name="spare"></a><col width="50%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#spare">oh no, i'm empty</a>
+				<div class="nav-up"><a href="#ciphers">&#9650;</a></div>
+				<div class="nav-down"><a href="#spare2">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td>test</td><td>result</td></tr>
+	</table>
 
-  <!-- TABLE 17: -->
-  <table id="tb17">
-    <col width="50%"><a name="spare2"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#spare2">oh no, i'm empty as well</a>
-        <div class="nav-up"><a href="#spare">&#9650;</a></div>
-        <div class="nav-down"><a href="#misc">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td>test</td><td>result</td></tr>
-  </table>
+	<!-- TABLE 17: -->
+	<table id="tb17">
+		<col width="50%"><a name="spare2"></a><col width="50%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#spare2">oh no, i'm empty as well</a>
+				<div class="nav-up"><a href="#spare">&#9650;</a></div>
+				<div class="nav-down"><a href="#misc">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td>test</td><td>result</td></tr>
+	</table>
 
-  <!-- TABLE 18: Miscellaneous - misc.js -->
-  <table id="tb18">
-    <col width="50%"><a name="misc"></a><col width="50%">
-    <thead><tr><th colspan="2">
-        <div class="nav-title"><a href="#misc">Miscellaneous</a>
-        <div class="nav-up"><a href="#spare2">&#9650;</a></div>
-        <div class="nav-down"><a href="#theend">&#9660;</a></div></div>
-    </th></tr></thead>
-    <tr><td><div>
-        <div class="btn-left"><button class="btn18" onClick="outputSection(`misc`)">[ re-run tests ]</button>
-        &nbsp <div class="tooltip"><span class="icon">[ i ]</span>
-        <span class="tooltiptextbig">be aware that some prefs <b>may</b>
-          <br>require a page refresh (<b>F5</b>)</br>or even a new browser session</span></div></div>
-        <div>[navigator] clipboard</div></div></td><td id="nClipboard"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptextbig">dom.IntersectionObserver.enabled</span></div>
-      &nbsp [api] intersection observer</td><td id="intObserver"></td></tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptext">mathml.disabled</span></div>
-      &nbsp mathml</td><td id="mathml"></td>
-    </tr>
-    <tr><td>[test example] mathml</td><td id="mathmltest">
-        <math>
-        <mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form="prefix">&minus;</mo><mi>b</mi>
-        <mo>&PlusMinus;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>&minus;</mo><mn>4</mn>
-        <mo>&InvisibleTimes;</mo><mi>a</mi><mo>&InvisibleTimes;</mo><mi>c</mi></msqrt></mrow>
-        <mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>a</mi></mrow></mfrac></mrow>
-        </math>
-      </td>
-    </tr>
-    <tr><td><div class="tooltip"><span class="icon">[ i ]</span>
-      <span class="tooltiptextbig">dom.requestIdleCallback.enabled</span></div>
-      &nbsp requestIdleCallback</td><td id="reqIdleCB"></td></tr>
-  </table>
+	<!-- TABLE 18: Miscellaneous - misc.js -->
+	<table id="tb18">
+		<col width="50%"><a name="misc"></a><col width="50%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#misc">Miscellaneous</a>
+				<div class="nav-up"><a href="#spare2">&#9650;</a></div>
+				<div class="nav-down"><a href="#theend">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn18" onClick="outputSection(`misc`)">[ re-run tests ]</button>
+				&nbsp <div class="tooltip"><span class="icon">[ i ]</span>
+				<span class="tooltiptextbig">be aware that some prefs <b>may</b>
+					<br>require a page refresh (<b>F5</b>)</br>or even a new browser session</span></div></div>
+				<div>[navigator] clipboard</div></div></td><td id="nClipboard"></td></tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptextbig">dom.IntersectionObserver.enabled</span></div>
+			&nbsp [api] intersection observer</td><td id="intObserver"></td></tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptext">mathml.disabled</span></div>
+			&nbsp mathml</td><td id="mathml"></td>
+		</tr>
+		<tr><td>[test example] mathml</td><td id="mathmltest">
+				<math>
+				<mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form="prefix">&minus;</mo><mi>b</mi>
+				<mo>&PlusMinus;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>&minus;</mo><mn>4</mn>
+				<mo>&InvisibleTimes;</mo><mi>a</mi><mo>&InvisibleTimes;</mo><mi>c</mi></msqrt></mrow>
+				<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>a</mi></mrow></mfrac></mrow>
+				</math>
+			</td>
+		</tr>
+		<tr><td><div class="tooltip"><span class="icon">[ i ]</span>
+			<span class="tooltiptextbig">dom.requestIdleCallback.enabled</span></div>
+			&nbsp requestIdleCallback</td><td id="reqIdleCB"></td></tr>
+	</table>
 
-  <br><a name="theend"><br>
+	<br><a name="theend"><br>
 
-  <link rel="stylesheet" type="text/css" href="css/tor_font.css">
-  <link rel="stylesheet" type="text/css" href="css/window_size.css">
-  <link rel="stylesheet" type="text/css" href="css/screen_size.css">
-  <link rel="stylesheet" type="text/css" href="css/dpi.css">
+	<link rel="stylesheet" type="text/css" href="css/tor_font.css">
+	<link rel="stylesheet" type="text/css" href="css/window_size.css">
+	<link rel="stylesheet" type="text/css" href="css/screen_size.css">
+	<link rel="stylesheet" type="text/css" href="css/dpi.css">
 
-  <script src="js/main.js"></script>
-  <script src="js/screen.js"></script>
-  <script src="js/language.js"></script>
-  <script src="js/headers.js"></script>
-  <script src="js/cookies.js"></script>
-  <script src="js/devices.js"></script>
-  <script src="js/canvas.js"></script>
-  <script src="js/domrect.js"></script>
-  <script src="js/audio.js"></script>
-  <script src="js/media.js"></script>
-  <script src="js/css.js"></script>
-  <script src="js/misc.js"></script>
-  <!-- not autorun-->
-  <script src="js/fonts.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/screen.js"></script>
+	<script src="js/language.js"></script>
+	<script src="js/headers.js"></script>
+	<script src="js/cookies.js"></script>
+	<script src="js/devices.js"></script>
+	<script src="js/canvas.js"></script>
+	<script src="js/domrect.js"></script>
+	<script src="js/audio.js"></script>
+	<script src="js/media.js"></script>
+	<script src="js/css.js"></script>
+	<script src="js/misc.js"></script>
+	<!-- not autorun-->
+	<script src="js/fonts.js"></script>
 
 </body>
 </html>
