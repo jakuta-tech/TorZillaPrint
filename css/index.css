@@ -62,13 +62,8 @@ h3 {
   color: #b3b3b3;
   font-size 12px;
   text-align: center;
-  line-height: 1.4em;
-}
-
-h4 {
-  color: #8abfda;
-  font-size 12px;
-  text-align: center;
+  line-height: 1.6em;
+  font-weight: normal;
 }
 
 a {color: black; text-decoration: none;}
