@@ -395,8 +395,7 @@ function outputUA() {
 			setTimeout(function() {dom.fdChromeOS = chromeOS;}, 2000);
 
 		// os: font: use width of the fdCssOS* elements
-		// delay it so fonts have loaded: large delay due to slowness of Android
-    // don't do this on a rerun as its based on css
+		// wait for font + slow Android + don't do on rerun css-based
 		if (dom.fontOS.textContent == "") {
 			setTimeout(function(){
 				var elCount = 0; var elCssOS = "Android";
@@ -405,7 +404,7 @@ function outputUA() {
 				if (dom.fdCssOSM.offsetWidth > 0) {elCount = elCount+1; elCssOS = "Mac"};
 				if (elCount == 2 || elCount == 3) {elCssOS = "unknown"};
 				dom.fontOS = elCssOS;
-			}, 8000);
+			}, 3000);
 		};
 
 		// os: strings
