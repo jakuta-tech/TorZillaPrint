@@ -16,6 +16,7 @@ function getUniqueElements() {
 var TBy=" <span class='good'> [TB]</span>";
 var RFPy=" <span class='good'> [RFP]</span>";
 var RFPn=" <span class='bad'> [RFP]</span>";
+if (isNaN(window.mozPaintCount) === false) {var amFF = true};
 
 function showhide(toggleType, toggleID, togWord) {
 	var xyz = document.getElementsByClassName("tog"+toggleID); var abc;
@@ -118,34 +119,57 @@ function byteArrayToHex(arrayBuffer){
 /* BUTTONS: (re)GENERATE SECTIONS */
 function outputSection(section) {
 	// elements to clear
+  var clearArray = [];
 	if (section == "audio") {
-		var clearArray = ['audioSupport', 'audioCopy', 'audioGet', 'audioSum'];
+		clearArray = ['audioSupport', 'audioCopy', 'audioGet', 'audioSum'];
 	};
 	if (section == "canvas") {
-		var clearArray = [`cnv1`, `cnv2`, `cnv3`, `cnv4`, `cnv5`, `cnv6`, `cnv7`, `cnv8`, `cnv9`, `cnv10`, `cnv11`];
+		clearArray = [`cnv1`, `cnv2`, `cnv3`, `cnv4`, `cnv5`, `cnv6`, `cnv7`, `cnv8`, `cnv9`, `cnv10`, `cnv11`];
 	};
 	if (section == "chrome") {
-		var clearArray = ['imgHash', 'jsHash', 'cssHash', 'allHash', 'allLoaded'];
+		clearArray = ['imgHash', 'jsHash', 'cssHash', 'allHash', 'allLoaded'];
 	};
 	if (section == "css") {
-		var clearArray = ['pColorScheme', 'pReducedMotion', 'sColorHash'];
+		clearArray = ['pColorScheme', 'pReducedMotion', 'sColorHash'];
 	};
 	if (section == "devices") {
-		var clearArray = [`nHardwareConcurrency`, 'nMaxTouchPoints', 'nGetGamepads', 'nMediaDevices', 'eMediaDevices',
+		clearArray = [`nHardwareConcurrency`, 'nMaxTouchPoints', 'nGetGamepads', 'nMediaDevices', 'eMediaDevices',
 		'speechSynth', 'speechEngines', 'nGetVR', 'nActiveVR'];
 	};
 	if (section == "fonts") {
-		var clearArray = ['fontFB'];
+		clearArray = ['fontFB'];
+	};
+	if (section == "headers") {
+		clearArray = ['nDoNotTrack', 'nNetwork', 'nConnection', 'nOnLine'];
 	};
 	if (section == "language") {
-		var clearArray = ['nLanguages', 'nLanguage', 'nLanguages0', 'localeIPR', 'localeRO', `localeDTD`,
+		clearArray = ['nLanguages', 'nLanguage', 'nLanguages0', 'localeIPR', 'localeRO', `localeDTD`,
 			'tzOffsets', 'tzRO', 'dateSystem', 'dateString', 'lngdateLS', 'lngdateLDS', 'lngdateLTS', 'lngdateIDTF',
 			'dateFTP', 'dateGMT', 'dateUTC', 'dateLS', 'dateTAtoLS', 'dateLDS', 'dateIDTF', 'dateLTS', 'dateTS',
 			'numFTP', 'hourRO', 'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
 	};
+	if (section == "math") {
+		clearArray = ['math1hash','math6hash','mathhash','cos1','cos2','cos3','cos4','cos5','cos6','cos7',
+		'cos8','math1','math2','math3'];
+	};
+	if (section == "media") {
+		clearArray = ['nMediaCapabilities'];
+	};
 	if (section == "misc") {
 		// don't reset mathmltest, it is done by the test
-		var clearArray = ['nClipboard', 'intObserver', 'mathml', 'reqIdleCB'];
+		clearArray = ['nClipboard', 'intObserver', 'mathml', 'reqIdleCB'];
+	};
+	if (section == "screen") {
+		// don't reset css
+		clearArray = ['ScrRes','ScrAvail','WndOut','WndIn','Viewport','fsState','fsSupport','fsLeak',
+		'newWinLeak','IsPBMode','ScrOrient','mmOrient','mathOrient','PixDepth','ColDepth','jsDPI',
+		'mmDPI','jsZoom','DevPR','devPRscrollY','devPRclientRect'];
+	};
+	if (section == "ua") {
+		// don't reset css
+		clearArray = ['nUserAgent','nCodeName','nAppName','nProduct','nAppVersion','nOscpu','nPlatform','nBuildID',
+		'nProductSub','fdError','fdPaintCount','fdMath','versionNo','fdChromeOS','fdMathOS','cssLH','scrollbarWidth',
+		'widgetOS','errh','err1','err2','err3','err4','err5','err6','widgetH','wid1','wid8','wid9'];
 	};
 	// clear elements
 	clearArray.forEach(function (arrayItem) {
@@ -159,7 +183,12 @@ function outputSection(section) {
 		if (section == "css") {outputCSS()};
 		if (section == "devices") {outputDevices()};
 		if (section == "fonts") {outputFonts()};
+		if (section == "headers") {outputHeaders()};
 		if (section == "language") {outputLanguage()};
+		if (section == "math") {outputMath()};
+		if (section == "media") {outputMedia()};
 		if (section == "misc") {outputMisc()};
+		if (section == "screen") {outputScreen()};
+		if (section == "ua") {outputUA();outputMath()};
 	}, 170);
 };
