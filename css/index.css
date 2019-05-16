@@ -308,6 +308,12 @@ table td.sub10 { color: var(--test10); }
 #tb17 td:first-child { color: var(--test17);}
 #tb18 td:first-child { color: var(--test18);}
 
+/* css tor font */
+@font-face {
+	font-family: "ABR";
+	src: url("../fonts/AdobeBlankRegular.ttf")
+}
+
 /* about:logo css test */
 #fdResourceCss {
   background-image: url("about:logo"), url("nothing.png");
