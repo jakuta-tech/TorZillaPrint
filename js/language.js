@@ -23,8 +23,12 @@ function outputLanguage() {
 	dom.localeIPR = new Intl.PluralRules().resolvedOptions().locale;
 	dom.localeRO = rOptions.locale;
 	// timezone
-	dom.tzOffsets = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset();
-	dom.tzRO = Intl.DateTimeFormat().resolvedOptions().timeZone;
+	var tmpL = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset();
+	if (tmpL == "0 | 0") {tmpL = tmpL + RFPy} else {tmpL = tmpL + RFPn};
+	dom.tzOffsets.innerHTML = tmpL;
+	tmpL = Intl.DateTimeFormat().resolvedOptions().timeZone;
+	if (tmpL == "UTC") {tmpL = tmpL + RFPy} else {tmpL = tmpL + RFPn};
+	dom.tzRO.innerHTML = tmpL;
 	// date/time
 	dom.dateSystem = dateUsed;
 	dom.dateString = dateUsed.toString();
