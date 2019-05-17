@@ -326,7 +326,7 @@ function outputCanvas(runType) {
 		if (dom.cnv8.textContent == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8")
 			{dom.cnv8.innerHTML = dom.cnv8.textContent + RFPy
 		} else {dom.cnv8.innerHTML = dom.cnv8.textContent + RFPn};
-	}, 170);
+	}, 300);
 };
 
 outputCanvas();
