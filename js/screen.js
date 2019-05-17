@@ -243,7 +243,6 @@ function outputUA() {
 	document.body.appendChild(imgLogoA);
 	imgLogoA.addEventListener("load", function() {
 		var imgLogoAW = imgLogoA.width;
-		console.log("imgLogoAW: "+imgLogoAW);
 		if (imgLogoAW == 300) {
 			// change displayed resource to icon64 (not on android)
 			dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/icon64.png')";
@@ -291,67 +290,6 @@ function outputUA() {
 		// error hash
 		errh = sha1(errh); dom.errh = errh;
 		if (errh == "7f5472aff63b6ed45eae2af94d1db8b729738d8b") {dom.fdError = "Firefox"};
-
-	// widgets
-	const iframeWD = document.getElementById("iframeWD");
-	iframeWD.src = "iframes/widgets.html";
-	iframeWD.addEventListener("load", function(){
-		// varibles: 7 alt output, CS compare size, CF compare font, BS, boolean size, BF boolean font
-		var wdA = 1; var wdFFN = ""; var wdFSZ = ""; var wdS = ""; var wdH = ""; var wdOS = ""; 
-		var wd7 = ""; var wdCS = ""; var wdCF = ""; var wdBS = false; var wdBF = false;
-		// loop 9 elements
-		while (wdA < 10) {
-			var wdItem = iframeWD.contentWindow.document.getElementById("widget"+wdA);
-			wdFFN = getComputedStyle(wdItem).getPropertyValue("font-family");
-			wdFSZ = getComputedStyle(wdItem).getPropertyValue("font-size");
-			wdS = wdFFN + ", " + wdFSZ;
-			// OS logic: just use the first item to detect OS
-			if (wdA == 1) {
-				if (wdFFN.slice(0,12) == "MS Shell Dlg") {wdOS = "Windows"}
-				else if (wdFFN == "Roboto") {wdOS="Android"}
-				else if (wdFFN == "-apple-system") {wdOS="Mac"}
-				else {wdOS="Linux"};
-			};
-			// compare: values 1 to 7: should always be the same: track state
-			if (wdA < 8) {
-				// store previous values to compare: not even sure if these can be different
-				wdCS = wdFSZ; wdCF = wdFFN;
-				// build detailed output
-					// test: trigger differences
-					// if (wdA == 3) {wdFFN = "-apple-system"; wdFSZ="11px"}; // a: font + size change
-					// if (wdA == 3) {wdFFN = "-apple-system";}; // b: font changes
-					// if (wdA == 3) {wdFSZ="13px"}; // c: size changes
-				if (wdA == 1) {wd7 = "				button: "+wdFFN + ", " + wdFSZ}
-				else if (wdA == 2) {wd7 = wd7+"<br>"+"			checkbox: "+wdFFN + ", " + wdFSZ}
-				else if (wdA == 3) {wd7 = wd7+"<br>"+"				 color: "+wdFFN + ", " + wdFSZ}
-				else if (wdA == 4) {wd7 = wd7+"<br>"+"			combobox: "+wdFFN + ", " + wdFSZ}
-				else if (wdA == 5) {wd7 = wd7+"<br>"+"datetime-local: "+wdFFN + ", " + wdFSZ}
-				else if (wdA == 6) {wd7 = wd7+"<br>"+"				 radio: "+wdFFN + ", " + wdFSZ}
-				else if (wdA == 7) {wd7 = wd7+"<br>"+"					text: "+wdFFN + ", " + wdFSZ};
-				// track if first seven items have any size or font differences
-				if (wdA > 1) {if (wdFSZ == wdCS) {} else {wdBS = true}};
-				if (wdA > 1) {if (wdFFN == wdCF) {} else {wdBF = true}};
-			};
-			// output individual results: concatenate string for hash
-			document.getElementById("wid"+wdA).innerHTML = wdS;
-			if (wdA == 1) {wdH = wdS} else {wdH = wdH + " - "+wdS};
-			wdA++;
-		};
-		// output: detailed or combined
-		if ( wdBF + wdBS > 0 ) {
-			document.getElementById("widfirst").innerHTML = "various"
-			document.getElementById("wid1").innerHTML = wd7;
-			document.getElementById("wid1").style.fontFamily = "monospace, monospace";
-		} else {
-			document.getElementById("widfirst").innerHTML = "button|checkbox|color|combobox|datetime-local|radio|text";
-			document.getElementById("wid1").style.fontFamily = "";
-		};
-		// cleanup os string
-		if (wdBF == true) {wdOS = "unknown [font: mixed values]"} else {wdOS = wdOS + " [font: " + wdCF + "]"};
-		// output OS and hash
-		dom.widgetOS = wdOS;
-		dom.widgetH = sha1(wdH);
-	});
 
 	// only run these subsequent tests for Firefox
 	if (isNaN(window.mozPaintCount) === false){
@@ -622,6 +560,67 @@ function outputUA() {
 		};
 		// output: sbZoom was already set in scrollbar width code
 		dom.cssLH.innerHTML = lh + "px " + sbZoom + lhOS;
+
+		// widgets
+		const iframeWD = document.getElementById("iframeWD");
+		iframeWD.src = "iframes/widgets.html";
+		iframeWD.addEventListener("load", function(){
+			// varibles: 7 alt output, CS compare size, CF compare font, BS, boolean size, BF boolean font
+			var wdA = 1; var wdFFN = ""; var wdFSZ = ""; var wdS = ""; var wdH = ""; var wdOS = ""; 
+			var wd7 = ""; var wdCS = ""; var wdCF = ""; var wdBS = false; var wdBF = false;
+			// loop 9 elements
+			while (wdA < 10) {
+				var wdItem = iframeWD.contentWindow.document.getElementById("widget"+wdA);
+				wdFFN = getComputedStyle(wdItem).getPropertyValue("font-family");
+				wdFSZ = getComputedStyle(wdItem).getPropertyValue("font-size");
+				wdS = wdFFN + ", " + wdFSZ;
+				// OS logic: just use the first item to detect OS
+				if (wdA == 1) {
+					if (wdFFN.slice(0,12) == "MS Shell Dlg") {wdOS = "Windows"}
+					else if (wdFFN == "Roboto") {wdOS="Android"}
+					else if (wdFFN == "-apple-system") {wdOS="Mac"}
+					else {wdOS="Linux"};
+				};
+				// compare: values 1 to 7: should always be the same: track state
+				if (wdA < 8) {
+					// store previous values to compare: not even sure if these can be different
+					wdCS = wdFSZ; wdCF = wdFFN;
+					// build detailed output
+						// test: trigger differences
+						// if (wdA == 3) {wdFFN = "-apple-system"; wdFSZ="11px"}; // a: font + size change
+						// if (wdA == 3) {wdFFN = "-apple-system";}; // b: font changes
+						// if (wdA == 3) {wdFSZ="13px"}; // c: size changes
+					if (wdA == 1) {wd7 = "				button: "+wdFFN + ", " + wdFSZ}
+					else if (wdA == 2) {wd7 = wd7+"<br>"+"			checkbox: "+wdFFN + ", " + wdFSZ}
+					else if (wdA == 3) {wd7 = wd7+"<br>"+"				 color: "+wdFFN + ", " + wdFSZ}
+					else if (wdA == 4) {wd7 = wd7+"<br>"+"			combobox: "+wdFFN + ", " + wdFSZ}
+					else if (wdA == 5) {wd7 = wd7+"<br>"+"datetime-local: "+wdFFN + ", " + wdFSZ}
+					else if (wdA == 6) {wd7 = wd7+"<br>"+"				 radio: "+wdFFN + ", " + wdFSZ}
+					else if (wdA == 7) {wd7 = wd7+"<br>"+"					text: "+wdFFN + ", " + wdFSZ};
+					// track if first seven items have any size or font differences
+					if (wdA > 1) {if (wdFSZ == wdCS) {} else {wdBS = true}};
+					if (wdA > 1) {if (wdFFN == wdCF) {} else {wdBF = true}};
+				};
+				// output individual results: concatenate string for hash
+				document.getElementById("wid"+wdA).innerHTML = wdS;
+				if (wdA == 1) {wdH = wdS} else {wdH = wdH + " - "+wdS};
+				wdA++;
+			};
+			// output: detailed or combined
+			if ( wdBF + wdBS > 0 ) {
+				document.getElementById("widfirst").innerHTML = "various"
+				document.getElementById("wid1").innerHTML = wd7;
+				document.getElementById("wid1").style.fontFamily = "monospace, monospace";
+			} else {
+				document.getElementById("widfirst").innerHTML = "button|checkbox|color|combobox|datetime-local|radio|text";
+				document.getElementById("wid1").style.fontFamily = "";
+			};
+			// cleanup os string
+			if (wdBF == true) {wdOS = "unknown [font: mixed values]"} else {wdOS = wdOS + " [font: " + wdCF + "]"};
+			// output OS and hash
+			dom.widgetOS = wdOS;
+			dom.widgetH = sha1(wdH);
+		});
 	};
 };
 
@@ -658,7 +657,7 @@ function outputMath() {
 	if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {dom.fdMath="Firefox"};
 	if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMath="Firefox [32-bit]"};
   // os: math (refine browser as we go)
-	dom.fdMathOS="I just haven't worked out your combo yet"
+	if (amFF == true) {dom.fdMathOS.innerHTML="<span class='bad'>I haven't seen this Firefox math combo before</span>"};
 	if (math1hash == "46f7c2bbe55a2cd28252d059604f8c3bac316c23") {dom.fdMathOS="Windows [64-bit]"; dom.fdMath="Firefox [64-bit]"};
 	if (math1hash == "97eee44856b0d2339f7add0d22feb01bcc0a430e") {dom.fdMathOS="Windows"; dom.fdMath="Firefox [32-bit]"};
 	if (math1hash == "96895e004b623552b9543dcdc030640d1b108816") {dom.fdMathOS="Linux";
