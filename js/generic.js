@@ -14,6 +14,7 @@ function getUniqueElements() {
 };
 
 var TBy=" <span class='good'> [TB]</span>";
+var TBn=" <span class='bad'> [TB]</span>";
 var RFPy=" <span class='good'> [RFP]</span>";
 var RFPn=" <span class='bad'> [RFP]</span>";
 if (isNaN(window.mozPaintCount) === false) {var amFF = true};
