@@ -20,9 +20,9 @@
 }
 
 /* Color Schema 18
-    Sat: 93         Sat: 127
-    Lum: 220        Lum: 240
-    Hue :  BKGRND : TEXT
+		Sat: 93         Sat: 127
+		Lum: 220        Lum: 240
+		Hue :  BKGRND : TEXT
  1    0 : #dc8c8c : #f07878
  2   20 : #dca78c : #f0a078
  3   40 : #dcc18c : #f0c878
@@ -45,25 +45,27 @@
 
 /* Main Set-up */
 body {
-  background-color: #1a1a1a;
-  color: #b3b3b3;
-  font-size: 12px;
+	background-color: #1a1a1a;
+	color: #b3b3b3;
+	font-size: 12px;
 }
 
 /* Fonts */
 h2 {
-  color: white;
-  font-size 14px;
-  text-align: center;
-  padding-top: 0px;
+	color: white;
+	font-size 14px;
+	text-align: center;
+	margin-top: inherit;
 }
 
 h3 {
-  color: #b3b3b3;
-  font-size 12px;
-  text-align: center;
-  line-height: 1.6em;
-  font-weight: normal;
+	color: #b3b3b3;
+	font-size 12px;
+	text-align: center;
+	line-height: 1.6em;
+	font-weight: normal;
+	margin-top: inherit;
+	margin-bottom: inherit;
 }
 
 a {color: black; text-decoration: none;}
@@ -72,25 +74,25 @@ a.blue {color: #8abfda; text-decoration: none;}
 .hidden {display: none;}
 .mono {font-family: monospace, monospace;}
 .toDataURL, .toBlob, .winding, .getImageData, .isPointInPath, .fillText,
-  .isPointInStroke, .readPixels, .getContext, .mozGetAsFile, .strokeText {
-  font-family: monospace, monospace;
+	.isPointInStroke, .readPixels, .getContext, .mozGetAsFile, .strokeText {
+	font-family: monospace, monospace;
 }
 .bad {color: #ff4f4f;}
 .good {color: #8fff8f;}
 
 code {
-  background: #303030 !important;
-  border: 1px solid rgba(255, 255, 255, .1);
-  padding: 1px;
-  border-radius: 2px;
+	background: #303030 !important;
+	border: 1px solid rgba(255, 255, 255, .1);
+	padding: 1px;
+	border-radius: 2px;
 }
 
 /* Show/Hide Toggles */
 input[type='checkbox'] { display: none; }
 
 .lbl-toggle {
-  display: block;
-  cursor: pointer;
+	display: block;
+	cursor: pointer;
 }
 
 /* audio, domrect(s), math, chrome, errors, fonts, widgets */
@@ -98,13 +100,13 @@ input[type='checkbox'] { display: none; }
 
 /* Buttons */
 button {
-  background-color: #1a1a1a;
-  border-width: 0px;
-  text-align: center;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
+	background-color: #1a1a1a;
+	border-width: 0px;
+	text-align: center;
+	display: inline-block;
+	font-size: 12px;
+	font-weight: bold;
+	cursor: pointer;
 }
 .btn0 {border-color: #b3b3b3; color: #b3b3b3;}
 .btn1 {border-color: var(--test1); color: var(--test1);}
@@ -128,138 +130,138 @@ button {
 
 /* Table row run buttons */
 div.btn-left {
-  float: left;
-  position: relative;
-  left: -10px;
-  top: -2px;
+	float: left;
+	position: relative;
+	left: -10px;
+	top: -2px;
 }
 
 /* Icons */
 .icon {
-  background-color: #2e2e2e;
-  text-align: center;
-  display: inline-block;
-  font-size: 10px;
-  font-weight: bold;
-  color: #b3b3b3;
-  cursor: default;
+	background-color: #2e2e2e;
+	text-align: center;
+	display: inline-block;
+	font-size: 10px;
+	font-weight: bold;
+	color: #b3b3b3;
+	cursor: default;
 }
 
 /* Tooltips */
 .tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
-  color: white;
+	position: relative;
+	display: inline-block;
+	border-bottom: 1px dotted black;
+	color: white;
 }
 
 .tooltip .tooltiptext {
-  visibility: hidden;
-  width: 150px;
-  background-color: #b3b3b3;
-  color: black;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-  top: -12px;
-  left: 130%; 
+	visibility: hidden;
+	width: 150px;
+	background-color: #b3b3b3;
+	color: black;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	/* Position the tooltip */
+	position: absolute;
+	z-index: 1;
+	top: -12px;
+	left: 130%; 
 }
 
 .tooltip .tooltiptextbig {
-  visibility: hidden;
-  width: 210px;
-  background-color: #b3b3b3;
-  color: black;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-  top: -12px;
-  left: 130%; 
+	visibility: hidden;
+	width: 210px;
+	background-color: #b3b3b3;
+	color: black;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	/* Position the tooltip */
+	position: absolute;
+	z-index: 1;
+	top: -12px;
+	left: 130%; 
 }
 
 .tooltip:hover .tooltiptext, .tooltip:hover .tooltiptextbig {
-  visibility: visible;
+	visibility: visible;
 }
 
 .tooltip .tooltiptext::after {
-  content: " ";
-  position: absolute;
-  top: 50%;
-  right: 100%; /* To the left of the tooltip */
-  margin-top: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent #b3b3b3 transparent transparent;
+	content: " ";
+	position: absolute;
+	top: 50%;
+	right: 100%; /* To the left of the tooltip */
+	margin-top: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent #b3b3b3 transparent transparent;
 }
 
 /* Table header nav elements */
 div.nav-title {
-  position: relative;
-  width: 900px;
+	position: relative;
+	width: 900px;
 }
 
 div.nav-down {
-  position: absolute;
-  right: 5px;
-  top: 0px;
-  width: 20px;
+	position: absolute;
+	right: 5px;
+	top: 0px;
+	width: 20px;
 }
 
 div.nav-up {
-  position: absolute;
-  left: 5px;
-  top: 0px;
-  width: 20px;
+	position: absolute;
+	left: 5px;
+	top: 0px;
+	width: 20px;
 }
 
 /* Tables */
 table {
-  width: 900px;
-  border-collapse: collapse;
-  margin: 0 auto 10px auto;
+	width: 900px;
+	border-collapse: collapse;
+	margin: 0 auto 10px auto;
 }
 
 tbody:before {
-  content: "-";
-  display: block;
-  line-height: 1em;
-  color: transparent;
+	content: "-";
+	display: block;
+	line-height: 1em;
+	color: transparent;
 }
 
 td {
-  padding-bottom: 3px;
-  padding-top: 3px;
-  padding-left: 10px;
+	padding-bottom: 3px;
+	padding-top: 3px;
+	padding-left: 10px;
 }
 
 th {
-  color: black;
-  font-weight: bold;
-  font-size: 16px;
-  padding: 3px 0;
+	color: black;
+	font-weight: bold;
+	font-size: 16px;
+	padding: 3px 0;
 }
 
 table td:first-child { text-align: right; vertical-align: top;}
 
 /* used for descriptions after th */
 table td.intro {
-  text-align: left;
-  line-height: 1.5em;
-  padding-bottom: 10px;
+	text-align: left;
+	line-height: 1.5em;
+	padding-bottom: 10px;
 }
 
 table td.center {text-align: center; }
 
 table td.showhide {
-  text-align: center;
-  padding-top: 7px;
-  padding-bottom: 7px;
+	text-align: center;
+	padding-top: 7px;
+	padding-bottom: 7px;
 }
 
 table td.sub2 { color: var(--test2); }
@@ -316,16 +318,16 @@ table td.sub10 { color: var(--test10); }
 
 /* about:logo css test */
 #fdResourceCss {
-  background-image: url("about:logo"), url("nothing.png");
-  background-size: auto 100%;
-  background-repeat: no-repeat;
-  background-position: 10px 0px;
+	background-image: url("about:logo"), url("nothing.png");
+	background-size: auto 100%;
+	background-repeat: no-repeat;
+	background-position: 10px 0px;
 }
 
 /* css line-height test */
 .cssLH {
-  font-size: 16px;
-  font-family: "Times New Roman", Times, serif;
+	font-size: 16px;
+	font-family: "Times New Roman", Times, serif;
 }
 
 /* prefers-color-scheme */
@@ -334,17 +336,17 @@ table td.sub10 { color: var(--test10); }
  .themed { background-color: white; }
 }
 @media (prefers-color-scheme: dark) {
-  .themed { background-color: black; }
+	.themed { background-color: black; }
 }
 @media (prefers-color-scheme: no-preference) {
-  .themed { background-color: blue; }
+	.themed { background-color: blue; }
 }
 
 /* prefers-reduced-motions */
 .motion {background-color: red; display: none;}
 @media (prefers-reduced-motion: no-preference) {
-  .motion {background-color: white;}
+	.motion {background-color: white;}
 }
 @media (prefers-reduced-motion: reduce) {
-  .motion {background-color: black;}
+	.motion {background-color: black;}
 }
