@@ -4,8 +4,12 @@
 
 function outputDevices() {
 	// navigator
-	dom.nHardwareConcurrency = navigator.hardwareConcurrency;
-	dom.nMaxTouchPoints = navigator.maxTouchPoints;
+	var tmpD = navigator.hardwareConcurrency;
+	if (tmpD == "2") {tmpD = tmpD + RFPy} else {tmpD = tmpD + RFPn}
+	dom.nHardwareConcurrency.innerHTML = tmpD;
+	tmpD = navigator.maxTouchPoints;
+	if (tmpD == "0") {tmpD = tmpD + RFPy} else {tmpD = tmpD + RFPn}
+	dom.nMaxTouchPoints.innerHTML = tmpD;
 	if (navigator.getGamepads) {dom.nGetGamepads="enabled"} else {dom.nGetGamepads="disabled"};
 	// media devices (media.navigator.enabled)
 	if ("mediaDevices" in navigator) {
