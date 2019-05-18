@@ -234,32 +234,6 @@ function outputUA() {
 
 	/* USER AGENT */
 
-	// chrome:// and resource:// tests only work on Firefox, no need to check first
-	// browser: chrome: Firefox
-	// about:logo: desktop 300x236 vs 258x99 android dimensions
-	var imgLogoA = new Image();
-	imgLogoA.src = "about:logo";
-	imgLogoA.style.visibility = "hidden";
-	document.body.appendChild(imgLogoA);
-	imgLogoA.addEventListener("load", function() {
-		var imgLogoAW = imgLogoA.width;
-		if (imgLogoAW == 300) {
-			// change displayed resource to icon64 (not on android)
-			dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/icon64.png')";
-		};
-		if (imgLogoAW > 0) {dom.fdResource = "Firefox"};
-		document.body.removeChild(imgLogoA);
-	});
-	// browser: chrome: refine if Tor Browser
-	var imgLogoB = new Image();
-	imgLogoB.src = "resource://onboarding/img/tor-watermark.png";
-	imgLogoB.style.visibility = "hidden";
-	document.body.appendChild(imgLogoB);
-	imgLogoB.addEventListener("load", function() {
-		var imgLogoBW = imgLogoB.width;
-		if (imgLogoBW > 0) {dom.fdResource = "Tor Browser"};
-		document.body.removeChild(imgLogoB);
-	});
 	// browser: errors
 		var errh = "";
 		// InternalError
@@ -298,6 +272,31 @@ function outputUA() {
 			// if (isNaN(window.mozInnerScreenX) === false) {"FF"};
 			// if (isNaN(window.window.scrollMaxX) === false) {"FF"};
 			// if (navigator.oscpu == undefined){} else {"FF"};
+		// browser: chrome: Firefox
+		// about:logo: desktop 300x236 vs 258x99 android dimensions
+		var imgLogoA = new Image();
+		imgLogoA.src = "about:logo";
+		imgLogoA.style.visibility = "hidden";
+		document.body.appendChild(imgLogoA);
+		imgLogoA.addEventListener("load", function() {
+			var imgLogoAW = imgLogoA.width;
+			if (imgLogoAW == 300) {
+				// change displayed resource to icon64 (not on android)
+				dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/icon64.png')";
+			};
+			if (imgLogoAW > 0) {dom.fdResource = "Firefox"};
+			document.body.removeChild(imgLogoA);
+		});
+		// browser: chrome: refine if Tor Browser
+		var imgLogoB = new Image();
+		imgLogoB.src = "resource://onboarding/img/tor-watermark.png";
+		imgLogoB.style.visibility = "hidden";
+		document.body.appendChild(imgLogoB);
+		imgLogoB.addEventListener("load", function() {
+			var imgLogoBW = imgLogoB.width;
+			if (imgLogoBW > 0) {dom.fdResource = "Tor Browser"};
+			document.body.removeChild(imgLogoB);
+		});
 		// browser: version
 		dom.versionNo = getVerNo();
 		// os: chrome://
