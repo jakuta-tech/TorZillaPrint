@@ -34,7 +34,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 .good {color: #8fff8f;}
 .mono, .toDataURL, .toBlob, .winding, .getImageData, .isPointInPath, .fillText,
 	.isPointInStroke, .readPixels, .getContext, .mozGetAsFile, .strokeText {
-	font-family: monospace, monospace;}
+	font-family: monospace, "Courier New";}
 
 /* show/hide */
 input[type='checkbox'] {display: none;}
