@@ -47,7 +47,7 @@ function getVW() {
 	var vh=e.offsetHeight;
 	document.documentElement.removeChild(e);
 	dom.Viewport = vw + " x " + vh;
-  return vw;
+	return vw;
 };
 function getZoom() {
 	// js dpi
@@ -81,7 +81,7 @@ function getZoom() {
 	if (jsZoom == 241) {jsZoom=240};
 	if (jsZoom == 250) {jsZoom=240};
 	dom.jsZoom = jsZoom;
-  return jsZoom;
+	return jsZoom;
 };
 
 /* OUTPUT */
@@ -97,7 +97,7 @@ function outputScreen() {
 	dom.fsState = window.fullScreen;
 	dom.DevPR = window.devicePixelRatio;
 	// viewport
-  getVW();
+	getVW();
 	// full-screen-api.enabled
 	try {
 		if (document.mozFullScreenEnabled) {dom.fsSupport="enabled"}
@@ -127,8 +127,8 @@ function outputScreen() {
 		if (window.innerHeight < window.innerWidth) return "landscape";
 		return "portrait";
 	})();
-  // zoom related items
-  getZoom(); 
+	// zoom related items
+	getZoom(); 
 
 	/* DEVICEPIXELRATIO LEAKS */
 	// code based on work by Alex Catarineu
@@ -625,7 +625,7 @@ function outputUA() {
 };
 
 function outputMath() {
-	// ECMASCript 1st edtion: using cos values
+	// ECMASCript 1st edtion
 	var strR = ""; var strH = "";
 	strR = Math.cos(1e251); dom.cos1 = strR; strH = strR;
 	strR = Math.cos(1e140); dom.cos2 = strR; strH = strH + "-" + strR;
@@ -637,7 +637,6 @@ function outputMath() {
 	strR = Math.cos(1e75); dom.cos8 = strR; strH = strH + "-" + strR;
 	var math1hash = sha1(strH);
 	var str1math = strH;
-	dom.math1hash = math1hash;
 	// ECMASCript 6th edtion
 	strR = ""; strH = ""; let x; let y;
 	x = 0.5; strR = Math.log((1 + x) / (1 - x)) / 2; // atanh(0.5)
@@ -648,26 +647,62 @@ function outputMath() {
 	dom.math3 = strR; strH = strH + "-" + strR;
 	var math6hash = sha1(strH);
 	var str6math = strH;
-	dom.math6hash = math6hash;
-	// HASH
+	// build math6
+	var fdMath6 = "";
+	if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {fdMath6="Firefox"}
+	else if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {fdMath6="Firefox [32-bit]"};
+	// build math1, refine math6
+	var fdMath1 = "";
+	if (math1hash == "46f7c2bbe55a2cd28252d059604f8c3bac316c23") {
+		fdMath1="Windows [64-bit]"; fdMath6="Firefox [64-bit]";
+	}
+	else if (math1hash == "97eee44856b0d2339f7add0d22feb01bcc0a430e") {
+		fdMath1="Windows"; fdMath6="Firefox [32-bit]";
+	}
+	else if (math1hash == "96895e004b623552b9543dcdc030640d1b108816") {
+		fdMath1="Linux";
+		if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {fdMath1="Linux [64-bit]"}
+		else if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {fdMath1="Linux [32-bit]"};
+	}
+	else if (math1hash == "19df0b54c852f35f011187087bd3a0dce12b4071") {
+		fdMath1="Linux";
+	}
+	else if (math1hash == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {
+		fdMath1="Mac"; fdMath6="Firefox [64-bit]";
+	}
+	else if (math1hash == "ae434b101452888b756da5916d81f68adeb2b6ae") {
+		fdMath1="Android";
+	}
+	else if (math1hash == "8464b989070dcff22c136e4d0fe21d466b708ece") {
+		fdMath1="Windows";
+		if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {
+			fdMath6="Tor Browser [64-bit]"; fdMath1="Windows [64-bit]";
+		};
+	}
+	else if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {
+		fdMath6="Tor Browser [32-bit]";
+	};
+	// combo codes (so I can keep track)
+	var mc = "";
 	var mathhash = sha1(str1math+"-"+str6math);
+	if (mathhash == "9ab50329860d78507df28df51fda54642f404733") {mc ="1A"}
+	else if (mathhash == "1d6dc24f9e801f27616dcfb6c0b4332655c2994b") {mc ="1B"}
+	else if (mathhash == "ef63673d97cbcd37189980bf9d0b966599777d40") {mc ="1C"}
+	else if (mathhash == "ce6750e5d0ccc37e7221f12b71d11660f752ddcd") {mc ="2B"}
+	else if (mathhash == "046d5d382f775e9357bc9d926d487a21abb5af1a") {mc ="1D"}
+	else if (mathhash == "3f5ff67e8c1ce7d0831631792183efdb20c57f4f") {mc ="2D"}
+	else if (mathhash == "9ccf49e6225453f5478c207bd162202d7520c7e3") {mc ="1E"}
+	else if (mathhash == "e9570e400896bc6821bb7eeae0f179e52cf86c44") {mc ="1F"}
+	else if (mathhash == "3fccdbc80f1f4a269c2c253d612d1958f7aed39d") {mc ="1G"};
+	// output
+	var strNewHash = "";
+	if (amFF == true) {strNewHash = "<span class='bad'>I haven't seen this Firefox math combo before</span>"};
+	if (mc !== "") {mathhash = mathhash + " ["+mc+"]"};
+	dom.math1hash = math1hash;
+	dom.math6hash = math6hash;
 	dom.mathhash = mathhash;
-  // also output items based on math
-	// browser: math
-	if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {dom.fdMath="Firefox"};
-	if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMath="Firefox [32-bit]"};
-  // os: math (refine browser as we go)
-	if (amFF == true) {dom.fdMathOS.innerHTML="<span class='bad'>I haven't seen this Firefox math combo before</span>"};
-	if (math1hash == "46f7c2bbe55a2cd28252d059604f8c3bac316c23") {dom.fdMathOS="Windows [64-bit]"; dom.fdMath="Firefox [64-bit]"};
-	if (math1hash == "97eee44856b0d2339f7add0d22feb01bcc0a430e") {dom.fdMathOS="Windows"; dom.fdMath="Firefox [32-bit]"};
-	if (math1hash == "96895e004b623552b9543dcdc030640d1b108816") {dom.fdMathOS="Linux";
-		if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {dom.fdMathOS="Linux [64-bit]"};
-		if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMathOS="Linux [32-bit]"};};
-	if (math1hash == "8464b989070dcff22c136e4d0fe21d466b708ece") {dom.fdMathOS="Windows";
-		if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {dom.fdMath="Tor Browser [64-bit]"; dom.fdMathOS="Windows [64-bit]"};
-		if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {dom.fdMath="Tor Browser [32-bit]"};};
-	if (math1hash == "ae434b101452888b756da5916d81f68adeb2b6ae") {dom.fdMathOS="Android";};
-	if (math1hash == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {dom.fdMathOS="Mac"; dom.fdMath="Firefox [64-bit]";};
+	if (fdMath1 == "") {dom.fdMathOS.innerHTML=strNewHash} else {dom.fdMathOS = fdMath1};
+	if (fdMath6 == "") {dom.fdMath.innerHTML=strNewHash} else {dom.fdMath = fdMath6};
 };
 
 outputScreen();
