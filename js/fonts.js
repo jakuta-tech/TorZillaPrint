@@ -136,7 +136,7 @@ function outputFonts(){
 			let testString = codePoints.map(x => String.fromCodePoint(x)).join("</span>\n<span>");
 			fontFBTest.innerHTML = testString;
 			let fontList = yield retrieveFontList();
-			// we need to make sure the list/fallback font is fully loaded etc
+			// make sure list/fallback font are loaded
 			setTimeout(function(){
 				var [fontsPresent] = enumerateFonts(fontList);
 				var strFontFB = htmlFontList(fontsPresent);
@@ -148,9 +148,14 @@ function outputFonts(){
 				var fontFBhash = sha1(strFontFB);
 				var fontFBoutput = fontFBhash + " ["+fontfbYes+"/"+fontfbAll+"]";
 				// TB stuff
-				if (fontFBhash == "ad4ccd607603041d3e89aa8e03e2e203fc184653") {fontFBoutput = fontFBoutput+" [Windows]"+TBy};
-				if (fontFBhash == "09a4ee037c9082b9b8f0b7ae981c656d517faffa") {fontFBoutput = fontFBoutput+" [Linux]"+TBy};
-				if (fontFBhash == "4094aedc000205c711385fad32827e60462976dc") {fontFBoutput = fontFBoutput+" [Mac]"+TBy};
+				if (fontFBhash == "1389aaf4c97027b8157c5fb9ef5ed6f141a6b8a1") {
+					fontFBoutput = fontFBoutput+" <span class='bad'>[Win10 64bit]</span>"+TBy}
+				else if (fontFBhash == "ad4ccd607603041d3e89aa8e03e2e203fc184653") {
+					fontFBoutput = fontFBoutput+" <span class='bad'>[Win7 64bit]</span>"+TBy}
+				else if (fontFBhash == "9e5d39b4542cd5e2a19f73b8fa566e679fa561e5") {
+					fontFBoutput = fontFBoutput+" <span class='bad'>[Win7 32bit]</span>"+TBy}
+				else if (fontFBhash == "09a4ee037c9082b9b8f0b7ae981c656d517faffa") {fontFBoutput = fontFBoutput+" [Linux]"+TBy}
+				else if (fontFBhash == "4094aedc000205c711385fad32827e60462976dc") {fontFBoutput = fontFBoutput+" [Mac]"+TBy};
 				dom.fontFB.innerHTML = fontFBoutput;
 				/* finally, retitle the button */
 				dom.fontRun = "[ re-run tests ]";
@@ -158,10 +163,8 @@ function outputFonts(){
 		});
 	});
 
-	/* FINGERPRINTJS2 based
-		 https://valve.github.io/fingerprintjs2/ */
+	/* FINGERPRINTJS2 https://valve.github.io/fingerprintjs2/ */
 
-	/* FONT GLYPHS
-		 Fifield and Egelman (2015) */
+	/* FONT GLYPHS Fifield and Egelman (2015) */
 
 };
