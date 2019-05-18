@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <title>TorZillaPrint: Fonts</title>
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script src="js/generic.js"></script>
+  <script src="js/globals.js"></script>
+</head>
+
+<body>
+  <table>
+  <tr><td><a anchor="top"></a><h2>TorZillaPrint</h2></td></tr>
+  <tr><td><h3>special font only page while it lasts</h3>
+  </td></tr>
+  </table>
+  <!-- TABLE 10: Fonts - fonts.js -->
+  <iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
+  <table id="tb10">
+    <!-- 9 columns: first 4 = 37%, comnbine cols 5+6 to create columns for unicode glyphs -->
+    <col width="2%"><a name="fonts"></a><col width="14%"><col width="14%"><col width="7%"><col width="7%">
+    <col width="14%"><col width="14%"><col width="14%"><col width="14%">
+    <thead><tr><th colspan="9">fonts</th></tr></thead>
+    <tr><td colspan="4"><div>
+        <div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`fonts`)">run tests</button></div>
+        <div>enumerate fonts <sup>1</sup></div></div></td>
+      <td colspan="5" class="mono" id="fontFB"></td>
+    </tr>
+    <tr><td colspan="4">font fallback</td><td colspan="5" class="mono"></td></tr>
+    <tr><td colspan="4">js <sup>2</sup></td><td colspan="5" class="mono"></td></tr>
+    <tr><td colspan="4">the other js <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
+    <tr><td colspan="4">unicode glyphs <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
+    <tr><td colspan="4">canvas</td><td colspan="5" class="mono"></td></tr>
+    <tr><td colspan="9" class="showhide">
+        <input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
+        <label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
+    </td></tr>
+    <tr class="togF"><td></td><td colspan="8" class="sub10">enumerate fonts &nbsp
+       <button class="btn10" onClick="copyclip(`fontFBFound`)">copy to clipboard</button></td></tr>
+    <tr class="togF"><td></td><td colspan="8" class="intro" id="fontFBFound"></td></tr>
+    <tr class="togF"><td colspan="9"></td></tr>
+    <tr><td colspan="9"><span class="no_color">code based on work by </span>
+      <sup>1</sup><a target="_blank" class="blue" href="https://github.com/arthuredelstein/tordemos">Arthur Edelstein</a>
+      <span class="no_color">,</span>
+      <sup>2</sup> <a target="_blank" class="blue" href="https://github.com/Valve/fingerprintjs2">fingerprintjs2</a>
+      <span class="no_color"> and </span>
+      <sup>3</sup> <a target="_blank" class="blue" href="https://browserleaks.com/fonts">browserleaks</a>
+    </td></tr>
+  </table>
+  <br><br>
+  <script src="js/main.js"></script>
+  <script src="js/fonts.js"></script>
+</body>
+</html>
