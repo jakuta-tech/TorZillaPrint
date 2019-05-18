@@ -590,13 +590,13 @@ function outputUA() {
 						// if (wdA == 3) {wdFFN = "-apple-system"; wdFSZ="11px"}; // a: font + size change
 						// if (wdA == 3) {wdFFN = "-apple-system";}; // b: font changes
 						// if (wdA == 3) {wdFSZ="13px"}; // c: size changes
-					if (wdA == 1) {wd7 = "				button: "+wdFFN + ", " + wdFSZ}
-					else if (wdA == 2) {wd7 = wd7+"<br>"+"			checkbox: "+wdFFN + ", " + wdFSZ}
-					else if (wdA == 3) {wd7 = wd7+"<br>"+"				 color: "+wdFFN + ", " + wdFSZ}
-					else if (wdA == 4) {wd7 = wd7+"<br>"+"			combobox: "+wdFFN + ", " + wdFSZ}
+					if (wdA == 1) {wd7 = "        button: "+wdFFN + ", " + wdFSZ}
+					else if (wdA == 2) {wd7 = wd7+"<br>"+"      checkbox: "+wdFFN + ", " + wdFSZ}
+					else if (wdA == 3) {wd7 = wd7+"<br>"+"         color: "+wdFFN + ", " + wdFSZ}
+					else if (wdA == 4) {wd7 = wd7+"<br>"+"      combobox: "+wdFFN + ", " + wdFSZ}
 					else if (wdA == 5) {wd7 = wd7+"<br>"+"datetime-local: "+wdFFN + ", " + wdFSZ}
-					else if (wdA == 6) {wd7 = wd7+"<br>"+"				 radio: "+wdFFN + ", " + wdFSZ}
-					else if (wdA == 7) {wd7 = wd7+"<br>"+"					text: "+wdFFN + ", " + wdFSZ};
+					else if (wdA == 6) {wd7 = wd7+"<br>"+"         radio: "+wdFFN + ", " + wdFSZ}
+					else if (wdA == 7) {wd7 = wd7+"<br>"+"          text: "+wdFFN + ", " + wdFSZ};
 					// track if first seven items have any size or font differences
 					if (wdA > 1) {if (wdFSZ == wdCS) {} else {wdBS = true}};
 					if (wdA > 1) {if (wdFFN == wdCF) {} else {wdBF = true}};
