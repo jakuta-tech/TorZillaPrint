@@ -17,7 +17,8 @@ var TBy=" <span class='good'> [TB]</span>";
 var TBn=" <span class='bad'> [TB]</span>";
 var RFPy=" <span class='good'> [RFP]</span>";
 var RFPn=" <span class='bad'> [RFP]</span>";
-if (isNaN(window.mozPaintCount) === false) {var amFF = true};
+var amFF = false;
+if (isNaN(window.mozPaintCount) === false) {amFF = true};
 
 function showhide(toggleType, toggleID, togWord) {
 	var xyz = document.getElementsByClassName("tog"+toggleID); var abc;
