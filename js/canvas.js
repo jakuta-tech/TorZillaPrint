@@ -332,6 +332,7 @@ var canvas = {
 };
 
 function outputCanvas(runType) {
+	outCounter = 0;
 	canvas.output(canvas.createHashes(window), document.getElementById("tb8"));
 };
 
