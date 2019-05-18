@@ -30,7 +30,7 @@ function outputCSS() {
 		sColorElem.style.backgroundColor = arrayItem;
 		sColorStr = sColorStr + window.getComputedStyle(sColorElem, null).getPropertyValue("background-color")
 	});
-	sColorHash = sha1(sColorStr);
+	var sColorHash = sha1(sColorStr);
 	if (sColorHash == "b5e2344c265fc498d2fb8e0f84951e8d501ad481") {
 		sColorHash = sColorHash + RFPy
 	} else {sColorHash = sColorHash + RFPn};
