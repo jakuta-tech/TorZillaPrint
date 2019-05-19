@@ -646,62 +646,55 @@ function outputMath() {
 	dom.math3 = strR; strH = strH + "-" + strR;
 	var math6hash = sha1(strH);
 	var str6math = strH;
-	// build math6
-	var fdMath6 = "";
-	if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {fdMath6="Firefox"}
-	else if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {fdMath6="Firefox [32-bit]"};
-	// build math1, refine math6
-	var fdMath1 = "";
-	if (math1hash == "46f7c2bbe55a2cd28252d059604f8c3bac316c23") {
-		fdMath1="Windows [64-bit]"; fdMath6="Firefox [64-bit]";
-	}
-	else if (math1hash == "97eee44856b0d2339f7add0d22feb01bcc0a430e") {
-		fdMath1="Windows"; fdMath6="Firefox [32-bit]";
-	}
-	else if (math1hash == "96895e004b623552b9543dcdc030640d1b108816") {
-		fdMath1="Linux";
-		if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {fdMath1="Linux [64-bit]"}
-		else if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {fdMath1="Linux [32-bit]"};
-	}
-	else if (math1hash == "19df0b54c852f35f011187087bd3a0dce12b4071") {
-		fdMath1="Linux";
-	}
-	else if (math1hash == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {
-		fdMath1="Mac"; fdMath6="Firefox [64-bit]";
-	}
-	else if (math1hash == "ae434b101452888b756da5916d81f68adeb2b6ae") {
-		fdMath1="Android";
-	}
-	else if (math1hash == "8464b989070dcff22c136e4d0fe21d466b708ece") {
-		fdMath1="Windows";
-		if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {
-			fdMath6="Tor Browser [64-bit]"; fdMath1="Windows [64-bit]";
-		};
-	}
-	else if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {
-		fdMath6="Tor Browser [32-bit]";
-	};
-	// combo codes (so I can keep track)
-	var mc = "";
 	var mathhash = sha1(str1math+"-"+str6math);
-	if (mathhash == "9ab50329860d78507df28df51fda54642f404733") {mc ="1A"}
-	else if (mathhash == "1d6dc24f9e801f27616dcfb6c0b4332655c2994b") {mc ="1B"}
-	else if (mathhash == "ef63673d97cbcd37189980bf9d0b966599777d40") {mc ="1C"}
-	else if (mathhash == "ce6750e5d0ccc37e7221f12b71d11660f752ddcd") {mc ="2B"}
-	else if (mathhash == "046d5d382f775e9357bc9d926d487a21abb5af1a") {mc ="1D"}
-	else if (mathhash == "3f5ff67e8c1ce7d0831631792183efdb20c57f4f") {mc ="2D"}
-	else if (mathhash == "9ccf49e6225453f5478c207bd162202d7520c7e3") {mc ="1E"}
-	else if (mathhash == "e9570e400896bc6821bb7eeae0f179e52cf86c44") {mc ="1F"}
-	else if (mathhash == "3fccdbc80f1f4a269c2c253d612d1958f7aed39d") {mc ="1G"};
+	// known FF math6 hashes (browser)
+	var m6 = "";
+	if (math6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {m6 = "1"}
+	else if (math6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {m6 = "2"}
+	else if (math6hash == "9251136865b8509cc22f8773503288d106104634") {m6 = "3"}; // FF68+ changed exmp1(1)
+	// known FF math1 hashes (os)
+	var m1 = "";
+	if (math1hash == "46f7c2bbe55a2cd28252d059604f8c3bac316c23") {m1 = "A"}
+	else if (math1hash == "8464b989070dcff22c136e4d0fe21d466b708ece") {m1 = "B"}
+	else if (math1hash == "97eee44856b0d2339f7add0d22feb01bcc0a430e") {m1 = "C"}
+	else if (math1hash == "96895e004b623552b9543dcdc030640d1b108816") {m1 = "D"}
+	else if (math1hash == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {m1 = "E"}
+	else if (math1hash == "ae434b101452888b756da5916d81f68adeb2b6ae") {m1 = "F"}
+	else if (math1hash == "19df0b54c852f35f011187087bd3a0dce12b4071") {m1 = "G"};
+	var mc = m6+m1;
+	// build browser output
+	var fdMath6 = "";
+	if (m6 == "1" | m6 == "3") {fdMath6="Firefox";}
+	else if (m6 == "2") {fdMath6="Firefox [32-bit]"};
+	// build os output, refine browser output
+	var fdMath1 = "";
+	if (m1 == "A") {fdMath1="Windows [64-bit]"; fdMath6="Firefox [64-bit]"}
+	else if (m1 == "C") {fdMath1="Windows"; fdMath6="Firefox [32-bit]"}
+	else if (m1 == "D") {fdMath1="Linux";
+		if (m6 == "1" | m6 == "3") {fdMath1="Linux [64-bit]"}	else if (m6 == "2") {fdMath1="Linux [32-bit]"};}
+	else if (m1 == "G") {fdMath1="Linux"}
+	else if (m1 == "E") {fdMath1="Mac"; fdMath6="Firefox [64-bit]";}
+	else if (m1 == "F") {fdMath1="Android"}
+	else if (m1 == "B") {fdMath1="Windows";
+		if (m6 == "1" | m6 == "3") {fdMath6="Tor Browser [64-bit]"; fdMath1="Windows [64-bit]";}
+		else if (m6 == "2") {fdMath6="Tor Browser [32-bit]"};
+	};
+	// anything new in FF?
+	if (amFF == true) {
+		var strNew = " <span class='bad'>[NEW]</span>";
+		if (m1 == "") {math1hash=math1hash+strNew} else {math1hash=math1hash+" ["+m1+"]"};
+		if (m6 == "") {math6hash=math6hash+strNew} else {math6hash=math6hash+" ["+m6+"]"};
+		if (mc.length < 2) {mathhash = mathhash+strNew} else {mathhash=mathhash+" ["+mc+"]"};
+		strNew = "<span class='bad'>I haven't seen this Firefox math combo before</span>";
+		if (fdMath1 == "") {fdMath1=strNew};
+		if (fdMath6 == "") {fdMath6=strNew};
+	};
 	// output
-	var strNewHash = "";
-	if (amFF == true) {strNewHash = "<span class='bad'>I haven't seen this Firefox math combo before</span>"};
-	if (mc !== "") {mathhash = mathhash + " ["+mc+"]"};
-	dom.math1hash = math1hash;
-	dom.math6hash = math6hash;
-	dom.mathhash = mathhash;
-	if (fdMath1 == "") {dom.fdMathOS.innerHTML=strNewHash} else {dom.fdMathOS = fdMath1};
-	if (fdMath6 == "") {dom.fdMath.innerHTML=strNewHash} else {dom.fdMath = fdMath6};
+	dom.math1hash.innerHTML = math1hash;
+	dom.math6hash.innerHTML = math6hash;
+	dom.mathhash.innerHTML = mathhash;
+	dom.fdMathOS.innerHTML = fdMath1;
+	dom.fdMath.innerHTML = fdMath6;
 };
 
 outputScreen();
