@@ -148,7 +148,9 @@ function outputFonts(){
 				var fontFBhash = sha1(strFontFB);
 				var fontFBoutput = fontFBhash + " ["+fontfbYes+"/"+fontfbAll+"]";
 				// TB stuff
-				if (fontFBhash == "1389aaf4c97027b8157c5fb9ef5ed6f141a6b8a1") {
+				if (fontFBhash == "77ee9c373e698fe9c8b381446a380389914ff294") {
+					fontFBoutput == fontFBoutput+" <span class='bad'>[Win10 64bit]</span>"+TBy}
+				else if (fontFBhash == "1389aaf4c97027b8157c5fb9ef5ed6f141a6b8a1") {
 					fontFBoutput = fontFBoutput+" <span class='bad'>[Win10 64bit]</span>"+TBy}
 				else if (fontFBhash == "ad4ccd607603041d3e89aa8e03e2e203fc184653") {
 					fontFBoutput = fontFBoutput+" <span class='bad'>[Win7 64bit]</span>"+TBy}
