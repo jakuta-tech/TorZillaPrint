@@ -15,7 +15,7 @@
 	<tr><td><h3>TZP is only designed for Firefox [v60+] and the Tor Browser [v8+].
 	<a class="blue" href="extra.html">Here</a> are additonal tests, and <a target="_blank" class="blue"
 	href="https://github.com/ghacksuserjs/TorZillaPrint">here</a> is the repo [feel free to drop in]. When re-testing
-	sections, be aware that some prefs/option changes may require a page refresh [<b>F5</b>] or even a new browser session.</h3>
+	sections, be aware that some pref/option changes may require a page refresh [<b>F5</b>] or even a new browser session.</h3>
 	</td></tr>
 	</table>
 
@@ -182,14 +182,18 @@
 		</th></tr></thead>
 		<tr><td><div>
 				<div class="btn-left"><button class="btn3" onClick="outputSection(`math`)">[ re-run tests ]</button></div>
-				<div>1st edition</div></div></td><td class="mono" id="math1hash"></td>
+				<div>6th edition</div></div></td><td class="mono" id="math6hash"></td>
 		</tr>
-		<tr><td>6th edition</td><td class="mono" id="math6hash"></td></tr>
+		<tr><td>1st edition</td><td class="mono" id="math1hash"></td></tr>
 		<tr><td>combined</td><td class="mono" id="mathhash"></td></tr>
 		<tr><td colspan="2" class="showhide">
 				<input id="collapseM" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M`)">
 				<label for="collapseM" class="lbl-toggle" id="labelM">&#9660; show details</label>
 		</td></tr>
+		<tr class="togM"><td></td><td class="sub3">ECMAScript 6th Edition</td></tr>
+			<tr class="togM"><td>atanh(0.5)</td><td class="mono" id="math1"></td></tr>
+			<tr class="togM"><td>expm1(1)</td><td class="mono" id="math2"></td></tr>
+			<tr class="togM"><td>sinh(1)</td><td class="mono" id="math3"></td></tr>
 		<tr class="togM"><td></td><td class="sub3">ECMAScript 1st Edition</td></tr>
 			<tr class="togM"><td>cos(1e251)</td><td class="mono" id="cos1"></td></tr>
 			<tr class="togM"><td>cos(1e140)</td><td class="mono" id="cos2"></td></tr>
@@ -199,10 +203,6 @@
 			<tr class="togM"><td>cos(1e0)</td><td class="mono" id="cos6"></td></tr>
 			<tr class="togM"><td>cos(1e284)</td><td class="mono" id="cos7"></td></tr>
 			<tr class="togM"><td>cos(1e75)</td><td class="mono" id="cos8"></td></tr>
-		<tr class="togM"><td></td><td class="sub3">ECMAScript 6th Edition</td></tr>
-			<tr class="togM"><td>atanh(0.5)</td><td class="mono" id="math1"></td></tr>
-			<tr class="togM"><td>expm1(1)</td><td class="mono" id="math2"></td></tr>
-			<tr class="togM"><td>sinh(1)</td><td class="mono" id="math3"></td></tr>
 		<tr class="togM"><td colspan="2"></td></tr>
 		<tr><td colspan="2"><span class="no_color">ECMAScript 6th edition math code courtesy of </span>
 			<a target="_blank" class="blue" href="https://fpcentral.tbb.torproject.org/">Fingerprint Central</a></td></tr>
