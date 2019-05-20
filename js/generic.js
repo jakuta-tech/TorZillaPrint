@@ -13,10 +13,11 @@ function getUniqueElements() {
 	});
 };
 
-var TBy=" <span class='good'> [TB]</span>";
-var TBn=" <span class='bad'> [TB]</span>";
-var RFPy=" <span class='good'> [RFP]</span>";
-var RFPn=" <span class='bad'> [RFP]</span>";
+var TBy=" <span class='good'>[TB]</span>";
+var TBn=" <span class='bad'>[TB]</span>";
+var RFPy=" <span class='good'>[RFP]</span>";
+var RFPn=" <span class='bad'>[RFP]</span>";
+var FILEy=" <span class='bad'>[file:///]</span>"
 var amFF = false;
 if (isNaN(window.mozPaintCount) === false) {amFF = true};
 
