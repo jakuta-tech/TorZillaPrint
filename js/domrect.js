@@ -25,7 +25,12 @@
 				});
 				// output hash
 				crypto.subtle.digest("SHA-256", data).then(function(hash){
-					document.getElementById(method).textContent = byteArrayToHex(hash);
+					// FF append file:// notation
+					if ((location.protocol) == "file:") {
+						document.getElementById(method).innerHTML = byteArrayToHex(hash)+FILEy;
+					} else {
+						document.getElementById(method).innerHTML = byteArrayToHex(hash);
+					}
 				});
 				// output results
 				var item=0;
@@ -48,28 +53,33 @@
 			while (drB < 49) {document.getElementById("dr"+drA+drB).innerHTML = "&nbsp"; drB++;}
 			drA++;
 		};
-		setTimeout(function(){
-			// run the four tests
-			createTest("dr1", function(element){return element.getClientRects()[0];});
-			createTest("dr2", function(element){return element.getBoundingClientRect();});
-			createTest("dr3", function(element){
-				var range = document.createRange();
-				range.selectNode(element);
-				return range.getClientRects()[0];
-			});
-			createTest("dr4", function(element){
-				var range = document.createRange();
-				range.selectNode(element);
-				return range.getBoundingClientRect();
-			});
-			// show/hide relevant details sections if dr details is showing
-			// but give it slight timer (don't run in perform test=screen jitter)
+		if (amFF == false && (location.protocol) == "file:") {
+			// output file:/// for non FF
+			dom.dr1.innerHTML=FILEy; dom.dr2.innerHTML=FILEy; dom.dr3.innerHTML=FILEy; dom.dr4.innerHTML=FILEy; 
+		} else {
 			setTimeout(function(){
-				if (drState == true) {
-					showhide("table-row", "D", "&#9650; hide");
-				};
-			}, 50); // delay to make sure things are loaded
-		}, 120); // artifical delay to show clearing and stop jitter
+				// run the four tests
+				createTest("dr1", function(element){return element.getClientRects()[0];});
+				createTest("dr2", function(element){return element.getBoundingClientRect();});
+				createTest("dr3", function(element){
+					var range = document.createRange();
+					range.selectNode(element);
+					return range.getClientRects()[0];
+				});
+				createTest("dr4", function(element){
+					var range = document.createRange();
+					range.selectNode(element);
+					return range.getBoundingClientRect();
+				});
+				// show/hide relevant details sections if dr details is showing
+				// but give it slight timer (don't run in perform test=screen jitter)
+				setTimeout(function(){
+					if (drState == true) {
+						showhide("table-row", "D", "&#9650; hide");
+					};
+				}, 50); // delay to make sure things are loaded
+			}, 120); // artifical delay to show clearing and stop jitter
+		}
 	};
 	// set the iframe source here
 	iframeDR.src = "iframes/domrect.html";
