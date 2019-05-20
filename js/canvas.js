@@ -9,7 +9,7 @@
 
 function addCanvasRFP() {
 	var strNo = RFPn;
-	if ((location.protocol) == "file:") {strNo = " <span class='bad'> [file://]</span>" };
+	if ((location.protocol) == "file:") {strNo = FILEy};
   // if file output
 	// output RFP checks
 	if (dom.cnv2.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc")
@@ -164,10 +164,8 @@ var canvas = {
 					if (!context){
 						return "webgl not supported";
 					}
-					
 					var pixels = new Uint8Array(context.drawingBufferWidth * context.drawingBufferHeight * 4);
 					context.readPixels(0, 0, context.drawingBufferWidth, context.drawingBufferHeight, context.RGBA, context.UNSIGNED_BYTE, pixels);
-					
 					return window.crypto.subtle.digest("SHA-256", pixels).then(hashToString);
 				}
 			},
