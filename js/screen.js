@@ -679,7 +679,7 @@ function outputMath() {
 		if (m6 == "1" | m6 == "3") {fdMath6="Tor Browser [64-bit]"; fdMath1="Windows [64-bit]";}
 		else if (m6 == "2") {fdMath6="Tor Browser [32-bit]"};
 	};
-	// anything new in FF?
+	// output FF
 	if (amFF == true) {
 		var strNew = " <span class='bad'>[NEW]</span>";
 		if (m1 == "") {math1hash=math1hash+strNew} else {math1hash=math1hash+" ["+m1+"]"};
@@ -688,13 +688,13 @@ function outputMath() {
 		strNew = "<span class='bad'>I haven't seen this Firefox math combo before</span>";
 		if (fdMath1 == "") {fdMath1=strNew};
 		if (fdMath6 == "") {fdMath6=strNew};
+		dom.fdMathOS.innerHTML = fdMath1;
+		dom.fdMath.innerHTML = fdMath6;
 	};
-	// output
+	// output hashes
 	dom.math1hash.innerHTML = math1hash;
 	dom.math6hash.innerHTML = math6hash;
 	dom.mathhash.innerHTML = mathhash;
-	dom.fdMathOS.innerHTML = fdMath1;
-	dom.fdMath.innerHTML = fdMath6;
 };
 
 outputScreen();
