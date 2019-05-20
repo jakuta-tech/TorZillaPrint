@@ -146,20 +146,22 @@ function outputFonts(){
 					dom.fontFBFound.innerHTML = strFontFB; }
 				else { dom.fontFBFound.innerHTML = "no fonts detected"};
 				var fontFBhash = sha1(strFontFB);
-				var fontFBoutput = fontFBhash + " ["+fontfbYes+"/"+fontfbAll+"]";
-				// TB stuff
-				if (fontFBhash == "77ee9c373e698fe9c8b381446a380389914ff294") {
-					fontFBoutput == fontFBoutput+" <span class='bad'>[Win10 64bit]</span>"+TBy}
-				else if (fontFBhash == "1389aaf4c97027b8157c5fb9ef5ed6f141a6b8a1") {
-					fontFBoutput = fontFBoutput+" <span class='bad'>[Win10 64bit]</span>"+TBy}
+				// TB windows FP
+				var fntTB = "";
+				if (fontFBhash == "1389aaf4c97027b8157c5fb9ef5ed6f141a6b8a1" | fontFBhash == "77ee9c373e698fe9c8b381446a380389914ff294") {
+					fntTB = "[Win10 64bit]"}
 				else if (fontFBhash == "ad4ccd607603041d3e89aa8e03e2e203fc184653") {
-					fontFBoutput = fontFBoutput+" <span class='bad'>[Win7 64bit]</span>"+TBy}
-				else if (fontFBhash == "9e5d39b4542cd5e2a19f73b8fa566e679fa561e5") {
-					fontFBoutput = fontFBoutput+" <span class='bad'>[Win7 32bit]</span>"+TBy}
-				else if (fontFBhash == "09a4ee037c9082b9b8f0b7ae981c656d517faffa") {fontFBoutput = fontFBoutput+" [Linux]"+TBy}
-				else if (fontFBhash == "4094aedc000205c711385fad32827e60462976dc") {fontFBoutput = fontFBoutput+" [Mac]"+TBy};
-				dom.fontFB.innerHTML = fontFBoutput;
-				/* finally, retitle the button */
+					fntTB = "[Win7 64bit]"}
+				else if (fontFBhash == "bcba63ce9e2983dd1b97cf221fc8f860a1a7617f" | fontFBhash == "9e5d39b4542cd5e2a19f73b8fa566e679fa561e5") {
+					fntTB = "[Win7 32bit]"};
+				if (fntTB !== "") {fntTB="<span class='bad'>"+fntTB+"</span>"};
+				// TB other FP
+				if (fontFBhash == "09a4ee037c9082b9b8f0b7ae981c656d517faffa") {fntTB="[Linux]"}
+				else if (fontFBhash == "4094aedc000205c711385fad32827e60462976dc") {fntTB="[Mac]"};
+				if (fntTB !== "") {fntTB=fntTB+TBy};
+				// output
+				dom.fontFB.innerHTML = fontFBhash + " ["+fontfbYes+"/"+fontfbAll+"]"+" "+fntTB;
+				// finally, retitle the button */
 				dom.fontRun = "[ re-run tests ]";
 			}, 1000);
 		});
