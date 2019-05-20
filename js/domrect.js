@@ -10,7 +10,8 @@
 	const iframeDR = document.getElementById("iframeDR");
 	function getElements(){
 		const docDR = iframeDR.contentDocument;
-		return Array.from(docDR.querySelectorAll("*[id^=rect]"));
+		//return Array.from(docDR.querySelectorAll("*[id^=rect]"));
+		return Array.from(docDR.querySelectorAll(".testRect"));
 	}
 	function createTest(method, callback){
 	const properties = ["x", "y", "width", "height", "top", "left", "right", "bottom"];
@@ -48,26 +49,26 @@
 			drA++;
 		};
 		setTimeout(function(){
-		// run the four tests
-		createTest("dr1", function(element){return element.getClientRects()[0];});
-		createTest("dr2", function(element){return element.getBoundingClientRect();});
-		createTest("dr3", function(element){
-			var range = document.createRange();
-			range.selectNode(element);
-			return range.getClientRects()[0];
-		});
-		createTest("dr4", function(element){
-			var range = document.createRange();
-			range.selectNode(element);
-			return range.getBoundingClientRect();
-		});
-		// show/hide relevant details sections if dr details is showing
-		// but give it slight timer (don't run in perform test=screen jitter)
-		setTimeout(function(){
-			if (drState == true) {
-				showhide("table-row", "D", "&#9650; hide");
-			};
-		}, 50); // delay to make sure things are loaded
+			// run the four tests
+			createTest("dr1", function(element){return element.getClientRects()[0];});
+			createTest("dr2", function(element){return element.getBoundingClientRect();});
+			createTest("dr3", function(element){
+				var range = document.createRange();
+				range.selectNode(element);
+				return range.getClientRects()[0];
+			});
+			createTest("dr4", function(element){
+				var range = document.createRange();
+				range.selectNode(element);
+				return range.getBoundingClientRect();
+			});
+			// show/hide relevant details sections if dr details is showing
+			// but give it slight timer (don't run in perform test=screen jitter)
+			setTimeout(function(){
+				if (drState == true) {
+					showhide("table-row", "D", "&#9650; hide");
+				};
+			}, 50); // delay to make sure things are loaded
 		}, 120); // artifical delay to show clearing and stop jitter
 	};
 	// set the iframe source here
