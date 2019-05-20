@@ -150,7 +150,7 @@ function outputFonts(){
 				var fntTB = "";
 				if (fontFBhash == "1389aaf4c97027b8157c5fb9ef5ed6f141a6b8a1" | fontFBhash == "77ee9c373e698fe9c8b381446a380389914ff294") {
 					fntTB = "[Win10 64bit]"}
-				else if (fontFBhash == "ad4ccd607603041d3e89aa8e03e2e203fc184653") {
+				else if (fontFBhash == "ad4ccd607603041d3e89aa8e03e2e203fc184653" | fontFBhash == "63b78ed9fe8ba9a932a2adfc924c2e2d49d04fce") {
 					fntTB = "[Win7 64bit]"}
 				else if (fontFBhash == "bcba63ce9e2983dd1b97cf221fc8f860a1a7617f" | fontFBhash == "9e5d39b4542cd5e2a19f73b8fa566e679fa561e5") {
 					fntTB = "[Win7 32bit]"};
