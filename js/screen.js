@@ -123,7 +123,7 @@ function outputScreen() {
 	})();
 	dom.mathOrient = (function () {
 		// dirty hack: doesn't always work e.g. if a smartphone keyboard reduces the height
-		if (window.innerHeight === window.innerWidth) return "no idea, you're square!";
+		if (window.innerHeight === window.innerWidth) return "square";
 		if (window.innerHeight < window.innerWidth) return "landscape";
 		return "portrait";
 	})();
