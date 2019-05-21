@@ -170,3 +170,6 @@ table td.sub10 {color: var(--test10);}
 @media (prefers-reduced-motion: reduce) {
 	.motion {background-color: black;}
 }
+
+@media (orientation:portrait){#cssOrient:after{content:"portrait";}}
+@media (orientation:landscape){#cssOrient:after{content:"landscape";}}
