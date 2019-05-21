@@ -140,36 +140,31 @@ table td.sub10 {color: var(--test10);}
 
 /* tor font */
 @font-face {font-family: "ABR"; src: url("../fonts/AdobeBlankRegular.ttf");}
-
 /* about:logo */
 #fdResourceCss {
 	background-image: url("about:logo"), url("nothing.png");
 	background-size: auto 100%;	background-repeat: no-repeat;	background-position: 10px 0px;
 }
-
 /* line-height */
 .cssLH {font-size: 16px; font-family: "Times New Roman", Times, serif;}
 
-/* prefers-color-scheme */
-.themed {background-color: red; display: none;}
-@media (prefers-color-scheme: light) {
-	.themed {background-color: white;}
-}
-@media (prefers-color-scheme: dark) {
-	.themed {background-color: black;}
-}
-@media (prefers-color-scheme: no-preference) {
-	.themed {background-color: blue;}
-}
 
-/* prefers-reduced-motions */
-.motion {background-color: red; display: none;}
-@media (prefers-reduced-motion: no-preference) {
-	.motion {background-color: white;}
-}
-@media (prefers-reduced-motion: reduce) {
-	.motion {background-color: black;}
-}
-
+/* screen */
 @media (orientation:portrait){#cssOrient:after{content:"portrait";}}
 @media (orientation:landscape){#cssOrient:after{content:"landscape";}}
+@media (aspect-ratio:1/1){#cssAS:after{content:"square";}}
+@media (min-aspect-ratio:1000/999){#cssAS:after{content:"landscape";}}
+@media (max-aspect-ratio:999/1000){#cssAS:after{content:"portrait";}}
+@media (device-aspect-ratio:1/1){#cssDAS:after{content:"square";}}
+@media (min-device-aspect-ratio:1000/999){#cssDAS:after{content:"landscape";}}
+@media (max-device-aspect-ratio:999/1000){#cssDAS:after{content:"portrait";}}
+
+/* prefers-color-scheme */
+.themed {background-color: red; display: none;}
+@media (prefers-color-scheme: light) {.themed {background-color: white;}}
+@media (prefers-color-scheme: dark) {.themed {background-color: black;}}
+@media (prefers-color-scheme: no-preference) {.themed {background-color: blue;}}
+/* prefers-reduced-motions */
+.motion {background-color: red; display: none;}
+@media (prefers-reduced-motion: no-preference) {.motion {background-color: white;}}
+@media (prefers-reduced-motion: reduce) {.motion {background-color: black;}}
