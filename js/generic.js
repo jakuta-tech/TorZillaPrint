@@ -101,14 +101,23 @@ function sha1(str1){
 };
 
 /* BASE64 STUFF */
-function base64Encode(str, encoding = 'utf-8') {
-		var bytes = new (TextEncoder || TextEncoderLite)(encoding).encode(str);
-		return base64js.fromByteArray(bytes);
-};
-function base64Decode(str, encoding = 'utf-8') {
-		var bytes = base64js.toByteArray(str);
-		return new (TextDecoder || TextDecoderLite)(encoding).decode(bytes);
-};
+
+/***  Base64 / binary data / UTF-8 strings utilities (#3)
+  https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
+  Author: madmurphy ***/
+
+function btoaUTF16 (sString) {
+	var aUTF16CodeUnits = new Uint16Array(sString.length);
+	Array.prototype.forEach.call(aUTF16CodeUnits, function (el, idx, arr) { arr[idx] = sString.charCodeAt(idx); });
+	return btoa(String.fromCharCode.apply(null, new Uint8Array(aUTF16CodeUnits.buffer)));
+}
+
+function atobUTF16 (sBase64) {
+	var sBinaryString = atob(sBase64), aBinaryView = new Uint8Array(sBinaryString.length);
+	Array.prototype.forEach.call(aBinaryView, function (el, idx, arr) { arr[idx] = sBinaryString.charCodeAt(idx); });
+	return String.fromCharCode.apply(null, new Uint16Array(aBinaryView.buffer));
+}
+
 function byteArrayToHex(arrayBuffer){
 	var chunks = [];
 	(new Uint32Array(arrayBuffer)).forEach(function(num){
