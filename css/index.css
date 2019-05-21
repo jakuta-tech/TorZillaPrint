@@ -159,6 +159,21 @@ table td.sub10 {color: var(--test10);}
 @media (min-device-aspect-ratio:1000/999){#cssDAS:after{content:"landscape";}}
 @media (max-device-aspect-ratio:999/1000){#cssDAS:after{content:"portrait";}}
 
+@media (display-mode:fullscreen){#cssDM:after{content:"full screen";}}
+@media (display-mode:browser){#cssDM:after{content:"browser";}}
+@media (display-mode:minimal-ui){#cssDM:after{content:"minimal-ui";}}
+@media (display-mode:portrait){#cssDM:after{content:"portrait";}}
+
+@media (min-color:8){#cssBPC:after{content:"8";}}
+@media (min-color:9){#cssBPC:after{content:"9";}}
+@media (min-color:10){#cssBPC:after{content:"10";}}
+@media (min-color:11){#cssBPC:after{content:"11";}}
+@media (min-color:12){#cssBPC:after{content:"12";}}
+@media (min-color:13){#cssBPC:after{content:"13";}}
+@media (min-color:14){#cssBPC:after{content:"14";}}
+@media (min-color:15){#cssBPC:after{content:"15";}}
+@media (min-color:16){#cssBPC:after{content:"16";}}
+
 /* prefers-color-scheme */
 .themed {background-color: red; display: none;}
 @media (prefers-color-scheme: light) {.themed {background-color: white;}}
