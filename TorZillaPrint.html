@@ -473,15 +473,18 @@
 		</th></tr></thead>
 		<tr><td colspan="9" class="intro"><span class="no_color">The real world strikes a balance between efficiency vs
 			entropy [<a target="_blank" class="blue" href="https://valve.github.io/fingerprintjs2/">fingerprintjs2</a> checks 64 fonts by
-			default], but these tests are designed to be comprehensive, not small and fast. As such, they are not automatically run.</span>
+			default], but these tests are designed to be comprehensive, not small and fast. As such, some tests are not automatically run.</span>
 		</td></tr>
 		<tr><td colspan="4"><div>
-				<div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`fonts`)">[ run tests ]</button></div>
-				<div>@font-face</div></div></td>
-			<td colspan="5" class="mono" id="FontFace"></td>
+				<div class="btn-left"><button class="btn10" onClick="outputSection(`fonts1`)">[ re-run tests ]</button></div>
+				<div>@font-face</div></div></td><td colspan="5" id="fontFace"></td>
 		</tr>
-		<tr><td colspan="4">document fonts</td><td colspan="5" class="mono" id="fontDoc"></td></tr>
-		<tr><td colspan="4">enumerate fonts <sup>1</sup></td><td colspan="5" class="mono" id="fontFB"></td></tr>
+		<tr><td colspan="4">document fonts</td><td colspan="5" id="fontDoc"></td></tr>
+		<tr><td colspan="9" class="center">------</td></tr>
+		<tr><td colspan="4"><div>
+				<div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`fonts2`)">[ run tests ]</button></div>
+				<div>enumerate fonts <sup>1</sup></div></div></td><td colspan="5" class="mono" id="fontFB"></td>
+		</tr>
 		<tr><td colspan="4">js <sup>2</sup></td><td colspan="5" class="mono"></td></tr>
 		<tr><td colspan="4">the other js <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
 		<tr><td colspan="4">unicode glyphs <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
