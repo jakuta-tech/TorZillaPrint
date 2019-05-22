@@ -101,23 +101,19 @@ function sha1(str1){
 };
 
 /* BASE64 STUFF */
-
-/***  Base64 / binary data / UTF-8 strings utilities (#3)
-  https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
-  Author: madmurphy ***/
-
+/* Base64 / binary data / UTF-8 strings utilities (#3)
+	https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
+	Author: madmurphy */
 function btoaUTF16 (sString) {
 	var aUTF16CodeUnits = new Uint16Array(sString.length);
 	Array.prototype.forEach.call(aUTF16CodeUnits, function (el, idx, arr) { arr[idx] = sString.charCodeAt(idx); });
 	return btoa(String.fromCharCode.apply(null, new Uint8Array(aUTF16CodeUnits.buffer)));
 }
-
 function atobUTF16 (sBase64) {
 	var sBinaryString = atob(sBase64), aBinaryView = new Uint8Array(sBinaryString.length);
 	Array.prototype.forEach.call(aBinaryView, function (el, idx, arr) { arr[idx] = sBinaryString.charCodeAt(idx); });
 	return String.fromCharCode.apply(null, new Uint16Array(aBinaryView.buffer));
 }
-
 function byteArrayToHex(arrayBuffer){
 	var chunks = [];
 	(new Uint32Array(arrayBuffer)).forEach(function(num){
@@ -133,32 +129,35 @@ function outputSection(section) {
 	// elements to clear
   var clearArray = [];
 	if (section == "audio") {
-		clearArray = ['audioSupport', 'audioCopy', 'audioGet', 'audioSum'];
+		clearArray = ['audioSupport','audioCopy','audioGet','audioSum'];
 	};
 	if (section == "canvas") {
-		clearArray = [`cnv1`, `cnv2`, `cnv3`, `cnv4`, `cnv5`, `cnv6`, `cnv7`, `cnv8`, `cnv9`, `cnv10`, `cnv11`];
+		clearArray = ['cnv1','cnv2','cnv3','cnv4','cnv5','cnv6','cnv7','cnv8','cnv9','cnv10','cnv11'];
 	};
 	if (section == "chrome") {
-		clearArray = ['imgHash', 'jsHash', 'cssHash', 'allHash', 'allLoaded'];
+		clearArray = ['imgHash','jsHash','cssHash','allHash','allLoaded'];
 	};
 	if (section == "css") {
-		clearArray = ['pColorScheme', 'pReducedMotion', 'sColorHash'];
+		clearArray = ['pColorScheme','pReducedMotion','sColorHash'];
 	};
 	if (section == "devices") {
-		clearArray = [`nHardwareConcurrency`, 'nMaxTouchPoints', 'nGetGamepads', 'nMediaDevices', 'eMediaDevices',
-		'speechSynth', 'speechEngines', 'nGetVR', 'nActiveVR'];
+		clearArray = [`nHardwareConcurrency`,'nMaxTouchPoints','nGetGamepads','nMediaDevices','eMediaDevices',
+		'speechSynth','speechEngines','nGetVR','nActiveVR'];
 	};
-	if (section == "fonts") {
+	if (section == "fonts1") {
+		clearArray = ['fontFace','fontDoc'];
+	};
+	if (section == "fonts2") {
 		clearArray = ['fontFB'];
 	};
 	if (section == "headers") {
-		clearArray = ['nDoNotTrack', 'nNetwork', 'nConnection', 'nOnLine'];
+		clearArray = ['nDoNotTrack','nNetwork','nConnection','nOnLine'];
 	};
 	if (section == "language") {
-		clearArray = ['nLanguages', 'nLanguage', 'nLanguages0', 'localeIPR', 'localeRO', `localeDTD`,
-			'tzOffsets', 'tzRO', 'dateSystem', 'dateString', 'lngdateLS', 'lngdateLDS', 'lngdateLTS', 'lngdateIDTF',
-			'dateFTP', 'dateGMT', 'dateUTC', 'dateLS', 'dateTAtoLS', 'dateLDS', 'dateIDTF', 'dateLTS', 'dateTS',
-			'numFTP', 'hourRO', 'dateIRTF', 'calendarRO', 'numsysRO', 'nGeolocation', 'pGeolocation'];
+		clearArray = ['nLanguages','nLanguage','nLanguages0','localeIPR','localeRO',`localeDTD`,
+		'tzOffsets','tzRO','dateSystem','dateString','lngdateLS','lngdateLDS','lngdateLTS','lngdateIDTF',
+		'dateFTP','dateGMT','dateUTC','dateLS','dateTAtoLS','dateLDS','dateIDTF','dateLTS','dateTS',
+		'numFTP','hourRO','dateIRTF','calendarRO','numsysRO','nGeolocation','pGeolocation'];
 	};
 	if (section == "math") {
 		clearArray = ['math1hash','math6hash','mathhash','cos1','cos2','cos3','cos4','cos5','cos6','cos7',
@@ -168,17 +167,14 @@ function outputSection(section) {
 		clearArray = ['nMediaCapabilities'];
 	};
 	if (section == "misc") {
-		// don't reset mathmltest, it is done by the test
-		clearArray = ['nClipboard', 'intObserver', 'mathml', 'reqIdleCB'];
+		clearArray = ['nClipboard','intObserver','mathml','reqIdleCB'];
 	};
 	if (section == "screen") {
-		// don't reset css
 		clearArray = ['ScrRes','ScrAvail','WndOut','WndIn','Viewport','fsState','fsSupport','fsLeak',
 		'newWinLeak','IsPBMode','ScrOrient','mmOrient','mathOrient','PixDepth','ColDepth','jsDPI',
 		'mmDPI','jsZoom','DevPR','devPRscrollY','devPRclientRect'];
 	};
 	if (section == "ua") {
-		// don't reset css
 		clearArray = ['nUserAgent','nCodeName','nAppName','nProduct','nAppVersion','nOscpu','nPlatform','nBuildID',
 		'nProductSub','fdError','fdPaintCount','fdMath','versionNo','fdChromeOS','fdMathOS','cssLH','scrollbarWidth',
 		'widgetOS','errh','err1','err2','err3','err4','err5','err6','widgetH','wid1','wid8','wid9'];
@@ -194,7 +190,7 @@ function outputSection(section) {
 		if (section == "chrome") {outputChrome()};
 		if (section == "css") {outputCSS()};
 		if (section == "devices") {outputDevices()};
-		if (section == "fonts") {outputFonts()};
+		if (section == "fonts1") {outputFonts1()};
 		if (section == "headers") {outputHeaders()};
 		if (section == "language") {outputLanguage()};
 		if (section == "math") {outputMath()};
@@ -203,4 +199,6 @@ function outputSection(section) {
 		if (section == "screen") {outputScreen()};
 		if (section == "ua") {outputUA();outputMath()};
 	}, 170);
+	// don't delay this one
+	if (section == "fonts2") {outputFonts2()};
 };
