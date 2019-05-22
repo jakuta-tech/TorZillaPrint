@@ -55,8 +55,17 @@ let spawn = (function () {
 	return generatorFunction => promiseFromGenerator(generatorFunction());
 })();
 
-function outputFonts(){
+function outputFonts1(){
+	/* auto-run */
+	/* document fonts	*/
+	var myLHElem = document.getElementById("testLH");
+	var myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
+	if (myLHFont.slice(1,16) !== "Times New Roman") {dom.fontDoc="disabled"} else {dom.fontDoc="enabled"};
+}
+outputFonts1();
 
+function outputFonts2(){
+	/* not auro-run */
 	/* clear detail results with zero-length string */
 	dom.fontFBFound = "";
 
