@@ -1,4 +1,4 @@
-/* TABLE:	 Cookies & Storage */
+/* TABLE: Cookies & Storage */
 
 'use strict';
 
@@ -168,8 +168,8 @@ if ((location.protocol) === "https:") {
 			// catch e.name length for when scripts or extensions block it
 			if (e.name ==="") {var swMsg = "failed: unknown error"} else {var swMsg = "failed: "+ e.name;};
 			dom.serviceWTest=swMsg;
-			dom.serviceWCacheSupport=swMsg; dom.serviceWCacheTest=swMsg;
-			dom.notificationsSupport=swMsg; dom.notificationsTest=swMsg;
+			dom.serviceWCacheSupport="n/a"; dom.serviceWCacheTest="n/a";
+			dom.notificationsSupport="n/a"; dom.notificationsTest="n/a";
 		});
 	}
 	else {
