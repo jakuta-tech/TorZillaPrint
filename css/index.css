@@ -181,10 +181,6 @@ table td.sub10 {color: var(--test10);}
 @media (any-pointer:none){#cssAP:after{content:"none";}}
 @media (any-pointer:coarse){#cssAP:after{content:"coarse";}}
 @media (any-pointer:fine){#cssAP:after{content:"fine";}}
-#cssH:after{content:"not supported";}
-@media (hover:hover){#cssH:after{content:"hover";}}
-#cssAH:after{content:"not supported";}
-@media (any-hover:hover){#cssAH:after{content:"hover";}}
 
 .themed {background-color: red; display: none;}
 @media (prefers-color-scheme:light) {.themed {background-color:white;}}
