@@ -148,8 +148,7 @@ table td.sub10 {color: var(--test10);}
 /* line-height */
 .cssLH {font-size: 16px; font-family: "Times New Roman", Times, serif;}
 
-
-/* screen */
+/* @media */
 @media (orientation:portrait){#cssOrient:after{content:"portrait";}}
 @media (orientation:landscape){#cssOrient:after{content:"landscape";}}
 @media (aspect-ratio:1/1){#cssAS:after{content:"square";}}
@@ -174,12 +173,23 @@ table td.sub10 {color: var(--test10);}
 @media (min-color:15){#cssBPC:after{content:"15";}}
 @media (min-color:16){#cssBPC:after{content:"16";}}
 
-/* prefers-color-scheme */
+#cssP:after{content:"not supported";}
+@media (pointer:none){#cssP:after{content:"none";}}
+@media (pointer:coarse){#cssP:after{content:"coarse";}}
+@media (pointer:fine){#cssP:after{content:"fine";}}
+#cssAP:after{content:"not supported";}
+@media (any-pointer:none){#cssAP:after{content:"none";}}
+@media (any-pointer:coarse){#cssAP:after{content:"coarse";}}
+@media (any-pointer:fine){#cssAP:after{content:"fine";}}
+#cssH:after{content:"not supported";}
+@media (hover:hover){#cssH:after{content:"hover";}}
+#cssAH:after{content:"not supported";}
+@media (any-hover:hover){#cssAH:after{content:"hover";}}
+
 .themed {background-color: red; display: none;}
-@media (prefers-color-scheme: light) {.themed {background-color: white;}}
-@media (prefers-color-scheme: dark) {.themed {background-color: black;}}
-@media (prefers-color-scheme: no-preference) {.themed {background-color: blue;}}
-/* prefers-reduced-motions */
+@media (prefers-color-scheme:light) {.themed {background-color:white;}}
+@media (prefers-color-scheme:dark) {.themed {background-color:black;}}
+@media (prefers-color-scheme:no-preference) {.themed {background-color:blue;}}
 .motion {background-color: red; display: none;}
-@media (prefers-reduced-motion: no-preference) {.motion {background-color: white;}}
-@media (prefers-reduced-motion: reduce) {.motion {background-color: black;}}
+@media (prefers-reduced-motion:no-preference) {.motion {background-color:white;}}
+@media (prefers-reduced-motion:reduce) {.motion {background-color:black;}}
