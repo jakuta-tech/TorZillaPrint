@@ -726,7 +726,7 @@ function goFS() {
 	};
 };
 function goNW() {
-	var newWin = window.open("","","width=9000,height=9000");
+	var newWin = window.open("newwin.html","","width=9000,height=9000");
 	var newWinLeak = newWin.outerWidth +" x "+ newWin.outerHeight + " [outer] "
 		+ newWin.innerWidth +" x "+ newWin.innerHeight + " [inner]";
 	if (newWinLeak == "10 x 10 [outer] 10 x 10 [inner]") {newWinLeak = newWinLeak+TBy};
