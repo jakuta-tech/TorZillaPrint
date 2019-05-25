@@ -320,15 +320,21 @@
 		<tr><td>worker</td><td id="workerSupport"></td></tr>
 		<tr><td>[test] web worker</td><td id="webWTest"></td></tr>
 		<tr><td>[test] shared worker</td><td id="sharedWTest"></td></tr>
-		<tr><td>service worker</td><td id="serviceWSupport"></td></tr>
+		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+			<span class="ttxtb">dom.serviceWorkers.enabled</span></div>
+			&nbsp service worker</td><td id="serviceWSupport"></td></tr>
 		<tr><td>[test] service worker</td><td id="serviceWTest"></td></tr>
-		<tr><td>service worker cache</td><td id="serviceWCacheSupport"></td></tr>
+		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+			<span class="ttxt">dom.caches.enabled</span></div>
+			&nbsp service worker cache</td><td id="serviceWCacheSupport"></td></tr>
 		<tr><td>[test] service worker cache</td><td id="serviceWCacheTest"></td></tr>
 		<tr><td>notifications</td><td id="notificationsSupport"></td></tr>
 		<tr><td>[test] notifications</td><td id="notificationsTest"></td></tr>
 		<tr><td>[permission] notifications</td><td id="pNotifications"></td></tr>
 		<tr><td>[permission] push</td><td id="pPush"></td></tr>
-		<tr><td>storage manager</td><td id="storageMSupport"></td></tr>
+		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+			<span class="ttxtb">dom.storageManager.enabled</span></div>
+			&nbsp storage manager</td><td id="storageMSupport"></td></tr>
 		<tr><td>[properties] storage manager</td><td id="storageMProp"></td></tr>
 		<tr><td>[test] storage manager</td><td id="storageMTest"></td></tr>
 		<tr><td>[permission] persistent storage</td><td id="pPersistentStorage"></td></tr>
@@ -481,7 +487,9 @@
 				<div class="btn-left"><button class="btn10" onClick="outputSection(`fonts1`)">[ re-run tests ]</button></div>
 				<div>@font-face</div></div></td><td colspan="5" id="fontFace"></td>
 		</tr>
-		<tr><td colspan="4">document fonts</td><td colspan="5" id="fontDoc"></td></tr>
+		<tr><td colspan="4"><div class="ttip"><span class="icon">[ i ]</span>
+			<span class="ttxtx">browser.display.use_document_fonts</span></div>
+			&nbsp document fonts</td><td colspan="5" id="fontDoc"></td></tr>
 		<tr><td colspan="9" class="center">------</td></tr>
 		<tr><td colspan="4"><div>
 				<div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`fonts2`)">[ run tests ]</button></div>
