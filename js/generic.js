@@ -137,6 +137,12 @@ function outputSection(section) {
 	if (section == "chrome") {
 		clearArray = ['imgHash','jsHash','cssHash','allHash','allLoaded'];
 	};
+	if (section == "cookies") {
+		clearArray = ['nCookieEnabled','cookieTest','storageLSupport','storageLTest','storageSSupport','storageSTest',
+		'IDBSupport','IDBTest','appCacheSupport','appCacheTest','workerSupport','webWTest','sharedWTest',
+		'serviceWSupport','serviceWTest','serviceWCacheSupport','serviceWCacheTest','notificationsSupport',
+		'notificationsTest','pNotifications','pPush','storageMSupport','storageMProp','storageMTest','pPersistentStorage'];
+	};
 	if (section == "css") {
 		clearArray = ['pColorScheme','pReducedMotion','sColorHash'];
 	};
@@ -188,6 +194,7 @@ function outputSection(section) {
 		if (section == "audio") {outputAudio()};
 		if (section == "canvas") {outputCanvas()};
 		if (section == "chrome") {outputChrome()};
+		if (section == "cookies") {outputCookies()};
 		if (section == "css") {outputCSS()};
 		if (section == "devices") {outputDevices()};
 		if (section == "fonts1") {outputFonts1()};
