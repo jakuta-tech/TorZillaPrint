@@ -20,7 +20,7 @@ function outputDevices() {
 		try {
 			// don't do if insecure or file?
 			// navigator.mediaDevices.getUserMedia({audio:true});
-			dom.eMediaDevices=TTC;
+			dom.eMediaDevices.innerHTML=TTC;
 		}
 		catch(e) {dom.eMediaDevices="no: " + e.name};
 	}
@@ -36,7 +36,7 @@ function outputDevices() {
 		// get properties of each voice: eg SpeechSynthesisVoice.default 
 		//	 ^^ https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisVoice		
 		// dom.speechEngines = speechSynthesis.getVoices().map(v => v.name+"|"+v.lang);
-		dom.speechEngines=TTC;
+		dom.speechEngines.innerHTML=TTC;
 	}
 	else {
 		dom.speechSynth="disabled";	dom.speechEngines="n/a";
