@@ -106,7 +106,7 @@ function outputCookies() {
 			try {
 				// var appCache = window.applicationCache;
 				// appCache.update();
-				dom.appCacheTest="test to come";
+				dom.appCacheTest=TTC;
 			} catch(e) {dom.appCacheTest="failed: " + e.name;};
 		}
 		else {
@@ -180,15 +180,15 @@ function outputCookies() {
 				dom.serviceWTest="success";
 
 				/*** service worker cache support (dom.caches.enabled) */
-				dom.serviceWCacheSupport="test to come";
+				dom.serviceWCacheSupport=TTC;
 				/*** service cache test */
-				dom.serviceWCacheTest="test to come";
+				dom.serviceWCacheTest=TTC;
 
 				/*** notifications support (dom.webnotifications.serviceworker.enabled) */
-				dom.notificationsSupport="test to come";
+				dom.notificationsSupport=TTC;
 
 				/*** notifications test */
-				dom.notificationsTest="test to come";
+				dom.notificationsTest=TTC;
 
 				// unregister the sw
 			},
@@ -236,7 +236,7 @@ function outputCookies() {
 			/*** storage manager test */
 			try {
 				// store some data, get usage/quota
-				dom.storageMTest="test to come"
+				dom.storageMTest=TTC;
 			} catch(e) {dom.storageMTest="failed: " + e.name};
 		}
 		else {
