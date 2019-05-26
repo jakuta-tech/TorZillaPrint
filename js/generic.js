@@ -126,87 +126,35 @@ function byteArrayToHex(arrayBuffer){
 };
 
 /* BUTTONS: (re)GENERATE SECTIONS */
-function outputSection(section) {
-	// elements to clear
-  var clearArray = [];
-	if (section == "audio") {
-		clearArray = ['audioSupport','audioCopy','audioGet','audioSum'];
-	};
-	if (section == "canvas") {
-		clearArray = ['cnv1','cnv2','cnv3','cnv4','cnv5','cnv6','cnv7','cnv8','cnv9','cnv10','cnv11'];
-	};
-	if (section == "chrome") {
-		clearArray = ['imgHash','jsHash','cssHash','allHash','allLoaded'];
-	};
-	if (section == "cookies") {
-		clearArray = ['nCookieEnabled','cookieTest','storageLSupport','storageLTest','storageSSupport','storageSTest',
-		'IDBSupport','IDBTest','appCacheSupport','appCacheTest','workerSupport','webWTest','sharedWTest',
-		'serviceWSupport','serviceWTest','serviceWCacheSupport','serviceWCacheTest','notificationsSupport',
-		'notificationsTest','pNotifications','pPush','storageMSupport','storageMProp','storageMTest','pPersistentStorage'];
-	};
-	if (section == "css") {
-		clearArray = ['pColorScheme','pReducedMotion','sColorHash'];
-	};
-	if (section == "devices") {
-		clearArray = [`nHardwareConcurrency`,'nMaxTouchPoints','nGetGamepads','nMediaDevices','eMediaDevices',
-		'speechSynth','speechEngines','nGetVR','nActiveVR'];
-	};
-	if (section == "fonts1") {
-		clearArray = ['fontFace','fontDoc'];
-	};
-	if (section == "fonts2") {
-		clearArray = ['fontFB'];
-	};
-	if (section == "headers") {
-		clearArray = ['nDoNotTrack','nNetwork','nConnection','nOnLine'];
-	};
-	if (section == "language") {
-		clearArray = ['nLanguages','nLanguage','nLanguages0','localeIPR','localeRO',`localeDTD`,
-		'tzOffsets','tzRO','dateSystem','dateString','lngdateLS','lngdateLDS','lngdateLTS','lngdateIDTF',
-		'dateFTP','dateGMT','dateUTC','dateLS','dateTAtoLS','dateLDS','dateIDTF','dateLTS','dateTS',
-		'numFTP','hourRO','dateIRTF','calendarRO','numsysRO','nGeolocation','pGeolocation'];
-	};
-	if (section == "math") {
-		clearArray = ['math1hash','math6hash','mathhash','cos1','cos2','cos3','cos4','cos5','cos6','cos7',
-		'cos8','math1','math2','math3'];
-	};
-	if (section == "media") {
-		clearArray = ['nMediaCapabilities'];
-	};
-	if (section == "misc") {
-		clearArray = ['nClipboard','intObserver','mathml','reqIdleCB'];
-	};
-	if (section == "screen") {
-		clearArray = ['ScrRes','ScrAvail','WndOut','WndIn','Viewport','fsState','fsSupport','fsLeak',
-		'newWinLeak','IsPBMode','ScrOrient','mmOrient','mathOrient','PixDepth','ColDepth','jsDPI',
-		'mmDPI','jsZoom','DevPR','devPRscrollY','devPRclientRect'];
-	};
-	if (section == "ua") {
-		clearArray = ['nUserAgent','nCodeName','nAppName','nProduct','nAppVersion','nOscpu','nPlatform','nBuildID',
-		'nProductSub','fdError','fdPaintCount','fdMath','versionNo','fdChromeOS','fdMathOS','cssLH','scrollbarWidth',
-		'widgetOS','errh','err1','err2','err3','err4','err5','err6','widgetH','wid1','wid8','wid9'];
-	};
-	// clear elements
-	clearArray.forEach(function (arrayItem) {
-		document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
-	});
+function outputSection(id, cls, page) {
+	// clear elements, &nbsp stops line height jitter
+	let tbl = document.getElementById("tb"+id);
+	tbl.querySelectorAll(`.${cls}`).forEach(e => {e.innerHTML = "&nbsp";});
+	tbl.querySelectorAll(".mono").forEach(e => {e.innerHTML = "&nbsp";});
 	// delay output so users can see something happened
 	setTimeout(function(){
-		if (section == "audio") {outputAudio()};
-		if (section == "canvas") {outputCanvas()};
-		if (section == "chrome") {outputChrome()};
-		if (section == "cookies") {outputCookies()};
-		if (section == "css") {outputCSS()};
-		if (section == "devices") {outputDevices()};
-		if (section == "fonts1") {outputFonts1()};
-		if (section == "headers") {outputHeaders()};
-		if (section == "language") {outputLanguage()};
-		if (section == "math") {outputMath()};
-		if (section == "media") {outputMedia()};
-		if (section == "misc") {outputMisc()};
-		if (section == "screen") {outputScreen()};
-		if (section == "ua") {outputUA();outputMath()};
+		if (page=="m") {
+			if (id=="1") {outputScreen()};
+			if (id=="2") {outputUA();outputMath()};
+			if (id=="3") {outputMath()};
+			if (id=="4") {outputLanguage()};
+			if (id=="5") {outputHeaders()};
+			if (id=="6") {outputCookies()};
+			if (id=="7") {outputDevices()};
+			if (id=="8") {outputCanvas()};
+			if (id=="10" && cls=="c1") {outputFonts1()};
+			if (id=="11") {outputAudio()};
+			if (id=="12") {outputMedia()};
+			if (id=="14") {outputCSS()};
+			if (id=="15") {outputMisc()};
+		} else if (page=="e") {
+			if (id=="2") {outputWidgets()};
+		}
 	}, 170);
-	// don't delay this one
-	if (section == "fonts2") {outputFonts2()};
+	// don't delay these ones
+	if (page=="m") {
+		if (id=="10" && cls=="c2") {outputFonts2()};
+	} else if (page=="e") {
+		if (id=="3") {outputChrome()};
+	};
 };
