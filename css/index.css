@@ -31,7 +31,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 .bad {color: #ff4f4f;}
 .good {color: #8cdc8c;} /* use test7 */
 .ttc {color: #dcdc8c;} /* use test4 */
-.mono, .c2, .toDataURL, .toBlob, .winding, .getImageData, .isPointInPath, .fillText,
+.mono, .toDataURL, .toBlob, .winding, .getImageData, .isPointInPath, .fillText,
 	.isPointInStroke, .readPixels, .getContext, .mozGetAsFile, .strokeText {
 	font-family: monospace, "Courier New";}
 
