@@ -149,7 +149,7 @@
 				<label for="collapseE" class="lbl-toggle" id="labelE">&#9660; show details</label>
 		</td></tr>
 		<tr class="togE"><td></td><td class="sub2">error messages</td></tr>
-		<tr class="togE"><td>hash</td><td class="mono" id="errh"></td></tr>
+		<tr class="togE"><td>hash</td><td class="c mono" id="errh"></td></tr>
 			<tr class="togE"><td>error1</td><td class="c" id="err1"></td></tr>
 			<tr class="togE"><td>error2</td><td class="c" id="err2"></td></tr>
 			<tr class="togE"><td>error3</td><td class="c" id="err3"></td></tr>
@@ -157,7 +157,7 @@
 			<tr class="togE"><td>error5</td><td class="c" id="err5"></td></tr>
 			<tr class="togE"><td>error6</td><td class="c" id="err6"></td></tr>
 		<tr class="togE"><td></td><td class="sub2">widgets</td></tr>
-			<tr class="togE"><td>hash</td><td class="mono" id="widgetH"></td></tr>
+			<tr class="togE"><td>hash</td><td class="c mono" id="widgetH"></td></tr>
 			<tr class="togE"><td id="widfirst">button|checkbox|color|combobox|datetime-local|radio|text</td>
 				<td style="white-space: pre;" class="c" id="wid1"></td></tr>
 			<tr class="hidden"><td>radio</td><td id="wid2"></td></tr>
@@ -187,27 +187,27 @@
 		</th></tr></thead>
 		<tr><td><div>
 				<div class="btn-left"><button class="btn3" onClick="outputSection(`3`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div>6th edition</div></div></td><td class="mono" id="math6hash"></td>
+				<div>6th edition</div></div></td><td class="c mono" id="math6hash"></td>
 		</tr>
-		<tr><td>1st edition</td><td class="mono" id="math1hash"></td></tr>
-		<tr><td>combined</td><td class="mono" id="mathhash"></td></tr>
+		<tr><td>1st edition</td><td class="c mono" id="math1hash"></td></tr>
+		<tr><td>combined</td><td class="c mono" id="mathhash"></td></tr>
 		<tr><td colspan="2" class="showhide">
 				<input id="collapseM" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M`)">
 				<label for="collapseM" class="lbl-toggle" id="labelM">&#9660; show details</label>
 		</td></tr>
 		<tr class="togM"><td></td><td class="sub3">ECMAScript 6th Edition</td></tr>
-			<tr class="togM"><td>atanh(0.5)</td><td class="mono" id="math1"></td></tr>
-			<tr class="togM"><td>expm1(1)</td><td class="mono" id="math2"></td></tr>
-			<tr class="togM"><td>sinh(1)</td><td class="mono" id="math3"></td></tr>
+			<tr class="togM"><td>atanh(0.5)</td><td class="c mono" id="math1"></td></tr>
+			<tr class="togM"><td>expm1(1)</td><td class="c mono" id="math2"></td></tr>
+			<tr class="togM"><td>sinh(1)</td><td class="c mono" id="math3"></td></tr>
 		<tr class="togM"><td></td><td class="sub3">ECMAScript 1st Edition</td></tr>
-			<tr class="togM"><td>cos(1e251)</td><td class="mono" id="cos1"></td></tr>
-			<tr class="togM"><td>cos(1e140)</td><td class="mono" id="cos2"></td></tr>
-			<tr class="togM"><td>cos(1e12)</td><td class="mono" id="cos3"></td></tr>
-			<tr class="togM"><td>cos(1e130)</td><td class="mono" id="cos4"></td></tr>
-			<tr class="togM"><td>cos(1e272)</td><td class="mono" id="cos5"></td></tr>
-			<tr class="togM"><td>cos(1e0)</td><td class="mono" id="cos6"></td></tr>
-			<tr class="togM"><td>cos(1e284)</td><td class="mono" id="cos7"></td></tr>
-			<tr class="togM"><td>cos(1e75)</td><td class="mono" id="cos8"></td></tr>
+			<tr class="togM"><td>cos(1e251)</td><td class="c mono" id="cos1"></td></tr>
+			<tr class="togM"><td>cos(1e140)</td><td class="c mono" id="cos2"></td></tr>
+			<tr class="togM"><td>cos(1e12)</td><td class="c mono" id="cos3"></td></tr>
+			<tr class="togM"><td>cos(1e130)</td><td class="c mono" id="cos4"></td></tr>
+			<tr class="togM"><td>cos(1e272)</td><td class="c mono" id="cos5"></td></tr>
+			<tr class="togM"><td>cos(1e0)</td><td class="c mono" id="cos6"></td></tr>
+			<tr class="togM"><td>cos(1e284)</td><td class="c mono" id="cos7"></td></tr>
+			<tr class="togM"><td>cos(1e75)</td><td class="c mono" id="cos8"></td></tr>
 		<tr class="togM"><td colspan="2"></td></tr>
 		<tr><td colspan="2"><span class="no_color">ECMAScript 6th edition math code courtesy of </span>
 			<a target="_blank" class="blue" href="https://fpcentral.tbb.torproject.org/">Fingerprint Central</a></td></tr>
@@ -383,20 +383,20 @@
 				<div class="nav-down"><a href="#domrect">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn8" onClick="outputCanvas(`rerun`)">[ re-run tests ]</button></div>
+				<div class="btn-left"><button class="btn8" onClick="outputSection(`8`, `c`, `m`)">[ re-run tests ]</button></div>
 				<div>getContext</div></div></td>
-			<td class="getContext" id="cnv1"></td>
+			<td class="c getContext" id="cnv1"></td>
 		</tr>
-		<tr><td>toDataURL</td><td class="toDataURL" id="cnv2"></td></tr>
-		<tr><td>toBlob</td><td class="toBlob" id="cnv3"></td></tr>
-		<tr><td>mozGetAsFile</td><td class="mozGetAsFile" id="cnv4"></td></tr>
-		<tr><td>getImageData</td><td class="getImageData" id="cnv5"></td></tr>
-		<tr><td>winding</td><td class="winding" id="cnv6"></td></tr>
-		<tr><td>isPointInPath</td><td class="isPointInPath" id="cnv7"></td></tr>
-		<tr><td>isPointInStroke</td><td class="isPointInStroke" id="cnv8"></td></tr>
-		<tr><td>fillText</td><td class="fillText" id="cnv9"></td></tr>
-		<tr><td>strokeText</td><td class="strokeText" id="cnv10"></td></tr>
-		<tr><td>[webgl] readPixels</td><td class="readPixels" id="cnv11"></td></tr>
+		<tr><td>toDataURL</td><td class="c toDataURL" id="cnv2"></td></tr>
+		<tr><td>toBlob</td><td class="c toBlob" id="cnv3"></td></tr>
+		<tr><td>mozGetAsFile</td><td class="c mozGetAsFile" id="cnv4"></td></tr>
+		<tr><td>getImageData</td><td class="c getImageData" id="cnv5"></td></tr>
+		<tr><td>winding</td><td class="c winding" id="cnv6"></td></tr>
+		<tr><td>isPointInPath</td><td class="c isPointInPath" id="cnv7"></td></tr>
+		<tr><td>isPointInStroke</td><td class="c isPointInStroke" id="cnv8"></td></tr>
+		<tr><td>fillText</td><td class="c fillText" id="cnv9"></td></tr>
+		<tr><td>strokeText</td><td class="c strokeText" id="cnv10"></td></tr>
+		<tr><td>[webgl] readPixels</td><td class="c readPixels" id="cnv11"></td></tr>
 		<tr><td colspan="2"><span class="no_color">canvas code courtesy of </span>
 			<a target="_blank" class="blue" href="https://github.com/kkapsner">kkapsner</a><span class="no_color"> and </span>
 			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
@@ -496,12 +496,12 @@
 		<tr><td colspan="9" class="center">------</td></tr>
 		<tr><td colspan="4"><div>
 				<div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`10`, `c2`, `m`)">[ run tests ]</button></div>
-				<div>enumerate fonts <sup>1</sup></div></div></td><td class="c2" colspan="5" id="fontFB"></td>
+				<div>enumerate fonts <sup>1</sup></div></div></td><td class="c2 mono" colspan="5" id="fontFB"></td>
 		</tr>
 		<tr><td colspan="4">js <sup>2</sup></td><td class="c2" colspan="5"></td></tr>
-		<tr><td colspan="4">the other js <sup>3</sup></td><td class="c2" colspan="5"></td></tr>
-		<tr><td colspan="4">unicode glyphs <sup>3</sup></td><td class="c2" colspan="5"></td></tr>
-		<tr><td colspan="4">canvas</td><td class="c2" colspan="5""></td></tr>
+		<tr><td colspan="4">the other js <sup>3</sup></td><td class="c2 mono" colspan="5"></td></tr>
+		<tr><td colspan="4">unicode glyphs <sup>3</sup></td><td class="c2 mono" colspan="5"></td></tr>
+		<tr><td colspan="4">canvas</td><td class="c2 mono" colspan="5"></td></tr>
 		<tr><td colspan="9" class="showhide">
 				<input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
 				<label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
@@ -583,7 +583,7 @@
 				<div class="btn-left"><button class="btn13" onClick="outputSection(`14`, `c`, `m`)">[ re-run tests ]</button>
 				</div>prefers-color-scheme</td><td class="c" id="pColorScheme"></td></tr>
 		<tr><td>prefers-reduced-motion</td><td class="c" id="pReducedMotion"></td></tr>
-		<tr><td>system colors</td><td class="mono" id="sColorHash"></td></tr>
+		<tr><td>system colors</td><td class="c mono" id="sColorHash"></td></tr>
 	</table>
 
 	<!-- TABLE 15: Ciphers / TLS - ciphers.js -->
