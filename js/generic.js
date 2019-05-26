@@ -130,7 +130,6 @@ function outputSection(id, cls, page) {
 	// clear elements, &nbsp stops line height jitter
 	let tbl = document.getElementById("tb"+id);
 	tbl.querySelectorAll(`.${cls}`).forEach(e => {e.innerHTML = "&nbsp";});
-	tbl.querySelectorAll(".mono").forEach(e => {e.innerHTML = "&nbsp";});
 	// delay output so users can see something happened
 	setTimeout(function(){
 		if (page=="m") {
@@ -146,7 +145,7 @@ function outputSection(id, cls, page) {
 			if (id=="11") {outputAudio()};
 			if (id=="12") {outputMedia()};
 			if (id=="14") {outputCSS()};
-			if (id=="15") {outputMisc()};
+			if (id=="18") {outputMisc()};
 		} else if (page=="e") {
 			if (id=="2") {outputWidgets()};
 		}
