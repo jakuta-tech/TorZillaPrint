@@ -331,21 +331,9 @@ var canvas = {
 	}
 };
 
-function outputCanvas(runType) {
-	var cTimer = 0;
-	// clear elements
-	if (runType=="rerun") {
-		cTimer = 170;
-		var cArray = ['cnv1','cnv2','cnv3','cnv4','cnv5','cnv6','cnv7','cnv8','cnv9','cnv10','cnv11'];
-		cArray.forEach(function (arrayItem) {
-			document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
-		});
-	};
-	// output delay
-	setTimeout(function(){
-		outCounter = 0;
-		canvas.output(canvas.createHashes(window), document.getElementById("tb8"));
-	}, cTimer);
+function outputCanvas() {
+	outCounter = 0;
+	canvas.output(canvas.createHashes(window), document.getElementById("tb8"));
 };
 
 outputCanvas();
