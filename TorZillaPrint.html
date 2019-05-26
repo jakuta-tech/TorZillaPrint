@@ -36,49 +36,49 @@
 				<div class="nav-down"><a href="#useragent">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn1" onClick="outputSection(`screen`)">[ re-run tests ]</button></div>
-				<div>screen resolution</div></div></td><td id="ScrRes"></td>
+				<div class="btn-left"><button class="btn1" onClick="outputSection(`1`, `c`, `m`)">[ re-run tests ]</button></div>
+				<div>screen resolution</div></div></td><td class="c" id="ScrRes"></td>
 		</tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">real time update when spoofing<br>inner window: range 500-2560</span></div>
 			&nbsp [css] screen resolution <sup>1</sup></td><td id="S"></td></tr>
-		<tr><td>available resolution</td><td id="ScrAvail"></td></tr>
-		<tr><td>outer window</td><td id="WndOut"></td></tr>
-		<tr><td>inner window</td><td id="WndIn"></td></tr>
+		<tr><td>available resolution</td><td class="c" id="ScrAvail"></td></tr>
+		<tr><td>outer window</td><td class="c" id="WndOut"></td></tr>
+		<tr><td>inner window</td><td class="c" id="WndIn"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">real time update:<br>range 500-2560</span></div>
 			&nbsp [css] inner window <sup>1, 2</sup></td><td id="D"></td></tr>
-		<tr><td>viewport <sup>3</sup></td><td id="Viewport"></td></tr>
+		<tr><td>viewport <sup>3</sup></td><td class="c" id="Viewport"></td></tr>
 		<tr><td>[css] display-mode</td><td id="cssDM"></td></tr>
-		<tr><td>full screen</td><td id="fsState"></td></tr>
+		<tr><td>full screen</td><td class="c" id="fsState"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">full-screen-api.enabled</span></div>
-			&nbsp [api] full screen</td><td id="fsSupport"></td></tr>
+			&nbsp [api] full screen</td><td class="c" id="fsSupport"></td></tr>
 		<tr><td><button class="btn0" onClick="goFS()">[ click here ]</button>
 			<div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb"><b>DON'T PANIC</b> as you briefly<br>enter and then exit full screen</span></div>
-			&nbsp [test] full screen <sup>3</sup></td><td id="fsLeak"></td></tr>
+			&nbsp [test] full screen <sup>3</sup></td><td class="c" id="fsLeak"></td></tr>
 		<tr><td><button class="btn0" onClick="goNW()">[ click here ]</button>
 			<div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">will attempt to open a new<br>window as big as possible<br>and grab the dimensions</span></div>
-			&nbsp new window</td><td id="newWinLeak"></td></tr>
-		<tr><td>private window</td><td id="IsPBMode"></td></tr>
-		<tr><td>orientation</td><td id="ScrOrient"></td></tr>
+			&nbsp new window</td><td class="c" id="newWinLeak"></td></tr>
+		<tr><td>private window</td><td class="c" id="IsPBMode"></td></tr>
+		<tr><td>orientation</td><td class="c" id="ScrOrient"></td></tr>
 		<tr><td>[css] orientation</td><td id="cssOrient"></td></tr>
 		<tr><td>[css aspect-ratio] orientation</td><td id="cssAS"></td></tr>
 		<tr><td>[css device-aspect-ratio] orientation</td><td id="cssDAS"></td></tr>
-		<tr><td>[matchMedia] window orientation</td><td id="mmOrient"></td></tr>
-		<tr><td>[inner width vs inner height] window orientation</td><td id="mathOrient"></td></tr>
-		<tr><td>pixel depth</td><td id="PixDepth"></td></tr>
-		<tr><td>color depth</td><td id="ColDepth"></td></tr>
+		<tr><td>[matchMedia] window orientation</td><td class="c" id="mmOrient"></td></tr>
+		<tr><td>[inner width vs inner height] window orientation</td><td class="c" id="mathOrient"></td></tr>
+		<tr><td>pixel depth</td><td class="c" id="PixDepth"></td></tr>
+		<tr><td>color depth</td><td class="c" id="ColDepth"></td></tr>
 		<tr><td>[css color] bits per color</td><td id="cssBPC"></td></tr>
-		<tr><td>dpi</td><td id="jsDPI"></td ></tr>
+		<tr><td>dpi</td><td class="c" id="jsDPI"></td ></tr>
 		<tr><td>[css resolution] dpi</td><td id="P"></td></tr>
-		<tr><td>[matchMedia] dpi</td><td id="mmDPI"></td></tr>
-		<tr><td>zoom %</td><td id="jsZoom"></td></tr>
-		<tr><td>devicePixelRatio</td><td id="DevPR"></td></tr>
-		<tr><td>[scrollY] devicePixelRatio <sup>4</sup></td><td id="devPRscrollY"></td></tr>
-		<tr><td>[clientRect] devicePixelRatio <sup>4</sup></td><td id="devPRclientRect"></td></tr>
+		<tr><td>[matchMedia] dpi</td><td class="c" id="mmDPI"></td></tr>
+		<tr><td>zoom %</td><td class="c" id="jsZoom"></td></tr>
+		<tr><td>devicePixelRatio</td><td class="c" id="DevPR"></td></tr>
+		<tr><td>[scrollY] devicePixelRatio <sup>4</sup></td><td class="c" id="devPRscrollY"></td></tr>
+		<tr><td>[clientRect] devicePixelRatio <sup>4</sup></td><td class="c" id="devPRclientRect"></td></tr>
 		<tr><td colspan="2"><span class="no_color">code based on work by </span>
 			<sup>1</sup><a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/media-query-fingerprint.html">Arthur Edelstein</a>
 			<span class="no_color">,</span>
@@ -107,31 +107,31 @@
 			Returning the <code>browser/os</code> here is just for fun. Each test is independent of the others.</span>
 		</td></tr>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn2" onClick="outputSection(`ua`)">[ re-run tests ]</button></div>
+				<div class="btn-left"><button class="btn2" onClick="outputSection(`2`, `c`, `m`)">[ re-run tests ]</button></div>
 				<div>[header] http_user_agent</div></div></td><td></td>
 		</tr>
-		<tr><td>[navigator] userAgent</td><td id="nUserAgent"></td></tr>
-		<tr><td>[navigator] appCodeName</td><td id="nCodeName"></td></tr>
-		<tr><td>[navigator] appName</td><td id="nAppName"></td></tr>
-		<tr><td>[navigator] product</td><td id="nProduct"></td></tr>
-		<tr><td>[navigator] appVersion</td><td id="nAppVersion"></td></tr>
-		<tr><td>[navigator] oscpu</td><td id="nOscpu"></td></tr>
-		<tr><td>[navigator] platform</td><td id="nPlatform"></td></tr>
-		<tr><td>[navigator] buildID</td><td id="nBuildID"></td></tr>
-		<tr><td>[navigator] productSub</td><td id="nProductSub"></td></tr>
+		<tr><td>[navigator] userAgent</td><td class="c" id="nUserAgent"></td></tr>
+		<tr><td>[navigator] appCodeName</td><td class="c" id="nCodeName"></td></tr>
+		<tr><td>[navigator] appName</td><td class="c" id="nAppName"></td></tr>
+		<tr><td>[navigator] product</td><td class="c" id="nProduct"></td></tr>
+		<tr><td>[navigator] appVersion</td><td class="c" id="nAppVersion"></td></tr>
+		<tr><td>[navigator] oscpu</td><td class="c" id="nOscpu"></td></tr>
+		<tr><td>[navigator] platform</td><td class="c" id="nPlatform"></td></tr>
+		<tr><td>[navigator] buildID</td><td class="c" id="nBuildID"></td></tr>
+		<tr><td>[navigator] productSub</td><td class="c" id="nProductSub"></td></tr>
 		<tr><td colspan="2" class="center">---browser, version, os---</td></tr>
 		<tr><td>[css] browser</td><td id="fdResourceCss"></td></tr>
-		<tr><td>[error messages] browser</td><td id="fdError"></td></tr>
+		<tr><td>[error messages] browser</td><td class="c" id="fdError"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
-			<span class="ttxt"><b>mozPaintCount:</b><br>we could also use<br>mozGetAsFile<br>mozInnerScreenX
-			<br>mozScreenX<br>oscpu<br>scrollMaxX</span></div> &nbsp [feature detection] browser</td><td id="fdPaintCount"></td></tr>
-		<tr><td>[resource://] browser</td><td id="fdResource"></td></tr>
-		<tr><td>[math] browser</td><td id="fdMath"></td></tr>
+			<span class="ttxt"><b>mozPaintCount:</b><br>we could also use<br>mozGetAsFile<br>mozInnerScreenX<br>mozScreenX
+			<br>oscpu<br>scrollMaxX</span></div> &nbsp [feature detection] browser</td><td class="c" id="fdPaintCount"></td></tr>
+		<tr><td>[resource://] browser</td><td class="c" id="fdResource"></td></tr>
+		<tr><td>[math] browser</td><td class="c" id="fdMath"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			 <span class="ttxt">Firefox 60+ only</span></div>
-			 &nbsp [feature detection] version</td><td id="versionNo"></td></tr>
-		<tr><td>[chrome://] os</td><td id="fdChromeOS"></td></tr>
-		<tr><td>[math] os</td><td id="fdMathOS"></td></tr>
+			 &nbsp [feature detection] version</td><td class="c" id="versionNo"></td></tr>
+		<tr><td>[chrome://] os</td><td class="c" id="fdChromeOS"></td></tr>
+		<tr><td>[math] os</td><td class="c" id="fdMathOS"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">Linux, Mac or Windows</div> &nbsp [css] os <sup>1</sup></td>
 			<td><span id="fdCssOSL" style="font-family: Arimo, DejaVu Serif, ABR;">Linux</span>
@@ -140,34 +140,34 @@
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">based on <b>[css] os</b> above</span></div>
 			&nbsp [font] os <sup>1</sup></td><td id="fontOS"></td></tr>
-		<tr><td>[css line-height] os</td><td id="cssLH"></td></tr>
-		<tr><td>[scrollbar width] os <sup>2, 3</sup></td><td id="scrollbarWidth"></td></tr>
+		<tr><td>[css line-height] os</td><td class="c" id="cssLH"></td></tr>
+		<tr><td>[scrollbar width] os <sup>2, 3</sup></td><td class="c" id="scrollbarWidth"></td></tr>
 		<tr><td>[tcp/ip] os</td><td></td></tr>
-		<tr><td>[widgets] os</td><td id="widgetOS"></td></tr>
+		<tr><td>[widgets] os</td><td class="c" id="widgetOS"></td></tr>
 		<tr><td colspan="2" class="showhide">
 				<input id="collapseE" class="toggle" type="checkbox" checked onchange="toggleitems(this, `E`)">
 				<label for="collapseE" class="lbl-toggle" id="labelE">&#9660; show details</label>
 		</td></tr>
 		<tr class="togE"><td></td><td class="sub2">error messages</td></tr>
 		<tr class="togE"><td>hash</td><td class="mono" id="errh"></td></tr>
-			<tr class="togE"><td>error1</td><td id="err1"></td></tr>
-			<tr class="togE"><td>error2</td><td id="err2"></td></tr>
-			<tr class="togE"><td>error3</td><td id="err3"></td></tr>
-			<tr class="togE"><td>error4</td><td id="err4"></td></tr>
-			<tr class="togE"><td>error5</td><td id="err5"></td></tr>
-			<tr class="togE"><td>error6</td><td id="err6"></td></tr>
+			<tr class="togE"><td>error1</td><td class="c" id="err1"></td></tr>
+			<tr class="togE"><td>error2</td><td class="c" id="err2"></td></tr>
+			<tr class="togE"><td>error3</td><td class="c" id="err3"></td></tr>
+			<tr class="togE"><td>error4</td><td class="c" id="err4"></td></tr>
+			<tr class="togE"><td>error5</td><td class="c" id="err5"></td></tr>
+			<tr class="togE"><td>error6</td><td class="c" id="err6"></td></tr>
 		<tr class="togE"><td></td><td class="sub2">widgets</td></tr>
 			<tr class="togE"><td>hash</td><td class="mono" id="widgetH"></td></tr>
 			<tr class="togE"><td id="widfirst">button|checkbox|color|combobox|datetime-local|radio|text</td>
-				<td style="white-space: pre;" id="wid1"></td></tr>
+				<td style="white-space: pre;" class="c" id="wid1"></td></tr>
 			<tr class="hidden"><td>radio</td><td id="wid2"></td></tr>
 			<tr class="hidden"><td>button</td><td id="wid3"></td></tr>
 			<tr class="hidden"><td>combobox</td><td id="wid4"></td></tr>
 			<tr class="hidden"><td>text</td><td id="wid5"></td></tr>
 			<tr class="hidden"><td>datetime-local</td><td id="wid6"></td></tr>
 			<tr class="hidden"><td>color</td><td id="wid7"></td></tr>
-			<tr class="togE"><td>datetime</td><td id="wid8"></td></tr>
-			<tr class="togE"><td>textarea</td><td id="wid9"></td></tr>
+			<tr class="togE"><td>datetime</td><td class="c" id="wid8"></td></tr>
+			<tr class="togE"><td>textarea</td><td class="c" id="wid9"></td></tr>
 			<tr class="togE"><td colspan="2"></td></tr>
 		<tr><td colspan="2"><span class="no_color">code based on work by </span>
 			<sup>1</sup><a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/os-detection-font-css.html">Arthur Edelstein</a>
@@ -186,7 +186,7 @@
 				<div class="nav-down"><a href="#language">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn3" onClick="outputSection(`math`)">[ re-run tests ]</button></div>
+				<div class="btn-left"><button class="btn3" onClick="outputSection(`3`, `c`, `m`)">[ re-run tests ]</button></div>
 				<div>6th edition</div></div></td><td class="mono" id="math6hash"></td>
 		</tr>
 		<tr><td>1st edition</td><td class="mono" id="math1hash"></td></tr>
@@ -222,45 +222,45 @@
 				<div class="nav-down"><a href="#headers">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn4" onClick="outputSection(`language`)">[ re-run tests ]</button></div>
+				<div class="btn-left"><button class="btn4" onClick="outputSection(`4`, `c`, `m`)">[ re-run tests ]</button></div>
 				<div>[header] http_accept_language</div></div></td>
 			<td></td></tr>
-		<tr><td>[navigator] languages</td><td id="nLanguages"></td></tr>
-		<tr><td>[navigator] language</td><td id="nLanguage"></td></tr>
-		<tr><td>[navigator] languages[0]</td><td id="nLanguages0"></td></tr>
-		<tr><td>[Intl.PluralRules] locale</td><td id="localeIPR"></td></tr>
-		<tr><td>[resolvedOptions] locale</td><td id="localeRO"></td></tr>
+		<tr><td>[navigator] languages</td><td class="c" id="nLanguages"></td></tr>
+		<tr><td>[navigator] language</td><td class="c" id="nLanguage"></td></tr>
+		<tr><td>[navigator] languages[0]</td><td class="c" id="nLanguages0"></td></tr>
+		<tr><td>[Intl.PluralRules] locale</td><td class="c" id="localeIPR"></td></tr>
+		<tr><td>[resolvedOptions] locale</td><td class="c" id="localeRO"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">test if the error message<br>uses your application locale</span></div>
-			&nbsp [test] DTD locale</td><td id="localeDTD"></td></tr>
-		<tr><td>timezone offsets</td><td id="tzOffsets"></td></tr>
-		<tr><td>[resolvedOptions] timezone</td><td id="tzRO"></td></tr>
-		<tr><td>system date/time</td><td id="dateSystem"></td></tr>
-		<tr><td>toString</td><td id="dateString"></td></tr>
-		<tr><td>[long] toLocaleString</td><td id="lngdateLS"></td></tr>
-		<tr><td>[long] toLocaleDateString</td><td id="lngdateLDS"></td></tr>
-		<tr><td>[long] toLocaleTimeString</td><td id="lngdateLTS"></td></tr>
-		<tr><td>[long] Intl.DateTimeFormat</td><td id="lngdateIDTF"></td></tr>
-		<tr><td>[formatToParts] Intl.DateTimeFormat</td><td id="dateFTP"></td></tr>
-		<tr><td>toGMTString</td><td id="dateGMT"></td></tr>
-		<tr><td>toUTCString</td><td id="dateUTC"></td></tr>
-		<tr><td>toLocaleString</td><td id="dateLS"></td></tr>
-		<tr><td>[Typed Array] toLocaleString</td><td id="dateTAtoLS"></td></tr>
-		<tr><td>toLocaleDateString</td><td id="dateLDS"></td></tr>
-		<tr><td>Intl.DateTimeFormat</td><td id="dateIDTF"></td></tr>
-		<tr><td>toLocaleTimeString</td><td id="dateLTS"></td></tr>
-		<tr><td>toTimeString</td><td id="dateTS"></td></tr>
-		<tr><td>[formatToParts] Intl.NumberFormat</td><td id="numFTP"></td></tr>
-		<tr><td>[resolvedOptions] hourCycle</td><td id="hourRO"></td></tr>
-		<tr><td>Intl.RelativeTimeFormat</td><td id="dateIRTF"></td></tr>
-		<tr><td>[resolvedOptions] calendar</td><td id="calendarRO"></td></tr>
-		<tr><td>[resolvedOptions] numberingSystem</td><td id="numsysRO"></td></tr>
+			&nbsp [test] DTD locale</td><td class="c" id="localeDTD"></td></tr>
+		<tr><td>timezone offsets</td><td class="c" id="tzOffsets"></td></tr>
+		<tr><td>[resolvedOptions] timezone</td><td class="c" id="tzRO"></td></tr>
+		<tr><td>system date/time</td><td class="c" id="dateSystem"></td></tr>
+		<tr><td>toString</td><td class="c" id="dateString"></td></tr>
+		<tr><td>[long] toLocaleString</td><td class="c" id="lngdateLS"></td></tr>
+		<tr><td>[long] toLocaleDateString</td><td class="c" id="lngdateLDS"></td></tr>
+		<tr><td>[long] toLocaleTimeString</td><td class="c" id="lngdateLTS"></td></tr>
+		<tr><td>[long] Intl.DateTimeFormat</td><td class="c" id="lngdateIDTF"></td></tr>
+		<tr><td>[formatToParts] Intl.DateTimeFormat</td><td class="c" id="dateFTP"></td></tr>
+		<tr><td>toGMTString</td><td class="c" id="dateGMT"></td></tr>
+		<tr><td>toUTCString</td><td class="c" id="dateUTC"></td></tr>
+		<tr><td>toLocaleString</td><td class="c" id="dateLS"></td></tr>
+		<tr><td>[Typed Array] toLocaleString</td><td class="c" id="dateTAtoLS"></td></tr>
+		<tr><td>toLocaleDateString</td><td class="c" id="dateLDS"></td></tr>
+		<tr><td>Intl.DateTimeFormat</td><td class="c" id="dateIDTF"></td></tr>
+		<tr><td>toLocaleTimeString</td><td class="c" id="dateLTS"></td></tr>
+		<tr><td>toTimeString</td><td class="c" id="dateTS"></td></tr>
+		<tr><td>[formatToParts] Intl.NumberFormat</td><td class="c" id="numFTP"></td></tr>
+		<tr><td>[resolvedOptions] hourCycle</td><td class="c" id="hourRO"></td></tr>
+		<tr><td>Intl.RelativeTimeFormat</td><td class="c" id="dateIRTF"></td></tr>
+		<tr><td>[resolvedOptions] calendar</td><td class="c" id="calendarRO"></td></tr>
+		<tr><td>[resolvedOptions] numberingSystem</td><td class="c" id="numsysRO"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">geo.enabled</span></div>
-			&nbsp [api] geolocation</td><td id="nGeolocation"></td></tr>
+			&nbsp [api] geolocation</td><td class="c" id="nGeolocation"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">permissions.default.geo</span></div>
-			&nbsp [permission] geolocation</td><td id="pGeolocation"></td></tr>
+			&nbsp [permission] geolocation</td><td class="c" id="pGeolocation"></td></tr>
 		<tr><td colspan="2"><span class="no_color">DTD locale leaks courtesy of Alex Catarineu</span>
 			<a target="_blank" class="blue" href="https://acatarineu.github.io/fp/locale.html">here</a>
 			<span class="no_color"> and </span>
@@ -277,14 +277,14 @@
 				<div class="nav-down"><a href="#cookies">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn5" onClick="outputSection(`headers`)">[ re-run tests ]</button></div>
-				<div>[navigator] doNotTrack</div></div></td><td id="nDoNotTrack"></td>
+				<div class="btn-left"><button class="btn5" onClick="outputSection(`5`, `c`, `m`)">[ re-run tests ]</button></div>
+				<div>[navigator] doNotTrack</div></div></td><td class="c" id="nDoNotTrack"></td>
 		</tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">dom.netinfo.enabled</span></div>
-			&nbsp [api] network information</td><td id="nNetwork"></td></tr>
-		<tr><td>[navigator] connection</td><td id="nConnection"></td></tr>
-		<tr><td>[navigator] onLine</td><td id="nOnLine"></td></tr>
+			&nbsp [api] network information</td><td class="c" id="nNetwork"></td></tr>
+		<tr><td>[navigator] connection</td><td class="c" id="nConnection"></td></tr>
+		<tr><td>[navigator] onLine</td><td class="c" id="nOnLine"></td></tr>
 		<tr><td colspan="2" class="center">------</td></tr>
 		<tr><td>http_accept</td><td></td></tr>
 		<tr><td>http_accept_encoding</td><td></td></tr>
@@ -306,41 +306,41 @@
 			value, attempt to set them, and then to read the value back. Only when it successfully reads back the value
 			is it deemed to be available and working.</span></td></tr>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn6" onClick="outputSection(`cookies`)">[ re-run tests ]</button></div>
-				<div>[navigator] cookieEnabled</div></div></td><td id="nCookieEnabled"></td>
+				<div class="btn-left"><button class="btn6" onClick="outputSection(`6`, `c`, `m`)">[ re-run tests ]</button></div>
+				<div>[navigator] cookieEnabled</div></div></td><td class="c" id="nCookieEnabled"></td>
 		</tr>
-		<tr><td>[test] 1st party cookie</td><td id="cookieTest"></td></tr>
-		<tr><td>localStorage</td><td id="storageLSupport"></td></tr>
-		<tr><td>[test] localStorage</td><td id="storageLTest"></td></tr>
-		<tr><td>sessionStorage</td><td id="storageSSupport"></td></tr>
-		<tr><td>[test] sessionStorage</td><td id="storageSTest"></td></tr>
-		<tr><td>indexedDB</td><td id="IDBSupport"></td></tr>
-		<tr><td>[test] indexedDB</td><td id="IDBTest"></td></tr>
+		<tr><td>[test] 1st party cookie</td><td class="c" id="cookieTest"></td></tr>
+		<tr><td>localStorage</td><td class="c" id="storageLSupport"></td></tr>
+		<tr><td>[test] localStorage</td><td class="c" id="storageLTest"></td></tr>
+		<tr><td>sessionStorage</td><td class="c" id="storageSSupport"></td></tr>
+		<tr><td>[test] sessionStorage</td><td class="c" id="storageSTest"></td></tr>
+		<tr><td>indexedDB</td><td class="c" id="IDBSupport"></td></tr>
+		<tr><td>[test] indexedDB</td><td class="c" id="IDBTest"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">browser.cache.offline.enable</span></div>
-			&nbsp appCache</td><td id="appCacheSupport"></td></tr>
-		<tr><td>[test] appCache</td><td id="appCacheTest"></td></tr>
-		<tr><td>worker</td><td id="workerSupport"></td></tr>
-		<tr><td>[test] web worker</td><td id="webWTest"></td></tr>
-		<tr><td>[test] shared worker</td><td id="sharedWTest"></td></tr>
+			&nbsp appCache</td><td class="c" id="appCacheSupport"></td></tr>
+		<tr><td>[test] appCache</td><td class="c" id="appCacheTest"></td></tr>
+		<tr><td>worker</td><td class="c" id="workerSupport"></td></tr>
+		<tr><td>[test] web worker</td><td class="c" id="webWTest"></td></tr>
+		<tr><td>[test] shared worker</td><td class="c" id="sharedWTest"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">dom.serviceWorkers.enabled</span></div>
-			&nbsp service worker</td><td id="serviceWSupport"></td></tr>
-		<tr><td>[test] service worker</td><td id="serviceWTest"></td></tr>
+			&nbsp service worker</td><td class="c" id="serviceWSupport"></td></tr>
+		<tr><td>[test] service worker</td><td class="c" id="serviceWTest"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">dom.caches.enabled</span></div>
-			&nbsp service worker cache</td><td id="serviceWCacheSupport"></td></tr>
-		<tr><td>[test] service worker cache</td><td id="serviceWCacheTest"></td></tr>
-		<tr><td>notifications</td><td id="notificationsSupport"></td></tr>
-		<tr><td>[test] notifications</td><td id="notificationsTest"></td></tr>
-		<tr><td>[permission] notifications</td><td id="pNotifications"></td></tr>
-		<tr><td>[permission] push</td><td id="pPush"></td></tr>
+			&nbsp service worker cache</td><td class="c" id="serviceWCacheSupport"></td></tr>
+		<tr><td>[test] service worker cache</td><td class="c" id="serviceWCacheTest"></td></tr>
+		<tr><td>notifications</td><td class="c" id="notificationsSupport"></td></tr>
+		<tr><td>[test] notifications</td><td class="c" id="notificationsTest"></td></tr>
+		<tr><td>[permission] notifications</td><td class="c" id="pNotifications"></td></tr>
+		<tr><td>[permission] push</td><td class="c" id="pPush"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">dom.storageManager.enabled</span></div>
-			&nbsp storage manager</td><td id="storageMSupport"></td></tr>
-		<tr><td>[properties] storage manager</td><td id="storageMProp"></td></tr>
-		<tr><td>[test] storage manager</td><td id="storageMTest"></td></tr>
-		<tr><td>[permission] persistent storage</td><td id="pPersistentStorage"></td></tr>
+			&nbsp storage manager</td><td class="c" id="storageMSupport"></td></tr>
+		<tr><td>[properties] storage manager</td><td class="c" id="storageMProp"></td></tr>
+		<tr><td>[test] storage manager</td><td class="c" id="storageMTest"></td></tr>
+		<tr><td>[permission] persistent storage</td><td class="c" id="pPersistentStorage"></td></tr>
 	</table>
 
 	<!-- TABLE 7: Devices & Hardware - devices.js -->
@@ -352,26 +352,26 @@
 				<div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn7" onClick="outputSection(`devices`)">[ re-run tests ]</button></div>
-				<div>[navigator] hardwareConcurrency</div></div></td><td id="nHardwareConcurrency"></td></tr>
+				<div class="btn-left"><button class="btn7" onClick="outputSection(`7`, `c`, `m`)">[ re-run tests ]</button></div>
+				<div>[navigator] hardwareConcurrency</div></div></td><td class="c" id="nHardwareConcurrency"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">dom.gamepad.enabled</span></div>
-			&nbsp [api] gamepad</td><td id="nGetGamepads"></td></tr>
+			&nbsp [api] gamepad</td><td class="c" id="nGetGamepads"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">media.navigator.enabled</span></div>
-			&nbsp mediaDevices</td><td id="nMediaDevices"></td></tr>
-		<tr><td>enumerateDevices</td><td id="eMediaDevices"></td></tr>
-		<tr><td>[navigator] maxTouchPoints</td><td id="nMaxTouchPoints"></td></tr>
+			&nbsp mediaDevices</td><td class="c" id="nMediaDevices"></td></tr>
+		<tr><td>enumerateDevices</td><td class="c" id="eMediaDevices"></td></tr>
+		<tr><td>[navigator] maxTouchPoints</td><td class="c" id="nMaxTouchPoints"></td></tr>
 		<tr><td>[css] pointer</td><td id="cssP"></td></tr>
 		<tr><td>[css] any-pointer</td><td id="cssAP"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">media.webspeech.synth.enabled</span></div>
-			&nbsp speech synthesis</td><td id="speechSynth"></td></tr>
-		<tr><td>speech engines</td><td id="speechEngines"></td></tr>
+			&nbsp speech synthesis</td><td class="c" id="speechSynth"></td></tr>
+		<tr><td>speech engines</td><td class="c" id="speechEngines"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">dom.vr.enabled</span></div>
-			&nbsp [api] webvr</td><td id="nGetVR"></td></tr>
-		<tr><td>activeVRDisplays</td><td id="nActiveVR"></td></tr>
+			&nbsp [api] webvr</td><td class="c" id="nGetVR"></td></tr>
+		<tr><td>activeVRDisplays</td><td class="c" id="nActiveVR"></td></tr>
 	</table>
 
 	<!-- TABLE 8: Canvas - canvas.js -->
@@ -383,7 +383,7 @@
 				<div class="nav-down"><a href="#domrect">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn8" onClick="outputSection(`canvas`)">[ re-run tests ]</button></div>
+				<div class="btn-left"><button class="btn8" onClick="outputCanvas(`rerun`)">[ re-run tests ]</button></div>
 				<div>getContext</div></div></td>
 			<td class="getContext" id="cnv1"></td>
 		</tr>
@@ -487,21 +487,21 @@
 			default], but these tests are designed to be comprehensive, not small and fast. As such, some tests are not automatically run.</span>
 		</td></tr>
 		<tr><td colspan="4"><div>
-				<div class="btn-left"><button class="btn10" onClick="outputSection(`fonts1`)">[ re-run tests ]</button></div>
-				<div>@font-face</div></div></td><td colspan="5" id="fontFace"></td>
+				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c1`, `m`)">[ re-run tests ]</button></div>
+				<div>@font-face</div></div></td><td class="c1" colspan="5" id="fontFace"></td>
 		</tr>
 		<tr><td colspan="4"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">browser.display.use_document_fonts</span></div>
-			&nbsp document fonts</td><td colspan="5" id="fontDoc"></td></tr>
+			&nbsp document fonts</td><td class="c1" colspan="5" id="fontDoc"></td></tr>
 		<tr><td colspan="9" class="center">------</td></tr>
 		<tr><td colspan="4"><div>
-				<div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`fonts2`)">[ run tests ]</button></div>
-				<div>enumerate fonts <sup>1</sup></div></div></td><td colspan="5" class="mono" id="fontFB"></td>
+				<div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`10`, `c2`, `m`)">[ run tests ]</button></div>
+				<div>enumerate fonts <sup>1</sup></div></div></td><td class="c2" colspan="5" id="fontFB"></td>
 		</tr>
-		<tr><td colspan="4">js <sup>2</sup></td><td colspan="5" class="mono"></td></tr>
-		<tr><td colspan="4">the other js <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
-		<tr><td colspan="4">unicode glyphs <sup>3</sup></td><td colspan="5" class="mono"></td></tr>
-		<tr><td colspan="4">canvas</td><td colspan="5" class="mono"></td></tr>
+		<tr><td colspan="4">js <sup>2</sup></td><td class="c2" colspan="5"></td></tr>
+		<tr><td colspan="4">the other js <sup>3</sup></td><td class="c2" colspan="5"></td></tr>
+		<tr><td colspan="4">unicode glyphs <sup>3</sup></td><td class="c2" colspan="5"></td></tr>
+		<tr><td colspan="4">canvas</td><td class="c2" colspan="5""></td></tr>
 		<tr><td colspan="9" class="showhide">
 				<input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
 				<label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
@@ -528,14 +528,14 @@
 				<div class="nav-down"><a href="#media">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn11" onClick="outputSection(`audio`)">[ re-run tests ]</button></div>
+				<div class="btn-left"><button class="btn11" onClick="outputSection(`11`, `c`, `m`)">[ re-run tests ]</button></div>
 				<div><div class="ttip"><span class="icon">[ i ]</span>
 					<span class="ttxt">dom.webaudio.enabled</span></div> &nbsp [api] web audio</div></div></td>
-			<td id="audioSupport"></td>
+			<td class="c" id="audioSupport"></td>
 		</tr>
-		<tr><td>getChannelData</td><td id="audioGet"></td></tr>
-		<tr><td>copyFromChannel</td><td id="audioCopy"></td></tr>
-		<tr><td>sum</td><td id="audioSum"></td></tr>
+		<tr><td>getChannelData</td><td class="c" id="audioGet"></td></tr>
+		<tr><td>copyFromChannel</td><td class="c" id="audioCopy"></td></tr>
+		<tr><td>sum</td><td class="c" id="audioSum"></td></tr>
 		<tr><td colspan="2"><span class="no_color">audio code courtesy of </span>
 			<a target="_blank" class="blue" href="https://github.com/kkapsner">kkapsner</a><span class="no_color"> and </span>
 			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
@@ -550,10 +550,10 @@
 				<div class="nav-down"><a href="#webgl">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn12" onClick="outputSection(`media`)">[ re-run tests ]</button></div>
+				<div class="btn-left"><button class="btn12" onClick="outputSection(`12`, `c`, `m`)">[ re-run tests ]</button></div>
 				<div><div class="ttip"><span class="icon">[ i ]</span>
 					<span class="ttxtb">media.media-capabilities.enabled</span></div> &nbsp [navigator] mediaCapabilities</div></div></td>
-			<td id="nMediaCapabilities"></td>
+			<td class="c" id="nMediaCapabilities"></td>
 		</tr>
 	</table>
 
@@ -580,9 +580,9 @@
 				<div class="nav-down"><a href="#ciphers">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn13" onClick="outputSection(`css`)">[ re-run tests ]</button>
-				</div>prefers-color-scheme</td><td id="pColorScheme"></td></tr>
-		<tr><td>prefers-reduced-motion</td><td id="pReducedMotion"></td></tr>
+				<div class="btn-left"><button class="btn13" onClick="outputSection(`14`, `c`, `m`)">[ re-run tests ]</button>
+				</div>prefers-color-scheme</td><td class="c" id="pColorScheme"></td></tr>
+		<tr><td>prefers-reduced-motion</td><td class="c" id="pReducedMotion"></td></tr>
 		<tr><td>system colors</td><td class="mono" id="sColorHash"></td></tr>
 	</table>
 
@@ -628,14 +628,14 @@
 				<div class="nav-down"><a href="#theend">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn18" onClick="outputSection(`misc`)">[ re-run tests ]</button></div>
-				<div>[navigator] clipboard</div></div></td><td id="nClipboard"></td></tr>
+				<div class="btn-left"><button class="btn18" onClick="outputSection(`18`, `c`, `m`)">[ re-run tests ]</button></div>
+				<div>[navigator] clipboard</div></div></td><td class="c" id="nClipboard"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">dom.IntersectionObserver.enabled</span></div>
-			&nbsp [api] intersection observer</td><td id="intObserver"></td></tr>
+			&nbsp [api] intersection observer</td><td class="c" id="intObserver"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">mathml.disabled</span></div>
-			&nbsp mathml</td><td id="mathml"></td>
+			&nbsp mathml</td><td class="c" id="mathml"></td>
 		</tr>
 		<tr><td>[test example] mathml</td><td id="mathmltest">
 				<math>
@@ -648,7 +648,7 @@
 		</tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">dom.requestIdleCallback.enabled</span></div>
-			&nbsp requestIdleCallback</td><td id="reqIdleCB"></td></tr>
+			&nbsp requestIdleCallback</td><td class="c" id="reqIdleCB"></td></tr>
 	</table>
 
 	<br><a name="theend"><br>
