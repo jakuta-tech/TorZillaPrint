@@ -100,7 +100,6 @@ var canvas = {
 				supported: function(){
 					// https://github.com/Modernizr/Modernizr/blob/master/feature-detects/canvas/winding.js
 					var context = getContext();
-					
 					context.rect(0, 0, 10, 10);
 					context.rect(2, 2, 6, 6);
 					return context.isPointInPath(5, 5, 'evenodd') === false;
@@ -333,8 +332,20 @@ var canvas = {
 };
 
 function outputCanvas(runType) {
-	outCounter = 0;
-	canvas.output(canvas.createHashes(window), document.getElementById("tb8"));
+	var cTimer = 0;
+	// clear elements
+	if (runType=="rerun") {
+		cTimer = 170;
+		var cArray = ['cnv1','cnv2','cnv3','cnv4','cnv5','cnv6','cnv7','cnv8','cnv9','cnv10','cnv11'];
+		cArray.forEach(function (arrayItem) {
+			document.getElementById(arrayItem).innerHTML="&nbsp"; // &nbsp stops line height jitter
+		});
+	};
+	// output delay
+	setTimeout(function(){
+		outCounter = 0;
+		canvas.output(canvas.createHashes(window), document.getElementById("tb8"));
+	}, cTimer);
 };
 
 outputCanvas();
