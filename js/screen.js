@@ -10,8 +10,8 @@ function getVerNo() {
 	//60
 	try {(Object.getOwnPropertyDescriptor(Document.prototype, "body")
 		|| Object.getOwnPropertyDescriptor(HTMLDocument.prototype, "body")).get.call((new DOMParser).parseFromString(
-			"<html xmlns='http://www.w3.org/1999/xhtml'><body/></html>","application/xhtml+xml")) !== null; verNo="60";}
-	catch(e) {};
+			"<html xmlns='http://www.w3.org/1999/xhtml'><body/></html>","application/xhtml+xml")) !== null; verNo="60";
+	} catch(e) {};
 	//61
 	var str61=" meh";
 	try {str61 = str61.trimStart(); verNo="61"} catch(e) {};
@@ -31,11 +31,13 @@ function getVerNo() {
 		const textEncoder = new TextEncoder();
 		const utf8 = new Uint8Array(string66.length);
 		let encodedResults = textEncoder.encodeInto(string66, utf8);
-		verNo="66"}
-	catch(e) {};
+		verNo="66"
+	} catch(e) {};
 	//67
-	if (!Symbol.hasOwnProperty('matchAll')) {} else { verNo="67+" };
+	if (!Symbol.hasOwnProperty('matchAll')) {} else { verNo="67" };
 	//68
+	let obj68 = document.getElementById('obj68');
+	if (obj68.typeMustMatch == false) {} else {verNo="68+"}
 	// reminder: append + on last test
 	return verNo;
 };
@@ -101,8 +103,8 @@ function outputScreen() {
 	// full-screen-api.enabled
 	try {
 		if (document.mozFullScreenEnabled) {dom.fsSupport="enabled"}
-		else {dom.fsSupport="disabled"; dom.fsLeak="no"}
-	} catch(e) {dom.fsSupport="no: " + e.name; dom.fsLeak="no"};
+		else {dom.fsSupport="disabled"; dom.fsLeak="n/a"}
+	} catch(e) {dom.fsSupport="no: " + e.name; dom.fsLeak="n/a"};
 	// private window
 	try {
 		var db = indexedDB.open("IsPBMode");
@@ -128,7 +130,7 @@ function outputScreen() {
 		return "portrait";
 	})();
 	// zoom related items
-	getZoom(); 
+	getZoom();
 
 	/* DEVICEPIXELRATIO LEAKS */
 	// code based on work by Alex Catarineu
@@ -464,7 +466,7 @@ function outputUA() {
 		var myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
 		if (myLHFont.slice(1,16) !== "Times New Roman") {
 			// document fonts blocked: TNR might not be used
-			lhOS = " <span class='bad'> [you are blocking document fonts]</span>";
+			lhOS = " <span class='bad'> [document fonts are disabled]</span>";
 		} else if (lh == "19.2") {
 			// TB: 19.2px seems to be unique to TB at any zoom on any platform
 			lhOS= TBy;
