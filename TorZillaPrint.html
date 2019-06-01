@@ -92,6 +92,7 @@
 
 		<div id='testdpi' style='height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;'></div>
 		<div class="hidden"><span class="cssLH" id="testLH">css line height hopefully with Times New Roman</span></div>
+		<div class="hidden"><object id="obj68"></object></div>
 
 	<!-- TABLE 2: User Agent - part of screen.js-->
 	<table id="tb2">
@@ -491,8 +492,15 @@
 				<div>@font-face</div></div></td><td class="c1" colspan="5" id="fontFace"></td>
 		</tr>
 		<tr><td colspan="4"><div class="ttip"><span class="icon">[ i ]</span>
+			<span class="ttxtx">layout.css.font-loading-api.enabled</span></div>
+			&nbsp css font loading api</td><td class="c1" colspan="5" id="fontCSS"></td></tr>
+		<tr><td colspan="4"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">browser.display.use_document_fonts</span></div>
 			&nbsp document fonts</td><td class="c1" colspan="5" id="fontDoc"></td></tr>
+		<tr><td colspan="4"><div class="ttip"><span class="icon">[ i ]</span>
+			<span class="ttxtx">gfx.downloadable_fonts.woff2.enabled</span></div>
+			&nbsp WOFF2</td><td class="c1" colspan="5" id="fontWoff2"></td></tr>
+		<!--FONT FPs-->
 		<tr><td colspan="9" class="center">------</td></tr>
 		<tr><td colspan="4"><div>
 				<div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`10`, `c2`, `m`)">[ run tests ]</button></div>
