@@ -57,10 +57,34 @@ let spawn = (function () {
 
 function outputFonts1(){
 	/* auto-run */
-	/* document fonts	*/
+	/*** defaults */
+	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
+	var iframeFC = document.getElementById("iframeFC");
+	iframeFC.src = "iframes/fontcheck.html";
+	iframeFC.addEventListener("load", function(){
+		var dfItem = iframeFC.contentWindow.document.getElementById("df1");
+		var dfProp = "serif/sans-serif: " + getComputedStyle(dfItem).getPropertyValue("font-size");
+		dfItem = iframeFC.contentWindow.document.getElementById("df3");
+		dfProp = dfProp + " | monospace: " + getComputedStyle(dfItem).getPropertyValue("font-size");
+		dom.fontFCsize = dfProp;
+
+		/*** gfx.downloadable_fonts.woff2.enabled */
+		setTimeout(function(){
+			dfItem = iframeFC.contentWindow.document.getElementById("fnt0");
+			dfProp = dfItem.offsetWidth;
+			dfItem = iframeFC.contentWindow.document.getElementById("fnt1");
+			if (dfProp == dfItem.offsetWidth) {dom.fontWoff2="disabled"} else {dom.fontWoff2="enabled"};
+		}, 400);
+	});
+
+	/*** document fonts	*/
 	var myLHElem = document.getElementById("testLH");
 	var myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
 	if (myLHFont.slice(1,16) !== "Times New Roman") {dom.fontDoc="disabled"} else {dom.fontDoc="enabled"};
+
+	/*** layout.css.font-loading-api.enabled */
+	dom.fontCSS = 'FontFace' in window ? 'enabled' : 'disabled';
+
 }
 outputFonts1();
 
