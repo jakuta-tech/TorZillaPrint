@@ -34,7 +34,7 @@ let spawn = (function () {
 			let processPromiseResult = (success, result) => {
 				try {
 					let {value, done} = success ? generator.next(result)
-																		: generator.throw(result);
+						: generator.throw(result);
 					if (done) {
 						asPromise(value).then(resolve, reject);
 					} else {
@@ -46,7 +46,7 @@ let spawn = (function () {
 			};
 			processPromise = promise => {
 				promise.then(result => processPromiseResult(true, result),
-									 error => processPromiseResult(false, error));
+					error => processPromiseResult(false, error));
 			};
 			processPromise(asPromise(undefined));
 		});
