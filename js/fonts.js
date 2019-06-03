@@ -74,17 +74,6 @@ function outputFonts1(){
 			dfProp = dfItem.offsetWidth;
 			dfItem = iframeFC.contentWindow.document.getElementById("fnt1");
 			if (dfProp == dfItem.offsetWidth) {dom.fontWoff2="disabled [or blocked]"} else {dom.fontWoff2="enabled"};
-			// however, the pref may be enabled but the woff2 font blocked
-			// as long as css font loading API is enabled we can detect if it's actually enabled
-			var supportsWoff2 = (function(){
-			if(!("FontFace" in window)) {
-				return false;
-			}
-			var f = new FontFace('t', 'url( "data:font/woff2;base64,blahblah" ) format( "woff2" )', {});
-			f.load()['catch'](function() {});
-			return f.status=='loading' || f.status=='loaded';
-			})();
-			if (supportsWoff2 == true) {dom.fontWoff2="enabled"};
 		}, 400);
 	});
 
