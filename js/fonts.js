@@ -73,7 +73,7 @@ function outputFonts1(){
 			dfItem = iframeFC.contentWindow.document.getElementById("fnt0");
 			dfProp = dfItem.offsetWidth;
 			dfItem = iframeFC.contentWindow.document.getElementById("fnt1");
-			if (dfProp == dfItem.offsetWidth) {dom.fontWoff2="disabled"} else {dom.fontWoff2="enabled"};
+			if (dfProp == dfItem.offsetWidth) {dom.fontWoff2="disabled [or blocked]"} else {dom.fontWoff2="enabled"};
 		}, 400);
 	});
 
