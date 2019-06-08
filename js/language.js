@@ -87,7 +87,7 @@ function outputLanguage() {
 		};
 		setTimeout(function(){
 			dom.appLang2 = dtd1; dom.appLang3 = dtd2;
-		}, 1000);
+		}, 1500);
 		// MediaDocument.properties
 		const iframeAPPL = document.getElementById("iframeAPPL");
 		iframeAPPL.src="images/dummy.png";
