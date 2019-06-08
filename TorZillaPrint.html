@@ -20,8 +20,6 @@
 	</table>
 
 	<!-- iframes: get them in early-->
-	<iframe id="iframeDTD1" style='position: absolute; top: -2000%;'></iframe>
-	<iframe id="iframeDTD2" style='position: absolute; top: -2000%;'></iframe>
 	<iframe id="iframeDR" style='position: absolute; top: -2000%;'></iframe>
 	<iframe id="iframeWD" style='position: absolute; top: -1000%;'></iframe>
 	<iframe id="iframeFC" style='position: absolute; top: -1000%;'></iframe>
@@ -215,6 +213,11 @@
 			<a target="_blank" class="blue" href="https://fpcentral.tbb.torproject.org/">Fingerprint Central</a></td></tr>
 	</table>
 
+	<div class="hidden"><form><input id="appL1el" required="" type="text"></form></div>
+	<iframe id="iframeDTD1" style='position: absolute; top: -2000%;'></iframe>
+	<iframe id="iframeDTD2" style='position: absolute; top: -2000%;'></iframe>
+	<iframe id="iframeAPPL" style='position: absolute; top: -2000%;'></iframe>
+
 	<!-- TABLE 4: Language & Locale / Time Zone & Date Format / Geolocation - language.js -->
 	<table id="tb4">
 		<col width="37%"><a name="language"></a><col width="63%">
@@ -232,9 +235,13 @@
 		<tr><td>[navigator] languages[0]</td><td class="c" id="nLanguages0"></td></tr>
 		<tr><td>[Intl.PluralRules] locale</td><td class="c" id="localeIPR"></td></tr>
 		<tr><td>[resolvedOptions] locale</td><td class="c" id="localeRO"></td></tr>
-		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
-			<span class="ttxtb">test if the error message<br>uses your application locale</span></div>
-			&nbsp [test] DTD locale</td><td class="c" id="localeDTD"></td></tr>
+		<tr><td colspan="2" class="center">------</td>
+		<tr><td>[dtd] app language <sup>1</sup></td><td class="c" id="appLang2"></td></tr>
+		<tr><td>[dtd nullprinciple] app language <sup>2</sup></td><td class="c" id="appLang3"></td></tr>
+		<tr><td>[dom.properties] app language <sup>3</sup></td><td class="c" id="appLang1"></td></tr>
+		<tr><td>[MediaDocument.properties] app language <sup>3</sup></td><td class="c" id="appLang4"></td></tr>
+		<tr><td>[xmlparser.properties] app language <sup>3</sup></td><td class="c" id="appLang5"></td></tr>
+		<tr><td colspan="2" class="center">------</td>
 		<tr><td>timezone offsets</td><td class="c" id="tzOffsets"></td></tr>
 		<tr><td>[resolvedOptions] timezone</td><td class="c" id="tzRO"></td></tr>
 		<tr><td>system date/time</td><td class="c" id="dateSystem"></td></tr>
@@ -263,11 +270,13 @@
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">permissions.default.geo</span></div>
 			&nbsp [permission] geolocation</td><td class="c" id="pGeolocation"></td></tr>
-		<tr><td colspan="2"><span class="no_color">DTD locale leaks courtesy of Alex Catarineu</span>
-			<a target="_blank" class="blue" href="https://acatarineu.github.io/fp/locale.html">here</a>
+		<tr><td colspan="2"><span class="no_color">app language code based on work by Alex Catarineu </span>
+			<a target="_blank" class="blue" href="https://acatarineu.github.io/fp/locale.html">here</a> <sup>1</sup>
 			<span class="no_color"> and </span>
-			<a target="_blank" class="blue" href="https://acatarineu.github.io/fp/locale_nullprincipal.html">here</a>
-		</td></tr>
+			<a target="_blank" class="blue" href="https://acatarineu.github.io/fp/locale_nullprincipal.html">here</a> <sup>2</sup>
+			<span class="no_color"> and </span>
+			<a target="_blank" class="blue" href="https://trac.torproject.org/projects/tor/ticket/30683">z3t on HackerOne</a> <sup>3</sup>
+			</td></tr>
 	</table>
 
 	<!-- TABLE 5:	 HTTP Headers - headers.js -->
