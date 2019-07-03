@@ -485,51 +485,52 @@
 	<!-- TABLE 10: Fonts - fonts.js -->
 	<iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
 	<table id="tb10">
-		<!-- 9 columns: first 4 = 37%, comnbine cols 5+6 to create columns for unicode glyphs -->
-		<col width="2%"><a name="fonts"></a><col width="14%"><col width="14%"><col width="7%"><col width="7%">
-		<col width="14%"><col width="14%"><col width="14%"><col width="14%">
-		<thead><tr><th colspan="9">
+		<col width="1%"><a name="fonts"></a><col width="36%"><col width="63%">
+		<thead><tr><th colspan="3">
 				<div class="nav-title"><a href="#fonts">Fonts</a>
 				<div class="nav-up"><a href="#domrect">&#9650;</a></div>
 				<div class="nav-down"><a href="#audio">&#9660;</a></div></div>
 		</th></tr></thead>
-		<tr><td colspan="9" class="intro"><span class="no_color">The real world strikes a balance between efficiency vs
+		<tr><td colspan="3" class="intro"><span class="no_color">The real world strikes a balance between efficiency vs
 			entropy [<a target="_blank" class="blue" href="https://valve.github.io/fingerprintjs2/">fingerprintjs2</a> checks 64 fonts by
 			default], but these tests are designed to be comprehensive, not small and fast. As such, some tests are not automatically run.</span>
 		</td></tr>
-		<tr><td colspan="4"><div>
+		<tr><td colspan="2"><div>
 				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c1`, `m`)">[ re-run tests ]</button></div>
-				<div>default proportional font</div></div></td><td class="c1" colspan="5" id="fontFCprop"></td>
+				<div>default proportional font</div></div></td><td class="c1" id="fontFCprop"></td>
 		</tr>
-		<tr><td colspan="4">default font sizes</td><td class="c1" colspan="5" id="fontFCsize"></td></tr>
-		<tr><td colspan="4"><div class="ttip"><span class="icon">[ i ]</span>
+		<tr><td colspan="2">default font sizes</td><td class="c1" id="fontFCsize"></td></tr>
+		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">layout.css.font-loading-api.enabled</span></div>
-			&nbsp css font loading api</td><td class="c1" colspan="5" id="fontCSS"></td></tr>
-		<tr><td colspan="4"><div class="ttip"><span class="icon">[ i ]</span>
+			&nbsp css font loading api</td><td class="c1" id="fontCSS"></td></tr>
+		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">browser.display.use_document_fonts</span></div>
-			&nbsp document fonts</td><td class="c1" colspan="5" id="fontDoc"></td></tr>
-		<tr><td colspan="4"><div class="ttip"><span class="icon">[ i ]</span>
+			&nbsp document fonts</td><td class="c1" id="fontDoc"></td></tr>
+		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">gfx.downloadable_fonts.woff2.enabled</span></div>
-			&nbsp WOFF2</td><td class="c1" colspan="5" id="fontWoff2"></td></tr>
+			&nbsp WOFF2</td><td class="c1" id="fontWoff2"></td></tr>
 		<!--FONT FPs-->
-		<tr><td colspan="9" class="center">------</td></tr>
-		<tr><td colspan="4"><div>
+		<tr><td colspan="3" class="center">------</td></tr>
+		<tr><td colspan="2"><div>
 				<div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`10`, `c2`, `m`)">[ run tests ]</button></div>
-				<div>enumerate fonts <sup>1</sup></div></div></td><td class="c2 mono" colspan="5" id="fontFB"></td>
+				<div>enumerate fonts <sup>1</sup></div></div></td><td class="c2 mono" id="fontFB"></td>
 		</tr>
-		<tr><td colspan="4">js <sup>2</sup></td><td class="c2" colspan="5"></td></tr>
-		<tr><td colspan="4">the other js <sup>3</sup></td><td class="c2 mono" colspan="5"></td></tr>
-		<tr><td colspan="4">unicode glyphs <sup>4</sup></td><td class="c2 mono" colspan="5"></td></tr>
-		<tr><td colspan="4">canvas</td><td class="c2 mono" colspan="5"></td></tr>
-		<tr><td colspan="9" class="showhide">
+		<tr><td colspan="2">js <sup>2</sup></td><td class="c2"></td></tr>
+		<tr><td colspan="2">the other js <sup>3</sup></td><td class="c2 mono"></td></tr>
+		<tr><td colspan="2">unicode glyphs <sup>4</sup></td><td class="c2 mono"id="fontUG"></td></tr>
+		<tr><td colspan="2">canvas</td><td class="c2 mono"></td></tr>
+		<tr><td colspan="3" class="showhide">
 				<input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
 				<label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
 		</td></tr>
-		<tr class="togF"><td></td><td colspan="8" class="sub10">enumerate fonts &nbsp
+		<tr class="togF"><td colspan="2" class="sub10">enumerate fonts</td><td>
 			 <button class="btn0" onClick="copyclip(`fontFBFound`)">[ copy to clipboard ]</button></td></tr>
-		<tr class="togF"><td></td><td colspan="8" class="intro" id="fontFBFound"></td></tr>
-		<tr class="togF"><td colspan="9"></td></tr>
-		<tr><td colspan="9"><span class="no_color">code based on work by </span>
+		<tr class="togF"><td></td><td colspan="2" class="intro" id="fontFBFound"></td></tr>
+		<tr class="togF"><td colspan="2" class="sub10">unicode glyphs</td><td>
+			 <button class="btn0" onClick="copyclip(`fontUGFound`)">[ copy to clipboard ]</button></td></tr>
+		<tr class="togF"><td></td><td colspan="2" style="white-space: pre;" class="mono" id="fontUGFound"></td></tr>
+		<tr class="togF"><td colspan="3"></td></tr>
+		<tr><td colspan="3"><span class="no_color">code based on work by </span>
 			<a target="_blank" class="blue" href="https://github.com/arthuredelstein/tordemos">Arthur Edelstein</a>
 			<sup>1</sup><span class="no_color">, </span>
 			<a target="_blank" class="blue" href="https://github.com/Valve/fingerprintjs2">fingerprintjs2</a>
