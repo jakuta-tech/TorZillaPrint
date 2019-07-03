@@ -92,6 +92,7 @@ function outputFonts2(){
 	/* not auro-run */
 	/* clear detail results with zero-length string */
 	dom.fontFBFound = "";
+	dom.fontUGFound = "";
 
 	/* ARTHUR'S TEST: ENUMERATE FONTS
 		 https://github.com/arthuredelstein/tordemos */
@@ -202,6 +203,29 @@ function outputFonts2(){
 
 	/* FINGERPRINTJS2 https://valve.github.io/fingerprintjs2/ */
 
-	/* FONT GLYPHS Fifield and Egelman (2015) */
+	/* FONT GLYPHS Fifield and Egelman (2015)	https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo*/
+	var ugStr = "";
+	function ugBuild(ugItem){
+		// unicode item
+		ugStr = ugStr + ugItem.padStart(7, ' ');
+		// calculate width/height: pad numbers to 4 digits (1234 x 6789), append to string, pad 4 between w+h
+
+		// add line break
+		ugStr = ugStr + '<br>';
+	};
+
+	setTimeout(function(){
+		var ugArray = ['U+20B9','U+2581','U+20BA','U+A73D','U+FFFD','U+20B8','U+05C6','U+1E9E','U+097F','U+F003',
+			'U+1CDA','U+17DD','U+23AE','U+0D02','U+0B82','U+115A','U+2425','U+302E','U+A830','U+2B06','U+21E4','U+20BD',
+			'U+2C7B','U+20B0','U+FBEE','U+F810','U+FFFF','U+007F','U+10A0','U+1D790','U+0700','U+1950','U+3095','U+532D',
+			'U+061C','U+20E3','U+FFF9','U+0218','U+058F','U+08E4','U+09B3','U+1C50','U+2619'];
+		var ugHeader = "  gylph        default     sans-serif          serif      monospace        cursive        fantasy<br>  -----<br>"
+								+  "example     890 x 1840     890 x 1840     890 x 1840     723 x 1567     890 x 1840     890 x 1840";
+		ugArray.forEach(ugBuild);
+		dom.fontUGFound.innerHTML = ugHeader + `<br>` + ugStr;
+		//dom.fontUG = sha1(ugStr);
+
+	}, 250);
+
 
 };
