@@ -24,6 +24,7 @@
 	<iframe id="iframeWD" style='position: absolute; top: -1000%;'></iframe>
 	<iframe id="iframeFC" style='position: absolute; top: -1000%;'></iframe>
 	<iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
+	<iframe id="iframeFG" style='position: absolute; top: -1000%;'></iframe>
 	<img width=0 height=0 id="elFS"></img>
 
 	<!-- TABLE 1: Screen - screen.js -->
@@ -79,12 +80,12 @@
 		<tr><td>[scrollY] devicePixelRatio <sup>4</sup></td><td class="c" id="devPRscrollY"></td></tr>
 		<tr><td>[clientRect] devicePixelRatio <sup>4</sup></td><td class="c" id="devPRclientRect"></td></tr>
 		<tr><td colspan="2"><span class="no_color">code based on work by </span>
-			<a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/media-query-fingerprint.html">Arthur Edelstein</a>
-			<sup>1</sup><span class="no_color">, </span>
-			<a target="_blank" class="blue" href="https://matt.traudt.xyz/posts/how-css-alone-YF4ciVY6.html">Matt Traudt</a>
-			<sup>2</sup><span class="no_color">, </span>
-			<a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a>
-			<sup>3</sup><span class="no_color"> and </span>
+			<a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/media-query-fingerprint.html">Arthur Edelstein</a> <sup>1</sup>
+			<span class="no_color">, </span>
+			<a target="_blank" class="blue" href="https://matt.traudt.xyz/posts/how-css-alone-YF4ciVY6.html">Matt Traudt</a> <sup>2</sup>
+			<span class="no_color">, </span>
+			<a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a> <sup>3</sup>
+			<span class="no_color"> and </span>
 			<a target="_blank" class="blue" href="https://acatarineu.github.io/fp/devicePixelRatio.html">Alex Catarineu</a> <sup>4</sup>
 		</td></tr>
 	</table>
@@ -170,10 +171,10 @@
 			<tr class="togE"><td>textarea</td><td class="c" id="wid9"></td></tr>
 			<tr class="togE"><td colspan="2"></td></tr>
 		<tr><td colspan="2"><span class="no_color">code based on work by </span>
-			<a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/os-detection-font-css.html">Arthur Edelstein</a>
-			<sup>1</sup><span class="no_color"> , </span>
-			<a target="_blank" class="blue" href="https://www.hackerfactor.com/blog/index.php?/archives/761-Exploiting-the-TOR-Browser.html">Dr. Neal Krawetz</a>
-			<sup>2</sup><span class="no_color"> and </span>
+			<a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/os-detection-font-css.html">Arthur Edelstein</a> <sup>1</sup>
+			<span class="no_color"> , </span>
+			<a target="_blank" class="blue" href="https://www.hackerfactor.com/blog/index.php?/archives/761-Exploiting-the-TOR-Browser.html">Dr. Neal Krawetz</a> <sup>2</sup>
+			<span class="no_color"> and </span>
 			<a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a> <sup>3</sup></td></tr>
 	</table>
 
@@ -506,6 +507,7 @@
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">browser.display.use_document_fonts</span></div>
 			&nbsp document fonts</td><td class="c1" id="fontDoc"></td></tr>
+		<tr><td colspan="2">unicode glyphs <sup>1</sup></td><td class="c1 mono"id="fontUG"></td></tr>
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">gfx.downloadable_fonts.woff2.enabled</span></div>
 			&nbsp WOFF2</td><td class="c1" id="fontWoff2"></td></tr>
@@ -513,11 +515,10 @@
 		<tr><td colspan="3" class="center">------</td></tr>
 		<tr><td colspan="2"><div>
 				<div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`10`, `c2`, `m`)">[ run tests ]</button></div>
-				<div>enumerate fonts <sup>1</sup></div></div></td><td class="c2 mono" id="fontFB"></td>
+				<div>enumerate fonts <sup>2</sup></div></div></td><td class="c2 mono" id="fontFB"></td>
 		</tr>
-		<tr><td colspan="2">js <sup>2</sup></td><td class="c2"></td></tr>
-		<tr><td colspan="2">the other js <sup>3</sup></td><td class="c2 mono"></td></tr>
-		<tr><td colspan="2">unicode glyphs <sup>4</sup></td><td class="c2 mono"id="fontUG"></td></tr>
+		<tr><td colspan="2">js <sup>3</sup></td><td class="c2"></td></tr>
+		<tr><td colspan="2">the other js <sup>4</sup></td><td class="c2 mono"></td></tr>
 		<tr><td colspan="2">canvas</td><td class="c2 mono"></td></tr>
 		<tr><td colspan="3" class="showhide">
 				<input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
@@ -531,13 +532,13 @@
 		<tr class="togF"><td></td><td colspan="2" style="white-space: pre;" class="mono" id="fontUGFound"></td></tr>
 		<tr class="togF"><td colspan="3"></td></tr>
 		<tr><td colspan="3"><span class="no_color">code based on work by </span>
-			<a target="_blank" class="blue" href="https://github.com/arthuredelstein/tordemos">Arthur Edelstein</a>
-			<sup>1</sup><span class="no_color">, </span>
-			<a target="_blank" class="blue" href="https://github.com/Valve/fingerprintjs2">fingerprintjs2</a>
-			<sup>2</sup><span class="no_color">, </span>
-			<a target="_blank" class="blue" href="https://browserleaks.com/fonts">browserleaks</a>
-			<sup>3</sup><span class="no_color"> and </span>
-			<a target="_blank" class="blue" href="https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo">David Fifield & Serge Egelman</a> <sup>4</sup>
+			<a target="_blank" class="blue" href="https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo">David Fifield & Serge Egelman</a> <sup>1</sup>
+			<span class="no_color">, </span>
+			<a target="_blank" class="blue" href="https://github.com/arthuredelstein/tordemos">Arthur Edelstein</a> <sup>2</sup>
+			<span class="no_color">, </span>
+			<a target="_blank" class="blue" href="https://github.com/Valve/fingerprintjs2">fingerprintjs2</a> <sup>3</sup>
+			<span class="no_color"> and </span>
+			<a target="_blank" class="blue" href="https://browserleaks.com/fonts">browserleaks</a> <sup>4</sup>
 		</td></tr>
 	</table>
 
@@ -688,11 +689,10 @@
 	<script src="js/canvas.js"></script>
 	<script src="js/domrect.js"></script>
 	<script src="js/audio.js"></script>
+	<script src="js/fonts.js"></script>
 	<script src="js/media.js"></script>
 	<script src="js/css.js"></script>
 	<script src="js/misc.js"></script>
-	<!-- not autorun-->
-	<script src="js/fonts.js"></script>
 
 </body>
 </html>
