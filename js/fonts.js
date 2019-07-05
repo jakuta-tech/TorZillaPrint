@@ -3,25 +3,31 @@
 'use strict';
 
 /* unicode glyphs stuff */
-var ugArray = ['U+20B9','U+2581','U+20BA','U+A73D','U+FFFD','U+20B8','U+05C6','U+1E9E','U+097F','U+F003',
-	'U+1CDA','U+17DD','U+23AE','U+0D02','U+0B82','U+115A','U+2425','U+302E','U+A830','U+2B06','U+21E4','U+20BD',
-	'U+2C7B','U+20B0','U+FBEE','U+F810','U+FFFF','U+007F','U+10A0','U+1D790','U+0700','U+1950','U+3095','U+532D',
-	'U+061C','U+20E3','U+FFF9','U+0218','U+058F','U+08E4','U+09B3','U+1C50','U+2619'];
-var ugHeader = "  gylph        default     sans-serif          serif      monospace        cursive        fantasy<br>  -----<br>";
+var ugStyles = ["default", "sans-serif", "serif", "monospace", "cursive", "fantasy"];
+var ugCodepoints = ['0x20B9','0x2581','0x20BA','0xA73D','0xFFFD','0x20B8','0x05C6','0x1E9E','0x097F','0xF003',
+	'0x1CDA','0x17DD','0x23AE','0x0D02','0x0B82','0x115A','0x2425','0x302E','0xA830','0x2B06','0x21E4','0x20BD',
+	'0x2C7B','0x20B0','0xFBEE','0xF810','0xFFFF','0x007F','0x10A0','0x1D790','0x0700','0x1950','0x3095','0x532D',
+	'0x061C','0x20E3','0xFFF9','0x0218','0x058F','0x08E4','0x09B3','0x1C50','0x2619'];
+var ugHeader = "  glyph        default     sans-serif          serif      monospace        cursive        fantasy<br>  -----";
 var ugStr = "";
-
 function ugReset(ugItem) {
-	ugStr = ugStr + ugItem.padStart(7, ' ') + '<br>';
-}
-function ugBuild(ugItem){
-	// unicode item
-	ugStr = ugStr + ugItem.padStart(7, ' ');
-	// calculate width/height for each type
-	// pad numbers to 4 digits: e.g 1234 x 5678
-	// pad 4 between each type's "w x h"
-
-	// add line break
-	ugStr = ugStr + "<br>";
+	ugItem = "U+" + ugItem.substr(2);
+	ugStr = ugStr + '<br>' + ugItem.padStart(7, ' ');
+};
+function ugClean() {
+	ugStr = "";	ugCodepoints.forEach(ugReset); dom.fontUGFound.innerHTML = ugHeader + ugStr;
+};
+function stringFromCodePoint(n) {
+	// String.fromCharCode doesn't support code points outside the BMP (it treats them as mod 0x10000)
+  // String.fromCodePoint isn't supported.
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint
+	if (n <= 0xffff) {
+		return String.fromCharCode(n);
+	} else {
+		n -= 0x10000;
+		return String.fromCharCode(0xd800 + (n >> 10), 0xdc00 + (n % 0x400));
+	}
 };
 
 /* arthur's spawn code */
@@ -80,6 +86,38 @@ let spawn = (function () {
 
 function outputFonts1(){
 	/* auto-run */
+	/*** unicode glyphs */
+	/* FONT GLYPHS Fifield and Egelman (2015)	https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo*/
+	// load an iframe, listen for it, reset ugStr, run tests
+	//iframeFG
+	var iframeFG = document.getElementById("iframeFG");
+	iframeFG.src = "iframes/unicodeglyphs.html";
+	iframeFG.addEventListener("load", function(){
+		var ugDiv = iframeFG.contentWindow.document.getElementById("ugDiv");
+		var ugSpan = iframeFG.contentWindow.document.getElementById("ugSpan");
+		var ugSlot = iframeFG.contentWindow.document.getElementById("ugSlot");
+		// run the test
+		ugStr = ""; var iUG = 0; var jUG = 0;	var ugW = ""; var ugH = "";	var ugC = "";
+		for ( ; iUG < ugCodepoints.length; iUG++) {
+			var nUG = ugCodepoints[iUG];
+			var cUG = stringFromCodePoint(nUG);
+			var ugC = "U+" + nUG.substr(2);
+			ugC = ugC.padStart(7, ' ');
+			ugStr = ugStr + "<br>" + ugC;
+			for ( ; jUG < ugStyles.length; jUG++) {
+				var style = ugStyles[jUG];
+				ugSlot.style.fontFamily = style === "default" ? "" : style;
+				ugSlot.textContent = cUG;
+				ugW = ugSpan.offsetWidth; ugW = ugW.toString(); ugW = ugW.padStart(4, ' ');
+				ugH = ugDiv.offsetHeight; ugH = ugH.toString(); ugH = ugH.padStart(4, ' ');
+				ugStr = ugStr + "    " + ugW + " × " + ugH;
+			}
+			jUG = 0; // reset style counter
+		}
+		dom.fontUGFound.innerHTML = ugHeader + ugStr;
+		dom.fontUG = sha1(ugStr);
+	});
+
 	/*** defaults */
 	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
 	var iframeFC = document.getElementById("iframeFC");
@@ -107,18 +145,15 @@ function outputFonts1(){
 
 	/*** layout.css.font-loading-api.enabled */
 	dom.fontCSS = 'FontFace' in window ? 'enabled' : 'disabled';
-
 }
+
 outputFonts1();
 
 function outputFonts2(){
-	/* not auro-run */
+	/* not auto-run */
 
 	/* clear, reset, or change font color to hide results: try not to shrink/grow elements */
 	document.getElementById("fontFBFound").style.color = "#1a1a1a";
-	ugStr = "";
-	ugArray.forEach(ugReset);
-	dom.fontUGFound.innerHTML = ugHeader + ugStr;
 
 	/* ARTHUR'S TEST: ENUMERATE FONTS
 		 https://github.com/arthuredelstein/tordemos */
@@ -229,14 +264,6 @@ function outputFonts2(){
 	});
 
 	/* FINGERPRINTJS2 https://valve.github.io/fingerprintjs2/ */
-
-	/* FONT GLYPHS Fifield and Egelman (2015)	https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo*/
-	ugStr = "";
-	ugArray.forEach(ugBuild);
-	setTimeout(function(){
-		dom.fontUGFound.innerHTML = ugHeader + ugStr;
-		//dom.fontUG = sha1(ugStr);
-	}, 170);
 
 
 };
