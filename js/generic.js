@@ -130,6 +130,8 @@ function outputSection(id, cls, page) {
 	// clear elements, &nbsp stops line height jitter
 	let tbl = document.getElementById("tb"+id);
 	tbl.querySelectorAll(`.${cls}`).forEach(e => {e.innerHTML = "&nbsp";});
+	// reset unicode glyphs without waiting
+	if (id=="10" && cls=="c1") {ugClean()};
 	// delay output so users can see something happened
 	setTimeout(function(){
 		if (page=="m") {
