@@ -87,16 +87,16 @@ let spawn = (function () {
 function outputFonts1(){
 	/* auto-run */
 	/*** unicode glyphs */
-	/* FONT GLYPHS Fifield and Egelman (2015)	https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo*/
-	// load an iframe, listen for it, reset ugStr, run tests
-	//iframeFG
+	/* UNICODE GLYPHS
+		code based on work by David Fifield and Serge Egelman (2015)
+		https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo
+	*/
 	var iframeFG = document.getElementById("iframeFG");
 	iframeFG.src = "iframes/unicodeglyphs.html";
 	iframeFG.addEventListener("load", function(){
 		var ugDiv = iframeFG.contentWindow.document.getElementById("ugDiv");
 		var ugSpan = iframeFG.contentWindow.document.getElementById("ugSpan");
 		var ugSlot = iframeFG.contentWindow.document.getElementById("ugSlot");
-		// run the test
 		ugStr = ""; var iUG = 0; var jUG = 0;	var ugW = ""; var ugH = "";	var ugC = "";
 		for ( ; iUG < ugCodepoints.length; iUG++) {
 			var nUG = ugCodepoints[iUG];
@@ -108,6 +108,8 @@ function outputFonts1(){
 				var style = ugStyles[jUG];
 				ugSlot.style.fontFamily = style === "default" ? "" : style;
 				ugSlot.textContent = cUG;
+				// Read the span width, but the div height. Firefox always reports the same value
+				// for the span's offsetHeight, even if the div around it is changing size
 				ugW = ugSpan.offsetWidth; ugW = ugW.toString(); ugW = ugW.padStart(4, ' ');
 				ugH = ugDiv.offsetHeight; ugH = ugH.toString(); ugH = ugH.padStart(4, ' ');
 				ugStr = ugStr + "    " + ugW + " × " + ugH;
@@ -263,7 +265,6 @@ function outputFonts2(){
 		});
 	});
 
-	/* FINGERPRINTJS2 https://valve.github.io/fingerprintjs2/ */
-
+	/* FINGERPRINTJS2 https://github.com/Valve/fingerprintjs2 */
 
 };
