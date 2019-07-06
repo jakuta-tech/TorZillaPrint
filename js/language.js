@@ -97,8 +97,10 @@ function outputLanguage() {
 		// xmlparser.properties
 		const appL5doc = (new DOMParser).parseFromString('getyourlocale', 'application/xhtml+xml');
 		var str2 = (appL5doc.getElementsByTagName('parsererror')[0].firstChild.textContent);
+		//console.log("str2 before: "+str2);
 		var nb1 = str2.search("http"); if (nb1 == -1) {nb1 = str2.search("file")}
 		var nb2 = str2.search("html") + 4;
+		//console.log("str2 after : " + str2.slice(0,nb1-1) + str2.slice(nb2) );
 		dom.appLang5 = str2.slice(0,nb1-1) + str2.slice(nb2);
 	};
 
