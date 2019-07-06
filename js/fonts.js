@@ -19,7 +19,7 @@ function ugClean() {
 };
 function stringFromCodePoint(n) {
 	// String.fromCharCode doesn't support code points outside the BMP (it treats them as mod 0x10000)
-  // String.fromCodePoint isn't supported.
+	// String.fromCodePoint isn't supported.
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint
 	if (n <= 0xffff) {
