@@ -21,9 +21,12 @@ function outputCookies() {
 	/*** cookie support */
 	if (navigator.cookieEnabled == true) {dom.nCookieEnabled="enabled"} else {dom.nCookieEnabled="disabled"};
 
-	/*** cookie test: run even if cookieEnabled = false */
+	/*** session cookie test: run even if cookieEnabled = false */
 	var rndStrA = rndString(); document.cookie = rndStrA+"="+rndStrA;
 	if (getCookie(rndStrA) != ""){dom.cTest="success"} else {dom.cTest="failed"};
+
+	/*** persistent cookie test: run even if cookieEnabled = false */
+	dom.cTest2.innerHTML=TTC;
 
 	/*** localStorage support */
 	try {
