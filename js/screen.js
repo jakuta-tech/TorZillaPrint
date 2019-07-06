@@ -37,7 +37,9 @@ function getVerNo() {
 	if (!Symbol.hasOwnProperty('matchAll')) {} else { verNo="67" };
 	//68
 	let obj68 = document.getElementById('obj68');
-	if (obj68.typeMustMatch == false) {} else {verNo="68+"}
+	if (obj68.typeMustMatch == false) {} else {verNo="68"}
+	//69
+	if (getComputedStyle(obj68).getPropertyValue("line-height") == "normal") {verNo="69+"};
 	// reminder: append + on last test
 	return verNo;
 };
