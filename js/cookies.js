@@ -23,7 +23,7 @@ function outputCookies() {
 
 	/*** cookie test: run even if cookieEnabled = false */
 	var rndStrA = rndString(); document.cookie = rndStrA+"="+rndStrA;
-	if (getCookie(rndStrA) != ""){dom.cookieTest="success"} else {dom.cookieTest="failed"};
+	if (getCookie(rndStrA) != ""){dom.cTest="success"} else {dom.cTest="failed"};
 
 	/*** localStorage support */
 	try {
