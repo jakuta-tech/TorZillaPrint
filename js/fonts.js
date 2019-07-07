@@ -9,13 +9,14 @@ var ugCodepoints = ['0x20B9','0x2581','0x20BA','0xA73D','0xFFFD','0x20B8','0x05C
 	'0x2C7B','0x20B0','0xFBEE','0xF810','0xFFFF','0x007F','0x10A0','0x1D790','0x0700','0x1950','0x3095','0x532D',
 	'0x061C','0x20E3','0xFFF9','0x0218','0x058F','0x08E4','0x09B3','0x1C50','0x2619'];
 var ugHeader = "  glyph        default     sans-serif          serif      monospace        cursive        fantasy<br>  -----";
-var ugStr = "";
+var ugStr1 = ""; var ugStr2 = "";
 function ugReset(ugItem) {
 	ugItem = "U+" + ugItem.substr(2);
-	ugStr = ugStr + '<br>' + ugItem.padStart(7, ' ');
+	ugStr1 = ugStr1 + '<br>' + ugItem.padStart(7, ' ');
 };
 function ugClean() {
-	ugStr = "";	ugCodepoints.forEach(ugReset); dom.fontUGFound.innerHTML = ugHeader + ugStr;
+	ugStr1 = ""; ugCodepoints.forEach(ugReset);
+	dom.fontUGFound1.innerHTML = ugHeader + ugStr1;
 };
 function stringFromCodePoint(n) {
 	// String.fromCharCode doesn't support code points outside the BMP (it treats them as mod 0x10000)
@@ -97,27 +98,45 @@ function outputFonts1(){
 		var ugDiv = iframeFG.contentWindow.document.getElementById("ugDiv");
 		var ugSpan = iframeFG.contentWindow.document.getElementById("ugSpan");
 		var ugSlot = iframeFG.contentWindow.document.getElementById("ugSlot");
-		ugStr = ""; var iUG = 0; var jUG = 0;	var ugW = ""; var ugH = "";	var ugC = "";
+		ugStr1 = ""; ugStr2 = ""; var iUG = 0; var jUG = 0;	var ugW = ""; var ugH = "";	var ugC = "";
+		// keep hash strings separate from formatted output
+		var ugHash1 = ""; var ugHash2 = "";
 		for ( ; iUG < ugCodepoints.length; iUG++) {
 			var nUG = ugCodepoints[iUG];
 			var cUG = stringFromCodePoint(nUG);
 			var ugC = "U+" + nUG.substr(2);
+			ugHash1 = ugHash1 + "-" + ugC;
+			ugHash2 = ugHash2 + "-" + ugC;
 			ugC = ugC.padStart(7, ' ');
-			ugStr = ugStr + "<br>" + ugC;
+			ugStr1 = ugStr1 + "<br>" + ugC;
+			ugStr2 = ugStr2 + "<br>" + ugC;
 			for ( ; jUG < ugStyles.length; jUG++) {
+				// Read the span width, but the div height. Firefox always reports the same value
+				// for the span's offsetHeight, even if the div around it is changing size
 				var style = ugStyles[jUG];
 				ugSlot.style.fontFamily = style === "default" ? "" : style;
 				ugSlot.textContent = cUG;
-				// Read the span width, but the div height. Firefox always reports the same value
-				// for the span's offsetHeight, even if the div around it is changing size
-				ugW = ugSpan.offsetWidth; ugW = ugW.toString(); ugW = ugW.padStart(4, ' ');
-				ugH = ugDiv.offsetHeight; ugH = ugH.toString(); ugH = ugH.padStart(4, ' ');
-				ugStr = ugStr + "    " + ugW + " × " + ugH;
+				// offset measurement + concatenate hash string
+				ugW = ugSpan.offsetWidth; ugH = ugDiv.offsetHeight;
+				ugHash1 = ugHash1 + "-"+ugW+"-"+ugH+"-";
+				// offset output
+				ugW = ugW.toString(); ugW = ugW.padStart(4, ' ');
+				ugH = ugH.toString(); ugH = ugH.padStart(4, ' ');
+				ugStr1 = ugStr1 + "    " + ugW + " × " + ugH;
+				// clientrect measurement + concatenate hash string
+				var drDiv = ugDiv.getBoundingClientRect();
+				var drSpan = ugSpan.getBoundingClientRect();
+				ugW = drSpan.width;	ugH = drDiv.height;
+				ugHash2 = ugHash2 + "-"+ugW+"-"+ugH+"-";
+				// clientrect output
+				// need to decide on this: it's rather wide
 			}
 			jUG = 0; // reset style counter
 		}
-		dom.fontUGFound.innerHTML = ugHeader + ugStr;
-		dom.fontUG = sha1(ugStr);
+		dom.fontUGFound1.innerHTML = ugHeader + ugStr1;
+		dom.fontUG1 = sha1(ugHash1);
+		//dom.fontUGFound2.innerHTML = ugHeader + ugStr2;
+		dom.fontUG2 = sha1(ugHash2);
 	});
 
 	/*** defaults */
