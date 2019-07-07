@@ -508,7 +508,8 @@
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">browser.display.use_document_fonts</span></div>
 			&nbsp document fonts</td><td class="c1" id="fontDoc"></td></tr>
-		<tr><td colspan="2">unicode glyphs <sup>1</sup></td><td class="c1 mono"id="fontUG"></td></tr>
+		<tr><td colspan="2">[offset] unicode glyphs <sup>1</sup></td><td class="c1 mono"id="fontUG1"></td></tr>
+		<tr><td colspan="2">[clientrect] unicode glyphs <sup>1</sup></td><td class="c1 mono"id="fontUG2"></td></tr>
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">gfx.downloadable_fonts.woff2.enabled</span></div>
 			&nbsp WOFF2</td><td class="c1" id="fontWoff2"></td></tr>
@@ -528,9 +529,15 @@
 		<tr class="togF"><td colspan="2" class="sub10">enumerate fonts</td><td>
 			 <button class="btn0" onClick="copyclip(`fontFBFound`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" class="intro" id="fontFBFound"></td></tr>
-		<tr class="togF"><td colspan="2" class="sub10">unicode glyphs</td><td>
-			 <button class="btn0" onClick="copyclip(`fontUGFound`)">[ copy to clipboard ]</button></td></tr>
-		<tr class="togF"><td></td><td colspan="2" style="white-space: pre;" class="mono" id="fontUGFound"></td></tr>
+		<tr class="togF"><td colspan="2" class="sub10">[offset] unicode glyphs</td><td>
+			 <button class="btn0" onClick="copyclip(`fontUGFound1`)">[ copy to clipboard ]</button></td></tr>
+		<tr class="togF"><td></td><td colspan="2" style="white-space: pre;" class="mono" id="fontUGFound1"></td></tr>
+		<!--
+		need to work out if I want to format and output this here, or link to a clean page
+		<tr class="togF"><td colspan="2" class="sub10">[clientrect] unicode glyphs</td><td>
+			 <button class="btn0" onClick="copyclip(`fontUGFound2`)">[ copy to clipboard ]</button></td></tr>
+		<tr class="togF"><td></td><td colspan="2" style="white-space: pre;" class="mono" id="fontUGFound2"></td></tr>
+		-->
 		<tr class="togF"><td colspan="3"></td></tr>
 		<tr><td colspan="3"><span class="no_color">code based on work by </span>
 			<a target="_blank" class="blue" href="https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo">David Fifield & Serge Egelman</a> <sup>1</sup>
