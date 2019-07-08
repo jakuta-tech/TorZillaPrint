@@ -131,7 +131,7 @@ function outputSection(id, cls, page) {
 	let tbl = document.getElementById("tb"+id);
 	tbl.querySelectorAll(`.${cls}`).forEach(e => {e.innerHTML = "&nbsp";});
 	// reset unicode glyphs without waiting
-	if (id=="10" && cls=="c1") {ugClean()};
+	if (id=="10" && cls=="c1") {reset_unicode()};
 	// delay output so users can see something happened
 	setTimeout(function(){
 		if (page=="m") {
