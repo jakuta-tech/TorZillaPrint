@@ -25,8 +25,8 @@ function stringFromCodePoint(n) {
 
 function reset_unicode() {
 	// resets the display with no measurements
-	let str = "", i = 0;
-	for ( ; i < ugCodepoints.length; i++) {
+	let str = "";
+	for (let i = 0 ; i < ugCodepoints.length; i++) {
 		let ugCode = "U+" + ugCodepoints[i].substr(2);
 		str = str + '<br>' + ugCode.padStart(7, ' ');
 	};
@@ -49,8 +49,6 @@ function output_unicode() {
 		let ugDiv = frame.contentWindow.document.getElementById("ugDiv"),
 			ugSpan = frame.contentWindow.document.getElementById("ugSpan"),
 			ugSlot = frame.contentWindow.document.getElementById("ugSlot"),
-			i = 0, // unicode
-			j = 0, // styles
 			ugWide = "",
 			ugHigh = "",
 			ugCode = "",
@@ -60,7 +58,7 @@ function output_unicode() {
 			ugOutputClientRect = "";
 
 		// cycle each unicode (i)
-		for ( ; i < ugCodepoints.length; i++) {
+		for (let i = 0 ; i < ugCodepoints.length; i++) {
 			let n = ugCodepoints[i]; // codepoint
 			let c = stringFromCodePoint(n); // character
 
@@ -73,7 +71,7 @@ function output_unicode() {
 			ugOutputClientRect = ugOutputClientRect + "<br>" + ugCode;
 
 			// cycle each style (j)
-			for ( ; j < ugStyles.length; j++) {
+			for (let j = 0 ; j < ugStyles.length; j++) {
 				let style = ugStyles[j];
 				ugSlot.style.fontFamily = style === "default" ? "" : style;
 				ugSlot.textContent = c;
@@ -99,7 +97,6 @@ function output_unicode() {
 				// ugOutputClientRect = ugOutputClientRect + " " + ugWide + " × " + ugHigh + " | ";
 
 			}
-			j = 0; // reset style
 		}
 
 		// output results
