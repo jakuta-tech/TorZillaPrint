@@ -5,7 +5,7 @@
 function outputDevices() {
 
 	/*** navigator */
-	var tmpD = navigator.hardwareConcurrency;
+	let tmpD = navigator.hardwareConcurrency;
 	if (tmpD == "2") {tmpD = tmpD + RFPy} else {tmpD = tmpD + RFPn}
 	dom.nHardwareConcurrency.innerHTML = tmpD;
 	tmpD = navigator.maxTouchPoints;
@@ -39,7 +39,7 @@ function outputDevices() {
 		dom.speechEngines.innerHTML=TTC;
 	}
 	else {
-		dom.speechSynth="disabled";	dom.speechEngines="n/a";
+		dom.speechSynth="disabled"; dom.speechEngines="n/a";
 	};
 
 	/*** VR (dom.vr.enabled) */
