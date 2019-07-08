@@ -9,15 +9,16 @@ var ugCodepoints = ['0x20B9','0x2581','0x20BA','0xA73D','0xFFFD','0x20B8','0x05C
 	'0x2C7B','0x20B0','0xFBEE','0xF810','0xFFFF','0x007F','0x10A0','0x1D790','0x0700','0x1950','0x3095','0x532D',
 	'0x061C','0x20E3','0xFFF9','0x0218','0x058F','0x08E4','0x09B3','0x1C50','0x2619'];
 var ugHeader = "  glyph        default     sans-serif          serif      monospace        cursive        fantasy<br>  -----";
-var ugStr1 = ""; var ugStr2 = "";
-function ugReset(ugItem) {
-	ugItem = "U+" + ugItem.substr(2);
-	ugStr1 = ugStr1 + '<br>' + ugItem.padStart(7, ' ');
-};
+
 function ugClean() {
-	ugStr1 = ""; ugCodepoints.forEach(ugReset);
-	dom.fontUGFound1.innerHTML = ugHeader + ugStr1;
+	let str = "", i = 0;
+	for ( ; i < ugCodepoints.length; i++) {
+		let ugCode = "U+" + ugCodepoints[i].substr(2);
+		str = str + '<br>' + ugCode.padStart(7, ' ');
+	};
+	dom.fontUGFound1.innerHTML = ugHeader + str;
 };
+
 function stringFromCodePoint(n) {
 	// String.fromCharCode doesn't support code points outside the BMP (it treats them as mod 0x10000)
 	// String.fromCodePoint isn't supported.
@@ -29,6 +30,84 @@ function stringFromCodePoint(n) {
 		n -= 0x10000;
 		return String.fromCharCode(0xd800 + (n >> 10), 0xdc00 + (n % 0x400));
 	}
+};
+
+function output_unicode() {
+	/* UNICODE GLYPHS
+	code based on work by David Fifield and Serge Egelman (2015)
+	https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo
+	*/
+	// reset the display
+	ugClean();
+
+	// load iframe
+	let frame = document.getElementById("iframeFG");
+	frame.src = "iframes/unicodeglyphs.html";
+	frame.addEventListener("load", function(){
+
+		// initiate variables
+		let ugDiv = frame.contentWindow.document.getElementById("ugDiv"),
+			ugSpan = frame.contentWindow.document.getElementById("ugSpan"),
+			ugSlot = frame.contentWindow.document.getElementById("ugSlot"),
+			i = 0, // unicode
+			j = 0, // styles
+			ugWide = "",
+			ugHigh = "",
+			ugCode = "",
+			ugHashOffset = "", // the string we hash
+			ugHashClientRect = "",
+			ugOutputOffset = "", // the string we display
+			ugOutputClientRect = "";
+
+		// cycle each unicode (i)
+		for ( ; i < ugCodepoints.length; i++) {
+			let n = ugCodepoints[i]; // codepoint
+			let c = stringFromCodePoint(n); // character
+
+			// add unicode to outputs: e.g U+20B9
+			let ugCode = "U+" + n.substr(2);
+			ugHashOffset = ugHashOffset + "-" + ugCode;
+			ugHashClientRect = ugHashClientRect + "-" + ugCode;
+			ugCode = ugCode.padStart(7, ' ');
+			ugOutputOffset = ugOutputOffset + "<br>" + ugCode;
+			ugOutputClientRect = ugOutputClientRect + "<br>" + ugCode;
+
+			// cycle each style (j)
+			for ( ; j < ugStyles.length; j++) {
+				let style = ugStyles[j];
+				ugSlot.style.fontFamily = style === "default" ? "" : style;
+				ugSlot.textContent = c;
+
+				// Read the span width, but the div height. Firefox always reports the same value
+				// for the span's offsetHeight, even if the div around it is changing size
+
+				// offset measurement + concatenate hash string
+				ugWide = ugSpan.offsetWidth; ugHigh = ugDiv.offsetHeight;
+				ugHashOffset = ugHashOffset + "-"+ugWide+"-"+ugHigh+"-";
+				// offset output
+				ugWide = ugWide.toString(); ugWide = ugWide.padStart(4, ' ');
+				ugHigh = ugHigh.toString(); ugHigh = ugHigh.padStart(4, ' ');
+				ugOutputOffset = ugOutputOffset + "    " + ugWide + " × " + ugHigh;
+
+				// clientrect measurement + concatenate hash string
+				let elementDiv = ugDiv.getBoundingClientRect();
+				let elementSpan = ugSpan.getBoundingClientRect();
+				ugWide = elementSpan.width;
+				ugHigh = elementDiv.height;
+				ugHashClientRect = ugHashClientRect + "-"+ugWide+"-"+ugHigh+"-";
+				// clientrect output
+				// ugOutputClientRect = ugOutputClientRect + " " + ugWide + " × " + ugHigh + " | ";
+
+			}
+			j = 0; // reset style
+		}
+
+		// output results
+		dom.fontUGFound1.innerHTML = ugHeader + ugOutputOffset;
+		dom.fontUG1 = sha1(ugHashOffset);
+		//dom.fontUGFound2.innerHTML = ugHeader + ugOutputClientRect;
+		dom.fontUG2 = sha1(ugHashClientRect);
+	});
 };
 
 /* arthur's spawn code */
@@ -85,104 +164,19 @@ let spawn = (function () {
 	return generatorFunction => promiseFromGenerator(generatorFunction());
 })();
 
-function outputFonts1(){
-	/* auto-run */
-	/*** unicode glyphs */
-	/* UNICODE GLYPHS
-		code based on work by David Fifield and Serge Egelman (2015)
-		https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo
+function output_enumerate(){
+	/* ARTHUR'S TEST: ENUMERATE FONTS
+	https://github.com/arthuredelstein/tordemos
 	*/
-	var iframeFG = document.getElementById("iframeFG");
-	iframeFG.src = "iframes/unicodeglyphs.html";
-	iframeFG.addEventListener("load", function(){
-		var ugDiv = iframeFG.contentWindow.document.getElementById("ugDiv");
-		var ugSpan = iframeFG.contentWindow.document.getElementById("ugSpan");
-		var ugSlot = iframeFG.contentWindow.document.getElementById("ugSlot");
-		ugStr1 = ""; ugStr2 = ""; var iUG = 0; var jUG = 0;	var ugW = ""; var ugH = "";	var ugC = "";
-		// keep hash strings separate from formatted output
-		var ugHash1 = ""; var ugHash2 = "";
-		for ( ; iUG < ugCodepoints.length; iUG++) {
-			var nUG = ugCodepoints[iUG];
-			var cUG = stringFromCodePoint(nUG);
-			var ugC = "U+" + nUG.substr(2);
-			ugHash1 = ugHash1 + "-" + ugC;
-			ugHash2 = ugHash2 + "-" + ugC;
-			ugC = ugC.padStart(7, ' ');
-			ugStr1 = ugStr1 + "<br>" + ugC;
-			ugStr2 = ugStr2 + "<br>" + ugC;
-			for ( ; jUG < ugStyles.length; jUG++) {
-				// Read the span width, but the div height. Firefox always reports the same value
-				// for the span's offsetHeight, even if the div around it is changing size
-				var style = ugStyles[jUG];
-				ugSlot.style.fontFamily = style === "default" ? "" : style;
-				ugSlot.textContent = cUG;
-				// offset measurement + concatenate hash string
-				ugW = ugSpan.offsetWidth; ugH = ugDiv.offsetHeight;
-				ugHash1 = ugHash1 + "-"+ugW+"-"+ugH+"-";
-				// offset output
-				ugW = ugW.toString(); ugW = ugW.padStart(4, ' ');
-				ugH = ugH.toString(); ugH = ugH.padStart(4, ' ');
-				ugStr1 = ugStr1 + "    " + ugW + " × " + ugH;
-				// clientrect measurement + concatenate hash string
-				var drDiv = ugDiv.getBoundingClientRect();
-				var drSpan = ugSpan.getBoundingClientRect();
-				ugW = drSpan.width;	ugH = drDiv.height;
-				ugHash2 = ugHash2 + "-"+ugW+"-"+ugH+"-";
-				// clientrect output
-				// need to decide on this: it's rather wide
-			}
-			jUG = 0; // reset style counter
-		}
-		dom.fontUGFound1.innerHTML = ugHeader + ugStr1;
-		dom.fontUG1 = sha1(ugHash1);
-		//dom.fontUGFound2.innerHTML = ugHeader + ugStr2;
-		dom.fontUG2 = sha1(ugHash2);
-	});
-
-	/*** defaults */
-	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
-	var iframeFC = document.getElementById("iframeFC");
-	iframeFC.src = "iframes/fontcheck.html";
-	iframeFC.addEventListener("load", function(){
-		var dfItem = iframeFC.contentWindow.document.getElementById("df1");
-		var dfProp = "serif/sans-serif: " + getComputedStyle(dfItem).getPropertyValue("font-size");
-		dfItem = iframeFC.contentWindow.document.getElementById("df3");
-		dfProp = dfProp + " | monospace: " + getComputedStyle(dfItem).getPropertyValue("font-size");
-		dom.fontFCsize = dfProp;
-
-		/*** gfx.downloadable_fonts.woff2.enabled */
-		setTimeout(function(){
-			dfItem = iframeFC.contentWindow.document.getElementById("fnt0");
-			dfProp = dfItem.offsetWidth;
-			dfItem = iframeFC.contentWindow.document.getElementById("fnt1");
-			if (dfProp == dfItem.offsetWidth) {dom.fontWoff2="disabled [or blocked]"} else {dom.fontWoff2="enabled"};
-		}, 400);
-	});
-
-	/*** document fonts	*/
-	var myLHElem = document.getElementById("testLH");
-	var myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
-	if (myLHFont.slice(1,16) !== "Times New Roman") {dom.fontDoc="disabled"} else {dom.fontDoc="enabled"};
-
-	/*** layout.css.font-loading-api.enabled */
-	dom.fontCSS = 'FontFace' in window ? 'enabled' : 'disabled';
-}
-
-outputFonts1();
-
-function outputFonts2(){
-	/* not auto-run */
 
 	/* clear, reset, or change font color to hide results: try not to shrink/grow elements */
 	document.getElementById("fontFBFound").style.color = "#1a1a1a";
 
-	/* ARTHUR'S TEST: ENUMERATE FONTS
-		 https://github.com/arthuredelstein/tordemos */
-	var iframeFF = document.getElementById("iframeFF");
-	iframeFF.src = "iframes/fontfallback.html";
-	iframeFF.addEventListener("load", function(){
+	let frame = document.getElementById("iframeFF");
+	frame.src = "iframes/fontfallback.html";
+	frame.addEventListener("load", function(){
 		dom.fontFB = "test is running... please wait";
-		var fontFBTest = iframeFF.contentWindow.document.getElementById("fontFBTest");
+		let fontFBTest = frame.contentWindow.document.getElementById("fontFBTest");
 		fontFBTest.style.fontSize = "256px";
 		// return width of the element with a given fontFamily
 		let measureWidthForFont = function (fontFamily) {
@@ -201,7 +195,7 @@ function outputFonts2(){
 			return width0 !== width1;
 		};
 		// Takes a list of possible fonts, and returns fonts present
-		var fontfbYes = 0; var fontfbAll = 0;
+		let fontfbYes = 0, fontfbAll = 0;
 		let enumerateFonts = function (possibleFonts) {
 			let fontsPresent = [];
 			for (let font of possibleFonts) {
@@ -254,36 +248,62 @@ function outputFonts2(){
 			let fontList = yield retrieveFontList();
 			// make sure list/fallback font are loaded
 			setTimeout(function(){
-				var [fontsPresent] = enumerateFonts(fontList);
-				var strFontFB = htmlFontList(fontsPresent);
+				let [fontsPresent] = enumerateFonts(fontList);
+				let strFontFB = htmlFontList(fontsPresent);
 				// if we have detected at least one font, remove trailing comma and space
 				if (fontfbYes > 0) {
 					strFontFB = strFontFB.slice(0, -2);
 					dom.fontFBFound.innerHTML = strFontFB; }
 				else { dom.fontFBFound.innerHTML = "no fonts detected"};
-				var fontFBhash = sha1(strFontFB);
-				// TB windows FP
-				var fntTB = "";
-				if (fontFBhash == "1389aaf4c97027b8157c5fb9ef5ed6f141a6b8a1" | fontFBhash == "77ee9c373e698fe9c8b381446a380389914ff294") {
-					fntTB = "[Win10 64bit]"}
-				else if (fontFBhash == "ad4ccd607603041d3e89aa8e03e2e203fc184653" | fontFBhash == "63b78ed9fe8ba9a932a2adfc924c2e2d49d04fce") {
-					fntTB = "[Win7 64bit]"}
-				else if (fontFBhash == "bcba63ce9e2983dd1b97cf221fc8f860a1a7617f" | fontFBhash == "9e5d39b4542cd5e2a19f73b8fa566e679fa561e5") {
-					fntTB = "[Win7 32bit]"};
-				if (fntTB !== "") {fntTB="<span class='bad'>"+fntTB+"</span>"};
-				// TB other FP
-				if (fontFBhash == "09a4ee037c9082b9b8f0b7ae981c656d517faffa") {fntTB="[Linux]"}
-				else if (fontFBhash == "4094aedc000205c711385fad32827e60462976dc") {fntTB="[Mac]"};
-				if (fntTB !== "") {fntTB=fntTB+TBy};
 				// output and reset color
-				dom.fontFB.innerHTML = fontFBhash + " ["+fontfbYes+"/"+fontfbAll+"]"+" "+fntTB;
+				dom.fontFB = sha1(strFontFB) + " ["+fontfbYes+"/"+fontfbAll+"]";
 				document.getElementById("fontFBFound").style.color = "#b3b3b3";
 				// finally, retitle the button */
 				dom.fontRun = "[ re-run tests ]";
 			}, 1000);
 		});
 	});
+};
 
-	/* FINGERPRINTJS2 https://github.com/Valve/fingerprintjs2 */
+function outputFonts1(){
+	/* auto-run */
+
+	/*** unicode glyphs */
+	output_unicode();
+
+	/*** defaults */
+	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
+	let iframeFC = document.getElementById("iframeFC");
+	iframeFC.src = "iframes/fontcheck.html";
+	iframeFC.addEventListener("load", function(){
+		let dfItem = iframeFC.contentWindow.document.getElementById("df1");
+		let dfProp = "serif/sans-serif: " + getComputedStyle(dfItem).getPropertyValue("font-size");
+		dfItem = iframeFC.contentWindow.document.getElementById("df3");
+		dfProp = dfProp + " | monospace: " + getComputedStyle(dfItem).getPropertyValue("font-size");
+		dom.fontFCsize = dfProp;
+
+		/*** gfx.downloadable_fonts.woff2.enabled */
+		setTimeout(function(){
+			dfItem = iframeFC.contentWindow.document.getElementById("fnt0");
+			dfProp = dfItem.offsetWidth;
+			dfItem = iframeFC.contentWindow.document.getElementById("fnt1");
+			if (dfProp == dfItem.offsetWidth) {dom.fontWoff2="disabled [or blocked]"} else {dom.fontWoff2="enabled"};
+		}, 400);
+	});
+
+	/*** document fonts	*/
+	let myLHElem = document.getElementById("testLH");
+	let myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
+	if (myLHFont.slice(1,16) !== "Times New Roman") {dom.fontDoc="disabled"} else {dom.fontDoc="enabled"};
+
+	/*** layout.css.font-loading-api.enabled */
+	dom.fontCSS = 'FontFace' in window ? 'enabled' : 'disabled';
+}
+
+outputFonts1();
+
+function outputFonts2(){
+	/* not auto-run */
+	output_enumerate();
 
 };
