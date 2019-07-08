@@ -2,22 +2,13 @@
 
 'use strict';
 
-/* unicode glyphs stuff */
+/* unicode glyph globals */
 var ugStyles = ["default", "sans-serif", "serif", "monospace", "cursive", "fantasy"];
 var ugCodepoints = ['0x20B9','0x2581','0x20BA','0xA73D','0xFFFD','0x20B8','0x05C6','0x1E9E','0x097F','0xF003',
 	'0x1CDA','0x17DD','0x23AE','0x0D02','0x0B82','0x115A','0x2425','0x302E','0xA830','0x2B06','0x21E4','0x20BD',
 	'0x2C7B','0x20B0','0xFBEE','0xF810','0xFFFF','0x007F','0x10A0','0x1D790','0x0700','0x1950','0x3095','0x532D',
 	'0x061C','0x20E3','0xFFF9','0x0218','0x058F','0x08E4','0x09B3','0x1C50','0x2619'];
 var ugHeader = "  glyph        default     sans-serif          serif      monospace        cursive        fantasy<br>  -----";
-
-function ugClean() {
-	let str = "", i = 0;
-	for ( ; i < ugCodepoints.length; i++) {
-		let ugCode = "U+" + ugCodepoints[i].substr(2);
-		str = str + '<br>' + ugCode.padStart(7, ' ');
-	};
-	dom.fontUGFound1.innerHTML = ugHeader + str;
-};
 
 function stringFromCodePoint(n) {
 	// String.fromCharCode doesn't support code points outside the BMP (it treats them as mod 0x10000)
@@ -32,15 +23,24 @@ function stringFromCodePoint(n) {
 	}
 };
 
+function reset_unicode() {
+	// resets the display with no measurements
+	let str = "", i = 0;
+	for ( ; i < ugCodepoints.length; i++) {
+		let ugCode = "U+" + ugCodepoints[i].substr(2);
+		str = str + '<br>' + ugCode.padStart(7, ' ');
+	};
+	dom.fontUGFound1.innerHTML = ugHeader + str;
+};
+
 function output_unicode() {
 	/* UNICODE GLYPHS
 	code based on work by David Fifield and Serge Egelman (2015)
 	https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo
 	*/
-	// reset the display
-	ugClean();
 
-	// load iframe
+	// reset display & load iframe
+	reset_unicode();
 	let frame = document.getElementById("iframeFG");
 	frame.src = "iframes/unicodeglyphs.html";
 	frame.addEventListener("load", function(){
@@ -105,7 +105,6 @@ function output_unicode() {
 		// output results
 		dom.fontUGFound1.innerHTML = ugHeader + ugOutputOffset;
 		dom.fontUG1 = sha1(ugHashOffset);
-		//dom.fontUGFound2.innerHTML = ugHeader + ugOutputClientRect;
 		dom.fontUG2 = sha1(ugHashClientRect);
 	});
 };
@@ -169,7 +168,7 @@ function output_enumerate(){
 	https://github.com/arthuredelstein/tordemos
 	*/
 
-	/* clear, reset, or change font color to hide results: try not to shrink/grow elements */
+	/* change font color to hide results: try not to shrink/grow elements */
 	document.getElementById("fontFBFound").style.color = "#1a1a1a";
 
 	let frame = document.getElementById("iframeFF");
@@ -267,8 +266,6 @@ function output_enumerate(){
 
 function outputFonts1(){
 	/* auto-run */
-
-	/*** unicode glyphs */
 	output_unicode();
 
 	/*** defaults */
@@ -298,12 +295,11 @@ function outputFonts1(){
 
 	/*** layout.css.font-loading-api.enabled */
 	dom.fontCSS = 'FontFace' in window ? 'enabled' : 'disabled';
-}
+};
 
 outputFonts1();
 
 function outputFonts2(){
 	/* not auto-run */
 	output_enumerate();
-
 };
