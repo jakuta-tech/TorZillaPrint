@@ -165,22 +165,28 @@ function output_enumerate(){
 	https://github.com/arthuredelstein/tordemos
 	*/
 
-	/* change font color to hide results: try not to shrink/grow elements */
+	// change font color to hide results: try not to shrink/grow elements
 	document.getElementById("fontFBFound").style.color = "#1a1a1a";
 
+	// load iframe
 	let frame = document.getElementById("iframeFF");
 	frame.src = "iframes/fontfallback.html";
 	frame.addEventListener("load", function(){
+
+		// initialize test
 		dom.fontFB = "test is running... please wait";
 		let fontFBTest = frame.contentWindow.document.getElementById("fontFBTest");
 		fontFBTest.style.fontSize = "256px";
+
 		// return width of the element with a given fontFamily
 		let measureWidthForFont = function (fontFamily) {
 			fontFBTest.style.fontFamily = fontFamily;
 			return fontFBTest.offsetWidth;
 		};
+
 		// standard width for the text string with fallback font
 		let width0 = null;
+
 		// determines whether a code point is available
 		let isFontPresent = function (fontName) {
 			// Measure the font width twice: once with serif as fallback and once with sans-serif
@@ -190,6 +196,7 @@ function output_enumerate(){
 			let width1 = measureWidthForFont("'" + fontName + "', fontFallback");
 			return width0 !== width1;
 		};
+
 		// Takes a list of possible fonts, and returns fonts present
 		let fontfbYes = 0, fontfbAll = 0;
 		let enumerateFonts = function (possibleFonts) {
@@ -200,12 +207,14 @@ function output_enumerate(){
 			}
 			return [fontsPresent];
 		};
+
 		// return a list
 		let htmlFontList = function (fonts) {
 			let list = "";
 			for (let font of fonts) {list += font + ", ";}
 			return list;
 		};
+
 		// read a text file and returns a promise resolving to the contents.
 		let readTextFile = function (filename) {
 			return new Promise(function (resolve) {
@@ -218,6 +227,7 @@ function output_enumerate(){
 				xhr.send();
 			});
 		};
+
 		// retrieves a set of code points that are representative
 		// of the various unicode blocks.xf
 		let retrieveCodePoints = function* () {
@@ -231,31 +241,38 @@ function output_enumerate(){
 			codePoints[0] = 77;
 			return codePoints;
 		};
+
 		// return promise resolving to an array of fonts from a predefined list
 		let retrieveFontList = function* () {
 			let text = yield readTextFile("txt/fontFallbackList.txt");
 			return text.split("\n").filter(s => s.length > 0);
 		};
+
 		// run the test
 		spawn(function* () {
 			let codePoints = yield retrieveCodePoints();
 			let testString = codePoints.map(x => String.fromCodePoint(x)).join("</span>\n<span>");
 			fontFBTest.innerHTML = testString;
 			let fontList = yield retrieveFontList();
+
 			// make sure list/fallback font are loaded
 			setTimeout(function(){
 				let [fontsPresent] = enumerateFonts(fontList);
 				let strFontFB = htmlFontList(fontsPresent);
+
 				// if we have detected at least one font, remove trailing comma and space
 				if (fontfbYes > 0) {
 					strFontFB = strFontFB.slice(0, -2);
 					dom.fontFBFound.innerHTML = strFontFB; }
 				else { dom.fontFBFound.innerHTML = "no fonts detected"};
+
 				// output and reset color
 				dom.fontFB = sha1(strFontFB) + " ["+fontfbYes+"/"+fontfbAll+"]";
 				document.getElementById("fontFBFound").style.color = "#b3b3b3";
-				// finally, retitle the button */
+
+				// re-title the button */
 				dom.fontRun = "[ re-run tests ]";
+
 			}, 1000);
 		});
 	});
@@ -265,32 +282,36 @@ function outputFonts1(){
 	/* auto-run */
 	output_unicode();
 
-	/*** defaults */
+	// default proportional font
 	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
-	let iframeFC = document.getElementById("iframeFC");
-	iframeFC.src = "iframes/fontcheck.html";
-	iframeFC.addEventListener("load", function(){
-		let dfItem = iframeFC.contentWindow.document.getElementById("df1");
-		let dfProp = "serif/sans-serif: " + getComputedStyle(dfItem).getPropertyValue("font-size");
-		dfItem = iframeFC.contentWindow.document.getElementById("df3");
-		dfProp = dfProp + " | monospace: " + getComputedStyle(dfItem).getPropertyValue("font-size");
-		dom.fontFCsize = dfProp;
+	
+	// load iframe
+	let frame = document.getElementById("iframeFC");
+	frame.src = "iframes/fontcheck.html";
+	frame.addEventListener("load", function(){
 
-		/*** gfx.downloadable_fonts.woff2.enabled */
+		// default font sizes
+		let item = frame.contentWindow.document.getElementById("df1");
+		let properties = "serif/sans-serif: " + getComputedStyle(item).getPropertyValue("font-size");
+		item = frame.contentWindow.document.getElementById("df3");
+		properties = properties + " | monospace: " + getComputedStyle(item).getPropertyValue("font-size");
+		dom.fontFCsize = properties;
+
+		// gfx.downloadable_fonts.woff2.enabled
 		setTimeout(function(){
-			dfItem = iframeFC.contentWindow.document.getElementById("fnt0");
-			dfProp = dfItem.offsetWidth;
-			dfItem = iframeFC.contentWindow.document.getElementById("fnt1");
-			if (dfProp == dfItem.offsetWidth) {dom.fontWoff2="disabled [or blocked]"} else {dom.fontWoff2="enabled"};
+			item = frame.contentWindow.document.getElementById("fnt0");
+			properties = item.offsetWidth;
+			item = frame.contentWindow.document.getElementById("fnt1");
+			if (properties == item.offsetWidth) {dom.fontWoff2="disabled [or blocked]"} else {dom.fontWoff2="enabled"};
 		}, 400);
 	});
 
-	/*** document fonts	*/
-	let myLHElem = document.getElementById("testLH");
-	let myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
-	if (myLHFont.slice(1,16) !== "Times New Roman") {dom.fontDoc="disabled"} else {dom.fontDoc="enabled"};
+	// document fonts
+	let element = document.getElementById("testLH");
+	let fontfamily = getComputedStyle(element).getPropertyValue("font-family");
+	if (fontfamily.slice(1,16) !== "Times New Roman") {dom.fontDoc="disabled"} else {dom.fontDoc="enabled"};
 
-	/*** layout.css.font-loading-api.enabled */
+	// layout.css.font-loading-api.enabled
 	dom.fontCSS = 'FontFace' in window ? 'enabled' : 'disabled';
 };
 
