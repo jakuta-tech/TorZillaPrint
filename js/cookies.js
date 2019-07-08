@@ -3,11 +3,13 @@
 'use strict';
 
 // functions
-function getCookie(cname) {
-	var name = cname + "="; var decodedCookie = decodeURIComponent(document.cookie);
-	var ca = decodedCookie.split(';');
-	for(var i = 0; i <ca.length; i++) {
-		var c = ca[i];
+function getCookie(name) {
+	name = name + "=";
+	let decodedCookie = decodeURIComponent(document.cookie);
+	let ca = decodedCookie.split(';');
+	let i = 0;
+	for( ; i < ca.length; i++) {
+		let c = ca[i];
 		while (c.charAt(0) == ' ') {c = c.substring(1);}
 		if (c.indexOf(name) == 0) {return c.substring(name.length, c.length);}
 	}
@@ -22,10 +24,12 @@ function outputCookies() {
 	if (navigator.cookieEnabled == true) {dom.nCookieEnabled="enabled"} else {dom.nCookieEnabled="disabled"};
 
 	/*** session cookie test: run even if cookieEnabled = false */
-	var rndStrA = rndString(); document.cookie = rndStrA+"="+rndStrA;
+	let rndStrA = rndString();
+	document.cookie = rndStrA+"="+rndStrA;
 	if (getCookie(rndStrA) != ""){dom.cTest="success"} else {dom.cTest="failed"};
 
 	/*** persistent cookie test: run even if cookieEnabled = false */
+	let rndStrB = rndString();
 	dom.cTest2.innerHTML=TTC;
 
 	/*** localStorage support */
@@ -35,9 +39,9 @@ function outputCookies() {
 	} catch(e) {dom.storageLSupport="disabled: " + e.name};
 
 	/*** localStorage test: run even if localStorage unavailable */
-	var rndStrB = rndString();
-	try {localStorage.setItem(rndStrB, rndStrB);
-		if(!localStorage.getItem(rndStrB)) {dom.storageLTest="failed"} else {dom.storageLTest="success"};
+	let rndStrC = rndString();
+	try {localStorage.setItem(rndStrC, rndStrC);
+		if(!localStorage.getItem(rndStrC)) {dom.storageLTest="failed"} else {dom.storageLTest="success"};
 	} catch(e) {dom.storageLTest="failed: " + e.name};
 
 	/*** sessionStorage support */
@@ -47,9 +51,9 @@ function outputCookies() {
 	} catch(e) {dom.storageSSupport="disabled: " + e.name};
 
 	/*** sessionStorage test: run even if sessionStorage unavailable */
-	var rndStrC = rndString();
-	try {sessionStorage.setItem(rndStrC, rndStrC);
-		if(!sessionStorage.getItem(rndStrC)) {dom.storageSTest="failed"} else {dom.storageSTest="success"};
+	let rndStrD = rndString();
+	try {sessionStorage.setItem(rndStrD, rndStrD);
+		if(!sessionStorage.getItem(rndStrD)) {dom.storageSTest="failed"} else {dom.storageSTest="success"};
 	} catch(e) {dom.storageSTest="failed: " + e.name};
 
 	/*** indexedDB support */
@@ -57,36 +61,36 @@ function outputCookies() {
 	} catch(e) {dom.IDBSupport="disabled: " + e.name};
 
 	/*** indexedDB test: run even if IDB unavailable */
-	var rndStrD = rndString(); var idbResult ="";
 	try {
-		var dbIDB = indexedDB.open("IsPBMode");
+		let dbIDB = indexedDB.open("IsPBMode");
 		dbIDB.onerror = function() {
 			// current pb mode
 			dom.IDBTest="failed: onerror";
 		};
 		dbIDB.onsuccess = function() {
+			let rndStrE = rndString();
 			// normal mode
 			try {
-				var openIDB = indexedDB.open(rndStrD);
+				let openIDB = indexedDB.open(rndStrE);
 				// create objectStore
 				openIDB.onupgradeneeded = function(event){
-					var dbObject = event.target.result;
-					var dbStore = dbObject.createObjectStore("testIDB", {keyPath: "id"});
+					let dbObject = event.target.result;
+					let dbStore = dbObject.createObjectStore("testIDB", {keyPath: "id"});
 				};
 				// test
 				openIDB.onsuccess = function(event) {
-					var dbObject = event.target.result;
+					let dbObject = event.target.result;
 					// start transaction
-					var dbTx = dbObject.transaction("testIDB", "readwrite");
-					var dbStore = dbTx.objectStore("testIDB");
+					let dbTx = dbObject.transaction("testIDB", "readwrite");
+					let dbStore = dbTx.objectStore("testIDB");
 					// add some data
-					var rndIndex = rndNumber(); var rndValue = rndString();
-					// console.log("	 stored: name: "+rndStrD+" id: "+rndIndex+" value: "+rndValue);
+					let rndIndex = rndNumber(); let rndValue = rndString();
+					// console.log("	 stored: name: "+rndStrE+" id: "+rndIndex+" value: "+rndValue);
 					dbStore.put( {id: rndIndex, value: rndValue} );
 					// query the data
-					var getStr = dbStore.get(rndIndex);
+					let getStr = dbStore.get(rndIndex);
 					getStr.onsuccess = function() {
-						// console.log("retrieved: name: "+rndStrD+" id: "+getStr.result.id+" value: "+getStr.result.value);
+						// console.log("retrieved: name: "+rndStrE+" id: "+getStr.result.id+" value: "+getStr.result.value);
 						if (getStr.result.value == rndValue) {dom.IDBTest="success";};
 					};
 					// close transaction
@@ -107,7 +111,7 @@ function outputCookies() {
 			// https://www.html5rocks.com/en/tutorials/appcache/beginner/
 			// working demo: https://archive.jonathanstark.com/labs/app-cache-2b/
 			try {
-				// var appCache = window.applicationCache;
+				// let appCache = window.applicationCache;
 				// appCache.update();
 				dom.appCacheTest.innerHTML=TTC;
 			} catch(e) {dom.appCacheTest="failed: " + e.name;};
@@ -126,10 +130,9 @@ function outputCookies() {
 		dom.workerSupport="enabled";
 		if ((location.protocol) !== "file:") {
 			/*** web worker test */
-			var wwt;
 			try {
-				wwt = new Worker("js/worker.js");
-				var rndStr1 = rndString();
+				let wwt = new Worker("js/worker.js");
+				let rndStr1 = rndString();
 				// assume failure
 				dom.webWTest="failed";
 				// add listener
@@ -141,11 +144,11 @@ function outputCookies() {
 				wwt.postMessage(rndStr1);
 				// console.log ("data -> web worker: "+rndStr1);
 			} catch(e) {dom.webWTest="failed: " + e.name};
+
 			/*** shared worker test */
-			var swt;
 			try {
-				swt = new SharedWorker("js/workershared.js");
-				var rndStr2 = rndString();
+				let swt = new SharedWorker("js/workershared.js");
+				let rndStr2 = rndString();
 				// assume failure
 				dom.sharedWTest="failed"
 				// add listener
@@ -167,6 +170,7 @@ function outputCookies() {
 
 	/*** service worker support (dom.serviceWorkers.enabled) */
 	// note: serviceWorker is automatically not available in PB Mode
+	let swMsg = "";
 	if ((location.protocol) === "https:") {
 		if ("serviceWorker" in navigator) {
 			dom.serviceWSupport="enabled";
@@ -197,7 +201,7 @@ function outputCookies() {
 			},
 			function(e) {
 				// catch e.name length for when scripts or extensions block it
-				if (e.name ==="") {var swMsg = "failed: unknown error"} else {var swMsg = "failed: "+ e.name;};
+				if (e.name ==="") {swMsg = "failed: unknown error"} else {swMsg = "failed: "+ e.name;};
 				dom.serviceWTest=swMsg;
 				dom.serviceWCacheSupport="n/a"; dom.serviceWCacheTest="n/a";
 				dom.notificationsSupport="n/a"; dom.notificationsTest="n/a";
@@ -209,7 +213,7 @@ function outputCookies() {
 			dom.notificationsSupport="n/a"; dom.notificationsTest="n/a"};
 	}
 	else { // skip if insecure
-		if ((location.protocol) == "file:") {var swMsg="n/a"+FILEy} else {var swMsg="n/a"};
+		if ((location.protocol) == "file:") {swMsg="n/a"+FILEy} else {swMsg="n/a"};
 		dom.serviceWSupport.innerHTML=swMsg; dom.serviceWTest.innerHTML=swMsg;
 		dom.serviceWCacheSupport.innerHTML=swMsg; dom.serviceWCacheTest.innerHTML=swMsg;
 		dom.notificationsSupport.innerHTML=swMsg; dom.notificationsTest.innerHTML=swMsg;
