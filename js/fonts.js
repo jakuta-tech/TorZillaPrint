@@ -41,14 +41,14 @@ function output_unicode() {
 
 	// reset display & load iframe
 	reset_unicode();
-	let frame = document.getElementById("iframeFG");
-	frame.src = "iframes/unicodeglyphs.html";
-	frame.addEventListener("load", function(){
+	let iframe = document.getElementById("iframeFG");
+	iframe.src = "iframes/unicodeglyphs.html";
+	iframe.addEventListener("load", function(){
 
 		// initiate variables
-		let ugDiv = frame.contentWindow.document.getElementById("ugDiv"),
-			ugSpan = frame.contentWindow.document.getElementById("ugSpan"),
-			ugSlot = frame.contentWindow.document.getElementById("ugSlot"),
+		let ugDiv = iframe.contentWindow.document.getElementById("ugDiv"),
+			ugSpan = iframe.contentWindow.document.getElementById("ugSpan"),
+			ugSlot = iframe.contentWindow.document.getElementById("ugSlot"),
 			ugWide = "",
 			ugHigh = "",
 			ugCode = "",
@@ -169,13 +169,13 @@ function output_enumerate(){
 	document.getElementById("fontFBFound").style.color = "#1a1a1a";
 
 	// load iframe
-	let frame = document.getElementById("iframeFF");
-	frame.src = "iframes/fontfallback.html";
-	frame.addEventListener("load", function(){
+	let iframe = document.getElementById("iframeFF");
+	iframe.src = "iframes/fontfallback.html";
+	iframe.addEventListener("load", function(){
 
 		// initialize test
 		dom.fontFB = "test is running... please wait";
-		let fontFBTest = frame.contentWindow.document.getElementById("fontFBTest");
+		let fontFBTest = iframe.contentWindow.document.getElementById("fontFBTest");
 		fontFBTest.style.fontSize = "256px";
 
 		// return width of the element with a given fontFamily
@@ -286,33 +286,42 @@ function outputFonts1(){
 	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
 	
 	// load iframe
-	let frame = document.getElementById("iframeFC");
-	frame.src = "iframes/fontcheck.html";
-	frame.addEventListener("load", function(){
+	let iframe = document.getElementById("iframeFC");
+	iframe.src = "iframes/fontcheck.html";
+	iframe.addEventListener("load", function(){
 
 		// default font sizes
-		let item = frame.contentWindow.document.getElementById("df1");
+		let item = iframe.contentWindow.document.getElementById("df1");
 		let properties = "serif/sans-serif: " + getComputedStyle(item).getPropertyValue("font-size");
-		item = frame.contentWindow.document.getElementById("df3");
+		item = iframe.contentWindow.document.getElementById("df3");
 		properties = properties + " | monospace: " + getComputedStyle(item).getPropertyValue("font-size");
 		dom.fontFCsize = properties;
 
 		// gfx.downloadable_fonts.woff2.enabled
 		setTimeout(function(){
-			item = frame.contentWindow.document.getElementById("fnt0");
+			item = iframe.contentWindow.document.getElementById("fnt0");
 			properties = item.offsetWidth;
-			item = frame.contentWindow.document.getElementById("fnt1");
-			if (properties == item.offsetWidth) {dom.fontWoff2="disabled [or blocked]"} else {dom.fontWoff2="enabled"};
+			item = iframe.contentWindow.document.getElementById("fnt1");
+			if (properties == item.offsetWidth) {
+				dom.fontWoff2="disabled [or blocked]"
+			} else {
+				dom.fontWoff2="enabled"
+			};
 		}, 400);
 	});
 
 	// document fonts
 	let element = document.getElementById("testLH");
 	let fontfamily = getComputedStyle(element).getPropertyValue("font-family");
-	if (fontfamily.slice(1,16) !== "Times New Roman") {dom.fontDoc="disabled"} else {dom.fontDoc="enabled"};
+	if (fontfamily.slice(1,16) !== "Times New Roman") {
+		dom.fontDoc="disabled"
+	} else {
+		dom.fontDoc="enabled"
+	};
 
 	// layout.css.font-loading-api.enabled
 	dom.fontCSS = 'FontFace' in window ? 'enabled' : 'disabled';
+
 };
 
 outputFonts1();
