@@ -16,6 +16,7 @@ function outputHeaders() {
 		dom.nNetwork = "disabled";
 		dom.nConnection = navigator.connection;
 	};
+
 };
 
 outputHeaders();
