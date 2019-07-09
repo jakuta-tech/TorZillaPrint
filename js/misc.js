@@ -4,30 +4,42 @@
 
 function outputMisc() {
 
-	/* mathml */
-	// reset the test
+	// mathml: control/none = visible + no distortion of height: compare control to test
 	let mathmlString = "<math><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form='prefix'>&minus;</mo><mi>b</mi>"+
 		"<mo>&PlusMinus;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>&minus;</mo><mn>4</mn>"+
 		"<mo>&InvisibleTimes;</mo><mi>a</mi><mo>&InvisibleTimes;</mo><mi>c</mi></msqrt></mrow>"+
-		"<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>a</mi></mrow></mfrac></mrow></math>"
+		"<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>a</mi></mrow></mfrac></mrow></math>";
 	document.getElementById("mathmltest").innerHTML = mathmlString;
-	// control must be visible + no distortion of height
 	let mathmlnone = document.getElementById("pReducedMotion").offsetHeight;
 	let mathmltest = document.getElementById("mathmltest").offsetHeight;
-	if ( mathmltest == mathmlnone) {dom.mathml="disabled"} else {dom.mathml="enabled"};
+	if ( mathmltest == mathmlnone) {
+		dom.mathml="disabled";
+	} else {
+		dom.mathml="enabled";
+	};
 
-	/* clipboard */
-	if ("clipboard" in navigator) {dom.nClipboard="enabled"} else {dom.nClipboard="disabled"};
+	// clipboard
+	if ("clipboard" in navigator) {
+		dom.nClipboard="enabled";
+	} else {
+		dom.nClipboard="disabled";
+	};
 
-	/* Intersection Observer api (dom.IntersectionObserver.enabled) */
+	// dom.IntersectionObserver.enabled
 	let callback = function(entries, observer) {};
 	try {
 		let observer = new IntersectionObserver(callback);
-		dom.intObserver="enabled"
-	} catch(e) {dom.intObserver="disabled" };
+		dom.intObserver="enabled";
+	} catch(e) {
+		dom.intObserver="disabled";
+	};
 
-	/* requestIdleCallback (dom.requestIdleCallback.enabled) */
-	if ("requestIdleCallback" in window) {dom.reqIdleCB="enabled"} else {dom.reqIdleCB="disabled"};
+	// dom.requestIdleCallback.enabled
+	if ("requestIdleCallback" in window) {
+		dom.reqIdleCB="enabled";
+	} else {
+		dom.reqIdleCB="disabled";
+	};
 
 };
 
