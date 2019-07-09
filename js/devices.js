@@ -9,6 +9,7 @@
 */
 
 function outputDevices() {
+
 	// multipurpose string
 	let str = "";
 
