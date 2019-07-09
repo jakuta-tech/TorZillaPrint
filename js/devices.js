@@ -2,7 +2,7 @@
 
 'use strict';
 
-/* global variables: generic.js
+/* see globals.js
 	RFPy:  green [RFP]
 	RFPn:    red [RFP]
 	TTC : yellow [test to come]
