@@ -59,13 +59,12 @@ function outputDevices() {
 		// active VR displays
 		if ("activeVRDisplays" in navigator) {
 			if (navigator.activeVRDisplays == "") {
-				dom.nActiveVR="[empty array]"
+				dom.nActiveVR="[empty array]";
 			} else {
-				dom.nActiveVR=navigator.activeVRDisplays
+				dom.nActiveVR=navigator.activeVRDisplays;
 			};
 		};
-	}
-	else {
+	}	else {
 		dom.nGetVR="disabled";
 		dom.nActiveVR="n/a";
 	};
@@ -79,9 +78,9 @@ function outputDevices() {
 		//	 ^^ https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisVoice		
 		// dom.speechEngines = speechSynthesis.getVoices().map(v => v.name+"|"+v.lang);
 		dom.speechEngines.innerHTML=TTC;
-	}
-	else {
-		dom.speechSynth="disabled"; dom.speechEngines="n/a";
+	} else {
+		dom.speechSynth="disabled";
+		dom.speechEngines="n/a";
 	};
 
 };
