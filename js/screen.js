@@ -64,7 +64,7 @@ function getZoom() {
 	for (let i = 27; i < 2000; i++) {
 		if (matchMedia("(max-resolution: " + i + "dpi)").matches === true) {
 			return i;}
-		}	return i;})();
+		} return i;})();
 	dom.mmDPI = varDPI;
 	// zoom: calculate from js dpi vs mediaMatch dpi
 	// use devicePixelRatio if RFP is off
@@ -152,34 +152,50 @@ function browser_errors() {
 };
 
 function os_chrome() {
+	// variables
 	let b = "chrome://branding/content/",
 		c = "chrome://browser/content/",
-		s = "chrome://browser/skin/";
-	let imgUris = [b+'icon64.png', s+'Toolbar-win7.png', s+'sync-horizontalbar-XPVista7.png'],
+		s = "chrome://browser/skin/",
+		os = "Linux", // default if we can't detect Windows/Android/Mac
+		imgUris = [b+'icon64.png', s+'Toolbar-win7.png', s+'sync-horizontalbar-XPVista7.png'],
 		cssUris = [c+'extension-win-panel.css', c+'extension-mac-panel.css'];
-	let chromeOS = "Linux"; // default if we can't detect Windows/Android/Mac
 	// chrome:// images
 	imgUris.forEach(function(imgUri) {
 		let img = document.createElement("img");
-		img.src = imgUri; img.style.height = "20px"; img.style.width = "20px";
+		img.src = imgUri;
+		img.style.height = "20px";
+		img.style.width = "20px";
 		img.onload = function() {
-			if (imgUri === s+"Toolbar-win7.png" || imgUri === s+"sync-horizontalbar-XPVista7.png") {chromeOS ="Windows"};
+			if (imgUri === s+"Toolbar-win7.png" || imgUri === s+"sync-horizontalbar-XPVista7.png") {
+				os ="Windows"
+			};
 		};
-		img.onerror = function() {if (imgUri === b+"icon64.png") {chromeOS = "Android"};};
+		img.onerror = function() {
+			if (imgUri === b+"icon64.png") {
+				os = "Android"
+			};
+		};
 	});
 	// chrome:// css
 	cssUris.forEach(function(cssUri) {
 		let css = document.createElement("link");
-		css.href = cssUri; css.type = "text/css"; css.rel = "stylesheet";
+		css.href = cssUri;
+		css.type = "text/css";
+		css.rel = "stylesheet";
 		document.head.appendChild(css);
 		css.onload = function() {
-			if (cssUri === c+"extension-win-panel.css") {chromeOS ="Windows"}
-			else if (cssUri === c+"extension-mac-panel.css") {chromeOS ="Mac"};
+			if (cssUri === c+"extension-win-panel.css") {
+				os ="Windows"
+			} else if (cssUri === c+"extension-mac-panel.css") {
+				os ="Mac"
+			};
 		};
 		document.head.removeChild(css);
 	});
-	// chrome:// results: wait for all the resources to succeed/fail
-	setTimeout(function() {dom.fdChromeOS = chromeOS}, 2000);
+	// output: wait for all the resources to succeed/fail
+	setTimeout(function() {
+		dom.fdChromeOS = os
+	}, 2000);
 };
 
 function os_widgets() {
