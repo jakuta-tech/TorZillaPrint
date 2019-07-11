@@ -165,6 +165,9 @@ function output_enumerate(){
 	https://github.com/arthuredelstein/tordemos
 	*/
 
+	// xhrerror
+	var xhrerror = false;
+
 	// change font color to hide results: try not to shrink/grow elements
 	document.getElementById("fontFBFound").style.color = "#1a1a1a";
 
@@ -222,11 +225,16 @@ function output_enumerate(){
 		let readTextFile = function (filename) {
 			return new Promise(function (resolve) {
 				let xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState == 4) {
+						resolve(xhr.responseText);
+					}
+				};
+				xhr.onerror = function() {
+					xhrerror = true;
+				};
 				xhr.overrideMimeType("text/plain; charset=utf-8");
 				xhr.open("GET", filename);
-				xhr.addEventListener("load", function () {
-					resolve(xhr.responseText);
-				});
 				xhr.send();
 			});
 		};
@@ -259,30 +267,36 @@ function output_enumerate(){
 			fontFBTest.innerHTML = testString;
 			let fontList = yield retrieveFontList();
 
-			// sort fonts and remove duplicates
-			fontList.sort();
-			fontList = fontList.filter(function (font, position) {
-				return fontList.indexOf(font) === position
-			});
-
 			// allow time to make sure list/fallback font are loaded
 			setTimeout(function(){
-				let [fontsPresent] = enumerateFonts(fontList);
-				let strFontFB = htmlFontList(fontsPresent);
-
-				// if we have detected at least one font, remove trailing comma and space
-				if (fontfbYes > 0) {
-					strFontFB = strFontFB.slice(0, -2);
-					dom.fontFBFound.innerHTML = strFontFB; }
-				else { dom.fontFBFound.innerHTML = "no fonts detected"};
-
-				// output and reset color
-				dom.fontFB = sha1(strFontFB) + " ["+fontfbYes+"/"+fontfbAll+"]";
+				// don't bother if we couldn't read the file
+				if (xhrerror == false) {
+					// sort fonts and remove duplicates
+					fontList.sort();
+					fontList = fontList.filter(function (font, position) {
+						return fontList.indexOf(font) === position
+					});
+					let [fontsPresent] = enumerateFonts(fontList);
+					let strFontFB = htmlFontList(fontsPresent);
+					// output detected fonts
+					if (fontfbYes > 0) {
+						// trim trailing comma + space
+						strFontFB = strFontFB.slice(0, -2);
+						dom.fontFBFound.innerHTML = strFontFB;
+					}	else {
+						dom.fontFBFound.innerHTML = "no fonts detected"
+					};
+					// output hash and counters
+					dom.fontFB = sha1(strFontFB) + " ["+fontfbYes+"/"+fontfbAll+"]";
+				} else {
+					// xhr error: could read the file
+					dom.fontFB = "xhr error";
+					dom.fontFBFound = "xhr error";
+				}
+				// cleanup: button and change text color back
 				document.getElementById("fontFBFound").style.color = "#b3b3b3";
-
-				// re-title the button */
+				// change button here since this is the longest running test
 				dom.fontRun = "[ re-run tests ]";
-
 			}, 1500);
 		});
 	});
