@@ -248,7 +248,8 @@ function output_enumerate(){
 		// return promise resolving to an array of fonts from a predefined list
 		let retrieveFontList = function* () {
 			let text = yield readTextFile("txt/fontFallbackList.txt");
-			return text.split("\n").filter(s => s.length > 0); // exclude blank lines
+			// exclude blank lines by filtering length
+			return text.split("\n").filter(s => s.length > 0);
 		};
 
 		// run the test
@@ -282,7 +283,7 @@ function output_enumerate(){
 				// re-title the button */
 				dom.fontRun = "[ re-run tests ]";
 
-			}, 1000);
+			}, 1500);
 		});
 	});
 };
