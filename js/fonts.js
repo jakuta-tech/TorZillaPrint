@@ -202,7 +202,10 @@ function output_enumerate(){
 		let enumerateFonts = function (possibleFonts) {
 			let fontsPresent = [];
 			for (let font of possibleFonts) {
-				if (isFontPresent(font)) {fontsPresent.push(font); fontfbYes++;}
+				if (isFontPresent(font)) {
+					fontsPresent.push(font);
+					fontfbYes++;
+				}
 				fontfbAll++;
 			}
 			return [fontsPresent];
@@ -245,7 +248,7 @@ function output_enumerate(){
 		// return promise resolving to an array of fonts from a predefined list
 		let retrieveFontList = function* () {
 			let text = yield readTextFile("txt/fontFallbackList.txt");
-			return text.split("\n").filter(s => s.length > 0);
+			return text.split("\n").filter(s => s.length > 0); // exclude blank lines
 		};
 
 		// run the test
@@ -255,7 +258,13 @@ function output_enumerate(){
 			fontFBTest.innerHTML = testString;
 			let fontList = yield retrieveFontList();
 
-			// make sure list/fallback font are loaded
+			// sort fonts and remove duplicates
+			fontList.sort();
+			fontList = fontList.filter(function (font, position) {
+				return fontList.indexOf(font) === position
+			});
+
+			// allow time to make sure list/fallback font are loaded
 			setTimeout(function(){
 				let [fontsPresent] = enumerateFonts(fontList);
 				let strFontFB = htmlFontList(fontsPresent);
