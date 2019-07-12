@@ -669,6 +669,7 @@ Meiryo UI Bold Italic
 Meiryo UI Italic
 Menlo
 Microsoft Himalaya
+Microsoft JengHei UI
 Microsoft JhengHei
 Microsoft JhengHei Bold
 Microsoft JhengHei UI
@@ -1173,4 +1174,5 @@ Zurich Ex BT
 ＭＳ ゴシック
 ＭＳ 明朝
 ＭＳ Ｐゴシック
+ＭＳ Ｐ明朝
 ＭＳ Ｐ明朝a
