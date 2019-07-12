@@ -115,27 +115,46 @@ function outputLanguage() {
 		let dtd1 = "";
 		let iframe1 = document.getElementById("iframeDTD1");
 		iframe1.src="iframes/dtdlocale.xml";
-		iframe1.addEventListener("load", dtdlocale1)
-		function dtdlocale1() {
-			dtd1 = iframe1.contentDocument.getElementById("DTD1").innerText;
-			window.removeEventListener("load", dtdlocale1)
+		try {
+			iframe1.addEventListener("load", dtdlocale1)
+			function dtdlocale1() {
+				try {
+					dtd1 = iframe1.contentDocument.getElementById("DTD1").innerText;
+					window.removeEventListener("load", dtdlocale1)
+				} catch(e) {
+					console.log("dtd1 error", e.name, e.message);
+					if (e.message === "iframe1.contentDocument is null") {
+						dtd1 = "<span class='bad'>test error</span>";
+					};
+				}
+			};
+		} catch(e) {
+			console.log("frame1 error", e.name, e.message);
 		};
 
 		// dtd nullprinciple
 		let dtd2 = "";
 		let iframe2 = document.getElementById("iframeDTD2");
 		iframe2.src="data:application/xml;charset=utf-8,%3C%21DOCTYPE%20html%20SYSTEM%20%22chrome%3A%2F%2Fglobal%2Flocale%2FnetError.dtd%22%3E%3Chtml%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Chead%3E%3Cmeta%20charset%3D%22utf-8%22%2F%3E%0D%0A%20%20%3C%2Fhead%3E%0D%0A%20%20%3Cbody%3E%3Cspan%20id%3D%22text-container%22%3E%26loadError.label%3B%3C%2Fspan%3E%0D%0A%20%20%3Cscript%3E%0D%0A%20%20window.addEventListener%28%27message%27%2C%20%28e%29%20%3D%3E%20%7B%0D%0A%20%20%20%20e.source.postMessage%28document.getElementById%28%27text-container%27%29.innerText%2C%20%27%2A%27%29%3B%0D%0A%20%20%7D%29%3B%0D%0A%20%20%3C%2Fscript%3E%0D%0A%20%20%3C%2Fbody%3E%0D%0A%3C%2Fhtml%3E";
-		iframe2.addEventListener("load", dtdlocale2)
-		function dtdlocale2() {
-			window.addEventListener('message', ({ data }) => dtd2 = data);
-			document.getElementById("iframeDTD2").contentWindow.postMessage('foo', '*');
+		try {
+			iframe2.addEventListener("load", dtdlocale2)
+			function dtdlocale2() {
+				try {
+					window.addEventListener('message', ({ data }) => dtd2 = data);
+					document.getElementById("iframeDTD2").contentWindow.postMessage('foo', '*');
+				} catch(e) {
+					console.log("dtd2 error", e.name, e.message);
+				};
+			};
+		} catch(e) {
+			console.log("frame2 error", e.name, e.message);
 		};
 
 		// wait to make sure we received the message
 		setTimeout(function(){
-			dom.appLang2 = dtd1;
-			dom.appLang3 = dtd2;
-		}, 1500);
+			dom.appLang2.innerHTML = dtd1;
+			dom.appLang3.innerHTML = dtd2;
+		}, 1800);
 
 		// MediaDocument.properties
 		let iframe3 = document.getElementById("iframeAPPL");
