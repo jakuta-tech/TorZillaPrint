@@ -45,64 +45,83 @@ function output_unicode() {
 	iframe.src = "iframes/unicodeglyphs.html";
 	iframe.addEventListener("load", function(){
 
-		// initiate variables
-		let ugDiv = iframe.contentWindow.document.getElementById("ugDiv"),
-			ugSpan = iframe.contentWindow.document.getElementById("ugSpan"),
-			ugSlot = iframe.contentWindow.document.getElementById("ugSlot"),
-			ugWide = "",
-			ugHigh = "",
-			ugCode = "",
-			ugHashOffset = "", // the string we hash
-			ugHashClientRect = "",
-			ugOutputOffset = "", // the string we display
-			ugOutputClientRect = "";
+	// catch iframe error
+	try {
+			// initiate variables
+			let ugDiv = iframe.contentWindow.document.getElementById("ugDiv"),
+				ugSpan = iframe.contentWindow.document.getElementById("ugSpan"),
+				ugSlot = iframe.contentWindow.document.getElementById("ugSlot"),
+				ugWide = "",
+				ugHigh = "",
+				ugCode = "",
+				ugHashOffset = "", // the string we hash
+				ugHashClientRect = "",
+				ugOutputOffset = "", // the string we display
+				ugOutputClientRect = "";
 
-		// cycle each unicode (i)
-		for (let i = 0 ; i < ugCodepoints.length; i++) {
-			let n = ugCodepoints[i]; // codepoint
-			let c = stringFromCodePoint(n); // character
+			// cycle each unicode (i)
+			for (let i = 0 ; i < ugCodepoints.length; i++) {
+				let n = ugCodepoints[i]; // codepoint
+				let c = stringFromCodePoint(n); // character
 
-			// add unicode to outputs: e.g U+20B9
-			let ugCode = "U+" + n.substr(2);
-			ugHashOffset = ugHashOffset + "-" + ugCode;
-			ugHashClientRect = ugHashClientRect + "-" + ugCode;
-			ugCode = ugCode.padStart(7, ' ');
-			ugOutputOffset = ugOutputOffset + "<br>" + ugCode;
-			ugOutputClientRect = ugOutputClientRect + "<br>" + ugCode;
+				// add unicode to outputs: e.g U+20B9
+				let ugCode = "U+" + n.substr(2);
+				ugHashOffset = ugHashOffset + "-" + ugCode;
+				ugHashClientRect = ugHashClientRect + "-" + ugCode;
+				ugCode = ugCode.padStart(7, ' ');
+				ugOutputOffset = ugOutputOffset + "<br>" + ugCode;
+				ugOutputClientRect = ugOutputClientRect + "<br>" + ugCode;
 
-			// cycle each style (j)
-			for (let j = 0 ; j < ugStyles.length; j++) {
-				let style = ugStyles[j];
-				ugSlot.style.fontFamily = style === "default" ? "" : style;
-				ugSlot.textContent = c;
+				// cycle each style (j)
+				for (let j = 0 ; j < ugStyles.length; j++) {
+					let style = ugStyles[j];
+					ugSlot.style.fontFamily = style === "default" ? "" : style;
+					ugSlot.textContent = c;
 
-				// Read the span width, but the div height. Firefox always reports the same value
-				// for the span's offsetHeight, even if the div around it is changing size
+					// Read the span width, but the div height. Firefox always reports the same value
+					// for the span's offsetHeight, even if the div around it is changing size
 
-				// offset measurement + concatenate hash string
-				ugWide = ugSpan.offsetWidth; ugHigh = ugDiv.offsetHeight;
-				ugHashOffset = ugHashOffset + "-"+ugWide+"-"+ugHigh+"-";
-				// offset output
-				ugWide = ugWide.toString(); ugWide = ugWide.padStart(4, ' ');
-				ugHigh = ugHigh.toString(); ugHigh = ugHigh.padStart(4, ' ');
-				ugOutputOffset = ugOutputOffset + "    " + ugWide + " × " + ugHigh;
+					// offset measurement + concatenate hash string
+					ugWide = ugSpan.offsetWidth; ugHigh = ugDiv.offsetHeight;
+					ugHashOffset = ugHashOffset + "-"+ugWide+"-"+ugHigh+"-";
+					// offset output
+					ugWide = ugWide.toString(); ugWide = ugWide.padStart(4, ' ');
+					ugHigh = ugHigh.toString(); ugHigh = ugHigh.padStart(4, ' ');
+					ugOutputOffset = ugOutputOffset + "    " + ugWide + " × " + ugHigh;
 
-				// clientrect measurement + concatenate hash string
-				let elementDiv = ugDiv.getBoundingClientRect();
-				let elementSpan = ugSpan.getBoundingClientRect();
-				ugWide = elementSpan.width;
-				ugHigh = elementDiv.height;
-				ugHashClientRect = ugHashClientRect + "-"+ugWide+"-"+ugHigh+"-";
-				// clientrect output
-				// ugOutputClientRect = ugOutputClientRect + " " + ugWide + " × " + ugHigh + " | ";
-
+					// clientrect measurement + concatenate hash string
+					let elementDiv = ugDiv.getBoundingClientRect();
+					let elementSpan = ugSpan.getBoundingClientRect();
+					ugWide = elementSpan.width;
+					ugHigh = elementDiv.height;
+					ugHashClientRect = ugHashClientRect + "-"+ugWide+"-"+ugHigh+"-";
+					// clientrect output
+					// ugOutputClientRect = ugOutputClientRect + " " + ugWide + " × " + ugHigh + " | ";
+				}
 			}
-		}
+			// output results
+			dom.fontUGFound1.innerHTML = ugHeader + ugOutputOffset;
+			dom.fontUG1 = sha1(ugHashOffset);
+			dom.fontUG2 = sha1(ugHashClientRect);
+			// cosmetic: apply mono style
+			dom.fontUG1.style.fontFamily = "monospace, monospace";
+			dom.fontUG2.style.fontFamily = "monospace, monospace";
 
-		// output results
-		dom.fontUGFound1.innerHTML = ugHeader + ugOutputOffset;
-		dom.fontUG1 = sha1(ugHashOffset);
-		dom.fontUG2 = sha1(ugHashClientRect);
+		} catch(e) {
+			// iframe didn't load
+			if ((location.protocol) == "file:") {
+				// file: Cross-Origin Request Blocked
+				dom.fontUG1.innerHTML = CORS;
+				dom.fontUG2.innerHTML = CORS;
+			} else {
+				// iframe is blocked
+				dom.fontUG1.innerHTML = "<span class='bad'>[test error]</span>";
+				dom.fontUG2.innerHTML = "<span class='bad'>[test error]</span>";
+			};
+			// cosmetic: remove mono style
+			dom.fontUG1.style.fontFamily = "none";
+			dom.fontUG2.style.fontFamily = "none";
+		};
 	});
 };
 
@@ -293,24 +312,27 @@ function output_enumerate(){
 					} else {
 						// xhr error: couldn't read the file
 						dom.fontFB.innerHTML = "<span class='bad'>[xhr error]</span>";
+						dom.fontFB.style.fontFamily = "none"; // cosmetic
 						dom.fontFBFound = "";
 					}
-					// cleanup: button and change text color back
+					// change text color back and ensure monospace
 					document.getElementById("fontFBFound").style.color = "#b3b3b3";
+					dom.fontFB.style.fontFamily = "monospace, monospace";
 					// change button here since this is the longest running test
 					dom.fontRun = "[ re-run tests ]";
 				}, 1500);
 			});
-
 		} catch(e) {
-				// iframe didn't load
-				if ((location.protocol) == "file:") {
-					// file: Cross-Origin Request Blocked
-					dom.fontFB.innerHTML = CORS
-				} else {
-					// iframe is blocked
-					dom.fontFB.innerHTML = "<span class='bad'>[test error]</span>"
-				};
+			// iframe didn't load
+			if ((location.protocol) == "file:") {
+				// file: Cross-Origin Request Blocked
+				dom.fontFB.innerHTML = CORS
+			} else {
+				// iframe is blocked
+				dom.fontFB.innerHTML = "<span class='bad'>[test error]</span>"
+			};
+			dom.fontFB.style.fontFamily = "none"; // cosmetic
+			dom.fontRun = "[ re-run tests ]"; // always reset the button
 		};
 	});
 };
@@ -327,24 +349,40 @@ function outputFonts1(){
 	iframe.src = "iframes/fontcheck.html";
 	iframe.addEventListener("load", function(){
 
-		// default font sizes
-		let item = iframe.contentWindow.document.getElementById("df1");
-		let properties = "serif/sans-serif: " + getComputedStyle(item).getPropertyValue("font-size");
-		item = iframe.contentWindow.document.getElementById("df3");
-		properties = properties + " | monospace: " + getComputedStyle(item).getPropertyValue("font-size");
-		dom.fontFCsize = properties;
+		// catch iframe error
+		try {
+			// default font sizes
+			let item = iframe.contentWindow.document.getElementById("df1");
+			let properties = "serif/sans-serif: " + getComputedStyle(item).getPropertyValue("font-size");
+			item = iframe.contentWindow.document.getElementById("df3");
+			properties = properties + " | monospace: " + getComputedStyle(item).getPropertyValue("font-size");
+			dom.fontFCsize = properties;
 
-		// gfx.downloadable_fonts.woff2.enabled
-		setTimeout(function(){
-			item = iframe.contentWindow.document.getElementById("fnt0");
-			properties = item.offsetWidth;
-			item = iframe.contentWindow.document.getElementById("fnt1");
-			if (properties == item.offsetWidth) {
-				dom.fontWoff2="disabled [or blocked]"
+			// gfx.downloadable_fonts.woff2.enabled
+			setTimeout(function(){
+				item = iframe.contentWindow.document.getElementById("fnt0");
+				properties = item.offsetWidth;
+				item = iframe.contentWindow.document.getElementById("fnt1");
+				if (properties == item.offsetWidth) {
+					dom.fontWoff2="disabled [or blocked]"
+				} else {
+					dom.fontWoff2="enabled"
+				};
+			}, 400);
+
+		} catch(e) {
+			// iframe didn't load
+			if ((location.protocol) == "file:") {
+				// file: Cross-Origin Request Blocked
+				dom.fontFCsize.innerHTML = CORS;
+				dom.fontWoff2.innerHTML = CORS;
 			} else {
-				dom.fontWoff2="enabled"
+				// iframe is blocked
+				dom.fontFCsize.innerHTML = "<span class='bad'>[test error]</span>";
+				dom.fontWoff2.innerHTML = "<span class='bad'>[test error]</span>";
 			};
-		}, 400);
+		};
+
 	});
 
 	// document fonts
