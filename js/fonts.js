@@ -292,7 +292,7 @@ function output_enumerate(){
 						dom.fontFB = sha1(strFontFB) + " ["+fontfbYes+"/"+fontfbAll+"]";
 					} else {
 						// xhr error: couldn't read the file
-						dom.fontFB = "<span class='bad'>[xhr error]</span>";
+						dom.fontFB.innerHTML = "<span class='bad'>[xhr error]</span>";
 						dom.fontFBFound = "";
 					}
 					// cleanup: button and change text color back
