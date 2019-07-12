@@ -8,6 +8,7 @@ var RFPy=" <span class='good'>[RFP]</span>";
 var RFPn=" <span class='bad'>[RFP]</span>";
 var FILEy=" <span class='ttc'>[file:]</span>"
 var TTC=" <span class='ttc'>test to come</span>"
+var CORS="<span class='ttc'>[file:] [Cross-Origin Request Blocked]</span>"
 var amFF = false;
 if (isNaN(window.mozPaintCount) === false) {amFF = true};
 
