@@ -111,20 +111,20 @@ function outputLanguage() {
 		let iframeBlocked = false;
 
 		// MediaDocument.properties
-		// Run this one first to capture if iframes are blocked,
-		// might need to improve this but it will do for now
+		// Run this one first to capture if iframes are blocked
+		// iframeBlocked needs improvement e.g could be images that are blocked
+		// but this will do for now rather than create a new test
 		let iframe3 = document.getElementById("iframeAPPL");
 		iframe3.src="images/dummy.png";
 		iframe3.addEventListener("load", function() {
 			try {
 				dom.appLang4 = (this.contentWindow.document.title);
 			} catch(e) {
-				console.log("MediaDocument", e.name, e.message);
 				if ((location.protocol) == "file:") {
 					// file: Cross-Origin Request Blocked
 					dom.appLang4.innerHTML = CORS
 				} else {
-					// some other error
+					// iframe blocked?
 					dom.appLang4.innerHTML = "<span class='bad'>[test error]</span>"
 					iframeBlocked = true;
 				};
@@ -144,7 +144,6 @@ function outputLanguage() {
 				dtd1 = iframe1.contentDocument.getElementById("DTD1").innerText;
 				window.removeEventListener("load", dtdlocale1)
 			} catch(e) {
-				console.log("dtd1 error", e.name, e.message);
 				if ((location.protocol) == "file:") {
 					// file: Cross-Origin Request Blocked
 					dtd1 = CORS
