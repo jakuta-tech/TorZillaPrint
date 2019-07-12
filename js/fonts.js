@@ -188,7 +188,7 @@ function output_enumerate(){
 	var xhrerror = false;
 
 	// change font color to hide results: try not to shrink/grow elements
-	document.getElementById("fontFBFound").style.color = "#1a1a1a";
+	dom.fontFBFound.style.color = "#1a1a1a";
 
 	// load iframe
 	let iframe = document.getElementById("iframeFF");
@@ -315,10 +315,9 @@ function output_enumerate(){
 						dom.fontFB.style.fontFamily = "none"; // cosmetic
 						dom.fontFBFound = "";
 					}
-					// change text color back and ensure monospace
+					// reset color, flip stype, update button
 					document.getElementById("fontFBFound").style.color = "#b3b3b3";
 					dom.fontFB.style.fontFamily = "monospace, monospace";
-					// change button here since this is the longest running test
 					dom.fontRun = "[ re-run tests ]";
 				}, 1500);
 			});
@@ -331,8 +330,11 @@ function output_enumerate(){
 				// iframe is blocked
 				dom.fontFB.innerHTML = "<span class='bad'>[test error]</span>"
 			};
-			dom.fontFB.style.fontFamily = "none"; // cosmetic
-			dom.fontRun = "[ re-run tests ]"; // always reset the button
+			// blank results, reset color, flip style, update button
+			dom.fontFBFound = "";
+			dom.fontFBFound.style.color = "#b3b3b3";
+			dom.fontFB.style.fontFamily = "none";
+			dom.fontRun = "[ re-run tests ]";
 		};
 	});
 };
