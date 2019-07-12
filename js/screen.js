@@ -606,7 +606,7 @@ function outputUA() {
 		if (lh == "normal") {
 			// FF69+ see bugzilla 1536871
 			// output: sbZoom was already set in scrollbar width code
-			dom.cssLH.innerHTML = lh + sbZoom + " <span class='good'> [you're good for now, see bugzilla 1536871]</span>";
+			dom.cssLH.innerHTML = lh + sbZoom + " <span class='good'> [bugzilla 1536871]</span>";
 		} else {
 			lh = lh.slice(0, -2);
 			let lhOS = "";
