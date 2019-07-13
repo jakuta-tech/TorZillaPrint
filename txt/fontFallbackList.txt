@@ -764,6 +764,8 @@ Noto Sans Georgian
 Noto Sans Gujarati
 Noto Sans Gurmukhi
 Noto Sans Hebrew
+Noto Sans JP Regular
+Noto Sans KR Regular
 Noto Sans Kannada
 Noto Sans Khmer
 Noto Sans Lao
@@ -771,8 +773,10 @@ Noto Sans Malayalam
 Noto Sans Mongolian
 Noto Sans Myanmar
 Noto Sans Oriya
+Noto Sans SC Regular
 Noto Sans Sinhal
 Noto Sans Sinhala
+Noto Sans TC Regular
 Noto Sans Tamil
 Noto Sans Telugu
 Noto Sans Thaana
