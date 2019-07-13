@@ -34,10 +34,12 @@ function getVerNo() {
 		verNo="66"
 	} catch(e) {};
 	//67
-	if (!Symbol.hasOwnProperty('matchAll')) {} else { verNo="67" };
+	if (!Symbol.hasOwnProperty('matchAll')) {} else { verNo="67"};
 	//68
 	let obj68 = document.getElementById('obj68');
-	if (obj68.typeMustMatch == false) {} else {verNo="68+"}
+	if (obj68.typeMustMatch == false) {} else { verNo="68"};
+	//69
+	try {let err69 = new DOMError('name');} catch(e) { verNo="69+"};
 	// reminder: append + on last test
 	return verNo;
 };
