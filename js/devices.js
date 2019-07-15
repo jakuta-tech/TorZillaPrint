@@ -2,12 +2,6 @@
 
 'use strict';
 
-/* see globals.js
-	RFPy:  green [RFP]
-	RFPn:    red [RFP]
-	TTC : yellow [test to come]
-*/
-
 function outputDevices() {
 
 	// multipurpose string
@@ -16,9 +10,9 @@ function outputDevices() {
 	// hardwareConcurrency
 	str = navigator.hardwareConcurrency;
 	if (str == "2") {
-		str = str + RFPy
+		str = str + rfp_green
 	} else {
-		str = str + RFPn
+		str = str + rfp_red
 	};
 	dom.nHardwareConcurrency.innerHTML = str;
 
@@ -26,61 +20,57 @@ function outputDevices() {
 	str = "";
 	str = navigator.maxTouchPoints;
 	if (str == "0") {
-		str = str + RFPy
+		str = str + rfp_green
 	} else {
-		str = str + RFPn
+		str = str + rfp_red
 	};
 	dom.nMaxTouchPoints.innerHTML = str;
 
 	// gamepads
 	if (navigator.getGamepads) {
-		dom.nGetGamepads="enabled"
+		dom.nGetGamepads = "enabled"
 	} else {
-		dom.nGetGamepads="disabled"
+		dom.nGetGamepads = "disabled"
 	};
 
 	// media.navigator.enabled
 	if ("mediaDevices" in navigator) {
-		dom.nMediaDevices="enabled";
+		dom.nMediaDevices = "enabled"
 		// enumerate media devices
 		try {
-			dom.eMediaDevices.innerHTML=TTC;
+			dom.eMediaDevices.innerHTML = note_testtocome
 		} catch(e) {
-			dom.eMediaDevices="no: " + e.name
-		};
+			dom.eMediaDevices = "no: " + e.name
+		}
 	}	else {
-		dom.nMediaDevices="disabled";
-		dom.eMediaDevices="n/a";
+		dom.nMediaDevices = "disabled";
+		dom.eMediaDevices = "n/a";
 	};
 
 	// dom.vr.enabled
 	if ("getVRDisplays" in navigator) {
-		dom.nGetVR="enabled";
+		dom.nGetVR = "enabled";
 		// active VR displays
 		if ("activeVRDisplays" in navigator) {
 			if (navigator.activeVRDisplays == "") {
-				dom.nActiveVR="[empty array]";
+				dom.nActiveVR = "[empty array]"
 			} else {
-				dom.nActiveVR=navigator.activeVRDisplays;
-			};
-		};
+				dom.nActiveVR = navigator.activeVRDisplays
+			}
+		}
 	}	else {
-		dom.nGetVR="disabled";
-		dom.nActiveVR="n/a";
+		dom.nGetVR = "disabled";
+		dom.nActiveVR = "n/a";
 	};
 
 	// media.webspeech.synth.enabled
 	if ("speechSynthesis" in window) {
-		dom.speechSynth="enabled"
+		dom.speechSynth = "enabled";
 		// speech engines
-		//	 ^^ https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/getVoices
-		// get properties of each voice: eg SpeechSynthesisVoice.default 
-		//	 ^^ https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisVoice		
-		// dom.speechEngines = speechSynthesis.getVoices().map(v => v.name+"|"+v.lang);
-		dom.speechEngines.innerHTML=TTC;
+		dom.speechEngines.innerHTML = note_testtocome;
 	} else {
-		dom.speechSynth="disabled";
-		dom.speechEngines="n/a";
+		dom.speechSynth = "disabled";
+		dom.speechEngines = "n/a";
 	};
 
 };
