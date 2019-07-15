@@ -134,6 +134,7 @@ function outputSection(id, cls, page) {
 			if (id=="6") {outputCookies()};
 			if (id=="7") {outputDevices()};
 			if (id=="8") {outputCanvas()};
+			if (id=="9") {outputDomRect()};
 			if (id=="10" && cls=="c1") {outputFonts1()};
 			if (id=="11") {outputAudio()};
 			if (id=="12") {outputMedia()};
