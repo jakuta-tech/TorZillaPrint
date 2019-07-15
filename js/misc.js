@@ -13,32 +13,32 @@ function outputMisc() {
 	let mathmlnone = document.getElementById("pReducedMotion").offsetHeight;
 	let mathmltest = document.getElementById("mathmltest").offsetHeight;
 	if ( mathmltest == mathmlnone) {
-		dom.mathml="disabled";
+		dom.mathml = "disabled"
 	} else {
-		dom.mathml="enabled";
+		dom.mathml = "enabled"
 	};
 
 	// clipboard
 	if ("clipboard" in navigator) {
-		dom.nClipboard="enabled";
+		dom.nClipboard = "enabled"
 	} else {
-		dom.nClipboard="disabled";
+		dom.nClipboard = "disabled"
 	};
 
 	// dom.IntersectionObserver.enabled
 	let callback = function(entries, observer) {};
 	try {
 		let observer = new IntersectionObserver(callback);
-		dom.intObserver="enabled";
+		dom.intObserver = "enabled";
 	} catch(e) {
-		dom.intObserver="disabled";
+		dom.intObserver = "disabled"
 	};
 
 	// dom.requestIdleCallback.enabled
 	if ("requestIdleCallback" in window) {
-		dom.reqIdleCB="enabled";
+		dom.reqIdleCB = "enabled"
 	} else {
-		dom.reqIdleCB="disabled";
+		dom.reqIdleCB = "disabled"
 	};
 
 };
