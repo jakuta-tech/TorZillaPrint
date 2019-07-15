@@ -111,12 +111,12 @@ function output_unicode() {
 			// iframe didn't load
 			if ((location.protocol) == "file:") {
 				// file: Cross-Origin Request Blocked
-				dom.fontUG1.innerHTML = CORS;
-				dom.fontUG2.innerHTML = CORS;
+				dom.fontUG1.innerHTML = error_file_cors;
+				dom.fontUG2.innerHTML = error_file_cors;
 			} else {
 				// iframe is blocked
-				dom.fontUG1.innerHTML = "<span class='bad'>[test error]</span>";
-				dom.fontUG2.innerHTML = "<span class='bad'>[test error]</span>";
+				dom.fontUG1.innerHTML = error_iframe;
+				dom.fontUG2.innerHTML = error_iframe;
 			};
 			// cosmetic: remove mono style
 			dom.fontUG1.style.fontFamily = "none";
@@ -311,7 +311,7 @@ function output_enumerate(){
 						dom.fontFB = sha1(strFontFB) + " ["+fontfbYes+"/"+fontfbAll+"]";
 					} else {
 						// xhr error: couldn't read the file
-						dom.fontFB.innerHTML = "<span class='bad'>[xhr error]</span>";
+						dom.fontFB.innerHTML = error_file_xhr;
 						dom.fontFB.style.fontFamily = "none"; // cosmetic
 						dom.fontFBFound = "";
 					}
@@ -325,10 +325,10 @@ function output_enumerate(){
 			// iframe didn't load
 			if ((location.protocol) == "file:") {
 				// file: Cross-Origin Request Blocked
-				dom.fontFB.innerHTML = CORS
+				dom.fontFB.innerHTML = error_file_cors
 			} else {
 				// iframe is blocked
-				dom.fontFB.innerHTML = "<span class='bad'>[test error]</span>"
+				dom.fontFB.innerHTML = error_iframe;
 			};
 			// blank results, reset color, flip style, update button
 			dom.fontFBFound = "";
@@ -376,12 +376,12 @@ function outputFonts1(){
 			// iframe didn't load
 			if ((location.protocol) == "file:") {
 				// file: Cross-Origin Request Blocked
-				dom.fontFCsize.innerHTML = CORS;
-				dom.fontWoff2.innerHTML = CORS;
+				dom.fontFCsize.innerHTML = error_file_cors;
+				dom.fontWoff2.innerHTML = error_file_cors;
 			} else {
 				// iframe is blocked
-				dom.fontFCsize.innerHTML = "<span class='bad'>[test error]</span>";
-				dom.fontWoff2.innerHTML = "<span class='bad'>[test error]</span>";
+				dom.fontFCsize.innerHTML = error_iframe;
+				dom.fontWoff2.innerHTML = error_iframe;
 			};
 		};
 
