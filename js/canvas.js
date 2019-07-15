@@ -1,35 +1,49 @@
 /* TABLE: canvas */
 
+"use strict";
+
 /* code courtesy of kkapsner and canvasblocker
 - https://canvasblocker.kkapsner.de/test/
 - https://github.com/kkapsner/CanvasBlocker
 - tiny modifications by newbie Thorin-Oakenpants */
 
-"use strict";
-
-function addCanvasRFP() {
-	var strNo = RFPn;
-	if ((location.protocol) == "file:") {strNo = FILEy};
-  // if file output
-	// output RFP checks
-	if (dom.cnv2.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc")
-		{dom.cnv2.innerHTML = dom.cnv2.textContent + RFPy
-	} else {dom.cnv2.innerHTML = dom.cnv2.textContent + strNo};
-	if (dom.cnv3.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc")
-		{dom.cnv3.innerHTML = dom.cnv3.textContent + RFPy
-	} else {dom.cnv3.innerHTML = dom.cnv3.textContent + strNo};
-	if (dom.cnv4.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc")
-		{dom.cnv4.innerHTML = dom.cnv4.textContent + RFPy
-	} else {dom.cnv4.innerHTML = dom.cnv4.textContent + strNo};
-	if (dom.cnv5.textContent == "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282")
-		{dom.cnv5.innerHTML = dom.cnv5.textContent + RFPy
-	} else {dom.cnv5.innerHTML = dom.cnv5.textContent + strNo};
-	if (dom.cnv7.textContent == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8")
-		{dom.cnv7.innerHTML = dom.cnv7.textContent + RFPy
-	} else {dom.cnv7.innerHTML = dom.cnv7.textContent + strNo};
-	if (dom.cnv8.textContent == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8")
-		{dom.cnv8.innerHTML = dom.cnv8.textContent + RFPy
-	} else {dom.cnv8.innerHTML = dom.cnv8.textContent + strNo};
+function append_canvas_notation() {
+	// temp string assume not the RFP hash
+	let str = rfp_red;
+	if ((location.protocol) == "file:") {
+		str = note_file
+	};
+	// append notation
+	if (dom.cnv2.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc") {
+		dom.cnv2.innerHTML = dom.cnv2.textContent + rfp_green
+	} else {
+		dom.cnv2.innerHTML = dom.cnv2.textContent + str
+	};
+	if (dom.cnv3.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc") {
+		dom.cnv3.innerHTML = dom.cnv3.textContent + rfp_green
+	} else {
+		dom.cnv3.innerHTML = dom.cnv3.textContent + str
+	};
+	if (dom.cnv4.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc") {
+		dom.cnv4.innerHTML = dom.cnv4.textContent + rfp_green
+	} else {
+		dom.cnv4.innerHTML = dom.cnv4.textContent + str
+	};
+	if (dom.cnv5.textContent == "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282") {
+		dom.cnv5.innerHTML = dom.cnv5.textContent + rfp_green
+	} else {
+		dom.cnv5.innerHTML = dom.cnv5.textContent + str
+	};
+	if (dom.cnv7.textContent == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8") {
+		dom.cnv7.innerHTML = dom.cnv7.textContent + rfp_green
+	} else {
+		dom.cnv7.innerHTML = dom.cnv7.textContent + str
+	};
+	if (dom.cnv8.textContent == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8") {
+		dom.cnv8.innerHTML = dom.cnv8.textContent + rfp_green
+	} else {
+		dom.cnv8.innerHTML = dom.cnv8.textContent + str
+	};
 };
 
 var outCounter = 0;
@@ -50,6 +64,7 @@ var canvas = {
 						}
 						catch (e){
 							return type + ": not supported";
+							//return type + ": not supported, " + e.name + ", " + e.type + ", " + e.message;
 						}
 					}).join(", ");
 				}
@@ -323,7 +338,7 @@ var canvas = {
 					if (display){display.textContent = output.displayValue;}
 					outCounter++;
 					if (outCounter==11) {
-						addCanvasRFP()
+						append_canvas_notation()
 					}
 				});
 			});
