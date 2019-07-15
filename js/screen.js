@@ -612,14 +612,14 @@ function outputUA() {
 		} else {
 			lh = lh.slice(0, -2);
 			let lhOS = "";
-			let strTBL = " [Linux]" + TBy;
+			let strTBL = " [Linux]" + tor_browser_green;
 			let myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
 			if (myLHFont.slice(1,16) !== "Times New Roman") {
 				// document fonts blocked: TNR might not be used
 				lhOS = " <span class='bad'> [document fonts are disabled]</span>";
 			} else if (lh == "19.2") {
 				// TB: 19.2px seems to be unique to TB at any zoom on any platform
-				lhOS= TBy;
+				lhOS = tor_browser_green;
 			} else {
 				// using TNR and not TB's 19.2
 				// detect WINDOWS / LINUX
@@ -839,16 +839,16 @@ function goFS() {
 
 function goNW() {
 	let newWin = window.open("newwin.html","","width=9000,height=9000");
-	let newWinLeak = newWin.outerWidth +" x "+ newWin.outerHeight + " [outer] "
-		+ newWin.innerWidth +" x "+ newWin.innerHeight + " [inner]";
-	if (newWinLeak == "10 x 10 [outer] 10 x 10 [inner]") {newWinLeak = newWinLeak+TBy};
+	let newWinLeak = newWin.outerWidth + " x " + newWin.outerHeight + " [outer] "
+		+ newWin.innerWidth + " x " + newWin.innerHeight + " [inner]";
+	if (newWinLeak == "10 x 10 [outer] 10 x 10 [inner]") {newWinLeak = newWinLeak + tor_browser_green};
 	dom.newWinLeak.innerHTML = newWinLeak;
 };
 
 function goNWTest() {
 	let newWin = window.open("test.txt","","width=9000,height=9000");
-	let newWinLeak = newWin.outerWidth +" x "+ newWin.outerHeight + " [outer] "
-		+ newWin.innerWidth +" x "+ newWin.innerHeight + " [inner]";
-	if (newWinLeak == "10 x 10 [outer] 10 x 10 [inner]") {newWinLeak = newWinLeak+TBy};
+	let newWinLeak = newWin.outerWidth + " x " + newWin.outerHeight + " [outer] "
+		+ newWin.innerWidth + " x " + newWin.innerHeight + " [inner]";
+	if (newWinLeak == "10 x 10 [outer] 10 x 10 [inner]") {newWinLeak = newWinLeak + tor_browser_green};
 	dom.newWinTest.innerHTML = newWinLeak;
 };
