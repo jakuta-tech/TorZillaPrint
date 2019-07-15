@@ -2,13 +2,6 @@
 
 'use strict';
 
-/* see globals.js
-	RFPy:  green [RFP]
-	RFPn:    red [RFP]
-	TTC : yellow [test to come]
-	amFF: firefox boolean
-*/
-
 // functions
 function cleanify(data){
 	return data.map(function(entry){return entry.value;}).join("");
@@ -40,9 +33,9 @@ function outputLanguage() {
 	// timezone
 	str = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset();
 	if (str == "0 | 0") {
-		str = str + RFPy
+		str = str + rfp_green
 	} else {
-		str = str + RFPn
+		str = str + rfp_red
 	};
 	dom.tzOffsets.innerHTML = str;
 
@@ -50,9 +43,9 @@ function outputLanguage() {
 	str = "";
 	str = Intl.DateTimeFormat().resolvedOptions().timeZone;
 	if (str == "UTC") {
-		str = str + RFPy
+		str = str + rfp_green
 	} else {
-		str = str + RFPn
+		str = str + rfp_red
 	};
 	dom.tzRO.innerHTML = str;
 
@@ -97,9 +90,9 @@ function outputLanguage() {
 
 	// geo.enabled
 	if ("geolocation" in navigator) {
-		dom.nGeolocation="yes"
+		dom.nGeolocation="enabled"
 	} else {
-		dom.nGeolocation="no"
+		dom.nGeolocation="disabled"
 	};
 
 	// permissions.default.geo
@@ -122,10 +115,10 @@ function outputLanguage() {
 			} catch(e) {
 				if ((location.protocol) == "file:") {
 					// file: Cross-Origin Request Blocked
-					dom.appLang4.innerHTML = CORS
+					dom.appLang4.innerHTML = error_file_cors
 				} else {
 					// iframe blocked?
-					dom.appLang4.innerHTML = "<span class='bad'>[test error]</span>"
+					dom.appLang4.innerHTML = error_iframe;
 					iframeBlocked = true;
 				};
 			};
@@ -146,11 +139,11 @@ function outputLanguage() {
 			} catch(e) {
 				if ((location.protocol) == "file:") {
 					// file: Cross-Origin Request Blocked
-					dtd1 = CORS
+					dtd1 = error_file_cors
 				} else {
 					// cannot tell if iframe blocked or bugzilla patch is working
 					dtd1error = true;
-					dtd1 = "<span class='bad'>[test error]</span>"
+					dtd1 = error_iframe;
 				};
 			};
 		};
