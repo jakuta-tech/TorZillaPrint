@@ -6,14 +6,14 @@ function outputMedia() {
 
 	// media.media-capabilities.enabled : FF63+
 	if ("mediaCapabilities" in navigator) {
-		dom.nMediaCapabilities="enabled";
+		dom.nMediaCapabilities = "enabled"
 	} else {
 		// FF63 feature test
 		if (Symbol.for(`foo`).description == "foo") {
-			dom.nMediaCapabilities="disabled";
+			dom.nMediaCapabilities = "disabled"
 		} else {
-			dom.nMediaCapabilities="not supported";
-		};
+			dom.nMediaCapabilities = "not supported"
+		}
 	};
 
 };
