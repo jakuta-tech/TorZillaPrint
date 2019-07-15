@@ -8,19 +8,19 @@ function outputCSS() {
 	// prefers-color-scheme
 	let pColorElem = document.getElementById("pColorElement");
 	pRGB = window.getComputedStyle(pColorElem, null).getPropertyValue("background-color");
-	if (pRGB == "rgb(255, 255, 255)") {pRGB = "light"+RFPy}
+	if (pRGB == "rgb(255, 255, 255)") {pRGB = "light" + rfp_green}
 	else if (pRGB == "rgb(255, 0, 0)") {pRGB = "not supported"}
-	else if (pRGB == "rgb(0, 0, 0)") {pRGB = "dark"+RFPn}
-	else if (pRGB == "rgb(0, 0, 255)") {pRGB = "no-preference"+RFPn};
+	else if (pRGB == "rgb(0, 0, 0)") {pRGB = "dark" + rfp_red}
+	else if (pRGB == "rgb(0, 0, 255)") {pRGB = "no-preference" + rfp_red};
 	dom.pColorScheme.innerHTML = pRGB;
 
 	// prefers-reduced-motion
 	pRGB = "";
 	let pMotionElem = document.getElementById("pMotionElement");
 	pRGB = window.getComputedStyle(pMotionElem, null).getPropertyValue("background-color");
-	if (pRGB == "rgb(255, 255, 255)") {pRGB = "no-preference"+RFPy}
+	if (pRGB == "rgb(255, 255, 255)") {pRGB = "no-preference" + rfp_green}
 	else if (pRGB == "rgb(255, 0, 0)") {pRGB = "not supported"}
-	else if (pRGB == "rgb(0, 0, 0)") {pRGB = "reduce"+RFPn};
+	else if (pRGB == "rgb(0, 0, 0)") {pRGB = "reduce" + rfp_red};
 	dom.pReducedMotion.innerHTML = pRGB;
 
 	// system colors
@@ -36,8 +36,10 @@ function outputCSS() {
 	});
 	let sColorHash = sha1(sColorStr);
 	if (sColorHash == "b5e2344c265fc498d2fb8e0f84951e8d501ad481") {
-		sColorHash = sColorHash + RFPy
-	} else {sColorHash = sColorHash + RFPn};
+		sColorHash = sColorHash + rfp_green
+	} else {
+		sColorHash = sColorHash + rfp_red
+	};
 	dom.sColorHash.innerHTML = sColorHash;
 
 };
