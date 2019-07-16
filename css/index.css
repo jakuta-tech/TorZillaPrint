@@ -30,10 +30,10 @@ a.blue {color: #8abfda; text-decoration: none;}
 .hidden {display: none;}
 .bad {color: #ff4f4f;}
 .good {color: #8cdc8c;} /* use test7 */
-.ttc {color: #dcdc8c;} /* use test4 */
+.neutral {color: #dcdc8c;} /* use test4 */
 .mono, .toDataURL, .toBlob, .winding, .getImageData, .isPointInPath, .fillText,
 	.isPointInStroke, .readPixels, .getContext, .mozGetAsFile, .strokeText {
-	font-family: monospace, "Courier New";}
+	font-family: monospace, "Courier New"; /*font-size: 11px;*/}
 
 /* show/hide */
 input[type='checkbox'] {display: none;}
