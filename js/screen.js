@@ -262,6 +262,11 @@ function os_widgets() {
 	});
 };
 
+function countDecimals (value) {
+	if(Math.floor(value) === value) return 0;
+	return value.toString().split(".")[1].length || 0;
+};
+
 /* OUTPUT */
 
 function outputScreen() {
@@ -604,114 +609,125 @@ function outputUA() {
 		// os: css line-height
 		// get line-height
 		let myLHElem = document.getElementById("testLH");
-		let lh = getComputedStyle(myLHElem).getPropertyValue("line-height")
+		let lh = getComputedStyle(myLHElem).getPropertyValue("line-height");
+		let lhCR = "";
+		// bugzilla 1536871: fall back to clientrect: use div height
 		if (lh == "normal") {
-			// FF69+ see bugzilla 1536871
-			// output: sbZoom was already set in scrollbar width code
-			dom.cssLH.innerHTML = lh + sbZoom + " <span class='good'> [bugzilla 1536871]</span>";
-		} else {
-			lh = lh.slice(0, -2);
-			let lhOS = "";
-			let strTBL = " [Linux]" + tor_browser_green;
-			let myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
-			if (myLHFont.slice(1,16) !== "Times New Roman") {
-				// document fonts blocked: TNR might not be used
-				lhOS = " <span class='bad'> [document fonts are disabled]</span>";
-			} else if (lh == "19.2") {
-				// TB: 19.2px seems to be unique to TB at any zoom on any platform
-				lhOS = tor_browser_green;
-			} else {
-				// using TNR and not TB's 19.2
-				// detect WINDOWS / LINUX
-				if (jsZoom == 300) {
-					if (lh=="19") {lhOS=strW};
-					if (lh=="18.6667") {lhOS=strW};
-					if (lh=="18") {lhOS=strL};
-					if (lh=="17.6667") {lhOS=strL};
-				} else if (jsZoom == 240) {
-					if (lh=="19.1667") {lhOS=strW};
-					if (lh=="19") {lhOS=strTBL};
-					if (lh=="18.3333") {lhOS=strWL};
-					if (lh=="17.5") {lhOS=strL};
-				} else if (jsZoom == 200) {
-					if (lh=="19") {lhOS=strW};
-					if (lh=="18") {lhOS=strL};
-				} else if (jsZoom == 170) {
-					if (lh=="19.25") {lhOS=strW};
-					if (lh=="18.9") {lhOS=strTBL};
-					if (lh=="18.6667") {lhOS=strW};
-					if (lh=="18.0833") {lhOS=strL};
-					if (lh=="17.5") {lhOS=strL};
-				} else if (jsZoom == 150) {
-					if (lh=="20") {lhOS=strW};
-					if (lh=="18.6667") {lhOS=strWL};
-					if (lh=="17.3333") {lhOS=strL};
-				} else if (jsZoom == 133) {
-					if (lh=="19.5") {lhOS=strW};
-					if (lh=="18.9") {lhOS=strTBL};
-					if (lh=="18") {lhOS=strL};
-					if (lh=="18.75") {lhOS=strW};
-				} else if (jsZoom == 120) {
-					if (lh=="20") {lhOS=strW};
-					if (lh=="19.1667") {lhOS=strL};
-					if (lh=="19") {lhOS=strTBL};
-					if (lh=="18.3333") {lhOS=strW};
-					if (lh=="17.5") {lhOS=strL};
-				} else if (jsZoom == 110) {
-					if (lh=="19.25") {lhOS=strW};
-					if (lh=="18.7") {lhOS=strTBL};
-					if (lh=="18.3333") {lhOS=strL};
-					if (lh=="17.4167") {lhOS=strL};
-				} else if (jsZoom == 100) {
-					if (lh=="20") {lhOS=strW};
-					if (lh=="19") {lhOS=strL};
-					if (lh=="18") {lhOS=strW};
-					if (lh=="17") {lhOS=strL};
-				} else if (jsZoom == 90) {
-					if (lh=="20.1") {lhOS=strW};
-					if (lh=="18.9833") {lhOS=strWL};
-					if (lh=="18.7667") {lhOS=strTBL};
-					if (lh=="16.75") {lhOS=strL};
-				} else if (jsZoom == 80) {
-					if (lh=="20") {lhOS=strW};
-					if (lh=="19.5") {lhOS=strTBL};
-					if (lh=="18.75") {lhOS=strWL};
-				} else if (jsZoom == 67) {
-					if (lh=="21") {lhOS=strW};
-					if (lh=="19.8") {lhOS=strTBL};
-					if (lh=="19.5") {lhOS=strWL};
-					if (lh=="18") {lhOS=strL};
-				} else if (jsZoom == 50) {
-					if (lh=="22") {lhOS=strW};
-					if (lh=="20") {lhOS=strWL};
-					if (lh=="18") {lhOS=strL};
-				} else if (jsZoom == 30) {
-					if (lh=="20") {lhOS=strWL};
-					if (lh=="26.6667") {lhOS=strW};
-				};
+			let testLHdiv = document.getElementById("testLHdiv");
+			let elementDiv = testLHdiv.getBoundingClientRect();
+			let newlh = elementDiv.height;
+			// if it has more than 4 decimal places
+			if (countDecimals(newlh) > 4) {
+				newlh = newlh.toFixed(4);
 			};
-			// detect MAC
-			if (lhOS == "") {
-			/*	mac unique: .0167 .05 .0833 .1833 .35 .4333 .6833 .8333 .85
-			mac not unique: .7667 .6667 (but unique at those zoom values)
-			19.5167 : from old hackernews */
-				let lhDec = (lh+"").split(".")[1];
-				if (lhDec=="0167" | lhDec=="05" | lhDec=="0833" | lhDec=="1833" | lhDec=="35" | lhDec=="4333" | lhDec=="6833"
-					| lhDec=="8333" | lhDec=="85" | lhDec=="7667" | lhDec=="6667" | lhDec=="5167") {lhOS=strM};
-			};
-			// detect ANDROID
-			if (lhOS == "") {if (lh == "19.5") {lhOS = strA}};
-			// still blank? and add logical guess or known metric
-			if (lhOS == "") {
-				lhOS = "[Linux] [logical guess]"
-			} else {
-				if (myLHFont.slice(1,16) == "Times New Roman") {
-					lhOS = lhOS + " [known metric]"
-				};
-			};
-			// output: sbZoom was already set in scrollbar width code
-			dom.cssLH.innerHTML = lh + "px " + sbZoom + lhOS;
+			lh = newlh.toString();
+			lhCR = " <span class='neutral'>[clientrect]</span> normal <span class='good'>[getComputedStyle]</span>";
+			// todo: detect clientrect randomizing
 		};
+		// trim off "px" if it exists
+		if (lh.substr(-2) == "px") {
+			lh = lh.slice(0, -2);
+		};
+		let lhOS = "";
+		let strTBL = " [Linux]" + tor_browser_green;
+		let myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
+		if (myLHFont.slice(1,16) !== "Times New Roman") {
+			// document fonts blocked: TNR might not be used
+			lhOS = " <span class='bad'> [document fonts are disabled]</span>";
+		} else if (lh == "19.2") {
+			// TB: 19.2px seems to be unique to TB at any zoom on any platform
+			lhOS = tor_browser_green;
+		} else {
+			// using TNR and not TB's 19.2
+			// detect WINDOWS / LINUX
+			if (jsZoom == 300) {
+				if (lh=="19") {lhOS=strW};
+				if (lh=="18.6667") {lhOS=strW};
+				if (lh=="18") {lhOS=strL};
+				if (lh=="17.6667") {lhOS=strL};
+			} else if (jsZoom == 240) {
+				if (lh=="19.1667") {lhOS=strW};
+				if (lh=="19") {lhOS=strTBL};
+				if (lh=="18.3333") {lhOS=strWL};
+				if (lh=="17.5") {lhOS=strL};
+			} else if (jsZoom == 200) {
+				if (lh=="19") {lhOS=strW};
+				if (lh=="18") {lhOS=strL};
+			} else if (jsZoom == 170) {
+				if (lh=="19.25") {lhOS=strW};
+				if (lh=="18.9") {lhOS=strTBL};
+				if (lh=="18.6667") {lhOS=strW};
+				if (lh=="18.0833") {lhOS=strL};
+				if (lh=="17.5") {lhOS=strL};
+			} else if (jsZoom == 150) {
+				if (lh=="20") {lhOS=strW};
+				if (lh=="18.6667") {lhOS=strWL};
+				if (lh=="17.3333") {lhOS=strL};
+			} else if (jsZoom == 133) {
+				if (lh=="19.5") {lhOS=strW};
+				if (lh=="18.9") {lhOS=strTBL};
+				if (lh=="18") {lhOS=strL};
+				if (lh=="18.75") {lhOS=strW};
+			} else if (jsZoom == 120) {
+				if (lh=="20") {lhOS=strW};
+				if (lh=="19.1667") {lhOS=strL};
+				if (lh=="19") {lhOS=strTBL};
+				if (lh=="18.3333") {lhOS=strW};
+				if (lh=="17.5") {lhOS=strL};
+			} else if (jsZoom == 110) {
+				if (lh=="19.25") {lhOS=strW};
+				if (lh=="18.7") {lhOS=strTBL};
+				if (lh=="18.3333") {lhOS=strL};
+				if (lh=="17.4167") {lhOS=strL};
+			} else if (jsZoom == 100) {
+				if (lh=="20") {lhOS=strW};
+				if (lh=="19") {lhOS=strL};
+				if (lh=="18") {lhOS=strW};
+				if (lh=="17") {lhOS=strL};
+			} else if (jsZoom == 90) {
+				if (lh=="20.1") {lhOS=strW};
+				if (lh=="18.9833") {lhOS=strWL};
+				if (lh=="18.7667") {lhOS=strTBL};
+				if (lh=="16.75") {lhOS=strL};
+			} else if (jsZoom == 80) {
+				if (lh=="20") {lhOS=strW};
+				if (lh=="19.5") {lhOS=strTBL};
+				if (lh=="18.75") {lhOS=strWL};
+			} else if (jsZoom == 67) {
+				if (lh=="21") {lhOS=strW};
+				if (lh=="19.8") {lhOS=strTBL};
+				if (lh=="19.5") {lhOS=strWL};
+				if (lh=="18") {lhOS=strL};
+			} else if (jsZoom == 50) {
+				if (lh=="22") {lhOS=strW};
+				if (lh=="20") {lhOS=strWL};
+				if (lh=="18") {lhOS=strL};
+			} else if (jsZoom == 30) {
+				if (lh=="20") {lhOS=strWL};
+				if (lh=="26.6667") {lhOS=strW};
+			};
+		};
+		// detect MAC
+		if (lhOS == "") {
+		/*	mac unique: .0167 .05 .0833 .1833 .35 .4333 .6833 .8333 .85
+		mac not unique: .7667 .6667 (but unique at those zoom values)
+		19.5167 : from old hackernews */
+			let lhDec = (lh+"").split(".")[1];
+			if (lhDec=="0167" | lhDec=="05" | lhDec=="0833" | lhDec=="1833" | lhDec=="35" | lhDec=="4333" | lhDec=="6833"
+				| lhDec=="8333" | lhDec=="85" | lhDec=="7667" | lhDec=="6667" | lhDec=="5167") {lhOS=strM};
+		};
+		// detect ANDROID
+		if (lhOS == "") {if (lh == "19.5") {lhOS = strA}};
+		// still blank? and add logical guess or known metric
+		if (lhOS == "") {
+			lhOS = "[Linux] [logical guess]"
+		} else {
+			if (myLHFont.slice(1,16) == "Times New Roman") {
+				lhOS = lhOS + " [known metric]"
+			};
+		};
+		// output: sbZoom was already set in scrollbar width code
+		dom.cssLH.innerHTML = lh + "px " + sbZoom + lhOS + lhCR;
 
 		// widgets
 		os_widgets();
