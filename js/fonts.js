@@ -33,14 +33,17 @@ function reset_unicode() {
 	dom.fontUGFound1.innerHTML = ugHeader + str;
 };
 
-function output_unicode() {
+function output_unicode(n) {
 	/* UNICODE GLYPHS
 	code based on work by David Fifield and Serge Egelman (2015)
 	https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo
 	*/
 
 	// reset display & load iframe
-	reset_unicode();
+	// no need to clear on consecutive tests
+	if (n == "1") {
+		reset_unicode();
+	};
 	let iframe = document.getElementById("iframeFG");
 	iframe.src = "iframes/unicodeglyphs.html";
 	iframe.addEventListener("load", function(){
@@ -341,7 +344,21 @@ function output_enumerate(){
 
 function outputFonts1(){
 	/* auto-run */
-	output_unicode();
+
+	// unicode glyphs
+	// run consecutive tests to detect clientrect randomizing
+	output_unicode("1");
+	setTimeout(function(){
+		// grab first test results, run second test
+		let result1 = dom.fontUG2.textContent;
+		output_unicode("2");
+		setTimeout(function(){
+			let result2 = dom.fontUG2.textContent;
+			if (result1 !== result2) {
+				dom.fontUG2.innerHTML = dom.fontUG2.textContent + note_random;
+			}
+		}, 800); // let test 2 finish + extra so end user can see the result change
+	}, 600); // let test 1 finish
 
 	// default proportional font
 	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
