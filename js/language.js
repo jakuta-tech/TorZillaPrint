@@ -101,28 +101,40 @@ function outputLanguage() {
 	// application language leak PoCs: run only if Firefox
 	if (amFF == true) {
 
+		// are images or iframes blocked
 		let iframeBlocked = false;
-
-		// MediaDocument.properties
-		// Run this one first to capture if iframes are blocked
-		// iframeBlocked needs improvement e.g could be images that are blocked
-		// but this will do for now rather than create a new test
-		let iframe3 = document.getElementById("iframeAPPL");
-		iframe3.src="images/dummy.png";
-		iframe3.addEventListener("load", function() {
-			try {
-				dom.appLang4 = (this.contentWindow.document.title);
-			} catch(e) {
-				if ((location.protocol) == "file:") {
-					// file: Cross-Origin Request Blocked
-					dom.appLang4.innerHTML = error_file_cors
+		let imageTest = document.getElementById("imageTest");
+		imageTest.src="images/doesntexist.png";
+		setTimeout(function(){
+			let imageHeight1 = imageTest.offsetHeight; // default height for a missing image
+			imageTest.src="images/dummy.png";
+			setTimeout(function(){
+				let imageHeight2 = imageTest.offsetHeight;
+				// compare missing image height to real image image height
+				// console.log ("no image:", imageHeight1, "| real image:", imageHeight2);
+				if (imageHeight1 == imageHeight2) {
+					dom.appLang4.innerHTML = error_image
 				} else {
-					// iframe blocked?
-					dom.appLang4.innerHTML = error_iframe;
-					iframeBlocked = true;
-				};
-			};
-		});
+					// MediaDocument.properties
+					let iframe3 = document.getElementById("iframeAPPL");
+					iframe3.src="images/dummy.png";
+					iframe3.addEventListener("load", function() {
+						try {
+							dom.appLang4 = (this.contentWindow.document.title);
+						} catch(e) {
+							if ((location.protocol) == "file:") {
+								// file: Cross-Origin Request Blocked
+								dom.appLang4.innerHTML = error_file_cors
+							} else {
+								// iframe blocked
+								dom.appLang4.innerHTML = error_iframe;
+								iframeBlocked = true;
+							};
+						};
+					});
+				}
+			}, 200);
+		}, 200);
 
 		// dom.properties
 		dom.appLang1 = document.getElementById("appL1el").validationMessage;
