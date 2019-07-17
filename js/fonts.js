@@ -357,8 +357,8 @@ function outputFonts1(){
 			if (result1 !== result2) {
 				dom.fontUG2.innerHTML = dom.fontUG2.textContent + note_random;
 			}
-		}, 800); // let test 2 finish + extra so end user can see the result change
-	}, 600); // let test 1 finish
+		}, 900);
+	}, 900);
 
 	// default proportional font
 	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
