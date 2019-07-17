@@ -133,8 +133,8 @@ function outputLanguage() {
 						};
 					});
 				}
-			}, 300);
-		}, 300);
+			}, 500);
+		}, 500);
 
 		// dom.properties
 		dom.appLang1 = document.getElementById("appL1el").validationMessage;
