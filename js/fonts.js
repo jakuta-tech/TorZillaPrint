@@ -157,7 +157,7 @@ let spawn = (function () {
 	return generatorFunction => promiseFromGenerator(generatorFunction());
 })();
 
-function output_enumerate(){
+function output_enumerate_fallback(){
 	/* ARTHUR'S TEST: ENUMERATE FONTS
 	https://github.com/arthuredelstein/tordemos
 	*/
@@ -272,7 +272,7 @@ function output_enumerate(){
 				let strFontFB = htmlFontList(fontsPresent);
 				// output detected fonts
 				if (fontfbYes > 0) {
-					// trim trailing comma + space
+					// remove trailing comma + space
 					strFontFB = strFontFB.slice(0, -2);
 					dom.fontFBFound.innerHTML = strFontFB;
 				}	else {
@@ -302,6 +302,191 @@ function output_enumerate(){
 	});
 
 };
+
+function output_enumerate_fpjs2() {
+	/* 
+	http://www.lalit.org/lab/javascript-css-font-detect/
+	https://github.com/Valve/fingerprintjs2
+	*/
+
+	// initialize variables
+	let baseFonts = ['monospace','sans-serif','serif'],
+			outputString = "",// detected fonts output
+			outputCount = 0,  // detected fonts count
+			errorxhr = false, // trap if there was an xhr/xmlhttp error
+			fontList2 = [];
+
+	// change font color to hide results: try not to shrink/grow elements
+	dom.fontFPJS2Found.style.color = "#1a1a1a";
+	dom.fontFPJS2 = "test is running... please wait";
+
+	// build fontList2 from text file
+	function intoArray(lines) {
+		// exclude blank lines by filtering length
+		let lineArr = lines.split("\n").filter(s => s.length > 0);
+		for (let k = 0 ; k < lineArr.length; k++) {
+			fontList2.push(lineArr[k]);
+		}
+	};
+	function getData() {
+		let xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4) {
+				let lines = xhr.responseText;
+				intoArray(lines);
+			}
+		}
+		xhr.onerror = function() {
+			errorxhr = true;
+		};
+		xhr.overrideMimeType("text/plain; charset=utf-8");
+		xhr.open("GET", "txt/fontFallbackList.txt", true);
+		xhr.send();
+	};
+	getData();
+
+	// do the test
+	setTimeout(function(){
+		// don't bother if we couldn't read the file
+		if (errorxhr == false) {
+
+			// sort fonts and remove duplicates
+			fontList2.sort();
+			fontList2 = fontList2.filter(function (font, position) {
+				return fontList2.indexOf(font) === position
+			});
+
+			// the real test starts here
+			let h = document.getElementsByTagName('body')[0]
+			// div to load spans for the base fonts
+			let baseFontsDiv = document.createElement('div')
+			// div to load spans for the fonts to detect
+			let fontsDiv = document.createElement('div')
+			let defaultWidth = {}
+			let defaultHeight = {}
+			// creates a span where the fonts will be loaded
+			let createSpan = function () {
+				let s = document.createElement('spanFP')
+				// hide the span
+				s.style.position = 'absolute'
+				s.style.left = '-9999px'
+				// normalize the span
+				s.style.fontSize = '256px'
+				s.style.fontStyle = 'normal'
+				s.style.fontWeight = 'normal'
+				s.style.letterSpacing = 'normal'
+				s.style.lineBreak = 'auto'
+				s.style.lineHeight = 'normal'
+				s.style.textTransform = 'none'
+				s.style.textAlign = 'left'
+				s.style.textDecoration = 'none'
+				s.style.textShadow = 'none'
+				s.style.whiteSpace = 'normal'
+				s.style.wordBreak = 'normal'
+				s.style.wordSpacing = 'normal'
+				// use m or w = maximum width | use LLi so same matching fonts can get separated
+				s.innerHTML = "mmLLmmmmmwwwmmmlli"
+				return s
+			}
+			// creates a span and load the font to detect and a base font for fallback
+			let createSpanWithFonts = function (fontToDetect, baseFont) {
+				let s = createSpan()
+				s.style.fontFamily = "'" + fontToDetect + "'," + baseFont
+				return s
+			}
+			// creates spans for the base fonts and adds them to baseFontsDiv
+			let initializeBaseFontsSpans = function () {
+				let spans = []
+				for (let index = 0, length = baseFonts.length; index < length; index++) {
+					let s = createSpan()
+					s.style.fontFamily = baseFonts[index]
+					baseFontsDiv.appendChild(s)
+					spans.push(s)
+				}
+				return spans
+			}
+			// creates spans for the fonts to detect and adds them to fontsDiv
+			let initializeFontsSpans = function () {
+				let spans = {}
+				for (let i = 0; i < fontList2.length; i++) {
+					let fontSpans = []
+					for (let j = 0, numDefaultFonts = baseFonts.length; j < numDefaultFonts; j++) {
+						let s = createSpanWithFonts(fontList2[i], baseFonts[j])
+						fontsDiv.appendChild(s)
+						fontSpans.push(s)
+					}
+					spans[fontList2[i]] = fontSpans // Stores {fontName : [spans for that font]}
+				}
+				return spans
+			}
+			// checks if a font is available
+			let isFontAvailable = function (fontSpans) {
+				let detected = false
+				for (let i = 0; i < baseFonts.length; i++) {
+					detected = (fontSpans[i].offsetWidth !== defaultWidth[baseFonts[i]] || fontSpans[i].offsetHeight !== defaultHeight[baseFonts[i]])
+					if (detected) {return detected;}
+				}
+				return detected;
+			}
+			// create spans for base fonts
+			let baseFontsSpans = initializeBaseFontsSpans()
+			// add the spans to the DOM
+			h.appendChild(baseFontsDiv)
+			// get the default width for the three base fonts
+			for (let index = 0, length = baseFonts.length; index < length; index++) {
+				defaultWidth[baseFonts[index]] = baseFontsSpans[index].offsetWidth // width for the default font
+				defaultHeight[baseFonts[index]] = baseFontsSpans[index].offsetHeight // height for the default font
+			}
+			// create spans for fonts to detect
+			let fontsSpans = initializeFontsSpans()
+			// add all the spans to the DOM
+			h.appendChild(fontsDiv)
+
+			// check available fonts
+			let available = []
+			for (let i = 0 ; i < fontList2.length; i++) {
+				if (isFontAvailable(fontsSpans[fontList2[i]])) {
+					fontList2[i]
+					available.push(fontList2[i]);
+					outputCount++;
+					outputString = outputString + ", " + fontList2[i];
+				}
+			}
+
+			// remove spans from DOM
+			h.removeChild(fontsDiv)
+			h.removeChild(baseFontsDiv)
+
+			// output detected fonts
+			if (outputCount > 0) {
+				// remove trailing comma + space
+				outputString = outputString.slice(2);
+				dom.fontFPJS2Found = outputString;
+			}	else {
+				dom.fontFPJS2Found = "no fonts detected"
+			};
+			// output hash and counters
+			dom.fontFPJS2 = sha1(outputString) + " ["+outputCount+"/"+fontList2.length+"]";
+			// note if file://
+			if ((location.protocol) == "file:") {
+				dom.fontFPJS2.innerHTML = dom.fontFPJS2.textContent + note_file
+			}
+		} else {
+			// couldn't read the file
+			if ((location.protocol) == "file:") {
+				// file: Cross-Origin Request Blocked
+				dom.fontFPJS2.innerHTML = error_file_cors
+			} else {
+				// xhr blocked
+				dom.fontFPJS2.innerHTML = error_file_xhr
+			};
+			dom.fontFPJS2Found = "";
+		}
+		// reset color
+		dom.fontFPJS2Found.style.color = "#b3b3b3";
+	}, 1500);
+};
+
 
 function outputFonts1(){
 	/* auto-run */
@@ -361,5 +546,7 @@ outputFonts1();
 
 function outputFonts2(){
 	/* not auto-run */
-	output_enumerate();
+	output_enumerate_fpjs2();
+	output_enumerate_fallback();
+
 };
