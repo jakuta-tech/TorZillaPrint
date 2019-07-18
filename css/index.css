@@ -20,7 +20,7 @@
 }
 
 /* main */
-body {background-color: #1a1a1a; color: #b3b3b3; font-size: 12px;}
+body {background-color: #1a1a1a; color: #b3b3b3;}
 h2 {color: white; font-size 14px; text-align: center; margin-top: inherit;}
 code {background: #303030 !important; border: 1px solid rgba(255, 255, 255, .1);
 	padding: 1px; border-radius: 2px;}
@@ -28,12 +28,34 @@ a {color: black; text-decoration: none;}
 a.blue {color: #8abfda; text-decoration: none;}
 .no_color {color: #b3b3b3;}
 .hidden {display: none;}
+.offscreen {position: absolute; top: -2000%;}
 .bad {color: #ff4f4f;}
 .good {color: #8cdc8c;} /* use test7 */
 .neutral {color: #dcdc8c;} /* use test4 */
 .mono, .toDataURL, .toBlob, .winding, .getImageData, .isPointInPath, .fillText,
 	.isPointInStroke, .readPixels, .getContext, .mozGetAsFile, .strokeText {
-	font-family: monospace, "Courier New"; /*font-size: 11px;*/}
+	font-family: monospace, "Courier New";}
+
+.normalized {
+	font-family: none;
+  font-style: normal;
+	font-variant: normal;
+  font-weight: normal;
+  line-height: normal;
+  text-transform: none;
+  text-align: left;
+  text-decoration: none;
+  text-shadow: none;
+  white-space: normal;
+  word-break: normal;
+  word-spacing: normal;
+}
+#ugSpan {font-size: 10000%;}
+@font-face {
+	font-family: "woff2"; src: url("../fonts/fnt.woff2") format("woff2");
+}
+.woff_fnt0 {font-family: "Times New Roman";}
+.woff_fnt1 {font-family: "woff2";}
 
 /* show/hide */
 input[type='checkbox'] {display: none;}
@@ -87,7 +109,7 @@ div.nav-down {position: absolute; right: 5px; top: 0px; width: 20px;}
 div.nav-up {position: absolute; left: 5px; top: 0px; width: 20px;}
 
 /* tables */
-table {width: 900px; border-collapse: collapse; margin: 0 auto 10px auto;}
+table {width: 900px; border-collapse: collapse; margin: 0 auto 10px auto; font-size: 12px;}
 tbody:before {content: "-"; display: block; line-height: 1em; color: transparent;}
 td {padding-bottom: 3px; padding-top: 3px; padding-left: 10px;}
 th {color: black; font-weight: bold; font-size: 16px; padding: 3px 0;}
