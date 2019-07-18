@@ -290,12 +290,10 @@ function output_enumerate(){
 					} else {
 						// xhr error: couldn't read the file
 						dom.fontFB.innerHTML = error_file_xhr;
-						dom.fontFB.style.fontFamily = "none"; // cosmetic
 						dom.fontFBFound = "";
 					}
-					// reset color, flip stype, update button
+					// reset color, update button
 					document.getElementById("fontFBFound").style.color = "#b3b3b3";
-					dom.fontFB.style.fontFamily = "monospace, monospace";
 					dom.fontRun = "[ re-run tests ]";
 				}, 1500);
 			});
@@ -311,7 +309,6 @@ function output_enumerate(){
 			// blank results, reset color, flip style, update button
 			dom.fontFBFound = "";
 			dom.fontFBFound.style.color = "#b3b3b3";
-			dom.fontFB.style.fontFamily = "none";
 			dom.fontRun = "[ re-run tests ]";
 		};
 	});
