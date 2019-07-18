@@ -1070,6 +1070,7 @@ Tunga Bold
 Tw Cen MT
 Tw Cen MT Condensed
 Tw Cen MT Condensed Extra Bold
+Twemoji Mozilla
 TypoUpright BT
 Unicorn
 Univers
