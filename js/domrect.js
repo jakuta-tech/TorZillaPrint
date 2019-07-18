@@ -52,7 +52,7 @@ function outputDomRect() {
 	};
 
 	// set iframe source
-	let iframe = document.getElementById("iframeDR");
+	let iframe = document.getElementById("IFRAME_DOMRECT");
 	iframe.src = "iframes/domrect.html";
 	iframe.addEventListener("load", function(){
 		// catch iframe error
