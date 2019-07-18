@@ -53,6 +53,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 #ugSpan {font-size: 10000%;}
 @font-face {
 	font-family: "woff2"; src: url("../fonts/fnt.woff2") format("woff2");
+  font-family: "fontFallback"; src: url("../fonts/fontFallback.ttf");
 }
 .woff_fnt0 {font-family: "Times New Roman";}
 .woff_fnt1 {font-family: "woff2";}
