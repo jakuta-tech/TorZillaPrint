@@ -168,150 +168,139 @@ function output_enumerate(){
 	// change font color to hide results: try not to shrink/grow elements
 	dom.fontFBFound.style.color = "#1a1a1a";
 
-	// load iframe
-	let iframe = document.getElementById("IFRAME_FONTFALLBACK");
-	iframe.src = "iframes/fontfallback.html";
-	iframe.addEventListener("load", function(){
+	// initialize test
+	let fontFBTest = dom.fontFBTest;
+	dom.fontFB = "test is running... please wait";
+	fontFBTest.style.fontSize = "256px";
 
-		// catch iframe error
-		try {
-			// initialize test
-			let fontFBTest = iframe.contentWindow.document.getElementById("fontFBTest");
-			dom.fontFB = "test is running... please wait";
-			fontFBTest.style.fontSize = "256px";
+	// return width of the element with a given fontFamily
+	let measureWidthForFont = function (fontFamily) {
+		fontFBTest.style.fontFamily = fontFamily;
+		return fontFBTest.offsetWidth;
+	};
 
-			// return width of the element with a given fontFamily
-			let measureWidthForFont = function (fontFamily) {
-				fontFBTest.style.fontFamily = fontFamily;
-				return fontFBTest.offsetWidth;
-			};
+	// standard width for the text string with fallback font
+	let width0 = null;
 
-			// standard width for the text string with fallback font
-			let width0 = null;
+	// determines whether a code point is available
+	let isFontPresent = function (fontName) {
+		// Measure the font width twice: once with serif as fallback and once with sans-serif
+		// as fallback. Under the assumption that serif and sans-serif have different widths,
+		// only if the font is present will the resulting widths be equal.
+		width0 = width0 || measureWidthForFont("fontFallback");
+		let width1 = measureWidthForFont("'" + fontName + "', fontFallback");
+		return width0 !== width1;
+	};
 
-			// determines whether a code point is available
-			let isFontPresent = function (fontName) {
-				// Measure the font width twice: once with serif as fallback and once with sans-serif
-				// as fallback. Under the assumption that serif and sans-serif have different widths,
-				// only if the font is present will the resulting widths be equal.
-				width0 = width0 || measureWidthForFont("fontFallback");
-				let width1 = measureWidthForFont("'" + fontName + "', fontFallback");
-				return width0 !== width1;
-			};
+	// Takes a list of possible fonts, and returns fonts present
+	let fontfbYes = 0, fontfbAll = 0;
+	let enumerateFonts = function (possibleFonts) {
+		let fontsPresent = [];
+		for (let font of possibleFonts) {
+			if (isFontPresent(font)) {
+				fontsPresent.push(font);
+				fontfbYes++;
+			}
+			fontfbAll++;
+		}
+		return [fontsPresent];
+	};
 
-			// Takes a list of possible fonts, and returns fonts present
-			let fontfbYes = 0, fontfbAll = 0;
-			let enumerateFonts = function (possibleFonts) {
-				let fontsPresent = [];
-				for (let font of possibleFonts) {
-					if (isFontPresent(font)) {
-						fontsPresent.push(font);
-						fontfbYes++;
-					}
-					fontfbAll++;
+	// return a list
+	let htmlFontList = function (fonts) {
+		let list = "";
+		for (let font of fonts) {list += font + ", ";}
+		return list;
+	};
+
+	// read a text file and returns a promise resolving to the contents.
+	let readTextFile = function (filename) {
+		return new Promise(function (resolve) {
+			let xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4) {
+					resolve(xhr.responseText);
 				}
-				return [fontsPresent];
 			};
-
-			// return a list
-			let htmlFontList = function (fonts) {
-				let list = "";
-				for (let font of fonts) {list += font + ", ";}
-				return list;
+			xhr.onerror = function() {
+				xhrerror = true;
 			};
+			xhr.overrideMimeType("text/plain; charset=utf-8");
+			xhr.open("GET", filename);
+			xhr.send();
+		});
+	};
 
-			// read a text file and returns a promise resolving to the contents.
-			let readTextFile = function (filename) {
-				return new Promise(function (resolve) {
-					let xhr = new XMLHttpRequest();
-					xhr.onreadystatechange = function() {
-						if (xhr.readyState == 4) {
-							resolve(xhr.responseText);
-						}
-					};
-					xhr.onerror = function() {
-						xhrerror = true;
-					};
-					xhr.overrideMimeType("text/plain; charset=utf-8");
-					xhr.open("GET", filename);
-					xhr.send();
+	// retrieves a set of code points that are representative
+	// of the various unicode blocks.xf
+	let retrieveCodePoints = function* () {
+		let text = yield readTextFile("txt/fontFallbackUnicodeBlocks.txt");
+		let codePoints = text
+			.split("\n")
+			.map(s => s.trim())
+			.filter(s => s.length > 0)
+			.map(x => parseInt(x))
+			.map(x => x + 1);
+		codePoints[0] = 77;
+		return codePoints;
+	};
+
+	// return promise resolving to an array of fonts from a predefined list
+	let retrieveFontList = function* () {
+		let text = yield readTextFile("txt/fontFallbackList.txt");
+		// exclude blank lines by filtering length
+		return text.split("\n").filter(s => s.length > 0);
+	};
+
+	// run the test
+	spawn(function* () {
+		let codePoints = yield retrieveCodePoints();
+		let testString = codePoints.map(x => String.fromCodePoint(x)).join("</span>\n<span>");
+		fontFBTest.innerHTML = testString;
+		let fontList = yield retrieveFontList();
+
+		// allow time to make sure list/fallback font are loaded
+		setTimeout(function(){
+			// don't bother if we couldn't read the file(s)
+			if (xhrerror == false) {
+				// sort fonts and remove duplicates
+				fontList.sort();
+				fontList = fontList.filter(function (font, position) {
+					return fontList.indexOf(font) === position
 				});
-			};
-
-			// retrieves a set of code points that are representative
-			// of the various unicode blocks.xf
-			let retrieveCodePoints = function* () {
-				let text = yield readTextFile("txt/fontFallbackUnicodeBlocks.txt");
-				let codePoints = text
-					.split("\n")
-					.map(s => s.trim())
-					.filter(s => s.length > 0)
-					.map(x => parseInt(x))
-					.map(x => x + 1);
-				codePoints[0] = 77;
-				return codePoints;
-			};
-
-			// return promise resolving to an array of fonts from a predefined list
-			let retrieveFontList = function* () {
-				let text = yield readTextFile("txt/fontFallbackList.txt");
-				// exclude blank lines by filtering length
-				return text.split("\n").filter(s => s.length > 0);
-			};
-
-			// run the test
-			spawn(function* () {
-				let codePoints = yield retrieveCodePoints();
-				let testString = codePoints.map(x => String.fromCodePoint(x)).join("</span>\n<span>");
-				fontFBTest.innerHTML = testString;
-				let fontList = yield retrieveFontList();
-
-				// allow time to make sure list/fallback font are loaded
-				setTimeout(function(){
-					// don't bother if we couldn't read the file(s)
-					if (xhrerror == false) {
-						// sort fonts and remove duplicates
-						fontList.sort();
-						fontList = fontList.filter(function (font, position) {
-							return fontList.indexOf(font) === position
-						});
-						let [fontsPresent] = enumerateFonts(fontList);
-						let strFontFB = htmlFontList(fontsPresent);
-						// output detected fonts
-						if (fontfbYes > 0) {
-							// trim trailing comma + space
-							strFontFB = strFontFB.slice(0, -2);
-							dom.fontFBFound.innerHTML = strFontFB;
-						}	else {
-							dom.fontFBFound.innerHTML = "no fonts detected"
-						};
-						// output hash and counters
-						dom.fontFB = sha1(strFontFB) + " ["+fontfbYes+"/"+fontfbAll+"]";
-					} else {
-						// xhr error: couldn't read the file
-						dom.fontFB.innerHTML = error_file_xhr;
-						dom.fontFBFound = "";
-					}
-					// reset color, update button
-					document.getElementById("fontFBFound").style.color = "#b3b3b3";
-					dom.fontRun = "[ re-run tests ]";
-				}, 1500);
-			});
-		} catch(e) {
-			// iframe didn't load
-			if ((location.protocol) == "file:") {
-				// file: Cross-Origin Request Blocked
-				dom.fontFB.innerHTML = error_file_cors
+				let [fontsPresent] = enumerateFonts(fontList);
+				let strFontFB = htmlFontList(fontsPresent);
+				// output detected fonts
+				if (fontfbYes > 0) {
+					// trim trailing comma + space
+					strFontFB = strFontFB.slice(0, -2);
+					dom.fontFBFound.innerHTML = strFontFB;
+				}	else {
+					dom.fontFBFound.innerHTML = "no fonts detected"
+				};
+				// output hash and counters
+				dom.fontFB = sha1(strFontFB) + " ["+fontfbYes+"/"+fontfbAll+"]";
+				// note if file:// since this affects the result
+				if ((location.protocol) == "file:") {
+					dom.fontFB.innerHTML = dom.fontFB.textContent + note_file
+				}
 			} else {
-				// iframe is blocked
-				dom.fontFB.innerHTML = error_iframe;
-			};
-			// blank results, reset color, flip style, update button
-			dom.fontFBFound = "";
+				// couldn't read the file
+				if ((location.protocol) == "file:") {
+					// file: Cross-Origin Request Blocked
+					dom.fontFB.innerHTML = error_file_cors
+				} else {
+					// xhr blocked
+					dom.fontFB.innerHTML = error_file_xhr;
+				};
+				dom.fontFBFound = "";
+			}
+			// reset color, update button
 			dom.fontFBFound.style.color = "#b3b3b3";
 			dom.fontRun = "[ re-run tests ]";
-		};
+		}, 1500);
 	});
+
 };
 
 function outputFonts1(){
