@@ -492,8 +492,10 @@ function outputFonts1(){
 	/* auto-run */
 
 	// unicode glyphs
-	// run consecutive tests to detect clientrect randomizing
+	// make sure div is not hidden
+	dom.unicode.style.display = "";
 	output_unicode("1");
+	// run consecutive tests to detect clientrect randomizing
 	setTimeout(function(){
 		// grab first test results, run second test
 		let result1 = dom.fontUG2.textContent;
@@ -504,6 +506,8 @@ function outputFonts1(){
 				dom.fontUG2.innerHTML = dom.fontUG2.textContent + note_random;
 			}
 		}, 900);
+		// hide the unicode div: get rid of horizontal scroll
+		dom.unicode.style.display = "none";
 	}, 900);
 
 	// default proportional font
