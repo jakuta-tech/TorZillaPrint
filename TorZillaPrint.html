@@ -10,6 +10,50 @@
 </head>
 
 <body>
+
+	<!-- non-displayed elements -->
+		<!-- screen, ua, os, etc -->
+		<div id='DIV_DPI' class="offscreen" style='height: 1in; width: 1in;'></div>
+		<div id="DIV_LINEHEIGHT" class="offscreen">
+			<span id="SPAN_LINEHEIGHT" class="cssLH">line height</span>
+		</div>
+		<div class="hidden"><object id="obj68"></object></div>
+		<img id="element_FULLSCREEN" width=0 height=0></img>
+		<!-- widget os -->
+		<iframe id="iframeWidget" class="offscreen"></iframe>
+		<!-- app language -->
+		<div class="offscreen"><img id="APP_LANG_IMAGE" src="images/doesntexist.png"></span></div>
+		<div class="offscreen"><form><input id="APP_LANG_1" required="" type="text"></form></div>
+		<iframe id="APP_LANG_2" class="offscreen"></iframe>
+		<iframe id="APP_LANG_3" class="offscreen"></iframe>
+		<iframe id="APP_LANG_4" class="offscreen"></iframe>
+		<!-- domrect -->
+		<iframe id="IFRAME_DOMRECT" class="offscreen"></iframe>
+		<!-- default font size -->
+		<div class="offscreen">
+			<div class="normalized">
+				<div><span id="df1" style='font-family: serif;'>abcdefghijklmonpqrstuvwxyz<span></div>
+				<div><span id="df2" style='font-family: sans-serif;'>abcdefghijklmonpqrstuvwxyz<span></div>
+				<div><span id="df3" style='font-family: monospace;'>abcdefghijklmonpqrstuvwxyz<span></div>
+			</div>
+		</div>
+		<!-- woff2 -->
+		<div class="offscreen">
+			<div><span id="woff_fnt0" class="woff_fnt0" style='font-size: 128px;'>&#xe800;</span></div>
+			<div><span id="woff_fnt1" class="woff_fnt1" style='font-size: 128px;'>&#xe800;</span></div>
+		</div>
+		<!-- unicode glyphs -->
+		<div class="offscreen">
+			<div id="ugDiv" class="normalized" style='font-size: 22pt;'><span id="ugSpan"><span id="ugSlot"></span></span></div>
+		</div>
+		<!-- fonts -->
+		<iframe id="IFRAME_FONTCHECK" class="offscreen"></iframe>
+		<iframe id="IFRAME_FONTFALLBACK" class="offscreen"></iframe>
+		<!-- css -->
+		<div class="hidden"><span id="sColorElement"></span></div>
+		<div class="themed" id="pColorElement"></div>
+		<div class="motion" id="pMotionElement"></div>
+
 	<table>
 	<tr><td><a anchor="top"></a><h2>TorZillaPrint</h2></td></tr>
 	<tr><td class="blurb">TZP is only designed for Firefox [v60+] and the Tor Browser [v8+].
@@ -18,14 +62,6 @@
 	sections, be aware that some pref/option changes may require a page refresh [<b>F5</b>] or even a new browser session.
 	</td></tr>
 	</table>
-
-	<!-- iframes: get them in early-->
-	<iframe id="iframeDR" style='position: absolute; top: -2000%;'></iframe>
-	<iframe id="iframeWD" style='position: absolute; top: -1000%;'></iframe>
-	<iframe id="iframeFC" style='position: absolute; top: -1000%;'></iframe>
-	<iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
-	<iframe id="iframeFG" style='position: absolute; top: -1000%;'></iframe>
-	<img width=0 height=0 id="elFS"></img>
 
 	<!-- TABLE 1: Screen - screen.js -->
 	<table id="tb1">
@@ -89,12 +125,6 @@
 			<a target="_blank" class="blue" href="https://acatarineu.github.io/fp/devicePixelRatio.html">Alex Catarineu</a> <sup>4</sup>
 		</td></tr>
 	</table>
-
-		<div id='testdpi' style='height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;'></div>
-		<div id="testLHdiv" style='position: absolute; top: -2000%;'>
-			<span class="cssLH" id="testLH">line height test</span>
-		</div>
-		<div class="hidden"><object id="obj68"></object></div>
 
 	<!-- TABLE 2: User Agent - part of screen.js-->
 	<table id="tb2">
@@ -215,12 +245,6 @@
 		<tr><td colspan="2"><span class="no_color">ECMAScript 6th edition math code courtesy of </span>
 			<a target="_blank" class="blue" href="https://fpcentral.tbb.torproject.org/">Fingerprint Central</a></td></tr>
 	</table>
-
-	<div class="hidden"><form><input id="appL1el" required="" type="text"></form></div>
-	<div style='position: absolute; top: -2000%;'><img id="imageTest" src="images/doesntexist.png"></span></div>
-	<iframe id="iframeDTD1" style='position: absolute; top: -2000%;'></iframe>
-	<iframe id="iframeDTD2" style='position: absolute; top: -2000%;'></iframe>
-	<iframe id="iframeAPPL" style='position: absolute; top: -2000%;'></iframe>
 
 	<!-- TABLE 4: Language & Locale / Time Zone & Date Format / Geolocation - language.js -->
 	<table id="tb4">
@@ -488,7 +512,6 @@
 	</table>
 
 	<!-- TABLE 10: Fonts - fonts.js -->
-	<iframe id="iframeFF" style='position: absolute; top: -1000%;'></iframe>
 	<table id="tb10">
 		<col width="1%"><a name="fonts"></a><col width="36%"><col width="63%">
 		<thead><tr><th colspan="3">
@@ -535,12 +558,6 @@
 		<tr class="togF"><td colspan="2" class="sub10">[offset] unicode glyphs</td><td>
 			 <button class="btn0" onClick="copyclip(`fontUGFound1`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" style="white-space: pre;" class="mono" id="fontUGFound1"></td></tr>
-		<!--
-		need to work out if I want to format and output this here, or link to a clean page
-		<tr class="togF"><td colspan="2" class="sub10">[clientrect] unicode glyphs</td><td>
-			 <button class="btn0" onClick="copyclip(`fontUGFound2`)">[ copy to clipboard ]</button></td></tr>
-		<tr class="togF"><td></td><td colspan="2" style="white-space: pre;" class="mono" id="fontUGFound2"></td></tr>
-		-->
 		<tr class="togF"><td colspan="3"></td></tr>
 		<tr><td colspan="3"><span class="no_color">code based on work by </span>
 			<a target="_blank" class="blue" href="https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo">David Fifield & Serge Egelman</a> <sup>1</sup>
@@ -603,9 +620,6 @@
 	</table>
 
 	<!-- TABLE 14: CSS - css.js -->
-	<div class="hidden"><span id="sColorElement"></span></div>
-	<div class="themed" id="pColorElement"></div>
-	<div class="motion" id="pMotionElement"></div>
 	<table id="tb14">
 		<col width="50%"><a name="css"></a><col width="50%">
 		<thead><tr><th colspan="2">
