@@ -327,6 +327,7 @@ Ebrima
 Ebrima Bold
 Edwardian Script ITC
 Elephant
+EmojiOne Mozilla
 English 111 Vivace BT
 Engravers MT
 EngraversGothic BT
