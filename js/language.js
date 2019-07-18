@@ -103,7 +103,7 @@ function outputLanguage() {
 
 		// are images or iframes blocked
 		let iframeBlocked = false;
-		let imageTest = document.getElementById("imageTest");
+		let imageTest = document.getElementById("APP_LANG_IMAGE");
 		imageTest.src="images/doesntexist.png";
 		setTimeout(function(){
 			let imageHeight1 = imageTest.offsetHeight; // default height for a missing image
@@ -116,7 +116,7 @@ function outputLanguage() {
 					dom.appLang4.innerHTML = error_image
 				} else {
 					// MediaDocument.properties
-					let iframe3 = document.getElementById("iframeAPPL");
+					let iframe3 = document.getElementById("APP_LANG_4");
 					iframe3.src="images/dummy.png";
 					iframe3.addEventListener("load", function() {
 						try {
@@ -137,11 +137,11 @@ function outputLanguage() {
 		}, 500);
 
 		// dom.properties
-		dom.appLang1 = document.getElementById("appL1el").validationMessage;
+		dom.appLang1 = document.getElementById("APP_LANG_1").validationMessage;
 
 		// dtd
 		let dtd1 = "", dtd1error = false;
-		let iframe1 = document.getElementById("iframeDTD1");
+		let iframe1 = document.getElementById("APP_LANG_2");
 		iframe1.src="iframes/dtdlocale.xml";
 		iframe1.addEventListener("load", dtdlocale1)
 		function dtdlocale1() {
@@ -162,12 +162,12 @@ function outputLanguage() {
 
 		// dtd nullprinciple
 		let dtd2 = "";
-		let iframe2 = document.getElementById("iframeDTD2");
+		let iframe2 = document.getElementById("APP_LANG_3");
 		iframe2.src="data:application/xml;charset=utf-8,%3C%21DOCTYPE%20html%20SYSTEM%20%22chrome%3A%2F%2Fglobal%2Flocale%2FnetError.dtd%22%3E%3Chtml%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Chead%3E%3Cmeta%20charset%3D%22utf-8%22%2F%3E%0D%0A%20%20%3C%2Fhead%3E%0D%0A%20%20%3Cbody%3E%3Cspan%20id%3D%22text-container%22%3E%26loadError.label%3B%3C%2Fspan%3E%0D%0A%20%20%3Cscript%3E%0D%0A%20%20window.addEventListener%28%27message%27%2C%20%28e%29%20%3D%3E%20%7B%0D%0A%20%20%20%20e.source.postMessage%28document.getElementById%28%27text-container%27%29.innerText%2C%20%27%2A%27%29%3B%0D%0A%20%20%7D%29%3B%0D%0A%20%20%3C%2Fscript%3E%0D%0A%20%20%3C%2Fbody%3E%0D%0A%3C%2Fhtml%3E";
 		iframe2.addEventListener("load", dtdlocale2)
 		function dtdlocale2() {
 			window.addEventListener('message', ({ data }) => dtd2 = data);
-			document.getElementById("iframeDTD2").contentWindow.postMessage('foo', '*');
+			document.getElementById("APP_LANG_3").contentWindow.postMessage('foo', '*');
 		};
 
 		// output dtds: wait to make sure we received the dtd1 message
