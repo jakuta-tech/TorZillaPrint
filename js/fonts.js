@@ -39,93 +39,68 @@ function output_unicode(n) {
 	https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo
 	*/
 
-	// reset display & load iframe
-	// no need to clear on consecutive tests
+	// reset display on first test (we can do a second test to detect randomizing)
 	if (n == "1") {
 		reset_unicode();
 	};
-	let iframe = document.getElementById("iframeFG");
-	iframe.src = "iframes/unicodeglyphs.html";
-	iframe.addEventListener("load", function(){
 
-	// catch iframe error
-	try {
-			// initiate variables
-			let ugDiv = iframe.contentWindow.document.getElementById("ugDiv"),
-				ugSpan = iframe.contentWindow.document.getElementById("ugSpan"),
-				ugSlot = iframe.contentWindow.document.getElementById("ugSlot"),
-				ugWide = "",
-				ugHigh = "",
-				ugCode = "",
-				ugHashOffset = "", // the string we hash
-				ugHashClientRect = "",
-				ugOutputOffset = "", // the string we display
-				ugOutputClientRect = "";
+	// initiate variables
+	let ugDiv = dom.ugDiv,
+		ugSpan = dom.ugSpan,
+		ugSlot = dom.ugSlot,
+		ugWide = "",
+		ugHigh = "",
+		ugCode = "",
+		ugHashOffset = "", // the string we hash
+		ugHashClientRect = "",
+		ugOutputOffset = "", // the string we display
+		ugOutputClientRect = "";
 
-			// cycle each unicode (i)
-			for (let i = 0 ; i < ugCodepoints.length; i++) {
-				let n = ugCodepoints[i]; // codepoint
-				let c = stringFromCodePoint(n); // character
+	// cycle each unicode (i)
+	for (let i = 0 ; i < ugCodepoints.length; i++) {
+		let n = ugCodepoints[i]; // codepoint
+		let c = stringFromCodePoint(n); // character
 
-				// add unicode to outputs: e.g U+20B9
-				let ugCode = "U+" + n.substr(2);
-				ugHashOffset = ugHashOffset + "-" + ugCode;
-				ugHashClientRect = ugHashClientRect + "-" + ugCode;
-				ugCode = ugCode.padStart(7, ' ');
-				ugOutputOffset = ugOutputOffset + "<br>" + ugCode;
-				ugOutputClientRect = ugOutputClientRect + "<br>" + ugCode;
+		// add unicode to outputs: e.g U+20B9
+		let ugCode = "U+" + n.substr(2);
+		ugHashOffset = ugHashOffset + "-" + ugCode;
+		ugHashClientRect = ugHashClientRect + "-" + ugCode;
+		ugCode = ugCode.padStart(7, ' ');
+		ugOutputOffset = ugOutputOffset + "<br>" + ugCode;
+		ugOutputClientRect = ugOutputClientRect + "<br>" + ugCode;
 
-				// cycle each style (j)
-				for (let j = 0 ; j < ugStyles.length; j++) {
-					let style = ugStyles[j];
-					ugSlot.style.fontFamily = style === "default" ? "" : style;
-					ugSlot.textContent = c;
+		// cycle each style (j)
+		for (let j = 0 ; j < ugStyles.length; j++) {
+			let style = ugStyles[j];
+			ugSlot.style.fontFamily = style === "default" ? "" : style;
+			ugSlot.textContent = c;
 
-					// Read the span width, but the div height. Firefox always reports the same value
-					// for the span's offsetHeight, even if the div around it is changing size
+			// Read the span width, but the div height. Firefox always reports the same value
+			// for the span's offsetHeight, even if the div around it is changing size
 
-					// offset measurement + concatenate hash string
-					ugWide = ugSpan.offsetWidth; ugHigh = ugDiv.offsetHeight;
-					ugHashOffset = ugHashOffset + "-"+ugWide+"-"+ugHigh+"-";
-					// offset output
-					ugWide = ugWide.toString(); ugWide = ugWide.padStart(4, ' ');
-					ugHigh = ugHigh.toString(); ugHigh = ugHigh.padStart(4, ' ');
-					ugOutputOffset = ugOutputOffset + "    " + ugWide + " × " + ugHigh;
+			// offset measurement + concatenate hash string
+			ugWide = ugSpan.offsetWidth; ugHigh = ugDiv.offsetHeight;
+			ugHashOffset = ugHashOffset + "-"+ugWide+"-"+ugHigh+"-";
+			// offset output
+			ugWide = ugWide.toString(); ugWide = ugWide.padStart(4, ' ');
+			ugHigh = ugHigh.toString(); ugHigh = ugHigh.padStart(4, ' ');
+			ugOutputOffset = ugOutputOffset + "    " + ugWide + " × " + ugHigh;
 
-					// clientrect measurement + concatenate hash string
-					let elementDiv = ugDiv.getBoundingClientRect();
-					let elementSpan = ugSpan.getBoundingClientRect();
-					ugWide = elementSpan.width;
-					ugHigh = elementDiv.height;
-					ugHashClientRect = ugHashClientRect + "-"+ugWide+"-"+ugHigh+"-";
-					// clientrect output
-					// ugOutputClientRect = ugOutputClientRect + " " + ugWide + " × " + ugHigh + " | ";
-				}
-			}
-			// output results
-			dom.fontUGFound1.innerHTML = ugHeader + ugOutputOffset;
-			dom.fontUG1 = sha1(ugHashOffset);
-			dom.fontUG2 = sha1(ugHashClientRect);
-			// cosmetic: apply mono style
-			dom.fontUG1.style.fontFamily = "monospace, monospace";
-			dom.fontUG2.style.fontFamily = "monospace, monospace";
+			// clientrect measurement + concatenate hash string
+			let elementDiv = ugDiv.getBoundingClientRect();
+			let elementSpan = ugSpan.getBoundingClientRect();
+			ugWide = elementSpan.width;
+			ugHigh = elementDiv.height;
+			ugHashClientRect = ugHashClientRect + "-"+ugWide+"-"+ugHigh+"-";
+			// clientrect output
+			// ugOutputClientRect = ugOutputClientRect + " " + ugWide + " × " + ugHigh + " | ";
+		}
+	}
+	// output results
+	dom.fontUGFound1.innerHTML = ugHeader + ugOutputOffset;
+	dom.fontUG1 = sha1(ugHashOffset);
+	dom.fontUG2 = sha1(ugHashClientRect);
 
-		} catch(e) {
-			// iframe didn't load
-			if ((location.protocol) == "file:") {
-				// file: Cross-Origin Request Blocked
-				dom.fontUG1.innerHTML = error_file_cors;
-				dom.fontUG2.innerHTML = error_file_cors;
-			} else {
-				// iframe is blocked
-				dom.fontUG1.innerHTML = error_iframe;
-				dom.fontUG2.innerHTML = error_iframe;
-			};
-			// cosmetic: remove mono style
-			dom.fontUG1.style.fontFamily = "none";
-			dom.fontUG2.style.fontFamily = "none";
-		};
-	});
 };
 
 /* arthur's spawn code */
@@ -194,7 +169,7 @@ function output_enumerate(){
 	dom.fontFBFound.style.color = "#1a1a1a";
 
 	// load iframe
-	let iframe = document.getElementById("iframeFF");
+	let iframe = document.getElementById("IFRAME_FONTFALLBACK");
 	iframe.src = "iframes/fontfallback.html";
 	iframe.addEventListener("load", function(){
 
@@ -362,50 +337,28 @@ function outputFonts1(){
 
 	// default proportional font
 	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
-	
-	// load iframe
-	let iframe = document.getElementById("iframeFC");
-	iframe.src = "iframes/fontcheck.html";
-	iframe.addEventListener("load", function(){
 
-		// catch iframe error
-		try {
-			// default font sizes
-			let item = iframe.contentWindow.document.getElementById("df1");
-			let properties = "serif/sans-serif: " + getComputedStyle(item).getPropertyValue("font-size");
-			item = iframe.contentWindow.document.getElementById("df3");
-			properties = properties + " | monospace: " + getComputedStyle(item).getPropertyValue("font-size");
-			dom.fontFCsize = properties;
+	// default font sizes
+	let font_item = dom.df1;
+	let font_property = "serif/sans-serif: " + getComputedStyle(font_item).getPropertyValue("font-size");
+	font_item = dom.df3;
+	font_property = font_property + " | monospace: " + getComputedStyle(font_item).getPropertyValue("font-size");
+	dom.fontFCsize = font_property;
 
-			// gfx.downloadable_fonts.woff2.enabled
-			setTimeout(function(){
-				item = iframe.contentWindow.document.getElementById("fnt0");
-				properties = item.offsetWidth;
-				item = iframe.contentWindow.document.getElementById("fnt1");
-				if (properties == item.offsetWidth) {
-					dom.fontWoff2="disabled [or blocked]"
-				} else {
-					dom.fontWoff2="enabled"
-				};
-			}, 400);
-
-		} catch(e) {
-			// iframe didn't load
-			if ((location.protocol) == "file:") {
-				// file: Cross-Origin Request Blocked
-				dom.fontFCsize.innerHTML = error_file_cors;
-				dom.fontWoff2.innerHTML = error_file_cors;
-			} else {
-				// iframe is blocked
-				dom.fontFCsize.innerHTML = error_iframe;
-				dom.fontWoff2.innerHTML = error_iframe;
-			};
+	// gfx.downloadable_fonts.woff2.enabled
+	setTimeout(function() {
+		let woff_item = dom.woff_fnt0;
+		let woff_property = woff_item.offsetWidth;
+		woff_item = dom.woff_fnt1;
+		if (woff_property == woff_item.offsetWidth) {
+			dom.fontWoff2="disabled [or blocked]"
+		} else {
+			dom.fontWoff2="enabled"
 		};
-
-	});
+	}, 500);
 
 	// document fonts
-	let element = document.getElementById("testLH");
+	let element = document.getElementById("SPAN_LINEHEIGHT");
 	let fontfamily = getComputedStyle(element).getPropertyValue("font-family");
 	if (fontfamily.slice(1,16) !== "Times New Roman") {
 		dom.fontDoc="disabled"
