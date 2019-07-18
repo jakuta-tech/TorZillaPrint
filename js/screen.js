@@ -58,8 +58,8 @@ function getViewport() {
 function getZoom() {
 	// js dpi
 	const devicePixelRatio = window.devicePixelRatio || 1;
-	const dpi_x = Math.round(dom.testdpi.offsetWidth * devicePixelRatio);
-	const dpi_y = Math.round(dom.testdpi.offsetHeight * devicePixelRatio);
+	const dpi_x = Math.round(dom.DIV_DPI.offsetWidth * devicePixelRatio);
+	const dpi_y = Math.round(dom.DIV_DPI.offsetHeight * devicePixelRatio);
 	dom.jsDPI = dpi_x;
 	// matchmedia dpi: handles FF default zoom levels 30%-300%
 	const varDPI = (function () {
@@ -201,7 +201,7 @@ function os_chrome() {
 };
 
 function os_widgets() {
-	let iframe = document.getElementById("iframeWD");
+	let iframe = document.getElementById("iframeWidget");
 	iframe.src = "iframes/widgets.html";
 	iframe.addEventListener("load", function(){
 		// varibles: 7 alt output, CS compare size, CF compare font, BS boolean size, BF boolean font
@@ -608,12 +608,12 @@ function outputUA() {
 
 		// os: css line-height
 		// get line-height
-		let myLHElem = document.getElementById("testLH");
+		let myLHElem = document.getElementById("SPAN_LINEHEIGHT");
 		let lh = getComputedStyle(myLHElem).getPropertyValue("line-height");
 		let lhCR = "";
 		// bugzilla 1536871: fall back to clientrect: use div height
 		if (lh == "normal") {
-			let testLHdiv = document.getElementById("testLHdiv");
+			let testLHdiv = document.getElementById("DIV_LINEHEIGHT");
 			let elementDiv = testLHdiv.getBoundingClientRect();
 			let newlh = elementDiv.height;
 			// if it has more than 4 decimal places
@@ -846,8 +846,8 @@ function getFS() {
 function goFS() {
 	if (amFF == true) {
 		if (document.mozFullScreenEnabled) {
-			let elFS = document.getElementById("elFS");
-			elFS.mozRequestFullScreen();
+			let element = document.getElementById("element_FULLSCREEN");
+			element.mozRequestFullScreen();
 			document.addEventListener("mozfullscreenchange", getFS)
 		}
 	};
@@ -859,12 +859,4 @@ function goNW() {
 		+ newWin.innerWidth + " x " + newWin.innerHeight + " [inner]";
 	if (newWinLeak == "10 x 10 [outer] 10 x 10 [inner]") {newWinLeak = newWinLeak + tor_browser_green};
 	dom.newWinLeak.innerHTML = newWinLeak;
-};
-
-function goNWTest() {
-	let newWin = window.open("test.txt","","width=9000,height=9000");
-	let newWinLeak = newWin.outerWidth + " x " + newWin.outerHeight + " [outer] "
-		+ newWin.innerWidth + " x " + newWin.innerHeight + " [inner]";
-	if (newWinLeak == "10 x 10 [outer] 10 x 10 [inner]") {newWinLeak = newWinLeak + tor_browser_green};
-	dom.newWinTest.innerHTML = newWinLeak;
 };
