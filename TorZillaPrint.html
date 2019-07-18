@@ -56,9 +56,10 @@
 		<div class="offscreen">
 			<div id="ugDiv" class="normalized" style='font-size: 22pt;'><span id="ugSpan"><span id="ugSlot"></span></span></div>
 		</div>
-		<!-- fonts -->
-		<iframe id="IFRAME_FONTCHECK" class="offscreen"></iframe>
-		<iframe id="IFRAME_FONTFALLBACK" class="offscreen"></iframe>
+		<!-- font fallback -->
+		<div class="offscreen">
+			<span id="fontFBTest" style='white-space: nowrap; font-family: fontFallback;'></span>
+		</div>
 		<!-- css -->
 		<div class="hidden"><span id="sColorElement"></span></div>
 		<div class="themed" id="pColorElement"></div>
@@ -553,7 +554,7 @@
 		<tr><td colspan="3" class="center">------</td></tr>
 		<tr><td colspan="2"><div>
 				<div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`10`, `c2`, `m`)">[ run tests ]</button></div>
-				<div>enumerate fonts <sup>2</sup></div></div></td><td class="c2 mono" id="fontFB"></td>
+				<div>[font fallback] enumerate fonts <sup>2</sup></div></div></td><td class="c2 mono" id="fontFB"></td>
 		</tr>
 		<tr><td colspan="2">js <sup>3</sup></td><td class="c2"></td></tr>
 		<tr><td colspan="2">the other js <sup>4</sup></td><td class="c2 mono"></td></tr>
