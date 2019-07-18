@@ -42,9 +42,9 @@
 		<!-- default font size -->
 		<div class="offscreen">
 			<div class="normalized">
-				<div><span id="df1" style='font-family: serif;'>abcdefghijklmonpqrstuvwxyz<span></div>
-				<div><span id="df2" style='font-family: sans-serif;'>abcdefghijklmonpqrstuvwxyz<span></div>
-				<div><span id="df3" style='font-family: monospace;'>abcdefghijklmonpqrstuvwxyz<span></div>
+				<div><span id="df1" style='font-family: serif;'>mmmmmmmmmmlli<span></div>
+				<div><span id="df2" style='font-family: sans-serif;'>mmmmmmmmmmlli<span></div>
+				<div><span id="df3" style='font-family: monospace;'>mmmmmmmmmmlli<span></div>
 			</div>
 		</div>
 		<!-- woff2 -->
@@ -64,6 +64,7 @@
 		<div class="hidden"><span id="sColorElement"></span></div>
 		<div class="themed" id="pColorElement"></div>
 		<div class="motion" id="pMotionElement"></div>
+
 
 	<table>
 	<tr><td><a anchor="top"></a><h2>TorZillaPrint</h2></td></tr>
@@ -554,16 +555,19 @@
 		<tr><td colspan="3" class="center">------</td></tr>
 		<tr><td colspan="2"><div>
 				<div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`10`, `c2`, `m`)">[ run tests ]</button></div>
-				<div>[font fallback] enumerate fonts <sup>2</sup></div></div></td><td class="c2 mono" id="fontFB"></td>
+				<div>[fingerprintjs2] enumerate fonts <sup>2</sup></div></div></td><td class="c2 mono" id="fontFPJS2"></td>
 		</tr>
-		<tr><td colspan="2">js <sup>3</sup></td><td class="c2"></td></tr>
+		<tr><td colspan="2">[font fallback] enumerate fonts <sup>3</sup></td><td class="c2 mono" id="fontFB"></td></tr>
 		<tr><td colspan="2">the other js <sup>4</sup></td><td class="c2 mono"></td></tr>
 		<tr><td colspan="2">canvas</td><td class="c2 mono"></td></tr>
 		<tr><td colspan="3" class="showhide">
 				<input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
 				<label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
 		</td></tr>
-		<tr class="togF"><td colspan="2" class="sub10">enumerate fonts</td><td>
+		<tr class="togF"><td colspan="2" class="sub10">[fingerprintjs2] enumerate fonts</td><td>
+			 <button class="btn0" onClick="copyclip(`fontFPJS2Found`)">[ copy to clipboard ]</button></td></tr>
+		<tr class="togF"><td></td><td colspan="2" class="intro" id="fontFPJS2Found"></td></tr>
+		<tr class="togF"><td colspan="2" class="sub10">[font fallback] enumerate fonts</td><td>
 			 <button class="btn0" onClick="copyclip(`fontFBFound`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" class="intro" id="fontFBFound"></td></tr>
 		<tr class="togF"><td colspan="2" class="sub10">[offset] unicode glyphs</td><td>
@@ -573,9 +577,9 @@
 		<tr><td colspan="3"><span class="no_color">code based on work by </span>
 			<a target="_blank" class="blue" href="https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo">David Fifield & Serge Egelman</a> <sup>1</sup>
 			<span class="no_color">, </span>
-			<a target="_blank" class="blue" href="https://github.com/arthuredelstein/tordemos">Arthur Edelstein</a> <sup>2</sup>
+			<a target="_blank" class="blue" href="https://github.com/Valve/fingerprintjs2">fingerprintjs2</a> <sup>2</sup>
 			<span class="no_color">, </span>
-			<a target="_blank" class="blue" href="https://github.com/Valve/fingerprintjs2">fingerprintjs2</a> <sup>3</sup>
+			<a target="_blank" class="blue" href="https://github.com/arthuredelstein/tordemos">Arthur Edelstein</a> <sup>3</sup>
 			<span class="no_color"> and </span>
 			<a target="_blank" class="blue" href="https://browserleaks.com/fonts">browserleaks</a> <sup>4</sup>
 		</td></tr>
