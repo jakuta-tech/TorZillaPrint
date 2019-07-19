@@ -104,37 +104,36 @@ function outputLanguage() {
 		// are images or iframes blocked
 		let iframeBlocked = false;
 		let imageTest = document.getElementById("APP_LANG_IMAGE");
-		imageTest.src="images/doesntexist.png";
+		let imageHeight1 = imageTest.offsetHeight; // default height for a missing image
+		imageTest.src="images/dummy.png";
 		setTimeout(function(){
-			let imageHeight1 = imageTest.offsetHeight; // default height for a missing image
-			imageTest.src="images/dummy.png";
-			setTimeout(function(){
-				let imageHeight2 = imageTest.offsetHeight;
-				// compare missing image height to real image image height
-				console.log ("no image:", imageHeight1, "| hopefully real image:", imageHeight2);
-				if (imageHeight1 == imageHeight2) {
-					dom.appLang4.innerHTML = error_image
-				} else {
-					// MediaDocument.properties
-					let iframe3 = document.getElementById("APP_LANG_4");
-					iframe3.src="images/dummy.png";
-					iframe3.addEventListener("load", function() {
-						try {
-							dom.appLang4 = (this.contentWindow.document.title);
-						} catch(e) {
-							if ((location.protocol) == "file:") {
-								// file: Cross-Origin Request Blocked
-								dom.appLang4.innerHTML = error_file_cors
-							} else {
-								// iframe blocked
-								dom.appLang4.innerHTML = error_iframe;
-								iframeBlocked = true;
-							};
+			let imageHeight2 = imageTest.offsetHeight;
+			// compare missing image height to real image image height
+			console.log ("no image:", imageHeight1, "| hopefully real image:", imageHeight2);
+			if (imageHeight1 == imageHeight2) {
+				dom.appLang4.innerHTML = error_image
+			} else {
+				// MediaDocument.properties
+				let iframe3 = document.getElementById("APP_LANG_4");
+				iframe3.src="images/dummy.png";
+				iframe3.addEventListener("load", function() {
+					try {
+						dom.appLang4 = (this.contentWindow.document.title);
+						// reset the src to empty
+						imageTest.src="";
+					} catch(e) {
+						if ((location.protocol) == "file:") {
+							// file: Cross-Origin Request Blocked
+							dom.appLang4.innerHTML = error_file_cors
+						} else {
+							// iframe blocked
+							dom.appLang4.innerHTML = error_iframe;
+							iframeBlocked = true;
 						};
-					});
-				}
-			}, 1000);
-		}, 1000);
+					};
+				});
+			}
+		}, 1200); // lots of time for Tor Browser
 
 		// dom.properties
 		dom.appLang1 = document.getElementById("APP_LANG_1").validationMessage;
