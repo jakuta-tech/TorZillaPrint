@@ -56,9 +56,6 @@ function output_unicode(n) {
 		ugOutputOffset = "", // the string we display
 		ugOutputClientRect = "";
 
-	// make sure div is not hidden
-	dom.unicode.style.display = "";
-
 	// cycle each unicode (i)
 	for (let i = 0 ; i < ugCodepoints.length; i++) {
 		let n = ugCodepoints[i]; // codepoint
@@ -99,9 +96,8 @@ function output_unicode(n) {
 			// ugOutputClientRect = ugOutputClientRect + " " + ugWide + " × " + ugHigh + " | ";
 		}
 	}
-	// hide unicode div
-	// it may be offscreen but large widths cause a horizontal scroll
-	dom.unicode.style.display = "none";
+	// clear div causing horizontal scroll
+	dom.ugSlot = "";
 	// output results
 	dom.fontUGFound1.innerHTML = ugHeader + ugOutputOffset;
 	dom.fontUG1 = sha1(ugHashOffset);
@@ -301,6 +297,8 @@ function output_enumerate_fallback(){
 				};
 				dom.fontFBFound = "";
 			}
+			// clear div causing horizontal scroll
+			dom.fontFBTest = "";
 			// reset color, update button
 			dom.fontFBFound.style.color = "#b3b3b3";
 			dom.fontRun = "[ re-run tests ]";
