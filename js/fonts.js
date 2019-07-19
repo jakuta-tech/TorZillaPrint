@@ -204,10 +204,11 @@ function output_enumerate_fallback(){
 
 	// offset this else weirdly fpjs2 doesn't output until this one does
 	setTimeout(function() {
+
 		// run the test		
 		enumerateFonts(fontList);
-		// clear div causing horizontal scroll
-		dom.fontFBTest = "";
+
+		// output detected fonts
 		if (outputCount > 0) {
 			// remove trailing comma + space
 			outputString = outputString.slice(0, -2);
@@ -215,17 +216,17 @@ function output_enumerate_fallback(){
 		}	else {
 			dom.fontFBFound.innerHTML = "no fonts detected"
 		};
-		// reset color
-		dom.fontFBFound.style.color = "#b3b3b3";
-
-		// output hash and counters
+		// output hash/counts
 		dom.fontFB = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]";
-		// note if file:// since this affects the result
+		// note if file:// since [this affects the result]
 		if ((location.protocol) == "file:") {
 			dom.fontFB.innerHTML = dom.fontFB.textContent + note_file
 		}
-		// update button: this test takes the longest
-		dom.fontRun = "[ re-run tests ]";
+		// reset color
+		dom.fontFBFound.style.color = "#b3b3b3";
+		// clear div [causes horizontal scroll]
+		dom.fontFBTest = "";
+
 	}, 25);
 
 };
@@ -340,7 +341,7 @@ function output_enumerate_fpjs2() {
 	h.removeChild(fontsDiv)
 	h.removeChild(baseFontsDiv)
 
-	// output
+	// output detected fonts
 	if (outputCount > 0) {
 		// remove trailing comma + space
 		outputString = outputString.slice(2);
@@ -348,7 +349,7 @@ function output_enumerate_fpjs2() {
 	}	else {
 		dom.fontFPJS2Found = "no fonts detected"
 	};
-	// output hash and counters
+	// output hash/counts
 	dom.fontFPJS2 = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]";
 	// note if file://
 	if ((location.protocol) == "file:") {
@@ -545,23 +546,26 @@ function outputFonts2(){
 			if (lastvalue == fontList.length) {
 				// we need the same result in succession
 				clearInterval(checking);
-				let mytime = ((checkcount+1) * 200);
-				console.log("loading the text file took " + mytime + "ms");
+				let filetime = ((checkcount+1) * 50);
+				console.log("loading the text file took " + filetime + "ms");
 				run_enumerate()
 			} else if (fontList.length > 0) {
 				// the array is underway
 				lastvalue = fontList.length;
 			}
 		}
-		if (checkcount > 14) {
-			// that's 2.8s
+		if (checkcount > 51) {
+			// that's 2.5s
 			clearInterval(checking);
 			// run it anyway, as it cleans up the output
 			run_enumerate();
 		}
 		checkcount++;
 	}
-	let checking = setInterval(check_enumerate, 200)
+	let checking = setInterval(check_enumerate, 50)
+
+	// update button
+	dom.fontRun = "[ re-run tests ]";
 
 };
 
