@@ -56,6 +56,9 @@ function output_unicode(n) {
 		ugOutputOffset = "", // the string we display
 		ugOutputClientRect = "";
 
+	// make sure div is not hidden
+	dom.unicode.style.display = "";
+
 	// cycle each unicode (i)
 	for (let i = 0 ; i < ugCodepoints.length; i++) {
 		let n = ugCodepoints[i]; // codepoint
@@ -96,6 +99,9 @@ function output_unicode(n) {
 			// ugOutputClientRect = ugOutputClientRect + " " + ugWide + " × " + ugHigh + " | ";
 		}
 	}
+	// hide unicode div
+	// it may be offscreen but large widths cause a horizontal scroll
+	dom.unicode.style.display = "none";
 	// output results
 	dom.fontUGFound1.innerHTML = ugHeader + ugOutputOffset;
 	dom.fontUG1 = sha1(ugHashOffset);
@@ -492,13 +498,12 @@ function outputFonts1(){
 	/* auto-run */
 
 	// unicode glyphs
-	// make sure div is not hidden
-	dom.unicode.style.display = "";
 	output_unicode("1");
 	// run consecutive tests to detect clientrect randomizing
 	setTimeout(function(){
 		// grab first test results, run second test
 		let result1 = dom.fontUG2.textContent;
+		dom.unicode.style.display = "";
 		output_unicode("2");
 		setTimeout(function(){
 			let result2 = dom.fontUG2.textContent;
@@ -506,8 +511,6 @@ function outputFonts1(){
 				dom.fontUG2.innerHTML = dom.fontUG2.textContent + note_random;
 			}
 		}, 900);
-		// hide the unicode div: get rid of horizontal scroll
-		dom.unicode.style.display = "none";
 	}, 900);
 
 	// default proportional font
