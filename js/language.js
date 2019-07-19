@@ -111,7 +111,7 @@ function outputLanguage() {
 			setTimeout(function(){
 				let imageHeight2 = imageTest.offsetHeight;
 				// compare missing image height to real image image height
-				// console.log ("no image:", imageHeight1, "| hopefully real image:", imageHeight2);
+				console.log ("no image:", imageHeight1, "| hopefully real image:", imageHeight2);
 				if (imageHeight1 == imageHeight2) {
 					dom.appLang4.innerHTML = error_image
 				} else {
@@ -133,8 +133,8 @@ function outputLanguage() {
 						};
 					});
 				}
-			}, 500);
-		}, 500);
+			}, 1000);
+		}, 1000);
 
 		// dom.properties
 		dom.appLang1 = document.getElementById("APP_LANG_1").validationMessage;
