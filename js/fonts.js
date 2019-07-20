@@ -173,7 +173,6 @@ function output_enumerate_fallback(){
 		outputString = "",// detected fonts output
 		outputCount = 0;  // detected fonts count
 	let fontFBTest = dom.fontFBTest;
-	fontFBTest.innerHTML = fontTestStringB; // we built this earlier
 	fontFBTest.style.fontSize = fontTestSize;
 
 	// return width of the element with a given fontFamily
@@ -203,8 +202,11 @@ function output_enumerate_fallback(){
 	};
 
 	// offset this from fpjs2 otherwise they output at the same time
-	// extend timer: sometimes a slow connection causes 0 fonts
 	setTimeout(function() {
+
+		// we built this string earlier from codepoints
+		fontFBTest.innerHTML = fontTestStringB;
+		console.log(fontTestStringB.length);
 
 		// run the test
 		enumerateFonts(fontList);
@@ -228,7 +230,7 @@ function output_enumerate_fallback(){
 		// clear div [causes horizontal scroll]
 		dom.fontFBTest = "";
 
-	}, 1500); // first run on new identity often results in 0 fonts: try 1500
+	}, 200);
 
 };
 
