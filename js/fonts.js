@@ -201,12 +201,12 @@ function output_enumerate_fallback(){
 		}
 	};
 
-	// offset this from fpjs2 otherwise they output at the same time
+	// offset this from fpjs2 or they output at the same time
 	setTimeout(function() {
 
 		// we built this string earlier from codepoints
+		// console.log(fontTestStringB.length);
 		fontFBTest.innerHTML = fontTestStringB;
-		console.log(fontTestStringB.length);
 
 		// run the test
 		enumerateFonts(fontList);
