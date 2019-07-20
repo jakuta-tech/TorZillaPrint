@@ -228,7 +228,7 @@ function output_enumerate_fallback(){
 		// clear div [causes horizontal scroll]
 		dom.fontFBTest = "";
 
-	}, 500);
+	}, 1500); // first run on new identity often results in 0 fonts: try 1500
 
 };
 
