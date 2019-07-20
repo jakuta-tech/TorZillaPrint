@@ -104,13 +104,13 @@ function outputLanguage() {
 		// are images or iframes blocked
 		let iframeBlocked = false;
 		let imageTest = document.getElementById("APP_LANG_IMAGE");
-		let imageHeight1 = imageTest.offsetHeight; // default height for a missing image
-		imageTest.src="images/dummy.png";
+		imageTest.src="images/dummy.png"; // 1px high
 		setTimeout(function(){
-			let imageHeight2 = imageTest.offsetHeight;
-			// compare missing image height to real image image height
-			console.log ("no image:", imageHeight1, "| hopefully real image:", imageHeight2);
-			if (imageHeight1 == imageHeight2) {
+			// empty_src=0, broken_src=24 (more or less: enough to be seen)
+			// extensions blocking = if placeholders = 20 (more or less)
+			// but if it's 1px then the image was loaded
+			console.log("image test is :" + imageTest.offsetHeight);
+			if (imageTest.offsetHeight !== 1) {
 				dom.appLang4.innerHTML = error_image
 			} else {
 				// MediaDocument.properties
@@ -119,8 +119,6 @@ function outputLanguage() {
 				iframe3.addEventListener("load", function() {
 					try {
 						dom.appLang4 = (this.contentWindow.document.title);
-						// reset the src to empty
-						imageTest.src="";
 					} catch(e) {
 						if ((location.protocol) == "file:") {
 							// file: Cross-Origin Request Blocked
