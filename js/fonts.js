@@ -202,10 +202,11 @@ function output_enumerate_fallback(){
 		}
 	};
 
-	// offset this else weirdly fpjs2 doesn't output until this one does
+	// offset this from fpjs2 otherwise they output at the same time
+	// extend timer: sometimes a slow connection causes 0 fonts
 	setTimeout(function() {
 
-		// run the test		
+		// run the test
 		enumerateFonts(fontList);
 
 		// output detected fonts
@@ -227,7 +228,7 @@ function output_enumerate_fallback(){
 		// clear div [causes horizontal scroll]
 		dom.fontFBTest = "";
 
-	}, 25);
+	}, 500);
 
 };
 
