@@ -37,16 +37,14 @@ function reset_unicode() {
 	dom.fontUGFound1.innerHTML = ugHeader + str;
 };
 
-function output_unicode(n) {
+function output_unicode() {
 	/* UNICODE GLYPHS
 	code based on work by David Fifield and Serge Egelman (2015)
 	https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo
 	*/
 
-	// reset display on first test (we can do a second test to detect randomizing)
-	if (n == "1") {
-		reset_unicode();
-	};
+	// clear any previous results
+	reset_unicode();
 
 	// initiate variables
 	let ugDiv = dom.ugDiv,
@@ -368,19 +366,7 @@ function outputFonts1(){
 	/* auto-run */
 
 	// unicode glyphs
-	output_unicode("1");
-	// run consecutive tests to detect clientrect randomizing
-	setTimeout(function(){
-		// grab first test results, run second test
-		let result1 = dom.fontUG2.textContent;
-		output_unicode("2");
-		setTimeout(function(){
-			let result2 = dom.fontUG2.textContent;
-			if (result1 !== result2) {
-				dom.fontUG2.innerHTML = dom.fontUG2.textContent + note_random;
-			}
-		}, 900);
-	}, 900);
+	output_unicode();
 
 	// default proportional font
 	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
