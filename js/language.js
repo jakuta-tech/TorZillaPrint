@@ -109,7 +109,7 @@ function outputLanguage() {
 			// empty_src=0, broken_src=24 (more or less: enough to be seen)
 			// extensions blocking = if placeholders = 20 (more or less)
 			// but if it's 1px then the image was loaded
-			console.log("image test is :" + imageTest.offsetHeight);
+			// console.log("image test is :" + imageTest.offsetHeight);
 			if (imageTest.offsetHeight !== 1) {
 				dom.appLang4.innerHTML = error_image
 			} else {
@@ -133,7 +133,7 @@ function outputLanguage() {
 					imageTest.src="";
 				});
 			}
-		}, 1200); // lots of time for Tor Browser
+		}, 1500); // lots of time for Tor Browser
 
 		// dom.properties
 		dom.appLang1 = document.getElementById("APP_LANG_1").validationMessage;
