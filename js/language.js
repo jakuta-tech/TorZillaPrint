@@ -129,6 +129,8 @@ function outputLanguage() {
 							iframeBlocked = true;
 						};
 					};
+					// rest the src to empty
+					imageTest.src="";
 				});
 			}
 		}, 1200); // lots of time for Tor Browser
