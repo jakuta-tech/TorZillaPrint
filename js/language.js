@@ -99,7 +99,7 @@ function outputLanguage() {
 	navigator.permissions.query({name:"geolocation"}).then(e => dom.pGeolocation=e.state);
 
 	// application language leak PoCs: run only if Firefox
-	if (amFF == true) {
+	if (isFirefox == true) {
 
 		// are images or iframes blocked
 		let iframeBlocked = false;
