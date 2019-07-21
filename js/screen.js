@@ -445,7 +445,7 @@ function outputUA() {
 	browser_errors();
 
 	// only run these subsequent tests for Firefox
-	if (amFF == true){
+	if (isFirefox == true){
 
 		// os: chrome://
 		os_chrome();
@@ -453,7 +453,7 @@ function outputUA() {
 		// browser: version
 		dom.versionNo = getVerNo();
 
-		// feature detection: already done with amFF
+		// feature detection: already done with isFirefox
 		dom.fdPaintCount="Firefox";
 
 		// browser: chrome: Firefox
@@ -811,7 +811,7 @@ function outputMath() {
 	};
 
 	// output browser/os
-	if (amFF == true) {
+	if (isFirefox == true) {
 		let strNew = " <span class='bad'>[NEW]</span>";
 		if (m1 == "") {m1hash=m1hash+strNew} else {m1hash=m1hash+" ["+m1+"]"};
 		if (m6 == "") {m6hash=m6hash+strNew} else {m6hash=m6hash+" ["+m6+"]"};
@@ -850,7 +850,7 @@ function getFS() {
 	};
 };
 function goFS() {
-	if (amFF == true) {
+	if (isFirefox == true) {
 		if (document.mozFullScreenEnabled) {
 			let element = document.getElementById("element_FULLSCREEN");
 			element.mozRequestFullScreen();
