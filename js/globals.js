@@ -21,11 +21,15 @@ var error_file_xhr = "<span class='bad'>[test error: xhr]</span>";
 var error_iframe = "<span class='bad'>[test error: iframe]</span>";
 var error_image = "<span class='bad'>[test error: image]</span>";
 
-// sometimes we only want to test or output for Firefox
-var amFF = false;
-if (isNaN(window.mozPaintCount) === false) {amFF = true};
+// sometimes we only want to test for Firefox
+// or provide a different test based on some criteria
+var isAndroid = false;
+var isFirefox = false;
+var isTorBrowser = false;
 
+// we can check this one here
+if (isNaN(window.mozPaintCount) === false) {isFirefox = true};
 /* other Firefox detection methods
-if (isNaN(window.mozInnerScreenX) === false) {"amFF = true"};
-if (isNaN(window.window.scrollMaxX) === false) {"amFF = true"};
-if (navigator.oscpu == undefined){} else {"amFF = true"}; */
+if (isNaN(window.mozInnerScreenX) === false) {"isFirefox = true"};
+if (isNaN(window.window.scrollMaxX) === false) {"isFirefox = true"};
+if (navigator.oscpu == undefined){} else {"isFirefox = true"}; */
