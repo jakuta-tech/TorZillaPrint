@@ -92,6 +92,18 @@ Arial Narrow
 Arial Narrow Bold
 Arial Narrow Bold Italic
 Arial Narrow Italic
+Arial Nova
+Arial Nova Bold
+Arial Nova Bold Italic
+Arial Nova Cond
+Arial Nova Cond Bold
+Arial Nova Cond Bold Italic
+Arial Nova Cond Italic
+Arial Nova Cond Light
+Arial Nova Cond Light Italic
+Arial Nova Italic
+Arial Nova Light
+Arial Nova Light Italic
 Arial Rounded Bold
 Arial Rounded MT Bold
 Arial Unicode
@@ -112,7 +124,14 @@ Avenir
 Avenir Next
 Avenir Next Condensed
 Ayuthaya
+BIZ UDGothic
+BIZ UDGothic Bold
+BIZ UDMincho Medium
+BIZ UDPGothic
+BIZ UDPGothic Bold
+BIZ UDPMincho Medium
 Baghdad
+Bahnschrift
 Bandy
 Bangla MN
 Bangla MN Bold
@@ -198,6 +217,8 @@ Candara
 Candara Bold
 Candara Bold Italic
 Candara Italic
+Candara Light
+Candara Light Italic
 CaslonOpnface BT
 Castellar
 Centaur
@@ -260,6 +281,8 @@ Corbel
 Corbel Bold
 Corbel Bold Italic
 Corbel Italic
+Corbel Light
+Corbel Light Italic
 Cordia New
 Cordia New Bold
 Cordia New Bold Italic
@@ -302,6 +325,8 @@ DecoTypeNaskh
 DejaVu Sans
 DejaVu Sans Mono
 DejaVu Serif
+DengXian Bold
+DengXian Light
 Denmark
 Devanagari MT
 Devanagari MT Bold
@@ -405,6 +430,26 @@ Georgia
 Georgia Bold
 Georgia Bold Italic
 Georgia Italic
+Georgia Pro
+Georgia Pro Black
+Georgia Pro Black Italic
+Georgia Pro Bold
+Georgia Pro Bold Italic
+Georgia Pro Cond
+Georgia Pro Cond Black
+Georgia Pro Cond Black Italic
+Georgia Pro Cond Bold
+Georgia Pro Cond Bold Italic
+Georgia Pro Cond Italic
+Georgia Pro Cond Light
+Georgia Pro Cond Light Italic
+Georgia Pro Cond Semibold
+Georgia Pro Cond Semibold Italic
+Georgia Pro Italic
+Georgia Pro Light
+Georgia Pro Light Italic
+Georgia Pro Semibold
+Georgia Pro Semibold Italic
 Gigi
 Gill Sans
 Gill Sans Bold
@@ -415,6 +460,22 @@ Gill Sans Light Italic
 Gill Sans MT
 Gill Sans MT Condensed
 Gill Sans MT Ext Condensed Bold
+Gill Sans Nova
+Gill Sans Nova Bold
+Gill Sans Nova Bold Italic
+Gill Sans Nova Cond
+Gill Sans Nova Cond Bold
+Gill Sans Nova Cond Bold Italic
+Gill Sans Nova Cond Italic
+Gill Sans Nova Cond Lt
+Gill Sans Nova Cond Lt Italic
+Gill Sans Nova Cond Ultra Bold
+Gill Sans Nova Cond XBd
+Gill Sans Nova Cond XBd Italic
+Gill Sans Nova Italic
+Gill Sans Nova Light
+Gill Sans Nova Light Italic
+Gill Sans Nova Ultra Bold
 Gill Sans SemiBold
 Gill Sans SemiBold Italic
 Gill Sans Ultra Bold
@@ -510,6 +571,7 @@ Incised901 Bd BT
 Incised901 Lt BT
 Informal Roman
 Informal011 BT
+Ink Free
 Iowan Old Style Black
 Iowan Old Style Black Italic
 Iowan Old Style Bold
@@ -528,6 +590,7 @@ JasmineUPC
 JasmineUPC Bold
 JasmineUPC Bold Italic
 JasmineUPC Italic
+Javanese Text
 Jazz LET
 Jenson
 Jester
@@ -596,6 +659,10 @@ Latha
 Latha Bold
 Leelawadee
 Leelawadee Bold
+Leelawadee UI
+Leelawadee UI Bold
+Leelawadee UI Leelawadee UI
+Leelawadee UI Semilight
 Letter Gothic
 Levenim MT
 Levenim MT Bold
@@ -646,6 +713,7 @@ Malayalam Sangam MN
 Malayalam Sangam MN Bold
 Malgun Gothic
 Malgun Gothic Bold
+Malgun Gothic Semilight
 Manage Your Profile |Contact Microsoft Typography
 Mangal
 Mangal Bold
@@ -670,11 +738,14 @@ Meiryo UI Bold Italic
 Meiryo UI Italic
 Menlo
 Microsoft Himalaya
-Microsoft JengHei UI
 Microsoft JhengHei
 Microsoft JhengHei Bold
+Microsoft JhengHei Light
+Microsoft JhengHei Regular
 Microsoft JhengHei UI
 Microsoft JhengHei UI Bold
+Microsoft JhengHei UI Light
+Microsoft JhengHei UI Regular
 Microsoft New Tai Lue
 Microsoft New Tai Lue Bold
 Microsoft PhagsPa
@@ -686,8 +757,10 @@ Microsoft Uighur
 Microsoft Uighur Bold
 Microsoft YaHei
 Microsoft YaHei Bold
+Microsoft YaHei Light
 Microsoft YaHei UI
 Microsoft YaHei UI Bold
+Microsoft YaHei UI Light
 Microsoft Yi Baiti
 MingLiU
 MingLiU-ExtB
@@ -722,6 +795,7 @@ Myanmar MN
 Myanmar MN Bold
 Myanmar Sangam MN
 Myanmar Text
+Myanmar Text Bold
 NEVIS
 NISC18030
 NSimSun
@@ -736,6 +810,12 @@ NanumMyeongjo Bold
 NanumMyeongjo ExtraBold
 NanumScript
 Narkisim
+Neue Haas Grotesk Text Pro
+Neue Haas Grotesk Text Pro Bold
+Neue Haas Grotesk Text Pro Bold Italic
+Neue Haas Grotesk Text Pro Italic
+Neue Haas Grotesk Text Pro Medium
+Neue Haas Grotesk Text Pro Medium Italic
 New Peninim MT
 New Peninim MT Bold
 New Peninim MT Bold Inclined
@@ -751,6 +831,7 @@ Niagara Engraved
 Niagara Solid
 Nirmala UI
 Nirmala UI Bold
+Nirmala UI Semilight
 Noteworthy
 Noto Naskh Arabic
 Noto Sans Armenian
@@ -864,6 +945,20 @@ Ribbon131 Bd BT
 Rockwell
 Rockwell Condensed
 Rockwell Extra Bold
+Rockwell Nova
+Rockwell Nova Bold
+Rockwell Nova Bold Italic
+Rockwell Nova Cond
+Rockwell Nova Cond Bold
+Rockwell Nova Cond Bold Italic
+Rockwell Nova Cond Italic
+Rockwell Nova Cond Light
+Rockwell Nova Cond Light Italic
+Rockwell Nova Extra Bold
+Rockwell Nova Extra Bold Italic
+Rockwell Nova Italic
+Rockwell Nova Light Italic
+Rockwell Nova Rockwell
 Rod
 Roman
 SCRIPTINA
@@ -936,6 +1031,7 @@ STXihei
 Sakkal Majalla
 Sakkal Majalla Bold
 Sana
+Sanskrit Text
 Santa Fe LET
 Sathu
 Savoye LET
@@ -944,13 +1040,19 @@ Savoye LET Plain:1.0
 Sceptre
 Script
 Script MT Bold
+Segoe MDL2 Assets
 Segoe Print
 Segoe Print Bold
+Segoe Pseudo
 Segoe Script
 Segoe Script Bold
 Segoe UI
+Segoe UI Black
+Segoe UI Black Italic
 Segoe UI Bold
 Segoe UI Bold Italic
+Segoe UI Emoji
+Segoe UI Historic
 Segoe UI Italic
 Segoe UI Light
 Segoe UI Light Italic
@@ -991,6 +1093,30 @@ Sinhala MN
 Sinhala MN Bold
 Sinhala Sangam MN
 Sinhala Sangam MN Bold
+Sitka Banner
+Sitka Banner Bold
+Sitka Banner Bold Italic
+Sitka Banner Italic
+Sitka Display
+Sitka Display Bold
+Sitka Display Bold Italic
+Sitka Display Italic
+Sitka Heading
+Sitka Heading Bold
+Sitka Heading Bold Italic
+Sitka Heading Italic
+Sitka Small
+Sitka Small Bold
+Sitka Small Bold Italic
+Sitka Small Italic
+Sitka Subheading
+Sitka Subheading Bold
+Sitka Subheading Bold Italic
+Sitka Subheading Italic
+Sitka Text
+Sitka Text Bold
+Sitka Text Bold Italic
+Sitka Text Italic
 Sketch Rockwell
 Skia
 Skia Regular
@@ -1073,11 +1199,18 @@ Tw Cen MT Condensed
 Tw Cen MT Condensed Extra Bold
 Twemoji Mozilla
 TypoUpright BT
+UD Digi Kyokasho N-B
+UD Digi Kyokasho N-R
+UD Digi Kyokasho NK-B
+UD Digi Kyokasho NK-R
+UD Digi Kyokasho NP-B
+UD Digi Kyokasho NP-R
 Unicorn
 Univers
 Univers CE 55 Medium
 Univers Condensed
 Urdu Typesetting
+Urdu Typesetting Bold
 Utsaah
 Utsaah Bold
 Utsaah Bold Italic
@@ -1089,6 +1222,26 @@ Verdana
 Verdana Bold
 Verdana Bold Italic
 Verdana Italic
+Verdana Pro
+Verdana Pro Black
+Verdana Pro Black Italic
+Verdana Pro Bold
+Verdana Pro Bold Italic
+Verdana Pro Cond
+Verdana Pro Cond Black
+Verdana Pro Cond Black Italic
+Verdana Pro Cond Bold
+Verdana Pro Cond Bold Italic
+Verdana Pro Cond Italic
+Verdana Pro Cond Light
+Verdana Pro Cond Light Italic
+Verdana Pro Cond SemiBold
+Verdana Pro Cond SemiBold Italic
+Verdana Pro Italic
+Verdana Pro Light
+Verdana Pro Light Italic
+Verdana Pro SemiBold
+Verdana Pro SemiBold Italic
 Version 5.
 Version 5.00
 Version 5.01
@@ -1132,7 +1285,19 @@ Wingdings 3
 Wingdings02-BoldItalic
 Xingkai SC Bold
 Xingkai SC Light
+Yu Gothic Bold
+Yu Gothic Light
+Yu Gothic Medium
+Yu Gothic Regular
 Yu Gothic UI
+Yu Gothic UI Bold
+Yu Gothic UI Light
+Yu Gothic UI Regular
+Yu Gothic UI Semibold
+Yu Gothic UI Semilight
+Yu Mincho Demibold
+Yu Mincho Light
+Yu Mincho Regular
 YuGothic Bold
 YuGothic Medium
 YuMincho Demibold
