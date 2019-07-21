@@ -306,7 +306,7 @@ function outputCookies() {
 	};
 
 	/*** permissions notifications / push */
-	if (amFF == true) {
+	if (isFirefox == true) {
 		navigator.permissions.query({name:"notifications"}).then(e => dom.pNotifications=e.state);
 		navigator.permissions.query({name:"push"}).then(e => dom.pPush=e.state);
 	};
