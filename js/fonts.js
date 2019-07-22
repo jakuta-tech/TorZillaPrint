@@ -161,7 +161,7 @@ let spawn = (function () {
 	return generatorFunction => promiseFromGenerator(generatorFunction());
 })();
 
-function output_enumerate_fallback(){
+function output_enumerate_fallback(type){
 	/* ARTHUR'S TEST: ENUMERATE FONTS
 	https://github.com/arthuredelstein/tordemos
 	*/
@@ -172,6 +172,10 @@ function output_enumerate_fallback(){
 		outputCount = 0;  // detected fonts count
 	let fontFBTest = dom.fontFBTest;
 	fontFBTest.style.fontSize = fontTestSize;
+
+	// assign elements to output to
+	let outputB = document.getElementById(type+"_fontFB"),    // fallback hash
+		outputD = document.getElementById(type+"_fontFBFound"); // fallback detected
 
 	// return width of the element with a given fontFamily
 	let measureWidthForFont = function (fontFamily) {
@@ -213,18 +217,18 @@ function output_enumerate_fallback(){
 		if (outputCount > 0) {
 			// remove trailing comma + space
 			outputString = outputString.slice(0, -2);
-			dom.fontFBFound.innerHTML = outputString;
+			outputD.innerHTML = outputString;
 		}	else {
-			dom.fontFBFound.innerHTML = "no fonts detected"
+			outputD.innerHTML = "no fonts detected"
 		};
 		// output hash/counts
-		dom.fontFB = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]";
+		outputB.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]";
 		// note if file:// since [this affects the result]
 		if ((location.protocol) == "file:") {
-			dom.fontFB.innerHTML = dom.fontFB.textContent + note_file
+			outputB.innerHTML = outputB.textContent + note_file
 		}
 		// reset color
-		dom.fontFBFound.style.color = "#b3b3b3";
+		outputD.style.color = "#b3b3b3";
 		// clear div [causes horizontal scroll]
 		dom.fontFBTest = "";
 
@@ -232,7 +236,7 @@ function output_enumerate_fallback(){
 
 };
 
-function output_enumerate_fpjs2() {
+function output_enumerate_fpjs2(type) {
 	/* 
 	http://www.lalit.org/lab/javascript-css-font-detect/
 	https://github.com/Valve/fingerprintjs2
@@ -242,6 +246,9 @@ function output_enumerate_fpjs2() {
 	let baseFonts = ['monospace','sans-serif','serif'],
 		outputString = "",// detected fonts output
 		outputCount = 0;  // detected fonts count
+	// assign elements to output to
+	let outputA = document.getElementById(type+"_fontFPJS2"), // fpjs2 hash
+		outputC = document.getElementById(type+"_fontFPJS2Found"); // fpjs2 detected
 
 	// the real test starts here
 	let h = document.getElementsByTagName('body')[0]
@@ -346,18 +353,18 @@ function output_enumerate_fpjs2() {
 	if (outputCount > 0) {
 		// remove trailing comma + space
 		outputString = outputString.slice(2);
-		dom.fontFPJS2Found = outputString;
+		outputC.innerHTML = outputString;
 	}	else {
-		dom.fontFPJS2Found = "no fonts detected"
+		outputC.innerHTML = "no fonts detected"
 	};
 	// output hash/counts
-	dom.fontFPJS2 = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]";
+	outputA.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]";
 	// note if file://
 	if ((location.protocol) == "file:") {
-		dom.fontFPJS2.innerHTML = dom.fontFPJS2.textContent + note_file
+		outputA.innerHTML = outputA.textContent + note_file
 	}
 	// reset color
-	dom.fontFPJS2Found.style.color = "#b3b3b3";
+	outputC.style.color = "#b3b3b3";
 
 };
 
@@ -407,22 +414,44 @@ function outputFonts1(){
 
 };
 
-function outputFonts2(){
+function outputFonts2(type){
 	/* not auto-run */
 
-	// reset fontList
+	// reset
 	fontList = [];
+	// default: a larger list to should what happens without a whitelist
+	let textfile = "fonts_all";
+	// assign elements to output to
+	let outputA = document.getElementById(type+"_fontFPJS2"), // fpjs2 hash
+		outputB = document.getElementById(type+"_fontFB"),      // fallback hash
+		outputC = document.getElementById(type+"_fontFPJS2Found"), // fpjs2 detected
+		outputD = document.getElementById(type+"_fontFBFound");    // fallback detected
+
 	// trap xhr/xmlhttp errors
 	let	xhr_font_error = false,
 		xhr_codepoint_error = false;
 
+	// type: "small" (targeted) or "all" (large)
+	// use type to set what elements we will output to
+	// and also what text file to load
+	if (type == "small") {
+		// todo: fonts_ + type_ + os
+		// here we assume a whitelist: so we only need
+		// to focus on whitelisted families based on OS
+		textfile = "fonts_small_test-win-example";
+
+		// hyperlink the font list used
+		dom.small_fontlist.innerHTML = "<span class='no_color'><a href='txt/" + textfile +
+			".txt' target='blank' class='blue'>" + textfile + "<a></span>";
+	};
+
 	// output status
-	dom.fontFB = "test is running... please wait";
-	dom.fontFPJS2 = "test is running... please wait";
+	outputA.innerHTML = "test is running... please wait";
+	outputB.innerHTML = "test is running... please wait";
 
 	// change font color to hide results: try not to shrink/grow elements
-	dom.fontFBFound.style.color = "#1a1a1a";
-	dom.fontFPJS2Found.style.color = "#1a1a1a";
+	outputC.style.color = "#1a1a1a";
+	outputD.style.color = "#1a1a1a";
 
 	// build array from text files
 	function intoArray(lines) {
@@ -437,19 +466,21 @@ function outputFonts2(){
 			let xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState == 4) {
-					if (filename == "fonts") {
+					if (filename == "codepoints") {
+						resolve(xhr.responseText);
+					} else {
+						// must be a font list
 						let lines = xhr.responseText;
 						intoArray(lines);
-					} else if (filename == "codepoints") {
-						resolve(xhr.responseText);
 					}
 				}
 			}
 			xhr.onerror = function() {
-				if (filename == "fonts") {
-					xhr_font_error = true;
-				} else if (filename == "codepoints") {
+				if (filename == "codepoints") {
 					xhr_codepoint_error = true;
+				} else {
+					// must be a font list
+					xhr_font_error = true;
 				}
 			};
 			xhr.overrideMimeType("text/plain; charset=utf-8");
@@ -457,7 +488,7 @@ function outputFonts2(){
 			xhr.send();
 		});
 	};
-	getData("fonts");
+	getData(textfile);
 
 	// retrieves a set of code points that are
 	// representative of the various unicode blocks.xf
@@ -486,41 +517,43 @@ function outputFonts2(){
 			fontList = fontList.filter(function (font, position) {
 				return fontList.indexOf(font) === position
 			});
-			// run the tests
-
-			output_enumerate_fpjs2();
+			// run fpjs2
+			output_enumerate_fpjs2(type);
 
 			if (xhr_codepoint_error == false) {
-				output_enumerate_fallback();
+				// run fallback
+				output_enumerate_fallback(type);
+
 			} else {
+				// B=fallback hash, D=fallback detected
 				if ((location.protocol) == "file:") {
 					// file error
-					dom.fontFB.innerHTML = error_file_cors;
+					outputB.innerHTML = error_file_cors;
 				} else {
 					// xhr error
-					dom.fontFB.innerHTML = error_file_xhr;
+					outputB.innerHTML = error_file_xhr;
 				};
 				// clear found fonts, reset color
-				dom.fontFBFound.innerHTML = "";
-				dom.fontFBFound.style.color = "#b3b3b3";
+				outputD.innerHTML = "";
+				outputD.style.color = "#b3b3b3";
 			}
 
 		} else {
+			// A+B=hashes , C+D=detected
 			if ((location.protocol) == "file:") {
 				// file error
-				dom.fontFB.innerHTML = error_file_cors;
-				dom.fontFPJS2.innerHTML = error_file_cors;
+				outputA.innerHTML = error_file_cors;
+				outputB.innerHTML = error_file_cors;
 			} else {
 				// xhr error
-				dom.fontFB.innerHTML = error_file_xhr;
-				dom.fontFPJS2.innerHTML = error_file_xhr;
+				outputA.innerHTML = error_file_xhr;
+				outputB.innerHTML = error_file_xhr;
 			};
-			// clear found fonts
-			dom.fontFBFound.innerHTML = "";
-			dom.fontFPJS2Found = "";
-			// reset color
-			dom.fontFBFound.style.color = "#b3b3b3";
-			dom.fontFPJS2Found.style.color = "#b3b3b3";
+			// clear found fonts, reset color
+			outputC.innerHTML = "";
+			outputD.innerHTML = "";
+			outputC.style.color = "#b3b3b3";
+			outputD.style.color = "#b3b3b3";
 		}
 	};
 
@@ -552,9 +585,6 @@ function outputFonts2(){
 		checkcount++;
 	}
 	let checking = setInterval(check_enumerate, 50)
-
-	// update button
-	dom.fontRun = "[ re-run tests ]";
 
 };
 
