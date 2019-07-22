@@ -164,7 +164,7 @@
 		<tr><td>[navigator] platform</td><td class="c" id="nPlatform"></td></tr>
 		<tr><td>[navigator] buildID</td><td class="c" id="nBuildID"></td></tr>
 		<tr><td>[navigator] productSub</td><td class="c" id="nProductSub"></td></tr>
-		<tr><td colspan="2" class="center">---browser, version, os---</td></tr>
+		<tr><td colspan="2" class="center">--- browser, version, os ---</td></tr>
 		<tr><td>[css] browser</td><td id="fdResourceCss"></td></tr>
 		<tr><td>[error messages] browser</td><td class="c" id="fdError"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
@@ -551,37 +551,56 @@
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">gfx.downloadable_fonts.woff2.enabled</span></div>
 			&nbsp WOFF2</td><td class="c1" id="fontWoff2"></td></tr>
-		<!--FONT FPs-->
+		<!--TARGETED: c2: small -->
 		<tr><td colspan="3" class="center">------</td></tr>
 		<tr><td colspan="2"><div>
-				<div class="btn-left"><button class="btn10" id="fontRun" onClick="outputSection(`10`, `c2`, `m`)">[ run tests ]</button></div>
-				<div>[fingerprintjs2] enumerate fonts <sup>2</sup></div></div></td><td class="c2 mono" id="fontFPJS2"></td>
+				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c2`, `m`)">[ run targeted tests ]</button></div>
+				<div>font list</div></div></td>
+				<td class="mono" id="small_fontlist"></td>
 		</tr>
-		<tr><td colspan="2">[font fallback] enumerate fonts <sup>3</sup></td><td class="c2 mono" id="fontFB"></td></tr>
-		<tr><td colspan="2">the other js <sup>4</sup></td><td class="c2 mono"></td></tr>
-		<tr><td colspan="2">canvas</td><td class="c2 mono"></td></tr>
+		<tr><td colspan="2">fingerprintjs2 <sup>2</sup></td><td class="c2 mono" id="small_fontFPJS2"></td></tr>
+		<tr><td colspan="2">font fallback <sup>3</sup></td><td class="c2 mono" id="small_fontFB"></td></tr>
+		<tr><td colspan="3"></td></tr>
+		<!--LARGE: c3: all -->
+		<tr><td colspan="3" class="center">------</td></tr>
+		<tr><td colspan="2"><div>
+				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c3`, `m`)">[ run large tests ]</button></div>
+				<div>font list</div></div></td>
+				<td class="mono"><span class="no_color"><a href="txt/fonts_all.txt" target="blank" class="blue">fonts_all<a></span></td>
+		</tr>
+		<tr><td colspan="2">fingerprintjs2 <sup>2</sup></td><td class="c3 mono" id="all_fontFPJS2"></td></tr>
+		<tr><td colspan="2">font fallback <sup>3</sup></td><td class="c3 mono" id="all_fontFB"></td></tr>
+		<!--DETAILS-->
 		<tr><td colspan="3" class="showhide">
 				<input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
 				<label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
 		</td></tr>
-		<tr class="togF"><td colspan="2" class="sub10">[fingerprintjs2] enumerate fonts</td><td>
-			 <button class="btn0" onClick="copyclip(`fontFPJS2Found`)">[ copy to clipboard ]</button></td></tr>
-		<tr class="togF"><td></td><td colspan="2" class="intro" id="fontFPJS2Found"></td></tr>
-		<tr class="togF"><td colspan="2" class="sub10">[font fallback] enumerate fonts</td><td>
-			 <button class="btn0" onClick="copyclip(`fontFBFound`)">[ copy to clipboard ]</button></td></tr>
-		<tr class="togF"><td></td><td colspan="2" class="intro" id="fontFBFound"></td></tr>
+		<!--TARGETED: c3-->
+		<tr class="togF"><td colspan="2" class="sub10">fingerprintjs2 [targeted]</td><td>
+			 <button class="btn0" onClick="copyclip(`small_fontFPJS2Found`)">[ copy to clipboard ]</button></td></tr>
+		<tr class="togF"><td></td><td colspan="2" class="intro" id="small_fontFPJS2Found"></td></tr>
+		<tr class="togF"><td colspan="2" class="sub10">font fallback [targeted]</td><td>
+			 <button class="btn0" onClick="copyclip(`small_fontFBFound`)">[ copy to clipboard ]</button></td></tr>
+		<tr class="togF"><td></td><td colspan="2" class="intro" id="small_fontFBFound"></td></tr>
+		<!--LARGE: c3-->
+		<tr class="togF"><td colspan="2" class="sub10">fingerprintjs2 [large]</td><td>
+			 <button class="btn0" onClick="copyclip(`all_fontFPJS2Found`)">[ copy to clipboard ]</button></td></tr>
+		<tr class="togF"><td></td><td colspan="2" class="intro" id="all_fontFPJS2Found"></td></tr>
+		<tr class="togF"><td colspan="2" class="sub10">enumerate fonts [large]</td><td>
+			 <button class="btn0" onClick="copyclip(`all_fontFBFound`)">[ copy to clipboard ]</button></td></tr>
+		<tr class="togF"><td></td><td colspan="2" class="intro" id="all_fontFBFound"></td></tr>
+		<!--GLYPHS -->
 		<tr class="togF"><td colspan="2" class="sub10">[offset] unicode glyphs</td><td>
 			 <button class="btn0" onClick="copyclip(`fontUGFound1`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" style="white-space: pre;" class="mono" id="fontUGFound1"></td></tr>
 		<tr class="togF"><td colspan="3"></td></tr>
+		<!--CREDITS-->
 		<tr><td colspan="3"><span class="no_color">code based on work by </span>
 			<a target="_blank" class="blue" href="https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo">David Fifield & Serge Egelman</a> <sup>1</sup>
 			<span class="no_color">, </span>
 			<a target="_blank" class="blue" href="https://github.com/Valve/fingerprintjs2">fingerprintjs2</a> <sup>2</sup>
-			<span class="no_color">, </span>
-			<a target="_blank" class="blue" href="https://github.com/arthuredelstein/tordemos">Arthur Edelstein</a> <sup>3</sup>
 			<span class="no_color"> and </span>
-			<a target="_blank" class="blue" href="https://browserleaks.com/fonts">browserleaks</a> <sup>4</sup>
+			<a target="_blank" class="blue" href="https://github.com/arthuredelstein/tordemos">Arthur Edelstein</a> <sup>3</sup>
 		</td></tr>
 	</table>
 
