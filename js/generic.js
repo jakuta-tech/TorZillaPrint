@@ -146,7 +146,8 @@ function outputSection(id, cls, page) {
 	}, 170);
 	// don't delay these ones
 	if (page=="m") {
-		if (id=="10" && cls=="c2") {outputFonts2()};
+		if (id=="10" && cls=="c2") {outputFonts2("small")};
+		if (id=="10" && cls=="c3") {outputFonts2("all")};
 	} else if (page=="e") {
 		if (id=="3") {outputChrome()};
 	};
