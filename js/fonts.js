@@ -488,7 +488,6 @@ function outputFonts2(type){
 			xhr.send();
 		});
 	};
-	getData(textfile);
 
 	// retrieves a set of code points that are
 	// representative of the various unicode blocks.xf
@@ -503,11 +502,21 @@ function outputFonts2(type){
 		codePoints[0] = 77;
 		return codePoints;
 	};
-	spawn(function* () {
-		// get the string ready for font fallback test
-		let codePoints = yield getCodePoints();
-		fontTestStringB = codePoints.map(x => String.fromCodePoint(x)).join("</span>\n<span>");
-	});
+
+	// start getting the codepoints first
+	// only build it if we haven't already done so
+	if (fontTestStringB.length == 0) {
+		console.log("building fallback test string");
+		spawn(function* () {
+			// build the global string for font fallback test
+			let codePoints = yield getCodePoints();
+			fontTestStringB = codePoints.map(x => String.fromCodePoint(x)).join("</span>\n<span>");
+		});
+	};
+
+	// start getting textfile after codepoints since
+	// textfile can now be a much smaller targeted list
+	getData(textfile);
 
 	function run_enumerate() {
 		if (xhr_font_error == false) {
@@ -522,8 +531,14 @@ function outputFonts2(type){
 
 			if (xhr_codepoint_error == false) {
 				// run fallback
-				output_enumerate_fallback(type);
-
+				// now we also use targeted smaller font lists, we
+				// should check the fallback test string has been set
+				if (fontTestStringB.length == 0) {
+					// todo: make sure the test runs rather than error
+					outputB.innerHTML = "timed out: try again"
+				} else {
+					output_enumerate_fallback(type);
+				}
 			} else {
 				// B=fallback hash, D=fallback detected
 				if ((location.protocol) == "file:") {
