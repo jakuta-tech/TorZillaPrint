@@ -491,11 +491,18 @@ function outputFonts2(type){
 	};
 
 	// build fontList from text file
+	let strPush = "";
 	function intoArray(lines) {
 		// exclude blank lines by filtering length
 		let lineArr = lines.split("\n").filter(s => s.length > 0);
 		for (let k = 0 ; k < lineArr.length; k++) {
-			fontList.push(lineArr[k]);
+			// trim
+			strPush = lineArr[k];
+			strPush = strPush.trim();
+			// ignore if zero length			
+			if (strPush.length > 0) {
+				fontList.push(strPush);
+			}
 		}
 	};
 	function getData(filename) {
