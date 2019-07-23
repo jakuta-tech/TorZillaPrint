@@ -2,33 +2,11 @@ Arial
 Arial Black
 Arial Bold
 Arial Bold Italic
-Arial Hebrew
-Arial Hebrew Bold
-Arial Hebrew Light
 Arial Italic
-Arial MT
 Arial Narrow
 Arial Narrow Bold
 Arial Narrow Bold Italic
 Arial Narrow Italic
-Arial Nova
-Arial Nova Bold
-Arial Nova Bold Italic
-Arial Nova Cond
-Arial Nova Cond Bold
-Arial Nova Cond Bold Italic
-Arial Nova Cond Italic
-Arial Nova Cond Light
-Arial Nova Cond Light Italic
-Arial Nova Italic
-Arial Nova Light
-Arial Nova Light Italic
-Arial Rounded Bold
-Arial Rounded MT Bold
-Arial Unicode
-Arial Unicode MS
-ArialHB
-ArialHBBold
 Batang
 BatangChe
 Cambria Math
