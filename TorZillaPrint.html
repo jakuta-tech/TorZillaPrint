@@ -531,9 +531,10 @@
 				<div class="nav-up"><a href="#domrect">&#9650;</a></div>
 				<div class="nav-down"><a href="#audio">&#9660;</a></div></div>
 		</th></tr></thead>
-		<tr><td colspan="3" class="intro"><span class="no_color">The real world strikes a balance between efficiency vs
-			entropy [fingerprintjs2 checks 64 fonts by default], but these tests are designed to be comprehensive, not
-			small and fast. As such, some tests are not automatically run.</span>
+		<tr><td colspan="3" class="intro"><span class="no_color">We already know we can enumerate fonts: see the
+			<a target="_blank" class="blue" href="extra.html">monsta</a> test. These font list tests are more refined:
+			<code>whitelist</code> tests are smaller, faster tests trying to determine entropy within each whitelist,
+			while the	<code>os</code> tests are to get metrics on stable fonts per os.</span>
 		</td></tr>
 		<tr><td colspan="2"><div>
 				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c1`, `m`)">[ re-run tests ]</button></div>
@@ -551,22 +552,22 @@
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">gfx.downloadable_fonts.woff2.enabled</span></div>
 			&nbsp WOFF2</td><td class="c1" id="fontWoff2"></td></tr>
-		<!--TARGETED: c2: small -->
+		<!--WHITELIST: c2: small -->
 		<tr><td colspan="3" class="center">------</td></tr>
 		<tr><td colspan="2"><div>
-				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c2`, `m`)">[ run targeted tests ]</button></div>
+				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c2`, `m`)">[re-run whitelist tests ]</button></div>
 				<div>font list</div></div></td>
-				<td class="mono" id="small_fontlist"></td>
+				<td class="mono" id="small_fontList"></td>
 		</tr>
 		<tr><td colspan="2">fingerprintjs2 <sup>2</sup></td><td class="c2 mono" id="small_fontFPJS2"></td></tr>
 		<tr><td colspan="2">font fallback <sup>3</sup></td><td class="c2 mono" id="small_fontFB"></td></tr>
 		<tr><td colspan="3"></td></tr>
-		<!--LARGE: c3: all -->
+		<!--OS: c3: all -->
 		<tr><td colspan="3" class="center">------</td></tr>
 		<tr><td colspan="2"><div>
-				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c3`, `m`)">[ run large tests ]</button></div>
+				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c3`, `m`)">[ run os tests ]</button></div>
 				<div>font list</div></div></td>
-				<td class="mono"><span class="no_color"><a href="txt/fonts_all.txt" target="blank" class="blue">fonts_all<a></span></td>
+				<td class="mono" id="all_fontList"></td>
 		</tr>
 		<tr><td colspan="2">fingerprintjs2 <sup>2</sup></td><td class="c3 mono" id="all_fontFPJS2"></td></tr>
 		<tr><td colspan="2">font fallback <sup>3</sup></td><td class="c3 mono" id="all_fontFB"></td></tr>
@@ -575,18 +576,18 @@
 				<input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
 				<label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
 		</td></tr>
-		<!--TARGETED: c3-->
-		<tr class="togF"><td colspan="2" class="sub10">fingerprintjs2 [targeted]</td><td>
+		<!--WHITELIST: c2-->
+		<tr class="togF"><td colspan="2" class="sub10">fingerprintjs2 [whitelist]</td><td>
 			 <button class="btn0" onClick="copyclip(`small_fontFPJS2Found`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" class="intro" id="small_fontFPJS2Found"></td></tr>
-		<tr class="togF"><td colspan="2" class="sub10">font fallback [targeted]</td><td>
+		<tr class="togF"><td colspan="2" class="sub10">font fallback [whitelist]</td><td>
 			 <button class="btn0" onClick="copyclip(`small_fontFBFound`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" class="intro" id="small_fontFBFound"></td></tr>
-		<!--LARGE: c3-->
-		<tr class="togF"><td colspan="2" class="sub10">fingerprintjs2 [large]</td><td>
+		<!--OS: c3-->
+		<tr class="togF"><td colspan="2" class="sub10">fingerprintjs2 [os]</td><td>
 			 <button class="btn0" onClick="copyclip(`all_fontFPJS2Found`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" class="intro" id="all_fontFPJS2Found"></td></tr>
-		<tr class="togF"><td colspan="2" class="sub10">enumerate fonts [large]</td><td>
+		<tr class="togF"><td colspan="2" class="sub10">enumerate fonts [os]</td><td>
 			 <button class="btn0" onClick="copyclip(`all_fontFBFound`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" class="intro" id="all_fontFBFound"></td></tr>
 		<!--GLYPHS -->
