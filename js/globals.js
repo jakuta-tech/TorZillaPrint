@@ -27,7 +27,7 @@ var error_global_os = "<span class='bad'>[test error: global variable not set]</
 var isFirefox = false;
 var isTorBrowser = false;
 var isMajorOS = ""; // windows, mac, linux, android
-var isVersion = "";
+var isVersion = ""; // 2-digit numeric
 
 // we can check this one here
 if (isNaN(window.mozPaintCount) === false) {isFirefox = true};
