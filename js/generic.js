@@ -150,5 +150,6 @@ function outputSection(id, cls, page) {
 		if (id=="10" && cls=="c3") {outputFonts2("all")};
 	} else if (page=="e") {
 		if (id=="3") {outputChrome()};
+		if (id=="4") {outputFonts2("monsta")};
 	};
 };
