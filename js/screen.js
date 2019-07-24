@@ -41,6 +41,9 @@ function getVerNo() {
 	//69
 	try {let err69 = new DOMError('name');} catch(e) { verNo="69+"};
 	// reminder: append + on last test
+
+	// set global var isVersion
+	isVersion = verNo.substring(0,2);
 	return verNo;
 };
 
@@ -227,6 +230,10 @@ function os_widgets() {
 			else if (wdFFN == "-apple-system") {wdOS="Mac"}
 			else {wdOS="Linux"};
 		};
+
+		// set global var isMajorOS
+		isMajorOS = wdOS.toLowerCase();
+
 		// compare: values 1 to 7: should always be the same: track state
 		if (i < 8) {
 			// store previous values to compare: not even sure if these can be different
@@ -446,6 +453,9 @@ function outputUA() {
 
 	// only run these subsequent tests for Firefox
 	if (isFirefox == true){
+
+		// widgets: run first: currently sets global var isMajorOs
+		os_widgets();
 
 		// os: chrome://
 		os_chrome();
@@ -735,9 +745,6 @@ function outputUA() {
 		// output: sbZoom was already set in scrollbar width code
 		dom.cssLH.innerHTML = lh + "px " + sbZoom + lhOS + lhCR;
 
-		// widgets
-		os_widgets();
-
 	};
 
 };
@@ -841,7 +848,7 @@ function getFS() {
 		let winFSw = document.mozFullScreenElement.clientWidth;
 		let winFSh = document.mozFullScreenElement.clientHeight;
 		dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
-		if (getVerNo() > 63) {
+		if (isVersion > 63) {
 			document.exitFullscreen();
 		} else {
 			document.mozCancelFullScreen();
