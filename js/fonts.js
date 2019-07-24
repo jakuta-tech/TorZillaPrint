@@ -437,9 +437,16 @@ function outputFonts1(){
 function outputFonts2(type){
 	/* not auto-run */
 
+	// if running the monsta test:
+	// - we don't need to check if FF
+	// - we don't need the os string
+	if (type == "monsta") {
+		isFirefox = true; // bypass Firefox check
+		isMajorOS = "x"; // bypass zero-length check
+	}
+
 	// only run on Firefox
 	if (isFirefox == true) {
-
 		// reset
 		fontList = [];
 		let textfile = "";
@@ -449,8 +456,7 @@ function outputFonts2(type){
 			outputB = document.getElementById(type+"_fontFB"),      // fallback hash
 			outputC = document.getElementById(type+"_fontFPJS2Found"), // fpjs2 detected
 			outputD = document.getElementById(type+"_fontFBFound"),    // fallback detected
-			outputE = document.getElementById(type+"_fontList"), // text file used
-			outputF = document.getElementById("all_fontList");   // text file used
+			outputE = document.getElementById(type+"_fontList"); // text file used
 
 		// set text file(s) and hyperlink it
 		// note: global var isMajorOS: relying solely on widgets for now
@@ -467,12 +473,20 @@ function outputFonts2(type){
 
 			// testing
 			// isMajorOS = "windows";
-			textfile = "fonts_" + isMajorOS + "_" + type;
+			if (type == "monsta") {
+				textfile = "fonts_" + type;
+			} else {
+				textfile = "fonts_" + isMajorOS + "_" + type;
+			}
+
 			outputE.innerHTML = "<span class='no_color'><a href='txt/" + textfile +
 				".txt' target='blank' class='blue'>" + textfile + "<a></span>";
 			// also output the os list
-			outputF.innerHTML = "<span class='no_color'><a href='txt/fonts_" + isMajorOS +
-				"_all.txt' target='blank' class='blue'>fonts_" + isMajorOS + "_all<a></span>";
+			if (type == "small") {
+				let outputF = document.getElementById("all_fontList");
+				outputF.innerHTML = "<span class='no_color'><a href='txt/fonts_" + isMajorOS +
+					"_all.txt' target='blank' class='blue'>fonts_" + isMajorOS + "_all<a></span>";
+			};
 
 			// output status
 			outputA.innerHTML = "test is running... please wait";
@@ -606,5 +620,8 @@ function outputFonts2(type){
 	};
 };
 
-outputFonts1();
-outputFonts2("small");
+// we only want to autorun if we are on the main test page
+if (isPage == "main") {
+	outputFonts1();
+	outputFonts2("small");
+};
