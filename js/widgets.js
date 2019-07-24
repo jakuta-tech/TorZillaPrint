@@ -4,6 +4,8 @@
 
 function outputWidgets() {
 
+isPage = "extra"
+
 };
 
 outputWidgets();
