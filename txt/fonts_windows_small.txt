@@ -1,0 +1,185 @@
+
+// dte: 24-Jul-2019
+// from windows os list
+// + system fonts & variants (DirectWrite vs GDI)
+// + bundled fonts
+// + whitelisted & variants
+
+Arial
+Arial Black
+Arial Bold
+Arial Bold Italic
+Arial Italic
+Arial Narrow
+Arial Narrow Bold
+Arial Narrow Bold Italic
+Arial Narrow Italic
+Batang
+BatangChe
+Cambria Math
+Courier
+Courier New
+Courier New Bold
+Courier New Bold Italic
+Courier New Italic
+EmojiOne Mozilla
+Euphemia
+Gautami
+Gautami Bold
+Georgia
+Georgia Bold
+Georgia Bold Italic
+Georgia Italic
+Gulim
+GulimChe
+Helvetica
+Iskoola Pota
+Iskoola Pota Bold
+Kalinga
+Kalinga Bold
+Kartika
+Kartika Bold
+Latha
+Latha Bold
+Lucida Console
+MS Gothic
+MS Mincho
+MS PGothic
+MS PMincho
+MS Sans Serif
+MS Serif
+MV Boli
+Malgun Gothic
+Malgun Gothic Bold
+Malgun Gothic Semilight
+Mangal
+Mangal Bold
+Meiryo
+Meiryo Bold
+Meiryo Bold Italic
+Meiryo Italic
+Meiryo UI
+Meiryo UI Bold
+Meiryo UI Bold Italic
+Meiryo UI Italic
+Microsoft Himalaya
+Microsoft JhengHei
+Microsoft JhengHei Bold
+Microsoft JhengHei Light
+Microsoft JhengHei Regular
+Microsoft JhengHei UI
+Microsoft JhengHei UI Bold
+Microsoft JhengHei UI Light
+Microsoft JhengHei UI Regular
+Microsoft YaHei
+Microsoft YaHei Bold
+Microsoft YaHei Light
+Microsoft YaHei UI
+Microsoft YaHei UI Bold
+Microsoft YaHei UI Light
+MingLiU
+MingLiU-ExtB
+MingLiU_HKSCS
+MingLiU_HKSCS-ExtB
+Noto Naskh Arabic
+Noto Sans
+Noto Sans Armenian
+Noto Sans Bengali
+Noto Sans Buginese
+Noto Sans CJK SC
+Noto Sans CJK SC Regular
+Noto Sans Canadian Aboriginal
+Noto Sans Cherokee
+Noto Sans Devanagari
+Noto Sans Ethiopic
+Noto Sans Georgian
+Noto Sans Gujarati
+Noto Sans Gurmukhi
+Noto Sans Hebrew
+Noto Sans JP Regular
+Noto Sans KR Regular
+Noto Sans Kannada
+Noto Sans Khmer
+Noto Sans Lao
+Noto Sans Malayalam
+Noto Sans Mongolian
+Noto Sans Myanmar
+Noto Sans Oriya
+Noto Sans SC Regular
+Noto Sans Sinhal
+Noto Sans Sinhala
+Noto Sans TC Regular
+Noto Sans Tamil
+Noto Sans Telugu
+Noto Sans Thaana
+Noto Sans Thai
+Noto Sans Tibetan
+Noto Sans Yi
+Noto Serif
+Noto Serif Armenian
+Noto Serif Khmer
+Noto Serif Lao
+Noto Serif Thai
+Nyala
+PMingLiU
+PMingLiU-ExtB
+Plantagenet Cherokee
+Raavi
+Raavi Bold
+Roman
+Segoe UI
+Segoe UI Black
+Segoe UI Black Italic
+Segoe UI Bold
+Segoe UI Bold Italic
+Segoe UI Emoji
+Segoe UI Historic
+Segoe UI Italic
+Segoe UI Light
+Segoe UI Light Italic
+Segoe UI Semibold
+Segoe UI Semibold Italic
+Segoe UI Semilight
+Segoe UI Semilight Italic
+Segoe UI Symbol
+Shruti
+Shruti Bold
+SimSun
+SimSun-ExtB
+Small Fonts
+Sylfaen
+Tahoma
+Tahoma Bold
+Tahoma Negreta
+Times
+Times New Roman
+Times New Roman Bold
+Times New Roman Bold Italic
+Times New Roman Italic
+Times New Roman PS
+Tunga
+Tunga Bold
+Twemoji Mozilla
+Verdana
+Verdana Bold
+Verdana Bold Italic
+Verdana Italic
+Vrinda
+Vrinda Bold
+Yu Gothic UI
+Yu Gothic UI Bold
+Yu Gothic UI Light
+Yu Gothic UI Regular
+Yu Gothic UI Semibold
+Yu Gothic UI Semilight
+宋体
+微软雅黑
+新細明體
+細明體
+굴림
+굴림체
+바탕
+ＭＳ ゴシック
+ＭＳ 明朝
+ＭＳ Ｐゴシック
+ＭＳ Ｐ明朝
