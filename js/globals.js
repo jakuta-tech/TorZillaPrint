@@ -20,12 +20,14 @@ var error_file_cors = "<span class='neutral'>[file:] [Cross-Origin Request Block
 var error_file_xhr = "<span class='bad'>[test error: xhr]</span>";
 var error_iframe = "<span class='bad'>[test error: iframe]</span>";
 var error_image = "<span class='bad'>[test error: image]</span>";
+var error_global_os = "<span class='bad'>[test error: global variable not set]</span>";
 
 // sometimes we only want to test for Firefox
 // or provide a different test based on some criteria
-var isAndroid = false;
 var isFirefox = false;
 var isTorBrowser = false;
+var isMajorOS = ""; // windows, mac, linux, android
+var isVersion = "";
 
 // we can check this one here
 if (isNaN(window.mozPaintCount) === false) {isFirefox = true};
