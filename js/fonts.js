@@ -437,155 +437,174 @@ function outputFonts1(){
 function outputFonts2(type){
 	/* not auto-run */
 
-	// reset
-	fontList = [];
-	// default: a larger list to should what happens without a whitelist
-	let textfile = "fonts_all";
-	// assign elements to output to
-	let outputA = document.getElementById(type+"_fontFPJS2"), // fpjs2 hash
-		outputB = document.getElementById(type+"_fontFB"),      // fallback hash
-		outputC = document.getElementById(type+"_fontFPJS2Found"), // fpjs2 detected
-		outputD = document.getElementById(type+"_fontFBFound");    // fallback detected
+	// only run on Firefox
+	if (isFirefox == true) {
 
-	// trap xhr/xmlhttp errors
-	let	xhr_font_error = false;
+		// reset
+		fontList = [];
+		let textfile = "";
 
-	// type: "small" (targeted) or "all" (large)
-	// use type to set what elements we will output to
-	// and also what text file to load
-	if (type == "small") {
-		// todo: fonts_ + type_ + os
-		// here we assume a whitelist: so we only need
-		// to focus on whitelisted families based on OS
-		textfile = "fonts_small_test-win-example";
+		// assign elements to output to
+		let outputA = document.getElementById(type+"_fontFPJS2"), // fpjs2 hash
+			outputB = document.getElementById(type+"_fontFB"),      // fallback hash
+			outputC = document.getElementById(type+"_fontFPJS2Found"), // fpjs2 detected
+			outputD = document.getElementById(type+"_fontFBFound"),    // fallback detected
+			outputE = document.getElementById(type+"_fontList"), // text file used
+			outputF = document.getElementById("all_fontList");   // text file used
 
-		// hyperlink the font list used
-		dom.small_fontlist.innerHTML = "<span class='no_color'><a href='txt/" + textfile +
-			".txt' target='blank' class='blue'>" + textfile + "<a></span>";
-	};
+		// set text file(s) and hyperlink it
+		// note: global var isMajorOS: relying solely on widgets for now
+		// note: fallback font loaded early in css: this should mean isMajorOS is always set
 
-	// output status
-	outputA.innerHTML = "test is running... please wait";
-	outputB.innerHTML = "test is running... please wait";
+		// testing
+		// isMajorOS = "";
+		if (isMajorOS == "") {
+				// handle where isMajorOS is blank
+			outputA.innerHTML = error_global_os;
+			outputB.innerHTML = error_global_os;
 
-	// change font color to hide results: try not to shrink/grow elements
-	outputC.style.color = "#1a1a1a";
-	outputD.style.color = "#1a1a1a";
+		} else {
 
-	// build fallback test string
-	let getCodePoints = function* () {
-		let codePoints = fontCodepoints
-			.map(s => s.trim())
-			.filter(s => s.length > 0)
-			.map(x => parseInt(x))
-			.map(x => x + 1);
-		codePoints[0] = 77;
-		return codePoints;
-	};
-	// only build it once
-	if (fontTestStringB.length == 0) {
-		spawn(function* () {
-			let codePoints = yield getCodePoints();
-			fontTestStringB = codePoints.map(x => String.fromCodePoint(x)).join("</span>\n<span>");
-		});
-	};
+			// testing
+			// isMajorOS = "windows";
+			textfile = "fonts_" + isMajorOS + "_" + type;
+			outputE.innerHTML = "<span class='no_color'><a href='txt/" + textfile +
+				".txt' target='blank' class='blue'>" + textfile + "<a></span>";
+			// also output the os list
+			outputF.innerHTML = "<span class='no_color'><a href='txt/fonts_" + isMajorOS +
+				"_all.txt' target='blank' class='blue'>fonts_" + isMajorOS + "_all<a></span>";
 
-	// build fontList from text file
-	let strPush = "";
-	function intoArray(lines) {
-		// exclude blank lines by filtering length
-		let lineArr = lines.split("\n").filter(s => s.length > 0);
-		for (let k = 0 ; k < lineArr.length; k++) {
-			// trim
-			strPush = lineArr[k];
-			strPush = strPush.trim();
-			// ignore if zero length			
-			if (strPush.length > 0) {
-				fontList.push(strPush);
-			}
-		}
-	};
-	function getData(filename) {
-		return new Promise(function (resolve) {
-			let xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4) {
-					let lines = xhr.responseText;
-					intoArray(lines);
+			// output status
+			outputA.innerHTML = "test is running... please wait";
+			outputB.innerHTML = "test is running... please wait";
+
+			// change font color to hide results: try not to shrink/grow elements
+			outputC.style.color = "#1a1a1a";
+			outputD.style.color = "#1a1a1a";
+
+			// trap xhr/xmlhttp errors
+			let xhr_font_error = false;
+
+			// build fallback test string
+			let getCodePoints = function* () {
+				let codePoints = fontCodepoints
+					.map(s => s.trim())
+					.filter(s => s.length > 0)
+					.map(x => parseInt(x))
+					.map(x => x + 1);
+				codePoints[0] = 77;
+				return codePoints;
+			};
+			// only build it once
+			if (fontTestStringB.length == 0) {
+				spawn(function* () {
+					let codePoints = yield getCodePoints();
+					fontTestStringB = codePoints.map(x => String.fromCodePoint(x)).join("</span>\n<span>");
+				});
+			};
+
+			// build fontList from text file
+			let strPush = "";
+			function intoArray(lines) {
+				// exclude blank lines by filtering length
+				let lineArr = lines.split("\n").filter(s => s.length > 0);
+				for (let k = 0 ; k < lineArr.length; k++) {
+					// trim
+					strPush = lineArr[k];
+					strPush = strPush.trim();
+					// ignore if zero length			
+					if (strPush.length > 0) {
+						// ignore comment lines
+						if (strPush.slice(0,2) !== "//") {
+							fontList.push(strPush);
+						}
+					}
 				}
-			}
-			xhr.onerror = function() {
-				xhr_font_error = true;
 			};
-			xhr.overrideMimeType("text/plain; charset=utf-8");
-			xhr.open("GET", "txt/" + filename + ".txt", true);
-			xhr.send();
-		});
-	};
-	getData(textfile);
-
-	// 
-	function run_enumerate() {
-		if (xhr_font_error == false) {
-
-			// sort fonts and remove duplicates
-			fontList.sort();
-			fontList = fontList.filter(function (font, position) {
-				return fontList.indexOf(font) === position
-			});
-			// run fpjs2
-			output_enumerate_fpjs2(type);
-			// run fallback
-			output_enumerate_fallback(type);
-
-		} else {
-			// A+B=hashes , C+D=detected
-			if ((location.protocol) == "file:") {
-				// file error
-				outputA.innerHTML = error_file_cors;
-				outputB.innerHTML = error_file_cors;
-			} else {
-				// xhr error
-				outputA.innerHTML = error_file_xhr;
-				outputB.innerHTML = error_file_xhr;
+			function getData(filename) {
+				return new Promise(function (resolve) {
+					let xhr = new XMLHttpRequest();
+					xhr.onreadystatechange = function() {
+						if (xhr.readyState == 4) {
+							let lines = xhr.responseText;
+							intoArray(lines);
+						}
+					}
+					xhr.onerror = function() {
+						xhr_font_error = true;
+					};
+					xhr.overrideMimeType("text/plain; charset=utf-8");
+					xhr.open("GET", "txt/" + filename + ".txt", true);
+					xhr.send();
+				});
 			};
-			// clear found fonts, reset color
-			outputC.innerHTML = "";
-			outputD.innerHTML = "";
-			outputC.style.color = "#b3b3b3";
-			outputD.style.color = "#b3b3b3";
-		}
-	};
+			getData(textfile);
 
-	// keep checking if the list is loaded
-	let lastvalue = 1,
-		checkcount = 0;
-	function check_enumerate() {
-		if (xhr_font_error == true) {
-			clearInterval(checking);
-			run_enumerate()
-		} else {
-			if (lastvalue == fontList.length) {
-				// we need the same result in succession
-				clearInterval(checking);
-				let filetime = ((checkcount+1) * 50);
-				console.log("loading the text file took " + filetime + "ms");
-				run_enumerate()
-			} else if (fontList.length > 0) {
-				// the array is underway
-				lastvalue = fontList.length;
+			// 
+			function run_enumerate() {
+				if (xhr_font_error == false) {
+
+					// sort fonts and remove duplicates
+					fontList.sort();
+					fontList = fontList.filter(function (font, position) {
+						return fontList.indexOf(font) === position
+					});
+					// run fpjs2
+					output_enumerate_fpjs2(type);
+					// run fallback
+					output_enumerate_fallback(type);
+
+				} else {
+					// A+B=hashes , C+D=detected
+					if ((location.protocol) == "file:") {
+						// file error
+						outputA.innerHTML = error_file_cors;
+						outputB.innerHTML = error_file_cors;
+					} else {
+						// xhr error
+						outputA.innerHTML = error_file_xhr;
+						outputB.innerHTML = error_file_xhr;
+					};
+					// clear found fonts, reset color
+					outputC.innerHTML = "";
+					outputD.innerHTML = "";
+					outputC.style.color = "#b3b3b3";
+					outputD.style.color = "#b3b3b3";
+				}
+			};
+
+			// keep checking if the list is loaded
+			let lastvalue = 1,
+				checkcount = 0;
+			function check_enumerate() {
+				if (xhr_font_error == true) {
+					clearInterval(checking);
+					run_enumerate()
+				} else {
+					if (lastvalue == fontList.length) {
+						// we need the same result in succession
+						clearInterval(checking);
+						let filetime = ((checkcount+1) * 50);
+						console.log("loading the text file took " + filetime + "ms");
+						run_enumerate()
+					} else if (fontList.length > 0) {
+						// the array is underway
+						lastvalue = fontList.length;
+					}
+				}
+				if (checkcount > 81) {
+					// we are now autorunning small: allow 4s
+					clearInterval(checking);
+					// run it anyway, as it cleans up the output
+					run_enumerate();
+				}
+				checkcount++;
 			}
-		}
-		if (checkcount > 51) {
-			// that's 2.5s
-			clearInterval(checking);
-			// run it anyway, as it cleans up the output
-			run_enumerate();
-		}
-		checkcount++;
-	}
-	let checking = setInterval(check_enumerate, 50)
+			let checking = setInterval(check_enumerate, 50)
 
+		};
+	};
 };
 
 outputFonts1();
+outputFonts2("small");
