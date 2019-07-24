@@ -22,6 +22,9 @@ var error_iframe = "<span class='bad'>[test error: iframe]</span>";
 var error_image = "<span class='bad'>[test error: image]</span>";
 var error_global_os = "<span class='bad'>[test error: global variable not set]</span>";
 
+// what page is loaded: so as to not autorun some tests
+var isPage = "main";
+
 // sometimes we only want to test for Firefox
 // or provide a different test based on some criteria
 var isFirefox = false;
