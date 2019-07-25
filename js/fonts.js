@@ -621,7 +621,7 @@ function outputFonts2(type){
 };
 
 // we only want to autorun if we are on the main test page
-if (isPage == "main") {
+//if (isPage == "main") {
 	outputFonts1();
-	outputFonts2("small");
-};
+//outputFonts2("small");
+//};
