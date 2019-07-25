@@ -1,13 +1,12 @@
 
-// date: 25-Jul-2019
-// file: fonts_windows_small
-// aim: fast small test for entropy within whitelists
+// 25-Jul-2019
+// fonts_windows_small
 
-// EMOJI: TB+FF bundled
+// EMOJI
 EmojiOne Mozilla
 Twemoji Mozilla
 
-// TB WHITELIST (w/ JhengHei typo fix)
+// TB WHITELIST
 Arial
 Batang
 Cambria Math
@@ -68,7 +67,7 @@ Yu Gothic UI
 ＭＳ Ｐゴシック
 ＭＳ Ｐ明朝
 
-// OTHER: not whitelisted but can't block: e.g. whitelist only one imaginary font
+// OTHER: can't block: whitelist only one imaginary font
 Courier
 Helvetica
 MS Sans Serif
