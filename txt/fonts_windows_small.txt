@@ -1,10 +1,13 @@
 
 // date: 25-Jul-2019
 // file: fonts_windows_small
-// aim: test entropy within whitelists
+// aim: fast small test for entropy within whitelists
 
-// TB whitelist: w/ JhengHei typo fix
+// EMOJI: TB+FF bundled
+EmojiOne Mozilla
+Twemoji Mozilla
 
+// TB WHITELIST (w/ JhengHei typo fix)
 Arial
 Batang
 Cambria Math
@@ -65,14 +68,7 @@ Yu Gothic UI
 ＭＳ Ｐゴシック
 ＭＳ Ｐ明朝
 
-// TB+FF bundled emoji
-
-EmojiOne Mozilla
-Twemoji Mozilla
-
-// other: not whitelisted but can't block
-// e.g. whitelist only one non-existent font
-
+// OTHER: not whitelisted but can't block: e.g. whitelist only one imaginary font
 Courier
 Helvetica
 MS Sans Serif
@@ -81,8 +77,7 @@ Roman
 Small Fonts
 Times
 
-// whitelist: expand families
-
+// EXPAND WHITELIST: font families [GDu vs DirectWrite?)
 Arial Black
 Arial Bold
 Arial Bold Italic
