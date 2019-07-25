@@ -1,13 +1,13 @@
 
-// dte: 25-Jul-2019
-// file: fonts_windows_all
-// src: https://docs.microsoft.com/en-us/typography/fonts/windows_7_font_list etc
+// 25-Jul-2019
+// fonts_windows_all
+// https://docs.microsoft.com/en-us/typography/fonts/font-faq
 
-// EMOJI: TB+FF bundled
+// EMOJI
 EmojiOne Mozilla
 Twemoji Mozilla
 
-// TB WHITELIST/BUNDLED (not in Windows combined list)
+// TB WHITELIST (not in Windows combined)
 Noto Sans Buginese
 Noto Sans Khmer
 Noto Sans Lao
@@ -35,7 +35,7 @@ Times
 ＭＳ Ｐ明朝
 
 // WINDOWS: combined 7 + 8 + 8.1 + 10
-// note: "Yu Gothic UI" (see TB whitelist) and "Yu Gothic": is "Regular" is meant to be appended
+// note: "Yu Gothic UI" (see TB whitelist) and "Yu Gothic": is "Regular" even meant to be appended
 Aharoni Bold
 Aldhabi
 Andalus
