@@ -6,14 +6,17 @@
 
 function outputChrome() {
 
+//only run for firefox
+if (isNaN(window.mozPaintCount) === false) {
+
 dom.jsHash = "tests are running";
 dom.cssHash = "give it 5 seconds";
-var c = "chrome://browser/content/";
-var g = "chrome://global/content/";
-var s = "chrome://browser/skin/";
-var b = "chrome://branding/content/";
+let c = "chrome://browser/content/";
+let g = "chrome://global/content/";
+let s = "chrome://browser/skin/";
+let b = "chrome://branding/content/";
 
-var jsUris = [c+'ext-android.js', c+'aboutDialog-appUpdater.js', c+'aboutDialog.js', c+'aboutNetError.js',
+let jsUris = [c+'ext-android.js', c+'aboutDialog-appUpdater.js', c+'aboutDialog.js', c+'aboutNetError.js',
  c+'aboutPrivateBrowsing.js', c+'aboutRestartRequired.js', c+'aboutRobots.js', c+'aboutSessionRestore.js', c+'aboutTabCrashed.js',
  c+'aboutTabGroupsMigration.js', c+'aboutaccounts/aboutaccounts.js', c+'abouthealthreport/abouthealth.js', c+'abouthome/aboutHome.js',
  c+'blockedSite.js', c+'bookmarks/bookmarksPanel.js', c+'bookmarks/sidebarUtils.js', c+'browser-addons.js',
@@ -137,7 +140,7 @@ var jsUris = [c+'ext-android.js', c+'aboutDialog-appUpdater.js', c+'aboutDialog.
  g+'viewSourceUtils.js', g+'viewZoomOverlay.js'
 ];
 
-var imgUris = [b+'about-logo.png', b+'about-logo@2x.png', b+'about-wordmark.png', b+'about-wordmark.svg', b+'about.png',
+let imgUris = [b+'about-logo.png', b+'about-logo@2x.png', b+'about-wordmark.png', b+'about-wordmark.svg', b+'about.png',
  b+'icon128.png', b+'icon16.png', b+'icon32.png', b+'icon48.png', b+'icon64.png',
  b+'identity-icons-brand.png', b+'identity-icons-brand.svg', b+'identity-icons-brand@2x.png', b+'silhouette-40.svg',
  c+'aboutRobots-icon.png', c+'aboutRobots-widget-left.png', c+'aboutaccounts/images/fox.png', c+'aboutaccounts/images/graphic_sync_intro.png',
@@ -446,7 +449,7 @@ var imgUris = [b+'about-logo.png', b+'about-logo@2x.png', b+'about-wordmark.png'
  s+'yosemite/tab-stroke-start-inactive@2x.png', s+'yosemite/thumburger.png', s+'yosemite/thumburger@2x.png', s+'zoom-in.svg', s+'zoom-out.svg'
 ];
 
-var cssUris = [b+'aboutDialog.css', c+'aboutDialog.css', c+'aboutPrivateBrowsing.css', c+'aboutRobots.css', c+'aboutTabCrashed.css',
+let cssUris = [b+'aboutDialog.css', c+'aboutDialog.css', c+'aboutPrivateBrowsing.css', c+'aboutRobots.css', c+'aboutTabCrashed.css',
  c+'aboutaccounts/aboutaccounts.css', c+'aboutaccounts/fonts.css', c+'aboutaccounts/main.css', c+'aboutaccounts/normalize.css',
  c+'abouthealthreport/abouthealth.css', c+'abouthome/aboutHome.css', c+'aboutneterror/netError.css', c+'browser.css',
  c+'certerror/aboutCertError.css', c+'contentSearchUI.css', c+'customizableui/panelUI.css', c+'devtools/codemirror/codemirror.css',
@@ -499,13 +502,15 @@ var cssUris = [b+'aboutDialog.css', c+'aboutDialog.css', c+'aboutPrivateBrowsing
  g+'xul.css'
 ];
 // g+'minimal-xul.css' removed : causes crashes in Windows7 FF60+61+ESR, but not TB8
-// var cssUris = [g+'minimal-xul.css'];
+// let cssUris = [g+'minimal-xul.css'];
 
 // JS
-var allHash = [];
-var jsYes=0; var jsAll=0; var jsHash = [];
+let allHash = [],
+	jsYes=0,
+	jsAll=0
+	jsHash = [];
 jsUris.forEach(function(src) {
-  var script = document.createElement('script');
+  let script = document.createElement('script');
   script.src = src;
   document.head.appendChild(script);
   script.onload = function() {
@@ -516,9 +521,11 @@ jsUris.forEach(function(src) {
   jsAll++;
 });
 // IMAGES
-var imgYes=0; var imgAll=0; var imgHash = [];
+let imgYes=0,
+	imgAll=0,
+	imgHash = [];
 imgUris.forEach(function(imgUri) {
-  var img = document.createElement("img");
+  let img = document.createElement("img");
   img.src = imgUri;
   img.style.height = "20px";
   img.style.width = "20px";
@@ -529,9 +536,11 @@ imgUris.forEach(function(imgUri) {
   imgAll++;
 });
 // CSS
-var cssYes=0; var cssAll=0; var cssHash = [];
+let cssYes=0,
+	cssAll=0,
+	cssHash = [];
 cssUris.forEach(function(cssUri) {
-  var css = document.createElement("link");
+  let css = document.createElement("link");
   css.href = cssUri;
   css.type = "text/css";
   css.rel = "stylesheet";
@@ -545,23 +554,25 @@ cssUris.forEach(function(cssUri) {
  });
 // RESULTS: wait for all the resources to succeed/fail
 setTimeout(function(){
-  var hashJ = sha1(jsHash.sort());
-  var hashI = sha1(imgHash.sort());
-  var hashC = sha1(cssHash.sort());
-  var hashA = sha1(allHash.sort());
+  let hashJ = sha1(jsHash.sort());
+  let hashI = sha1(imgHash.sort());
+  let hashC = sha1(cssHash.sort());
+  let hashA = sha1(allHash.sort());
   dom.jsHash = hashJ + " ["+jsYes+"/"+jsAll+"]";
   dom.imgHash = hashI + " ["+imgYes+"/"+imgAll+"]";
   dom.cssHash = hashC + " ["+cssYes+"/"+cssAll+"]";
-  var allTrue = jsYes+imgYes+cssYes;
-  var allTried = jsAll+imgAll+cssAll;
+  let allTrue = jsYes+imgYes+cssYes;
+  let allTried = jsAll+imgAll+cssAll;
   dom.allHash = sha1(hashA) + " ["+allTrue+"/"+allTried+"]";
   // output all sorted with line breaks
-  var strAll = allHash.sort().toString();
-  var strOut = strAll.replace(/,/gi, '<br>');
+  let strAll = allHash.sort().toString();
+  let strOut = strAll.replace(/,/gi, '<br>');
   dom.allLoaded.innerHTML = strOut;
   // fix label
   dom.chromeRun = "[ re-run tests ]";
 }, 5000);
+
+};
 
 };
 
