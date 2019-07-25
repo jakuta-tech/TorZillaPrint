@@ -1,11 +1,41 @@
 
-// dte: 24-Jul-2019
-// src: https://docs.microsoft.com/en-us/typography/fonts/windows_7_font_list
-// tot: 444 unique fonts: combined 7 + 8 + 8.1 + 10
-// + system fonts & variants (DirectWrite vs GDI)
-// + bundled fonts
-// + whitelisted & variants
+// dte: 25-Jul-2019
+// file: fonts_windows_all
+// src: https://docs.microsoft.com/en-us/typography/fonts/windows_7_font_list etc
 
+// EMOJI: TB+FF bundled
+EmojiOne Mozilla
+Twemoji Mozilla
+
+// TB WHITELIST/BUNDLED (not in Windows combined list)
+Noto Sans Buginese
+Noto Sans Khmer
+Noto Sans Lao
+Noto Sans Myanmar
+Noto Sans Yi
+
+// OTHER: not listed by MS but can't block: e.g. whitelist only one imaginary font
+Courier
+Helvetica
+MS Sans Serif
+MS Serif
+Roman
+Small Fonts
+Times
+宋体
+微软雅黑
+新細明體
+細明體
+굴림
+굴림체
+바탕
+ＭＳ ゴシック
+ＭＳ 明朝
+ＭＳ Ｐゴシック
+ＭＳ Ｐ明朝
+
+// WINDOWS: combined 7 + 8 + 8.1 + 10
+// note: "Yu Gothic UI" (see TB whitelist) and "Yu Gothic": is "Regular" is meant to be appended
 Aharoni Bold
 Aldhabi
 Andalus
@@ -103,7 +133,6 @@ CordiaUPC
 CordiaUPC Bold
 CordiaUPC Bold Italic
 CordiaUPC Italic
-Courier
 Courier New
 Courier New Bold
 Courier New Bold Italic
@@ -123,7 +152,6 @@ Dotum
 DotumChe
 Ebrima
 Ebrima Bold
-EmojiOne Mozilla
 Estrangelo Edessa
 EucrosiaUPC
 EucrosiaUPC Bold
@@ -189,7 +217,6 @@ Gulim
 GulimChe
 Gungsuh
 GungsuhChe
-Helvetica
 Impact
 Ink Free
 IrisUPC
@@ -240,8 +267,6 @@ MS Gothic
 MS Mincho
 MS PGothic
 MS PMincho
-MS Sans Serif
-MS Serif
 MS UI Gothic
 MV Boli
 Malgun Gothic
@@ -304,45 +329,6 @@ Neue Haas Grotesk Text Pro Medium Italic
 Nirmala UI
 Nirmala UI Bold
 Nirmala UI Semilight
-Noto Naskh Arabic
-Noto Sans
-Noto Sans Armenian
-Noto Sans Bengali
-Noto Sans Buginese
-Noto Sans CJK SC
-Noto Sans CJK SC Regular
-Noto Sans Canadian Aboriginal
-Noto Sans Cherokee
-Noto Sans Devanagari
-Noto Sans Ethiopic
-Noto Sans Georgian
-Noto Sans Gujarati
-Noto Sans Gurmukhi
-Noto Sans Hebrew
-Noto Sans JP Regular
-Noto Sans KR Regular
-Noto Sans Kannada
-Noto Sans Khmer
-Noto Sans Lao
-Noto Sans Malayalam
-Noto Sans Mongolian
-Noto Sans Myanmar
-Noto Sans Oriya
-Noto Sans SC Regular
-Noto Sans Sinhal
-Noto Sans Sinhala
-Noto Sans TC Regular
-Noto Sans Tamil
-Noto Sans Telugu
-Noto Sans Thaana
-Noto Sans Thai
-Noto Sans Tibetan
-Noto Sans Yi
-Noto Serif
-Noto Serif Armenian
-Noto Serif Khmer
-Noto Serif Lao
-Noto Serif Thai
 Nyala
 PMingLiU
 PMingLiU-ExtB
@@ -368,7 +354,6 @@ Rockwell Nova Italic
 Rockwell Nova Light Italic
 Rockwell Nova Rockwell
 Rod
-Roman
 Sakkal Majalla
 Sakkal Majalla Bold
 Sanskrit Text
@@ -427,18 +412,14 @@ Sitka Text
 Sitka Text Bold
 Sitka Text Bold Italic
 Sitka Text Italic
-Small Fonts
 Sylfaen
 Symbol
 Tahoma
 Tahoma Bold
-Tahoma Negreta
-Times
 Times New Roman
 Times New Roman Bold
 Times New Roman Bold Italic
 Times New Roman Italic
-Times New Roman PS
 Traditional Arabic
 Traditional Arabic Bold
 Trebuchet MS
@@ -447,7 +428,6 @@ Trebuchet MS Bold Italic
 Trebuchet MS Italic
 Tunga
 Tunga Bold
-Twemoji Mozilla
 UD Digi Kyokasho N-B
 UD Digi Kyokasho N-R
 UD Digi Kyokasho NK-B
@@ -492,6 +472,7 @@ Vrinda
 Vrinda Bold
 Webdings
 Wingdings
+Yu Gothic
 Yu Gothic Bold
 Yu Gothic Light
 Yu Gothic Medium
@@ -505,14 +486,3 @@ Yu Gothic UI Semilight
 Yu Mincho Demibold
 Yu Mincho Light
 Yu Mincho Regular
-宋体
-微软雅黑
-新細明體
-細明體
-굴림
-굴림체
-바탕
-ＭＳ ゴシック
-ＭＳ 明朝
-ＭＳ Ｐゴシック
-ＭＳ Ｐ明朝
