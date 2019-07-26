@@ -801,22 +801,49 @@ function outputMath() {
 	else if (m1hash == "19df0b54c852f35f011187087bd3a0dce12b4071") {m1 = "G"};
 	mc = m6+m1;
 
-	// build browser output
-	if (m6 == "1" | m6 == "3") {fdMath6="Firefox";}
-	else if (m6 == "2") {fdMath6="Firefox [32-bit]"};
+	// build browser output: ECMA6 only
+	if (m6 == "1" | m6 == "3") {
+		fdMath6="Firefox"
+	} else if (m6 == "2") {
+		fdMath6="Firefox [32-bit]"
+	};
+
 	// build os output, refine browser output
-	if (m1 == "A") {fdMath1="Windows [64-bit]"; fdMath6="Firefox [64-bit]"}
-	else if (m1 == "C") {fdMath1="Windows"; fdMath6="Firefox [32-bit]"}
-	else if (m1 == "D") {fdMath1="Linux";
-		if (m6 == "1" | m6 == "3") {fdMath1="Linux [64-bit]"; fdMath6="Firefox [64-bit]";}
-		else if (m6 == "2") {fdMath1="Linux [32-bit]"; fdMath6="Firefox [32-bit]"}
-	}
-	else if (m1 == "G") {fdMath1="Linux"}
-	else if (m1 == "E") {fdMath1="Mac"; fdMath6="Firefox [64-bit]";}
-	else if (m1 == "F") {fdMath1="Android"}
-	else if (m1 == "B") {fdMath1="Windows";
-		if (m6 == "1" | m6 == "3") {fdMath6="Tor Browser [64-bit]"; fdMath1="Windows [64-bit]";}
-		else if (m6 == "2") {fdMath6="Tor Browser [32-bit]"};
+	if (m1 == "A") {
+		// A: always 64bit WIN on 64bit FF
+		fdMath1="Windows [64-bit]"; fdMath6="Firefox [64-bit]"
+	} else if (m1 == "C") {
+		// C: always 32bit FF on WIN (32bit or 64bit)
+		fdMath1="Windows"; fdMath6="Firefox [32-bit]"
+	} else if (m1 == "D") {
+		// D: always Linux (so far Mint, Debian, OpenSUSE)
+		fdMath1="Linux";
+		if (m6 == "1" | m6 == "3") {
+			// D1 or D3: always 64bit Linux: and thus 64bit FF
+			fdMath1="Linux [64-bit]"; fdMath6="Firefox [64-bit]";
+		}	else if (m6 == "2") {
+			// D2: always 32bit Linux (32bit FF set earlier)
+			fdMath1="Linux [32-bit]"
+		}
+	} else if (m1 == "G") {
+		// G: always Linux (so far Ubuntu)
+		fdMath1="Linux"
+	} else if (m1 == "E") {
+		// E: always Mac: and thus 64bit FF
+		fdMath1="Mac"; fdMath6="Firefox [64-bit]";
+	} else if (m1 == "F") {
+		// F: always Android (only had 32bit Android 5 to test on)
+		fdMath1="Android"
+	} else if (m1 == "B") {
+		// B: always TB on WIN
+		fdMath1="Windows";
+		if (m6 == "1" | m6 == "3") {
+			// 1B or 3B: always 64bit TB: thus 64bit WIN
+			fdMath6="Tor Browser [64-bit]"; fdMath1="Windows [64-bit]";
+		} else if (m6 == "2") {
+			// 2B: always 32bit TB (but WIN can be 32bit or 64bit)
+			fdMath6="Tor Browser [32-bit]"
+		}
 	};
 
 	// output browser/os
