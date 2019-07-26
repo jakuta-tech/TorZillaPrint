@@ -808,7 +808,9 @@ function outputMath() {
 	if (m1 == "A") {fdMath1="Windows [64-bit]"; fdMath6="Firefox [64-bit]"}
 	else if (m1 == "C") {fdMath1="Windows"; fdMath6="Firefox [32-bit]"}
 	else if (m1 == "D") {fdMath1="Linux";
-		if (m6 == "1" | m6 == "3") {fdMath1="Linux [64-bit]"}	else if (m6 == "2") {fdMath1="Linux [32-bit]"};}
+		if (m6 == "1" | m6 == "3") {fdMath1="Linux [64-bit]"; fdMath6="Firefox [64-bit]";}
+		else if (m6 == "2") {fdMath1="Linux [32-bit]"; fdMath6="Firefox [32-bit]"}
+	}
 	else if (m1 == "G") {fdMath1="Linux"}
 	else if (m1 == "E") {fdMath1="Mac"; fdMath6="Firefox [64-bit]";}
 	else if (m1 == "F") {fdMath1="Android"}
