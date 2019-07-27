@@ -206,6 +206,20 @@ function output_enumerate_fallback(type){
 
 	// return width of the element with a given fontFamily
 	let measureWidthForFont = function (fontFamily) {
+
+		// normalize
+		fontFBTest.style.fontFamily = "none"
+		fontFBTest.style.fontSize = "256px"
+		fontFBTest.style.fontStyle = "normal"
+		fontFBTest.style.fontWeight = "normal"
+		fontFBTest.style.letterSpacing = "normal"
+		fontFBTest.style.lineBreak = "auto"
+		fontFBTest.style.lineHeight = "normal"
+		fontFBTest.style.textTransform = "none"
+		fontFBTest.style.textAlign = "left"
+		fontFBTest.style.textShadow = "none"
+		fontFBTest.style.wordSpacing = "normal"
+
 		fontFBTest.style.fontFamily = fontFamily;
 		return fontFBTest.offsetWidth;
 	};
