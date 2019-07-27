@@ -515,6 +515,8 @@ function outputFonts2(type){
 				spawn(function* () {
 					let codePoints = yield getCodePoints();
 					fontTestStringB = codePoints.map(x => String.fromCodePoint(x)).join("</span>\n<span>");
+					// test something
+					fontTestStringB = fontTestStringB + "</span>\n<span>" + fontTestStringC;
 				});
 			};
 
