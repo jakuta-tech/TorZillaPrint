@@ -221,6 +221,9 @@ function output_enumerate_fallback(type){
 		fontFBTest.style.wordSpacing = "normal"
 
 		fontFBTest.style.fontFamily = fontFamily;
+
+		console.log (fontFamily, fontFBTest.offsetWidth);
+
 		return fontFBTest.offsetWidth;
 	};
 
