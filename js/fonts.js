@@ -16,6 +16,7 @@ var fontTestStringA = "mmLLmmmmmwwwmmmlli";
 var fontTestStringC = "mmLLmmm\u20B9\u2581\u20BA\uA73D\uFFFD\u20B8\u05C6\u1E9E\u097F\uF003mWWWmwwwmmmlli";
 var fontTestStringB = ""; // the one built from codepoints
 var fontList = [];
+var fontTiny = ['Arial','Courier','GoFish'];
 var fontCodepoints = ['0x0000','0x0080','0x0100','0x0180','0x0250','0x02B0','0x0300','0x0370','0x0400','0x0500','0x0530',
 	'0x0590','0x0600','0x0700','0x0750','0x0780','0x07C0','0x0800','0x0840','0x08A0','0x0900','0x0980','0x0A00','0x0A80',
 	'0x0B00','0x0B80','0x0C00','0x0C80','0x0D00','0x0D80','0x0E00','0x0E80','0x0F00','0x1000','0x10A0','0x1100','0x1200',
@@ -188,7 +189,7 @@ let spawn = (function () {
 	return generatorFunction => promiseFromGenerator(generatorFunction());
 })();
 
-function output_enumerate_fallback(type){
+function output_enumerate_fallback(type, fontarray){
 	/* ARTHUR'S TEST: ENUMERATE FONTS
 	https://github.com/arthuredelstein/tordemos
 	*/
@@ -206,9 +207,7 @@ function output_enumerate_fallback(type){
 
 	// return width of the element with a given fontFamily
 	let measureWidthForFont = function (fontFamily) {
-
-		// normalize
-		fontFBTest.style.fontFamily = "none"
+		// re-normalize
 		fontFBTest.style.fontSize = "256px"
 		fontFBTest.style.fontStyle = "normal"
 		fontFBTest.style.fontWeight = "normal"
@@ -219,7 +218,7 @@ function output_enumerate_fallback(type){
 		fontFBTest.style.textAlign = "left"
 		fontFBTest.style.textShadow = "none"
 		fontFBTest.style.wordSpacing = "normal"
-
+		// set fontFamily and measure
 		fontFBTest.style.fontFamily = fontFamily;
 		return fontFBTest.offsetWidth;
 	};
@@ -251,28 +250,33 @@ function output_enumerate_fallback(type){
 		fontFBTest.innerHTML = fontTestStringB;
 
 		// run the test
-		enumerateFonts(fontList);
-
-		// output detected fonts
-		if (outputCount > 0) {
-			// remove trailing comma + space
-			outputString = outputString.slice(0, -2);
-			outputD.innerHTML = outputString;
-		}	else {
-			outputD.innerHTML = "no fonts detected"
-		};
-		// output hash/counts
-		outputB.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]";
-		// note if file:// since [this affects the result]
-		if ((location.protocol) == "file:") {
-			outputB.innerHTML = outputB.textContent + note_file
+		if (fontarray == "tiny") {
+			enumerateFonts(fontTiny);
+		} else {
+			enumerateFonts(fontList);
+			// output detected fonts
+			if (outputCount > 0) {
+				// remove trailing comma + space
+				outputString = outputString.slice(0, -2);
+				outputD.innerHTML = outputString;
+			}	else {
+				outputD.innerHTML = "no fonts detected"
+			};
+			// output hash/counts
+			if (fontarray !== "tiny") {
+				outputB.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]";
+			}
+			// note if file:// since [this affects the result]
+			if ((location.protocol) == "file:") {
+				outputB.innerHTML = outputB.textContent + note_file
+			}
+			// reset color
+			outputD.style.color = "#b3b3b3";
 		}
-		// reset color
-		outputD.style.color = "#b3b3b3";
 		// clear div [causes horizontal scroll]
 		dom.fontFBTest = "";
 
-	}, 200);
+	}, 100);
 
 };
 
@@ -588,7 +592,16 @@ function outputFonts2(type){
 					// run fpjs2
 					output_enumerate_fpjs2(type);
 					// run fallback
-					output_enumerate_fallback(type);
+
+					// when blocking document fonts with whitelist)
+					// first run (for me) is 19, re-run is 46: either small or all
+					// I do not know why: but running a tiny 3 font check first
+					// seems to prime it correctly: need to investigate more
+					// until then: enjoy an ugly hack
+					output_enumerate_fallback(type, "tiny");
+					setTimeout(function() {
+						output_enumerate_fallback(type, "real");
+					}, 300);
 
 				} else {
 					// A+B=hashes , C+D=detected
