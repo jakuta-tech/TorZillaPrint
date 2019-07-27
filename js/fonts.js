@@ -11,6 +11,7 @@ var ugCodepoints = ['0x20B9','0x2581','0x20BA','0xA73D','0xFFFD','0x20B8','0x05C
 var ugHeader = "  glyph        default     sans-serif          serif      monospace        cursive        fantasy<br>  -----";
 var fontTestSize = "256px";
 var fontTestStringA = "mmLLmmmmmwwwmmmlli";
+var fontTestStringC = "mmLLmmm\u20B9\u2581\u20BA\uA73D\uFFFD\u20B8\u05C6\u1E9E\u097F\uF003mWWWmwwwmmmlli";
 var fontTestStringB = ""; // the one built from codepoints
 var fontList = [];
 var fontCodepoints = ['0x0000','0x0080','0x0100','0x0180','0x0250','0x02B0','0x0300','0x0370','0x0400','0x0500','0x0530',
@@ -299,7 +300,8 @@ function output_enumerate_fpjs2(type) {
 		s.style.wordBreak = "normal"
 		s.style.wordSpacing = "normal"
 		// use m or w = maximum width | use LLi so same matching fonts can get separated
-		s.innerHTML = fontTestStringA
+		//s.innerHTML = fontTestStringA
+		s.innerHTML = fontTestStringC
 		return s
 	}
 	// creates a span and load the font to detect and a base font for fallback
@@ -468,11 +470,10 @@ function outputFonts2(type){
 				// handle where isMajorOS is blank
 			outputA.innerHTML = error_global_os;
 			outputB.innerHTML = error_global_os;
-
 		} else {
 
 			// testing
-			// isMajorOS = "windows";
+			// isMajorOS = "mac";
 			if (type == "monsta") {
 				textfile = "fonts_" + type;
 			} else {
