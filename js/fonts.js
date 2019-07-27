@@ -272,7 +272,7 @@ function output_enumerate_fallback(type){
 		// clear div [causes horizontal scroll]
 		dom.fontFBTest = "";
 
-	}, 200);
+	}, 3000);
 
 };
 
