@@ -480,8 +480,7 @@ function outputFonts2(type){
 		let outputA = document.getElementById(type+"_fontFPJS2"), // fpjs2 hash
 			outputB = document.getElementById(type+"_fontFB"),      // fallback hash
 			outputC = document.getElementById(type+"_fontFPJS2Found"), // fpjs2 detected
-			outputD = document.getElementById(type+"_fontFBFound"),    // fallback detected
-			outputE = document.getElementById(type+"_fontList"); // text file used
+			outputD = document.getElementById(type+"_fontFBFound");    // fallback detected
 
 		// set text file(s) and hyperlink it
 		// note: global var isMajorOS: relying solely on widgets for now
@@ -502,15 +501,6 @@ function outputFonts2(type){
 			} else {
 				textfile = "fonts_" + isMajorOS + "_" + type;
 			}
-
-			outputE.innerHTML = "<span class='no_color'><a href='txt/" + textfile +
-				".txt' target='blank' class='blue'>" + textfile + "<a></span>";
-			// also output the os list
-			if (type == "small") {
-				let outputF = document.getElementById("all_fontList");
-				outputF.innerHTML = "<span class='no_color'><a href='txt/fonts_" + isMajorOS +
-					"_all.txt' target='blank' class='blue'>fonts_" + isMajorOS + "_all<a></span>";
-			};
 
 			// output status
 			outputA.innerHTML = "test is running... please wait";
