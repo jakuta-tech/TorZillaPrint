@@ -233,6 +233,11 @@ function os_widgets() {
 
 		// set global var isMajorOS
 		isMajorOS = wdOS.toLowerCase();
+		// set the two font list hyperlinks
+		dom.small_fontList.innerHTML = "<span class='no_color'><a href='txt/fonts_" + isMajorOS +
+			"_small.txt' target='blank' class='blue'>fonts_" + isMajorOS + "_small<a></span>";
+		dom.all_fontList.innerHTML = "<span class='no_color'><a href='txt/fonts_" + isMajorOS +
+			"_all.txt' target='blank' class='blue'>fonts_" + isMajorOS + "_all<a></span>";
 
 		// compare: values 1 to 7: should always be the same: track state
 		if (i < 8) {
