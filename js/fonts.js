@@ -9,12 +9,13 @@ var ugCodepoints = ['0x20B9','0x2581','0x20BA','0xA73D','0xFFFD','0x20B8','0x05C
 	'0x2C7B','0x20B0','0xFBEE','0xF810','0xFFFF','0x007F','0x10A0','0x1D790','0x0700','0x1950','0x3095','0x532D',
 	'0x061C','0x20E3','0xFFF9','0x0218','0x058F','0x08E4','0x09B3','0x1C50','0x2619'];
 var ugHeader = "  glyph        default     sans-serif          serif      monospace        cursive        fantasy<br>  -----";
-var fontTestStringD = ""; // build this for font fallback during ug
 
 var fontTestSize = "256px";
-var fontTestStringA = "mmLLmmmmmwwwmmmlli";
-var fontTestStringC = "mmLLmmm\u20B9\u2581\u20BA\uA73D\uFFFD\u20B8\u05C6\u1E9E\u097F\uF003mWWWmwwwmmmlli";
-var fontTestStringB = ""; // the one built from codepoints
+var fontTestStringA = "mmmLLLmmmWWWwwwmmmllliii";
+var fontTestStringB = ""; // the one built from fontCodepoints
+var fontTestStringC = ""; // add to fpjs2: built during unicode test like this: "\u20B9\u2581"
+var fontTestStringD = ""; // add to fallback: built during unicode test like this: "</span>\u20B9</span>"
+
 var fontList = [];
 var fontTiny = ['Arial','Courier','GoFish'];
 var fontCodepoints = ['0x0000','0x0080','0x0100','0x0180','0x0250','0x02B0','0x0300','0x0370','0x0400','0x0500','0x0530',
@@ -55,9 +56,13 @@ function stringFromCodePoint(n) {
 function reset_unicode() {
 	// resets the display with no measurements
 	let str = "";
+	// reset global var to append to fpjs2
+	fontTestStringC = "";
 	for (let i = 0 ; i < ugCodepoints.length; i++) {
 		let ugCode = "U+" + ugCodepoints[i].substr(2);
 		str = str + '<br>' + ugCode.padStart(7, ' ');
+		// build global var to append to fpjs2
+		fontTestStringC = fontTestStringC + "\U" + ugCodepoints[i].substr(2);
 	};
 	dom.fontUGFound1.innerHTML = ugHeader + str;
 };
@@ -82,14 +87,15 @@ function output_unicode() {
 		ugHashClientRect = "",
 		ugOutputOffset = "", // the string we display
 		ugOutputClientRect = "";
-	// reset var
-	fontTestStringD = ""; // the string to append to font fallback
+	// reset global var to append to fallback
+	fontTestStringD = "";
 
 	// cycle each unicode (i)
 	for (let i = 0 ; i < ugCodepoints.length; i++) {
 		let n = ugCodepoints[i]; // codepoint
 		let c = stringFromCodePoint(n); // character
-		fontTestStringD =  fontTestStringD + c + "</span>\n<span>"; // used in font fallback
+		// build global var to append to fallback
+		fontTestStringD = fontTestStringD + c + "</span>\n<span>";
 
 		// add unicode to outputs: e.g U+20B9
 		let ugCode = "U+" + n.substr(2);
@@ -126,6 +132,7 @@ function output_unicode() {
 			// ugOutputClientRect = ugOutputClientRect + " " + ugWide + " × " + ugHigh + " | ";
 		}
 	}
+
 	// clear div causing horizontal scroll
 	dom.ugSlot = "";
 	// output results
@@ -323,8 +330,7 @@ function output_enumerate_fpjs2(type) {
 		s.style.wordBreak = "normal"
 		s.style.wordSpacing = "normal"
 		// use m or w = maximum width | use LLi so same matching fonts can get separated
-		//s.innerHTML = fontTestStringA
-		s.innerHTML = fontTestStringC
+		s.innerHTML = fontTestStringA + fontTestStringC;
 		return s
 	}
 	// creates a span and load the font to detect and a base font for fallback
