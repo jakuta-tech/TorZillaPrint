@@ -13,8 +13,11 @@ var ugHeader = "  glyph        default     sans-serif          serif      monosp
 var fontTestSize = "256px";
 var fontTestStringA = "mmmLLLmmmWWWwwwmmmllliii";
 var fontTestStringB = ""; // the one built from fontCodepoints
-var fontTestStringC = ""; // add to fpjs2: built during unicode test like this: "\u20B9\u2581"
 var fontTestStringD = ""; // add to fallback: built during unicode test like this: "</span>\u20B9</span>"
+var fontTestStringC   = fontTestStringA + "\u20B9\u2581\u20BA\uA73D\uFFFD\u20B8\u05C6\u1E9E\u097F\uF003\u1CDA\u17DD\u23AE"
+	+ "\u0B82\u115A\u2425\u302E\uA830\u2B06\u21E4\u20BD\u2C7B\u20B0\uFBEE\uF810\uFFFF\u007F\u10A0\u1D790\u0700\u1950\u532D"
+	+ "\u061C\u20E3\uFFF9\u0218\u058F\u08E4\u09B3\u1C50\u2619"
+	// ^^ exclude "\u0D02\u3095"
 
 var fontList = [];
 var fontTiny = ['Arial','Courier','GoFish'];
@@ -57,12 +60,9 @@ function reset_unicode() {
 	// resets the display with no measurements
 	let str = "";
 	// reset global var to append to fpjs2
-	fontTestStringC = "";
 	for (let i = 0 ; i < ugCodepoints.length; i++) {
 		let ugCode = "U+" + ugCodepoints[i].substr(2);
 		str = str + '<br>' + ugCode.padStart(7, ' ');
-		// build global var to append to fpjs2
-		fontTestStringC = fontTestStringC + "\U" + ugCodepoints[i].substr(2);
 	};
 	dom.fontUGFound1.innerHTML = ugHeader + str;
 };
@@ -329,8 +329,7 @@ function output_enumerate_fpjs2(type) {
 		s.style.whiteSpace = "normal"
 		s.style.wordBreak = "normal"
 		s.style.wordSpacing = "normal"
-		// use m or w = maximum width | use LLi so same matching fonts can get separated
-		s.innerHTML = fontTestStringA + fontTestStringC;
+		s.innerHTML = fontTestStringC
 		return s
 	}
 	// creates a span and load the font to detect and a base font for fallback
