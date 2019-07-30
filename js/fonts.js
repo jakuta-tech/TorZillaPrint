@@ -14,10 +14,6 @@ var fontTestSize = "256px";
 var fontTestStringA = "mmmLLLmmmWWWwwwmmmllliii";
 var fontTestStringB = ""; // the one built from fontCodepoints
 var fontTestStringD = ""; // add to fallback: built during unicode test like this: "</span>\u20B9</span>"
-var fontTestStringC   = fontTestStringA + "\u20B9\u2581\u20BA\uA73D\uFFFD\u20B8\u05C6\u1E9E\u097F\uF003\u1CDA\u17DD\u23AE"
-	+ "\u0B82\u115A\u2425\u302E\uA830\u2B06\u21E4\u20BD\u2C7B\u20B0\uFBEE\uF810\uFFFF\u007F\u10A0\u1D790\u0700\u1950\u532D"
-	+ "\u061C\u20E3\uFFF9\u0218\u058F\u08E4\u09B3\u1C50\u2619"
-	// ^^ exclude "\u0D02\u3095"
 
 var fontList = [];
 var fontTiny = ['Arial','Courier','GoFish'];
@@ -215,7 +211,7 @@ function output_enumerate_fallback(type, fontarray){
 	// return width of the element with a given fontFamily
 	let measureWidthForFont = function (fontFamily) {
 		// re-normalize
-		fontFBTest.style.fontSize = "256px"
+		fontFBTest.style.fontSize = fontTestSize
 		fontFBTest.style.fontStyle = "normal"
 		fontFBTest.style.fontWeight = "normal"
 		fontFBTest.style.letterSpacing = "normal"
@@ -329,7 +325,7 @@ function output_enumerate_fpjs2(type) {
 		s.style.whiteSpace = "normal"
 		s.style.wordBreak = "normal"
 		s.style.wordSpacing = "normal"
-		s.innerHTML = fontTestStringC
+		s.innerHTML = fontTestStringA
 		return s
 	}
 	// creates a span and load the font to detect and a base font for fallback
