@@ -397,7 +397,7 @@ function output_enumerate_fpjs2(type) {
 
 	// output detected fonts
 	if (outputCount > 0) {
-		// remove trailing comma + space
+		// remove leading comma + space
 		outputString = outputString.slice(2);
 		outputC.innerHTML = outputString;
 	}	else {
@@ -529,7 +529,7 @@ function outputFonts2(type){
 				spawn(function* () {
 					let codePoints = yield getCodePoints();
 					fontTestStringB = codePoints.map(x => String.fromCodePoint(x)).join("</span>\n<span>");
-					// test: added each unicode glyphs, add fpjs2 string
+					// add unicode glyphs, add fpjs2 string
 					fontTestStringB = fontTestStringB + fontTestStringD + "</span>\n<span>" + fontTestStringA;
 				});
 			};
