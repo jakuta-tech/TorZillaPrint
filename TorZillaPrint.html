@@ -32,7 +32,7 @@
 			<textarea id="widget9"></textarea><br>
 		</div>
 		<!-- app language -->
-		<div class="offscreen"><img id="APP_LANG_IMAGE" src=""></span></div>
+		<div class="offscreen"><img id="APP_LANG_IMAGE" src=""></div>
 		<div class="hidden"><form><input id="APP_LANG_1" required="" type="text"></form></div>
 		<iframe id="APP_LANG_2" class="hidden"></iframe>
 		<iframe id="APP_LANG_3" class="hidden"></iframe>
@@ -547,8 +547,8 @@
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">browser.display.use_document_fonts</span></div>
 			&nbsp document fonts</td><td class="c1" id="fontDoc"></td></tr>
-		<tr><td colspan="2">[offset] unicode glyphs <sup>1</sup></td><td class="c1 mono"id="fontUG1"></td></tr>
-		<tr><td colspan="2">[clientrect] unicode glyphs <sup>1</sup></td><td class="c1 mono"id="fontUG2"></td></tr>
+		<tr><td colspan="2">[offset] unicode glyphs <sup>1</sup></td><td class="c1 mono" id="fontUG1"></td></tr>
+		<tr><td colspan="2">[clientrect] unicode glyphs <sup>1</sup></td><td class="c1 mono" id="fontUG2"></td></tr>
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">gfx.downloadable_fonts.woff2.enabled</span></div>
 			&nbsp WOFF2</td><td class="c1" id="fontWoff2"></td></tr>
@@ -651,7 +651,10 @@
 				<div class="nav-up"><a href="#media">&#9650;</a></div>
 				<div class="nav-down"><a href="#css">&#9660;</a></div></div>
 		</th></tr></thead>
-		<tr><td>test</td><td>result</td></tr>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn13" onClick="outputSection(`13`, `c`, `m`)">[ re-run tests ]</button></div>
+				<div>webgl 1</div></div></td><td class="c" id="webgl1"></td></tr>
+		<tr><td>webgl 2</td><td id="webgl2"></td></tr>
 	</table>
 
 	<!-- TABLE 14: CSS - css.js -->
@@ -732,6 +735,9 @@
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">dom.requestIdleCallback.enabled</span></div>
 			&nbsp requestIdleCallback</td><td class="c" id="reqIdleCB"></td></tr>
+		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+			<span class="ttxtb">javascript.options.wasm</span></div>
+			&nbsp webassembly</td><td class="c" id="wasm"></td></tr>
 	</table>
 
 	<br><a name="theend"></a><br>
@@ -751,6 +757,7 @@
 	<script src="js/audio.js"></script>
 	<script src="js/fonts.js"></script>
 	<script src="js/media.js"></script>
+	<script src="js/webgl.js"></script>
 	<script src="js/css.js"></script>
 	<script src="js/misc.js"></script>
 
