@@ -460,7 +460,7 @@
 		<thead><tr><th colspan="8">
 				<div class="nav-title"><a href="#domrect">DOMRect</a>
 				<div class="nav-up"><a href="#canvas">&#9650;</a></div>
-				<div class="nav-down"><a href="#fonts">&#9660;</a></div></div>
+				<div class="nav-down"><a href="#audio">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td colspan="3"><div>
 				<div class="btn-left"><button class="btn9"  onClick="outputSection(`9`, `c1`, `m`)">[ re-run tests ]</button></div>
@@ -523,13 +523,35 @@
 			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
 	</table>
 
-	<!-- TABLE 10: Fonts - fonts.js -->
+	<!-- TABLE 10: Audio - audio.js -->
 	<table id="tb10">
+		<col width="29%"><a name="audio"></a><col width="71%">
+		<thead><tr><th colspan="2">
+				<div class="nav-title"><a href="#audio">Audio</a>
+				<div class="nav-up"><a href="#domrect">&#9650;</a></div>
+				<div class="nav-down"><a href="#fonts">&#9660;</a></div></div>
+		</th></tr></thead>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c`, `m`)">[ re-run tests ]</button></div>
+				<div><div class="ttip"><span class="icon">[ i ]</span>
+					<span class="ttxt">dom.webaudio.enabled</span></div> &nbsp [api] web audio</div></div></td>
+			<td class="c mono" id="audioSupport"></td>
+		</tr>
+		<tr><td>getChannelData</td><td class="c mono" id="audioGet"></td></tr>
+		<tr><td>copyFromChannel</td><td class="c mono" id="audioCopy"></td></tr>
+		<tr><td>sum</td><td class="c mono" id="audioSum"></td></tr>
+		<tr><td colspan="2"><span class="no_color">audio code courtesy of </span>
+			<a target="_blank" class="blue" href="https://github.com/kkapsner">kkapsner</a><span class="no_color"> and </span>
+			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
+	</table>
+
+	<!-- TABLE 10: Fonts - fonts.js -->
+	<table id="tb11">
 		<col width="1%"><a name="fonts"></a><col width="36%"><col width="63%">
 		<thead><tr><th colspan="3">
 				<div class="nav-title"><a href="#fonts">Fonts</a>
-				<div class="nav-up"><a href="#domrect">&#9650;</a></div>
-				<div class="nav-down"><a href="#audio">&#9660;</a></div></div>
+				<div class="nav-up"><a href="#audio">&#9650;</a></div>
+				<div class="nav-down"><a href="#media">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td colspan="3" class="intro"><span class="no_color">We already know we can enumerate fonts: see the
 			<a target="_blank" class="blue" href="extra.html">monsta</a> test. These font list tests are more refined:
@@ -537,7 +559,7 @@
 			while the	<code>os</code> tests are to get metrics on stable fonts per os.</span>
 		</td></tr>
 		<tr><td colspan="2"><div>
-				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c1`, `m`)">[ re-run tests ]</button></div>
+				<div class="btn-left"><button class="btn11" onClick="outputSection(`11`, `c1`, `m`)">[ re-run tests ]</button></div>
 				<div>default proportional font</div></div></td><td class="c1" id="fontFCprop"></td>
 		</tr>
 		<tr><td colspan="2">default font sizes</td><td class="c1" id="fontFCsize"></td></tr>
@@ -555,7 +577,7 @@
 		<!--WHITELIST: c2: small -->
 		<tr><td colspan="3" class="center">------</td></tr>
 		<tr><td colspan="2"><div>
-				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c2`, `m`)">[run whitelist tests ]</button></div>
+				<div class="btn-left"><button class="btn11" onClick="outputSection(`11`, `c2`, `m`)">[run whitelist tests ]</button></div>
 				<div>font list</div></div></td>
 				<td class="mono" id="small_fontList"></td>
 		</tr>
@@ -565,7 +587,7 @@
 		<!--OS: c3: all -->
 		<tr><td colspan="3" class="center">------</td></tr>
 		<tr><td colspan="2"><div>
-				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c3`, `m`)">[ run os tests ]</button></div>
+				<div class="btn-left"><button class="btn11" onClick="outputSection(`11`, `c3`, `m`)">[ run os tests ]</button></div>
 				<div>font list</div></div></td>
 				<td class="mono" id="all_fontList"></td>
 		</tr>
@@ -577,21 +599,21 @@
 				<label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
 		</td></tr>
 		<!--WHITELIST: c2-->
-		<tr class="togF"><td colspan="2" class="sub10">fingerprintjs2 [whitelist]</td><td>
+		<tr class="togF"><td colspan="2" class="sub11">fingerprintjs2 [whitelist]</td><td>
 			 <button class="btn0" onClick="copyclip(`small_fontFPJS2Found`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" class="intro" id="small_fontFPJS2Found"></td></tr>
-		<tr class="togF"><td colspan="2" class="sub10">font fallback [whitelist]</td><td>
+		<tr class="togF"><td colspan="2" class="sub11">font fallback [whitelist]</td><td>
 			 <button class="btn0" onClick="copyclip(`small_fontFBFound`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" class="intro" id="small_fontFBFound"></td></tr>
 		<!--OS: c3-->
-		<tr class="togF"><td colspan="2" class="sub10">fingerprintjs2 [os]</td><td>
+		<tr class="togF"><td colspan="2" class="sub11">fingerprintjs2 [os]</td><td>
 			 <button class="btn0" onClick="copyclip(`all_fontFPJS2Found`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" class="intro" id="all_fontFPJS2Found"></td></tr>
-		<tr class="togF"><td colspan="2" class="sub10">enumerate fonts [os]</td><td>
+		<tr class="togF"><td colspan="2" class="sub11">enumerate fonts [os]</td><td>
 			 <button class="btn0" onClick="copyclip(`all_fontFBFound`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" class="intro" id="all_fontFBFound"></td></tr>
 		<!--GLYPHS -->
-		<tr class="togF"><td colspan="2" class="sub10">[offset] unicode glyphs</td><td>
+		<tr class="togF"><td colspan="2" class="sub11">[offset] unicode glyphs</td><td>
 			 <button class="btn0" onClick="copyclip(`fontUGFound1`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" style="white-space: pre;" class="mono" id="fontUGFound1"></td></tr>
 		<tr class="togF"><td colspan="3"></td></tr>
@@ -605,34 +627,12 @@
 		</td></tr>
 	</table>
 
-	<!-- TABLE 11: Audio - audio.js -->
-	<table id="tb11">
-		<col width="37%"><a name="audio"></a><col width="63%">
-		<thead><tr><th colspan="2">
-				<div class="nav-title"><a href="#audio">Audio</a>
-				<div class="nav-up"><a href="#fonts">&#9650;</a></div>
-				<div class="nav-down"><a href="#media">&#9660;</a></div></div>
-		</th></tr></thead>
-		<tr><td><div>
-				<div class="btn-left"><button class="btn11" onClick="outputSection(`11`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div><div class="ttip"><span class="icon">[ i ]</span>
-					<span class="ttxt">dom.webaudio.enabled</span></div> &nbsp [api] web audio</div></div></td>
-			<td class="c" id="audioSupport"></td>
-		</tr>
-		<tr><td>getChannelData</td><td class="c" id="audioGet"></td></tr>
-		<tr><td>copyFromChannel</td><td class="c" id="audioCopy"></td></tr>
-		<tr><td>sum</td><td class="c" id="audioSum"></td></tr>
-		<tr><td colspan="2"><span class="no_color">audio code courtesy of </span>
-			<a target="_blank" class="blue" href="https://github.com/kkapsner">kkapsner</a><span class="no_color"> and </span>
-			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
-	</table>
-
 	<!-- TABLE 12: Media - media.js -->
 	<table id="tb12">
 		<col width="50%"><a name="media"></a><col width="50%">
 		<thead><tr><th colspan="2">
 				<div class="nav-title"><a href="#media">Media</a>
-				<div class="nav-up"><a href="#audio">&#9650;</a></div>
+				<div class="nav-up"><a href="#fonts">&#9650;</a></div>
 				<div class="nav-down"><a href="#webgl">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
