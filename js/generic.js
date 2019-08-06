@@ -122,7 +122,7 @@ function outputSection(id, cls, page) {
 	let tbl = document.getElementById("tb"+id);
 	tbl.querySelectorAll(`.${cls}`).forEach(e => {e.innerHTML = "&nbsp";});
 	// reset unicode glyphs without waiting
-	if (id=="10" && cls=="c1") {reset_unicode()};
+	if (id=="11" && cls=="c1") {reset_unicode()};
 	// delay output so users can see something happened
 	setTimeout(function(){
 		if (page=="m") {
@@ -135,8 +135,8 @@ function outputSection(id, cls, page) {
 			if (id=="7") {outputDevices()};
 			if (id=="8") {outputCanvas()};
 			if (id=="9") {outputDomRect()};
-			if (id=="10" && cls=="c1") {outputFonts1()};
-			if (id=="11") {outputAudio()};
+			if (id=="10") {outputAudio()};
+			if (id=="11" && cls=="c1") {outputFonts1()};
 			if (id=="12") {outputMedia()};
 			if (id=="13") {outputWebGL()};
 			if (id=="14") {outputCSS()};
@@ -147,8 +147,8 @@ function outputSection(id, cls, page) {
 	}, 170);
 	// don't delay these ones
 	if (page=="m") {
-		if (id=="10" && cls=="c2") {outputFonts2("small")};
-		if (id=="10" && cls=="c3") {outputFonts2("all")};
+		if (id=="11" && cls=="c2") {outputFonts2("small")};
+		if (id=="11" && cls=="c3") {outputFonts2("all")};
 	} else if (page=="e") {
 		if (id=="3") {outputChrome()};
 		if (id=="4") {outputFonts2("monsta")};
