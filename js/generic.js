@@ -138,6 +138,7 @@ function outputSection(id, cls, page) {
 			if (id=="10" && cls=="c1") {outputFonts1()};
 			if (id=="11") {outputAudio()};
 			if (id=="12") {outputMedia()};
+			if (id=="13") {outputWebGL()};
 			if (id=="14") {outputCSS()};
 			if (id=="18") {outputMisc()};
 		} else if (page=="e") {
