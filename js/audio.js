@@ -62,43 +62,43 @@ function run_nt_vc_fp() {
 	let hash = "", // str to hash
 		output = "", // pretty output
 		latency = ""; // combined latency string
-
 	function a(a, b, c) {
 		for (let d in b) "dopplerFactor" === d || "speedOfSound" === d || "currentTime" ===
 		d || "number" !== typeof b[d] && "string" !== typeof b[d] || (a[(c ? c : "") + d] = b[d]);
 		return a
 	}
-
 	try {
 		let nt_vc_context = window.AudioContext || window.webkitAudioContext;
-		if ("function" !== typeof nt_vc_context) obj = "";
-		else {
-			let f = new nt_vc_context,
-				d = f.createAnalyser();
-				obj = a({}, f, "ac-");
-				obj = a(obj, f.destination, "ac-");
-				obj = a(obj, f.listener, "ac-");
-				obj = a(obj, d, "an-");
-				// loop key+value, build nice output and string to hash
-				for (const [key, value] of Object.entries(obj)) {
-					// don't include latency in the hash
-					if (key == "ac-baseLatency") {
-						latency = latency + value + " | ";
-					} else if (key == "ac-outputLatency") {
-						latency = latency + value;
-					} else {
-						output = output + key.padStart(25, " ") + ": " + value + "<br>";
-						hash = hash + value + "-";
-					}
-				}
+		let f = new nt_vc_context,
+			d = f.createAnalyser();
+			obj = a({}, f, "ac-");
+			obj = a(obj, f.destination, "ac-");
+			obj = a(obj, f.listener, "ac-");
+			obj = a(obj, d, "an-");
+		// loop key+value, build nice output and string to hash
+		for (const [key, value] of Object.entries(obj)) {
+			// don't include latency in the hash
+			if (key == "ac-baseLatency") {
+				latency = latency + value + " | ";
+			} else if (key == "ac-outputLatency") {
+				latency = latency + value;
+			} else {
+				output = output + key.padStart(25, " ") + ": " + value + "<br>";
+				hash = hash + value + "-";
+			}
+		};
+		hash = hash.slice(0, -1); // remove trailing delimiter
+		dom.audio1hash = sha1(hash);
+		if (latency == "") {
+			dom.audioLatency.innerHTML = "<span class='bad'>[this data is missing]</span>";
+		} else {
+			dom.audioLatency = latency;
 		}
+		dom.audio1data.innerHTML = output;
 	} catch (g) {
-			obj = 0
+			// output some error & clear details data
+			dom.audio1data = "";
 	}
-	hash = hash.slice(0, -1); // remove trailing delimiter in hash string
-	dom.audio1hash = sha1(hash);
-	dom.audioLatency = latency;
-	dom.audio1data.innerHTML = output;
 	// reset color
 	dom.audio1data.style.color = "#b3b3b3";
 };
