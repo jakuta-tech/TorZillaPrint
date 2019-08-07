@@ -537,12 +537,27 @@
 					<span class="ttxt">dom.webaudio.enabled</span></div> &nbsp [api] web audio</div></div></td>
 			<td class="c mono" id="audioSupport"></td>
 		</tr>
-		<tr><td>getChannelData</td><td class="c mono" id="audioGet"></td></tr>
-		<tr><td>copyFromChannel</td><td class="c mono" id="audioCopy"></td></tr>
-		<tr><td>sum</td><td class="c mono" id="audioSum"></td></tr>
-		<tr><td colspan="2"><span class="no_color">audio code courtesy of </span>
+		<tr><td>getChannelData <sup>1</sup></td><td class="c mono" id="audioGet"></td></tr>
+		<tr><td>copyFromChannel <sup>1</sup></td><td class="c mono" id="audioCopy"></td></tr>
+		<tr><td>sum <sup>1</sup></td><td class="c mono" id="audioSum"></td></tr>
+		<tr><td>ac-baseLatency | ac-outputLatency <sup>2</sup></td><td class="c mono" id="audioLatency"></td></tr>
+		<tr><td>[properties] audioContext <sup>2</sup></td><td class="c mono" id="audio1hash"></td></tr>
+		<tr><td>OscillatorNode <sup>2</sup></td><td class="c mono" id="audio2hash"></td></tr>
+		<tr><td>OscillatorNode/DynamicsCompressor <sup>2</sup></td><td class="c mono" id="audio3hash"></td></tr>
+		<tr><td colspan="2" class="showhide">
+				<input id="collapseA" class="toggle" type="checkbox" checked onchange="toggleitems(this, `A`)">
+				<label for="collapseA" class="lbl-toggle" id="labelA">&#9660; show details</label>
+		</td></tr>
+		<tr class="togA"><td>audioContext <sup>2</sup></td><td style="white-space: pre;" class="mono" id="audio1data"></td></tr>
+		<tr class="togA"><td>OscillatorNode <sup>2</sup></td><td class="mono" id="audio2data"></td></tr>
+		<tr class="togA"><td>OscillatorNode/DynamicsCompressor <sup>2</sup></td><td class="mono" id="audio3data"></td></tr>
+		<tr class="togA"><td colspan="2"></td></tr>
+		<tr><td colspan="2"><span class="no_color">audio code based on work by </span>
 			<a target="_blank" class="blue" href="https://github.com/kkapsner">kkapsner</a><span class="no_color"> and </span>
-			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
+			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a> <sup>1</sup>
+			<span class="no_color"> and </span>
+			<a target="_blank" class="blue" href="https://audiofingerprint.openwpm.com/">openWPM</a> <sup>2</sup>
+		</td></tr>
 	</table>
 
 	<!-- TABLE 10: Fonts - fonts.js -->
