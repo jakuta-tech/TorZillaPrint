@@ -77,7 +77,7 @@ function run_nt_vc_fp() {
 			obj = a(obj, d, "an-");
 		// loop key+value, build nice output and string to hash
 		for (const [key, value] of Object.entries(obj)) {
-			// don't include latency in the hash
+			// split latency (FF70+) out
 			if (key == "ac-baseLatency") {
 				latency = latency + value + " | ";
 			} else if (key == "ac-outputLatency") {
@@ -90,7 +90,7 @@ function run_nt_vc_fp() {
 		hash = hash.slice(0, -1); // remove trailing delimiter
 		dom.audio1hash = sha1(hash);
 		if (latency == "") {
-			dom.audioLatency.innerHTML = "<span class='bad'>[this data is missing]</span>";
+			dom.audioLatency = "not supported"; // FF70+
 		} else {
 			dom.audioLatency = latency;
 		}
