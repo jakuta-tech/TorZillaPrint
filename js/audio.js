@@ -68,8 +68,8 @@ function run_nt_vc_fp() {
 		return a
 	}
 	try {
-		let nt_vc_context = window.AudioContext || window.webkitAudioContext;
-		let f = new nt_vc_context,
+		let contextB = window.AudioContext;
+		let f = new contextB,
 			d = f.createAnalyser();
 			obj = a({}, f, "ac-");
 			obj = a(obj, f.destination, "ac-");
@@ -78,10 +78,17 @@ function run_nt_vc_fp() {
 		// loop key+value, build nice output and string to hash
 		for (const [key, value] of Object.entries(obj)) {
 			// split latency (FF70+) out
+			// RFP values: win 0.04, android 0.02, mac 512, other 0.025
 			if (key == "ac-baseLatency") {
 				latency = latency + value + " | ";
 			} else if (key == "ac-outputLatency") {
-				latency = latency + value;
+				// NOTE: nonRFP mode: Failure mode: return 0.0 if running on a normal thread
+				// NOTE: nonRFP mode: outputLatency returns 0 unless we detect a user gesture
+				if (value == 0) {
+					latency = latency + "<span class='bad'>" + value + " [failure mode]</span>";
+				} else {
+					latency = latency + value;
+				}
 			} else {
 				output = output + key.padStart(25, " ") + ": " + value + "<br>";
 				hash = hash + value + "-";
@@ -92,7 +99,7 @@ function run_nt_vc_fp() {
 		if (latency == "") {
 			dom.audioLatency = "not supported"; // FF70+
 		} else {
-			dom.audioLatency = latency;
+			dom.audioLatency.innerHTML = latency;
 		}
 		dom.audio1data.innerHTML = output;
 	} catch (g) {
@@ -106,12 +113,12 @@ function run_nt_vc_fp() {
 function outputAudio() {
 	// detect web audio API enabled
 	try {
-		const audioCtx = new AudioContext();
+		let contextC = new AudioContext();
 		dom.audioSupport = "enabled";
 		// from openWPM: there may be weird interference effects if the
 		// prints are run sequentially with no delay, hence the sleeping.
 		run_pxi_fp();
-		setTimeout(function() { run_nt_vc_fp(); }, 700);
+		setTimeout(function() { run_nt_vc_fp(); }, 500);
 	}	catch(e) {
 		dom.audioSupport = "disabled";
 		dom.audioCopy = "n/a";
