@@ -27,7 +27,9 @@ function append_canvas_notation() {
 	if (dom.cnv4.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc") {
 		dom.cnv4.innerHTML = dom.cnv4.textContent + rfp_green
 	} else {
-		dom.cnv4.innerHTML = dom.cnv4.textContent + str
+		if (cnv4.innerHTML !== "not supported") {
+			dom.cnv4.innerHTML = dom.cnv4.textContent + str
+		}
 	};
 	if (dom.cnv5.textContent == "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282") {
 		dom.cnv5.innerHTML = dom.cnv5.textContent + rfp_green
@@ -349,6 +351,8 @@ var canvas = {
 function outputCanvas() {
 	outCounter = 0;
 	canvas.output(canvas.createHashes(window), document.getElementById("tb8"));
+	//canvas.createHashes(window);
+
 };
 
 outputCanvas();
