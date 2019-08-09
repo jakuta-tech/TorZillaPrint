@@ -2,103 +2,7 @@
 
 'use strict';
 
-// functions
-function cleanify(data){
-	return data.map(function(entry){return entry.value;}).join("");
-};
-
-function outputLanguage() {
-
-	// multipurpose str
-	let str = "";
-
-	// variables
-	let dateUsed = new Date("January 30, 2019 13:00:00"),
-		dateOld = new Date("July 30, 2018 13:00:00"),
-		dateFormatted = new Intl.DateTimeFormat(undefined, { weekday: "long", month: "long", day: "numeric",
-			year: "numeric", hour: "numeric", minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long" }),
-		rOptions = dateFormatted.resolvedOptions(),
-		dateOpt = { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric",
-			minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long" };
-
-	// languages
-	dom.nLanguages = navigator.languages;
-	dom.nLanguage = navigator.language;
-	dom.nLanguages0 = navigator.languages[0];
-
-	// locale
-	dom.localeIPR = new Intl.PluralRules().resolvedOptions().locale;
-	dom.localeRO = rOptions.locale;
-
-	// timezone
-	str = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset();
-	if (str == "0 | 0") {
-		str = str + rfp_green
-	} else {
-		str = str + rfp_red
-	};
-	dom.tzOffsets.innerHTML = str;
-
-	// timezone offsets
-	str = "";
-	str = Intl.DateTimeFormat().resolvedOptions().timeZone;
-	if (str == "UTC") {
-		str = str + rfp_green
-	} else {
-		str = str + rfp_red
-	};
-	dom.tzRO.innerHTML = str;
-
-	// date/time
-	dom.dateSystem = dateUsed;
-	dom.dateString = dateUsed.toString();
-
-	// long versions
-	dom.lngdateLS = dateUsed.toLocaleString(undefined, dateOpt);
-	dom.lngdateLDS = dateUsed.toLocaleDateString(undefined, dateOpt);
-	dom.lngdateLTS = dateUsed.toLocaleTimeString(undefined, dateOpt);
-	dom.lngdateIDTF = Intl.DateTimeFormat(undefined, dateOpt).format(dateUsed);
-	dom.dateFTP = cleanify(dateFormatted.formatToParts(dateUsed));
-
-	// various
-	dom.dateGMT = dateUsed.toGMTString();;
-	dom.dateUTC = dateUsed.toUTCString();
-	dom.dateLS = dateUsed.toLocaleString();
-	dom.dateTAtoLS = [dateUsed].toLocaleString();
-	dom.dateLDS = dateUsed.toLocaleDateString();
-	dom.dateIDTF = Intl.DateTimeFormat().format(dateUsed);
-	dom.dateLTS = dateUsed.toLocaleTimeString();
-	dom.dateTS = dateUsed.toTimeString();
-	dom.numFTP = JSON.stringify(new Intl.NumberFormat().formatToParts(1000)[1]);
-	dom.hourRO = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle;
-
-	// Intl.RelativeTimeFormat: FF65+
-	// return "7 days ago, yesterday, tomorrow, next month, in 2 years" in your locale
-	try {
-		const rtf = new Intl.RelativeTimeFormat(undefined, {style: 'long', numeric: `auto`});
-		dom.dateIRTF = rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
-			rtf.format(1, "day") +", "+ rtf.format(1, "month") +", "+ rtf.format(2, "year");
-	} catch(e) {
-		dom.dateIRTF = "not supported"
-	};
-
-	// calendar
-	dom.calendarRO = rOptions.calendar;
-
-	// numbering
-	dom.numsysRO = rOptions.numberingSystem;
-
-	// geo.enabled
-	if ("geolocation" in navigator) {
-		dom.nGeolocation="enabled"
-	} else {
-		dom.nGeolocation="disabled"
-	};
-
-	// permissions.default.geo
-	navigator.permissions.query({name:"geolocation"}).then(e => dom.pGeolocation=e.state);
-
-	// application language leak PoCs: run only if Firefox
+function get_app_language() {
 	if (isFirefox == true) {
 
 		// are images or iframes blocked
@@ -203,7 +107,94 @@ function outputLanguage() {
 		dom.appLang5 = str2.slice(0,nb1-1) + str2.slice(nb2);
 
 	};
+};
 
+function outputLanguage() {
+	let t0 = performance.now();
+
+	// variables
+	let str = "",
+	dateUsed = new Date("January 30, 2019 13:00:00"),
+		dateOld = new Date("July 30, 2018 13:00:00"),
+		dateFormatted = new Intl.DateTimeFormat(undefined, { weekday: "long", month: "long", day: "numeric",
+			year: "numeric", hour: "numeric", minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long" }),
+		rOptions = dateFormatted.resolvedOptions(),
+		dateOpt = { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric",
+			minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long" };
+
+	// language/locale
+	dom.nLanguages = navigator.languages;
+	dom.nLanguage = navigator.language;
+	dom.nLanguages0 = navigator.languages[0];
+	dom.localeIPR = new Intl.PluralRules().resolvedOptions().locale;
+	dom.localeRO = rOptions.locale;
+
+	// timezone/offsets
+	str = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset();
+	if (str == "0 | 0") {
+		str = str + rfp_green
+	} else {
+		str = str + rfp_red
+	};
+	dom.tzOffsets.innerHTML = str;
+	str = "";
+	str = Intl.DateTimeFormat().resolvedOptions().timeZone;
+	if (str == "UTC") {
+		str = str + rfp_green
+	} else {
+		str = str + rfp_red
+	};
+	dom.tzRO.innerHTML = str;
+
+	// date/time
+	dom.dateSystem = dateUsed;
+	dom.dateString = dateUsed.toString();
+	// long versions
+	dom.lngdateLS = dateUsed.toLocaleString(undefined, dateOpt);
+	dom.lngdateLDS = dateUsed.toLocaleDateString(undefined, dateOpt);
+	dom.lngdateLTS = dateUsed.toLocaleTimeString(undefined, dateOpt);
+	dom.lngdateIDTF = Intl.DateTimeFormat(undefined, dateOpt).format(dateUsed);
+	let temp = dateFormatted.formatToParts(dateUsed)
+	dom.dateFTP = temp.map(function(entry){return entry.value;}).join("");
+	// various
+	dom.dateGMT = dateUsed.toGMTString();;
+	dom.dateUTC = dateUsed.toUTCString();
+	dom.dateLS = dateUsed.toLocaleString();
+	dom.dateTAtoLS = [dateUsed].toLocaleString();
+	dom.dateLDS = dateUsed.toLocaleDateString();
+	dom.dateIDTF = Intl.DateTimeFormat().format(dateUsed);
+	dom.dateLTS = dateUsed.toLocaleTimeString();
+	dom.dateTS = dateUsed.toTimeString();
+	dom.numFTP = JSON.stringify(new Intl.NumberFormat().formatToParts(1000)[1]);
+	dom.hourRO = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle;
+
+	// Intl.RelativeTimeFormat: FF65+
+	// return "7 days ago, yesterday, tomorrow, next month, in 2 years" in your locale
+	try {
+		const rtf = new Intl.RelativeTimeFormat(undefined, {style: 'long', numeric: `auto`});
+		dom.dateIRTF = rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
+			rtf.format(1, "day") +", "+ rtf.format(1, "month") +", "+ rtf.format(2, "year");
+	} catch(e) {
+		dom.dateIRTF = "not supported"
+	};
+
+	// calendar/numbering/geo
+	dom.calendarRO = rOptions.calendar;
+	dom.numsysRO = rOptions.numberingSystem;
+	if ("geolocation" in navigator) {
+		dom.nGeolocation="enabled"
+	} else {
+		dom.nGeolocation="disabled"
+	};
+	// permissions.default.geo
+	navigator.permissions.query({name:"geolocation"}).then(e => dom.pGeolocation=e.state);
+
+	// perf
+	let t1 = performance.now();
+	if (sPerf) {console.debug("  ** section language [excl app lang]: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+
+	// start app lang pocs
+	get_app_language();
 };
 
 outputLanguage();
