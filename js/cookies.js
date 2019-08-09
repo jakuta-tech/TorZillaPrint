@@ -2,8 +2,17 @@
 
 'use strict';
 
-// functions
-function getCookie(name) {
+/* GENERIC FUNCTIONS */
+
+function rnd_string() {
+	return Math.random().toString(36).substring(2, 15)
+};
+
+function rnd_number() {
+	return Math.floor((Math.random() * (99999 - 10000)) + 10000)
+};
+
+function check_cookie(name) {
 	name = name + "=";
 	let decodedCookie = decodeURIComponent(document.cookie);
 	let ca = decodedCookie.split(';');
@@ -18,36 +27,34 @@ function getCookie(name) {
 	}
 	return "";
 };
-function rndString() {
-	return Math.random().toString(36).substring(2, 15)
-};
-function rndNumber() {
-	return Math.floor((Math.random() * (99999 - 10000)) + 10000)
-};
 
-function outputCookies() {
+/* FUNCTIONS */
 
-	/*** cookie support */
+function get_cookies() {
+
+	// cookie support
 	if (navigator.cookieEnabled == true) {
 		dom.nCookieEnabled = "enabled"
 	} else {
 		dom.nCookieEnabled = "disabled"
 	};
-
-	/*** session cookie test: run even if cookieEnabled = false */
-	let rndStrA = rndString();
+	// session cookie test: run even if cookieEnabled = false
+	let rndStrA = rnd_string();
 	document.cookie = rndStrA + "=" + rndStrA;
-	if (getCookie(rndStrA) != "") {
+	if (check_cookie(rndStrA) != "") {
 		dom.cTest = "success"
 	} else {
 		dom.cTest = "failed"
 	};
-
-	/*** persistent cookie test: run even if cookieEnabled = false */
-	let rndStrB = rndString();
+	// persistent cookie test: run even if cookieEnabled = false */
+	let rndStrB = rnd_string();
 	dom.cTest2.innerHTML = note_testtocome;
 
-	/*** localStorage support */
+};
+
+function get_storage() {
+
+	// localStorage support
 	try {
 		if (typeof(localStorage) != "undefined") {
 			dom.storageLSupport = "enabled"
@@ -57,9 +64,8 @@ function outputCookies() {
 	} catch(e) {
 		dom.storageLSupport = "disabled: " + e.name
 	};
-
-	/*** localStorage test: run even if localStorage unavailable */
-	let rndStrC = rndString();
+	// localStorage test: run even if localStorage unavailable
+	let rndStrC = rnd_string();
 	try {
 		localStorage.setItem(rndStrC, rndStrC);
 		if (!localStorage.getItem(rndStrC)) {
@@ -70,8 +76,7 @@ function outputCookies() {
 	} catch(e) {
 		dom.storageLTest = "failed: " + e.name
 	};
-
-	/*** sessionStorage support */
+	// sessionStorage support
 	try {
 		if (typeof(sessionStorage) != "undefined") {
 			dom.storageSSupport = "enabled"
@@ -81,9 +86,8 @@ function outputCookies() {
 	} catch(e) {
 		dom.storageSSupport = "disabled: " + e.name
 	};
-
-	/*** sessionStorage test: run even if sessionStorage unavailable */
-	let rndStrD = rndString();
+	// sessionStorage test: run even if sessionStorage unavailable
+	let rndStrD = rnd_string();
 	try {
 		sessionStorage.setItem(rndStrD, rndStrD);
 		if (!sessionStorage.getItem(rndStrD)) {
@@ -95,7 +99,11 @@ function outputCookies() {
 		dom.storageSTest = "failed: " + e.name
 	};
 
-	/*** indexedDB support */
+}
+
+function get_idb() {
+
+	// indexedDB support
 	try {
 		if (!window.indexedDB) {
 			dom.IDBSupport = "disabled"
@@ -106,7 +114,7 @@ function outputCookies() {
 		dom.IDBSupport = "disabled: " + e.name
 	};
 
-	/*** indexedDB test: run even if IDB unavailable */
+	// indexedDB test: run even if IDB unavailable */
 	try {
 		let dbIDB = indexedDB.open("IsPBMode");
 		dbIDB.onerror = function() {
@@ -114,7 +122,7 @@ function outputCookies() {
 			dom.IDBTest = "failed: onerror";
 		};
 		dbIDB.onsuccess = function() {
-			let rndStrE = rndString();
+			let rndStrE = rnd_string();
 			// normal mode
 			try {
 				let openIDB = indexedDB.open(rndStrE);
@@ -130,8 +138,8 @@ function outputCookies() {
 					let dbTx = dbObject.transaction("testIDB", "readwrite");
 					let dbStore = dbTx.objectStore("testIDB");
 					// add some data
-					let rndIndex = rndNumber();
-					let rndValue = rndString();
+					let rndIndex = rnd_number();
+					let rndValue = rnd_string();
 					// console.log("	 stored: name: "+rndStrE+" id: "+rndIndex+" value: "+rndValue);
 					dbStore.put( {id: rndIndex, value: rndValue} );
 					// query the data
@@ -156,11 +164,15 @@ function outputCookies() {
 		dom.IDBTest = "failed .open: " + e.name
 	};
 
-	/*** appCache support (browser.cache.offline.enable) */
+}
+
+function get_appcache() {
+
+	// appCache support (browser.cache.offline.enable)
 	if ("applicationCache" in window) {
 		dom.appCacheSupport = "enabled";
 		if ((location.protocol) === "https:") {
-			/*** appCache test */
+			// appCache test
 			try {
 				dom.appCacheTest.innerHTML = note_testtocome
 			} catch(e) {
@@ -182,14 +194,18 @@ function outputCookies() {
 		dom.appCacheTest = "n/a";
 	};
 
-	/*** worker support */
+};
+
+function get_workers() {
+
+	// worker support
 	if (typeof(Worker) !== "undefined") {
 		dom.workerSupport = "enabled";
 		if ((location.protocol) !== "file:") {
-			/*** web worker test */
+			// web worker test
 			try {
 				let wwt = new Worker("js/worker.js");
-				let rndStr1 = rndString();
+				let rndStr1 = rnd_string();
 				// assume failure
 				dom.webWTest = "failed";
 				// add listener
@@ -204,10 +220,10 @@ function outputCookies() {
 				dom.webWTest = "failed: " + e.name
 			};
 
-			/*** shared worker test */
+			// shared worker test
 			try {
 				let swt = new SharedWorker("js/workershared.js");
-				let rndStr2 = rndString();
+				let rndStr2 = rnd_string();
 				// assume failure
 				dom.sharedWTest = "failed"
 				// add listener
@@ -234,36 +250,26 @@ function outputCookies() {
 		dom.sharedWTest = "n/a";
 	};
 
-	/*** service worker support (dom.serviceWorkers.enabled) */
-	// note: serviceWorker is automatically not available in PB Mode
+};
+
+function get_service_workers() {
+
+	// service worker support (dom.serviceWorkers.enabled)
 	let swMsg = "";
 	if ((location.protocol) === "https:") {
 		if ("serviceWorker" in navigator) {
 			dom.serviceWSupport = "enabled";
-			// unregister any existing sw?
-			//navigator.serviceWorker.getRegistrations().then(
-			//function(registrations) {
-			//	for(let registration of registrations) {  
-			//		registration.unregister();
-			//	}
-			//});
-
-			/*** service worker test */
+			// service worker test
 			navigator.serviceWorker.register("js/workerservice.js").then(function(registration) {
 				dom.serviceWTest="success";
-
-				/*** service worker cache support (dom.caches.enabled) */
+				// service worker cache support (dom.caches.enabled)
 				dom.serviceWCacheSupport.innerHTML = note_testtocome;
-
-				/*** service cache test */
+				// service cache test
 				dom.serviceWCacheTest.innerHTML = note_testtocome;
-
-				/*** notifications support (dom.webnotifications.serviceworker.enabled) */
+				// notifications support (dom.webnotifications.serviceworker.enabled)
 				dom.notificationsSupport.innerHTML = note_testtocome;
-
-				/*** notifications test */
+				// notifications test
 				dom.notificationsTest.innerHTML = note_testtocome;
-
 				// unregister the sw?
 			},
 			function(e) {
@@ -280,8 +286,7 @@ function outputCookies() {
 				dom.notificationsSupport = "n/a";
 				dom.notificationsTest = "n/a";
 			});
-		}
-		else {
+		}	else {
 			// skip if no service worker
 			dom.serviceWSupport = "disabled";
 			dom.serviceWTest = "n/a";
@@ -305,18 +310,28 @@ function outputCookies() {
 		dom.notificationsTest.innerHTML = swMsg;
 	};
 
-	/*** permissions notifications / push */
+};
+
+function get_permissions() {
+
+	// permissions notifications / push
 	if (isFirefox == true) {
 		navigator.permissions.query({name:"notifications"}).then(e => dom.pNotifications=e.state);
 		navigator.permissions.query({name:"push"}).then(e => dom.pPush=e.state);
 	};
+	// permission persistent-storage
+	navigator.permissions.query({name:"persistent-storage"}).then(e => dom.pPersistentStorage=e.state);
 
-	/*** storage manager support (dom.storageManager.enabled) **/
+};
+
+function get_storage_manager() {
+
+	// storage manager support (dom.storageManager.enabled)
 	if ("storage" in navigator) {
 		dom.storageMSupport = "enabled"
 		if ((location.protocol) !== "file:") {
 
-			/*** storage manager properties */
+			// storage manager properties
 			try {
 				navigator.storage.persist().then(function(persistent) {
 					if (persistent) dom.storageMProp="persistent";
@@ -329,7 +344,7 @@ function outputCookies() {
 				dom.storageMProp="failed: " + e.name
 			};
 
-			/*** storage manager test */
+			// storage manager test
 			try {
 				// store some data, get usage/quota
 				dom.storageMTest.innerHTML = note_testtocome;
@@ -349,8 +364,18 @@ function outputCookies() {
 		dom.storageMTest = "n/a";
 	};
 
-	/*** permission persistent-storage */
-	navigator.permissions.query({name:"persistent-storage"}).then(e => dom.pPersistentStorage=e.state);
+};
+
+function outputCookies() {
+
+	get_cookies();
+	get_storage();
+	get_idb();
+	get_appcache();
+	get_workers();
+	get_service_workers();
+	get_permissions();
+	get_storage_manager();
 
 };
 
