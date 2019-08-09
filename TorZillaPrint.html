@@ -179,9 +179,9 @@
 		<tr><td>[math] os</td><td class="c" id="fdMathOS"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">Linux, Mac or Windows</div> &nbsp [css] os <sup>1</sup></td>
-			<td><span id="fdCssOSL" style="font-family: Arimo, DejaVu Serif, ABR;">Linux</span>
+			<td><span id="fdCssOS"><span id="fdCssOSL" style="font-family: Arimo, DejaVu Serif, ABR;">Linux</span>
 					<span id="fdCssOSM" style="font-family: Lucida Grande, ABR;">Mac</span>
-					<span id="fdCssOSW" style="font-family: Segoe UI, ABR;">Windows</span></td></tr>
+					<span id="fdCssOSW" style="font-family: Segoe UI, ABR;">Windows</span></span></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">based on <b>[css] os</b> above</span></div>
 			&nbsp [font] os <sup>1</sup></td><td id="fontOS"></td></tr>
@@ -201,6 +201,7 @@
 			<tr class="togE"><td>error4</td><td class="c" id="err4"></td></tr>
 			<tr class="togE"><td>error5</td><td class="c" id="err5"></td></tr>
 			<tr class="togE"><td>error6</td><td class="c" id="err6"></td></tr>
+			<tr class="togE"><td>error7</td><td class="c" id="err7"></td></tr>
 		<tr class="togE"><td></td><td class="sub2">widgets</td></tr>
 			<tr class="togE"><td>hash</td><td class="c mono" id="widgetH"></td></tr>
 			<tr class="togE"><td id="widfirst">button|checkbox|color|combobox|datetime-local|radio|text</td>
@@ -757,24 +758,30 @@
 
 	<br><a name="theend"></a><br>
 
+	<script src="js/main.js"></script>
+	<!-- load now as they have to wait for iframes to load -->
+	<script src="js/domrect.js"></script>
+	<script src="js/language.js"></script>
+	<!-- first 3 sections -->
+	<script src="js/screen.js"></script>
+	<!-- fast sections -->
+	<script src="js/headers.js"></script>
+	<script src="js/media.js"></script>
+	<script src="js/devices.js"></script>
+	<script src="js/css.js"></script>
+	<script src="js/misc.js"></script>
+	<script src="js/webgl.js"></script>
+	<script src="js/cookies.js"></script>
+	<!-- slower sections -->
+	<script src="js/audio.js"></script>
+	<script src="js/fonts.js"></script>
+	<script src="js/canvas.js"></script>
+
+
+	<!-- almost 500kb, load last -->
 	<link rel="stylesheet" type="text/css" href="css/window_size.css">
 	<link rel="stylesheet" type="text/css" href="css/screen_size.css">
 	<link rel="stylesheet" type="text/css" href="css/dpi.css">
-
-	<script src="js/main.js"></script>
-	<script src="js/screen.js"></script>
-	<script src="js/language.js"></script>
-	<script src="js/headers.js"></script>
-	<script src="js/cookies.js"></script>
-	<script src="js/devices.js"></script>
-	<script src="js/canvas.js"></script>
-	<script src="js/domrect.js"></script>
-	<script src="js/audio.js"></script>
-	<script src="js/fonts.js"></script>
-	<script src="js/media.js"></script>
-	<script src="js/webgl.js"></script>
-	<script src="js/css.js"></script>
-	<script src="js/misc.js"></script>
 
 </body>
 </html>
