@@ -38,3 +38,9 @@ if (isNaN(window.mozPaintCount) === false) {isFirefox = true};
 if (isNaN(window.mozInnerScreenX) === false) {"isFirefox = true"};
 if (isNaN(window.window.scrollMaxX) === false) {"isFirefox = true"};
 if (navigator.oscpu == undefined){} else {"isFirefox = true"}; */
+
+// performance
+var mPerf = true; // minor
+var sPerf = true; // section
+var gt0 = performance.now();
+
