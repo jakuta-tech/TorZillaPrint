@@ -367,7 +367,8 @@ function get_storage_manager() {
 };
 
 function outputCookies() {
-
+	let t0 = performance.now();
+	// functions
 	get_cookies();
 	get_storage();
 	get_idb();
@@ -376,7 +377,9 @@ function outputCookies() {
 	get_service_workers();
 	get_permissions();
 	get_storage_manager();
-
+	// perf
+	let t1 = performance.now();
+	if (sPerf) {console.debug("  ** section cookies: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
 outputCookies();
