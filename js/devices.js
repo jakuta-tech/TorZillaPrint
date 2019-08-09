@@ -3,11 +3,10 @@
 'use strict';
 
 function outputDevices() {
-
-	// multipurpose string
-	let str = "";
+	let t0 = performance.now();
 
 	// hardwareConcurrency
+	let str = "";
 	str = navigator.hardwareConcurrency;
 	if (str == "2") {
 		str = str + rfp_green
@@ -73,6 +72,9 @@ function outputDevices() {
 		dom.speechEngines = "n/a";
 	};
 
+	// perf
+	let t1 = performance.now();
+	if (sPerf) {console.debug("  ** section devices: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
 outputDevices();
