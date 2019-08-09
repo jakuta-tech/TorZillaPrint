@@ -2,46 +2,56 @@
 
 'use strict';
 
-function outputCSS() {
-	let pRGB = "";
+function get_prefers_color_scheme(){
+	let k = "";
+	let el = document.getElementById("pColorElement");
+	k = window.getComputedStyle(el, null).getPropertyValue("background-color");
+	if (k == "rgb(255, 255, 255)") {k = "light" + rfp_green}
+	else if (k == "rgb(255, 0, 0)") {k = "not supported"}
+	else if (k == "rgb(0, 0, 0)") {k = "dark" + rfp_red}
+	else if (k == "rgb(0, 0, 255)") {k = "no-preference" + rfp_red};
+	dom.pColorScheme.innerHTML = k;
+};
 
-	// prefers-color-scheme
-	let pColorElem = document.getElementById("pColorElement");
-	pRGB = window.getComputedStyle(pColorElem, null).getPropertyValue("background-color");
-	if (pRGB == "rgb(255, 255, 255)") {pRGB = "light" + rfp_green}
-	else if (pRGB == "rgb(255, 0, 0)") {pRGB = "not supported"}
-	else if (pRGB == "rgb(0, 0, 0)") {pRGB = "dark" + rfp_red}
-	else if (pRGB == "rgb(0, 0, 255)") {pRGB = "no-preference" + rfp_red};
-	dom.pColorScheme.innerHTML = pRGB;
+function get_prefers_reduced_motion() {
+	let k = "";
+	let el = document.getElementById("pMotionElement");
+	k = window.getComputedStyle(el, null).getPropertyValue("background-color");
+	if (k == "rgb(255, 255, 255)") {k = "no-preference" + rfp_green}
+	else if (k == "rgb(255, 0, 0)") {k = "not supported"}
+	else if (k == "rgb(0, 0, 0)") {k = "reduce" + rfp_red};
+	dom.pReducedMotion.innerHTML = k;
+};
 
-	// prefers-reduced-motion
-	pRGB = "";
-	let pMotionElem = document.getElementById("pMotionElement");
-	pRGB = window.getComputedStyle(pMotionElem, null).getPropertyValue("background-color");
-	if (pRGB == "rgb(255, 255, 255)") {pRGB = "no-preference" + rfp_green}
-	else if (pRGB == "rgb(255, 0, 0)") {pRGB = "not supported"}
-	else if (pRGB == "rgb(0, 0, 0)") {pRGB = "reduce" + rfp_red};
-	dom.pReducedMotion.innerHTML = pRGB;
-
-	// system colors
+function get_system_colors() {
 	let sColorStr = "", clrValue = "";
 	let sColorArray = ['ActiveBorder', 'ActiveCaption', 'AppWorkspace', 'Background', 'ButtonFace', 'ButtonHighlight', 'ButtonShadow',
 	'ButtonText', 'CaptionText', 'GrayText', 'Highlight', 'HighlightText', 'InactiveBorder', 'InactiveCaption', 'InactiveCaptionText',
 	'InfoBackground', 'InfoText', 'Menu', 'MenuText', 'Scrollbar', 'ThreeDDarkShadow','ThreeDFace', 'ThreeDHighlight',
 	'ThreeDLightShadow', 'ThreeDShadow', 'Window', 'WindowFrame', 'WindowText'];
-	let sColorElem = document.getElementById("sColorElement");
+	let el = document.getElementById("sColorElement");
 	sColorArray.forEach(function (arrayItem) {
-		sColorElem.style.backgroundColor = arrayItem;
-		sColorStr = sColorStr + window.getComputedStyle(sColorElem, null).getPropertyValue("background-color")
+		el.style.backgroundColor = arrayItem;
+		sColorStr = sColorStr + window.getComputedStyle(el, null).getPropertyValue("background-color")
 	});
-	let sColorHash = sha1(sColorStr);
-	if (sColorHash == "b5e2344c265fc498d2fb8e0f84951e8d501ad481") {
-		sColorHash = sColorHash + rfp_green
+	let hash = sha1(sColorStr);
+	if (hash == "b5e2344c265fc498d2fb8e0f84951e8d501ad481") {
+		hash = sColorHash + rfp_green
 	} else {
-		sColorHash = sColorHash + rfp_red
+		hash = sColorHash + rfp_red
 	};
-	dom.sColorHash.innerHTML = sColorHash;
+	dom.sColorHash.innerHTML = hash;
+};
 
+function outputCSS() {
+	let t0 = performance.now();
+	// functions
+	get_prefers_color_scheme();
+	get_prefers_reduced_motion();
+	get_system_colors();
+	// perf
+	let t1 = performance.now();
+	if (sPerf) {console.debug("  ** section css: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
 outputCSS();
