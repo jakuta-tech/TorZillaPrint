@@ -118,17 +118,21 @@ function byteArrayToHex(arrayBuffer){
 
 /* BUTTONS: (re)GENERATE SECTIONS */
 function outputSection(id, cls, page) {
+	let delay = 150;
+	// reset global timer
+	gt0 = performance.now() + delay;
 	// clear elements, &nbsp stops line height jitter
 	let tbl = document.getElementById("tb"+id);
 	tbl.querySelectorAll(`.${cls}`).forEach(e => {e.innerHTML = "&nbsp";});
-	// reset some sections without waiting
+	// clear details if applicable
+	if (id=="9") {reset_domrect()};
 	if (id=="10") {reset_audio()};
 	if (id=="11" && cls=="c1") {reset_unicode()};
 	// delay output so users can see something happened
 	setTimeout(function(){
 		if (page=="m") {
 			if (id=="1") {outputScreen()};
-			if (id=="2") {outputUA();outputMath()};
+			if (id=="2") {outputUA()};
 			if (id=="3") {outputMath()};
 			if (id=="4") {outputLanguage()};
 			if (id=="5") {outputHeaders()};
@@ -145,11 +149,11 @@ function outputSection(id, cls, page) {
 		} else if (page=="e") {
 			if (id=="2") {outputWidgets()};
 		}
-	}, 170);
+	}, delay);
 	// don't delay these ones
 	if (page=="m") {
-		if (id=="11" && cls=="c2") {outputFonts2("small")};
-		if (id=="11" && cls=="c3") {outputFonts2("all")};
+		if (id=="11" && cls=="c2") {gt0 = performance.now(); outputFonts2("small")};
+		if (id=="11" && cls=="c3") {gt0 = performance.now(); outputFonts2("all")};
 	} else if (page=="e") {
 		if (id=="3") {outputChrome()};
 		if (id=="4") {outputFonts2("monsta")};
