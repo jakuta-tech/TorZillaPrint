@@ -2,7 +2,11 @@
 
 'use strict';
 
-/* unicode glyph globals */
+/* VARIABLES */
+
+var ft0; // section timing
+var ft1;
+
 var ugStyles = ["default", "sans-serif", "serif", "monospace", "cursive", "fantasy"];
 var ugCodepoints = ['0x20B9','0x2581','0x20BA','0xA73D','0xFFFD','0x20B8','0x05C6','0x1E9E','0x097F','0xF003',
 	'0x1CDA','0x17DD','0x23AE','0x0D02','0x0B82','0x115A','0x2425','0x302E','0xA830','0x2B06','0x21E4','0x20BD',
@@ -39,107 +43,9 @@ var fontCodepoints = ['0x0000','0x0080','0x0100','0x0180','0x0250','0x02B0','0x0
 	'0x1E800','0x1EE00','0x1F000','0x1F030','0x1F0A0','0x1F100','0x1F200','0x1F300','0x1F600','0x1F650','0x1F680','0x1F700',
 	'0x1F780','0x1F800','0x1F900','0x20000','0x2A700','0x2B740','0x2B820','0x2F800','0xE0000','0xE0100','0xF0000','0x100000'];
 
-function stringFromCodePoint(n) {
-	// String.fromCharCode doesn't support code points outside the BMP (it treats them as mod 0x10000)
-	// String.fromCodePoint isn't supported.
-	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode
-	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint
-	if (n <= 0xffff) {
-		return String.fromCharCode(n);
-	} else {
-		n -= 0x10000;
-		return String.fromCharCode(0xd800 + (n >> 10), 0xdc00 + (n % 0x400));
-	}
-};
 
-function reset_unicode() {
-	// resets the display with no measurements
-	let str = "";
-	// reset global var to append to fpjs2
-	for (let i = 0 ; i < ugCodepoints.length; i++) {
-		let ugCode = "U+" + ugCodepoints[i].substr(2);
-		str = str + '<br>' + ugCode.padStart(7, ' ');
-	};
-	dom.fontUGFound1.innerHTML = ugHeader + str;
-};
-
-function output_unicode() {
-	/* UNICODE GLYPHS
-	code based on work by David Fifield and Serge Egelman (2015)
-	https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo
-	*/
-
-	// clear any previous results
-	reset_unicode();
-
-	// initiate variables
-	let ugDiv = dom.ugDiv,
-		ugSpan = dom.ugSpan,
-		ugSlot = dom.ugSlot,
-		ugWide = "",
-		ugHigh = "",
-		ugCode = "",
-		ugHashOffset = "", // the string we hash
-		ugHashClientRect = "",
-		ugOutputOffset = "", // the string we display
-		ugOutputClientRect = "";
-	// reset global var to append to fallback
-	fontTestStringD = "";
-
-	// cycle each unicode (i)
-	for (let i = 0 ; i < ugCodepoints.length; i++) {
-		let n = ugCodepoints[i]; // codepoint
-		let c = stringFromCodePoint(n); // character
-		// build global var to append to fallback
-		fontTestStringD = fontTestStringD + c + "</span>\n<span>";
-
-		// add unicode to outputs: e.g U+20B9
-		let ugCode = "U+" + n.substr(2);
-		ugHashOffset = ugHashOffset + "-" + ugCode;
-		ugHashClientRect = ugHashClientRect + "-" + ugCode;
-		ugCode = ugCode.padStart(7, ' ');
-		ugOutputOffset = ugOutputOffset + "<br>" + ugCode;
-		ugOutputClientRect = ugOutputClientRect + "<br>" + ugCode;
-
-		// cycle each style (j)
-		for (let j = 0 ; j < ugStyles.length; j++) {
-			let style = ugStyles[j];
-			ugSlot.style.fontFamily = style === "default" ? "" : style;
-			ugSlot.textContent = c;
-
-			// Read the span width, but the div height. Firefox always reports the same value
-			// for the span's offsetHeight, even if the div around it is changing size
-
-			// offset measurement + concatenate hash string
-			ugWide = ugSpan.offsetWidth; ugHigh = ugDiv.offsetHeight;
-			ugHashOffset = ugHashOffset + "-"+ugWide+"-"+ugHigh+"-";
-			// offset output
-			ugWide = ugWide.toString(); ugWide = ugWide.padStart(4, ' ');
-			ugHigh = ugHigh.toString(); ugHigh = ugHigh.padStart(4, ' ');
-			ugOutputOffset = ugOutputOffset + "    " + ugWide + " × " + ugHigh;
-
-			// clientrect measurement + concatenate hash string
-			let elementDiv = ugDiv.getBoundingClientRect();
-			let elementSpan = ugSpan.getBoundingClientRect();
-			ugWide = elementSpan.width;
-			ugHigh = elementDiv.height;
-			ugHashClientRect = ugHashClientRect + "-"+ugWide+"-"+ugHigh+"-";
-			// clientrect output
-			// ugOutputClientRect = ugOutputClientRect + " " + ugWide + " × " + ugHigh + " | ";
-		}
-	}
-
-	// clear div causing horizontal scroll
-	dom.ugSlot = "";
-	// output results
-	dom.fontUGFound1.innerHTML = ugHeader + ugOutputOffset;
-	dom.fontUG1 = sha1(ugHashOffset);
-	dom.fontUG2 = sha1(ugHashClientRect);
-
-};
-
-/* arthur's spawn code */
 let spawn = (function () {
+	/* arthur's spawn code */
 	// Declare ahead
 	let promiseFromGenerator;
 	// Returns true if aValue is a generator object.
@@ -192,104 +98,109 @@ let spawn = (function () {
 	return generatorFunction => promiseFromGenerator(generatorFunction());
 })();
 
-function output_enumerate_fallback(type, fontarray){
-	/* ARTHUR'S TEST: ENUMERATE FONTS
-	https://github.com/arthuredelstein/tordemos
-	*/
-
-	// initialize
-	let width0 = null,  // standard width for the text string with fallback font
-		outputString = "",// detected fonts output
-		outputCount = 0;  // detected fonts count
-	let fontFBTest = dom.fontFBTest;
-	fontFBTest.style.fontSize = fontTestSize;
-
-	// assign elements to output to
-	let outputB = document.getElementById(type+"_fontFB"),    // fallback hash
-		outputD = document.getElementById(type+"_fontFBFound"); // fallback detected
-
-	// return width of the element with a given fontFamily
-	let measureWidthForFont = function (fontFamily) {
-		// re-normalize
-		fontFBTest.style.fontSize = fontTestSize
-		fontFBTest.style.fontStyle = "normal"
-		fontFBTest.style.fontWeight = "normal"
-		fontFBTest.style.letterSpacing = "normal"
-		fontFBTest.style.lineBreak = "auto"
-		fontFBTest.style.lineHeight = "normal"
-		fontFBTest.style.textTransform = "none"
-		fontFBTest.style.textAlign = "left"
-		fontFBTest.style.textShadow = "none"
-		fontFBTest.style.wordSpacing = "normal"
-		// set fontFamily and measure
-		fontFBTest.style.fontFamily = fontFamily;
-		return fontFBTest.offsetWidth;
+function reset_unicode() {
+	// resets the display with no measurements
+	let str = "";
+	// reset global var to append to fpjs2
+	for (let i = 0 ; i < ugCodepoints.length; i++) {
+		let ugCode = "U+" + ugCodepoints[i].substr(2);
+		str = str + '<br>' + ugCode.padStart(7, ' ');
 	};
+	dom.fontUGFound1.innerHTML = ugHeader + str;
+};
 
-	// determines whether a code point is available
-	let isFontPresent = function (fontName) {
-		// Measure the font width twice: once with serif as fallback and once with sans-serif
-		// as fallback. Under the assumption that serif and sans-serif have different widths,
-		// only if the font is present will the resulting widths be equal.
-		width0 = width0 || measureWidthForFont("fontFallback");
-		let width1 = measureWidthForFont("'" + fontName + "', fontFallback");
-		return width0 !== width1;
-	};
+function get_str_from_codepoint(n) {
+	// String.fromCharCode doesn't support code points outside the BMP (it treats them as mod 0x10000)
+	// String.fromCodePoint isn't supported.
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint
+	if (n <= 0xffff) {
+		return String.fromCharCode(n);
+	} else {
+		n -= 0x10000;
+		return String.fromCharCode(0xd800 + (n >> 10), 0xdc00 + (n % 0x400));
+	}
+};
 
-	// Takes a list of possible fonts, and returns fonts present
-	let enumerateFonts = function (possibleFonts) {
-		for (let font of possibleFonts) {
-			if (isFontPresent(font)) {
-				outputString = outputString + font + ", ";
-				outputCount++;
-			}
+function get_unicode() {
+	/* code based on work by David Fifield and Serge Egelman (2015) */
+	/* https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo	*/
+
+	let t0 = performance.now();
+	// initiate variables
+	let ugDiv = dom.ugDiv,
+		ugSpan = dom.ugSpan,
+		ugSlot = dom.ugSlot,
+		ugWide = "",
+		ugHigh = "",
+		ugCode = "",
+		ugHashOffset = "", // the string we hash
+		ugHashClientRect = "",
+		ugOutputOffset = "", // the string we display
+		ugOutputClientRect = "";
+	// reset global var to append to fallback
+	fontTestStringD = "";
+
+	// cycle each unicode (i)
+	for (let i = 0 ; i < ugCodepoints.length; i++) {
+		let n = ugCodepoints[i]; // codepoint
+		let c = get_str_from_codepoint(n); // character
+		// build global var to append to fallback
+		fontTestStringD = fontTestStringD + c + "</span>\n<span>";
+
+		// add unicode to outputs: e.g U+20B9
+		let ugCode = "U+" + n.substr(2);
+		ugHashOffset = ugHashOffset + "-" + ugCode;
+		ugHashClientRect = ugHashClientRect + "-" + ugCode;
+		ugCode = ugCode.padStart(7, ' ');
+		ugOutputOffset = ugOutputOffset + "<br>" + ugCode;
+		ugOutputClientRect = ugOutputClientRect + "<br>" + ugCode;
+
+		// cycle each style (j)
+		for (let j = 0 ; j < ugStyles.length; j++) {
+			let style = ugStyles[j];
+			ugSlot.style.fontFamily = style === "default" ? "" : style;
+			ugSlot.textContent = c;
+
+			// Read the span width, but the div height. Firefox always reports the same value
+			// for the span's offsetHeight, even if the div around it is changing size
+
+			// offset measurement + concatenate hash string
+			ugWide = ugSpan.offsetWidth; ugHigh = ugDiv.offsetHeight;
+			ugHashOffset = ugHashOffset + "-"+ugWide+"-"+ugHigh+"-";
+			// offset output
+			ugWide = ugWide.toString(); ugWide = ugWide.padStart(4, ' ');
+			ugHigh = ugHigh.toString(); ugHigh = ugHigh.padStart(4, ' ');
+			ugOutputOffset = ugOutputOffset + "    " + ugWide + " × " + ugHigh;
+
+			// clientrect measurement + concatenate hash string
+			let elementDiv = ugDiv.getBoundingClientRect();
+			let elementSpan = ugSpan.getBoundingClientRect();
+			ugWide = elementSpan.width;
+			ugHigh = elementDiv.height;
+			ugHashClientRect = ugHashClientRect + "-"+ugWide+"-"+ugHigh+"-";
+			// clientrect output
+			// ugOutputClientRect = ugOutputClientRect + " " + ugWide + " × " + ugHigh + " | ";
 		}
-	};
+	}
 
-	// offset this from fpjs2 or they output at the same time
-	setTimeout(function() {
-
-		// we built this string earlier
-		fontFBTest.innerHTML = fontTestStringB;
-
-		// run the test
-		if (fontarray == "tiny") {
-			enumerateFonts(fontTiny);
-		} else {
-			enumerateFonts(fontList);
-			// output detected fonts
-			if (outputCount > 0) {
-				// remove trailing comma + space
-				outputString = outputString.slice(0, -2);
-				outputD.innerHTML = outputString;
-			}	else {
-				outputD.innerHTML = "no fonts detected"
-			};
-			// output hash/counts
-			if (fontarray !== "tiny") {
-				outputB.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]";
-			}
-			// note if file:// since [this affects the result]
-			if ((location.protocol) == "file:") {
-				outputB.innerHTML = outputB.textContent + note_file
-			}
-			// reset color
-			outputD.style.color = "#b3b3b3";
-		}
-		// clear div [causes horizontal scroll]
-		dom.fontFBTest = "";
-
-	}, 100);
+	// clear div causing horizontal scroll
+	dom.ugSlot = "";
+	// output results
+	dom.fontUGFound1.innerHTML = ugHeader + ugOutputOffset;
+	dom.fontUG1 = sha1(ugHashOffset);
+	dom.fontUG2 = sha1(ugHashClientRect);
+	let t1 = performance.now();
+	if (mPerf) {console.debug("fonts unicode glyphs: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 
 };
 
-function output_enumerate_fpjs2(type) {
-	/* 
-	http://www.lalit.org/lab/javascript-css-font-detect/
-	https://github.com/Valve/fingerprintjs2
-	*/
+function get_fpjs2(type) {
+	/* http://www.lalit.org/lab/javascript-css-font-detect/ */
+	/* https://github.com/Valve/fingerprintjs2 */
 
-	// initialize variables
+	let t0 = performance.now();
+	// variables
 	let baseFonts = ['monospace','sans-serif','serif'],
 		outputString = "",// detected fonts output
 		outputCount = 0;  // detected fonts count
@@ -411,15 +322,114 @@ function output_enumerate_fpjs2(type) {
 	}
 	// reset color
 	outputC.style.color = "#b3b3b3";
+	// perf
+	let t1 = performance.now();
+	if (mPerf) {console.debug("fonts list fpjs2: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 
 };
 
+function get_fallback(type, fontarray){
+	/* https://github.com/arthuredelstein/tordemos */
+
+	let t0 = performance.now();
+	// initialize
+	let width0 = null,  // standard width for the text string with fallback font
+		outputString = "",// detected fonts output
+		outputCount = 0;  // detected fonts count
+	let fontFBTest = dom.fontFBTest;
+	fontFBTest.style.fontSize = fontTestSize;
+
+	// assign elements to output to
+	let outputB = document.getElementById(type+"_fontFB"),    // fallback hash
+		outputD = document.getElementById(type+"_fontFBFound"); // fallback detected
+
+	// return width of the element with a given fontFamily
+	let measureWidthForFont = function (fontFamily) {
+		// re-normalize
+		fontFBTest.style.fontSize = fontTestSize
+		fontFBTest.style.fontStyle = "normal"
+		fontFBTest.style.fontWeight = "normal"
+		fontFBTest.style.letterSpacing = "normal"
+		fontFBTest.style.lineBreak = "auto"
+		fontFBTest.style.lineHeight = "normal"
+		fontFBTest.style.textTransform = "none"
+		fontFBTest.style.textAlign = "left"
+		fontFBTest.style.textShadow = "none"
+		fontFBTest.style.wordSpacing = "normal"
+		// set fontFamily and measure
+		fontFBTest.style.fontFamily = fontFamily;
+		return fontFBTest.offsetWidth;
+	};
+
+	// determines if a code point is available
+	let isFontPresent = function (fontName) {
+		// measure the font width twice: once with serif as fallback and once with sans-serif
+		// as fallback. Under the assumption that serif and sans-serif have different widths,
+		// only if the font is present will the resulting widths be equal.
+		width0 = width0 || measureWidthForFont("fontFallback");
+		let width1 = measureWidthForFont("'" + fontName + "', fontFallback");
+		return width0 !== width1;
+	};
+
+	// takes possible fonts, and returns fonts present
+	let enumerateFonts = function (possibleFonts) {
+		for (let font of possibleFonts) {
+			if (isFontPresent(font)) {
+				outputString = outputString + font + ", ";
+				outputCount++;
+			}
+		}
+	};
+
+	// offset this from fpjs2 or they output at the same time
+	setTimeout(function() {
+		// we built this string earlier
+		fontFBTest.innerHTML = fontTestStringB;
+		// run the test
+		if (fontarray == "tiny") {
+			enumerateFonts(fontTiny);
+		} else {
+			enumerateFonts(fontList);
+			// output detected fonts
+			if (outputCount > 0) {
+				// remove trailing comma + space
+				outputString = outputString.slice(0, -2);
+				outputD.innerHTML = outputString;
+			}	else {
+				outputD.innerHTML = "no fonts detected"
+			};
+			// output hash/counts
+			if (fontarray !== "tiny") {
+				outputB.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]";
+			}
+			// note if file:// since [this affects the result]
+			if ((location.protocol) == "file:") {
+				outputB.innerHTML = outputB.textContent + note_file
+			}
+			// reset color
+			outputD.style.color = "#b3b3b3";
+		}
+		// clear div [causes horizontal scroll]
+		dom.fontFBTest = "";
+
+		// perf
+		let t1 = performance.now();
+		if (mPerf) {console.debug("fonts list fallback " + fontarray + ": " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+
+		// perf
+		if (fontarray !== "tiny") {
+			ft1 = performance.now();
+			if (sPerf) {console.debug("  ** section fonts list: " + (ft1-ft0) + " ms")};
+		}
+	}, 100);
+
+};
 
 function outputFonts1(){
-	/* auto-run */
+	let t0 = performance.now();
 
-	// unicode glyphs
-	output_unicode();
+	// layout.css.font-loading-api.enabled
+	dom.fontCSS = 'FontFace' in window ? 'enabled' : 'disabled';
 
 	// default proportional font
 	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
@@ -434,6 +444,15 @@ function outputFonts1(){
 	font_property = font_property + " | monospace: " + getComputedStyle(font_item).getPropertyValue("font-size");
 	dom.fontFCsize = font_property;
 
+	// document fonts
+	let element = document.getElementById("SPAN_LINEHEIGHT");
+	let fontfamily = getComputedStyle(element).getPropertyValue("font-family");
+	if (fontfamily.slice(1,16) !== "Times New Roman") {
+		dom.fontDoc="disabled"
+	} else {
+		dom.fontDoc="enabled"
+	};
+
 	// gfx.downloadable_fonts.woff2.enabled
 	setTimeout(function() {
 		let woff_item = dom.woff_fnt0;
@@ -444,24 +463,21 @@ function outputFonts1(){
 		} else {
 			dom.fontWoff2="enabled"
 		};
+		let t1 = performance.now();
+		if (mPerf) {console.debug("fonts woff: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	}, 500);
 
-	// document fonts
-	let element = document.getElementById("SPAN_LINEHEIGHT");
-	let fontfamily = getComputedStyle(element).getPropertyValue("font-family");
-	if (fontfamily.slice(1,16) !== "Times New Roman") {
-		dom.fontDoc="disabled"
-	} else {
-		dom.fontDoc="enabled"
-	};
+	// unicode glyphs
+	get_unicode();
 
-	// layout.css.font-loading-api.enabled
-	dom.fontCSS = 'FontFace' in window ? 'enabled' : 'disabled';
-
+	// perf
+	let t1 = performance.now();
+	if (sPerf) {console.debug("  ** section fonts [excl woff]: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
 function outputFonts2(type){
-	/* not auto-run */
+	let t0 = performance.now();
+	ft0 = performance.now();
 
 	// if running the monsta test:
 	// - we don't need to check if FF
@@ -580,18 +596,22 @@ function outputFonts2(type){
 					fontList = fontList.filter(function (font, position) {
 						return fontList.indexOf(font) === position
 					});
-					// run fpjs2
-					output_enumerate_fpjs2(type);
-					// run fallback
+					// perf
+					let t1 = performance.now();
+					if (mPerf) {console.debug("fonts list prepared: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 
+					// run fpjs2
+					get_fpjs2(type);
+
+					// run fallback
 					// when blocking document fonts with whitelist)
 					// first run (for me) is 19, re-run is 46: either small or all
 					// I do not know why: but running a tiny 3 font check first
 					// seems to prime it correctly: need to investigate more
 					// until then: enjoy an ugly hack
-					output_enumerate_fallback(type, "tiny");
+					get_fallback(type, "tiny");
 					setTimeout(function() {
-						output_enumerate_fallback(type, "real");
+						get_fallback(type, "real");
 					}, 300);
 
 				} else {
@@ -624,30 +644,28 @@ function outputFonts2(type){
 					if (lastvalue == fontList.length) {
 						// we need the same result in succession
 						clearInterval(checking);
-						let filetime = ((checkcount+1) * 50);
-						console.log("loading the text file took " + filetime + "ms");
+						let filetime = ((checkcount+1) * 20);
 						run_enumerate()
 					} else if (fontList.length > 0) {
 						// the array is underway
 						lastvalue = fontList.length;
 					}
 				}
-				if (checkcount > 81) {
-					// we are now autorunning small: allow 4s
+				if (checkcount > 151) {
+					// allow 3s
 					clearInterval(checking);
 					// run it anyway, as it cleans up the output
 					run_enumerate();
 				}
 				checkcount++;
 			}
-			let checking = setInterval(check_enumerate, 50)
+			let checking = setInterval(check_enumerate, 20)
 
 		};
 	};
 };
 
-// we only want to autorun if we are on the main test page
 //if (isPage == "main") {
 	outputFonts1();
-//outputFonts2("small");
+	//outputFonts2("small");
 //};
