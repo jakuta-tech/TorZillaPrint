@@ -312,8 +312,6 @@ var canvas = {
 						displayValue = output.value();
 					}
 					catch (e){
-						console.error(e);
-						// displayValue = "error while testing";
 						displayValue = e.name +": "+e.message;
 					}
 				}
@@ -340,7 +338,7 @@ var canvas = {
 					if (display){display.textContent = output.displayValue;}
 					outCounter++;
 					if (outCounter==11) {
-						append_canvas_notation()
+						append_canvas_notation();
 					}
 				});
 			});
@@ -349,10 +347,11 @@ var canvas = {
 };
 
 function outputCanvas() {
+	let t0 = performance.now();
 	outCounter = 0;
 	canvas.output(canvas.createHashes(window), document.getElementById("tb8"));
-	//canvas.createHashes(window);
-
+	let t1 = performance.now();
+	if (sPerf) {console.debug("  ** section canvas: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
 outputCanvas();
