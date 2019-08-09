@@ -3,6 +3,7 @@
 'use strict';
 
 function outputMisc() {
+	let t0 = performance.now();
 
 	// mathml: control/none = visible + no distortion of height: compare control to test
 	let mathmlString = "<math><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form='prefix'>&minus;</mo><mi>b</mi>"+
@@ -54,7 +55,9 @@ function outputMisc() {
 	})();
 	dom.wasm = (supported ? "enabled" : "disabled");
 
-
+	// perf
+	let t1 = performance.now();
+	if (sPerf) {console.debug("  ** section misc: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
 outputMisc();
