@@ -36,12 +36,7 @@ function run_domrect() {
 				});
 				// output hash
 				crypto.subtle.digest("SHA-256", data).then(function(hash){
-					// FF append file:// notation
-					if ((location.protocol) == "file:") {
-						document.getElementById(method).innerHTML = byteArrayToHex(hash) + note_file;
-					} else {
-						document.getElementById(method).innerHTML = byteArrayToHex(hash);
-					}
+					document.getElementById(method).innerHTML = byteArrayToHex(hash) + note_file;
 				});
 				// output results
 				let item=0;
@@ -123,4 +118,6 @@ function outputDomRect() {
 // domrect: ~300+ms in total but the actual test is ~15ms
 // we load and run this first so it can request the iframe
 // and then get on with other js files
+let dt1 = performance.now();
+if (sPerf) {console.debug("  ** section start timing: domrect.js loaded: " + (dt1-gt0) + " ms")};
 outputDomRect();
