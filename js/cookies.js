@@ -46,7 +46,7 @@ function get_cookies() {
 	} else {
 		dom.cTest = "failed"
 	};
-	// persistent cookie test: run even if cookieEnabled = false */
+	// persistent cookie test: run even if cookieEnabled = false
 	let rndStrB = rnd_string();
 	dom.cTest2.innerHTML = note_testtocome;
 
@@ -114,7 +114,7 @@ function get_idb() {
 		dom.IDBSupport = "disabled: " + e.name
 	};
 
-	// indexedDB test: run even if IDB unavailable */
+	// indexedDB test: run even if IDB unavailable
 	try {
 		let dbIDB = indexedDB.open("IsPBMode");
 		dbIDB.onerror = function() {
@@ -178,17 +178,11 @@ function get_appcache() {
 			} catch(e) {
 				dom.appCacheTest = "failed: " + e.name
 			}
-		}
-		else {
+		} else {
 			// skip if insecure
-			if ((location.protocol) == "file:") {
-				dom.appCacheTest.innerHTML= "n/a" + note_file
-			} else {
-				dom.appCacheTest = "n/a"
-			}
+			dom.appCacheTest.innerHTML= "n/a" + note_file
 		}
-	}
-	else {
+	} else {
 		// skip if not supported
 		dom.appCacheSupport = "disabled";
 		dom.appCacheTest = "n/a";
@@ -297,11 +291,7 @@ function get_service_workers() {
 		}
 	}	else {
 		// skip if file
-		if ((location.protocol) == "file:") {
-			swMsg = "n/a" + note_file
-		} else {
-			swMsg = "n/a"
-		};
+		swMsg = "n/a" + note_file
 		dom.serviceWSupport.innerHTML = swMsg;
 		dom.serviceWTest.innerHTML = swMsg;
 		dom.serviceWCacheSupport.innerHTML = swMsg;
