@@ -3,9 +3,8 @@
 'use strict';
 
 function get_prefers_color_scheme(){
-	let k = "";
 	let el = document.getElementById("pColorElement");
-	k = window.getComputedStyle(el, null).getPropertyValue("background-color");
+	let k = window.getComputedStyle(el, null).getPropertyValue("background-color");
 	if (k == "rgb(255, 255, 255)") {k = "light" + rfp_green}
 	else if (k == "rgb(255, 0, 0)") {k = "not supported"}
 	else if (k == "rgb(0, 0, 0)") {k = "dark" + rfp_red}
@@ -14,9 +13,8 @@ function get_prefers_color_scheme(){
 };
 
 function get_prefers_reduced_motion() {
-	let k = "";
 	let el = document.getElementById("pMotionElement");
-	k = window.getComputedStyle(el, null).getPropertyValue("background-color");
+	let k = window.getComputedStyle(el, null).getPropertyValue("background-color");
 	if (k == "rgb(255, 255, 255)") {k = "no-preference" + rfp_green}
 	else if (k == "rgb(255, 0, 0)") {k = "not supported"}
 	else if (k == "rgb(0, 0, 0)") {k = "reduce" + rfp_red};
@@ -24,23 +22,23 @@ function get_prefers_reduced_motion() {
 };
 
 function get_system_colors() {
-	let sColorStr = "", clrValue = "";
-	let sColorArray = ['ActiveBorder', 'ActiveCaption', 'AppWorkspace', 'Background', 'ButtonFace', 'ButtonHighlight', 'ButtonShadow',
+	let str = "",
+		array = ['ActiveBorder', 'ActiveCaption', 'AppWorkspace', 'Background', 'ButtonFace', 'ButtonHighlight', 'ButtonShadow',
 	'ButtonText', 'CaptionText', 'GrayText', 'Highlight', 'HighlightText', 'InactiveBorder', 'InactiveCaption', 'InactiveCaptionText',
 	'InfoBackground', 'InfoText', 'Menu', 'MenuText', 'Scrollbar', 'ThreeDDarkShadow','ThreeDFace', 'ThreeDHighlight',
 	'ThreeDLightShadow', 'ThreeDShadow', 'Window', 'WindowFrame', 'WindowText'];
 	let el = document.getElementById("sColorElement");
-	sColorArray.forEach(function (arrayItem) {
-		el.style.backgroundColor = arrayItem;
-		sColorStr = sColorStr + window.getComputedStyle(el, null).getPropertyValue("background-color")
+	array.forEach(function (item) {
+		el.style.backgroundColor = item;
+		str = str + window.getComputedStyle(el, null).getPropertyValue("background-color")
 	});
-	let hash = sha1(sColorStr);
-	if (hash == "b5e2344c265fc498d2fb8e0f84951e8d501ad481") {
-		hash = sColorHash + rfp_green
+	str = sha1(str);
+	if (str == "b5e2344c265fc498d2fb8e0f84951e8d501ad481") {
+		str = str + rfp_green
 	} else {
-		hash = sColorHash + rfp_red
+		str = str + rfp_red
 	};
-	dom.sColorHash.innerHTML = hash;
+	dom.sColorHash.innerHTML = str;
 };
 
 function outputCSS() {
