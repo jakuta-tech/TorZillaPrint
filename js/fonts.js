@@ -314,13 +314,8 @@ function get_fpjs2(type) {
 	}	else {
 		outputC.innerHTML = "no fonts detected"
 	};
-	// output hash/counts
-	outputA.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]";
-	// note if file://
-	if ((location.protocol) == "file:") {
-		outputA.innerHTML = outputA.textContent + note_file
-	}
-	// reset color
+	// output hash/counts & reset color
+	outputA.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]" + note_file;
 	outputC.style.color = "#b3b3b3";
 	// perf
 	let t1 = performance.now();
@@ -398,16 +393,11 @@ function get_fallback(type, fontarray){
 			}	else {
 				outputD.innerHTML = "no fonts detected"
 			};
-			// output hash/counts
+			// output hash/counts & reset color
 			if (fontarray !== "tiny") {
-				outputB.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]";
+				outputB.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]" + note_file;
+				outputD.style.color = "#b3b3b3";
 			}
-			// note if file:// since [this affects the result]
-			if ((location.protocol) == "file:") {
-				outputB.innerHTML = outputB.textContent + note_file
-			}
-			// reset color
-			outputD.style.color = "#b3b3b3";
 		}
 		// clear div [causes horizontal scroll]
 		dom.fontFBTest = "";
