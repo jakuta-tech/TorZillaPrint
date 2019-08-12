@@ -118,18 +118,18 @@ function byteArrayToHex(arrayBuffer){
 
 /* BUTTONS: (re)GENERATE SECTIONS */
 function outputSection(id, cls, page) {
-	let delay = 150;
-	// reset global timer
-	gt0 = performance.now() + delay;
 	// clear elements, &nbsp stops line height jitter
 	let tbl = document.getElementById("tb"+id);
 	tbl.querySelectorAll(`.${cls}`).forEach(e => {e.innerHTML = "&nbsp";});
 	// clear details if applicable
 	if (id=="9") {reset_domrect()};
-	if (id=="10") {reset_audio()};
+	if (id=="10" && cls=="c2") {reset_audio2()};
 	if (id=="11" && cls=="c1") {reset_unicode()};
+	let delay = 150;
 	// delay output so users can see something happened
 	setTimeout(function(){
+		// reset global timer
+		gt0 = performance.now();
 		if (page=="m") {
 			if (id=="1") {outputScreen()};
 			if (id=="2") {outputUA()};
@@ -140,7 +140,8 @@ function outputSection(id, cls, page) {
 			if (id=="7") {outputDevices()};
 			if (id=="8") {outputCanvas()};
 			if (id=="9") {outputDomRect()};
-			if (id=="10") {outputAudio()};
+			if (id=="10" && cls=="c1") {outputAudio1()};
+			if (id=="10" && cls=="c2") {outputAudio2()};
 			if (id=="11" && cls=="c1") {outputFonts1()};
 			if (id=="12") {outputMedia()};
 			if (id=="13") {outputWebGL()};
@@ -152,8 +153,8 @@ function outputSection(id, cls, page) {
 	}, delay);
 	// don't delay these ones
 	if (page=="m") {
-		if (id=="11" && cls=="c2") {gt0 = performance.now(); outputFonts2("small")};
-		if (id=="11" && cls=="c3") {gt0 = performance.now(); outputFonts2("all")};
+		if (id=="11" && cls=="c2") {outputFonts2("small")};
+		if (id=="11" && cls=="c3") {outputFonts2("all")};
 	} else if (page=="e") {
 		if (id=="3") {outputChrome()};
 		if (id=="4") {outputFonts2("monsta")};
