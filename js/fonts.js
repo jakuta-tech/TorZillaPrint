@@ -454,7 +454,7 @@ function outputFonts1(){
 			dom.fontWoff2="enabled"
 		};
 		let t1 = performance.now();
-		if (mPerf) {console.debug("fonts woff: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+		if (sPerf) {console.debug("  ** section straggler: fonts woff: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	}, 500);
 
 	// unicode glyphs
