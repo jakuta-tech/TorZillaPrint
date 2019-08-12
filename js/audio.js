@@ -119,7 +119,7 @@ function get_audio2_oscillator() {
 		bins = new Float32Array(analyser.frequencyBinCount);
 		analyser.getFloatFrequencyData(bins);
 		for (let i = 0; i < bins.length; i = i + 1) {
-			cc_output.push(bins[i]);
+			cc_output.push(" " + bins[i]);
 		}
 		analyser.disconnect();
 		scriptProcessor.disconnect();
@@ -165,7 +165,7 @@ function get_audio2_hybrid() {
 		bins = new Float32Array(analyser.frequencyBinCount);
 		analyser.getFloatFrequencyData(bins);
 		for (let i = 0; i < bins.length; i = i + 1) {
-			hybrid_output.push(bins[i]);
+			hybrid_output.push(" " + bins[i]);
 		}
 		analyser.disconnect();
 		scriptProcessor.disconnect();
@@ -186,6 +186,7 @@ function get_audio2_hybrid() {
 function outputAudio2() {
 	t0audio = performance.now();
 	isWebAudio = false;
+	latencyError = false;
 	get_audio2_context();
 	if (isWebAudio) {
 		// openWPM: there may be weird interference effects
