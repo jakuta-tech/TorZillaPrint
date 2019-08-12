@@ -268,118 +268,6 @@ function get_browser_resource() {
 	if (mPerf) {console.debug("ua resource browser: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
-function outputMath() {
-	let t0 = performance.now();
-	// variables: 1 = ecma1, 2 = ecma2, c = combined
-	let r = "",
-		h1 = "", // string to hash
-		h6 = "",
-		m1hash = "", // sha1 hashes
-		m6hash = "",
-		mchash = "",
-		m1 = "", // short codes (used in analysis)
-		m6 = "",
-		mc = "",
-		fdMath1 = "", // strings used for browser/os output
-		fdMath6 = "";
-	// ECMASCript 1st edtion
-	r = Math.cos(1e251); dom.cos1 = r; h1 = r;
-	r = Math.cos(1e140); dom.cos2 = r; h1 = h1 + "-" + r;
-	r = Math.cos(1e12);  dom.cos3 = r; h1 = h1 + "-" + r;
-	r = Math.cos(1e130); dom.cos4 = r; h1 = h1 + "-" + r;
-	r = Math.cos(1e272); dom.cos5 = r; h1 = h1 + "-" + r;
-	r = Math.cos(1e0);   dom.cos6 = r; h1 = h1 + "-" + r;
-	r = Math.cos(1e284); dom.cos7 = r; h1 = h1 + "-" + r;
-	r = Math.cos(1e75);  dom.cos8 = r; h1 = h1 + "-" + r;
-	m1hash = sha1(h1);
-	// ECMASCript 6th edtion
-	let x, y;
-	x = 0.5; r = Math.log((1 + x) / (1 - x)) / 2; // atanh(0.5)
-	dom.math1 = r; h6 = r;
-	x=1; r = Math.exp(x) - 1; // expm1(1)
-	dom.math2 = r; h6 = h6 + "-" + r;
-	x = 1; y = Math.exp(x); r = (y - 1 / y) / 2; // sinh(1)
-	dom.math3 = r; h6 = h6 + "-" + r;
-	m6hash = sha1(h6);
-	mchash = sha1(h1+"-"+h6);
-	// build short code output
-	// known FF math6 hashes (browser)
-	if (m6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {m6 = "1"}
-	else if (m6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {m6 = "2"}
-	else if (m6hash == "9251136865b8509cc22f8773503288d106104634") {m6 = "3"}; // FF68+ changed exmp1(1)
-	// known FF math1 hashes (os)
-	if (m1hash == "46f7c2bbe55a2cd28252d059604f8c3bac316c23") {m1 = "A"}
-	else if (m1hash == "8464b989070dcff22c136e4d0fe21d466b708ece") {m1 = "B"}
-	else if (m1hash == "97eee44856b0d2339f7add0d22feb01bcc0a430e") {m1 = "C"}
-	else if (m1hash == "96895e004b623552b9543dcdc030640d1b108816") {m1 = "D"}
-	else if (m1hash == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {m1 = "E"}
-	else if (m1hash == "ae434b101452888b756da5916d81f68adeb2b6ae") {m1 = "F"}
-	else if (m1hash == "19df0b54c852f35f011187087bd3a0dce12b4071") {m1 = "G"};
-	mc = m6+m1;
-	// build browser output: ECMA6 only
-	if (m6 == "1" | m6 == "3") {
-		fdMath6="Firefox"
-	} else if (m6 == "2") {
-		fdMath6="Firefox [32-bit]"
-	};
-	// build os output, refine browser output
-	if (m1 == "A") {
-		// A: always 64bit WIN on 64bit FF
-		fdMath1="Windows [64-bit]"; fdMath6="Firefox [64-bit]"
-	} else if (m1 == "C") {
-		// C: always 32bit FF on WIN (32bit or 64bit)
-		fdMath1="Windows"; fdMath6="Firefox [32-bit]"
-	} else if (m1 == "D") {
-		// D: always Linux (so far Mint, Debian, OpenSUSE)
-		fdMath1="Linux";
-		if (m6 == "1" | m6 == "3") {
-			// D1 or D3: always 64bit Linux: and thus 64bit FF
-			fdMath1="Linux [64-bit]"; fdMath6="Firefox [64-bit]";
-		}	else if (m6 == "2") {
-			// D2: always 32bit Linux (32bit FF set earlier)
-			fdMath1="Linux [32-bit]"
-		}
-	} else if (m1 == "G") {
-		// G: always Linux (so far Ubuntu)
-		fdMath1="Linux"
-	} else if (m1 == "E") {
-		// E: always Mac: and thus 64bit FF
-		fdMath1="Mac"; fdMath6="Firefox [64-bit]";
-	} else if (m1 == "F") {
-		// F: always Android (only had 32bit Android 5 to test on)
-		fdMath1="Android"
-	} else if (m1 == "B") {
-		// B: always TB on WIN
-		fdMath1="Windows";
-		if (m6 == "1" | m6 == "3") {
-			// 1B or 3B: always 64bit TB: thus 64bit WIN
-			fdMath6="Tor Browser [64-bit]"; fdMath1="Windows [64-bit]";
-		} else if (m6 == "2") {
-			// 2B: always 32bit TB (but WIN can be 32bit or 64bit)
-			fdMath6="Tor Browser [32-bit]"
-		}
-	};
-	// output browser/os
-	if (isFirefox == true) {
-		let strNew = " <span class='bad'>[NEW]</span>";
-		if (m1 == "") {m1hash=m1hash+strNew} else {m1hash=m1hash+" ["+m1+"]"};
-		if (m6 == "") {m6hash=m6hash+strNew} else {m6hash=m6hash+" ["+m6+"]"};
-		if (mc.length < 2) {mchash = mchash+strNew} else {mchash=mchash+" ["+mc+"]"};
-		strNew = "<span class='bad'>I haven't seen this Firefox math combo before</span>";
-		if (fdMath1 == "") {fdMath1=strNew};
-		if (fdMath6 == "") {fdMath6=strNew};
-		dom.fdMathOS.innerHTML = fdMath1;
-		dom.fdMath.innerHTML = fdMath6;
-	};
-	// output hashes
-	dom.math1hash.innerHTML = m1hash;
-	dom.math6hash.innerHTML = m6hash;
-	dom.mathhash.innerHTML = mchash;
-	// perf
-	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section math: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
-};
-
 function get_os_chrome() {
 	let t0 = performance.now();
 	// variables
@@ -435,7 +323,7 @@ function get_os_chrome() {
 			clearInterval(checking);
 			dom.fdChromeOS = os;
 			let t1 = performance.now();
-			if (mPerf) {console.debug("ua chrome os: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+			if (sPerf) {console.debug("  ** section straggler: ua chrome os: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 		}
 	}
 	let checking = setInterval(check_linux, 20)
@@ -455,7 +343,7 @@ function get_os_font() {
 		if (elCount == 2 || elCount == 3) {elCssOS = "unknown"};
 		dom.fontOS = elCssOS;
 		let t1 = performance.now();
-		if (mPerf) {console.debug("ua font os: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+		if (sPerf) {console.debug("  ** section straggler: ua font os: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	}, 3000);
 }
 
@@ -941,6 +829,118 @@ function outputScreen() {
 	if (sPerf) {console.debug("  ** section screen: " + (t1-t0) + "ms" + " | " + (t1 - gt0) + " ms")};
 	// start listening for dpr leaks
 	get_dpr();
+};
+
+function outputMath() {
+	let t0 = performance.now();
+	// variables: 1 = ecma1, 2 = ecma2, c = combined
+	let r = "",
+		h1 = "", // string to hash
+		h6 = "",
+		m1hash = "", // sha1 hashes
+		m6hash = "",
+		mchash = "",
+		m1 = "", // short codes (used in analysis)
+		m6 = "",
+		mc = "",
+		fdMath1 = "", // strings used for browser/os output
+		fdMath6 = "";
+	// ECMASCript 1st edtion
+	r = Math.cos(1e251); dom.cos1 = r; h1 = r;
+	r = Math.cos(1e140); dom.cos2 = r; h1 = h1 + "-" + r;
+	r = Math.cos(1e12);  dom.cos3 = r; h1 = h1 + "-" + r;
+	r = Math.cos(1e130); dom.cos4 = r; h1 = h1 + "-" + r;
+	r = Math.cos(1e272); dom.cos5 = r; h1 = h1 + "-" + r;
+	r = Math.cos(1e0);   dom.cos6 = r; h1 = h1 + "-" + r;
+	r = Math.cos(1e284); dom.cos7 = r; h1 = h1 + "-" + r;
+	r = Math.cos(1e75);  dom.cos8 = r; h1 = h1 + "-" + r;
+	m1hash = sha1(h1);
+	// ECMASCript 6th edtion
+	let x, y;
+	x = 0.5; r = Math.log((1 + x) / (1 - x)) / 2; // atanh(0.5)
+	dom.math1 = r; h6 = r;
+	x=1; r = Math.exp(x) - 1; // expm1(1)
+	dom.math2 = r; h6 = h6 + "-" + r;
+	x = 1; y = Math.exp(x); r = (y - 1 / y) / 2; // sinh(1)
+	dom.math3 = r; h6 = h6 + "-" + r;
+	m6hash = sha1(h6);
+	mchash = sha1(h1+"-"+h6);
+	// build short code output
+	// known FF math6 hashes (browser)
+	if (m6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {m6 = "1"}
+	else if (m6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {m6 = "2"}
+	else if (m6hash == "9251136865b8509cc22f8773503288d106104634") {m6 = "3"}; // FF68+ changed exmp1(1)
+	// known FF math1 hashes (os)
+	if (m1hash == "46f7c2bbe55a2cd28252d059604f8c3bac316c23") {m1 = "A"}
+	else if (m1hash == "8464b989070dcff22c136e4d0fe21d466b708ece") {m1 = "B"}
+	else if (m1hash == "97eee44856b0d2339f7add0d22feb01bcc0a430e") {m1 = "C"}
+	else if (m1hash == "96895e004b623552b9543dcdc030640d1b108816") {m1 = "D"}
+	else if (m1hash == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {m1 = "E"}
+	else if (m1hash == "ae434b101452888b756da5916d81f68adeb2b6ae") {m1 = "F"}
+	else if (m1hash == "19df0b54c852f35f011187087bd3a0dce12b4071") {m1 = "G"};
+	mc = m6+m1;
+	// build browser output: ECMA6 only
+	if (m6 == "1" | m6 == "3") {
+		fdMath6="Firefox"
+	} else if (m6 == "2") {
+		fdMath6="Firefox [32-bit]"
+	};
+	// build os output, refine browser output
+	if (m1 == "A") {
+		// A: always 64bit WIN on 64bit FF
+		fdMath1="Windows [64-bit]"; fdMath6="Firefox [64-bit]"
+	} else if (m1 == "C") {
+		// C: always 32bit FF on WIN (32bit or 64bit)
+		fdMath1="Windows"; fdMath6="Firefox [32-bit]"
+	} else if (m1 == "D") {
+		// D: always Linux (so far Mint, Debian, OpenSUSE)
+		fdMath1="Linux";
+		if (m6 == "1" | m6 == "3") {
+			// D1 or D3: always 64bit Linux: and thus 64bit FF
+			fdMath1="Linux [64-bit]"; fdMath6="Firefox [64-bit]";
+		}	else if (m6 == "2") {
+			// D2: always 32bit Linux (32bit FF set earlier)
+			fdMath1="Linux [32-bit]"
+		}
+	} else if (m1 == "G") {
+		// G: always Linux (so far Ubuntu)
+		fdMath1="Linux"
+	} else if (m1 == "E") {
+		// E: always Mac: and thus 64bit FF
+		fdMath1="Mac"; fdMath6="Firefox [64-bit]";
+	} else if (m1 == "F") {
+		// F: always Android (only had 32bit Android 5 to test on)
+		fdMath1="Android"
+	} else if (m1 == "B") {
+		// B: always TB on WIN
+		fdMath1="Windows";
+		if (m6 == "1" | m6 == "3") {
+			// 1B or 3B: always 64bit TB: thus 64bit WIN
+			fdMath6="Tor Browser [64-bit]"; fdMath1="Windows [64-bit]";
+		} else if (m6 == "2") {
+			// 2B: always 32bit TB (but WIN can be 32bit or 64bit)
+			fdMath6="Tor Browser [32-bit]"
+		}
+	};
+	// output browser/os
+	if (isFirefox == true) {
+		let strNew = " <span class='bad'>[NEW]</span>";
+		if (m1 == "") {m1hash=m1hash+strNew} else {m1hash=m1hash+" ["+m1+"]"};
+		if (m6 == "") {m6hash=m6hash+strNew} else {m6hash=m6hash+" ["+m6+"]"};
+		if (mc.length < 2) {mchash = mchash+strNew} else {mchash=mchash+" ["+mc+"]"};
+		strNew = "<span class='bad'>I haven't seen this Firefox math combo before</span>";
+		if (fdMath1 == "") {fdMath1=strNew};
+		if (fdMath6 == "") {fdMath6=strNew};
+		dom.fdMathOS.innerHTML = fdMath1;
+		dom.fdMath.innerHTML = fdMath6;
+	};
+	// output hashes
+	dom.math1hash.innerHTML = m1hash;
+	dom.math6hash.innerHTML = m6hash;
+	dom.mathhash.innerHTML = mchash;
+	// perf
+	let t1 = performance.now();
+	if (sPerf) {console.debug("  ** section math: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
 function outputUA() {
