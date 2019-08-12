@@ -10,33 +10,55 @@
 	- https://audiofingerprint.openwpm.com/
 */
 
+var isWebAudio = false; // don't keep testing for audioContext
+var t0audio;
+
+function no_audio() {
+	dom.audioSupport = "disabled";
+	dom.audioCopy = "n/a";
+	dom.audioGet = "n/a";
+	dom.audioSum = "n/a";
+	dom.audioLatency = "n/a";
+	dom.audio1hash = "n/a";
+	dom.audio2hash = "n/a";
+	dom.audio3hash = "n/a";
+	dom.audio1data = "";
+	dom.audio2data = "";
+	dom.audio3data = "";
+	// no webaudio, no more tests
+	let t1 = performance.now();
+	if (sPerf) {console.debug("  ** section audio: " + (t1-t0audio) + " ms" + " | " + (t1 - gt0) + " ms")};
+};
+
 function reset_audio() {
 	// change font color: try not to shrink/grow elements
 	dom.audio1data.style.color = "#1a1a1a";
 	dom.audio2data.style.color = "#1a1a1a";
 	dom.audio3data.style.color = "#1a1a1a";
-}
+};
 
-function get_nt_vc() {
+function get_audio_properties() {
 	let t0 = performance.now();
-	let obj;
-	let hash = "", // str to hash
-		output = "", // pretty output
-		latency = ""; // combined latency string
 	function a(a, b, c) {
 		for (let d in b) "dopplerFactor" === d || "speedOfSound" === d || "currentTime" ===
 		d || "number" !== typeof b[d] && "string" !== typeof b[d] || (a[(c ? c : "") + d] = b[d]);
 		return a
-	}
+	};
 	try {
-		let contextB = window.AudioContext;
-		let f = new contextB,
-			d = f.createAnalyser();
+		let f = new window.AudioContext
+		// remember audioContet
+		isWebAudio = true;
+		dom.audioSupport = "enabled";
+		let obj;
+		let hash = "", // str to hash
+			output = "", // pretty output
+			latency = ""; // combined latency string
+		let	d = f.createAnalyser();
 			obj = a({}, f, "ac-");
 			obj = a(obj, f.destination, "ac-");
 			obj = a(obj, f.listener, "ac-");
 			obj = a(obj, d, "an-");
-		// loop key+value, build nice output and string to hash
+		// loop key+value, build pretty output and string to hash
 		for (const [key, value] of Object.entries(obj)) {
 			// split latency (FF70+) out
 			// RFP values: win 0.04, android 0.02, mac 512, other 0.025
@@ -63,19 +85,22 @@ function get_nt_vc() {
 			dom.audioLatency.innerHTML = latency;
 		}
 		dom.audio1data.innerHTML = output;
-	} catch (g) {
-			// output some error & clear details data
-			dom.audio1data = "";
-	}
-	// reset color
-	dom.audio1data.style.color = "#b3b3b3";
-	let t1 = performance.now();
-	if (mPerf) {console.debug("audio context: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+		dom.audio1data.style.color = "#b3b3b3";
+		// perf
+		let t1 = performance.now();
+		if (mPerf) {console.debug("audio properties: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+
+	} catch (error) {
+		// output some error & clear details data
+		dom.audio1data = "";
+		dom.audio1data.style.color = "#b3b3b3";
+		// webaudio is disabled
+		no_audio();
+	};
 };
 
-function get_pxi(){
+function get_audio_pxi(){
 	let t0 = performance.now();
-
 	let context = new window.OfflineAudioContext(1, 44100, 44100);
 	// create oscillator
 	let pxi_oscillator = context.createOscillator();
@@ -113,34 +138,21 @@ function get_pxi(){
 			}
 			dom.audioSum = sum;
 			pxi_compressor.disconnect();
+			// perf
 			let t1 = performance.now();
 			if (mPerf) {console.debug("audio pxi: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+			// currently the last function
+			if (sPerf) {console.debug("  ** section audio: " + (t1-t0audio) + " ms" + " | " + (t1 - gt0) + " ms")};
 	};
 };
 
 function outputAudio() {
-
-	// detect web audio API enabled
-	try {
-		let contextA = new AudioContext();
-		dom.audioSupport = "enabled";
-		// from openWPM: there may be weird interference effects if the
-		// prints are run sequentially with no delay, hence the sleeping
-		get_nt_vc();
-		setTimeout(function() { get_pxi(); }, 50);
-	}	catch(e) {
-		dom.audioSupport = "disabled";
-		dom.audioCopy = "n/a";
-		dom.audioGet = "n/a";
-		dom.audioSum = "n/a";
-		dom.audioLatency = "n/a";
-		dom.audio1hash = "n/a";
-		dom.audio2hash = "n/a";
-		dom.audio3hash = "n/a";
-		// clear data
-		dom.audio1data = "";
-		dom.audio2data = "";
-		dom.audio3data = "";
+	t0audio = performance.now();
+	get_audio_properties();
+	if (isWebAudio) {
+		// openWPM: there may be weird interference effects
+		// if the prints are run sequentially with no delay
+		setTimeout(function() { get_audio_pxi(); }, 100)
 	};
 };
 
