@@ -4,8 +4,7 @@
 
 /* VARIABLES */
 
-var ft0; // section timing
-var ft1;
+var t0font;
 
 var ugStyles = ["default", "sans-serif", "serif", "monospace", "cursive", "fantasy"];
 var ugCodepoints = ['0x20B9','0x2581','0x20BA','0xA73D','0xFFFD','0x20B8','0x05C6','0x1E9E','0x097F','0xF003',
@@ -327,6 +326,7 @@ function get_fallback(type, fontarray){
 	/* https://github.com/arthuredelstein/tordemos */
 
 	let t0 = performance.now();
+	let t1 = performance.now();
 	// initialize
 	let width0 = null,  // standard width for the text string with fallback font
 		outputString = "",// detected fonts output
@@ -403,13 +403,13 @@ function get_fallback(type, fontarray){
 		dom.fontFBTest = "";
 
 		// perf
-		let t1 = performance.now();
+		t1 = performance.now();
 		if (mPerf) {console.debug("fonts list fallback " + fontarray + ": " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 
 		// perf
 		if (fontarray !== "tiny") {
-			ft1 = performance.now();
-			if (sPerf) {console.debug("  ** section fonts list: " + (ft1-ft0) + " ms")};
+			t1 = performance.now();
+			if (sPerf) {console.debug("  ** section fonts list: " + (t1-t0font) + " ms")};
 		}
 	}, 100);
 
@@ -467,7 +467,7 @@ function outputFonts1(){
 
 function outputFonts2(type){
 	let t0 = performance.now();
-	ft0 = performance.now();
+	t0font = performance.now();
 
 	// if running the monsta test:
 	// - we don't need to check if FF
