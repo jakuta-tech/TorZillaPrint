@@ -318,7 +318,7 @@ function get_fpjs2(type) {
 	outputC.style.color = "#b3b3b3";
 	// perf
 	let t1 = performance.now();
-	if (mPerf) {console.debug("fonts list fpjs2: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (mPerf) {console.debug(type + " fonts fpjs2: " + (t1-t0) + " ms" + " | " + (t1 - t0font) + " ms")};
 
 };
 
@@ -326,7 +326,6 @@ function get_fallback(type, fontarray){
 	/* https://github.com/arthuredelstein/tordemos */
 
 	let t0 = performance.now();
-	let t1 = performance.now();
 	// initialize
 	let width0 = null,  // standard width for the text string with fallback font
 		outputString = "",// detected fonts output
@@ -403,14 +402,15 @@ function get_fallback(type, fontarray){
 		dom.fontFBTest = "";
 
 		// perf
-		t1 = performance.now();
-		if (mPerf) {console.debug("fonts list fallback " + fontarray + ": " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+		let t1 = performance.now();
+		if (mPerf) {console.debug(type + " fonts fallback-" + fontarray + ": " + (t1-t0) + " ms" + " | " + (t1 - t0font) + " ms")};
 
 		// perf
 		if (fontarray !== "tiny") {
-			t1 = performance.now();
-			if (sPerf) {console.debug("  ** section fonts list: " + (t1-t0font) + " ms")};
+			let t2 = performance.now();
+			if (sPerf) {console.debug("  ** section " + type + " fonts: " + (t2-t0font) + " ms")};
 		}
+
 	}, 100);
 
 };
@@ -588,7 +588,7 @@ function outputFonts2(type){
 					});
 					// perf
 					let t1 = performance.now();
-					if (mPerf) {console.debug("fonts list prepared: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+					if (mPerf) {console.debug(type + " fonts list prepared: " + (t1-t0) + " ms" + " | " + (t1 - t0font) + " ms")};
 
 					// run fpjs2
 					get_fpjs2(type);
