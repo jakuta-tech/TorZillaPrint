@@ -620,6 +620,9 @@ function outputFonts2(type){
 					outputD.innerHTML = "";
 					outputC.style.color = "#b3b3b3";
 					outputD.style.color = "#b3b3b3";
+					// perf
+					let t2 = performance.now();
+					if (sPerf) {console.debug("  ** section " + type + " fonts: " + (t2-t0font) + " ms")};
 				}
 			};
 
