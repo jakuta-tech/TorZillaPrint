@@ -52,11 +52,22 @@ a.blue {color: #8abfda; text-decoration: none;}
 }
 #ugSpan {font-size: 10000%;}
 @font-face {
-	font-family: "woff2"; src: url("../fonts/fnt.woff2") format("woff2");
-  font-family: "fontFallback"; src: url("../fonts/fontFallback.ttf");
+	font-family: "ABR"; src: url("../fonts/AdobeBlankRegular.ttf");
+	font-family: "fontFallback"; src: url("../fonts/fontFallback.ttf");
 }
-.woff_fnt0 {font-family: "Times New Roman";}
-.woff_fnt1 {font-family: "woff2";}
+
+@font-face {
+	font-family: 'fontello';
+	src: url('../fonts/fontello.woff2?65609506') format('woff2');
+}
+.woffno {
+	font-family: "Times New Roman";
+	font-size: 128px;
+}
+.woffyes {
+	font-family: "fontello";
+	font-size: 128px;
+}
 
 /* show/hide */
 input[type='checkbox'] {display: none;}
@@ -166,8 +177,6 @@ table td.sub11 {color: var(--test11);}
 #tb17 td:first-child {color: var(--test17);}
 #tb18 td:first-child {color: var(--test18);}
 
-/* tor font */
-@font-face {font-family: "ABR"; src: url("../fonts/AdobeBlankRegular.ttf");}
 /* about:logo */
 #fdResourceCss {
 	background-image: url("about:logo"), url("nothing.png");
