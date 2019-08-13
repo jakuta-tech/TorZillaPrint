@@ -14,12 +14,13 @@ function getUniqueElements() {
 };
 
 function showhide(toggleType, toggleID, togWord) {
-	var xyz = document.getElementsByClassName("tog"+toggleID); var abc;
+	var xyz = document.getElementsByClassName("tog"+toggleID);
+	var abc;
 	for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = toggleType;}
 	document.getElementById("label"+toggleID).innerHTML = togWord+" details";
 	// domrect show/hide extra sections & change drFirstHeader text
 	if (toggleID == "D") {
-		var drArray = [dom.dr1.innerHTML, dom.dr2.innerHTML, dom.dr3.innerHTML, dom.dr4.innerHTML];
+		let drArray = [dom.dr1.innerHTML, dom.dr2.innerHTML, dom.dr3.innerHTML, dom.dr4.innerHTML];
 		var xyz = document.getElementsByClassName("togD1"); var abc;
 		if (drArray.every( (val, i, arr) => val === arr[0] )) {
 			// hide last three
@@ -31,19 +32,52 @@ function showhide(toggleType, toggleID, togWord) {
 			for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = toggleType;};
 		};
 	};
+	// font lists show/hide if same hash or not, and change lebel text
+	if (toggleID == "F") {
+		let fontA = dom.small_fontFPJS2.innerHTML;
+		let fontB = dom.small_fontFB.innerHTML;
+		if (fontA == fontB) {
+			// same: hide the second
+			dom.small_fontlabel = "whitelist";
+			dom.fontB1.style.display = "none";
+			dom.fontB2.style.display = "none";
+		} else {
+			// different: show both
+			dom.small_fontlabel = "fingerprintjs2 [whitelist]";
+			dom.fontB1.style.display = toggleType;
+			dom.fontB2.style.display = toggleType;
+		};
+		let fontC = dom.all_fontFPJS2.innerHTML;
+		let fontD = dom.all_fontFB.innerHTML;
+		if (fontC == fontD) {
+			// same: hide the second
+			dom.all_fontlabel = "os";
+			dom.fontD1.style.display = "none";
+			dom.fontD2.style.display = "none";
+		} else {
+			// different: show both
+			dom.all_fontlabel = "fingerprintjs2 [os]";
+			dom.fontD1.style.display = toggleType;
+			dom.fontD2.style.display = toggleType;
+		};
+	};
 };
 
 var drState = false; // track domrect details state
+var fntState = false; // track font details state
 function toggleitems(chkbxState, chkbxID) {
 	if (chkbxState.checked) {
 		if (chkbxID == "D") {drState = false};
+		if (chkbxID == "F") {fntState = false};
 		showhide("none", chkbxID, "&#9660; show");
 	}
 	else {
 		if (chkbxID == "D") {drState = true};
+		if (chkbxID == "F") {fntState = true};
 		showhide("table-row", chkbxID, "&#9650; hide");
 	}
 };
+
 
 function copyclip(element) {
 	if (document.selection) {
