@@ -68,10 +68,11 @@ function get_audio2_context() {
 		if (latency == "") {
 			dom.audioLatency = "not supported"; // FF70+
 		} else {
-			// don't output if an error on first try
 			if (latencyError == false) {
+				// output
 				dom.audioLatency.innerHTML = latency;
-			} else if ( latencyTries < 1) {
+			} else if ( latencyTries == 2) {
+				// output on second and last try
 				dom.audioLatency.innerHTML = latency;
 			}
 		}
@@ -187,16 +188,17 @@ function outputAudio2() {
 	t0audio = performance.now();
 	isWebAudio = false;
 	latencyError = false;
+	latencyTries = 0;
 	get_audio2_context();
 	if (isWebAudio) {
 		// openWPM: there may be weird interference effects
 		// if the prints are run sequentially with no delay
+		setTimeout(function() { get_audio2_oscillator(); }, 150)
 		if (latencyError == true) {
-			// try again
-			setTimeout(function() { get_audio2_context(); }, 100)
+			// try again: this should work on the second go, esp after osc *and* a pause
+			setTimeout(function() { get_audio2_context(); }, 350)
 		}
-		setTimeout(function() { get_audio2_oscillator(); }, 175)
-		setTimeout(function() { get_audio2_hybrid(); }, 400)
+		setTimeout(function() { get_audio2_hybrid(); }, 425)
 	};
 };
 
