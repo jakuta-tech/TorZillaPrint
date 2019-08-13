@@ -278,6 +278,12 @@ function get_os_chrome() {
 		imgUris = [b+'icon64.png', s+'Toolbar-win7.png', s+'sync-horizontalbar-XPVista7.png'],
 		cssUris = [c+'extension-win-panel.css', c+'extension-mac-panel.css'],
 		objCount = 0;
+	// so we can output as soon as possible
+	function output_os_chrome(type) {
+		dom.fdChromeOS = type;
+		let t1 = performance.now();
+		if (sPerf) {console.debug("  ** section straggler: ua chrome os: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	};
 	// chrome:// css
 	cssUris.forEach(function(cssUri) {
 		let css = document.createElement("link");
@@ -287,9 +293,11 @@ function get_os_chrome() {
 		document.head.appendChild(css);
 		css.onload = function() {
 			if (cssUri === c+"extension-win-panel.css") {
-				os = "Windows"
+				os = "Windows";
+				output_os_chrome(os);
 			} else if (cssUri === c+"extension-mac-panel.css") {
-				os = "Mac"
+				os = "Mac";
+				output_os_chrome(os);
 			};
 			objCount++;
 		};
@@ -306,13 +314,15 @@ function get_os_chrome() {
 		img.style.width = "20px";
 		img.onload = function() {
 			if (imgUri === s+"Toolbar-win7.png" || imgUri === s+"sync-horizontalbar-XPVista7.png") {
-				os = "Windows"
+				os = "Windows";
+				output_os_chrome(os);
 			};
 			objCount++;
 		};
 		img.onerror = function() {
 			if (imgUri === b+"icon64.png") {
-				os = "Android"
+				os = "Android";
+				output_os_chrome(os);
 			};
 			objCount++;
 		};
@@ -321,9 +331,9 @@ function get_os_chrome() {
 	function check_linux() {
 		if (objCount == 5) {
 			clearInterval(checking);
-			dom.fdChromeOS = os;
-			let t1 = performance.now();
-			if (sPerf) {console.debug("  ** section straggler: ua chrome os: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+			if (os == "Linux") {
+				output_os_chrome(os);
+			}
 		}
 	}
 	let checking = setInterval(check_linux, 20)
