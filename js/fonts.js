@@ -42,7 +42,6 @@ var fontCodepoints = ['0x0000','0x0080','0x0100','0x0180','0x0250','0x02B0','0x0
 	'0x1E800','0x1EE00','0x1F000','0x1F030','0x1F0A0','0x1F100','0x1F200','0x1F300','0x1F600','0x1F650','0x1F680','0x1F700',
 	'0x1F780','0x1F800','0x1F900','0x20000','0x2A700','0x2B740','0x2B820','0x2F800','0xE0000','0xE0100','0xF0000','0x100000'];
 
-
 let spawn = (function () {
 	/* arthur's spawn code */
 	// Declare ahead
@@ -415,6 +414,38 @@ function get_fallback(type, fontarray){
 
 };
 
+function get_woff() {
+	// gfx.downloadable_fonts.woff2.enabled
+	let t0 = performance.now();
+	// get span measurement of non-woff2
+	let element = dom.woffno;
+	let nowoff = element.offsetWidth;
+	// select woff element
+	element = dom.woffyes;
+	function output_woff(state) {
+		dom.fontWoff2 = state;
+		let t1 = performance.now();
+		if (sPerf) {console.debug("  ** section straggler: fonts woff: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};		
+	}
+	// check for a difference
+	function check_woff() {
+		// but cancel after a set time
+		if (counter < 25) {
+			if (nowoff !== element.offsetWidth) {
+				clearInterval(checking);
+				output_woff("enabled");
+			}
+		} else {
+			// failed after a set time: infer it's blocked
+			clearInterval(checking);
+			output_woff("disabled [or blocked]");
+		}
+		counter++;
+	}
+	let counter = 0;
+	let checking = setInterval(check_woff, 20)
+}
+
 function outputFonts1(){
 	let t0 = performance.now();
 
@@ -443,20 +474,8 @@ function outputFonts1(){
 		dom.fontDoc="enabled"
 	};
 
-	// gfx.downloadable_fonts.woff2.enabled
-	setTimeout(function() {
-		let woff_item = dom.woff_fnt0;
-		let woff_property = woff_item.offsetWidth;
-		woff_item = dom.woff_fnt1;
-		if (woff_property == woff_item.offsetWidth) {
-			dom.fontWoff2="disabled [or blocked]"
-		} else {
-			dom.fontWoff2="enabled"
-		};
-		let t1 = performance.now();
-		if (sPerf) {console.debug("  ** section straggler: fonts woff: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
-	}, 500);
-
+	// woff
+	get_woff();
 	// unicode glyphs
 	get_unicode();
 
