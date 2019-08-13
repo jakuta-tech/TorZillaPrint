@@ -51,9 +51,9 @@ a.blue {color: #8abfda; text-decoration: none;}
   word-spacing: normal;
 }
 #ugSpan {font-size: 10000%;}
+
 @font-face {
 	font-family: "ABR"; src: url("../fonts/AdobeBlankRegular.ttf");
-	font-family: "fontFallback"; src: url("../fonts/fontFallback.ttf");
 }
 
 @font-face {
@@ -67,6 +67,10 @@ a.blue {color: #8abfda; text-decoration: none;}
 .woffyes {
 	font-family: "fontello";
 	font-size: 128px;
+}
+
+@font-face {
+	font-family: "fontFallback"; src: url("../fonts/fontFallback.ttf");
 }
 
 /* show/hide */
