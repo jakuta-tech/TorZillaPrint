@@ -408,6 +408,14 @@ function get_fallback(type, fontarray){
 		if (fontarray !== "tiny") {
 			let t2 = performance.now();
 			if (sPerf) {console.debug("  ** section " + type + " fonts: " + (t2-t0font) + " ms")};
+
+			// show/hide relevant details sections if font details
+			// are showing but give it slight timer
+			setTimeout(function(){
+				if (fntState == true) {
+					showhide("table-row", "F", "&#9650; hide");
+				};
+			}, 50); // delay to make sure things are loaded
 		}
 
 	}, 100);
@@ -642,6 +650,15 @@ function outputFonts2(type){
 					// perf
 					let t2 = performance.now();
 					if (sPerf) {console.debug("  ** section " + type + " fonts: " + (t2-t0font) + " ms")};
+
+					// show/hide relevant details sections if font details
+					// are showing but give it slight timer
+					setTimeout(function(){
+						if (fntState == true) {
+							showhide("table-row", "F", "&#9650; hide");
+						};
+					}, 50); // delay to make sure things are loaded
+
 				}
 			};
 
