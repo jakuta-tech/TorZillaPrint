@@ -40,7 +40,15 @@ function get_version() {
 	let obj68 = document.getElementById('obj68');
 	if (obj68.typeMustMatch == false) {} else { verNo="68"};
 	//69
-	try {let err69 = new DOMError('name');} catch(e) { verNo="69+"};
+	try {let err69 = new DOMError('name');} catch(e) { verNo="69"};
+	//70: 1541861
+	try {
+		let el = document.createElement('style');
+		document.head.appendChild(el);
+		el.sheet.deleteRule(0);
+	} catch(e) {
+		if (e.message.substring(0,6) == "Cannot") { verNo="70+"}
+	}
 	// reminder: append + on last test
 
 	isVersion = verNo.substring(0,2); // global var isVersion
