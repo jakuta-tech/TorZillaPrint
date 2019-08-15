@@ -16,12 +16,12 @@
 			<div><span id="woffyes" class="woffyes">&#xe800;</span></div>
 		</div>
 		<!-- screen, ua, os, etc -->
-		<div id='DIV_DPI' class="offscreen" style='height: 1in; width: 1in;'></div>
-		<div id="DIV_LINEHEIGHT" class="offscreen">
-			<span id="SPAN_LINEHEIGHT" class="cssLH">line height</span>
+		<div id='divDPI' class="offscreen" style='height: 1in; width: 1in;'></div>
+		<div id="divLH" class="offscreen">
+			<span id="spanLH" class="cssLH">line height</span>
 		</div>
 		<div class="hidden"><object id="obj68"></object></div>
-		<img id="element_FULLSCREEN" width=0 height=0></img>
+		<img id="imageFS" width=0 height=0></img>
 		<!-- widget os -->
 		<div class="hidden">
 			<input type="reset" value="" id="widget1"><br>
@@ -35,19 +35,22 @@
 			<textarea id="widget9"></textarea><br>
 		</div>
 		<!-- app language -->
-		<div class="offscreen"><img id="APP_LANG_IMAGE" src=""></img></div>
-		<div class="hidden"><form><input id="APP_LANG_1" required="" type="text"></form></div>
-		<iframe id="APP_LANG_2" class="hidden"></iframe>
-		<iframe id="APP_LANG_3" class="hidden"></iframe>
-		<iframe id="APP_LANG_4" class="hidden"></iframe>
+		<div class="offscreen"><img id="imageTest" src=""></div>
+		<div class="hidden">
+			<iframe id="iframeTest"></iframe>			
+			<form><input id="appLang_1" required="" type="text"></form>
+			<iframe id="appLang_2"></iframe>
+			<iframe id="appLang_3"></iframe>
+			<iframe id="appLang_4"></iframe>
+		</div>
 		<!-- domrect -->
-		<iframe id="IFRAME_DOMRECT" class="offscreen"></iframe>
+		<iframe id="domrect" class="offscreen"></iframe>
 		<!-- default font size -->
 		<div class="offscreen">
 			<div class="normalized">
-				<div><span id="df1" style='font-family: serif;'><span></div>
-				<div><span id="df2" style='font-family: sans-serif;'><span></div>
-				<div><span id="df3" style='font-family: monospace;'><span></div>
+				<div><span id="df1" style='font-family: serif;'></span></div>
+				<div><span id="df2" style='font-family: sans-serif;'></span></div>
+				<div><span id="df3" style='font-family: monospace;'></span></div>
 			</div>
 		</div>
 		<!-- unicode glyphs -->
@@ -177,8 +180,8 @@
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">Linux, Mac or Windows</span></div> &nbsp [css] os <sup>1</sup></td>
 			<td><span id="fdCssOSL" style="font-family: Arimo, DejaVu Serif, ABR;">Linux</span>
-					<span id="fdCssOSM" style="font-family: Lucida Grande, ABR;">Mac</span>
-					<span id="fdCssOSW" style="font-family: Segoe UI, ABR;">Windows</span></td></tr>
+				<span id="fdCssOSM" style="font-family: Lucida Grande, ABR;">Mac</span>
+				<span id="fdCssOSW" style="font-family: Segoe UI, ABR;">Windows</span></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">based on <b>[css] os</b> above</span></div>
 			&nbsp [font] os <sup>1</sup></td><td class="c" id="fontOS"></td></tr>
@@ -684,7 +687,7 @@
 				<div class="nav-down"><a href="#ciphers">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn13" onClick="outputSection(`14`, `c`, `m`)">[ re-run tests ]</button>
+			<div class="btn-left"><button class="btn13" onClick="outputSection(`14`, `c`, `m`)">[ re-run tests ]</button>
 			</div>prefers-color-scheme</div></td><td class="c" id="pColorScheme"></td></tr>
 		<tr><td>prefers-reduced-motion</td><td class="c" id="pReducedMotion"></td></tr>
 		<tr><td>system colors</td><td class="c mono" id="sColorHash"></td></tr>
@@ -761,7 +764,7 @@
 	<br><a name="theend"></a><br>
 
 	<script src="js/main.js"></script>
-	<!-- load now as they have to wait for iframes to load -->
+	<!-- load now as they have to wait for iframes -->
 	<script src="js/domrect.js"></script>
 	<script src="js/language.js"></script>
 	<!-- first 3 sections -->
