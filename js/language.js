@@ -7,20 +7,39 @@ var iframeBlocked = false;
 var dtd2 = "";
 
 function get_app_lang_dtd2() {
+	let t0 = performance.now();
+
 	// dtd nullprinciple
 	dtd2 = "";
-	let iframe = document.getElementById("appLang_3");
-	iframe.src="data:application/xml;charset=utf-8,%3C%21DOCTYPE%20html%20SYSTEM%20%22chrome%3A%2F%2Fglobal%2Flocale%2FnetError.dtd%22%3E%3Chtml%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Chead%3E%3Cmeta%20charset%3D%22utf-8%22%2F%3E%0D%0A%20%20%3C%2Fhead%3E%0D%0A%20%20%3Cbody%3E%3Cspan%20id%3D%22text-container%22%3E%26loadError.label%3B%3C%2Fspan%3E%0D%0A%20%20%3Cscript%3E%0D%0A%20%20window.addEventListener%28%27message%27%2C%20%28e%29%20%3D%3E%20%7B%0D%0A%20%20%20%20e.source.postMessage%28document.getElementById%28%27text-container%27%29.innerText%2C%20%27%2A%27%29%3B%0D%0A%20%20%7D%29%3B%0D%0A%20%20%3C%2Fscript%3E%0D%0A%20%20%3C%2Fbody%3E%0D%0A%3C%2Fhtml%3E";
-	iframe.addEventListener("load", dtdlocale2)
-	function dtdlocale2() {
+	function output_dtd2(output) {
+		dom.appLang3.innerHTML = output;
+		let t1 = performance.now();
+		if (mPerf) {console.debug("app language dtd2: " + (t1-t0lang) + " ms" + " | " + (t1 - gt0) + " ms")};
+	};
+	function run_dtd2() {
 		window.addEventListener('message', ({ data }) => dtd2 = data);
 		document.getElementById("appLang_3").contentWindow.postMessage('foo', '*');
-		if (dtd2 == "") {
-			dom.appLang3.innerHTML = "<span class='good'>[bugzilla 467035]</span>";
-		} else {
-			dom.appLang3.innerHTML = dtd2;
-		}
 	};
+	// load it up
+	let iframe = document.getElementById("appLang_3");
+	iframe.src="data:application/xml;charset=utf-8,%3C%21DOCTYPE%20html%20SYSTEM%20%22chrome%3A%2F%2Fglobal%2Flocale%2FnetError.dtd%22%3E%3Chtml%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Chead%3E%3Cmeta%20charset%3D%22utf-8%22%2F%3E%0D%0A%20%20%3C%2Fhead%3E%0D%0A%20%20%3Cbody%3E%3Cspan%20id%3D%22text-container%22%3E%26loadError.label%3B%3C%2Fspan%3E%0D%0A%20%20%3Cscript%3E%0D%0A%20%20window.addEventListener%28%27message%27%2C%20%28e%29%20%3D%3E%20%7B%0D%0A%20%20%20%20e.source.postMessage%28document.getElementById%28%27text-container%27%29.innerText%2C%20%27%2A%27%29%3B%0D%0A%20%20%7D%29%3B%0D%0A%20%20%3C%2Fscript%3E%0D%0A%20%20%3C%2Fbody%3E%0D%0A%3C%2Fhtml%3E";
+	iframe.addEventListener("load", run_dtd2)
+
+	// keep checking for dtd2 not blank, but stop after x tries
+	let counter = 0;
+	function check_dtd2() {
+		if (counter < 10) {
+			if (dtd2 !== "") {
+				clearInterval(checking);
+				output_dtd2(dtd2);
+			}
+		} else {
+			clearInterval(checking);
+			output_dtd2("<span class='good'>[bugzilla 467035]</span>");
+		}
+		counter++;
+	}
+	let checking = setInterval(check_dtd2, 50)
 };
 
 function get_app_lang_mediadocument() {
@@ -36,9 +55,9 @@ function get_app_lang_mediadocument() {
 	};
 	function run_mediadocument() {
 		try {
-			//let answer = (this.contentWindow.document.title);
 			let output = (iframe.contentWindow.document.title);
 			output_mediadocument(output);
+			iframeBlocked = false;
 		} catch(e) {
 			if ((location.protocol) == "file:") {
 				// file: Cross-Origin Request Blocked
