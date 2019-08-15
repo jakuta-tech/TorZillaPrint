@@ -474,7 +474,7 @@ function outputFonts1(){
 	dom.fontFCsize = font_property;
 
 	// document fonts
-	let element = document.getElementById("SPAN_LINEHEIGHT");
+	let element = document.getElementById("spanLH");
 	let fontfamily = getComputedStyle(element).getPropertyValue("font-family");
 	if (fontfamily.slice(1,16) !== "Times New Roman") {
 		dom.fontDoc="disabled"
