@@ -694,7 +694,7 @@ function outputFonts2(type){
 	};
 };
 
-//if (isPage == "main") {
+if (isPage == "main") {
 	outputFonts1();
 	//outputFonts2("small");
-//};
+};
