@@ -75,8 +75,8 @@ function get_zoom(type) {
 	let t0 = performance.now();
 	// js dpi
 	let devicePixelRatio = window.devicePixelRatio || 1;
-	let dpi_x = Math.round(dom.DIV_DPI.offsetWidth * devicePixelRatio);
-	let dpi_y = Math.round(dom.DIV_DPI.offsetHeight * devicePixelRatio);
+	let dpi_x = Math.round(dom.divDPI.offsetWidth * devicePixelRatio);
+	let dpi_y = Math.round(dom.divDPI.offsetHeight * devicePixelRatio);
 	dom.jsDPI = dpi_x;
 	// matchmedia dpi: handles FF default zoom levels 30%-300%
 	let varDPI = (function () {
@@ -497,12 +497,12 @@ function get_os_line_scrollbar() {
 	// os: css line-height
 	t0 = performance.now();
 	// get line-height
-	let myLHElem = document.getElementById("SPAN_LINEHEIGHT");
+	let myLHElem = document.getElementById("spanLH");
 	let lh = getComputedStyle(myLHElem).getPropertyValue("line-height");
 	let lhCR = "";
 	// bugzilla 1536871: fall back to clientrect: use div height
 	if (lh == "normal") {
-		let testLHdiv = document.getElementById("DIV_LINEHEIGHT");
+		let testLHdiv = document.getElementById("divLH");
 		let elementDiv = testLHdiv.getBoundingClientRect();
 		let newlh = elementDiv.height;
 		// more than 4 decimal places
@@ -808,7 +808,7 @@ function goFS() {
 			};
 		};
 		if (document.mozFullScreenEnabled) {
-			let element = document.getElementById("element_FULLSCREEN");
+			let element = document.getElementById("imageFS");
 			element.mozRequestFullScreen();
 			document.addEventListener("mozfullscreenchange", getFS)
 		}
