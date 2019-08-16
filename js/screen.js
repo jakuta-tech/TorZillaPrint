@@ -895,7 +895,8 @@ function outputMath() {
 	else if (m1hash == "96895e004b623552b9543dcdc030640d1b108816") {m1 = "D"}
 	else if (m1hash == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {m1 = "E"}
 	else if (m1hash == "ae434b101452888b756da5916d81f68adeb2b6ae") {m1 = "F"}
-	else if (m1hash == "19df0b54c852f35f011187087bd3a0dce12b4071") {m1 = "G"};
+	else if (m1hash == "19df0b54c852f35f011187087bd3a0dce12b4071") {m1 = "G"}
+	else if (m1hash == "8ee641f01271d500e5c1d40e831232214c0bbbdc") {m1 = "H"};
 	mc = m6+m1;
 	// build browser output: ECMA6 only
 	if (m6 == "1" | m6 == "3") {
@@ -904,8 +905,9 @@ function outputMath() {
 		fdMath6="Firefox [32-bit]"
 	};
 	// build os output, refine browser output
-	if (m1 == "A") {
-		// A: always 64bit WIN on 64bit FF
+	if (m1 == "A" | m1 == "H") {
+		// A or H: always 64bit WIN on 64bit FF
+		// need to double check H [i.e test FF32bit and TB on that machine]
 		fdMath1="Windows [64-bit]"; fdMath6="Firefox [64-bit]"
 	} else if (m1 == "C") {
 		// C: always 32bit FF on WIN (32bit or 64bit)
