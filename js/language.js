@@ -67,6 +67,8 @@ function get_app_lang_dtd2() {
 	dtd2 = "";
 	function output_dtd2(output) {
 		dom.appLang3.innerHTML = output;
+		// unload iframe
+		//iframe.src="";
 		let t1 = performance.now();
 		if (mPerf) {console.debug("app language dtd2: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	};
@@ -188,7 +190,6 @@ function test_iframe() {
 		// perf
 		let t1 = performance.now();
 		if (mPerf) {console.debug("app language iframe test: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
-		if (mPerf) {console.debug("app language iframe test: " + iframeBlocked)};
 		// output
 		if (iframeBlocked == true) {
 			if ((location.protocol) == "file:") {
@@ -216,7 +217,7 @@ function test_iframe() {
 	// keep checking if iframe success, but stop after x tries
 	let counter = 0;
 	function check_iframe() {
-		if (counter < 30) {
+		if (counter < 40) {
 			if (iframeBlocked == false) {
 				clearInterval(checking);
 				output_iframe();
