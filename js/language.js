@@ -179,7 +179,7 @@ function get_app_lang_xmlparser() {
 
 function test_iframe() {
 	let t0 = performance.now();
-	let iframeBlocked = true; // assume blocked	
+	let iframeBlocked = true; // assume blocked
 
 	// test an iframe: if success call dtd1 function
 	function output_iframe() {
@@ -188,6 +188,7 @@ function test_iframe() {
 		// perf
 		let t1 = performance.now();
 		if (mPerf) {console.debug("app language iframe test: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+		if (mPerf) {console.debug("app language iframe test: " + iframeBlocked)};
 		// output
 		if (iframeBlocked == true) {
 			if ((location.protocol) == "file:") {
@@ -202,7 +203,6 @@ function test_iframe() {
 			get_app_lang_dtd1();
 		};
 	};
-
 
 	let iframe = dom.iframeTest;
 	iframe.src="iframes/test.html";
