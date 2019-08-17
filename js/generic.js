@@ -34,32 +34,49 @@ function showhide(toggleType, toggleID, togWord) {
 	};
 	// font lists show/hide if same hash or not, and change lebel text
 	if (toggleID == "F") {
-		let fontA = dom.small_fontFPJS2.innerHTML;
-		let fontB = dom.small_fontFB.innerHTML;
-		if (fontA == fontB) {
-			// same: hide the second
-			dom.small_fontlabel = "whitelist";
-			dom.fontB1.style.display = "none";
-			dom.fontB2.style.display = "none";
-		} else {
-			// different: show both
-			dom.small_fontlabel = "fingerprintjs2 [whitelist]";
-			dom.fontB1.style.display = toggleType;
-			dom.fontB2.style.display = toggleType;
-		};
-		let fontC = dom.all_fontFPJS2.innerHTML;
-		let fontD = dom.all_fontFB.innerHTML;
-		if (fontC == fontD) {
-			// same: hide the second
-			dom.all_fontlabel = "os";
-			dom.fontD1.style.display = "none";
-			dom.fontD2.style.display = "none";
-		} else {
-			// different: show both
-			dom.all_fontlabel = "fingerprintjs2 [os]";
-			dom.fontD1.style.display = toggleType;
-			dom.fontD2.style.display = toggleType;
-		};
+		if (isPage == "main") {
+			let fontA = dom.small_fontFPJS2.innerHTML;
+			let fontB = dom.small_fontFB.innerHTML;
+			if (fontA == fontB) {
+				// same: hide the second
+				dom.small_fontlabel = "whitelist";
+				dom.fontB1.style.display = "none";
+				dom.fontB2.style.display = "none";
+			} else {
+				// different: show both
+				dom.small_fontlabel = "fingerprintjs2 [whitelist]";
+				dom.fontB1.style.display = toggleType;
+				dom.fontB2.style.display = toggleType;
+			};
+			let fontC = dom.all_fontFPJS2.innerHTML;
+			let fontD = dom.all_fontFB.innerHTML;
+			if (fontC == fontD) {
+				// same: hide the second
+				dom.all_fontlabel = "os";
+				dom.fontD1.style.display = "none";
+				dom.fontD2.style.display = "none";
+			} else {
+				// different: show both
+				dom.all_fontlabel = "fingerprintjs2 [os]";
+				dom.fontD1.style.display = toggleType;
+				dom.fontD2.style.display = toggleType;
+			};
+		} else if (isPage == "extra") {
+			let fontE = dom.monsta_fontFPJS2.innerHTML;
+			let fontF = dom.monsta_fontFB.innerHTML;
+			if (fontE == fontF) {
+				// same: hide the second
+				dom.monsta_fontlabel = "monsta";
+				dom.fontF1.style.display = "none";
+				dom.fontF2.style.display = "none";
+			} else {
+				// different: show both
+				dom.monsta_fontlabel = "fingerprintjs2 [monsta]";
+				dom.fontF1.style.display = toggleType;
+				dom.fontF2.style.display = toggleType;
+			};
+
+		}
 	};
 };
 
@@ -161,7 +178,8 @@ function outputSection(id, cls, page) {
 	if (id=="11" && cls=="c1") {reset_unicode()};
 	let delay = 150;
 	// delay output so users can see something happened
-	setTimeout(function(){
+	function output_delay() {
+		clearInterval(checking);
 		// reset global timer
 		gt0 = performance.now();
 		if (page=="m") {
@@ -184,7 +202,9 @@ function outputSection(id, cls, page) {
 		} else if (page=="e") {
 			if (id=="2") {outputWidgets()};
 		}
-	}, delay);
+	}
+	let checking = setInterval(output_delay, delay);
+
 	// don't delay these ones
 	if (page=="m") {
 		if (id=="11" && cls=="c2") {outputFonts2("small")};
