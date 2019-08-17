@@ -183,7 +183,7 @@ function test_iframe() {
 	let t0 = performance.now();
 	let iframeBlocked = true; // assume blocked
 
-	// test an iframe: if success call dtd1 function
+	// test an iframe: if success call other functions
 	function output_iframe() {
 		// clear iframe
 		iframe.src="";
@@ -196,12 +196,15 @@ function test_iframe() {
 			if ((location.protocol) == "file:") {
 				// file: Cross-Origin Request Blocked
 				dom.appLang2.innerHTML = error_file_cors;
+				dom.appLang4.innerHTML = error_file_cors;
 			} else {
 				// iframe is blocked
 				dom.appLang2.innerHTML = error_iframe;
+				dom.appLang4.innerHTML = error_iframe;
 			};
 		} else {
-			// dtd1 is good for testing: call function
+			// iframes are good: call functions
+			get_app_lang_mediadocument();
 			get_app_lang_dtd1();
 		};
 	};
@@ -322,8 +325,7 @@ function outputLanguage() {
 		dom.appLang1 = document.getElementById("appLang_1").validationMessage;
 		get_app_lang_xmlparser();
 		get_app_lang_dtd2();
-		get_app_lang_mediadocument();
-		test_iframe(); // this decides the results of dtd1
+		test_iframe(); // dtd1 and MediaDocument
 	};
 
 };
