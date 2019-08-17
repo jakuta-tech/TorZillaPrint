@@ -553,8 +553,8 @@ if (isNaN(window.mozPaintCount) === false) {
 		cssAll++;
 	});
 
-	// in FF69+ using a setTimer here causes an ReferenceError when any
-	// subsequent buttons that calls outputSection() is clicked:
+	// in FF69+ after running this test, any subsequent setTimer
+	// called in code causes an ReferenceError
 	// "can't access lexical declaration `setTimeout' before initialization"
 	// I have no idea why. Using a setInterval doesn't cause this
 	function output_chrome() {
