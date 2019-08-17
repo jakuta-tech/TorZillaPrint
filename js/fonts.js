@@ -375,7 +375,8 @@ function get_fallback(type, fontarray){
 	};
 
 	// offset this from fpjs2 or they output at the same time
-	setTimeout(function() {
+	function output_fpjs2() {
+		clearInterval(checking);
 		// we built this string earlier
 		fontFBTest.innerHTML = fontTestStringB;
 		// run the test
@@ -410,15 +411,17 @@ function get_fallback(type, fontarray){
 			if (sPerf) {console.debug("  ** section " + type + " fonts: " + (t2-t0font) + " ms")};
 
 			// show/hide relevant details sections if font details
-			// are showing but give it slight timer
-			setTimeout(function(){
+			// are showing but give it slight timer so things are loaded
+			function tidy_fonts() {
+				clearInterval(checking2);
 				if (fntState == true) {
 					showhide("table-row", "F", "&#9650; hide");
 				};
-			}, 50); // delay to make sure things are loaded
+			}
+			let checking2 = setInterval(tidy_fonts, 25);
 		}
-
-	}, 100);
+	}
+	let checking = setInterval(output_fpjs2, 100);
 
 };
 
@@ -627,9 +630,11 @@ function outputFonts2(type){
 					// seems to prime it correctly: need to investigate more
 					// until then: enjoy an ugly hack
 					get_fallback(type, "tiny");
-					setTimeout(function() {
+					function output_again() {
+						clearInterval(checking);
 						get_fallback(type, "real");
-					}, 300);
+					}
+					let checking = setInterval(output_again, 300);
 
 				} else {
 					// A+B=hashes , C+D=detected
