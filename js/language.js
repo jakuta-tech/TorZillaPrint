@@ -207,7 +207,10 @@ function test_iframe() {
 	let iframe = dom.iframeTest;
 	iframe.src="iframes/test.html";
 	iframe.addEventListener("load", function(){
-		iframeBlocked = false;
+		try {
+			let testerror = iframe.contentWindow.document.getElementById("test")
+			iframeBlocked = false;
+		} catch(e) {}
 	});
 
 	// keep checking if iframe success, but stop after x tries
