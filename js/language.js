@@ -2,9 +2,63 @@
 
 'use strict';
 
-var t0lang;
-var iframeBlocked = false;
 var dtd2 = "";
+
+function get_app_lang_dtd1() {
+	// we only call this function if iframes are not blocked
+	// therefore if we get no result, this is the bugzilla fix
+	let t0 = performance.now();
+
+	let dtd1 = "";
+	function output_dtd1(output) {
+		dom.appLang2.innerHTML = output;
+		// unload iframe
+		//iframe.src="";
+		// perf
+		let t1 = performance.now();
+		if (mPerf) {console.debug("app language dtd1: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	}
+
+	// load it up
+	let iframe = document.getElementById("appLang_2");
+	iframe.src="iframes/dtdlocale.xml";
+	iframe.addEventListener('load', () => {
+		try {
+			dtd1 = iframe.contentDocument.getElementById("DTD1").innerText;
+		} catch(e) {
+			if ((location.protocol) == "file:") {
+				// could be CORS, or the patch: check MediaDocument result
+				setTimeout(function() {
+					let str = dom.appLang4.textContent;
+					if ( str == "[file:] [Cross-Origin Request Blocked]") {
+						dtd1 = error_file_cors
+					} else if (str == "") {
+						// we checked too early: a tiny timeout seems to always delay enough
+						dtd1 = "<span class='good'>[bugzilla 467035]</span> or " + error_file_cors;
+					} else {
+						dtd1 = "<span class='good'>[bugzilla 467035]</span>";
+					}
+				}, 50);
+			};
+		}
+	});
+	// keep checking for dtd1 not blank, but stop after x tries
+	let counter = 0;
+	function check_dtd1() {
+		if (counter < 30) {
+			if (dtd1 !== "") {
+				clearInterval(checking);
+				output_dtd1(dtd1);
+			}
+		} else {
+			clearInterval(checking);
+			output_dtd1("<span class='good'>[bugzilla 467035]</span>");
+		}
+		counter++;
+	}
+	let checking = setInterval(check_dtd1, 50)
+
+};
 
 function get_app_lang_dtd2() {
 	let t0 = performance.now();
@@ -14,21 +68,19 @@ function get_app_lang_dtd2() {
 	function output_dtd2(output) {
 		dom.appLang3.innerHTML = output;
 		let t1 = performance.now();
-		if (mPerf) {console.debug("app language dtd2: " + (t1-t0lang) + " ms" + " | " + (t1 - gt0) + " ms")};
-	};
-	function run_dtd2() {
-		window.addEventListener('message', ({ data }) => dtd2 = data);
-		document.getElementById("appLang_3").contentWindow.postMessage('foo', '*');
+		if (mPerf) {console.debug("app language dtd2: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	};
 	// load it up
 	let iframe = document.getElementById("appLang_3");
 	iframe.src="data:application/xml;charset=utf-8,%3C%21DOCTYPE%20html%20SYSTEM%20%22chrome%3A%2F%2Fglobal%2Flocale%2FnetError.dtd%22%3E%3Chtml%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Chead%3E%3Cmeta%20charset%3D%22utf-8%22%2F%3E%0D%0A%20%20%3C%2Fhead%3E%0D%0A%20%20%3Cbody%3E%3Cspan%20id%3D%22text-container%22%3E%26loadError.label%3B%3C%2Fspan%3E%0D%0A%20%20%3Cscript%3E%0D%0A%20%20window.addEventListener%28%27message%27%2C%20%28e%29%20%3D%3E%20%7B%0D%0A%20%20%20%20e.source.postMessage%28document.getElementById%28%27text-container%27%29.innerText%2C%20%27%2A%27%29%3B%0D%0A%20%20%7D%29%3B%0D%0A%20%20%3C%2Fscript%3E%0D%0A%20%20%3C%2Fbody%3E%0D%0A%3C%2Fhtml%3E";
-	iframe.addEventListener("load", run_dtd2)
-
+	iframe.addEventListener('load', () => {
+		window.addEventListener('message', ({ data }) => dtd2 = data);
+		iframe.contentWindow.postMessage('foo', '*');
+	});
 	// keep checking for dtd2 not blank, but stop after x tries
 	let counter = 0;
 	function check_dtd2() {
-		if (counter < 10) {
+		if (counter < 30) {
 			if (dtd2 !== "") {
 				clearInterval(checking);
 				output_dtd2(dtd2);
@@ -40,24 +92,24 @@ function get_app_lang_dtd2() {
 		counter++;
 	}
 	let checking = setInterval(check_dtd2, 50)
+
 };
 
 function get_app_lang_mediadocument() {
 	let t0 = performance.now();
+
 	// MediaDocument.properties
-	
 	let iframe = document.getElementById("appLang_4");
 	function output_mediadocument(string) {
 		dom.appLang4.innerHTML = string;
 		// perf
 		let t1 = performance.now();
-		if (mPerf) {console.debug("app language MediaDocument: " + (t1-t0lang) + " ms" + " | " + (t1 - gt0) + " ms")};
+		if (mPerf) {console.debug("app language MediaDocument: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	};
 	function run_mediadocument() {
 		try {
 			let output = (iframe.contentWindow.document.title);
 			output_mediadocument(output);
-			iframeBlocked = false;
 		} catch(e) {
 			if ((location.protocol) == "file:") {
 				// file: Cross-Origin Request Blocked
@@ -123,6 +175,57 @@ function get_app_lang_xmlparser() {
 		output = output.slice(0,start) + output.slice(start+end,output.length);
 	};
 	dom.appLang5 = output;	
+};
+
+function test_iframe() {
+	let t0 = performance.now();
+	let iframeBlocked = true; // assume blocked	
+
+	// test an iframe: if success call dtd1 function
+	function output_iframe() {
+		// clear iframe
+		iframe.src="";
+		// perf
+		let t1 = performance.now();
+		if (mPerf) {console.debug("app language iframe test: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+		// output
+		if (iframeBlocked == true) {
+			if ((location.protocol) == "file:") {
+				// file: Cross-Origin Request Blocked
+				dom.appLang2.innerHTML = error_file_cors;
+			} else {
+				// iframe is blocked
+				dom.appLang2.innerHTML = error_iframe;
+			};
+		} else {
+			// dtd1 is good for testing: call function
+			get_app_lang_dtd1();
+		};
+	};
+
+
+	let iframe = dom.iframeTest;
+	iframe.src="iframes/test.html";
+	iframe.addEventListener("load", function(){
+		iframeBlocked = false;
+	});
+
+	// keep checking if iframe success, but stop after x tries
+	let counter = 0;
+	function check_iframe() {
+		if (counter < 30) {
+			if (iframeBlocked == false) {
+				clearInterval(checking);
+				output_iframe();
+			}
+		} else {
+			clearInterval(checking);
+			output_iframe();
+		}
+		counter++;
+	}
+	let checking = setInterval(check_iframe, 50)
+
 };
 
 function outputLanguage() {
@@ -211,13 +314,11 @@ function outputLanguage() {
 
 	// app lang pocs: FF only
 	if (isFirefox == true) {
-		t0lang = performance.now();
 		dom.appLang1 = document.getElementById("appLang_1").validationMessage;
 		get_app_lang_xmlparser();
 		get_app_lang_dtd2();
 		get_app_lang_mediadocument();
-		//test_iframe();
-		//get_app_lang_dtd1();
+		test_iframe(); // this decides the results of dtd1
 	};
 
 };
