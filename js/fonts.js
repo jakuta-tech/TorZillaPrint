@@ -392,10 +392,9 @@ function get_fallback(type, fontarray){
 			}	else {
 				outputD.innerHTML = "no fonts detected"
 			};
-			// output hash/counts & reset color
+			// output hash/counts
 			if (fontarray !== "tiny") {
 				outputB.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]" + note_file;
-				outputD.style.color = "#b3b3b3";
 			}
 		}
 		// clear div [causes horizontal scroll]
@@ -417,6 +416,8 @@ function get_fallback(type, fontarray){
 				if (fntState == true) {
 					showhide("table-row", "F", "&#9650; hide");
 				};
+				// reset color
+				outputD.style.color = "#b3b3b3";
 			}
 			let checking2 = setInterval(tidy_fonts, 25);
 		}
