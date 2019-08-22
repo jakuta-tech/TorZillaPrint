@@ -144,6 +144,13 @@ function get_private_win() {
 	};
 };
 
+function get_screen_metrics() {
+	dom.ScrRes = screen.width+" x "+screen.height+" ("+screen.left+","+screen.top+")";
+	dom.ScrAvail = screen.availWidth+" x "+screen.availHeight+" ("+screen.availLeft+","+screen.availTop+")";
+	dom.WndOut = window.outerWidth+" x "+window.outerHeight+" ("+window.screenX+","+window.screenY+")";
+	dom.WndIn = window.innerWidth+" x "+window.innerHeight+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")";
+}
+
 function get_fullscreen() {
 	// full-screen-api.enabled
 	try {
@@ -828,10 +835,7 @@ function goNW() {
 function outputScreen() {
 	let t0 = performance.now();
 	// properties
-	dom.ScrRes = screen.width+" x "+screen.height+" ("+screen.left+","+screen.top+")";
-	dom.ScrAvail = screen.availWidth+" x "+screen.availHeight+" ("+screen.availLeft+","+screen.availTop+")";
-	dom.WndOut = window.outerWidth+" x "+window.outerHeight+" ("+window.screenX+","+window.screenY+")";
-	dom.WndIn = window.innerWidth+" x "+window.innerHeight+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")";
+	get_screen_metrics();
 	dom.PixDepth = screen.pixelDepth;
 	dom.ColDepth = screen.colorDepth;
 	dom.fsState = window.fullScreen;
@@ -997,3 +1001,4 @@ function outputUA() {
 
 outputScreen();
 outputUA();
+window.addEventListener('resize', get_screen_metrics);
