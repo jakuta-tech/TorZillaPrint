@@ -67,7 +67,10 @@ function get_viewport(type) {
 	document.documentElement.removeChild(e);
 	dom.Viewport = vw + " x " + vh;
 	let t1 = performance.now();
-	if (mPerf) {console.debug(type + " viewport: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (mPerf) {
+		if (type !== "resize") {
+			console.debug(type + " viewport: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+		}
 	return vw;
 };
 
@@ -144,11 +147,14 @@ function get_private_win() {
 	};
 };
 
-function get_screen_metrics() {
+function get_screen_metrics(type) {
 	dom.ScrRes = screen.width+" x "+screen.height+" ("+screen.left+","+screen.top+")";
 	dom.ScrAvail = screen.availWidth+" x "+screen.availHeight+" ("+screen.availLeft+","+screen.availTop+")";
 	dom.WndOut = window.outerWidth+" x "+window.outerHeight+" ("+window.screenX+","+window.screenY+")";
 	dom.WndIn = window.innerWidth+" x "+window.innerHeight+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")";
+	if (type !== "screen") {
+		get_viewport("resize");
+	};
 }
 
 function get_fullscreen() {
@@ -835,7 +841,7 @@ function goNW() {
 function outputScreen() {
 	let t0 = performance.now();
 	// properties
-	get_screen_metrics();
+	get_screen_metrics("screen");
 	dom.PixDepth = screen.pixelDepth;
 	dom.ColDepth = screen.colorDepth;
 	dom.fsState = window.fullScreen;
