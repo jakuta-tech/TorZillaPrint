@@ -4,15 +4,15 @@
 
 /* GENERIC FUNCTIONS */
 
-function rnd_string() {
-	return Math.random().toString(36).substring(2, 15)
+function rnd_string(type) {
+	return type + Math.random().toString(36).substring(2, 15)
 };
 
 function rnd_number() {
 	return Math.floor((Math.random() * (99999 - 10000)) + 10000)
 };
 
-function check_cookie(name) {
+function lookup_cookie(name) {
 	name = name + "=";
 	let decodedCookie = decodeURIComponent(document.cookie);
 	let ca = decodedCookie.split(';');
@@ -31,29 +31,60 @@ function check_cookie(name) {
 /* FUNCTIONS */
 
 function get_cookies() {
-
 	// cookie support
 	if (navigator.cookieEnabled == true) {
 		dom.nCookieEnabled = "enabled"
 	} else {
 		dom.nCookieEnabled = "disabled"
 	};
+
 	// session cookie test: run even if cookieEnabled = false
-	let rndStrA = rnd_string();
-	document.cookie = rndStrA + "=" + rndStrA;
-	if (check_cookie(rndStrA) != "") {
-		dom.cTest = "success"
+	let rndStrA = rnd_string("stest_");
+	let rndStrB = rnd_string("");
+	document.cookie = rndStrA + "=" + rndStrB;
+	let scookievalue = lookup_cookie(rndStrA)
+	if (scookievalue != "") {
+		if (sDebug) {
+			console.debug("session cookie set: name:", rndStrA, "value:", rndStrB);
+			console.debug("session cookie checked: name:", rndStrA, "value returned:", scookievalue);
+		};
+		if (scookievalue == rndStrB) {
+			// value matches
+			dom.cTest = "success"
+		} else {
+			// value doesn't match: this should never happen?
+			dom.cTest = "failed: values do not match"
+		}
 	} else {
 		dom.cTest = "failed"
 	};
-	// persistent cookie test: run even if cookieEnabled = false
-	let rndStrB = rnd_string();
-	dom.cTest2.innerHTML = note_testtocome;
 
+	// persistent cookie test: run even if cookieEnabled = false
+	let rndStrC = rnd_string("ptest_");
+	let rndStrD = rnd_string("");
+	let d = new Date();
+	d.setTime(d.getTime() + 86400000); // 1 day
+	let expires = "expires="+ d.toUTCString();
+	document.cookie = rndStrC + "=" + rndStrD + ";" + expires;
+	let pcookievalue = lookup_cookie(rndStrC)
+	if (pcookievalue != "") {
+		if (sDebug) {
+			console.debug("persistent cookie set: name:", rndStrC, "value:", rndStrD);
+			console.debug("persistent cookie checked: name:", rndStrC, "value returned:", pcookievalue);
+		};
+		if (pcookievalue == rndStrD) {
+			// value matches
+			dom.cTest2 = "success"
+		} else {
+			// value doesn't match: this should never happen?
+			dom.cTest2 = "failed: values do not match"
+		}
+	} else {
+		dom.cTest2 = "failed"
+	};
 };
 
 function get_storage() {
-
 	// localStorage support
 	try {
 		if (typeof(localStorage) != "undefined") {
@@ -64,18 +95,32 @@ function get_storage() {
 	} catch(e) {
 		dom.storageLSupport = "disabled: " + e.name
 	};
+
 	// localStorage test: run even if localStorage unavailable
-	let rndStrC = rnd_string();
 	try {
-		localStorage.setItem(rndStrC, rndStrC);
-		if (!localStorage.getItem(rndStrC)) {
+		let rndStrE = rnd_string("test_");
+		let rndStrF = rnd_string("");
+		localStorage.setItem(rndStrE, rndStrF);
+		let lsvalue = localStorage.getItem(rndStrE);
+		if (lsvalue == null) {
 			dom.storageLTest = "failed"
 		} else {
-			dom.storageLTest = "success"
+			if (sDebug) {
+				console.debug("localStorage set: name:", rndStrE, "value:", rndStrF);
+				console.debug("localStorage checked: name:", rndStrE, "value returned:", lsvalue);
+			};			
+			if (lsvalue == rndStrF) {
+				// values match
+				dom.storageLTest = "success"
+			} else {
+				// value doesn't match: this should never happen?
+				dom.storageLTest = "failed: values do not match"
+			}
 		}
 	} catch(e) {
 		dom.storageLTest = "failed: " + e.name
 	};
+
 	// sessionStorage support
 	try {
 		if (typeof(sessionStorage) != "undefined") {
@@ -86,14 +131,27 @@ function get_storage() {
 	} catch(e) {
 		dom.storageSSupport = "disabled: " + e.name
 	};
+
 	// sessionStorage test: run even if sessionStorage unavailable
-	let rndStrD = rnd_string();
 	try {
-		sessionStorage.setItem(rndStrD, rndStrD);
-		if (!sessionStorage.getItem(rndStrD)) {
+		let rndStrG = rnd_string("test_");
+		let rndStrH = rnd_string("");
+		sessionStorage.setItem(rndStrG, rndStrH);
+		let ssvalue = sessionStorage.getItem(rndStrG);
+		if (ssvalue == null) {
 			dom.storageSTest = "failed"
 		} else {
-			dom.storageSTest = "success"
+			if (sDebug) {
+				console.debug("sessionStorage set: name:", rndStrG, "value:", rndStrH);
+				console.debug("sessionStorage checked: name:", rndStrG, "value returned:", ssvalue);
+			};			
+			if (ssvalue == rndStrH) {
+				// values match
+				dom.storageSTest = "success"
+			} else {
+				// value doesn't match: this should never happen?
+				dom.storageSTest = "failed: values do not match"
+			}
 		}
 	} catch(e) {
 		dom.storageSTest = "failed: " + e.name
@@ -116,16 +174,16 @@ function get_idb() {
 
 	// indexedDB test: run even if IDB unavailable
 	try {
-		let dbIDB = indexedDB.open("IsPBMode");
+		let dbIDB = indexedDB.open("_testPBMode");
 		dbIDB.onerror = function() {
 			// current pb mode
 			dom.IDBTest = "failed: onerror";
 		};
 		dbIDB.onsuccess = function() {
-			let rndStrE = rnd_string();
+			let rndStrI = rnd_string("test_");
 			// normal mode
 			try {
-				let openIDB = indexedDB.open(rndStrE);
+				let openIDB = indexedDB.open(rndStrI);
 				// create objectStore
 				openIDB.onupgradeneeded = function(event){
 					let dbObject = event.target.result;
@@ -139,13 +197,17 @@ function get_idb() {
 					let dbStore = dbTx.objectStore("testIDB");
 					// add some data
 					let rndIndex = rnd_number();
-					let rndValue = rnd_string();
-					// console.log("	 stored: name: "+rndStrE+" id: "+rndIndex+" value: "+rndValue);
+					let rndValue = rnd_string("");
+					if (sDebug) {
+						console.debug("idb set: name:", rndStrI, "id", rndIndex, "value:", rndValue);
+					};
 					dbStore.put( {id: rndIndex, value: rndValue} );
 					// query the data
 					let getStr = dbStore.get(rndIndex);
 					getStr.onsuccess = function() {
-						// console.log("retrieved: name: "+rndStrE+" id: "+getStr.result.id+" value: "+getStr.result.value);
+						if (sDebug) {
+							console.debug("idb checked: name:", rndStrI, "id", getStr.result.id, "value:", getStr.result.value);
+						};
 						if (getStr.result.value == rndValue) {
 							dom.IDBTest = "success"
 						} else {
