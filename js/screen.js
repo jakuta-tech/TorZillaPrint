@@ -135,7 +135,7 @@ function get_orientation() {
 
 function get_private_win() {
 	try {
-		let db = indexedDB.open("IsPBMode");
+		let db = indexedDB.open("_testPBMode");
 		db.onerror = function() {
 			dom.IsPBMode="true"
 		};
