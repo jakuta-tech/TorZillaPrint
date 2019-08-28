@@ -42,6 +42,9 @@ if (isNaN(window.mozInnerScreenX) === false) {"isFirefox = true"};
 if (isNaN(window.window.scrollMaxX) === false) {"isFirefox = true"};
 if (navigator.oscpu == undefined){} else {"isFirefox = true"}; */
 
+// storage debugging
+var sDebug = false;
+
 // performance
 var mPerf = true; // minor
 var sPerf = true; // section
