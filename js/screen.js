@@ -944,12 +944,15 @@ function outputMath() {
 	} else if (m1 == "B") {
 		// B: always TB on WIN
 		fdMath1="Windows";
-		if (m6 == "1" | m6 == "3") {
-			// 1B or 3B: always 64bit TB: thus 64bit WIN
+		if (m6 == "1") {
+			// ESR60: 1B: always 64bit TB: thus 64bit WIN
 			fdMath6="Tor Browser [64-bit]"; fdMath1="Windows [64-bit]";
 		} else if (m6 == "2") {
-			// 2B: always 32bit TB (but WIN can be 32bit or 64bit)
+			// ESR60: 2B: always 32bit TB (but WIN can be 32bit or 64bit)
 			fdMath6="Tor Browser [32-bit]"
+		} else if (m6 == "3") {
+			// ESR68: 3B: 32bit TB on 32/64 WIN and 64bit TB on WIN64: now all the same
+			fdMath6="Tor Browser";
 		}
 	};
 	// output browser/os
