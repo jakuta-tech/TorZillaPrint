@@ -897,7 +897,7 @@ function outputMath() {
 	// known FF math6 hashes (browser)
 	if (m6hash == "7a73daaff1955eef2c88b1e56f8bfbf854d52486") {m6 = "1"}
 	else if (m6hash == "0eb76fed1c087ebb8f80ce1c571b2f26a8724365") {m6 = "2"}
-	else if (m6hash == "9251136865b8509cc22f8773503288d106104634") {m6 = "3"}; // FF68+ changed exmp1(1)
+	else if (m6hash == "9251136865b8509cc22f8773503288d106104634") {m6 = "3"}; // FF68+ changed exmp1(1), 1380031
 	// known FF math1 hashes (os)
 	if (m1hash == "46f7c2bbe55a2cd28252d059604f8c3bac316c23") {m1 = "A"}
 	else if (m1hash == "8464b989070dcff22c136e4d0fe21d466b708ece") {m1 = "B"}
@@ -925,9 +925,12 @@ function outputMath() {
 	} else if (m1 == "D") {
 		// D: always Linux (so far Mint, Debian, OpenSUSE)
 		fdMath1="Linux";
-		if (m6 == "1" | m6 == "3") {
-			// D1 or D3: always 64bit Linux: and thus 64bit FF
+		if (m6 == "1") {
+			// ESR60-67: 1D : always 64bit Linux: and thus 64bit FF
 			fdMath1="Linux [64-bit]"; fdMath6="Firefox [64-bit]";
+		}	else if (m6 == "3") {
+			// ESR68+: 3D : can be FF64bit or TB32/64bit
+			// do nothing: defaults already caluclated
 		}	else if (m6 == "2") {
 			// D2: always 32bit Linux (32bit FF set earlier)
 			fdMath1="Linux [32-bit]"
