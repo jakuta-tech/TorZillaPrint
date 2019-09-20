@@ -6,7 +6,7 @@
 	 https://canvasblocker.kkapsner.de/test/
 	 https://github.com/kkapsner/CanvasBlocker */
 
-var iframeDR = document.getElementById("domrect");
+var iframeDR = document.getElementById("drect");
 
 function reset_domrect() {
 	// clear detailed data
