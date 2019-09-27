@@ -807,6 +807,8 @@ function get_dpr() {
 
 function goFS() {
 	if (isFirefox == true) {
+		// get current inner window height
+		let h1 = window.innerHeight;
 		function getFS() {
 			if ( document.mozFullScreen ) {
 				let winFSw = document.mozFullScreenElement.clientWidth;
@@ -818,6 +820,14 @@ function goFS() {
 					document.mozCancelFullScreen();
 				};
 				document.removeEventListener("mozfullscreenchange", getFS)
+				// wait for FS exit and grab inner window height again
+				setTimeout(function(){
+					let h2 = window.innerHeight;
+					let panel = h1-h2;
+					if (panel !== 0) {
+						dom.fsLeak.innerHTML = dom.fsLeak.textContent + "<br>" + panel + "px [warning panel height]";
+					}
+				}, 500);
 			};
 		};
 		if (document.mozFullScreenEnabled) {
@@ -930,7 +940,7 @@ function outputMath() {
 			fdMath1="Linux [64-bit]"; fdMath6="Firefox [64-bit]";
 		}	else if (m6 == "3") {
 			// ESR68+: 3D : can be FF64bit or TB32/64bit
-			// do nothing: defaults already caluclated
+			// do nothing: values already set
 		}	else if (m6 == "2") {
 			// D2: always 32bit Linux (32bit FF set earlier)
 			fdMath1="Linux [32-bit]"
@@ -942,7 +952,7 @@ function outputMath() {
 		// E: always Mac: and thus 64bit FF
 		fdMath1="Mac"; fdMath6="Firefox [64-bit]";
 	} else if (m1 == "F") {
-		// F: always Android (only had 32bit Android 5 to test on)
+		// F: always Android (only had 32bit Android 6 to test on)
 		fdMath1="Android"
 	} else if (m1 == "B") {
 		// B: always TB on WIN
