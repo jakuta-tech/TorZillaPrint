@@ -8,17 +8,13 @@ function get_app_lang_dtd1() {
 	// we only call this function if iframes are not blocked
 	// therefore if we get no result, this is the bugzilla fix
 	let t0 = performance.now();
-
 	let dtd1 = "";
 	function output_dtd1(output) {
 		dom.appLang2.innerHTML = output;
-		// unload iframe
-		//iframe.src="";
 		// perf
 		let t1 = performance.now();
 		if (mPerf) {console.debug("app language dtd1: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	}
-
 	// load it up
 	let iframe = document.getElementById("appLang_2");
 	iframe.src="iframes/dtdlocale.xml";
@@ -48,6 +44,17 @@ function get_app_lang_dtd1() {
 		if (counter < 30) {
 			if (dtd1 !== "") {
 				clearInterval(checking);
+				// if en-US then append good or bad
+				if (navigator.language == "en-US") {
+					// ignore if already tagged as fixed by bugzilla 467035
+					if (sha1(dtd1) !== "feac014e6080355a61638d4c09d8b4497847da70") {
+						if (sha1(dtd1) == "4496d79dd1843c7c743647b45b4f0d76abf46bfe") {
+							dtd1 = enUS_green + dtd1;
+						} else {
+							dtd1 = enUS_red + dtd1;
+						}
+					}
+				}
 				output_dtd1(dtd1);
 			}
 		} else {
@@ -57,7 +64,6 @@ function get_app_lang_dtd1() {
 		counter++;
 	}
 	let checking = setInterval(check_dtd1, 50)
-
 };
 
 function get_app_lang_dtd2() {
@@ -85,6 +91,14 @@ function get_app_lang_dtd2() {
 		if (counter < 30) {
 			if (dtd2 !== "") {
 				clearInterval(checking);
+				// if en-US then append good or bad
+				if (navigator.language == "en-US") {
+					if (sha1(dtd2) == "4496d79dd1843c7c743647b45b4f0d76abf46bfe") {
+						dtd2 = enUS_green + dtd2;
+					} else {
+						dtd2 = enUS_red + dtd2;
+					}
+				}
 				output_dtd2(dtd2);
 			}
 		} else {
@@ -94,7 +108,6 @@ function get_app_lang_dtd2() {
 		counter++;
 	}
 	let checking = setInterval(check_dtd2, 50)
-
 };
 
 function get_app_lang_mediadocument() {
@@ -111,6 +124,14 @@ function get_app_lang_mediadocument() {
 	function run_mediadocument() {
 		try {
 			let output = (iframe.contentWindow.document.title);
+			// if en-US then append good or bad
+			if (navigator.language == "en-US") {
+				if (sha1(output) == "12ad5833d780efdd0d7e66432a1abab3afd9901d") {
+					output = enUS_green + output;
+				} else {
+					output = enUS_red + output;
+				}
+			}
 			output_mediadocument(output);
 		} catch(e) {
 			if ((location.protocol) == "file:") {
@@ -176,7 +197,18 @@ function get_app_lang_xmlparser() {
 		end = strTemp.search(" ");
 		output = output.slice(0,start) + output.slice(start+end,output.length);
 	};
-	dom.appLang5 = output;	
+	// output
+	if (navigator.language !== "en-US") {
+		// if not en-US then it doesn't matter
+		dom.appLang5 = output
+	} else {
+		// if en-US then append good or bad
+		if (sha1(output) === "0e4bcf212e9bcdae045444087659ffc9672c7582") {
+			dom.appLang5.innerHTML = enUS_green + output;
+		} else {
+			dom.appLang5.innerHTML = enUS_red + output;
+		}
+	}
 };
 
 function test_iframe() {
@@ -322,7 +354,19 @@ function outputLanguage() {
 
 	// app lang pocs: FF only
 	if (isFirefox == true) {
-		dom.appLang1 = document.getElementById("appLang_1").validationMessage;
+
+		let tmpStr = document.getElementById("appLang_1").validationMessage;
+		if (navigator.language !== "en-US") {
+			// if not en-US then it doesn't matter
+			dom.appLang1 = tmpStr;
+		} else {
+			// if en-US then append good or bad
+			if (sha1(tmpStr) == "c17ee6480cdfbdc082000efe84ca520283b761ef") {
+				dom.appLang1.innerHTML = enUS_green + tmpStr;
+			} else {
+				dom.appLang1.innerHTML = enUS_red + tmpStr;
+			}
+		}
 		get_app_lang_xmlparser();
 		get_app_lang_dtd2();
 		test_iframe(); // dtd1 and MediaDocument
