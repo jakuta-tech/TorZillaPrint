@@ -7,8 +7,8 @@ var tor_browser_green = " <span class='good'>[TB]</span>"; // u2713
 var tor_browser_red = " <span class='bad'>[TB]</span>"; // u2715
 var rfp_green = " <span class='good'>[RFP]</span>";
 var rfp_red = " <span class='bad'>[RFP]</span>";
-var enUS_green = "<span class='good'>[en-US]</span>"
-var enUS_red = "<span class='bad'>[not en-US]</span>"
+var enUS_green = "<span class='good'>[en-US]</span> "
+var enUS_red = "<span class='bad'>[not en-US]</span> "
 
 // notation when consecutive tests detect noise / randomization
 var note_random = " <span class='good'>[random]</span>";
