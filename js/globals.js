@@ -48,6 +48,6 @@ if (navigator.oscpu == undefined){} else {"isFirefox = true"}; */
 var sDebug = false;
 
 // performance
-var mPerf = false; // minor
+var mPerf = true; // minor
 var sPerf = true; // section
 var gt0;
