@@ -963,6 +963,7 @@ function outputMath() {
 		// B: always TB on WIN
 		fdMath1="Windows";
 		if (m6 == "1") {
+			isTorBrowser = true;
 			// ESR60: 1B: always 64bit TB: thus 64bit WIN
 			fdMath6="Tor Browser [64-bit]"; fdMath1="Windows [64-bit]";
 		} else if (m6 == "2") {
@@ -1026,6 +1027,6 @@ function outputUA() {
 	if (sPerf) {console.debug("  ** section ua [excl chrome + font]: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
-outputScreen();
 outputUA();
+outputScreen();
 window.addEventListener('resize', get_screen_metrics);
