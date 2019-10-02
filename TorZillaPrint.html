@@ -88,13 +88,13 @@
 				<div>screen resolution</div></div></td><td class="c" id="ScrRes"></td>
 		</tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
-			<span class="ttxtb">real time update when spoofing<br>inner window: range 500-2560</span></div>
+			<span class="ttxt">range 500-2560</span></div>
 			&nbsp [css] screen resolution <sup>1</sup></td><td id="S"></td></tr>
 		<tr><td>available resolution</td><td class="c" id="ScrAvail"></td></tr>
 		<tr><td>outer window</td><td class="c" id="WndOut"></td></tr>
 		<tr><td>inner window</td><td class="c" id="WndIn"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
-			<span class="ttxt">real time update:<br>range 500-2560</span></div>
+			<span class="ttxt">range 500-2560</span></div>
 			&nbsp [css] inner window <sup>1, 2</sup></td><td id="D"></td></tr>
 		<tr><td>viewport <sup>3</sup></td><td class="c" id="Viewport"></td></tr>
 		<tr><td>[css] display-mode</td><td id="cssDM"></td></tr>
@@ -766,10 +766,10 @@
 	<script src="js/main.js"></script>
 	<!-- load now as they have to wait for iframes -->
 	<script src="js/domrect.js"></script>
-	<script src="js/language.js"></script>
 	<!-- first 3 sections -->
 	<script src="js/screen.js"></script>
-	<!-- fast sections -->
+	<script src="js/language.js"></script> <!-- must come after screen which sets a global var -->
+	<!-- faster sections -->
 	<script src="js/headers.js"></script>
 	<script src="js/media.js"></script>
 	<script src="js/devices.js"></script>
