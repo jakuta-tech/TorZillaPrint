@@ -48,10 +48,12 @@ function get_app_lang_dtd1() {
 				if (navigator.language == "en-US") {
 					// ignore if already tagged as fixed by bugzilla 467035
 					if (sha1(dtd1) !== "feac014e6080355a61638d4c09d8b4497847da70") {
-						if (sha1(dtd1) == "4496d79dd1843c7c743647b45b4f0d76abf46bfe") {
-							dtd1 = enUS_green + dtd1;
-						} else {
-							dtd1 = enUS_red + dtd1;
+						if ((location.protocol) !== "file:") {
+							if (sha1(dtd1) == "4496d79dd1843c7c743647b45b4f0d76abf46bfe") {
+								dtd1 = enUS_green + dtd1;
+							} else {
+								dtd1 = enUS_red + dtd1;
+							}
 						}
 					}
 				}
@@ -161,8 +163,13 @@ function get_app_lang_mediadocument() {
 	let image = document.getElementById("imageTest");
 	image.src="images/dummy.png"; // 1px high
 	let counter = 0;
+	let maxcounter = 40; // 2 seconds
+	// wait longer for tor browser due to latency
+	if (isTorBrowser == true) {
+		maxcounter = 60 // 3 seconds
+	}
 	function check_image() {
-		if (counter < 40) {
+		if (counter < maxcounter) {
 			if (image.offsetHeight == 1) {
 				// empty_src=0px, broken_src= approx 24px
 				// extensions blocking images = if placeholders = approx 20px
@@ -252,8 +259,13 @@ function test_iframe() {
 
 	// keep checking if iframe success, but stop after x tries
 	let counter = 0;
+	let maxcounter = 40; // 2 seconds
+	// wait longer for tor browser due to latency
+	if (isTorBrowser == true) {
+		maxcounter = 60 // 3 seconds
+	}
 	function check_iframe() {
-		if (counter < 40) {
+		if (counter < maxcounter) {
 			if (iframeBlocked == false) {
 				clearInterval(checking);
 				output_iframe();
@@ -265,7 +277,6 @@ function test_iframe() {
 		counter++;
 	}
 	let checking = setInterval(check_iframe, 50)
-
 };
 
 function outputLanguage() {
