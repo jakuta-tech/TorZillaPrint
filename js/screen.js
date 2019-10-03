@@ -827,13 +827,13 @@ function get_tbh() {
 			// we only need to check once since the viewport size "snaps" to the new value
 			// ignore fullscreen
 			if (window.fullScreen == false) {
-				// seems like a slow scroll bypass this, lets add a wee delay
+				// add a delay to let the user finish scrolling and the toolbar to show
 				setTimeout(function() {
 					let vh_new = get_viewport();
 					if (vh_new > avh) {
 						dom.tbh = (vh_new - avh);
 					};
-				}, 100)
+				}, 1000)
 			};
 		};
 	};
