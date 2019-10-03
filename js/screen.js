@@ -162,6 +162,7 @@ function get_screen_metrics(type) {
 	dom.ScrAvail = screen.availWidth+" x "+screen.availHeight+" ("+screen.availLeft+","+screen.availTop+")";
 	dom.WndOut = window.outerWidth+" x "+window.outerHeight+" ("+window.screenX+","+window.screenY+")";
 	dom.WndIn = window.innerWidth+" x "+window.innerHeight+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")";
+	dom.fsState = window.fullScreen;
 	if (type !== "screen") {
 		get_viewport("resize");
 	};
@@ -909,7 +910,6 @@ function outputScreen() {
 	get_screen_metrics("screen");
 	dom.PixDepth = screen.pixelDepth;
 	dom.ColDepth = screen.colorDepth;
-	dom.fsState = window.fullScreen;
 	dom.DevPR = window.devicePixelRatio;
 	// functions
 	get_zoom("screen");
