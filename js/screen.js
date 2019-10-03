@@ -822,7 +822,7 @@ function get_kbh() {
 			// loses focus too: always make the difference positive
 			let vh_diff = Math.abs(vh_old - vh_new);
 			dom.kbh = vh_diff;
-		}, 200)
+		}, 700)
 	};
 };
 
