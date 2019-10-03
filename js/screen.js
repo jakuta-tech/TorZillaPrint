@@ -76,7 +76,7 @@ function get_viewport(type) {
 		if (type !== "resize") {
 			console.debug(type + " viewport: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 		}
-	return vw;
+	return vh; // vh used in android screen tests
 };
 
 function get_zoom(type) {
@@ -665,10 +665,10 @@ function get_os_widgets() {
 			else if (wdFFN == "Roboto") {wdOS="Android"}
 			else if (wdFFN == "-apple-system") {wdOS="Mac"}
 			else {wdOS="Linux"};
+			// set global var isMajorOS
+			isMajorOS = wdOS.toLowerCase();
 		};
 
-		// set global var isMajorOS
-		isMajorOS = wdOS.toLowerCase();
 		// set the two font list hyperlinks
 		dom.small_fontList.innerHTML = "<span class='no_color'><a href='txt/fonts_" + isMajorOS +
 			"_small.txt' target='blank' class='blue'>fonts_" + isMajorOS + "_small<a></span>";
@@ -809,6 +809,22 @@ function get_dpr() {
 };
 
 /* USER TESTS */
+
+function get_kbh() {
+	// only do if Android
+	if (isMajorOS == "android") {
+		// we use the viewport height as that doesn't change with zooming on android
+		let vh_old = get_viewport();
+		// wait for keyboard to slide up
+		setTimeout(function() {
+			let vh_new = get_viewport();
+			// on android, the onfocus event is triggered when text field
+			// loses focus too: always make the difference positive
+			let vh_diff = Math.abs(vh_old - vh_new);
+			dom.kbh = vh_diff;
+		}, 200)
+	};
+};
 
 function goFS() {
 	if (isFirefox == true) {
@@ -1027,6 +1043,6 @@ function outputUA() {
 	if (sPerf) {console.debug("  ** section ua [excl chrome + font]: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
-outputUA();
+outputUA(); // must run before screen as it sets some global variables
 outputScreen();
 window.addEventListener('resize', get_screen_metrics);
