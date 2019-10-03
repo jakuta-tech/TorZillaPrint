@@ -849,10 +849,14 @@ function get_kbh() {
 			// On android, the onfocus event is also triggered when the input
 			// field loses focus: always make the difference positive.
 			// We use the initial avh global var captured on first load as
-			// the toolbar can also be triggered into becoming visible if hidden
+			// the toolbar can also be triggered into becoming visible if hidden.
+			// note: if in FS, entering the text field exits FS, so we can rely on avh
 			let vh_diff = Math.abs(avh - vh_new);
 			dom.kbh = vh_diff;
-		}, 700)
+			// this is not perfect, as the keyboard can be slow to open, and it
+			// "slides" up. Instead we could keep checking for x time and return
+			// the maximum diff
+		}, 1000)
 	};
 };
 
