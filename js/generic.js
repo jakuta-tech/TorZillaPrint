@@ -173,6 +173,7 @@ function outputSection(id, cls, page) {
 	let tbl = document.getElementById("tb"+id);
 	tbl.querySelectorAll(`.${cls}`).forEach(e => {e.innerHTML = "&nbsp";});
 	// clear details if applicable
+	if (id=="1") {dom.kbt.value = ""};
 	if (id=="9") {reset_domrect()};
 	if (id=="10" && cls=="c2") {reset_audio2()};
 	if (id=="11" && cls=="c1") {reset_unicode()};
