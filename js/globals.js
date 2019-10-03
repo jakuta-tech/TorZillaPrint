@@ -37,6 +37,10 @@ var isTorBrowser = false;
 var isMajorOS = ""; // windows, mac, linux, android
 var isVersion = ""; // 2-digit numeric
 
+// android viewport height: we want to capture this on
+// first load as it includes the toolbar being visible
+var avh = "";
+
 // we can check this one here
 if (isNaN(window.mozPaintCount) === false) {isFirefox = true};
 /* other Firefox detection methods
