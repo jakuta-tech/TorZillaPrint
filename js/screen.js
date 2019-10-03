@@ -76,6 +76,11 @@ function get_viewport(type) {
 		if (type !== "resize") {
 			console.debug(type + " viewport: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 		}
+	// get the android viewport height once on first load
+	// this is always the value when the toolbar is visible (except if in FS)
+	if (avh == "") {
+		avh = vh;
+	}
 	return vh; // vh used in android screen tests
 };
 
@@ -814,13 +819,14 @@ function get_kbh() {
 	// only do if Android
 	if (isMajorOS == "android") {
 		// we use the viewport height as that doesn't change with zooming on android
-		let vh_old = get_viewport();
 		// wait for keyboard to slide up
 		setTimeout(function() {
 			let vh_new = get_viewport();
-			// on android, the onfocus event is triggered when text field
-			// loses focus too: always make the difference positive
-			let vh_diff = Math.abs(vh_old - vh_new);
+			// On android, the onfocus event is also triggered when the input
+			// field loses focus: always make the difference positive.
+			// We use the initial avh global var captured on first load as
+			// the toolbar can also be triggered into becoming visible if hidden
+			let vh_diff = Math.abs(avh - vh_new);
 			dom.kbh = vh_diff;
 		}, 700)
 	};
