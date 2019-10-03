@@ -814,9 +814,28 @@ function get_dpr() {
 };
 
 /* USER TESTS */
+function get_tbh() {
+	// only do if android
+	// this is to capture the toolbar height if the user has chosen
+	// to "hide the toolbar when scrolling down a page"
+	if (isMajorOS == "android") {
+		window.addEventListener('scroll', toolbarScroll)
+		function toolbarScroll() {
+			// avh = global var with toolbar. If we only use a new value greater
+			// than avh then this would exclude the keyboard interfering with calculations
+			// ignore fullscreen
+			if (window.fullScreen == false) {
+				let vh_new = get_viewport();
+				if (vh_new > avh) {
+					dom.tbh = (vh_new - avh);				
+				};
+			};
+		};
+	};
+};
 
 function get_kbh() {
-	// only do if Android
+	// only do if android
 	if (isMajorOS == "android") {
 		// we use the viewport height as that doesn't change with zooming on android
 		// wait for keyboard to slide up
@@ -894,6 +913,8 @@ function outputScreen() {
 	if (sPerf) {console.debug("  ** section screen: " + (t1-t0) + "ms" + " | " + (t1 - gt0) + " ms")};
 	// start listening for dpr leaks
 	get_dpr();
+	// start listening for android toolbar height
+	get_tbh();
 };
 
 function outputMath() {
