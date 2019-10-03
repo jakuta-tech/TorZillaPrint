@@ -814,6 +814,7 @@ function get_dpr() {
 };
 
 /* USER TESTS */
+
 function get_tbh() {
 	// only do if android
 	// this is to capture the toolbar height if the user has chosen
@@ -823,12 +824,16 @@ function get_tbh() {
 		function toolbarScroll() {
 			// avh = global var with toolbar. If we only use a new value greater
 			// than avh then this would exclude the keyboard interfering with calculations
+			// we only need to check once since the viewport size "snaps" to the new value
 			// ignore fullscreen
 			if (window.fullScreen == false) {
-				let vh_new = get_viewport();
-				if (vh_new > avh) {
-					dom.tbh = (vh_new - avh);				
-				};
+				// seems like a slow scroll bypass this, lets add a wee delay
+				setTimeout(function() {
+					let vh_new = get_viewport();
+					if (vh_new > avh) {
+						dom.tbh = (vh_new - avh);
+					};
+				}, 100)
 			};
 		};
 	};
