@@ -876,7 +876,7 @@ function goFS() {
 				document.mozCancelFullScreen();
 			};
 			document.removeEventListener("mozfullscreenchange", getFS)
-			// Tor Browser desktop warning panel
+			// desktop TB warning panel
 			if (isTorBrowser == true && isMajorOS !== "android") {
 				setTimeout(function(){
 					let wh2 = window.innerHeight;
@@ -886,26 +886,26 @@ function goFS() {
 					};
 				}, 600);
 			};
-		}
+			// android
+			if (isMajorOS == "android") {
+				// if toolbar was not auto-hiding, measurements were too quick
+				if (scrFSh == avh) {
+					// wait for "entered full screen" message and toolbar to go away and try again
+					setTimeout(function(){
+						winFSw = document.mozFullScreenElement.clientWidth;
+						winFSh = document.mozFullScreenElement.clientHeight;
+						dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
+					}, 2000);
+				}
+			};
+		};
 		function getFS() {
 			if ( document.mozFullScreen ) {
 				let winFSw = document.mozFullScreenElement.clientWidth,
 					winFSh = document.mozFullScreenElement.clientHeight,
 					scrFSh = screen.height;
 				dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
-
-				// on android we want to measure twice and take the max value
-				// explain: blah
-				if (isMajorOS == "android") {
-					// scrFSh is our first measurement 
-					setTimeout(function(){
-						dom.fsLeak.innerHTML = dom.fsLeak.textContent + "<br>"
-							+ "second delayed screen height measurement: " + screen.height;
-						exitFS();
-					}, 100);
-				} else {
-					exitFS();
-				};
+				exitFS();
 			};
 		};
 		if (document.mozFullScreenEnabled) {
