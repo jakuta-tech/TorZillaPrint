@@ -48,13 +48,13 @@ function get_app_lang_dtd1() {
 				if (navigator.language == "en-US") {
 					// ignore if already tagged as fixed by bugzilla 467035
 					if (sha1(dtd1) !== "feac014e6080355a61638d4c09d8b4497847da70") {
-						if ((location.protocol) !== "file:") {
+						//if ((location.protocol) !== "file:") {
 							if (sha1(dtd1) == "4496d79dd1843c7c743647b45b4f0d76abf46bfe") {
 								dtd1 = enUS_green + dtd1;
 							} else {
 								dtd1 = enUS_red + dtd1;
 							}
-						}
+						//}
 					}
 				}
 				output_dtd1(dtd1);
