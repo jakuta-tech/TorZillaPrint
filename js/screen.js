@@ -876,28 +876,6 @@ function goFS() {
 				document.mozCancelFullScreen();
 			};
 			document.removeEventListener("mozfullscreenchange", getFS)
-			// desktop TB warning panel
-			if (isTorBrowser == true && isMajorOS !== "android") {
-				setTimeout(function(){
-					let wh2 = window.innerHeight;
-					let panel = wh1-wh2;
-					if (panel !== 0) {
-						dom.fsLeak.innerHTML = dom.fsLeak.textContent + "<br>" + panel + "px [warning panel height]";
-					};
-				}, 600);
-			};
-			// android
-			if (isMajorOS == "android") {
-				// if toolbar was not auto-hiding, measurements were too quick
-				if (scrFSh == avh) {
-					// wait for "entered full screen" message and toolbar to go away and try again
-					setTimeout(function(){
-						winFSw = document.mozFullScreenElement.clientWidth;
-						winFSh = document.mozFullScreenElement.clientHeight;
-						dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
-					}, 2000);
-				}
-			};
 		};
 		function getFS() {
 			if ( document.mozFullScreen ) {
@@ -905,7 +883,30 @@ function goFS() {
 					winFSh = document.mozFullScreenElement.clientHeight,
 					scrFSh = screen.height;
 				dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
-				exitFS();
+				// android
+				if (isMajorOS == "android" && scrFSh == avh) {
+					// if toolbar was not auto-hiding, measurements are too quick
+					// wait for "entered full screen" message and toolbar to go away and try again
+					// this is a bit hacky: use could do something in that 2 seconds
+					setTimeout(function(){
+						winFSw = document.mozFullScreenElement.clientWidth;
+						winFSh = document.mozFullScreenElement.clientHeight;
+						dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
+						exitFS();
+					}, 2000);
+				} else {
+					exitFS();
+				};
+				// desktop TB warning panel
+				if (isTorBrowser == true && isMajorOS !== "android") {
+					setTimeout(function(){
+						let wh2 = window.innerHeight;
+						let panel = wh1-wh2;
+						if (panel !== 0) {
+							dom.fsLeak.innerHTML = dom.fsLeak.textContent + "<br>" + panel + "px [warning panel height]";
+						};
+					}, 600);
+				};
 			};
 		};
 		if (document.mozFullScreenEnabled) {
