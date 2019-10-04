@@ -868,48 +868,52 @@ function get_kbh() {
 function goFS() {
 	if (isFirefox == true) {
 		// get current inner window height
-		let h1 = window.innerHeight;
+		let sh1 = screen.height,
+			wh1 = window.innerHeight;
 		function getFS() {
 			if ( document.mozFullScreen ) {
-				if (isMajorOS == "android") {
-					// android
-					// if toolbar auto-hide is enabled: when hidden we already have our max height
-					// but if it's not, FS seems to unhide it and we end up with the original value
-					// so lets just use the max value
-					let winFSw = document.mozFullScreenElement.clientWidth;
-					let winFSh = document.mozFullScreenElement.clientHeight;
-					if (h1 > winFSh) {
-						winFSh = h1;
-					};
-					dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
-					if (isVersion > 63) {
-						document.exitFullscreen();
-					} else {
-						document.mozCancelFullScreen();
-					};
-					document.removeEventListener("mozfullscreenchange", getFS)
+				let winFSw = document.mozFullScreenElement.clientWidth;
+				let winFSh = document.mozFullScreenElement.clientHeight;
+				let scrFSh = screen.height
+
+				let strDebug = "before: screen, " + sh1 + " : window, " + wh1
+					+ "<br>" + "after: screen, " + scrFSh + " : window, " + winFSh
+
+				// android
+				// if toolbar auto-hide is enabled: when hidden we already have our max height
+				// but if it's not, FS seems to unhide it and we end up with the original value
+				// so lets just use the max values
+				if (wh1 > winFSh) {winFSh = wh1; strDebug = strDebug + "<br>" + "original window was higher"};
+				if (sh1 > scrFSh) {scrFSh = sh1; strDebug = strDebug + "<br>" + "original screen was higher"};
+
+				strDebug = strDebug + "<br>" + "max logic: screen, " + scrFSh + " : window, " + winFSh
+
+				//dom.fsLeak = screen.width+" x "+scrFSh+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
+
+				dom.fsLeak.innerHTML = screen.width+" x "+scrFSh+" [screen] "+winFSw+" x "+winFSh
+					+ " [mozFullScreenElement client]" + "<br>" + strDebug;
+
+				if (isVersion > 63) {
+					document.exitFullscreen();
 				} else {
-					// desktop
-					let winFSw = document.mozFullScreenElement.clientWidth;
-					let winFSh = document.mozFullScreenElement.clientHeight;
-					dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
-					if (isVersion > 63) {
-						document.exitFullscreen();
-					} else {
-						document.mozCancelFullScreen();
-					};
-					document.removeEventListener("mozfullscreenchange", getFS)
-					// Tor Browser: wait for FS exit and grab inner window height again
-					if (isTorBrowser == true) {
+					document.mozCancelFullScreen();
+				};
+				document.removeEventListener("mozfullscreenchange", getFS)
+
+				// Tor Browser
+				if (isTorBrowser == true) {
+					// ignore android
+					if (isMajorOS !== "android") {
 						setTimeout(function(){
-							let h2 = window.innerHeight;
-							let panel = h1-h2;
+							let wh2 = window.innerHeight;
+							let panel = wh1-wh2;
 							if (panel !== 0) {
 								dom.fsLeak.innerHTML = dom.fsLeak.textContent + "<br>" + panel + "px [warning panel height]";
-							}
+							};
 						}, 600);
-					}
-				}
+					};
+				};
+
 			};
 		};
 		if (document.mozFullScreenEnabled) {
