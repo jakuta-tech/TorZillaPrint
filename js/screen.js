@@ -900,9 +900,9 @@ function goFS() {
 					// scrFSh is our first measurement 
 					setTimeout(function(){
 						dom.fsLeak.innerHTML = dom.fsLeak.textContent + "<br>"
-							+ "second delayed screen ehight measurement: " + screen.height;
+							+ "second delayed screen height measurement: " + screen.height;
 						exitFS();
-					}, 600);
+					}, 100);
 				} else {
 					exitFS();
 				};
