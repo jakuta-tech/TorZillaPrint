@@ -867,38 +867,41 @@ function get_kbh() {
 
 function goFS() {
 	if (isFirefox == true) {
-		// get current inner window height
-		let wh1 = window.innerHeight;
+		let wh1 = window.innerHeight,
+			winFSw = "",
+			winFSh = "";
 		function exitFS() {
 			if (isVersion > 63) {
 				document.exitFullscreen();
 			} else {
 				document.mozCancelFullScreen();
 			};
-			document.removeEventListener("mozfullscreenchange", getFS)
+			if (isMajorOS == "android") {
+				document.removeEventListener("mozfullscreenchange", getFS_android)
+			} else {
+				document.removeEventListener("mozfullscreenchange", getFS_desktop)
+			};
 		};
-		function getFS() {
+		function getFS_android() {
+			// android: delay required
 			if ( document.mozFullScreen ) {
-				let winFSw = document.mozFullScreenElement.clientWidth,
-					winFSh = document.mozFullScreenElement.clientHeight,
-					scrFSh = screen.height;
-				dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
-				// android
-				if (isMajorOS == "android" && scrFSh == avh) {
-					// if toolbar was not auto-hiding, measurements are too quick
-					// wait for "entered full screen" message and toolbar to go away and try again
-					// this is a bit hacky: use could do something in that 2 seconds
-					setTimeout(function(){
-						winFSw = document.mozFullScreenElement.clientWidth;
-						winFSh = document.mozFullScreenElement.clientHeight;
-						dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
-						exitFS();
-					}, 2000);
-				} else {
+				setTimeout(function(){
+					winFSw = document.mozFullScreenElement.clientWidth;
+					winFSh = document.mozFullScreenElement.clientHeight;
+					dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
 					exitFS();
-				};
-				// desktop TB warning panel
-				if (isTorBrowser == true && isMajorOS !== "android") {
+				}, 1000);
+			};
+		};
+		function getFS_desktop() {
+			// desktop
+			if ( document.mozFullScreen ) {
+				winFSw = document.mozFullScreenElement.clientWidth;
+				winFSh = document.mozFullScreenElement.clientHeight;
+				dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
+				exitFS();
+				// TB warning panel
+				if (isTorBrowser) {
 					setTimeout(function(){
 						let wh2 = window.innerHeight;
 						let panel = wh1-wh2;
@@ -911,9 +914,16 @@ function goFS() {
 		};
 		if (document.mozFullScreenEnabled) {
 			let element = document.getElementById("imageFS");
-			element.mozRequestFullScreen();
-			document.addEventListener("mozfullscreenchange", getFS)
-		}
+			if (isMajorOS == "android") {
+				element.mozRequestFullScreen();
+				document.addEventListener("mozfullscreenchange", getFS_android)
+			} else {
+				// desktop: eliminate all delays possible to beat the warning panel
+				// gradually eating height: hence FS request after android check
+				element.mozRequestFullScreen();
+				document.addEventListener("mozfullscreenchange", getFS_desktop)
+			};
+		};
 	};
 };
 
