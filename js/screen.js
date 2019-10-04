@@ -869,33 +869,42 @@ function goFS() {
 	if (isFirefox == true) {
 		// get current inner window height
 		let wh1 = window.innerHeight;
+		function exitFS() {
+			if (isVersion > 63) {
+				document.exitFullscreen();
+			} else {
+				document.mozCancelFullScreen();
+			};
+			document.removeEventListener("mozfullscreenchange", getFS)
+			// Tor Browser desktop warning panel
+			if (isTorBrowser == true && isMajorOS !== "android") {
+				setTimeout(function(){
+					let wh2 = window.innerHeight;
+					let panel = wh1-wh2;
+					if (panel !== 0) {
+						dom.fsLeak.innerHTML = dom.fsLeak.textContent + "<br>" + panel + "px [warning panel height]";
+					};
+				}, 600);
+			};
+		}
 		function getFS() {
 			if ( document.mozFullScreen ) {
 				let winFSw = document.mozFullScreenElement.clientWidth,
 					winFSh = document.mozFullScreenElement.clientHeight,
-					scrFSh = screen.height,
-					method = "screen";
-				// on android use viewport instead of screen
+					scrFSh = screen.height;
+				dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
+
+				// on android we want to measure twice and take the max value
+				// explain: blah
 				if (isMajorOS == "android") {
-					let scrFSh = get_viewport();
-					method = "viewport";
-				};
-				dom.fsLeak = screen.width+" x "+scrFSh+" ["+method+"] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
-				if (isVersion > 63) {
-					document.exitFullscreen();
-				} else {
-					document.mozCancelFullScreen();
-				};
-				document.removeEventListener("mozfullscreenchange", getFS)
-				// Tor Browser desktop
-				if (isTorBrowser == true && isMajorOS !== "android") {
+					// scrFSh is our first measurement 
 					setTimeout(function(){
-						let wh2 = window.innerHeight;
-						let panel = wh1-wh2;
-						if (panel !== 0) {
-							dom.fsLeak.innerHTML = dom.fsLeak.textContent + "<br>" + panel + "px [warning panel height]";
-						};
+						dom.fsLeak.innerHTML = dom.fsLeak.textContent + "<br>"
+							+ "second delayed screen ehight measurement: " + screen.height;
+						exitFS();
 					}, 600);
+				} else {
+					exitFS();
 				};
 			};
 		};
