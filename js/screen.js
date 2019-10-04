@@ -293,7 +293,11 @@ function get_browser_resource() {
 	document.body.appendChild(imgLogoB);
 	imgLogoB.addEventListener("load", function() {
 		let imgLogoBW = imgLogoB.width;
-		if (imgLogoBW > 0) {dom.fdResource = "Tor Browser"};
+		if (imgLogoBW > 0) {
+			dom.fdResource = "Tor Browser";
+			// set isTorBrowser in case math missed it
+			isTorBrowser = true;
+		};
 		document.body.removeChild(imgLogoB);
 	});
 	let t1 = performance.now();
@@ -867,23 +871,40 @@ function goFS() {
 		let h1 = window.innerHeight;
 		function getFS() {
 			if ( document.mozFullScreen ) {
-				let winFSw = document.mozFullScreenElement.clientWidth;
-				let winFSh = document.mozFullScreenElement.clientHeight;
-				dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
-				if (isVersion > 63) {
-					document.exitFullscreen();
+				if (isMajorOS == "android") {
+					// android
+					// if toolbar auto-hide is enabled: when hidden we already have our max height
+					// but if it's not, FS seems to unhide it and we end up with the original value
+					// so lets just use the max value
+					let winFSw = document.mozFullScreenElement.clientWidth;
+					let winFSh = document.mozFullScreenElement.clientHeight;
+					if (h1 > winFSh) {
+						winFSh = h1;
+					};
+					dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
 				} else {
-					document.mozCancelFullScreen();
-				};
-				document.removeEventListener("mozfullscreenchange", getFS)
-				// wait for FS exit and grab inner window height again
-				setTimeout(function(){
-					let h2 = window.innerHeight;
-					let panel = h1-h2;
-					if (panel !== 0) {
-						dom.fsLeak.innerHTML = dom.fsLeak.textContent + "<br>" + panel + "px [warning panel height]";
+					// desktop
+					let winFSw = document.mozFullScreenElement.clientWidth;
+					let winFSh = document.mozFullScreenElement.clientHeight;
+					dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
+					if (isVersion > 63) {
+						document.exitFullscreen();
+					} else {
+						document.mozCancelFullScreen();
+					};
+					document.removeEventListener("mozfullscreenchange", getFS)
+					// Tor Browser: wait for FS exit and grab inner window height again
+					if (isTorBrowser == true) {
+						setTimeout(function(){
+							console.debug("checking for warning panel");
+							let h2 = window.innerHeight;
+							let panel = h1-h2;
+							if (panel !== 0) {
+								dom.fsLeak.innerHTML = dom.fsLeak.textContent + "<br>" + panel + "px [warning panel height]";
+							}
+						}, 600);
 					}
-				}, 500);
+				}
 			};
 		};
 		if (document.mozFullScreenEnabled) {
