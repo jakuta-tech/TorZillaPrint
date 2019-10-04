@@ -882,6 +882,12 @@ function goFS() {
 						winFSh = h1;
 					};
 					dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
+					if (isVersion > 63) {
+						document.exitFullscreen();
+					} else {
+						document.mozCancelFullScreen();
+					};
+					document.removeEventListener("mozfullscreenchange", getFS)
 				} else {
 					// desktop
 					let winFSw = document.mozFullScreenElement.clientWidth;
@@ -896,7 +902,6 @@ function goFS() {
 					// Tor Browser: wait for FS exit and grab inner window height again
 					if (isTorBrowser == true) {
 						setTimeout(function(){
-							console.debug("checking for warning panel");
 							let h2 = window.innerHeight;
 							let panel = h1-h2;
 							if (panel !== 0) {
