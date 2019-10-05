@@ -81,7 +81,11 @@ function get_viewport(type) {
 	if (avh == "") {
 		avh = vh;
 	}
-	return vh; // vh used in android screen tests
+	if (type == "ua") {
+		return vw; // called from scrollbar function
+	} else {
+		return vh; // vh used in android screen tests
+	};
 };
 
 function get_zoom(type) {
@@ -403,7 +407,6 @@ function get_os_line_scrollbar() {
 	// recalculate zoom/viewport in case someone zoomed between tests
 	get_zoom("ua");
 	let vw = get_viewport("ua");
-
 	// os: strings
 	let strW = "[Windows]",
 		strWL = "[Windows or Linux]",
