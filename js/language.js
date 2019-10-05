@@ -16,7 +16,8 @@ function get_app_lang_dtd1() {
 		if (mPerf) {console.debug("app language dtd1: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	}
 	// load it up
-	let iframe = document.getElementById("appLang_2");
+	let iframe = document.getElementById("appLang_2"),
+		dtdtemp = "";
 	iframe.src="iframes/dtdlocale.xml";
 	iframe.addEventListener('load', () => {
 		try {
@@ -27,14 +28,14 @@ function get_app_lang_dtd1() {
 				setTimeout(function() {
 					let str = dom.appLang4.textContent;
 					if ( str == "[file:] [Cross-Origin Request Blocked]") {
-						dtd1 = error_file_cors
+						dtdtemp = error_file_cors
 					} else if (str == "") {
-						// we checked too early: a tiny timeout seems to always delay enough
-						dtd1 = "<span class='good'>[bugzilla 467035]</span> or " + error_file_cors;
+						// this should never happen, we waited a whole second
+						dtdtemp = "<span class='good'>[bugzilla 467035]</span> or " + error_file_cors;
 					} else {
-						dtd1 = "<span class='good'>[bugzilla 467035]</span>";
+						dtdtemp = "<span class='good'>[bugzilla 467035]</span>";
 					}
-				}, 50);
+				}, 1000); // as long as we get this done before the check_dtd1 runs out
 			};
 		}
 	});
@@ -46,22 +47,21 @@ function get_app_lang_dtd1() {
 				clearInterval(checking);
 				// if en-US then append good or bad
 				if (navigator.language == "en-US") {
-					// ignore if already tagged as fixed by bugzilla 467035
-					if (sha1(dtd1) !== "feac014e6080355a61638d4c09d8b4497847da70") {
-						//if ((location.protocol) !== "file:") {
-							if (sha1(dtd1) == "4496d79dd1843c7c743647b45b4f0d76abf46bfe") {
-								dtd1 = enUS_green + dtd1;
-							} else {
-								dtd1 = enUS_red + dtd1;
-							}
-						//}
+					// 4496d79dd1843c7c743647b45b4f0d76abf46bfe = the en-US error string
+					if (sha1(dtd1) == "4496d79dd1843c7c743647b45b4f0d76abf46bfe") {
+						dtd1 = enUS_green + dtd1;
+					} else {
+						dtd1 = enUS_red + dtd1;
 					}
 				}
 				output_dtd1(dtd1);
 			}
 		} else {
 			clearInterval(checking);
-			output_dtd1("<span class='good'>[bugzilla 467035]</span>");
+			if (dtdtemp == "") {
+				dtdtemp = "<span class='good'>[bugzilla 467035]</span>";
+			};
+			output_dtd1(dtdtemp);
 		}
 		counter++;
 	}
