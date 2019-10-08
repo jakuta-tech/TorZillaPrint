@@ -1117,4 +1117,7 @@ function outputUA() {
 
 outputUA(); // must run before screen as it sets some global variables
 outputScreen();
-window.addEventListener('resize', get_screen_metrics);
+// desktop start listening for resize events
+if (isMajorOS !== "android") {
+	window.addEventListener('resize', get_screen_metrics);
+};
