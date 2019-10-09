@@ -70,13 +70,13 @@ function get_audio2_context() {
 						} else {
 							latency = value + rfp_red;
 						}
-					}  else if (majorOS == "linux") {
+					}  else if (isMajorOS == "linux") {
 						if (value == "0.025") {
 							latency = value + rfp_green;
 				 		} else {
 							latency = value + rfp_red;
 						}
-					} else if (majorOS == "mac") {
+					} else if (isMajorOS == "mac") {
 						// can't do anything until we know the ac-sampleRate
 						// which we get after outputLatency
 						macLatency = true;
