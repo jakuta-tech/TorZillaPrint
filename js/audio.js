@@ -38,7 +38,8 @@ function get_audio2_context() {
 		let obj;
 		let hash = "", // str to hash
 			output = "", // pretty output
-			latency = ""; // combined latency string
+			latency = "", // latency output
+			macLatency = false; // is it mac and is outputLatency supported
 		let	d = f.createAnalyser();
 			obj = a({}, f, "ac-");
 			obj = a(obj, f.destination, "ac-");
@@ -47,7 +48,7 @@ function get_audio2_context() {
 		// loop key+value, build pretty output and string to hash
 		for (const [key, value] of Object.entries(obj)) {
 			// split latency (FF70+) out
-			// RFP values: win 0.04, android 0.02, mac 512, other 0.025
+			// RFP values: win 0.04, android 0.02, mac 512/sampleRate, other 0.025
 			if (key == "ac-outputLatency") {
 				// NOTE: nonRFP mode: Failure mode: return 0.0 if running on a normal thread
 				// NOTE: nonRFP mode: outputLatency returns 0 unless we detect a user gesture
@@ -57,10 +58,46 @@ function get_audio2_context() {
 				} else {
 					latency = value;
 					latencyError = false;
+					if (isMajorOS == "windows") {
+						if (value == "0.04") {
+							latency = value + rfp_green;
+						} else {
+							latency = value + rfp_red;
+						}
+					} else if (isMajorOS == "android") {
+						if (value == "0.02") {
+							latency = value + rfp_green;
+						} else {
+							latency = value + rfp_red;
+						}
+					}  else if (majorOS == "linux") {
+						if (value == "0.025") {
+							latency = value + rfp_green;
+				 		} else {
+							latency = value + rfp_red;
+						}
+					} else if (majorOS == "mac") {
+						// can't do anything until we know the ac-sampleRate
+						// which we get after outputLatency
+						macLatency = true;
+					}
 				}
 			} else {
 				output = output + key.padStart(25, " ") + ": " + value + "<br>";
 				hash = hash + value + "-";
+			}
+			if (key == "ac-sampleRate") {
+				if (macLatency == true) {
+					// is mac and outputLatency is supported (latency was set earlier)
+					// example: 0.01185941 - without RFP / 0.011609977324263039 - with RFP
+					// console.debug (512/44100); // 0.011609977324263039
+					let RFPspoof = (512/value);
+					if (RFPspoof == latency) {
+						latency = latency + rfp_green;
+					} else {
+						latency = latency + rfp_red;
+					}
+				}
 			}
 		};
 		hash = hash.slice(0, -1); // remove trailing delimiter
