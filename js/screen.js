@@ -955,14 +955,19 @@ function outputScreen() {
 	get_fullscreen();
 	// android check
 	if (isMajorOS == "android") {
-		// first measurement might be the real resolution: e.g 360x615
-		// e.g TB for Android can be slow
-
-		dom.newWinLeak = "ignore: dev debug: " + firstW + "x" + firstH;
-
-		// and, after a tiny wait, we can compare first measures to current
-		// in case we need to re-run screen metrics
-
+		// Android = slow: first measurement (global vars taken as early as possible)
+		// always seem to be the native resolution: e.g 360x599, but not necessarily
+		// the same as the new window test e.g 360x615
+		// todo: output result to a new field
+		dom.newWinLeak = firstW + "x" + firstH + " [inner]";
+		// and, after a tiny wait, we can compare first measures
+		// to current in case we need to re-run screen metrics
+		if (window.innerWidth == firstW) {
+			setTimeout(function(){
+				get_screen_metrics();
+				dom.newWinLeak = firstW + "x" + firstH + " [inner], debug: ran screen metrics twice";
+			}, 150);
+		}
 	};
 	// perf
 	let t1 = performance.now();
