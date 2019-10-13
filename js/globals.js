@@ -1,9 +1,5 @@
 'use strict';
 
-// grab inner window ASAP: compare later
-// - if new window: can reveal letterboxing entropy: diff < 200 height
-// - if new window: measurements without user interaction
-// - can be used to fix up slow loads e.g TB on Android to rerun screen metrics
 var firstH = window.innerHeight;
 var firstW = window.innerWidth;
 
