@@ -953,6 +953,17 @@ function outputScreen() {
 	get_orientation();
 	get_private_win();
 	get_fullscreen();
+	// android check
+	if (isMajorOS == "android") {
+		// first measurement might be the real resolution: e.g 360x615
+		// e.g TB for Android can be slow
+
+		dom.newWinLeak = "ignore: dev debug: " + firstW + "x" + firstH;
+
+		// and, after a tiny wait, we can compare first measures to current
+		// in case we need to re-run screen metrics
+
+	};
 	// perf
 	let t1 = performance.now();
 	if (sPerf) {console.debug("  ** section screen: " + (t1-t0) + "ms" + " | " + (t1 - gt0) + " ms")};
