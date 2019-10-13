@@ -938,13 +938,13 @@ function goNW() {
 		d = newWin.innerHeight;
 	let newWinLeak = c + " x " + d + " [inner] " + a + " x " + b + " [outer]";
 	if (isMajorOS == "android") {
-		if (c > firstH) {
+		if (newWin.innerWidth > firstH) {
 			// firstH was with the toolbar
 			newWinLeak = c + " x " + d + " [inner] [toolbar hidden] " + a + " x " + b + " [outer]";
-		} else if (c == firstH) {
+		} else if (newWin.innerWidth == firstH) {
 			// they should be the same
 			newWinLeak = c + " x " + d + " [inner] [toolbar visible] " + a + " x " + b + " [outer]";
-		}
+		};
 	};
 	// there is no clamping in TB for Android yet
 	if (newWinLeak == "10 x 10 [inner] 10 x 10 [outer]") {newWinLeak = newWinLeak + tor_browser_green};
