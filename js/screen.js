@@ -932,9 +932,22 @@ function goFS() {
 
 function goNW() {
 	let newWin = window.open("newwin.html","","width=9000,height=9000");
-	let newWinLeak = newWin.outerWidth + " x " + newWin.outerHeight + " [outer] "
-		+ newWin.innerWidth + " x " + newWin.innerHeight + " [inner]";
-	if (newWinLeak == "10 x 10 [outer] 10 x 10 [inner]") {newWinLeak = newWinLeak + tor_browser_green};
+	let a = newWin.outerWidth,
+		b = newWin.outerHeight,
+		c = newWin.innerWidth,
+		d = newWin.innerHeight;
+	let newWinLeak = c + " x " + d + " [inner] " + a + " x " + b + " [outer]";
+	if (isMajorOS == "android") {
+		if (c > firstH) {
+			// firstH was with the toolbar
+			newWinLeak = c + " x " + d + " [inner] [toolbar hidden] " + a + " x " + b + " [outer]";
+		} else if (c == firstH) {
+			// they should be the same
+			newWinLeak = c + " x " + d + " [inner] [toolbar visible] " + a + " x " + b + " [outer]";
+		}
+	};
+	// there is no clamping in TB for Android yet
+	if (newWinLeak == "10 x 10 [inner] 10 x 10 [outer]") {newWinLeak = newWinLeak + tor_browser_green};
 	dom.newWinLeak.innerHTML = newWinLeak;
 };
 
@@ -955,19 +968,15 @@ function outputScreen() {
 	get_fullscreen();
 	// android check
 	if (isMajorOS == "android") {
-		// Android = slow: first measurements (vars taken as early as possible) always
-		// seem to be the native resolution: e.g 360x559, but not necessarily the
-		// same as the new window test e.g sometimes I get 360x615 with new window
-		dom.droidWin = firstW + "x" + firstH + " [inner]";
-		// and, after a tiny wait, we can compare first measures
-		// to current in case we need to re-run screen metrics
-		// need to play with the timer here: sometimes I get 1522 (correct)
-		// sometimes I get 1674 = when the toolbar is not showing: weird AF
+		// global vars taken as early as possible = native resolution with FF toolbar
+    // visible: e.g 360x559. New window: same but can if run with FF toolbar hidden: e.g 360x615
+		dom.droidWin = firstW + " x " + firstH + " [inner] [toolbar visible]";
+		// after a wait, compare to current in case we need to re-run screen metrics
 		if (window.innerWidth == firstW) {
 			setTimeout(function(){
 				get_screen_metrics();
-			}, 150);
-		}
+			}, 100);
+		};
 	};
 	// perf
 	let t1 = performance.now();
