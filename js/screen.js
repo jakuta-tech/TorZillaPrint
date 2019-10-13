@@ -955,17 +955,17 @@ function outputScreen() {
 	get_fullscreen();
 	// android check
 	if (isMajorOS == "android") {
-		// Android = slow: first measurement (global vars taken as early as possible)
-		// always seem to be the native resolution: e.g 360x599, but not necessarily
-		// the same as the new window test e.g 360x615
-		// todo: output result to a new field
-		dom.newWinLeak = firstW + "x" + firstH + " [inner]";
+		// Android = slow: first measurements (vars taken as early as possible) always
+		// seem to be the native resolution: e.g 360x559, but not necessarily the
+		// same as the new window test e.g sometimes I get 360x615 with new window
+		dom.droidWin = firstW + "x" + firstH + " [inner]";
 		// and, after a tiny wait, we can compare first measures
 		// to current in case we need to re-run screen metrics
+		// need to play with the timer here: sometimes I get 1522 (correct)
+		// sometimes I get 1674 = when the toolbar is not showing: weird AF
 		if (window.innerWidth == firstW) {
 			setTimeout(function(){
 				get_screen_metrics();
-				dom.newWinLeak = firstW + "x" + firstH + " [inner], debug: ran screen metrics twice";
 			}, 150);
 		}
 	};
