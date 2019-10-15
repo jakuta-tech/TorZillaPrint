@@ -17,7 +17,9 @@ function showhide(toggleType, toggleID, togWord) {
 	var xyz = document.getElementsByClassName("tog"+toggleID);
 	var abc;
 	for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = toggleType;}
-	document.getElementById("label"+toggleID).innerHTML = togWord+" details";
+	if (togWord !== "") {
+		document.getElementById("label"+toggleID).innerHTML = togWord+" details";
+	};
 	// domrect show/hide extra sections & change drFirstHeader text
 	if (toggleID == "D") {
 		let drArray = [dom.dr1.innerHTML, dom.dr2.innerHTML, dom.dr3.innerHTML, dom.dr4.innerHTML];
@@ -32,7 +34,7 @@ function showhide(toggleType, toggleID, togWord) {
 			for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = toggleType;};
 		};
 	};
-	// font lists show/hide if same hash or not, and change lebel text
+	// font lists show/hide if same hash or not, and change label text
 	if (toggleID == "F") {
 		if (isPage == "main") {
 			let fontA = dom.small_fontFPJS2.innerHTML;
@@ -75,7 +77,6 @@ function showhide(toggleType, toggleID, togWord) {
 				dom.fontF1.style.display = toggleType;
 				dom.fontF2.style.display = toggleType;
 			};
-
 		}
 	};
 };
