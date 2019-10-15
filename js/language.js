@@ -377,18 +377,22 @@ function outputLanguage() {
 		+ "-" + tmp7 + "-" + tmp8 + "-" + tmp9 + "-" + tmp10 + "-" + tmp11 + "-" + tmp12
 		+ "-" + tmp13 + "-" + tmp14 + "-" + tmp15 + "-" + tmp16 + "-" + tmp17 + "-" + tmp18;
 	lHash = sha1(lHash);
-	if (lHash == "14735e3ff9471a5abf9d3f0dfe2817ce6cbb590f") {
-		// CUT & Int.RelativeTimeFormat supported: FF65+
-		dom.lngHash.innerHTML = lHash + rfp_green;
-	} else if (lHash == "21ab34937976bc0f4bdb2fd803c2b65391f7140b") {
-		// CUT & Int.RelativeTimeFormat not supported: FF63-64
-		dom.lngHash.innerHTML = lHash + rfp_green;
-	} else if (lHash == "afa0a1327629743d6750b36e4775c704dd7fe3bc") {
-		// UTC and Int.RelativeTimeFormat not supported: FF62-
-		dom.lngHash.innerHTML = lHash + rfp_green;
+	if (navigator.language == "en-US") {
+		if (lHash == "14735e3ff9471a5abf9d3f0dfe2817ce6cbb590f") {
+			// CUT & Int.RelativeTimeFormat supported: FF65+
+			dom.lngHash.innerHTML = lHash + rfp_green;
+		} else if (lHash == "21ab34937976bc0f4bdb2fd803c2b65391f7140b") {
+			// CUT & Int.RelativeTimeFormat not supported: FF63-64
+			dom.lngHash.innerHTML = lHash + rfp_green;
+		} else if (lHash == "afa0a1327629743d6750b36e4775c704dd7fe3bc") {
+			// UTC and Int.RelativeTimeFormat not supported: FF62-
+			dom.lngHash.innerHTML = lHash + rfp_green;
+		} else {
+			dom.lngHash.innerHTML = lHash + rfp_red;
+		};
 	} else {
-		dom.lngHash.innerHTML = lHash + rfp_red;
-	};
+		dom.lngHash = lHash;
+	}
 
 	if ("geolocation" in navigator) {
 		dom.nGeolocation="enabled"
