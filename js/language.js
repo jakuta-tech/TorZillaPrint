@@ -280,7 +280,8 @@ function test_iframe() {
 };
 
 function outputLanguage() {
-	let t0 = performance.now();
+	let t0 = performance.now(),
+		lHash = ""; // string to hash all the date time results
 
 	// variables
 	let str = "",
@@ -298,7 +299,6 @@ function outputLanguage() {
 	dom.nLanguages0 = navigator.languages[0];
 	dom.localeIPR = new Intl.PluralRules().resolvedOptions().locale;
 	dom.localeRO = rOptions.locale;
-
 	// timezone/offsets
 	str = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset();
 	if (str == "0 | 0") {
@@ -315,42 +315,81 @@ function outputLanguage() {
 		str = str + rfp_red
 	};
 	dom.tzRO.innerHTML = str;
-
 	// date/time
 	dom.dateSystem = dateUsed;
 	dom.dateString = dateUsed.toString();
+	// start string to hash
+	lHash = dateUsed.getTimezoneOffset() + "-" + dateOld.getTimezoneOffset() + "-"
+		+ Intl.DateTimeFormat().resolvedOptions().timeZone + "-" + dateUsed + "-" + dateUsed.toString();
 	// long versions
-	dom.lngdateLS = dateUsed.toLocaleString(undefined, dateOpt);
-	dom.lngdateLDS = dateUsed.toLocaleDateString(undefined, dateOpt);
-	dom.lngdateLTS = dateUsed.toLocaleTimeString(undefined, dateOpt);
-	dom.lngdateIDTF = Intl.DateTimeFormat(undefined, dateOpt).format(dateUsed);
-	let temp = dateFormatted.formatToParts(dateUsed)
-	dom.dateFTP = temp.map(function(entry){return entry.value;}).join("");
+	let tmp1 = dateUsed.toLocaleString(undefined, dateOpt);
+		dom.lngdateLS = tmp1;
+	let tmp2 = dateUsed.toLocaleDateString(undefined, dateOpt);
+		dom.lngdateLDS = tmp2;
+	let tmp3 = dateUsed.toLocaleTimeString(undefined, dateOpt);
+		dom.lngdateLTS = tmp3;
+	let tmp4 = Intl.DateTimeFormat(undefined, dateOpt).format(dateUsed);
+		dom.lngdateIDTF = tmp4;
+	let temp = dateFormatted.formatToParts(dateUsed);
+		let tmp5 = temp.map(function(entry){return entry.value;}).join("");
+		dom.dateFTP = tmp5;
 	// various
-	dom.dateGMT = dateUsed.toGMTString();;
-	dom.dateUTC = dateUsed.toUTCString();
-	dom.dateLS = dateUsed.toLocaleString();
-	dom.dateTAtoLS = [dateUsed].toLocaleString();
-	dom.dateLDS = dateUsed.toLocaleDateString();
-	dom.dateIDTF = Intl.DateTimeFormat().format(dateUsed);
-	dom.dateLTS = dateUsed.toLocaleTimeString();
-	dom.dateTS = dateUsed.toTimeString();
-	dom.numFTP = JSON.stringify(new Intl.NumberFormat().formatToParts(1000)[1]);
-	dom.hourRO = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle;
-
+	let tmp6 = dateUsed.toGMTString();
+		dom.dateGMT = tmp6;
+	let tmp7 = dateUsed.toUTCString();
+		dom.dateUTC = tmp7;
+	let tmp8 = dateUsed.toLocaleString();
+		dom.dateLS = tmp8;
+	let tmp9 = [dateUsed].toLocaleString();
+		dom.dateTAtoLS = tmp9;
+	let tmp10 = dateUsed.toLocaleDateString();
+		dom.dateLDS = tmp10;
+	let tmp11 = Intl.DateTimeFormat().format(dateUsed);
+		dom.dateIDTF = tmp11;
+	let tmp12 = dateUsed.toLocaleTimeString();
+		dom.dateLTS = tmp12;
+	let tmp13 = dateUsed.toTimeString();
+		dom.dateTS = tmp13;
+	let tmp14 = JSON.stringify(new Intl.NumberFormat().formatToParts(1000)[1]);
+		dom.numFTP = tmp14;
+	let tmp15 = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle;
+		dom.hourRO = tmp15;
 	// Intl.RelativeTimeFormat: FF65+
 	// return "7 days ago, yesterday, tomorrow, next month, in 2 years" in your locale
+	let tmp16 = "";
 	try {
 		const rtf = new Intl.RelativeTimeFormat(undefined, {style: 'long', numeric: `auto`});
-		dom.dateIRTF = rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
+		tmp16 = rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
 			rtf.format(1, "day") +", "+ rtf.format(1, "month") +", "+ rtf.format(2, "year");
+		dom.dateIRTF = tmp16;
 	} catch(e) {
-		dom.dateIRTF = "not supported"
+		tmp16 = "not supported";
+		dom.dateIRTF = tmp16;
+	};
+	// calendar/numbering/geo
+	let tmp17 = rOptions.calendar;
+		dom.calendarRO = tmp17;
+	let tmp18 = rOptions.numberingSystem;
+		dom.numsysRO = tmp18;
+
+	// output hash
+	lHash = lHash + "-" + tmp1 + "-" + tmp2 + "-" + tmp3 + "-" + tmp4 + "-" + tmp5 + "-" + tmp6
+		+ "-" + tmp7 + "-" + tmp8 + "-" + tmp9 + "-" + tmp10 + "-" + tmp11 + "-" + tmp12
+		+ "-" + tmp13 + "-" + tmp14 + "-" + tmp15 + "-" + tmp16 + "-" + tmp17 + "-" + tmp18;
+	lHash = sha1(lHash);
+	if (lHash == "14735e3ff9471a5abf9d3f0dfe2817ce6cbb590f") {
+		// CUT & Int.RelativeTimeFormat supported: FF65+
+		dom.lngHash.innerHTML = lHash + rfp_green;
+	} else if (lHash == "21ab34937976bc0f4bdb2fd803c2b65391f7140b") {
+		// CUT & Int.RelativeTimeFormat not supported: FF63-64
+		dom.lngHash.innerHTML = lHash + rfp_green;
+	} else if (lHash == "afa0a1327629743d6750b36e4775c704dd7fe3bc") {
+		// UTC and Int.RelativeTimeFormat not supported: FF62-
+		dom.lngHash.innerHTML = lHash + rfp_green;
+	} else {
+		dom.lngHash.innerHTML = lHash + rfp_red;
 	};
 
-	// calendar/numbering/geo
-	dom.calendarRO = rOptions.calendar;
-	dom.numsysRO = rOptions.numberingSystem;
 	if ("geolocation" in navigator) {
 		dom.nGeolocation="enabled"
 	} else {
