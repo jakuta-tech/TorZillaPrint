@@ -680,14 +680,12 @@ function get_os_widgets() {
 			else {wdOS="Linux"};
 			// set global var isMajorOS
 			isMajorOS = wdOS.toLowerCase();
+			// set the two font list hyperlinks
+			dom.small_fontList.innerHTML = "<span class='no_color'><a href='txt/fonts_" + isMajorOS +
+				"_small.txt' target='blank' class='blue'>fonts_" + isMajorOS + "_small<a></span>";
+			dom.all_fontList.innerHTML = "<span class='no_color'><a href='txt/fonts_" + isMajorOS +
+				"_all.txt' target='blank' class='blue'>fonts_" + isMajorOS + "_all<a></span>";
 		};
-
-		// set the two font list hyperlinks
-		dom.small_fontList.innerHTML = "<span class='no_color'><a href='txt/fonts_" + isMajorOS +
-			"_small.txt' target='blank' class='blue'>fonts_" + isMajorOS + "_small<a></span>";
-		dom.all_fontList.innerHTML = "<span class='no_color'><a href='txt/fonts_" + isMajorOS +
-			"_all.txt' target='blank' class='blue'>fonts_" + isMajorOS + "_all<a></span>";
-
 		// compare: values 1 to 7: should always be the same: track state
 		if (i < 8) {
 			// store previous values to compare: not even sure if these can be different
@@ -1142,7 +1140,10 @@ function outputUA() {
 
 outputUA(); // must run before screen as it sets some global variables
 outputScreen();
-// desktop start listening for resize events
 if (isMajorOS !== "android") {
+	// desktop: start listening for resize events
 	window.addEventListener('resize', get_screen_metrics);
+} else {
+	// android: unhide some screen results
+	showhide("table-row", "S", "");
 };
