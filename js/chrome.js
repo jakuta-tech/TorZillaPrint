@@ -553,7 +553,7 @@ if (isNaN(window.mozPaintCount) === false) {
 		cssAll++;
 	});
 
-	// in FF69+ after running this test, any subsequent setTimer
+	// in FF69+ after running this test, any subsequent setTimeout
 	// called in code causes an ReferenceError
 	// "can't access lexical declaration `setTimeout' before initialization"
 	// I have no idea why. Using a setInterval doesn't cause this
