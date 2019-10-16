@@ -239,7 +239,7 @@ function outputAudio2() {
 	};
 };
 
-function outputAudio1() {
+function outputAudio1(type) {
 	let t0 = performance.now();
 	try {
 		let context = new window.OfflineAudioContext(1, 44100, 44100);
@@ -290,10 +290,17 @@ function outputAudio1() {
 		dom.audioCopy = "n/a";
 		dom.audioGet = "n/a";
 		dom.audioSum = "n/a";
+		if (type == "load") {
+			// on page load, also n/a audio2 tests
+			dom.audioLatency = "n/a";
+			dom.audio1hash = "n/a";
+			dom.audio2hash = "n/a";
+			dom.audio3hash = "n/a";
+		};
 		// perf
 		let t2 = performance.now();
 		if (sPerf) {console.debug("  ** section audio 1: " + (t2-t0) + " ms" + " | " + (t2 - gt0) + " ms")};
 	};
 };
 
-outputAudio1();
+outputAudio1("load");
