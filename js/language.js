@@ -229,7 +229,6 @@ function test_iframe() {
 		// perf
 		let t1 = performance.now();
 		if (mPerf) {console.debug("app language iframe test: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
-		if (mPerf) {console.debug("app language iframe test: " + iframeBlocked)};
 		// output
 		if (iframeBlocked == true) {
 			if ((location.protocol) == "file:") {
@@ -392,7 +391,7 @@ function outputLanguage() {
 		};
 	} else {
 		dom.lngHash = lHash;
-	}
+	};
 
 	if ("geolocation" in navigator) {
 		dom.nGeolocation="enabled"
