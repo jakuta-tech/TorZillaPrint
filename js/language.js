@@ -450,19 +450,19 @@ function get_datetime() {
 	// add notation
 	if (lHash2 == "7995fcf47742d45758b7295ec13f95b20a40cf79") {
 		// FF70+: BigInt.toLocaleString
-		lHash2 = lHash2 + spoof_green + rfp_green;
+		lHash2 = lHash2 + spoof_both_green;
 	} else if (lHash2 == "8616cf02aacf325d1e2fdc80f25b0cd88f769f9e") {
 		// FF68-69: BigInt
-		lHash2 = lHash2 + spoof_green + rfp_green;
+		lHash2 = lHash2 + spoof_both_green;
 	} else if (lHash2 == "2999ce5ae3c551c6e60369160fa1cab2b81d5bb7") {
 		// FF65-67: Int.RelativeTimeFormat
-		lHash2 = lHash2 + spoof_green + rfp_green;
+		lHash2 = lHash2 + spoof_both_green;
 	} else if (lHash2 == "deac21b32d15d3c1b86ebbfe84cf3904065b77b0") {
 		// FF63-64: CUT
-		lHash2 = lHash2 + spoof_green + rfp_green;
+		lHash2 = lHash2 + spoof_both_green;
 	} else if (lHash2 == "ba0197af5a52569769591d6e45bd99e61fb6a5ff") {
 		// FF60-62: UTC
-		lHash2 = lHash2 + spoof_green + rfp_green;
+		lHash2 = lHash2 + spoof_both_green;
 	} else {
 		// something is amiss
 		if (bTZ == true) {
@@ -472,9 +472,10 @@ function get_datetime() {
 			lHash2 = lHash2 + spoof_red + rfp_green;
 		} else {
 			// state 3: green lang, red time
-			// state 4: both red
-			// unless I painstaking check the lang parts from the time parts
-			// it's easier to just combine as "and/or"
+			// unless I painstaking check the lang parts vs the time parts
+			// I can't really tell what's at fault and detect this state
+
+			// state 4: both red: just default to this "and/or"
 			lHash2 = lHash2 + spoof_both_red;
 		};
 	};
