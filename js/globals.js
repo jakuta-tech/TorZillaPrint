@@ -14,7 +14,8 @@ var enUS_green = "<span class='good'>[en-US]</span> ";
 var enUS_red = "<span class='bad'>[en-US]</span> ";
 var spoof_green = " <span class='good'>[Spoof English]</span>";
 var spoof_red = " <span class='bad'>[Spoof English]</span>";
-var spoof_both_red = " <span class='bad'>[Spoof English and/or RFP]</span>";
+var spoof_both_green = " <span class='good'>[Spoof English + RFP]</span>";
+var spoof_both_red = " <span class='bad'>[Spoof English +/or RFP]</span>";
 var default_tb_green = " <span class='good'>[TB default]</span>";
 var default_ff_green = " <span class='good'>[FF default]</span>";
 var default_red = " <span class='bad'>[unusual]</span>";
@@ -61,6 +62,6 @@ if (navigator.oscpu == undefined){} else {"isFirefox = true"}; */
 var sDebug = false;
 
 // performance
-var mPerf = true; // minor
+var mPerf = false; // minor
 var sPerf = true; // section
 var gt0;
