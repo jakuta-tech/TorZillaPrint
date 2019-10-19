@@ -76,7 +76,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 /* show/hide */
 input[type='checkbox'] {display: none;}
 .lbl-toggle {display: block; cursor: pointer;}
-.togA, .togD, .togD1, .togM, .togC, .togE, .togF, .togF1, .togS, .togW {display: none;}
+.togA, .togD, .togD1, .togM, .togC, .togE, .togF, .togF1, .togL, .togS, .togW {display: none;}
 
 /* buttons */
 button {background-color: #1a1a1a; border-width: 0px; text-align: center;
@@ -137,6 +137,7 @@ table td.intro {text-align: left; line-height: 1.5em; padding-bottom: 10px;}
 table td.showhide {text-align: center; padding-top: 7px; padding-bottom: 7px;}
 table td.sub2 {color: var(--test2);}
 table td.sub3 {color: var(--test3);}
+table td.sub4 {color: var(--test4);}
 table td.sub6 {color: var(--test6);}
 table td.sub7 {color: var(--test7);}
 table td.sub9 {color: var(--test9);}
