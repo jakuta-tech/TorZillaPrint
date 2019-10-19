@@ -280,11 +280,12 @@ function test_iframe() {
 
 function outputLanguage() {
 	let t0 = performance.now(),
-		lHash = ""; // string to hash all the date time results
+		lHash1 = "", // string language/locale
+		lHash2 = "", // string date/time/format
+		lHash3 = ""; // string geo
 
 	// variables
-	let str = "",
-	dateUsed = new Date("January 30, 2019 13:00:00"),
+	let dateUsed = new Date("January 30, 2019 13:00:00"),
 		dateOld = new Date("July 30, 2018 13:00:00"),
 		dateFormatted = new Intl.DateTimeFormat(undefined, { weekday: "long", month: "long", day: "numeric",
 			year: "numeric", hour: "numeric", minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long" }),
@@ -298,27 +299,23 @@ function outputLanguage() {
 	dom.nLanguages0 = navigator.languages[0];
 	dom.localeIPR = new Intl.PluralRules().resolvedOptions().locale;
 	dom.localeRO = rOptions.locale;
+	lHash1 = sha1(navigator.languages + "-" + navigator.language + "-" + navigator.languages[0]
+		+ "-" + new Intl.PluralRules().resolvedOptions().locale + "-" + rOptions.locale);
+	if (lHash1 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98") {
+		lHash1 = lHash1 + rfp_green
+	} else {
+		lHash1 = lHash1 + rfp_red
+	};
+	dom.lHash1.innerHTML = lHash1;
+
 	// timezone/offsets
-	str = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset();
-	if (str == "0 | 0") {
-		str = str + rfp_green
-	} else {
-		str = str + rfp_red
-	};
-	dom.tzOffsets.innerHTML = str;
-	str = "";
-	str = Intl.DateTimeFormat().resolvedOptions().timeZone;
-	if (str == "UTC") {
-		str = str + rfp_green
-	} else {
-		str = str + rfp_red
-	};
-	dom.tzRO.innerHTML = str;
+	dom.tzOffsets.innerHTML = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset();
+	dom.tzRO.innerHTML = Intl.DateTimeFormat().resolvedOptions().timeZone;
 	// date/time
 	dom.dateSystem = dateUsed;
 	dom.dateString = dateUsed.toString();
 	// start string to hash
-	lHash = dateUsed.getTimezoneOffset() + "-" + dateOld.getTimezoneOffset() + "-"
+	lHash2 = dateUsed.getTimezoneOffset() + "-" + dateOld.getTimezoneOffset() + "-"
 		+ Intl.DateTimeFormat().resolvedOptions().timeZone + "-" + dateUsed + "-" + dateUsed.toString();
 	// long versions
 	let tmp1 = dateUsed.toLocaleString(undefined, dateOpt);
@@ -354,52 +351,106 @@ function outputLanguage() {
 	let tmp15 = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle;
 		dom.hourRO = tmp15;
 	// Intl.RelativeTimeFormat: FF65+
-	// return "7 days ago, yesterday, tomorrow, next month, in 2 years" in your locale
-	let tmp16 = "";
+	let tmp16 = "",
+		tmp17 = "";
 	try {
-		const rtf = new Intl.RelativeTimeFormat(undefined, {style: 'long', numeric: `auto`});
+		// return "7 days ago, yesterday, tomorrow, next month, in 2 years" in your locale
+		let rtf = new Intl.RelativeTimeFormat(undefined, {style: 'long', numeric: `auto`});
 		tmp16 = rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
 			rtf.format(1, "day") +", "+ rtf.format(1, "month") +", "+ rtf.format(2, "year");
 		dom.dateIRTF = tmp16;
+		// Intl.RelativeTimeFormat formatToParts: FF70+
+		rtf = new Intl.RelativeTimeFormat(undefined, { numeric: "auto" });
+		try {
+			let rtfftp = rtf.formatToParts(-1, "day");
+			// need to finish this and recalc hash
+			dom.dateIRTFFTP.innerHTML = note_testtocome;
+		} catch(e) {
+			tmp17 = "not supported";
+			dom.dateIRTFFTP = tmp17;
+		};
 	} catch(e) {
 		tmp16 = "not supported";
+		tmp17 = "not supported";
 		dom.dateIRTF = tmp16;
+		dom.dateIRTFFTP = tmp17;
 	};
+	// BigInt.toLocalString: FF70+
+	let tmp18 = "";
+	try {
+		// BigInt: FF68+
+		let bint = BigInt(9007199254740991);
+		// use eval so no parsing errors
+		bint = eval("123456789123456789n");
+		tmp18 = bint.toLocaleString();
+		if (tmp18 == "123456789123456789") {
+			tmp18 = "not supported"; // FF68-69, else FF70+
+		};
+	} catch(e) {
+		tmp18 = "not supported [BigInt]"; // FF67 or lower
+	};
+	dom.numTLS = tmp18;
 	// calendar/numbering/geo
-	let tmp17 = rOptions.calendar;
-		dom.calendarRO = tmp17;
-	let tmp18 = rOptions.numberingSystem;
-		dom.numsysRO = tmp18;
+	let tmp19 = rOptions.calendar;
+		dom.calendarRO = tmp19;
+	let tmp20 = rOptions.numberingSystem;
+		dom.numsysRO = tmp20;
 
 	// output hash
-	lHash = lHash + "-" + tmp1 + "-" + tmp2 + "-" + tmp3 + "-" + tmp4 + "-" + tmp5 + "-" + tmp6
-		+ "-" + tmp7 + "-" + tmp8 + "-" + tmp9 + "-" + tmp10 + "-" + tmp11 + "-" + tmp12
-		+ "-" + tmp13 + "-" + tmp14 + "-" + tmp15 + "-" + tmp16 + "-" + tmp17 + "-" + tmp18;
-	lHash = sha1(lHash);
+	lHash2 = lHash2 + "-" + tmp1 + "-" + tmp2 + "-" + tmp3 + "-" + tmp4 + "-" + tmp5 + "-" + tmp6
+		+ "-" + tmp7 + "-" + tmp8 + "-" + tmp9 + "-" + tmp10 + "-" + tmp11 + "-" + tmp12 + "-" + tmp13
+		+ "-" + tmp14 + "-" + tmp15 + "-" + tmp16 + "-" + tmp17 + "-" + tmp18 + "-" + tmp19 + "-" + tmp20;
+	//console.debug(lHash2);
+	lHash2 = sha1(lHash2);
 	if (navigator.language == "en-US") {
-		if (lHash == "14735e3ff9471a5abf9d3f0dfe2817ce6cbb590f") {
-			// CUT & Int.RelativeTimeFormat supported: FF65+
-			dom.lngHash.innerHTML = lHash + rfp_green;
-		} else if (lHash == "21ab34937976bc0f4bdb2fd803c2b65391f7140b") {
-			// CUT & Int.RelativeTimeFormat not supported: FF63-64
-			dom.lngHash.innerHTML = lHash + rfp_green;
-		} else if (lHash == "afa0a1327629743d6750b36e4775c704dd7fe3bc") {
-			// UTC and Int.RelativeTimeFormat not supported: FF62-
-			dom.lngHash.innerHTML = lHash + rfp_green;
+		// hashes calculated up to and including tmp20
+		if (lHash2 == "2903034d941c94695cdbea7fdf38c6435e3e01ae") {
+			// FF70+: BigInt.toLocaleString
+			lHash2 = lHash2 + rfp_green;
+		} else if (lHash2 == "c358b4fafa1457f610902c41c52175c412921205") {
+			// FF68-69: BigInt
+			lHash2 = lHash2 + rfp_green;
+		} else if (lHash2 == "c094671adbe13704c46c1c854b9f8b9544c6f73a") {
+			// FF65-67: Int.RelativeTimeFormat
+			lHash2 = lHash2 + rfp_green;
+		} else if (lHash2 == "e7b0e0a5671e60e231d4535e63a52c185f141156") {
+			// FF63-64: CUT
+			lHash2 = lHash2 + rfp_green;
+		} else if (lHash2 == "d6a004de0805d3e84e252cd145b63ee2e61138b1") {
+			// FF60-62: UTC
+			lHash2 = lHash2 + rfp_green;
 		} else {
-			dom.lngHash.innerHTML = lHash + rfp_red;
+			lHash2 = lHash2 + rfp_red;
 		};
-	} else {
-		dom.lngHash = lHash;
 	};
+	dom.lHash2.innerHTML = lHash2;
 
+	// geo
 	if ("geolocation" in navigator) {
 		dom.nGeolocation="enabled"
+		lHash3 = "enabled";
 	} else {
 		dom.nGeolocation="disabled"
+		lHash3 = "disabled";
 	};
 	// permissions.default.geo
-	navigator.permissions.query({name:"geolocation"}).then(e => dom.pGeolocation=e.state);
+	function geoState(state) {
+		dom.pGeolocation = state;
+		lHash3 = sha1(lHash3 + "-" + state);
+		if (lHash3 == "175f198d52a4381a6cf15505aae8cd85101f8e72") {
+			// Firefox default: enabled-prompt
+			lHash3 = lHash3 + default_ff_green;
+		} else if (lHash3 == "8845161313a6aace13d9a29c675144b09840b11a") {
+			// TB default: disabled-prompt
+			lHash3 = lHash3 + default_tb_green;
+		} else {
+			// unusual combo
+			lHash3 = lHash3 + default_red;
+		};
+		dom.lHash3.innerHTML = lHash3;
+	};
+	//navigator.permissions.query({name:"geolocation"}).then(e => dom.pGeolocation=e.state);
+	navigator.permissions.query({name:"geolocation"}).then(e => geoState(e.state));
 
 	// perf
 	let t1 = performance.now();
