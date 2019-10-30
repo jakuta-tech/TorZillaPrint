@@ -978,7 +978,7 @@ function outputScreen() {
 	};
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section screen: " + (t1-t0) + "ms" + " | " + (t1 - gt0) + " ms")};
+	if (sPerf) {console.debug("  ** section screen: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	// start listening for dpr leaks
 	get_dpr();
 	// start listening for android toolbar height
@@ -1108,6 +1108,14 @@ function outputMath() {
 
 function outputUA() {
 	let t0 = performance.now();
+
+	// set this global var here [FF72+ no longer sets it from global.js]
+	if (isNaN(window.mozInnerScreenX) === false) {isFirefox = true};
+	/* other Firefox detection methods
+	if (isNaN(window.mozPaintCount) === false) {isFirefox = true}; // FF72 broke this
+	if (isNaN(window.window.scrollMaxX) === false) {"isFirefox = true"};
+	if (navigator.oscpu == undefined){} else {"isFirefox = true"}; */
+
 	// properties
 	dom.nAppName = navigator.appName;
 	dom.nAppVersion = navigator.appVersion;
