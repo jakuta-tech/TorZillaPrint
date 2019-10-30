@@ -46,6 +46,11 @@ var isFirefox = false;
 var isTorBrowser = false;
 var isMajorOS = ""; // windows, mac, linux, android
 var isVersion = ""; // 2-digit numeric
+if (isNaN(window.mozInnerScreenX) === false) {isFirefox = true};
+	/* other Firefox detection methods
+	if (isNaN(window.mozPaintCount) === false) {isFirefox = true}; // FF72+ not reliable: 1591968: dom.mozPaintCount.enabled
+	if (isNaN(window.window.scrollMaxX) === false) {"isFirefox = true"};
+	if (navigator.oscpu == undefined){} else {"isFirefox = true"}; */
 
 // android viewport height: we want to capture this on
 // first load as it includes the toolbar being visible
