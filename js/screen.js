@@ -1108,14 +1108,8 @@ function outputMath() {
 
 function outputUA() {
 	let t0 = performance.now();
-
-	// set this global var here [FF72+ no longer sets it from global.js]
+	// redundant reset of global var
 	if (isNaN(window.mozInnerScreenX) === false) {isFirefox = true};
-	/* other Firefox detection methods
-	if (isNaN(window.mozPaintCount) === false) {isFirefox = true}; // FF72 broke this
-	if (isNaN(window.window.scrollMaxX) === false) {"isFirefox = true"};
-	if (navigator.oscpu == undefined){} else {"isFirefox = true"}; */
-
 	// properties
 	dom.nAppName = navigator.appName;
 	dom.nAppVersion = navigator.appVersion;
