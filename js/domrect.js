@@ -119,4 +119,14 @@ function outputDomRect() {
 // request an iframe and get on with other js
 gt0 = performance.now();
 if (sPerf) {console.debug("  ** section start timing: domrect.js loaded")};
+
+// re-calculate global vars from global.js: this is the first script run
+function set_global_vars() {
+	if ((location.protocol) == "file:") {
+		note_file = " <span class='neutral'>[file:]</span>";
+	};
+	if (isNaN(window.mozInnerScreenX) === false) {isFirefox = true};
+}
+
+set_global_vars();
 outputDomRect();
