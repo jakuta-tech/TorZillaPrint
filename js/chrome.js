@@ -7,7 +7,7 @@
 function outputChrome() {
 
 //only run for firefox
-if (isNaN(window.mozPaintCount) === false) {
+if (isNaN(window.mozInnerScreenX) === false) {
 
 	dom.jsHash = "tests are running";
 	dom.cssHash = "give it 5 seconds";
