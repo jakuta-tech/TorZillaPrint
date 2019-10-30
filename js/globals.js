@@ -51,13 +51,6 @@ var isVersion = ""; // 2-digit numeric
 // first load as it includes the toolbar being visible
 var avh = "";
 
-// we can check this one here
-if (isNaN(window.mozPaintCount) === false) {isFirefox = true};
-/* other Firefox detection methods
-if (isNaN(window.mozInnerScreenX) === false) {"isFirefox = true"};
-if (isNaN(window.window.scrollMaxX) === false) {"isFirefox = true"};
-if (navigator.oscpu == undefined){} else {"isFirefox = true"}; */
-
 // storage debugging
 var sDebug = false;
 
