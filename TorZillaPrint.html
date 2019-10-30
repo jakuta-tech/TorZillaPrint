@@ -173,7 +173,7 @@
 		<tr><td>[css] browser</td><td id="fdResourceCss"></td></tr>
 		<tr><td>[error messages] browser</td><td class="c" id="fdError"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
-			<span class="ttxt"><b>mozPaintCount:</b><br>we could also use<br>mozGetAsFile<br>mozInnerScreenX<br>mozScreenX
+			<span class="ttxt"><b>mozInnerScreenX:</b><br>we could also use<br>mozGetAsFile<br>mozPaintCount<br>mozScreenX
 			<br>oscpu<br>scrollMaxX</span></div> &nbsp [feature detection] browser</td><td class="c" id="fdPaintCount"></td></tr>
 		<tr><td>[resource://] browser</td><td class="c" id="fdResource"></td></tr>
 		<tr><td>[math] browser</td><td class="c" id="fdMath"></td></tr>
@@ -788,8 +788,8 @@
 	<!-- load now as they have to wait for iframes -->
 	<script src="js/domrect.js"></script>
 	<!-- first 3 sections -->
-	<script src="js/screen.js"></script>
-	<script src="js/language.js"></script> <!-- must come after screen which sets a global var -->
+	<script src="js/screen.js"></script> 
+	<script src="js/language.js"></script> <!-- must come after screen which sets global vars -->
 	<!-- faster sections -->
 	<script src="js/headers.js"></script>
 	<script src="js/media.js"></script>
