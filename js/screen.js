@@ -47,13 +47,19 @@ function get_version() {
 		document.head.appendChild(el);
 		el.sheet.deleteRule(0);
 	} catch(e) {
-		if (e.message.substring(0,6) == "Cannot") { verNo="70"}
+		if (e.message.substring(0,6) == "Cannot") { verNo="70"};
 	}
 	//71: 1565991
 	try {
 		document.createElement("canvas").getContext("2d").createPattern(new Image(), "no-repeat");
-		verNo="71+"
+		verNo="71"
 	} catch(e) {}
+	//72: 1589072
+	try {
+		let err72 = eval('let a = 100_00_;');
+	} catch(e) {
+		if (e.message.substring(0,6) == "unders" ) { verNo="72+"};
+	}
 	// reminder: append + on last test
 
 	isVersion = verNo.substring(0,2); // global var isVersion
@@ -1126,7 +1132,7 @@ function outputUA() {
 	get_browser_errors();
 	if (isFirefox == true){
 		// FF only properties
-		dom.fdPaintCount="Firefox"; // already done with isFirefox
+		dom.fdetect="Firefox"; // already done with isFirefox
 		dom.versionNo = get_version();
 		// FF only functions
 		get_os_line_scrollbar();
