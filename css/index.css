@@ -35,6 +35,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 .mono, .toDataURL, .toBlob, .winding, .getImageData, .isPointInPath, .fillText,
 	.isPointInStroke, .readPixels, .getContext, .mozGetAsFile, .strokeText {
 	font-family: monospace, "Courier New";}
+.strike {text-decoration: line-through;}
 
 .normalized {
 	font-family: none;
