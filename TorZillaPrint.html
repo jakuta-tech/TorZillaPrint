@@ -90,15 +90,15 @@
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">range 500-2560</span></div>
 			&nbsp [css] screen resolution <sup>1</sup></td><td id="S"></td></tr>
-		<tr><td>[matchMedia] screen resolution</td><td class="c" id="ScrMM"></td></tr>
+		<tr><td>[matchMedia] screen resolution <sup>2</sup></td><td class="c" id="ScrMM"></td></tr>
 		<tr><td>available resolution</td><td class="c" id="ScrAvail"></td></tr>
 		<tr><td>outer window</td><td class="c" id="WndOut"></td></tr>
 		<tr><td>inner window</td><td class="c" id="WndIn"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">range 500-2560</span></div>
-			&nbsp [css] inner window <sup>1, 2</sup></td><td id="D"></td></tr>
-		<tr><td>[matchMedia] inner window</td><td class="c" id="WndInMM"></td></tr>
-		<tr><td>viewport <sup>3</sup></td><td class="c" id="Viewport"></td></tr>
+			&nbsp [css] inner window <sup>1, 3</sup></td><td id="D"></td></tr>
+		<tr><td>[matchMedia] inner window <sup>2</sup></td><td class="c" id="WndInMM"></td></tr>
+		<tr><td>viewport <sup>4</sup></td><td class="c" id="Viewport"></td></tr>
 		<tr><td>[css] display-mode</td><td id="cssDM"></td></tr>
 		<tr><td>full screen</td><td class="c" id="fsState"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
@@ -107,7 +107,7 @@
 		<tr><td><button class="btn0" onClick="goFS()">[ click here ]</button>
 			<div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb"><b>DON'T PANIC</b> as you briefly<br>enter and then exit full screen</span></div>
-			&nbsp [test] full screen <sup>3</sup></td><td class="c" id="fsLeak"></td></tr>
+			&nbsp [test] full screen <sup>4</sup></td><td class="c" id="fsLeak"></td></tr>
 		<tr><td><button class="btn0" onClick="goNW()">[ click here ]</button>
 			<div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">will attempt to open a new<br>window as big as possible<br>and grab the dimensions</span></div>
@@ -128,8 +128,8 @@
 		<tr><td>[matchMedia] dpi</td><td class="c" id="mmDPI"></td></tr>
 		<tr><td>zoom %</td><td class="c" id="jsZoom"></td></tr>
 		<tr><td>devicePixelRatio</td><td class="c" id="DevPR"></td></tr>
-		<tr><td>[scrollY] devicePixelRatio <sup>4</sup></td><td class="c" id="devPRscrollY"></td></tr>
-		<tr><td>[clientRect] devicePixelRatio <sup>4</sup></td><td class="c" id="devPRclientRect"></td></tr>
+		<tr><td>[scrollY] devicePixelRatio <sup>5</sup></td><td class="c" id="devPRscrollY"></td></tr>
+		<tr><td>[clientRect] devicePixelRatio <sup>5</sup></td><td class="c" id="devPRclientRect"></td></tr>
 		<tr class="togS"><td colspan="2" class="center">--- android ---</td></tr>
 		<tr class="togS"><td></td><td><input type="text" id="kbt" placeholder="tap in here" onfocus="get_kbh()"></td></tr>
 		<tr class="togS"><td>keyboard height</td><td class="c" id="kbh"></td></tr>
@@ -137,11 +137,13 @@
 		<tr><td colspan="2"><span class="no_color">code based on work by </span>
 			<a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/media-query-fingerprint.html">Arthur Edelstein</a> <sup>1</sup>
 			<span class="no_color">, </span>
-			<a target="_blank" class="blue" href="https://matt.traudt.xyz/posts/how-css-alone-YF4ciVY6.html">Matt Traudt</a> <sup>2</sup>
+			<a target="_blank" class="blue" href="https://canvasblocker.kkapsner.de/test/screenSizeTest.html">kkapsner</a> <sup>2</sup>
 			<span class="no_color">, </span>
-			<a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a> <sup>3</sup>
+			<a target="_blank" class="blue" href="https://matt.traudt.xyz/posts/how-css-alone-YF4ciVY6.html">Matt Traudt</a> <sup>3</sup>
+			<span class="no_color">, </span>
+			<a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a> <sup>4</sup>
 			<span class="no_color"> and </span>
-			<a target="_blank" class="blue" href="https://acatarineu.github.io/fp/devicePixelRatio.html">Alex Catarineu</a> <sup>4</sup>
+			<a target="_blank" class="blue" href="https://acatarineu.github.io/fp/devicePixelRatio.html">Alex Catarineu</a> <sup>5</sup>
 		</td></tr>
 	</table>
 
