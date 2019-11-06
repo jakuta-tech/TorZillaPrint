@@ -28,10 +28,10 @@ function get_version() {
 	try {const rtf = new Intl.RelativeTimeFormat("en", {style: "long",}); verNo="65"} catch(e) {};
 	//66
 	try {
-		const string66 = "this is a test for firefox 66";
+		let str66 = "66 test";
 		const textEncoder = new TextEncoder();
-		const utf8 = new Uint8Array(string66.length);
-		let encodedResults = textEncoder.encodeInto(string66, utf8);
+		const utf8 = new Uint8Array(str66.length);
+		let encodedResults = textEncoder.encodeInto(str66, utf8);
 		verNo="66"
 	} catch(e) {};
 	//67
@@ -104,7 +104,7 @@ function get_zoom(type) {
 	// matchmedia dpi: handles FF default zoom levels 30%-300%
 	let varDPI = (function () {
 	for (let i = 27; i < 2000; i++) {
-		if (matchMedia("(max-resolution: " + i + "dpi)").matches === true) {
+		if (matchMedia("(max-resolution:" + i + "dpi)").matches === true) {
 			return i;}
 		} return i;})();
 	dom.mmDPI = varDPI;
@@ -167,6 +167,121 @@ function get_private_win() {
 	};
 };
 
+function get_matchmedia_metrics() {
+	// promises and output
+	function runTest(callback){
+		// device
+		let devicePromise = Promise.all([
+			callback("width", "device-"),
+			callback("height", "device-")
+		]);
+		devicePromise.then(function(device){
+			device = device.toString().replace(",", " x ")
+			dom.ScrMM = device;
+		});
+		// inner window
+		let innerPromise = Promise.all([
+			callback("width", ""),
+			callback("height", "")
+		]);
+		innerPromise.then(function(inner){
+			inner = inner.toString().replace(",", " x ")
+			dom.WndInMM = inner;
+		});
+	}
+
+	function searchValue(tester){
+		let minValue = 0;
+		let maxValue = 512;
+		let ceiling = Math.pow(2, 32);
+		function stepUp(){
+			if (maxValue > ceiling){
+				return Promise.reject("unable to find upper bound");
+			}
+			return tester(maxValue).then(function(testResult){
+				if (testResult === searchValue.isEqual){
+					return maxValue;
+				}
+				else if (testResult === searchValue.isBigger){
+					//console.debug("isBigger", maxValue);
+					minValue = maxValue;
+					maxValue *= 2;
+					return stepUp();
+				}
+				else {
+					//console.debug("isSmaller", maxValue);
+					return false;
+				}
+			});
+		}
+		function binarySearch(){
+			if (maxValue - minValue < 0.01){
+				return tester(minValue).then(function(testResult){
+					if (testResult.isEqual){
+						return minValue;
+					}
+					else {
+						return tester(maxValue).then(function(testResult){
+							if (testResult.isEqual){
+								return maxValue;
+							}
+							else {
+								// we could round here and resolve?
+								return Promise.reject(
+									"between " + minValue + " and " + maxValue
+								);
+							}
+						});
+					}
+				});
+			}
+			else {
+				let pivot = (minValue + maxValue) / 2;
+				return tester(pivot).then(function(testResult){
+					if (testResult === searchValue.isEqual){
+						// console.debug("found it", pivot);
+						// always round down since we use min- in our css files
+						return Math.floor(pivot);
+					}
+					else if (testResult === searchValue.isBigger){
+						minValue = pivot;
+						return binarySearch();
+					}
+					else {
+						maxValue = pivot;
+						return binarySearch();
+					}
+				});
+			}
+		}
+		return stepUp().then(function(stepUpResult){
+			if (stepUpResult){
+				return stepUpResult;
+			}
+			else {
+				return binarySearch();
+			}
+		});
+	}
+	searchValue.isSmaller = -1;
+	searchValue.isEqual = 0;
+	searchValue.isBigger = 1;
+
+	runTest(function(type, metric){
+		return searchValue(function(valueToTest){
+			if (window.matchMedia("(" + metric + type + ": " + valueToTest + "px)").matches){
+				return Promise.resolve(searchValue.isEqual);
+			}
+			else if (window.matchMedia("(max-" + metric + type + ": " + valueToTest + "px)").matches){
+				return Promise.resolve(searchValue.isSmaller);
+			}
+			else {
+				return Promise.resolve(searchValue.isBigger);
+			}
+		});
+	});
+};
+
 function get_screen_metrics(type) {
 	dom.ScrRes = screen.width+" x "+screen.height+" ("+screen.left+","+screen.top+")";
 	dom.ScrAvail = screen.availWidth+" x "+screen.availHeight+" ("+screen.availLeft+","+screen.availTop+")";
@@ -176,6 +291,7 @@ function get_screen_metrics(type) {
 	if (type !== "screen") {
 		get_viewport("resize");
 	};
+	get_matchmedia_metrics();
 }
 
 function get_fullscreen() {
@@ -858,16 +974,14 @@ function get_kbh() {
 		// wait for keyboard to slide up
 		setTimeout(function() {
 			let vh_new = get_viewport();
-			// On android, the onfocus event is also triggered when the input
-			// field loses focus: always make the difference positive.
-			// We use the initial avh global var captured on first load as
-			// the toolbar can also be triggered into becoming visible if hidden.
+			// On android, the onfocus event is also triggered when the field loses focus, so
+			// always make the difference positive. We use the initial avh global var captured
+			// on first load as the toolbar can also be triggered into becoming visible if hidden
 			// note: if in FS, entering the text field exits FS, so we can rely on avh
 			let vh_diff = Math.abs(avh - vh_new);
 			dom.kbh = vh_diff;
-			// this is not perfect, as the keyboard can be slow to open, and it
-			// "slides" up. Instead we could keep checking for x time and return
-			// the maximum diff
+			// todo not perfect, as the keyboard can be slow to open, and it "slides" up.
+			// instead we could keep checking for x time and return the max diff
 		}, 1000)
 	};
 };
@@ -973,7 +1087,7 @@ function outputScreen() {
 	// android check
 	if (isMajorOS == "android") {
 		// global vars taken as early as possible = native resolution with FF toolbar
-    // visible: e.g 360x559. New window: same but can if run with FF toolbar hidden: e.g 360x615
+    // visible: e.g 360x559. New window: same but can run with FF toolbar hidden: e.g 360x615
 		dom.droidWin = firstW + " x " + firstH + " [inner] [toolbar visible]";
 		// after a wait, compare to current in case we need to re-run screen metrics
 		if (window.innerWidth == firstW) {
@@ -1114,7 +1228,7 @@ function outputMath() {
 
 function outputUA() {
 	let t0 = performance.now();
-	// redundant reset of global var
+	// recheck isFirefox
 	if (isNaN(window.mozInnerScreenX) === false) {isFirefox = true};
 	// properties
 	dom.nAppName = navigator.appName;
@@ -1138,8 +1252,8 @@ function outputUA() {
 		get_os_line_scrollbar();
 		get_browser_resource();
 		get_os_widgets(); // note: currently sets global var isMajorOs
-		get_os_chrome();  // note: improve: 300 to 400 ms on a setInterval
-		get_os_font();    // note: improve: 3 sec timeout
+		get_os_chrome();
+		get_os_font();
 	};
 	// perf
 	let t1 = performance.now();
