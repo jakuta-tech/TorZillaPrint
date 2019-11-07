@@ -394,19 +394,33 @@ function get_datetime() {
 	let tmp17 = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle; dom.hourRO = tmp17;
 
 	// Intl.RelativeTimeFormat: FF65+
-	let tmp18 = "",	tmp19 = "";
+	let tmp18 = "",	tmp19 = "", str19 = "";;
 	try {
 		// return "7 days ago, yesterday, tomorrow, next month, in 2 years" in your locale
-		let rtf = new Intl.RelativeTimeFormat(undefined, {style: 'long', numeric: `auto`});
+		let rtf = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"});
 		tmp18 = rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
 			rtf.format(1, "day") +", "+ rtf.format(1, "month") +", "+ rtf.format(2, "year");
 		dom.dateIRTF = tmp18;
 		// Intl.RelativeTimeFormat formatToParts: FF70+
-		rtf = new Intl.RelativeTimeFormat(undefined, { numeric: "auto" });
 		try {
-			let rtfftp = rtf.formatToParts(-1, "day");
-			// finish this
-			dom.dateIRTFFTP.innerHTML = note_testtocome;
+			// last year, 3 weeks ago, 1 hour ago, in 60 seconds, in 15 minutes, tomorrow, next month, in 2 quarters
+			str19 = rtf.formatToParts(-1, "year");
+				tmp19 = str19[0].value;
+			str19 = rtf.formatToParts(-3, "week");
+				tmp19 = tmp19 + ", " + str19[0].value + str19[1].value;
+			str19 = rtf.formatToParts(-1, "hour");
+				tmp19 = tmp19 + ", " + str19[0].value + str19[1].value;
+			str19 = rtf.formatToParts(60, "second");
+				tmp19 = tmp19 + ", " + str19[0].value + str19[1].value + str19[2].value;
+			str19 = rtf.formatToParts(15, "minute");
+				tmp19 = tmp19 + ", " + str19[0].value + str19[1].value + str19[2].value;
+			str19 = rtf.formatToParts(1, "day");
+				tmp19 = tmp19 + ", " + str19[0].value;
+			str19 = rtf.formatToParts(1, "month");
+				tmp19 = tmp19 + ", " + str19[0].value;
+			str19 = rtf.formatToParts(2, "quarter");
+				tmp19 = tmp19 + ", " + str19[0].value + str19[1].value + str19[2].value;
+			dom.dateIRTFFTP.innerHTML = tmp19;
 		} catch(e) {
 			tmp19 = "not supported";
 			dom.dateIRTFFTP = tmp19;
@@ -448,8 +462,9 @@ function get_datetime() {
 	lHash2 = sha1(lHash2);
 	dom.lHash2 = lHash2;
 	// add notation
-	if (lHash2 == "7995fcf47742d45758b7295ec13f95b20a40cf79") {
-		// FF70+: BigInt.toLocaleString
+	if (lHash2 == "1f264746b3524f9fb01ea72acb3153e5c0ee11b8") {
+		// done: FF70+: Intl.RelativeTimeFormat.formatToParts
+		// todo: FF70+: BigInt.toLocaleString
 		lHash2 = lHash2 + spoof_both_green;
 	} else if (lHash2 == "8616cf02aacf325d1e2fdc80f25b0cd88f769f9e") {
 		// FF68-69: BigInt
