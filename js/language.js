@@ -419,9 +419,11 @@ function get_datetime() {
 			rtf.format(1, "day") +", "+ rtf.format(1, "month") +", "+ rtf.format(2, "year");
 		dom.dtf17 = tmp17;
 		// FF70+: Intl.RelativeTimeFormat formatToParts
+		let is70 = false;
 		try {
 			// trap support
 			let trap18 = rtf.formatToParts(-1, "year");
+			is70 = true;
 			// last year, 3 weeks ago, 1 hour ago, in 45 seconds, tomorrow, next quarter
 			tmp18 = concat_parts("-1", "year")
 				+ ", " + concat_parts("-3", "week")
@@ -431,9 +433,13 @@ function get_datetime() {
 				+ ", " + concat_parts("1", "quarter");
 			dom.dtf18.innerHTML = tmp18;
 		} catch(e) {
-			console.debug("fuuuuck", e.message)
-			tmp18 = "not supported";
-			dom.dtf18 = tmp18;
+			if (is70 == false) {
+				tmp18 = "not supported";
+			} else {
+				// maybe some weird language required more than 4 parts
+				tmp18 = "<span class='bad'>[error: bad developer]</span>";
+			}
+			dom.dtf18.innerHTML = tmp18;
 		};
 	} catch(e) {
 		tmp17 = "not supported";
