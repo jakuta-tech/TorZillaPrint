@@ -312,15 +312,14 @@ function get_geo() {
 	// geolocation
 	let lHash3 = "";
 	if ("geolocation" in navigator) {
-		dom.nGeolocation="enabled"
 		lHash3 = "enabled";
 	} else {
-		dom.nGeolocation="disabled"
 		lHash3 = "disabled";
 	};
+	dom.geo1=lHash3;
 	// permissions.default.geo
 	function geoState(state) {
-		dom.pGeolocation = state;
+		dom.geo2 = state;
 		lHash3 = sha1(lHash3 + "-" + state);
 		if (lHash3 == "175f198d52a4381a6cf15505aae8cd85101f8e72") {
 			// Firefox default: enabled-prompt
@@ -334,19 +333,17 @@ function get_geo() {
 		};
 		dom.lHash3.innerHTML = lHash3;
 	};
-	//navigator.permissions.query({name:"geolocation"}).then(e => dom.pGeolocation=e.state);
 	navigator.permissions.query({name:"geolocation"}).then(e => geoState(e.state));
 };
 
 function get_lang() {
 	// language/locale
-	dom.nLanguages = navigator.languages;
-	dom.nLanguage = navigator.language;
-	dom.nLanguages0 = navigator.languages[0];
-	dom.localeIPR = new Intl.PluralRules().resolvedOptions().locale;
-	dom.localeRO = rOptions.locale;
-	let lHash1 = sha1(navigator.languages + "-" + navigator.language + "-" + navigator.languages[0]
-		+ "-" + new Intl.PluralRules().resolvedOptions().locale + "-" + rOptions.locale);
+	let lang1 = navigator.languages; dom.lang1 = lang1;
+	let lang2 = navigator.language; dom.lang2 = lang2;
+	let lang3 = navigator.languages[0]; dom.lang3 = lang3;
+	let lang4 = new Intl.PluralRules().resolvedOptions().locale; dom.lang4 = lang4;
+	let lang5 = rOptions.locale; dom.lang5 = lang5;
+	let lHash1 = sha1(lang1 +"-"+ lang2 +"-"+ lang3 +"-"+ lang4 +"-"+ lang5);
 	if (lHash1 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98") {
 		lHash1 = lHash1 + spoof_green
 	} else {
@@ -359,12 +356,11 @@ function get_tz() {
 	// reset var
 	bTZ = false;
 	// timezone/offsets
-	dom.tzOffsets.innerHTML = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset();
-	dom.tzRO.innerHTML = Intl.DateTimeFormat().resolvedOptions().timeZone;
+	let tz1 = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset(); dom.tz1 = tz1;
+	let tz2 = Intl.DateTimeFormat().resolvedOptions().timeZone; dom.tz2 = tz2;
 	// is the RFP part red or green: i.e timezone
-	let lHash0 = sha1(dateUsed.getTimezoneOffset() + "-" + dateOld.getTimezoneOffset() + "-"
-		+ Intl.DateTimeFormat().resolvedOptions().timeZone);
-	if (lHash0 == "a7f38fab59968c5af0a4df5d105acc9f6376405b") {
+	let lHash0 = sha1(tz1 + "-"	+ tz2);
+	if (lHash0 == "f8296e18b30a4ae7669d1992c943b90dde8bf94f") {
 		bTZ = true;
 		lHash0 = lHash0 + rfp_green;
 	} else {
@@ -374,108 +370,148 @@ function get_tz() {
 };
 
 function get_datetime() {
-	let tmp1 = dateUsed; dom.dateSystem = tmp1;
-	let tmp2 = dateUsed.toString(); dom.dateString = tmp2;
-	let tmp3 = dateUsed.toLocaleString(undefined, dateOpt); dom.lngdateLS = tmp3;
-	let tmp4 = dateUsed.toLocaleDateString(undefined, dateOpt); dom.lngdateLDS = tmp4;
-	let tmp5 = dateUsed.toLocaleTimeString(undefined, dateOpt); dom.lngdateLTS = tmp5;
-	let tmp6 = Intl.DateTimeFormat(undefined, dateOpt).format(dateUsed); dom.lngdateIDTF = tmp6;
+	let tmp1 = dateUsed; dom.dtf1 = tmp1;
+	let tmp2 = dateUsed.toString(); dom.dtf2 = tmp2;
+	let tmp3 = dateUsed.toLocaleString(undefined, dateOpt); dom.dtf3 = tmp3;
+	let tmp4 = dateUsed.toLocaleDateString(undefined, dateOpt); dom.dtf4 = tmp4;
+	let tmp5 = dateUsed.toLocaleTimeString(undefined, dateOpt); dom.dtf5 = tmp5;
+	let tmp6 = Intl.DateTimeFormat(undefined, dateOpt).format(dateUsed); dom.dtf6 = tmp6;
 	let temp = dateFormatted.formatToParts(dateUsed);
-		let tmp7 = temp.map(function(entry){return entry.value;}).join(""); dom.dateFTP = tmp7;
-	let tmp8 = dateUsed.toGMTString(); dom.dateGMT = tmp8;
-	let tmp9 = dateUsed.toUTCString(); dom.dateUTC = tmp9;
-	let tmp10 = dateUsed.toLocaleString(); dom.dateLS = tmp10;
-	let tmp11 = [dateUsed].toLocaleString(); dom.dateTAtoLS = tmp11;
-	let tmp12 = dateUsed.toLocaleDateString(); dom.dateLDS = tmp12;
-	let tmp13 = Intl.DateTimeFormat().format(dateUsed); dom.dateIDTF = tmp13;
-	let tmp14 = dateUsed.toLocaleTimeString(); dom.dateLTS = tmp14;
-	let tmp15 = dateUsed.toTimeString(); dom.dateTS = tmp15;
-	let tmp16 = JSON.stringify(new Intl.NumberFormat().formatToParts(1000)[1]); dom.numFTP = tmp16;
-	let tmp17 = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle; dom.hourRO = tmp17;
+		let tmp7 = temp.map(function(entry){return entry.value;}).join(""); dom.dtf7 = tmp7;
+	let tmp8 = dateUsed.toGMTString(); dom.dtf8 = tmp8;
+	let tmp9 = dateUsed.toUTCString(); dom.dtf9 = tmp9;
+	let tmp10 = dateUsed.toLocaleString(); dom.dtf10 = tmp10;
+	let tmp11 = [dateUsed].toLocaleString(); dom.dtf11 = tmp11;
+	let tmp12 = dateUsed.toLocaleDateString(); dom.dtf12 = tmp12;
+	let tmp13 = Intl.DateTimeFormat().format(dateUsed); dom.dtf13 = tmp13;
+	let tmp14 = dateUsed.toLocaleTimeString(); dom.dtf14 = tmp14;
+	let tmp15 = dateUsed.toTimeString(); dom.dtf15 = tmp15;
+	let tmp16 = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle; dom.dtf16 = tmp16;
 
-	// Intl.RelativeTimeFormat: FF65+
-	let tmp18 = "",	tmp19 = "", str19 = "";;
+	function concat_parts(length, value) {
+		// must be an easier way to do this
+		// different languages use different numbers of parts
+		let output = "";
+		let rtf2 = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"});
+		let rtf3 = rtf2.formatToParts(length, value);
+		try {
+			output = rtf3[0].value + rtf3[1].value + rtf3[2].value + rtf3[3].value;
+		} catch(e) {
+			try {
+				output = rtf3[0].value + rtf3[1].value + rtf3[2].value;
+			} catch(e) {
+				try {
+					output = rtf3[0].value + rtf3[1].value;
+				} catch(e) {
+					output = rtf3[0].value;
+				}
+			}
+		}
+		return output;
+	};
+
+	// FF65+: Intl.RelativeTimeFormat
+	let tmp17 = "",	tmp18 = "";
 	try {
 		// return "7 days ago, yesterday, tomorrow, next month, in 2 years" in your locale
 		let rtf = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"});
-		tmp18 = rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
+		tmp17 = rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
 			rtf.format(1, "day") +", "+ rtf.format(1, "month") +", "+ rtf.format(2, "year");
-		dom.dateIRTF = tmp18;
-		// Intl.RelativeTimeFormat formatToParts: FF70+
+		dom.dtf17 = tmp17;
+		// FF70+: Intl.RelativeTimeFormat formatToParts
 		try {
-			// last year, 3 weeks ago, 1 hour ago, in 60 seconds, in 15 minutes, tomorrow, next month, in 2 quarters
-			str19 = rtf.formatToParts(-1, "year");
-				tmp19 = str19[0].value;
-			str19 = rtf.formatToParts(-3, "week");
-				tmp19 = tmp19 + ", " + str19[0].value + str19[1].value;
-			str19 = rtf.formatToParts(-1, "hour");
-				tmp19 = tmp19 + ", " + str19[0].value + str19[1].value;
-			str19 = rtf.formatToParts(60, "second");
-				tmp19 = tmp19 + ", " + str19[0].value + str19[1].value + str19[2].value;
-			str19 = rtf.formatToParts(15, "minute");
-				tmp19 = tmp19 + ", " + str19[0].value + str19[1].value + str19[2].value;
-			str19 = rtf.formatToParts(1, "day");
-				tmp19 = tmp19 + ", " + str19[0].value;
-			str19 = rtf.formatToParts(1, "month");
-				tmp19 = tmp19 + ", " + str19[0].value;
-			str19 = rtf.formatToParts(2, "quarter");
-				tmp19 = tmp19 + ", " + str19[0].value + str19[1].value + str19[2].value;
-			dom.dateIRTFFTP.innerHTML = tmp19;
+			// trap support
+			let trap18 = rtf.formatToParts(-1, "year");
+			// last year, 3 weeks ago, 1 hour ago, in 45 seconds, tomorrow, next quarter
+			tmp18 = concat_parts("-1", "year")
+				+ ", " + concat_parts("-3", "week")
+				+ ", " + concat_parts("-1", "hour")
+				+ ", " + concat_parts("45", "second")
+				+ ", " + concat_parts("1", "day")
+				+ ", " + concat_parts("1", "quarter");
+			dom.dtf18.innerHTML = tmp18;
 		} catch(e) {
-			tmp19 = "not supported";
-			dom.dateIRTFFTP = tmp19;
+			console.debug("fuuuuck", e.message)
+			tmp18 = "not supported";
+			dom.dtf18 = tmp18;
 		};
 	} catch(e) {
+		tmp17 = "not supported";
 		tmp18 = "not supported";
-		tmp19 = "not supported";
-		dom.dateIRTF = tmp18;
-		dom.dateIRTFFTP = tmp19;
+		dom.dtf17 = tmp17;
+		dom.dtf18 = tmp18;
 	};
 
-	// BigInt.toLocalString: FF70+
+	// [formatToParts] Intl.NumberFormat = could do with prettifying
+	let tmp19 = JSON.stringify(new Intl.NumberFormat().formatToParts(1000)[1]); dom.dtf19 = tmp19;
+
+	// FF70+: [BigInt] Intl.NumberFormat
 	let tmp20 = "";
 	try {
-		// BigInt: FF68+
-		let bint = BigInt(9007199254740991);
+		let bint1 = BigInt(9007199254740991);
 		// use eval so no parsing errors
-		bint = eval("123456789123456789n");
-		tmp20 = bint.toLocaleString();
-		if (tmp20 == "123456789123456789") {
-			tmp20 = "not supported"; // FF68-69, else FF70+
+		bint1 = eval("987654321987654321n");
+		let numFormat = new Intl.NumberFormat(undefined);
+		tmp20 = numFormat.format(bint1);
+	} catch(e) {
+		if (e.message == "BigInt is not defined") {
+			// FF67 or lower
+			tmp20 = "not supported [BigInt]";
+		} else {
+			// FF68-69: "can't convert BigInt to number"
+			tmp20 = "not supported";
+		};
+	};
+	dom.dtf20 = tmp20;
+
+	// FF70+: [BigInt] toLocaleString
+	let tmp21 = "";
+	try {
+		let bint2 = BigInt(9007199254740991);
+		// use eval so no parsing errors
+		bint2 = eval("123456789123456789n");
+		tmp21 = bint2.toLocaleString();
+		if (tmp21 == "123456789123456789") {
+			// no change: therefore FF68-69
+			tmp21 = "not supported";
 		};
 	} catch(e) {
-		tmp20 = "not supported [BigInt]"; // FF67 or lower
+		// FF67 or lower
+		if (e.message == "BigInt is not defined") {
+			tmp21 = "not supported [BigInt]";
+		} else {
+			tmp21 = "error:" + e.message;
+		};
 	};
-	dom.numTLS = tmp20;
+	dom.dtf21 = tmp21;
 
 	// calendar/numbering/geo
-	let tmp30 = rOptions.calendar;
-		dom.calendarRO = tmp30;
-	let tmp31 = rOptions.numberingSystem;
-		dom.numsysRO = tmp31;
+	let tmp30 = rOptions.calendar; dom.dtf30 = tmp30;
+	let tmp31 = rOptions.numberingSystem; dom.dtf31 = tmp31;
 
 	// build hash
 	let lHash2 = tmp1 + "-" + tmp2 + "-" + tmp3 + "-" + tmp4 + "-" + tmp5 + "-" + tmp6 + "-" + tmp7
 		+ "-" + tmp8 + "-" + tmp9 + "-" + tmp10 + "-" + tmp11 + "-" + tmp12 + "-" + tmp13 + "-" + tmp14
-		+ "-" + tmp15 + "-" + tmp16 + "-" + tmp17 + "-" + tmp18 + "-" + tmp19 + "-" + tmp20
+		+ "-" + tmp15 + "-" + tmp16 + "-" + tmp17 + "-" + tmp18 + "-" + tmp19 + "-" + tmp20 + "-" + tmp21
 		+ "-" + tmp30 + "-" + tmp31;
 	lHash2 = sha1(lHash2);
 	dom.lHash2 = lHash2;
 	// add notation
-	if (lHash2 == "1f264746b3524f9fb01ea72acb3153e5c0ee11b8") {
-		// done: FF70+: Intl.RelativeTimeFormat.formatToParts
-		// todo: FF70+: BigInt.toLocaleString
+	if (lHash2 == "e6016b87c3ecca863ab36a4a03f0bfa0f7d91768") {
+		// FF70+: [formatToParts] Intl.RelativeTimeFormat
+		// FF70+: [BigInt] Intl.NumberFormat
+		// FF70+: [BigInt] toLocaleString
 		lHash2 = lHash2 + spoof_both_green;
-	} else if (lHash2 == "8616cf02aacf325d1e2fdc80f25b0cd88f769f9e") {
-		// FF68-69: BigInt
+	} else if (lHash2 == "60e18e6b492bafe01d859709487f2910f33d4ec4") {
+		// FF68+: BigInt
 		lHash2 = lHash2 + spoof_both_green;
-	} else if (lHash2 == "2999ce5ae3c551c6e60369160fa1cab2b81d5bb7") {
-		// FF65-67: Int.RelativeTimeFormat
+	} else if (lHash2 == "4e7db1d8602895a50082b569c87571d5e9cf1d66") {
+		// FF65+: Intl.RelativeTimeFormat
 		lHash2 = lHash2 + spoof_both_green;
-	} else if (lHash2 == "deac21b32d15d3c1b86ebbfe84cf3904065b77b0") {
-		// FF63-64: CUT
+	} else if (lHash2 == "7c77c1cacf4836fbc12be9969ef87b97d10c63a0") {
+		// FF63+: Coordinated Universal Time
 		lHash2 = lHash2 + spoof_both_green;
-	} else if (lHash2 == "ba0197af5a52569769591d6e45bd99e61fb6a5ff") {
+	} else if (lHash2 == "064126cd3aa5e9e5789c7763332de14d42b66af8") {
 		// FF60-62: UTC
 		lHash2 = lHash2 + spoof_both_green;
 	} else {
@@ -494,7 +530,7 @@ function get_datetime() {
 			lHash2 = lHash2 + spoof_both_red;
 		};
 	};
-	dom.lHash2.innerHTML = lHash2;	
+	dom.lHash2.innerHTML = lHash2;
 
 };
 
