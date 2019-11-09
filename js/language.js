@@ -388,43 +388,41 @@ function get_datetime() {
 	let tmp15 = dateUsed.toTimeString(); dom.dtf15 = tmp15;
 	let tmp16 = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle; dom.dtf16 = tmp16;
 
-	function concat_parts(length, value) {
-		// must be an easier way to do this
-		// different languages use different numbers of parts
-		let output = "";
-		let rtf2 = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"});
-		let rtf3 = rtf2.formatToParts(length, value);
-		try {
-			output = rtf3[0].value + rtf3[1].value + rtf3[2].value + rtf3[3].value;
-		} catch(e) {
-			try {
-				output = rtf3[0].value + rtf3[1].value + rtf3[2].value;
-			} catch(e) {
-				try {
-					output = rtf3[0].value + rtf3[1].value;
-				} catch(e) {
-					output = rtf3[0].value;
-				}
-			}
-		}
-		return output;
-	};
-
-	// FF65+: Intl.RelativeTimeFormat
-	let tmp17 = "",	tmp18 = "";
+	// Intl.RelativeTimeFormat
+	let tmp17 = "",	tmp18 = "", is70 = false;;
 	try {
-		// return "7 days ago, yesterday, tomorrow, next month, in 2 years" in your locale
+		// FF65+: Intl.RelativeTimeFormat: "7 days ago, yesterday, tomorrow, next month, in 2 years"
 		let rtf = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"});
 		tmp17 = rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
 			rtf.format(1, "day") +", "+ rtf.format(1, "month") +", "+ rtf.format(2, "year");
 		dom.dtf17 = tmp17;
+
 		// FF70+: Intl.RelativeTimeFormat formatToParts
-		let is70 = false;
+		function concat_parts(length, value) {
+			// must an more elegant way to do this: languages vary in number of parts
+			let output = "";
+			let rtf2 = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"});
+			let rtf3 = rtf2.formatToParts(length, value);
+			try {
+				output = rtf3[0].value + rtf3[1].value + rtf3[2].value + rtf3[3].value;
+			} catch(e) {
+				try {
+					output = rtf3[0].value + rtf3[1].value + rtf3[2].value;
+				} catch(e) {
+					try {
+						output = rtf3[0].value + rtf3[1].value;
+					} catch(e) {
+						output = rtf3[0].value;
+					}
+				}
+			}
+			return output;
+		};
 		try {
 			// trap support
 			let trap18 = rtf.formatToParts(-1, "year");
 			is70 = true;
-			// last year, 3 weeks ago, 1 hour ago, in 45 seconds, tomorrow, next quarter
+			// "last year, 3 weeks ago, 1 hour ago, in 45 seconds, tomorrow, next quarter"
 			tmp18 = concat_parts("-1", "year")
 				+ ", " + concat_parts("-3", "week")
 				+ ", " + concat_parts("-1", "hour")
@@ -436,8 +434,8 @@ function get_datetime() {
 			if (is70 == false) {
 				tmp18 = "not supported";
 			} else {
-				// maybe some weird language required more than 4 parts
-				tmp18 = "<span class='bad'>[error: bad developer]</span>";
+				// maybe some language required more than 4 parts
+				tmp18 = "supported <span class='bad'>[error: bad developer]</span>";
 			}
 			dom.dtf18.innerHTML = tmp18;
 		};
@@ -448,48 +446,133 @@ function get_datetime() {
 		dom.dtf18 = tmp18;
 	};
 
-	// [formatToParts] Intl.NumberFormat = could do with prettifying
-	let tmp19 = JSON.stringify(new Intl.NumberFormat().formatToParts(1000)[1]); dom.dtf19 = tmp19;
+	// Intl.NumberFormat
+	let tmp19 = "", debug19 = "", err19 = "";
+	try {
+		// decimals & groups: de-DE = 123.456,789, en-IN = 1,23,456.789, en-US = 123,456.789
+		debug19 = "decimals & groups";
+		let num19 = 123456.789;
+		tmp19 = new Intl.NumberFormat(undefined).format(num19);
+		// long unit
+		debug19 = "long unit";
+		num19 = 5;
+		try {
+			// FF72+
+			tmp19 = tmp19 + " | " + new Intl.NumberFormat(undefined, {style: "unit", unit: "mile-per-hour", unitDisplay: "long"}).format(num19);
+		} catch(e) {
+			err19 = sha1(e.message);
+			if (err19 == "5e74394a663ce1f31667968d4dbe3de7a21da4d2") {
+				tmp19 = tmp19 + " | unit not supported" // FF70 and lower
+			} else if (err19 == "dabc0b854a78cdfdf4c0e8e3aa744da7056dc9ed") {
+				tmp19 = tmp19 + " | \"unit\" not supported" // FF71
+			} else {
+				tmp19 = tmp19 + " | 'unit' not supported" // future catch-all?
+			}
+		}
+		// todo: what else can we add?
+
+		// output
+		//console.debug("tmp19", tmp19);
+		dom.dtf19 = tmp19;
+	} catch(e) {
+		// debug errors
+		//console.debug("tmp19 error:", debug19 + ";", e.message)
+	}
+
+	// [formatToParts] Intl.NumberFormat
+	let tmp20 = "", str20 = "", type20 ="", debugchar = "";
+	function clean_string(type, string, extra) {
+		// prettify result
+		try {
+			string = string.replace(/"/g, "");
+			string = string.replace("{type:", "");
+			string = string.replace(",value:", " ");
+			string = string.replace("}", "");
+			if (extra == true) {
+				// output charCode for single chars: e.g group/fr
+				debugchar = string.charCodeAt(string.length-1);
+				string = string + " <code>" + debugchar + "</code>";
+			};
+			return string
+		} catch(e) {
+			// catch undefined
+			if (e.message == "string is undefined") {
+				return type + " undefined"
+			} else {
+				return type + "error"
+			}
+		}
+	}
+	// concat types: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat/formatToParts
+	// todo: currency, fraction, literal, plusSign (use a UTC time ahead GMT?), percentSign
+	try {
+		// decimal
+		type20 = "decimal";
+		str20 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(1000.2)[3]);
+		tmp20 = clean_string(type20, str20, true);
+		// group: e.g fr = narrow no-break space / en-US = , / de = . / etc
+		type20 = "group";
+		str20 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(1000)[1]);
+		tmp20 = tmp20 + " | " + clean_string(type20, str20, true);
+		// infinity
+		type20 = "infinity";
+		str20 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(Infinity)[0]);
+		tmp20 = tmp20 + " | " + clean_string(type20, str20, true);
+		// minusSign
+		type20 = "minusSign";
+		str20 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(-5)[0]);
+		tmp20 = tmp20 + " | " + clean_string(type20, str20, true);
+		// nan: e.g. zh-TW
+		type20 = "nan";
+		str20 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(4/5 + "%")[0]);
+		tmp20 = tmp20 + " | " + clean_string(type20, str20, false);
+		//console.debug("tmp20:" + tmp20);
+		// output
+		dom.dtf20.innerHTML = tmp20;
+	} catch(e) {
+		// debug errors
+		//console.debug("tmp20 error:", type20 + ":", e.message)
+	};
 
 	// FF70+: [BigInt] Intl.NumberFormat
-	let tmp20 = "";
+	let tmp21 = "";
 	try {
 		let bint1 = BigInt(9007199254740991);
 		// use eval so no parsing errors
 		bint1 = eval("987654321987654321n");
 		let numFormat = new Intl.NumberFormat(undefined);
-		tmp20 = numFormat.format(bint1);
+		tmp21 = numFormat.format(bint1);
 	} catch(e) {
 		if (e.message == "BigInt is not defined") {
 			// FF67 or lower
-			tmp20 = "not supported [BigInt]";
+			tmp21 = "not supported [BigInt]";
 		} else {
 			// FF68-69: "can't convert BigInt to number"
-			tmp20 = "not supported";
+			tmp21 = "not supported";
 		};
 	};
-	dom.dtf20 = tmp20;
+	dom.dtf21 = tmp21;
 
 	// FF70+: [BigInt] toLocaleString
-	let tmp21 = "";
+	let tmp22 = "";
 	try {
 		let bint2 = BigInt(9007199254740991);
 		// use eval so no parsing errors
 		bint2 = eval("123456789123456789n");
-		tmp21 = bint2.toLocaleString();
-		if (tmp21 == "123456789123456789") {
+		tmp22 = bint2.toLocaleString();
+		if (tmp22 == "123456789123456789") {
 			// no change: therefore FF68-69
-			tmp21 = "not supported";
+			tmp22 = "not supported";
 		};
 	} catch(e) {
 		// FF67 or lower
 		if (e.message == "BigInt is not defined") {
-			tmp21 = "not supported [BigInt]";
+			tmp22 = "not supported [BigInt]";
 		} else {
-			tmp21 = "error:" + e.message;
+			tmp22 = "error:" + e.message;
 		};
 	};
-	dom.dtf21 = tmp21;
+	dom.dtf22 = tmp22;
 
 	// calendar/numbering/geo
 	let tmp30 = rOptions.calendar; dom.dtf30 = tmp30;
@@ -499,27 +582,34 @@ function get_datetime() {
 	let lHash2 = tmp1 + "-" + tmp2 + "-" + tmp3 + "-" + tmp4 + "-" + tmp5 + "-" + tmp6 + "-" + tmp7
 		+ "-" + tmp8 + "-" + tmp9 + "-" + tmp10 + "-" + tmp11 + "-" + tmp12 + "-" + tmp13 + "-" + tmp14
 		+ "-" + tmp15 + "-" + tmp16 + "-" + tmp17 + "-" + tmp18 + "-" + tmp19 + "-" + tmp20 + "-" + tmp21
-		+ "-" + tmp30 + "-" + tmp31;
+		+ "-" + tmp22 + "-" + tmp30 + "-" + tmp31;
+	//console.debug(lHash2);
 	lHash2 = sha1(lHash2);
 	dom.lHash2 = lHash2;
 	// add notation
-	if (lHash2 == "e6016b87c3ecca863ab36a4a03f0bfa0f7d91768") {
-		// FF70+: [formatToParts] Intl.RelativeTimeFormat
+	if (lHash2 == "314af3976e066468f7e68492ee320ddd3036353f") {
+		// FF72: [formatToParts] Intl.NumberFormat: unit supported
+		lHash2 = lHash2 + spoof_both_green + "[FF72+]";
+	} else if (lHash2 == "e55df382836729c0460b77089dcb38218f854616") {
+		// FF71: [formatToParts] Intl.NumberFormat ["unit" not supported]
+		lHash2 = lHash2 + spoof_both_green + "[FF71]";
+	} else if (lHash2 == "42c210e719845128b2df77275e96fd7fe1304013") {
+		// FF70+: [formatToParts] Intl.RelativeTimeFormat [ unit not supported ]
 		// FF70+: [BigInt] Intl.NumberFormat
 		// FF70+: [BigInt] toLocaleString
-		lHash2 = lHash2 + spoof_both_green;
-	} else if (lHash2 == "60e18e6b492bafe01d859709487f2910f33d4ec4") {
+		lHash2 = lHash2 + spoof_both_green + "[FF70]";
+	} else if (lHash2 == "1e6adada983598231470eea446329446c68dd875") {
 		// FF68+: BigInt
-		lHash2 = lHash2 + spoof_both_green;
-	} else if (lHash2 == "4e7db1d8602895a50082b569c87571d5e9cf1d66") {
+		lHash2 = lHash2 + spoof_both_green + "[FF68-69]";
+	} else if (lHash2 == "5da7d7dfdc8638edeab4e8fce5a07ed3e7b78d19") {
 		// FF65+: Intl.RelativeTimeFormat
-		lHash2 = lHash2 + spoof_both_green;
-	} else if (lHash2 == "7c77c1cacf4836fbc12be9969ef87b97d10c63a0") {
+		lHash2 = lHash2 + spoof_both_green + "[FF65-67]";
+	} else if (lHash2 == "fd7213bbb4a67c29ca9f3e1522c351b50b867be9") {
 		// FF63+: Coordinated Universal Time
-		lHash2 = lHash2 + spoof_both_green;
-	} else if (lHash2 == "064126cd3aa5e9e5789c7763332de14d42b66af8") {
+		lHash2 = lHash2 + spoof_both_green + "[FF63-64]";
+	} else if (lHash2 == "09ec48d99814d7ec532b0add024fb75ea252037b") {
 		// FF60-62: UTC
-		lHash2 = lHash2 + spoof_both_green;
+		lHash2 = lHash2 + spoof_both_green + "[FF60-62]";
 	} else {
 		// something is amiss
 		if (bTZ == true) {
@@ -529,8 +619,11 @@ function get_datetime() {
 			lHash2 = lHash2 + spoof_red + rfp_green;
 		} else {
 			// state 3: green lang, red time
-			// unless I painstaking check the lang parts vs the time parts
-			// I can't really tell what's at fault and detect this state
+			// I can't 100% tell if lang is at fault (time is)
+			// MAYBE: if it uses "Wednesday, January"
+			//   + if it uses "1/30/2019" (american)
+			//   + if the lang check is "en-US"
+			//lHash2 = lHash2 + spoof_green + rfp_red;
 
 			// state 4: both red: just default to this "and/or"
 			lHash2 = lHash2 + spoof_both_red;
