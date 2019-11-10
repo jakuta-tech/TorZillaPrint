@@ -15,9 +15,9 @@ function outputMisc() {
 	let mathmlnone = document.getElementById("pReducedMotion").offsetHeight;
 	let mathmltest = document.getElementById("mathmltest").offsetHeight;
 	if ( mathmltest == mathmlnone) {
-		dom.mathml = e
-	} else {
 		dom.mathml = d
+	} else {
+		dom.mathml = e
 	};
 
 	// beacon.enabled
