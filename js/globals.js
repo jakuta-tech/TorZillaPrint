@@ -61,5 +61,5 @@ var sDebug = false;
 
 // perf
 var mPerf = false; // minor
-var sPerf = false; // section
+var sPerf = true; // section
 var gt0;
