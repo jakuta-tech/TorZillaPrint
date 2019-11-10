@@ -799,11 +799,9 @@
 	<br><a name="theend"></a><br>
 
 	<script src="js/main.js"></script>
-	<!-- load now as they have to wait for iframes -->
-	<script src="js/domrect.js"></script>
-	<!-- first 3 sections -->
-	<script src="js/screen.js"></script> 
-	<script src="js/language.js"></script> <!-- must come after screen which sets global vars -->
+	<!-- first 3 sections: MUST load first as it sets global vars-->
+	<script src="js/screen.js"></script>
+	<script src="js/language.js"></script>
 	<!-- faster sections -->
 	<script src="js/headers.js"></script>
 	<script src="js/media.js"></script>
@@ -812,10 +810,12 @@
 	<script src="js/misc.js"></script>
 	<script src="js/cookies.js"></script>
 	<!-- slower sections -->
-	<script src="js/audio.js"></script>
 	<script src="js/webgl.js"></script>
 	<script src="js/fonts.js"></script>
+	<script src="js/audio.js"></script>
 	<script src="js/canvas.js"></script>
+	<!-- MUST load as last js -->
+	<script src="js/domrect.js"></script>
 
 	<!-- almost 500kb, load last -->
 	<link rel="stylesheet" type="text/css" href="css/window_size.css">
