@@ -107,7 +107,8 @@ function outputDomRect() {
 	iframeDR.src = "iframes/domrect.html";
 	iframeDR.addEventListener("load", test_domrect);
 	// we need to test for a blocked iframe when https
-	if (!location.protocol == "file:") {
+	console.debug("location.protocol is ", location.protocol)
+	if (location.protocol !== "file:") {
 		console.debug("domrect: this is not file:///");
 		let delay = (isMajorOS == "android" ? 700 : 400)
 		console.debug("domrect: delay set: ", delay);
