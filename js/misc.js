@@ -4,6 +4,7 @@
 
 function outputMisc() {
 	let t0 = performance.now();
+	let e = "enabled", d = "disabled";
 
 	// mathml: control/none = visible + no distortion of height: compare control to test
 	let mathmlString = "<math><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form='prefix'>&minus;</mo><mi>b</mi>"+
@@ -14,33 +15,28 @@ function outputMisc() {
 	let mathmlnone = document.getElementById("pReducedMotion").offsetHeight;
 	let mathmltest = document.getElementById("mathmltest").offsetHeight;
 	if ( mathmltest == mathmlnone) {
-		dom.mathml = "disabled"
+		dom.mathml = e
 	} else {
-		dom.mathml = "enabled"
+		dom.mathml = d
 	};
 
-	// clipboard
-	if ("clipboard" in navigator) {
-		dom.nClipboard = "enabled"
-	} else {
-		dom.nClipboard = "disabled"
-	};
+	// beacon.enabled
+	if (navigator.sendBeacon) {dom.nBeacon = e} else {dom.nBeacon = d}
+
+	// FF63+: clipboard
+	if ("clipboard" in navigator) {dom.nClipboard = e} else {dom.nClipboard = d};
 
 	// dom.IntersectionObserver.enabled
 	let callback = function(entries, observer) {};
 	try {
 		let observer = new IntersectionObserver(callback);
-		dom.intObserver = "enabled";
+		dom.intObserver = e
 	} catch(e) {
-		dom.intObserver = "disabled"
+		dom.intObserver = d
 	};
 
 	// dom.requestIdleCallback.enabled
-	if ("requestIdleCallback" in window) {
-		dom.reqIdleCB = "enabled"
-	} else {
-		dom.reqIdleCB = "disabled"
-	};
+	if ("requestIdleCallback" in window) {dom.reqIdleCB = e} else {dom.reqIdleCB = d};
 
 	// javascript.options.wasm
 	const supported = (() => {
@@ -53,7 +49,7 @@ function outputMisc() {
 		} catch (e) {}
 		return false;
 	})();
-	dom.wasm = (supported ? "enabled" : "disabled");
+	dom.wasm = (supported ? e : d);
 
 	// perf
 	let t1 = performance.now();
