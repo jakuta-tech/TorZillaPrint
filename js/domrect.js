@@ -103,13 +103,17 @@ function test_domrect() {
 function outputDomRect() {
 	t0dr = performance.now();
 	did_domrect_run = false;
+	console.debug("domrect: starting to set src");
 	iframeDR.src = "iframes/domrect.html";
 	iframeDR.addEventListener("load", test_domrect);
 	// we need to test for a blocked iframe when https
 	if (!location.protocol == "file:") {
+		console.debug("domrect: this is not file:///");
 		let delay = (isMajorOS == "android" ? 700 : 400)
+		console.debug("domrect: delay set: ", delay);
 		setTimeout(function(){
 			// test never ran
+			console.debug ("did_domrect_run is ", did_domrect_run)
 			if (did_domrect_run == false) {
 				dom.dr1.innerHTML = error_iframe;
 				dom.dr2.innerHTML = error_iframe;
