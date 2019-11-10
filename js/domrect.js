@@ -7,6 +7,8 @@
 	 https://github.com/kkapsner/CanvasBlocker */
 
 var iframeDR = dom.drect;
+var t0dr;
+var t6; // temp debugging
 
 function reset_domrect() {
 	// clear detailed data
@@ -19,7 +21,6 @@ function reset_domrect() {
 }
 
 function run_domrect() {
-	let hash2 = "";
 	function getElements(){
 		let doc = iframeDR.contentDocument;
 		return Array.from(doc.querySelectorAll(".testRect"));
@@ -36,14 +37,7 @@ function run_domrect() {
 				});
 				// output hash
 				crypto.subtle.digest("SHA-256", data).then(function(hash){
-					hash2 ="";
-					hash2 = byteArrayToHex(hash);
-					if (hash2 == "42c4b0e3141cfc98c8f4fb9a24b96f99e441ae274c939b641b9995a455b85278") {
-						console.debug("X: hash detected as iframe error");
-						document.getElementById(method).innerHTML = error_iframe;
-					} else {
-						document.getElementById(method).innerHTML = hash2 + note_file;
-					}
+					document.getElementById(method).innerHTML = byteArrayToHex(hash) + note_file;
 				});
 				// output results
 				let item=0;
@@ -74,7 +68,7 @@ function run_domrect() {
 
 	// perf: dom rect was the first function called so use the global timer
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section domrect: " + (t1-gt0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (sPerf) {console.debug("  ** section domrect: " + (t1-t0dr) + " ms" + " | " + (t1 - gt0) + " ms")};
 
 	// show/hide relevant details sections if dr details is showing
 	// but give it slight timer (don't run in perform test=screen jitter)
@@ -87,6 +81,10 @@ function run_domrect() {
 
 function test_domrect() {
 	// iframe is ready
+
+	let t7 = performance.now(); // iframe here
+	console.debug("domrect: iframe load time: " + (t7 - t6) + " ms")
+
 	try {
 		let testerror = iframeDR.contentWindow.document.getElementById("rect1");
 		run_domrect();
@@ -101,28 +99,23 @@ function test_domrect() {
 		}
 		// perf when blocked by CORS
 		let t1 = performance.now();
-		if (sPerf) {console.debug("  ** section domrect: " + (t1-gt0) + " ms" + " | " + (t1 - gt0) + " ms")};
+		if (sPerf) {console.debug("  ** section domrect: " + (t1-t0dr) + " ms" + " | " + (t1 - gt0) + " ms")};
 	};
 }
 
 function outputDomRect() {
-	// we need to trap for a blocked iframe
+	t0dr = performance.now();
+
+	// debugging how long it takes to load the iframe
+	t6 = performance.now(); // request iframe
+
 	iframeDR.src = "iframes/domrect.html";
 	iframeDR.addEventListener("load", test_domrect);
+	// we need to test for a blocked iframe when https
+	if (!location.protocol == "file:") {
+		// get some timing results
+
+	}
 };
 
-// domrect: we load and run this first so it can
-// request an iframe and get on with other js
-gt0 = performance.now();
-if (sPerf) {console.debug("  ** section start timing: domrect.js loaded")};
-
-// re-calculate global vars from global.js: this is the first script run
-function set_global_vars() {
-	if ((location.protocol) == "file:") {
-		note_file = " <span class='neutral'>[file:]</span>";
-	};
-	if (isNaN(window.mozInnerScreenX) === false) {isFirefox = true};
-}
-
-set_global_vars();
 outputDomRect();
