@@ -8,10 +8,10 @@
 
 var iframeDR = dom.drect;
 var t0dr;
-var t6; // temp debugging
+var did_domrect_run = false;
 
 function reset_domrect() {
-	// clear detailed data
+	// clear details
 	for (let i = 1; i < 5; i++) {
 		document.getElementById("dr"+i).innerHTML = "&nbsp";
 		for (let j = 1; j < 49; j++) {
@@ -21,6 +21,8 @@ function reset_domrect() {
 }
 
 function run_domrect() {
+	did_domrect_run = true;
+
 	function getElements(){
 		let doc = iframeDR.contentDocument;
 		return Array.from(doc.querySelectorAll(".testRect"));
@@ -66,12 +68,11 @@ function run_domrect() {
 		return range.getBoundingClientRect();
 	});
 
-	// perf: dom rect was the first function called so use the global timer
+	// perf
 	let t1 = performance.now();
 	if (sPerf) {console.debug("  ** section domrect: " + (t1-t0dr) + " ms" + " | " + (t1 - gt0) + " ms")};
 
 	// show/hide relevant details sections if dr details is showing
-	// but give it slight timer (don't run in perform test=screen jitter)
 	setTimeout(function(){
 		if (drState == true) {
 			showhide("table-row", "D", "&#9650; hide");
@@ -81,10 +82,6 @@ function run_domrect() {
 
 function test_domrect() {
 	// iframe is ready
-
-	let t7 = performance.now(); // iframe here
-	console.debug("domrect: iframe load time: " + (t7 - t6) + " ms")
-
 	try {
 		let testerror = iframeDR.contentWindow.document.getElementById("rect1");
 		run_domrect();
@@ -105,16 +102,19 @@ function test_domrect() {
 
 function outputDomRect() {
 	t0dr = performance.now();
-
-	// debugging how long it takes to load the iframe
-	t6 = performance.now(); // request iframe
-
+	did_domrect_run = false;
 	iframeDR.src = "iframes/domrect.html";
 	iframeDR.addEventListener("load", test_domrect);
 	// we need to test for a blocked iframe when https
 	if (!location.protocol == "file:") {
-		// get some timing results
-
+		let delay = (isMajorOS == "android" ? 700 : 400)
+		setTimeout(function(){
+			// test never ran
+			if (did_domrect_run == false) {
+				// so run it, note the hash, use the final timer
+				test_domrect()
+			}
+		}, delay);
 	}
 };
 
