@@ -4,37 +4,24 @@
 
 function outputDevices() {
 	let t0 = performance.now();
+	let e = "enabled", d = "disabled", ns = "not supported", na = "n/a";
 
 	// hardwareConcurrency
 	let str = "";
 	str = navigator.hardwareConcurrency;
-	if (str == "2") {
-		str = str + rfp_green
-	} else {
-		str = str + rfp_red
-	};
-	dom.nHardwareConcurrency.innerHTML = str;
+	dom.nHardwareConcurrency.innerHTML = (str == "2" ? str + rfp_green : str + rfp_red);
 
 	// maxTouchPoints
 	str = "";
 	str = navigator.maxTouchPoints;
-	if (str == "0") {
-		str = str + rfp_green
-	} else {
-		str = str + rfp_red
-	};
-	dom.nMaxTouchPoints.innerHTML = str;
+	dom.nMaxTouchPoints.innerHTML = (str == "0" ? str + rfp_green : str + rfp_red);
 
 	// gamepads
-	if (navigator.getGamepads) {
-		dom.nGetGamepads = "enabled"
-	} else {
-		dom.nGetGamepads = "disabled"
-	};
+	dom.nGetGamepads = (navigator.getGamepads ? e: d);
 
 	// media.navigator.enabled
 	if ("mediaDevices" in navigator) {
-		dom.nMediaDevices = "enabled"
+		dom.nMediaDevices = e
 		// enumerate media devices
 		try {
 			dom.eMediaDevices.innerHTML = note_testtocome
@@ -42,13 +29,13 @@ function outputDevices() {
 			dom.eMediaDevices = "no: " + e.name
 		}
 	}	else {
-		dom.nMediaDevices = "disabled";
-		dom.eMediaDevices = "n/a";
+		dom.nMediaDevices = d;
+		dom.eMediaDevices = na;
 	};
 
 	// dom.vr.enabled
 	if ("getVRDisplays" in navigator) {
-		dom.nGetVR = "enabled";
+		dom.nGetVR = e;
 		// active VR displays
 		if ("activeVRDisplays" in navigator) {
 			if (navigator.activeVRDisplays == "") {
@@ -58,18 +45,18 @@ function outputDevices() {
 			}
 		}
 	}	else {
-		dom.nGetVR = "disabled";
-		dom.nActiveVR = "n/a";
+		dom.nGetVR = d;
+		dom.nActiveVR = na;
 	};
 
 	// media.webspeech.synth.enabled
 	if ("speechSynthesis" in window) {
-		dom.speechSynth = "enabled";
+		dom.speechSynth = e;
 		// speech engines
 		dom.speechEngines.innerHTML = note_testtocome;
 	} else {
-		dom.speechSynth = "disabled";
-		dom.speechEngines = "n/a";
+		dom.speechSynth = d;
+		dom.speechEngines = na;
 	};
 
 	// perf
