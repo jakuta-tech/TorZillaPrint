@@ -94,7 +94,7 @@ function test_domrect() {
 			dom.dr3.innerHTML = error_file_cors;
 			dom.dr4.innerHTML = error_file_cors;
 		}
-		// perf when blocked by CORS
+		// perf
 		let t1 = performance.now();
 		if (sPerf) {console.debug("  ** section domrect: " + (t1-t0dr) + " ms" + " | " + (t1 - gt0) + " ms")};
 	};
@@ -111,8 +111,13 @@ function outputDomRect() {
 		setTimeout(function(){
 			// test never ran
 			if (did_domrect_run == false) {
-				// so run it, note the hash, use the final timer
-				test_domrect()
+				dom.dr1.innerHTML = error_iframe;
+				dom.dr2.innerHTML = error_iframe;
+				dom.dr3.innerHTML = error_iframe;
+				dom.dr4.innerHTML = error_iframe;
+				// perf
+				let t1 = performance.now();
+				if (sPerf) {console.debug("  ** section domrect: " + (t1-t0dr) + " ms" + " | " + (t1 - gt0) + " ms")};
 			}
 		}, delay);
 	}
