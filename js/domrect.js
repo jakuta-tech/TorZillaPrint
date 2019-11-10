@@ -8,7 +8,6 @@
 
 var iframeDR = dom.drect;
 var t0dr;
-var did_domrect_run = false;
 
 function reset_domrect() {
 	// clear details
@@ -21,7 +20,7 @@ function reset_domrect() {
 }
 
 function run_domrect() {
-	did_domrect_run = true;
+	console.debug("domrect test is running");
 
 	function getElements(){
 		let doc = iframeDR.contentDocument;
@@ -102,18 +101,13 @@ function test_domrect() {
 
 function outputDomRect() {
 	t0dr = performance.now();
-	did_domrect_run = false;
 
 	// start timer to detect blocked iframes
-	console.debug("location.protocol is ", location.protocol)
 	if (location.protocol !== "file:") {
-		console.debug("domrect: this is not file:///");
-		let delay = (isMajorOS == "android" ? 700 : 400)
-		console.debug("domrect: delay set: ", delay);
+		let delay = (isMajorOS == "android" ? 1000 : 600)
 		setTimeout(function(){
-			// test never ran
-			console.debug ("did_domrect_run is ", did_domrect_run)
-			if (did_domrect_run == false) {
+			// check if anything output yet
+			if (dom.dr1.textContent == "") {
 				dom.dr1.innerHTML = error_iframe;
 				dom.dr2.innerHTML = error_iframe;
 				dom.dr3.innerHTML = error_iframe;
@@ -126,7 +120,6 @@ function outputDomRect() {
 	}
 
 	// set src
-	console.debug("domrect: starting to set src");
 	iframeDR.src = "iframes/domrect.html";
 	iframeDR.addEventListener("load", test_domrect);
 };
