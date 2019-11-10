@@ -25,7 +25,7 @@ function get_app_lang_dtd1() {
 		if (mPerf) {console.debug("app lang dtd1: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	}
 	// load it up
-	let iframe = document.getElementById("appLang_2"),
+	let iframe = dom.appLang_2,
 		dtdtemp = "";
 	iframe.src="iframes/dtdlocale.xml";
 	iframe.addEventListener('load', () => {
@@ -90,7 +90,7 @@ function get_app_lang_dtd2() {
 		if (mPerf) {console.debug("app lang dtd2: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	};
 	// load it up
-	let iframe = document.getElementById("appLang_3");
+	let iframe = dom.appLang_3;
 	iframe.src="data:application/xml;charset=utf-8,%3C%21DOCTYPE%20html%20SYSTEM%20%22chrome%3A%2F%2Fglobal%2Flocale%2FnetError.dtd%22%3E%3Chtml%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Chead%3E%3Cmeta%20charset%3D%22utf-8%22%2F%3E%0D%0A%20%20%3C%2Fhead%3E%0D%0A%20%20%3Cbody%3E%3Cspan%20id%3D%22text-container%22%3E%26loadError.label%3B%3C%2Fspan%3E%0D%0A%20%20%3Cscript%3E%0D%0A%20%20window.addEventListener%28%27message%27%2C%20%28e%29%20%3D%3E%20%7B%0D%0A%20%20%20%20e.source.postMessage%28document.getElementById%28%27text-container%27%29.innerText%2C%20%27%2A%27%29%3B%0D%0A%20%20%7D%29%3B%0D%0A%20%20%3C%2Fscript%3E%0D%0A%20%20%3C%2Fbody%3E%0D%0A%3C%2Fhtml%3E";
 	iframe.addEventListener('load', () => {
 		window.addEventListener('message', ({ data }) => dtd2 = data);
@@ -125,7 +125,7 @@ function get_app_lang_mediadocument() {
 	let t0 = performance.now();
 
 	// MediaDocument.properties
-	let iframe = document.getElementById("appLang_4");
+	let iframe = dom.appLang_4;
 	function output_mediadocument(string) {
 		dom.appLang4.innerHTML = string;
 		// perf
@@ -155,7 +155,7 @@ function get_app_lang_mediadocument() {
 		};
 	};
 	function check_mediadocument() {
-		let iframe = document.getElementById("appLang_4");
+		let iframe = dom.appLang_4;
 		// load the iframe
 		if (iframe.src == "") {
 			iframe.src="images/dummy.png";
