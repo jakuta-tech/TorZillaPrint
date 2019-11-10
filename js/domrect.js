@@ -6,7 +6,7 @@
 	 https://canvasblocker.kkapsner.de/test/
 	 https://github.com/kkapsner/CanvasBlocker */
 
-var iframeDR = document.getElementById("drect");
+var iframeDR = dom.drect;
 
 function reset_domrect() {
 	// clear detailed data
@@ -19,6 +19,7 @@ function reset_domrect() {
 }
 
 function run_domrect() {
+	let hash2 = "";
 
 	function getElements(){
 		let doc = iframeDR.contentDocument;
@@ -36,7 +37,13 @@ function run_domrect() {
 				});
 				// output hash
 				crypto.subtle.digest("SHA-256", data).then(function(hash){
-					document.getElementById(method).innerHTML = byteArrayToHex(hash) + note_file;
+					hash2 ="";
+					hash2 = byteArrayToHex(hash);
+					if (hash2 == "42c4b0e3141cfc98c8f4fb9a24b96f99e441ae274c939b641b9995a455b85278") {
+						document.getElementById(method).innerHTML = error_iframe;
+					} else {
+						document.getElementById(method).innerHTML = hash2 + note_file;
+					}
 				});
 				// output results
 				let item=0;
@@ -81,36 +88,50 @@ function run_domrect() {
 
 function test_domrect() {
 	// make sure the iframe is ready / still there
+	console.debug("F: running test_domrect")
 	try {
 		let testerror = iframeDR.contentWindow.document.getElementById("rect1");
+		console.debug("G: found element in iframe document")
 		run_domrect();
 	} catch(e) {
 		// iframe didn't load
 		if ((location.protocol) == "file:") {
+			console.debug("H: cors: iframe didn't load")
 			// file: Cross-Origin Request Blocked
 			dom.dr1.innerHTML = error_file_cors;
 			dom.dr2.innerHTML = error_file_cors;
 			dom.dr3.innerHTML = error_file_cors;
 			dom.dr4.innerHTML = error_file_cors;
 		} else {
+			console.debug("I: iframe must be blocked")
 			// iframe is blocked
 			dom.dr1.innerHTML = error_iframe;
 			dom.dr2.innerHTML = error_iframe;
 			dom.dr3.innerHTML = error_iframe;
 			dom.dr4.innerHTML = error_iframe;
 		};
-	};	
+	};
 }
 
 function outputDomRect() {
+
+	console.debug("A: running domrect")
+
 	// load the iframe
 	if (iframeDR.src == "") {
-		iframeDR.src = "iframes/domrect.html";
+		console.debug("B: frame src is blank")
+		try {
+			iframeDR.src = "iframes/domrect.html";
+		} catch(e) {
+			console.debug("C: setting frame source", e.message)
+		}
 		iframeDR.addEventListener("load", function(){
+			console.debug("D: frame loaded")
 			test_domrect();
 		});
 	} else {
 		// already loaded
+		console.debug("E: the frame is already loaded")
 		test_domrect();
 	}
 };
