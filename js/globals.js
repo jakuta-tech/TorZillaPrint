@@ -6,60 +6,60 @@ var firstW = window.innerWidth;
 var dom;
 var jsZoom;
 
-var tor_browser_green = " <span class='good'>[TB]</span>"; // u2713
-var tor_browser_red = " <span class='bad'>[TB]</span>"; // u2715
-var rfp_green = " <span class='good'>[RFP]</span>";
-var rfp_red = " <span class='bad'>[RFP]</span>";
-var enUS_green = "<span class='good'>[en-US]</span> ";
-var enUS_red = "<span class='bad'>[en-US]</span> ";
-var spoof_green = " <span class='good'>[Spoof English]</span>";
-var spoof_red = " <span class='bad'>[Spoof English]</span>";
-var spoof_both_green = " <span class='good'>[Spoof English + RFP]</span>";
-var spoof_both_red = " <span class='bad'>[Spoof English +/or RFP]</span>";
-var default_tb_green = " <span class='good'>[TB default]</span>";
-var default_ff_green = " <span class='good'>[FF default]</span>";
-var default_red = " <span class='bad'>[unusual]</span>";
+let sb = " <span class='bad'>",
+	sg = " <span class='good'>",
+	sn = " <span class='neutral'>",
+	se = " <span class='bad'>[test error: ",
+	sc = "</span>";
 
-// notation when consecutive tests detect noise / randomization
-var note_random = " <span class='good'>[random]</span>";
-
-// notation for developer
+// notation
+var tor_browser_green = sg + "[TB]" + sc; // u2713
+var tor_browser_red =  sb + "[TB]" + sc; // u2715
+var rfp_green = sg + "[RFP]" + sc;
+var rfp_red = sb + "[RFP]" + sc;
+var enUS_green = sg + "[en-US]</span> ";
+var enUS_red = sb + "[en-US]</span> ";
+var spoof_green = sg + "[Spoof English]" + sc;
+var spoof_red = sb + "[Spoof English]" + sc;
+var spoof_both_green = sg + "[Spoof English + RFP]" + sc;
+var spoof_both_red = sb + "[Spoof English +/or RFP]" + sc;
+var default_tb_green = sg + "[TB default]" + sc;
+var default_ff_green = sg + "[FF default]" + sc;
+var default_red = sb + "[unusual]" + sc;
+var note_random = sg + "[random]" + sc;
 var note_file = "";
 if ((location.protocol) == "file:") {
-	note_file = " <span class='neutral'>[file:]</span>";
+	note_file = sn + "[file:]" + sc;
 };
-var note_testtocome = " <span class='neutral'>test to come</span>";
+var note_testtocome = sn + "test to come" + sc;
 
-// generic errors so we can output something for the end user
-var error_file_cors = "<span class='neutral'>[file:] [Cross-Origin Request Blocked]</span>";
-var error_file_xhr = "<span class='bad'>[test error: xhr]</span>";
-var error_iframe = "<span class='bad'>[test error: iframe]</span>";
-var error_image = "<span class='bad'>[test error: image]</span>";
-var error_global_os = "<span class='bad'>[test error: global variable not set]</span>";
+// generic errors
+var error_file_cors = sn + "[file:] [Cross-Origin Request Blocked]" + sc;
+var error_file_xhr = se + "xhr]" + sc;
+var error_iframe = se + " iframe]" + sc;
+var error_image = se + "image]" + sc;
+var error_global_os = sb + "[test error: global variable not set]" + sc;
 
-// what page is loaded: so as to not autorun some tests
+// other
 var isPage = "main";
-
-// sometimes we only want to test for Firefox
-// or provide a different test based on some criteria
 var isFirefox = false;
 var isTorBrowser = false;
 var isMajorOS = ""; // windows, mac, linux, android
 var isVersion = ""; // 2-digit numeric
 if (isNaN(window.mozInnerScreenX) === false) {isFirefox = true};
-	/* other Firefox detection methods
-	if (isNaN(window.mozPaintCount) === false) {isFirefox = true}; // FF72+ not reliable: 1591968: dom.mozPaintCount.enabled
+	/* other FF methods
+	if (isNaN(window.mozPaintCount) === false) {isFirefox = true};
+	// see 1591968: dom.mozPaintCount.enabled
 	if (isNaN(window.window.scrollMaxX) === false) {"isFirefox = true"};
 	if (navigator.oscpu == undefined){} else {"isFirefox = true"}; */
 
-// android viewport height: we want to capture this on
-// first load as it includes the toolbar being visible
+// android viewport height
 var avh = "";
 
-// storage debugging
+// storage debug
 var sDebug = false;
 
-// performance
+// perf
 var mPerf = false; // minor
 var sPerf = true; // section
 var gt0;
