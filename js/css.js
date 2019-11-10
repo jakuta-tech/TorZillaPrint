@@ -3,8 +3,8 @@
 'use strict';
 
 function get_prefers_color_scheme(){
-	let el = document.getElementById("pColorElement");
-	let k = window.getComputedStyle(el, null).getPropertyValue("background-color");
+	let e = dom.pColorElement;
+	let k = window.getComputedStyle(e, null).getPropertyValue("background-color");
 	if (k == "rgb(255, 255, 255)") {k = "light" + rfp_green}
 	else if (k == "rgb(255, 0, 0)") {k = "not supported"}
 	else if (k == "rgb(0, 0, 0)") {k = "dark" + rfp_red}
@@ -13,8 +13,8 @@ function get_prefers_color_scheme(){
 };
 
 function get_prefers_reduced_motion() {
-	let el = document.getElementById("pMotionElement");
-	let k = window.getComputedStyle(el, null).getPropertyValue("background-color");
+	let e = dom.pMotionElement;
+	let k = window.getComputedStyle(e, null).getPropertyValue("background-color");
 	if (k == "rgb(255, 255, 255)") {k = "no-preference" + rfp_green}
 	else if (k == "rgb(255, 0, 0)") {k = "not supported"}
 	else if (k == "rgb(0, 0, 0)") {k = "reduce" + rfp_red};
@@ -22,23 +22,19 @@ function get_prefers_reduced_motion() {
 };
 
 function get_system_colors() {
-	let str = "",
-		array = ['ActiveBorder', 'ActiveCaption', 'AppWorkspace', 'Background', 'ButtonFace', 'ButtonHighlight', 'ButtonShadow',
-	'ButtonText', 'CaptionText', 'GrayText', 'Highlight', 'HighlightText', 'InactiveBorder', 'InactiveCaption', 'InactiveCaptionText',
-	'InfoBackground', 'InfoText', 'Menu', 'MenuText', 'Scrollbar', 'ThreeDDarkShadow','ThreeDFace', 'ThreeDHighlight',
-	'ThreeDLightShadow', 'ThreeDShadow', 'Window', 'WindowFrame', 'WindowText'];
-	let el = document.getElementById("sColorElement");
+	let s = "",
+		array = ['ActiveBorder','ActiveCaption','AppWorkspace','Background','ButtonFace',
+	'ButtonHighlight','ButtonShadow','ButtonText','CaptionText','GrayText','Highlight',
+	'HighlightText','InactiveBorder','InactiveCaption', 'InactiveCaptionText','InfoBackground',
+	'InfoText','Menu','MenuText','Scrollbar','ThreeDDarkShadow','ThreeDFace', 'ThreeDHighlight',
+	'ThreeDLightShadow','ThreeDShadow','Window','WindowFrame', 'WindowText'];
+	let e = dom.sColorElement;
 	array.forEach(function (item) {
-		el.style.backgroundColor = item;
-		str = str + window.getComputedStyle(el, null).getPropertyValue("background-color")
+		e.style.backgroundColor = item;
+		s = s + window.getComputedStyle(e, null).getPropertyValue("background-color")
 	});
-	str = sha1(str);
-	if (str == "b5e2344c265fc498d2fb8e0f84951e8d501ad481") {
-		str = str + rfp_green
-	} else {
-		str = str + rfp_red
-	};
-	dom.sColorHash.innerHTML = str;
+	s = sha1(s);
+	dom.sColorHash.innerHTML = (s == "b5e2344c265fc498d2fb8e0f84951e8d501ad481" ? s + rfp_green : s + rfp_red);
 };
 
 function outputCSS() {
