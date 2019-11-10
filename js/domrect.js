@@ -77,6 +77,11 @@ function run_domrect() {
 			showhide("table-row", "D", "&#9650; hide");
 		};
 	}, 50); // delay to make sure things are loaded
+
+	// cancel listener, clear src
+	iframeDR.removeEventListener("load", test_domrect);
+	iframeDR.src = ""; // is this even working?
+
 };
 
 function test_domrect() {
@@ -101,6 +106,8 @@ function test_domrect() {
 
 function outputDomRect() {
 	t0dr = performance.now();
+
+	console.debug("src", iframeDR.src)
 
 	// start timer to detect blocked iframes
 	if (location.protocol !== "file:") {
