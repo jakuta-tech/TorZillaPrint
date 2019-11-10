@@ -310,8 +310,8 @@ function get_workers() {
 
 function get_service_workers() {
 
+	let swMsg = "", na = "n/a";
 	// service worker support (dom.serviceWorkers.enabled)
-	let swMsg = "";
 	if ((location.protocol) === "https:") {
 		if ("serviceWorker" in navigator) {
 			dom.serviceWSupport = "enabled";
@@ -337,23 +337,23 @@ function get_service_workers() {
 					swMsg = "failed: "+ e.name
 				}
 				dom.serviceWTest = swMsg;
-				dom.serviceWCacheSupport = "n/a";
-				dom.serviceWCacheTest = "n/a";
-				dom.notificationsSupport = "n/a";
-				dom.notificationsTest = "n/a";
+				dom.serviceWCacheSupport = na;
+				dom.serviceWCacheTest = na;
+				dom.notificationsSupport = na;
+				dom.notificationsTest = na;
 			});
 		}	else {
 			// skip if no service worker
 			dom.serviceWSupport = "disabled";
-			dom.serviceWTest = "n/a";
-			dom.serviceWCacheSupport = "n/a";
-			dom.serviceWCacheTest = "n/a";
-			dom.notificationsSupport = "n/a";
-			dom.notificationsTest = "n/a";
+			dom.serviceWTest = na;
+			dom.serviceWCacheSupport = na;
+			dom.serviceWCacheTest = na;
+			dom.notificationsSupport = na;
+			dom.notificationsTest = na;
 		}
 	}	else {
 		// skip if file
-		swMsg = "n/a" + note_file
+		swMsg = na + note_file
 		dom.serviceWSupport.innerHTML = swMsg;
 		dom.serviceWTest.innerHTML = swMsg;
 		dom.serviceWCacheSupport.innerHTML = swMsg;
