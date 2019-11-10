@@ -20,6 +20,7 @@ function reset_domrect() {
 
 function run_domrect() {
 	let hash2 = "";
+	console.debug("H: running the actual test");
 
 	function getElements(){
 		let doc = iframeDR.contentDocument;
@@ -114,8 +115,7 @@ function test_domrect() {
 }
 
 function outputDomRect() {
-
-	console.debug("A: running domrect")
+	console.debug("A: running domrect: iframe source is '" + iframeDR.src + "'")
 
 	// load the iframe
 	if (iframeDR.src == "") {
