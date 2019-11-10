@@ -1260,12 +1260,29 @@ function outputUA() {
 	if (sPerf) {console.debug("  ** section ua [excl chrome + font]: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
-outputUA(); // must run before screen as it sets some global variables
-outputScreen();
-if (isMajorOS !== "android") {
-	// desktop: start listening for resize events
-	window.addEventListener('resize', get_screen_metrics);
-} else {
-	// android: unhide some screen results
-	showhide("table-row", "S", "");
+function run_android() {
+	if (isMajorOS !== "android") {
+		// desktop: start listening for resize events
+		window.addEventListener('resize', get_screen_metrics);
+	} else {
+		// android: unhide some screen results
+		showhide("table-row", "S", "");
+	};
 };
+
+function run_first_script() {
+	// this is the very first script run
+	// set global var
+	gt0 = performance.now();
+	if (sPerf) {console.debug("  ** section start timing: screen.js loaded")};
+	// re-calculate some global vars
+	if ((location.protocol) == "file:") {
+		note_file = " <span class='neutral'>[file:]</span>";
+	};
+	if (isNaN(window.mozInnerScreenX) === false) {isFirefox = true};
+};
+
+run_first_script(); // starts perf timer and sets vars for next lines
+outputUA();         // this sets vars for the next line
+outputScreen();     // this sets vars for the next line
+run_android();
