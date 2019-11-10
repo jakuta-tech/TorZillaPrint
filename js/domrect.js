@@ -103,10 +103,8 @@ function test_domrect() {
 function outputDomRect() {
 	t0dr = performance.now();
 	did_domrect_run = false;
-	console.debug("domrect: starting to set src");
-	iframeDR.src = "iframes/domrect.html";
-	iframeDR.addEventListener("load", test_domrect);
-	// we need to test for a blocked iframe when https
+
+	// start timer to detect blocked iframes
 	console.debug("location.protocol is ", location.protocol)
 	if (location.protocol !== "file:") {
 		console.debug("domrect: this is not file:///");
@@ -126,6 +124,11 @@ function outputDomRect() {
 			}
 		}, delay);
 	}
+
+	// set src
+	console.debug("domrect: starting to set src");
+	iframeDR.src = "iframes/domrect.html";
+	iframeDR.addEventListener("load", test_domrect);
 };
 
 outputDomRect();
