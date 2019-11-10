@@ -104,10 +104,11 @@ function outputDomRect() {
 
 	// start timer to detect blocked iframes
 	if (location.protocol !== "file:") {
-		let delay = (isMajorOS == "android" ? 1000 : 600)
+		let delay = (isMajorOS == "android" ? 1000 : 600);
+		delay = (isTorBrowser == true ? 1000 : 600);
 		setTimeout(function(){
 			// check if anything output yet
-			if (dom.dr1.textContent == "") {
+			if (dom.dr1.textContent == "" | sha1(dom.dr1.textContent) == "ab90d23f7402359d51e25399fe46dac3401a3352") {
 				dom.dr1.innerHTML = error_iframe;
 				dom.dr2.innerHTML = error_iframe;
 				dom.dr3.innerHTML = error_iframe;
