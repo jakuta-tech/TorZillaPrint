@@ -6,6 +6,10 @@ function outputMisc() {
 	let t0 = performance.now();
 	let e = "enabled", d = "disabled";
 
+	dom.nBeacon = (navigator.sendBeacon ? e : d);
+	dom.nClipboard = ("clipboard" in navigator ? e: d); // FF63+
+	dom.reqIdleCB = ("requestIdleCallback" in window ? e: d);
+
 	// mathml: control/none = visible + no distortion of height: compare control to test
 	let mathmlString = "<math><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form='prefix'>&minus;</mo><mi>b</mi>"+
 		"<mo>&PlusMinus;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>&minus;</mo><mn>4</mn>"+
@@ -14,17 +18,7 @@ function outputMisc() {
 	document.getElementById("mathmltest").innerHTML = mathmlString;
 	let mathmlnone = document.getElementById("pReducedMotion").offsetHeight;
 	let mathmltest = document.getElementById("mathmltest").offsetHeight;
-	if ( mathmltest == mathmlnone) {
-		dom.mathml = d
-	} else {
-		dom.mathml = e
-	};
-
-	// beacon.enabled
-	if (navigator.sendBeacon) {dom.nBeacon = e} else {dom.nBeacon = d}
-
-	// FF63+: clipboard
-	if ("clipboard" in navigator) {dom.nClipboard = e} else {dom.nClipboard = d};
+	dom.mathml = (mathmltest == mathmlnone ? d : e);
 
 	// dom.IntersectionObserver.enabled
 	let callback = function(entries, observer) {};
@@ -34,9 +28,6 @@ function outputMisc() {
 	} catch(e) {
 		dom.intObserver = d
 	};
-
-	// dom.requestIdleCallback.enabled
-	if ("requestIdleCallback" in window) {dom.reqIdleCB = e} else {dom.reqIdleCB = d};
 
 	// javascript.options.wasm
 	const supported = (() => {
