@@ -127,12 +127,12 @@ function outputDomRect() {
 		}
 		iframeDR.addEventListener("load", function(){
 			console.debug("D: frame loaded")
-			test_domrect();
+			run_domrect();
 		});
 	} else {
 		// already loaded
 		console.debug("E: the frame is already loaded")
-		test_domrect();
+		run_domrect();
 	}
 };
 
