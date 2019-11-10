@@ -22,7 +22,7 @@ function get_app_lang_dtd1() {
 		dom.appLang2.innerHTML = output;
 		// perf
 		let t1 = performance.now();
-		if (mPerf) {console.debug("app language dtd1: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+		if (mPerf) {console.debug("app lang dtd1: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	}
 	// load it up
 	let iframe = document.getElementById("appLang_2"),
@@ -87,7 +87,7 @@ function get_app_lang_dtd2() {
 		// unload iframe
 		//iframe.src="";
 		let t1 = performance.now();
-		if (mPerf) {console.debug("app language dtd2: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+		if (mPerf) {console.debug("app lang dtd2: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	};
 	// load it up
 	let iframe = document.getElementById("appLang_3");
@@ -130,7 +130,7 @@ function get_app_lang_mediadocument() {
 		dom.appLang4.innerHTML = string;
 		// perf
 		let t1 = performance.now();
-		if (mPerf) {console.debug("app language MediaDocument: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+		if (mPerf) {console.debug("app lang MediaDocument: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	};
 	function run_mediadocument() {
 		try {
@@ -258,7 +258,7 @@ function test_iframe() {
 		iframe.src="";
 		// perf
 		let t1 = performance.now();
-		if (mPerf) {console.debug("app language iframe test: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+		if (mPerf) {console.debug("app lang iframe test: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 		// output
 		if (iframeBlocked == true) {
 			if ((location.protocol) == "file:") {
@@ -310,12 +310,7 @@ function test_iframe() {
 
 function get_geo() {
 	// geolocation
-	let lHash3 = "";
-	if ("geolocation" in navigator) {
-		lHash3 = "enabled";
-	} else {
-		lHash3 = "disabled";
-	};
+	let lHash3 = ("geolocation" in navigator ? "enabled" : "disabled")
 	dom.geo1=lHash3;
 	// permissions.default.geo
 	function geoState(state) {
@@ -344,32 +339,21 @@ function get_lang() {
 	let lang4 = new Intl.PluralRules().resolvedOptions().locale; dom.lang4 = lang4;
 	let lang5 = rOptions.locale; dom.lang5 = lang5;
 	let lHash1 = sha1(lang1 +"-"+ lang2 +"-"+ lang3 +"-"+ lang4 +"-"+ lang5);
-	if (lHash1 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98") {
-		lHash1 = lHash1 + spoof_green
-	} else {
-		lHash1 = lHash1 + spoof_red
-	};
-	dom.lHash1.innerHTML = lHash1;
+	let bool = (lHash1 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98");
+	dom.lHash1.innerHTML = (bool = true ? lHash1 + spoof_green : lHash1 + spoof_red)
 };
 
 function get_tz() {
-	// reset var
-	bTZ = false;
-	// timezone/offsets
+	// timezone/offset
 	let tz1 = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset(); dom.tz1 = tz1;
 	let tz2 = Intl.DateTimeFormat().resolvedOptions().timeZone; dom.tz2 = tz2;
-	// is the RFP part red or green: i.e timezone
 	let lHash0 = sha1(tz1 + "-"	+ tz2);
-	if (lHash0 == "f8296e18b30a4ae7669d1992c943b90dde8bf94f") {
-		bTZ = true;
-		lHash0 = lHash0 + rfp_green;
-	} else {
-		lHash0 = lHash0 + rfp_red;		
-	};
-	dom.lHash0.innerHTML = lHash0;
+	bTZ = (lHash0 == "f8296e18b30a4ae7669d1992c943b90dde8bf94f")
+	dom.lHash0.innerHTML = (bTZ ? lHash0 + rfp_green : lHash0 + rfp_red);
 };
 
 function get_datetime() {
+	let ns = "not supported";
 	let tmp1 = dateUsed; dom.dtf1 = tmp1;
 	let tmp2 = dateUsed.toString(); dom.dtf2 = tmp2;
 	let tmp3 = dateUsed.toLocaleString(undefined, dateOpt); dom.dtf3 = tmp3;
@@ -389,7 +373,7 @@ function get_datetime() {
 	let tmp16 = new Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle; dom.dtf16 = tmp16;
 
 	// Intl.RelativeTimeFormat
-	let tmp17 = "",	tmp18 = "", is70 = false;;
+	let tmp17 = "",	tmp18 = "", is70 = false;
 	try {
 		// FF65+: Intl.RelativeTimeFormat: "7 days ago, yesterday, tomorrow, next month, in 2 years"
 		let rtf = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"});
@@ -431,17 +415,12 @@ function get_datetime() {
 				+ ", " + concat_parts("1", "quarter");
 			dom.dtf18.innerHTML = tmp18;
 		} catch(e) {
-			if (is70 == false) {
-				tmp18 = "not supported";
-			} else {
-				// maybe some language required more than 4 parts
-				tmp18 = "supported <span class='bad'>[error: bad developer]</span>";
-			}
+			tmp18 = (is70 == false ? ns : "supported <span class='bad'>[error: bad developer]</span>");
 			dom.dtf18.innerHTML = tmp18;
 		};
 	} catch(e) {
-		tmp17 = "not supported";
-		tmp18 = "not supported";
+		tmp17 = ns;
+		tmp18 = ns;
 		dom.dtf17 = tmp17;
 		dom.dtf18 = tmp18;
 	};
@@ -449,12 +428,12 @@ function get_datetime() {
 	// Intl.NumberFormat
 	let tmp19 = "", debug19 = "", err19 = "";
 	try {
-		// decimals & groups: de-DE = 123.456,789, en-IN = 1,23,456.789, en-US = 123,456.789
-		debug19 = "decimals & groups";
+		// decimals & groups
+		debug19 = "decimals/groups";
 		let num19 = 123456.789;
 		tmp19 = new Intl.NumberFormat(undefined).format(num19);
 		// long unit
-		debug19 = "long unit";
+		debug19 = "unit";
 		num19 = 5;
 		try {
 			// FF72+
@@ -462,11 +441,11 @@ function get_datetime() {
 		} catch(e) {
 			err19 = sha1(e.message);
 			if (err19 == "5e74394a663ce1f31667968d4dbe3de7a21da4d2") {
-				tmp19 = tmp19 + " | unit not supported" // FF70 and lower
+				tmp19 = tmp19 + " | unit " + ns; // FF70 and lower
 			} else if (err19 == "dabc0b854a78cdfdf4c0e8e3aa744da7056dc9ed") {
-				tmp19 = tmp19 + " | \"unit\" not supported" // FF71
+				tmp19 = tmp19 + " | \"unit\" " + ns; // FF71
 			} else {
-				tmp19 = tmp19 + " | 'unit' not supported" // future catch-all?
+				tmp19 = tmp19 + " | 'unit' " + ns; // future catch-all?
 			}
 		}
 		// todo: what else can we add?
@@ -503,9 +482,9 @@ function get_datetime() {
 			}
 		}
 	}
-	// concat types: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat/formatToParts
-	// todo: currency, fraction, literal, plusSign (use a UTC time ahead GMT?), percentSign
+	// concat types
 	try {
+		// todo: currency, fraction, literal, plusSign (use a UTC time ahead GMT?), percentSign
 		// decimal
 		type20 = "decimal";
 		str20 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(1000.2)[3]);
@@ -526,7 +505,6 @@ function get_datetime() {
 		type20 = "nan";
 		str20 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(4/5 + "%")[0]);
 		tmp20 = tmp20 + " | " + clean_string(type20, str20, false);
-		//console.debug("tmp20:" + tmp20);
 		// output
 		dom.dtf20.innerHTML = tmp20;
 	} catch(e) {
@@ -538,18 +516,13 @@ function get_datetime() {
 	let tmp21 = "";
 	try {
 		let bint1 = BigInt(9007199254740991);
-		// use eval so no parsing errors
+		// eval = no parsing errors
 		bint1 = eval("987654321987654321n");
 		let numFormat = new Intl.NumberFormat(undefined);
 		tmp21 = numFormat.format(bint1);
 	} catch(e) {
-		if (e.message == "BigInt is not defined") {
-			// FF67 or lower
-			tmp21 = "not supported [BigInt]";
-		} else {
-			// FF68-69: "can't convert BigInt to number"
-			tmp21 = "not supported";
-		};
+		// true: FF67- / false: FF68-69
+		tmp21 = (e.message == "BigInt is not defined" ? ns + " [BigInt]" : ns)
 	};
 	dom.dtf21 = tmp21;
 
@@ -557,20 +530,16 @@ function get_datetime() {
 	let tmp22 = "";
 	try {
 		let bint2 = BigInt(9007199254740991);
-		// use eval so no parsing errors
+		// eval = no parsing errors
 		bint2 = eval("123456789123456789n");
 		tmp22 = bint2.toLocaleString();
 		if (tmp22 == "123456789123456789") {
-			// no change: therefore FF68-69
-			tmp22 = "not supported";
+			// no change: FF68-69
+			tmp22 = ns;
 		};
 	} catch(e) {
 		// FF67 or lower
-		if (e.message == "BigInt is not defined") {
-			tmp22 = "not supported [BigInt]";
-		} else {
-			tmp22 = "error:" + e.message;
-		};
+		tmp22 = (e.message == "BigInt is not defined" ? ns + " [BigInt]" : "error:" + e.message)
 	};
 	dom.dtf22 = tmp22;
 
@@ -587,50 +556,47 @@ function get_datetime() {
 	lHash2 = sha1(lHash2);
 	dom.lHash2 = lHash2;
 	// add notation
+	let ff = "";
 	if (lHash2 == "314af3976e066468f7e68492ee320ddd3036353f") {
-		// FF72: [formatToParts] Intl.NumberFormat: unit supported
-		lHash2 = lHash2 + spoof_both_green + "[FF72+]";
+		// FF72+: [formatToParts] Intl.NumberFormat
+		lHash2 = lHash2 + spoof_both_green; ff = "[FF72+]";
 	} else if (lHash2 == "e55df382836729c0460b77089dcb38218f854616") {
-		// FF71: [formatToParts] Intl.NumberFormat ["unit" not supported]
-		lHash2 = lHash2 + spoof_both_green + "[FF71]";
+		// FF71: [formatToParts] Intl.NumberFormat: diff error message
+		lHash2 = lHash2 + spoof_both_green; ff = "[FF71]";
 	} else if (lHash2 == "42c210e719845128b2df77275e96fd7fe1304013") {
-		// FF70+: [formatToParts] Intl.RelativeTimeFormat [ unit not supported ]
 		// FF70+: [BigInt] Intl.NumberFormat
 		// FF70+: [BigInt] toLocaleString
-		lHash2 = lHash2 + spoof_both_green + "[FF70]";
+		lHash2 = lHash2 + spoof_both_green; ff = "[FF70]";
 	} else if (lHash2 == "1e6adada983598231470eea446329446c68dd875") {
 		// FF68+: BigInt
-		lHash2 = lHash2 + spoof_both_green + "[FF68-69]";
+		lHash2 = lHash2 + spoof_both_green; ff = "[FF68-69]";
 	} else if (lHash2 == "5da7d7dfdc8638edeab4e8fce5a07ed3e7b78d19") {
 		// FF65+: Intl.RelativeTimeFormat
-		lHash2 = lHash2 + spoof_both_green + "[FF65-67]";
+		lHash2 = lHash2 + spoof_both_green; ff = "[FF65-67]";
 	} else if (lHash2 == "fd7213bbb4a67c29ca9f3e1522c351b50b867be9") {
-		// FF63+: Coordinated Universal Time
-		lHash2 = lHash2 + spoof_both_green + "[FF63-64]";
+		// FF63+: CUT
+		lHash2 = lHash2 + spoof_both_green; ff = "[FF63-64]";
 	} else if (lHash2 == "09ec48d99814d7ec532b0add024fb75ea252037b") {
 		// FF60-62: UTC
-		lHash2 = lHash2 + spoof_both_green + "[FF60-62]";
+		lHash2 = lHash2 + spoof_both_green; ff = "[FF60-62]";
 	} else {
 		// something is amiss
 		if (bTZ == true) {
 			// timezone
-			// state 1: both green: see above
-			// state 2: red spoof-lang, green rfp-time
+			// state1: both green: see above
+			// state2: lang red, time green
 			lHash2 = lHash2 + spoof_red + rfp_green;
 		} else {
-			// state 3: green lang, red time
-			// I can't 100% tell if lang is at fault (time is)
-			// MAYBE: if it uses "Wednesday, January"
-			//   + if it uses "1/30/2019" (american)
-			//   + if the lang check is "en-US"
-			//lHash2 = lHash2 + spoof_green + rfp_red;
+			// state3: lang green, time red
+			// I can't easily tell if lang is at fault as well as time
+			// lHash2 = lHash2 + spoof_green + rfp_red;
 
-			// state 4: both red: just default to this "and/or"
+			// state4: both red: just default to "and/or"
 			lHash2 = lHash2 + spoof_both_red;
 		};
 	};
-	dom.lHash2.innerHTML = lHash2;
-
+	// only output ver for FF
+	dom.lHash2.innerHTML = lHash2 + (isFirefox ? "" : ff);
 };
 
 function outputLanguage() {
