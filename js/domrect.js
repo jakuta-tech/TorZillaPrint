@@ -7,6 +7,7 @@
 	 https://github.com/kkapsner/CanvasBlocker */
 
 var t0dr;
+var timerdr = 2000;
 
 function reset_domrect() {
 	// clear details
@@ -19,13 +20,14 @@ function reset_domrect() {
 }
 
 function remove_domrect(type) {
+
 	// remove listener and iframe
 	let bob = dom.bob;
 	bob.removeEventListener("load", test_domrect);
 	document.getElementById("drect").removeChild(bob);
+
 	// output error notation
 	if (type !== "") {
-		console.debug("domrect: iframe failed")
 		let str = "";
 		if (type == "cors") {str = error_file_cors};
 		if (type == "404") {str = error_file_404};
@@ -35,13 +37,20 @@ function remove_domrect(type) {
 		dom.dr3.innerHTML = str;
 		dom.dr4.innerHTML = str;
 	}
+
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section domrect: " + (t1-t0dr) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (sPerf) {
+		let timetaken = t1-t0dr;
+		let warning = "";
+		let	allocated = " [allocated " + timerdr + " ms]";
+		if ( (timetaken/timerdr) > 0.8 ) {warning = " WARNING";}
+		console.debug("  ** section" + warning + " domrect: " + timetaken + " ms" + allocated + " | " + (t1 - gt0) + " ms");
+	};
+
 }
 
 function run_domrect() {
-	console.debug("domrect: iframe successful: caculating")
 
 	function getElements(){
 		let iframeA = dom.bob;
@@ -108,21 +117,18 @@ function test_domrect() {
 		element.innerHTML="success";
 		run_domrect();
 	} catch(e) {
-		if (e.message == "Permission denied to access property \"document\" on cross-origin object") {
-			// Permission denied to access property "document" on cross-origin object
-			remove_domrect("cors");
-		} else {
-			console.debug("test_domrect error: ", e.message )
-		}
+		remove_domrect("cors");
 	}
 }
 
-function outputDomRect() {
+function outputDomRect(type) {
 	t0dr = performance.now();
 
-	// start timer to detect blocked iframe and file 404
-	let delay = (isMajorOS == "android" ? 2000 : 1200);
-	delay = (isTorBrowser == true ? 2000 : 1200);
+	// adjust timer
+	if (isMajorOS == "android" | isTorBrowser) {timerdr = 3000};
+	if (location.protocol == "file:") {timerdr = 500};
+	if (!type) { timerdr = (timerdr/2) };
+	// start timer
 	setTimeout(function(){
 		// we're still empty
 		if (dom.dr1.textContent == "" | sha1(dom.dr1.textContent) == "ab90d23f7402359d51e25399fe46dac3401a3352") {
@@ -132,7 +138,7 @@ function outputDomRect() {
 				remove_domrect("iframe");
 			}
 		}
-	}, delay);
+	}, timerdr);
 
 	// create & append: todo: make it hidden
 	let iframe = document.createElement("iframe");
@@ -143,4 +149,4 @@ function outputDomRect() {
 	iframe.addEventListener("load", test_domrect);
 }
 
-outputDomRect();
+outputDomRect("load");
