@@ -78,9 +78,9 @@ function run_domrect() {
 		};
 	}, 50); // delay to make sure things are loaded
 
-	// cancel listener, clear src
+	// cancel listener, change src
 	iframeDR.removeEventListener("load", test_domrect);
-	iframeDR.src = ""; // is this even working?
+	iframeDR.src = "iframes/test.html";
 
 };
 
