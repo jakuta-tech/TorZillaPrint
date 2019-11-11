@@ -34,6 +34,7 @@ if (location.protocol == "file:") {
 var note_testtocome = sn + "test to come" + sc;
 
 // generic errors
+var error_file_404 = se + "file not found]" + sc;
 var error_file_cors = sn + "[file:] [Cross-Origin Request Blocked]" + sc;
 var error_file_xhr = se + "xhr]" + sc;
 var error_iframe = se + " iframe]" + sc;
