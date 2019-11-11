@@ -78,10 +78,6 @@ function run_domrect() {
 		};
 	}, 50); // delay to make sure things are loaded
 
-	// cancel listener, change src
-	iframeDR.removeEventListener("load", test_domrect);
-	iframeDR.src = "iframes/test.html";
-
 };
 
 function test_domrect() {
@@ -120,6 +116,11 @@ function outputDomRect() {
 				dom.dr2.innerHTML = error_iframe;
 				dom.dr3.innerHTML = error_iframe;
 				dom.dr4.innerHTML = error_iframe;
+
+				// cancel listener, change src
+				iframeDR.removeEventListener("load", test_domrect);
+				iframeDR.src = "iframes/test.html";
+
 				// perf
 				let t1 = performance.now();
 				if (sPerf) {console.debug("  ** section domrect: " + (t1-t0dr) + " ms" + " | " + (t1 - gt0) + " ms")};
