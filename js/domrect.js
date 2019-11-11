@@ -18,11 +18,33 @@ function reset_domrect() {
 	};
 }
 
+function remove_domrect(type) {
+	// remove listener and iframe
+	let bob = dom.bob;
+	bob.removeEventListener("load", test_domrect);
+	document.getElementById("drect").removeChild(bob);
+	// output error notation
+	if (type !== "") {
+		console.debug("domrect: iframe failed")
+		let str = "";
+		if (type == "cors") {str = error_file_cors};
+		if (type == "404") {str = error_file_404};
+		if (type == "iframe") {str = error_iframe};
+		dom.dr1.innerHTML = str;
+		dom.dr2.innerHTML = str;
+		dom.dr3.innerHTML = str;
+		dom.dr4.innerHTML = str;
+	}
+	// perf
+	let t1 = performance.now();
+	if (sPerf) {console.debug("  ** section domrect: " + (t1-t0dr) + " ms" + " | " + (t1 - gt0) + " ms")};
+}
+
 function run_domrect() {
-	console.debug("domrect test is running");
+	console.debug("domrect: iframe successful: caculating")
 
 	function getElements(){
-		let iframeA = dom.drect;
+		let iframeA = dom.bob;
 		let doc = iframeA.contentDocument;
 		return Array.from(doc.querySelectorAll(".testRect"));
 	}
@@ -67,9 +89,8 @@ function run_domrect() {
 		return range.getBoundingClientRect();
 	});
 
-	// perf
-	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section domrect: " + (t1-t0dr) + " ms" + " | " + (t1 - gt0) + " ms")};
+	// cleanup
+	remove_domrect("");
 
 	// show/hide relevant details sections if dr details is showing
 	setTimeout(function(){
@@ -78,60 +99,48 @@ function run_domrect() {
 		};
 	}, 50); // delay to make sure things are loaded
 
-};
+}
 
 function test_domrect() {
-	// iframe is ready
 	try {
-		let iframeB = dom.drect;
-		let testerror = iframeB.contentWindow.document.getElementById("rect1");
+		let bob = dom.bob;
+		let element = bob.contentWindow.document.getElementById("rect6");
+		element.innerHTML="success";
 		run_domrect();
 	} catch(e) {
-		// iframe is blocked
-		if ((location.protocol) == "file:") {
-			// file: Cross-Origin Request Blocked
-			dom.dr1.innerHTML = error_file_cors;
-			dom.dr2.innerHTML = error_file_cors;
-			dom.dr3.innerHTML = error_file_cors;
-			dom.dr4.innerHTML = error_file_cors;
+		if (e.message == "Permission denied to access property \"document\" on cross-origin object") {
+			// Permission denied to access property "document" on cross-origin object
+			remove_domrect("cors");
+		} else {
+			console.debug("test_domrect error: ", e.message )
 		}
-		// perf
-		let t1 = performance.now();
-		if (sPerf) {console.debug("  ** section domrect: " + (t1-t0dr) + " ms" + " | " + (t1 - gt0) + " ms")};
-	};
+	}
 }
 
 function outputDomRect() {
 	t0dr = performance.now();
-	let iframeC = dom.drect;
-	console.debug("src", iframeC.src)
 
-	// start timer to detect blocked iframe
-	if (location.protocol !== "file:") {
-		let delay = (isMajorOS == "android" ? 1000 : 600);
-		delay = (isTorBrowser == true ? 1000 : 600);
-		setTimeout(function(){
-			// check if anything output yet
-			if (dom.dr1.textContent == "" | sha1(dom.dr1.textContent) == "ab90d23f7402359d51e25399fe46dac3401a3352") {
-				dom.dr1.innerHTML = error_iframe;
-				dom.dr2.innerHTML = error_iframe;
-				dom.dr3.innerHTML = error_iframe;
-				dom.dr4.innerHTML = error_iframe;
-
-				// cancel listener, change src
-				iframeC.removeEventListener("load", test_domrect);
-				iframeC.src = "iframes/test.html";
-
-				// perf
-				let t1 = performance.now();
-				if (sPerf) {console.debug("  ** section domrect: " + (t1-t0dr) + " ms" + " | " + (t1 - gt0) + " ms")};
+	// start timer to detect blocked iframe and file 404
+	let delay = (isMajorOS == "android" ? 1000 : 600);
+	delay = (isTorBrowser == true ? 1200 : 600);
+	setTimeout(function(){
+		// we're still empty
+		if (dom.dr1.textContent == "" | sha1(dom.dr1.textContent) == "ab90d23f7402359d51e25399fe46dac3401a3352") {
+			if (location.protocol == "file:") {
+				remove_domrect("404");
+			} else {
+				remove_domrect("iframe");
 			}
-		}, delay);
-	}
+		}
+	}, delay);
 
+	// create & append: todo: make it hidden
+	let iframe = document.createElement("iframe");
+	iframe.id = "bob";
+	document.getElementById("drect").appendChild(iframe);
 	// set src
-	iframeC.src = "iframes/domrect.html";
-	iframeC.addEventListener("load", test_domrect);
-};
+	iframe.src = "iframes/domrect.html";
+	iframe.addEventListener("load", test_domrect);
+}
 
 outputDomRect();
