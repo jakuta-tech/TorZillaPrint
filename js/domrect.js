@@ -6,7 +6,6 @@
 	 https://canvasblocker.kkapsner.de/test/
 	 https://github.com/kkapsner/CanvasBlocker */
 
-var iframeDR = dom.drect;
 var t0dr;
 
 function reset_domrect() {
@@ -23,7 +22,8 @@ function run_domrect() {
 	console.debug("domrect test is running");
 
 	function getElements(){
-		let doc = iframeDR.contentDocument;
+		let iframeA = dom.drect;
+		let doc = iframeA.contentDocument;
 		return Array.from(doc.querySelectorAll(".testRect"));
 	}
 	function createTest(method, callback){
@@ -83,7 +83,8 @@ function run_domrect() {
 function test_domrect() {
 	// iframe is ready
 	try {
-		let testerror = iframeDR.contentWindow.document.getElementById("rect1");
+		let iframeB = dom.drect;
+		let testerror = iframeB.contentWindow.document.getElementById("rect1");
 		run_domrect();
 	} catch(e) {
 		// iframe is blocked
@@ -102,10 +103,10 @@ function test_domrect() {
 
 function outputDomRect() {
 	t0dr = performance.now();
+	let iframeC = dom.drect;
+	console.debug("src", iframeC.src)
 
-	console.debug("src", iframeDR.src)
-
-	// start timer to detect blocked iframes
+	// start timer to detect blocked iframe
 	if (location.protocol !== "file:") {
 		let delay = (isMajorOS == "android" ? 1000 : 600);
 		delay = (isTorBrowser == true ? 1000 : 600);
@@ -118,8 +119,8 @@ function outputDomRect() {
 				dom.dr4.innerHTML = error_iframe;
 
 				// cancel listener, change src
-				iframeDR.removeEventListener("load", test_domrect);
-				iframeDR.src = "iframes/test.html";
+				iframeC.removeEventListener("load", test_domrect);
+				iframeC.src = "iframes/test.html";
 
 				// perf
 				let t1 = performance.now();
@@ -129,8 +130,8 @@ function outputDomRect() {
 	}
 
 	// set src
-	iframeDR.src = "iframes/domrect.html";
-	iframeDR.addEventListener("load", test_domrect);
+	iframeC.src = "iframes/domrect.html";
+	iframeC.addEventListener("load", test_domrect);
 };
 
 outputDomRect();
