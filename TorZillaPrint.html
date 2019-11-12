@@ -286,12 +286,15 @@
 		<tr><td>timezone</td><td class="c mono" id="lHash0"></td></tr>
 		<tr><td>date/time & format</td><td class="c mono" id="lHash2"></td></tr>
 		<tr><td>geolocation</td><td class="c mono" id="lHash3"></td></tr>
+		<!-- app lang -->
 		<tr><td colspan="2" class="center">--- app language leaks ---</td></tr>
-		<tr><td>dtd <sup>1</sup></td><td class="c" id="appLang2"></td></tr>
-		<tr><td>dtd nullprinciple <sup>2</sup></td><td class="c" id="appLang3"></td></tr>
-		<tr><td>dom.properties <sup>3</sup></td><td class="c" id="appLang1"></td></tr>
-		<tr><td>MediaDocument.properties <sup>3</sup></td><td class="c" id="appLang4"></td></tr>
-		<tr><td>xmlparser.properties <sup>3</sup></td><td class="c" id="appLang5"></td></tr>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn4" onClick="outputSection(`4`, `c2`, `m`)">[ run app lang tests ]</button></div>
+				<div>dtd <sup>1</sup></div></div></td><td class="c2" id="appLang2"></td></tr>
+		<tr><td>dtd nullprinciple <sup>2</sup></td><td class="c2" id="appLang3"></td></tr>
+		<tr><td>dom.properties <sup>3</sup></td><td class="c2" id="appLang1"></td></tr>
+		<tr><td>MediaDocument.properties <sup>3</sup></td><td class="c2" id="appLang4"></td></tr>
+		<tr><td>xmlparser.properties <sup>3</sup></td><td class="c2" id="appLang5"></td></tr>
 		<!--details-->
 		<tr><td colspan="8" class="showhide">
 				<input id="collapseL" class="toggle" type="checkbox" checked onchange="toggleitems(this, `L`)"/>
