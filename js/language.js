@@ -539,26 +539,26 @@ function get_datetime() {
 	let ff = "";
 	if (lHash2 == "314af3976e066468f7e68492ee320ddd3036353f") {
 		// FF72+: [formatToParts] Intl.NumberFormat
-		lHash2 = lHash2 + spoof_both_green; ff = "[FF72+]";
+		lHash2 = lHash2 + spoof_both_green; ff = " [FF72+]";
 	} else if (lHash2 == "e55df382836729c0460b77089dcb38218f854616") {
 		// FF71: [formatToParts] Intl.NumberFormat: diff error message
-		lHash2 = lHash2 + spoof_both_green; ff = "[FF71]";
+		lHash2 = lHash2 + spoof_both_green; ff = " [FF71]";
 	} else if (lHash2 == "42c210e719845128b2df77275e96fd7fe1304013") {
 		// FF70+: [BigInt] Intl.NumberFormat
 		// FF70+: [BigInt] toLocaleString
-		lHash2 = lHash2 + spoof_both_green; ff = "[FF70]";
+		lHash2 = lHash2 + spoof_both_green; ff = " [FF70]";
 	} else if (lHash2 == "1e6adada983598231470eea446329446c68dd875") {
 		// FF68+: BigInt
-		lHash2 = lHash2 + spoof_both_green; ff = "[FF68-69]";
+		lHash2 = lHash2 + spoof_both_green; ff = " [FF68-69]";
 	} else if (lHash2 == "5da7d7dfdc8638edeab4e8fce5a07ed3e7b78d19") {
 		// FF65+: Intl.RelativeTimeFormat
-		lHash2 = lHash2 + spoof_both_green; ff = "[FF65-67]";
+		lHash2 = lHash2 + spoof_both_green; ff = " [FF65-67]";
 	} else if (lHash2 == "fd7213bbb4a67c29ca9f3e1522c351b50b867be9") {
 		// FF63+: CUT
-		lHash2 = lHash2 + spoof_both_green; ff = "[FF63-64]";
+		lHash2 = lHash2 + spoof_both_green; ff = " [FF63-64]";
 	} else if (lHash2 == "09ec48d99814d7ec532b0add024fb75ea252037b") {
 		// FF60-62: UTC
-		lHash2 = lHash2 + spoof_both_green; ff = "[FF60-62]";
+		lHash2 = lHash2 + spoof_both_green; ff = " [FF60-62]";
 	} else {
 		// something is amiss
 		if (bTZ == true) {
@@ -575,8 +575,8 @@ function get_datetime() {
 			lHash2 = lHash2 + spoof_both_red;
 		};
 	};
-	// only output ver for FF
-	dom.lHash2.innerHTML = lHash2 + (isFirefox ? "" : ff);
+	if (isFirefox == true) { lHash2 = lHash2 + ff};
+	dom.lHash2.innerHTML = lHash2
 };
 
 function outputAppLanguage() {
