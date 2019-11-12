@@ -227,27 +227,6 @@ function get_app_lang_xmlparser() {
 	}
 };
 
-function get_app_pocs() {
-	// app lang pocs: FF only
-	if (isFirefox == true) {
-		let tmpStr = document.getElementById("appLang_1").validationMessage;
-		if (navigator.language !== "en-US") {
-			// if not en-US then it doesn't matter
-			dom.appLang1 = tmpStr;
-		} else {
-			// if en-US then append good or bad
-			if (sha1(tmpStr) == "c17ee6480cdfbdc082000efe84ca520283b761ef") {
-				dom.appLang1.innerHTML = enUS_green + tmpStr;
-			} else {
-				dom.appLang1.innerHTML = enUS_red + tmpStr;
-			}
-		}
-		get_app_lang_xmlparser();
-		get_app_lang_dtd2();
-		test_iframe(); // this starts the dtd1 and MediaDocument PoCs
-	};
-};
-
 function test_iframe() {
 	let t0 = performance.now();
 	let iframeBlocked = true; // assume blocked
@@ -482,7 +461,7 @@ function get_datetime() {
 			}
 		}
 	}
-	// concat types
+	// concat types: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat/formatToParts
 	try {
 		// todo: currency, fraction, literal, plusSign (use a UTC time ahead GMT?), percentSign
 		// decimal
@@ -505,6 +484,7 @@ function get_datetime() {
 		type20 = "nan";
 		str20 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(4/5 + "%")[0]);
 		tmp20 = tmp20 + " | " + clean_string(type20, str20, false);
+		//console.debug("tmp20:" + tmp20);
 		// output
 		dom.dtf20.innerHTML = tmp20;
 	} catch(e) {
@@ -599,6 +579,27 @@ function get_datetime() {
 	dom.lHash2.innerHTML = lHash2 + (isFirefox ? "" : ff);
 };
 
+function outputAppLanguage() {
+	// app lang pocs: FF only
+	if (isFirefox == true) {
+		let tmpStr = document.getElementById("appLang_1").validationMessage;
+		if (navigator.language !== "en-US") {
+			// if not en-US then it doesn't matter
+			dom.appLang1 = tmpStr;
+		} else {
+			// if en-US then append good or bad
+			if (sha1(tmpStr) == "c17ee6480cdfbdc082000efe84ca520283b761ef") {
+				dom.appLang1.innerHTML = enUS_green + tmpStr;
+			} else {
+				dom.appLang1.innerHTML = enUS_red + tmpStr;
+			}
+		}
+		get_app_lang_xmlparser();
+		get_app_lang_dtd2();
+		test_iframe(); // this starts the dtd1 and MediaDocument PoCs
+	};
+};
+
 function outputLanguage() {
 	let t0 = performance.now();
 	// run
@@ -608,9 +609,7 @@ function outputLanguage() {
 	get_geo();
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section language [excl app lang]: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
-	// start app lang PoCs
-	get_app_pocs();
+	if (sPerf) {console.debug("  ** section language: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
 outputLanguage();
