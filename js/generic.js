@@ -96,7 +96,6 @@ function toggleitems(chkbxState, chkbxID) {
 	}
 };
 
-
 function copyclip(element) {
 	if (document.selection) {
 		var range = document.body.createTextRange();
@@ -188,7 +187,8 @@ function outputSection(id, cls, page) {
 			if (id=="1") {outputScreen()};
 			if (id=="2") {outputUA()};
 			if (id=="3") {outputMath()};
-			if (id=="4") {outputLanguage()};
+			if (id=="4" && cls=="c") {outputLanguage()};
+			if (id=="4" && cls=="c2") {outputAppLanguage()};
 			if (id=="5") {outputHeaders()};
 			if (id=="6") {outputCookies()};
 			if (id=="7") {outputDevices()};
