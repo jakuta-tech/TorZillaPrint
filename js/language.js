@@ -40,9 +40,9 @@ function get_app_lang_dtd1() {
 						dtdtemp = error_file_cors
 					} else if (str == "") {
 						// this should never happen, we waited a whole second
-						dtdtemp = "<span class='good'>[bugzilla 467035]</span> or " + error_file_cors;
+						dtdtemp = sg+"[bugzilla 467035]</span> or " + error_file_cors;
 					} else {
-						dtdtemp = "<span class='good'>[bugzilla 467035]</span>";
+						dtdtemp = sg+"[bugzilla 467035]"+sc;
 					}
 				}, 1000); // as long as we get this done before the check_dtd1 runs out
 			};
@@ -68,7 +68,7 @@ function get_app_lang_dtd1() {
 		} else {
 			clearInterval(checking);
 			if (dtdtemp == "") {
-				dtdtemp = "<span class='good'>[bugzilla 467035]</span>";
+				dtdtemp = sg+"[bugzilla 467035]"+sc;
 			};
 			output_dtd1(dtdtemp);
 		}
@@ -609,7 +609,7 @@ function outputLanguage() {
 	get_geo();
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section language: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (sPerf) {outputDebug("1", "language", (t1-t0), (t1 - gt0))};
 };
 
 outputLanguage();
