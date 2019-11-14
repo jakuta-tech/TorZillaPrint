@@ -431,7 +431,7 @@ function outputCookies() {
 	get_storage_manager();
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section cookies: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (sPerf) {outputDebug("1", "cookies", (t1-t0), (t1 - gt0))};
 };
 
 outputCookies();
