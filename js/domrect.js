@@ -22,9 +22,9 @@ function reset_domrect() {
 function remove_domrect(type) {
 
 	// remove listener and iframe
-	let bob = dom.bob;
-	bob.removeEventListener("load", test_domrect);
-	document.getElementById("drect").removeChild(bob);
+	let ifdr = dom.ifdr;
+	ifdr.removeEventListener("load", test_domrect);
+	document.getElementById("drect").removeChild(ifdr);
 
 	// output error notation
 	if (type !== "") {
@@ -43,9 +43,9 @@ function remove_domrect(type) {
 	if (sPerf) {
 		let timetaken = t1-t0dr;
 		let warning = "";
-		let	allocated = " [allocated " + timerdr + " ms]";
-		if ( (timetaken/timerdr) > 0.8 ) {warning = " WARNING";}
-		console.debug("  ** section" + warning + " domrect: " + timetaken + " ms" + allocated + " | " + (t1 - gt0) + " ms");
+		if ( (timetaken/timerdr) > 0.75 && timetaken/timerdr < 1) {warning = "warning: > 75%";}
+		let tmr = timerdr.toString().padStart(4);
+		outputDebug("1", "domrect", timetaken + "/" + tmr, (t1 - gt0), warning);
 	};
 
 }
@@ -53,7 +53,7 @@ function remove_domrect(type) {
 function run_domrect() {
 
 	function getElements(){
-		let iframeA = dom.bob;
+		let iframeA = dom.ifdr;
 		let doc = iframeA.contentDocument;
 		return Array.from(doc.querySelectorAll(".testRect"));
 	}
@@ -112,8 +112,8 @@ function run_domrect() {
 
 function test_domrect() {
 	try {
-		let bob = dom.bob;
-		let element = bob.contentWindow.document.getElementById("rect6");
+		let ifdr = dom.ifdr;
+		let element = ifdr.contentWindow.document.getElementById("rect6");
 		element.innerHTML="success";
 		run_domrect();
 	} catch(e) {
@@ -121,13 +121,14 @@ function test_domrect() {
 	}
 }
 
-function outputDomRect(type) {
+function outputDomRect() {
 	t0dr = performance.now();
 
 	// adjust timer
+	timerdr = 2000;
 	if (isMajorOS == "android" | isTorBrowser) {timerdr = 3000};
 	if (location.protocol == "file:") {timerdr = 500};
-	if (!type) { timerdr = (timerdr/2) };
+	if (sRerun == true) { timerdr = (timerdr/2) };
 	// start timer
 	setTimeout(function(){
 		// we're still empty
@@ -140,13 +141,20 @@ function outputDomRect(type) {
 		}
 	}, timerdr);
 
-	// create & append: todo: make it hidden
-	let iframe = document.createElement("iframe");
-	iframe.id = "bob";
-	document.getElementById("drect").appendChild(iframe);
-	// set src
-	iframe.src = "iframes/domrect.html";
-	iframe.addEventListener("load", test_domrect);
+	// create and append only on re-runs
+	if (sRerun == true) {
+		let iframe = document.createElement("iframe");
+		iframe.id = "ifdr";
+		document.getElementById("drect").appendChild(iframe);
+		// set src
+		iframe.src = "iframes/domrect.html";
+		iframe.addEventListener("load", test_domrect);
+	} else {
+		let iframe = document.getElementById("ifdr");
+		// set src
+		iframe.src = "iframes/domrect.html";
+		iframe.addEventListener("load", test_domrect);
+	}
 }
 
-outputDomRect("load");
+outputDomRect();
