@@ -133,7 +133,7 @@ function get_audio2_context() {
 		dom.audio3data = "";
 		// no webaudio, no more tests
 		let t1 = performance.now();
-		if (sPerf) {console.debug("  ** section audio 2: " + (t1-t0audio) + " ms" + " | " + (t1 - t0audio) + " ms")};
+		if (sPerf) {outputDebug("1", "audio 2", (t1-t0audio), (t1 - t0audio))};
 	};
 };
 
@@ -216,7 +216,7 @@ function get_audio2_hybrid() {
 		let t1 = performance.now();
 		if (mPerf) {console.debug("audio hybrid: " + (t1-t0) + " ms" + " | " + (t1 - t0audio) + " ms")};
 		// perf: last section
-		if (sPerf) {console.debug("  ** section audio 2: " + (t1-t0audio) + " ms")};
+		if (sPerf) {outputDebug("1", "audio 2", (t1-t0audio))};
 	};
 	oscillator.start(0);
 };
@@ -282,7 +282,7 @@ function outputAudio1(type) {
 				pxi_compressor.disconnect();
 				// perf
 				let t1 = performance.now();
-				if (sPerf) {console.debug("  ** section audio 1: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+				if (sPerf) {outputDebug("1", "audio 1", (t1-t0), (t1 - gt0))};
 		};
 	} catch(error) {
 		// webaudio disabled
@@ -299,7 +299,7 @@ function outputAudio1(type) {
 		};
 		// perf
 		let t2 = performance.now();
-		if (sPerf) {console.debug("  ** section audio 1: " + (t2-t0) + " ms" + " | " + (t2 - gt0) + " ms")};
+		if (sPerf) {outputDebug("1", "audio 1", (t2-t0), (t2 - gt0))};
 	};
 };
 
