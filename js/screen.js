@@ -168,6 +168,7 @@ function get_private_win() {
 };
 
 function get_matchmedia_metrics() {
+
 	// promises and output
 	function runTest(callback){
 		// device
@@ -332,7 +333,7 @@ function get_browser_errors() {
 				eval(lfVarx);
 			}
 		} else {
-			dom.err1.innerHTML = "<span class='bad'>[excluded on non Firefox browsers]</span>";
+			dom.err1.innerHTML = sb+"[excluded on non Firefox browsers]"+sc;
 		}
 	} catch(e) {
 		dom.err1=e;
@@ -444,7 +445,7 @@ function get_os_chrome() {
 	function output_os_chrome(type) {
 		dom.fdChromeOS = type;
 		let t1 = performance.now();
-		if (sPerf) {console.debug("  ** section straggler: ua chrome os: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+		if (sPerf) {outputDebug("1", "[chrome] ua", (t1-t0), (t1 - gt0))};
 	};
 	// chrome:// css
 	cssUris.forEach(function(cssUri) {
@@ -503,8 +504,11 @@ function get_os_chrome() {
 
 function get_os_font() {
 	let t0 = performance.now();
-	// wait for font
-	// this timeout currently sucks
+	// adjust timer
+	let timer = 2500
+	if (isMajorOS == "android" | isTorBrowser) {timer = 3500};
+	if (location.protocol == "file:") {timer = 500};
+	// wait for font: this timeout currently sucks
 	// need a more elegant method to detect when the font is loaded (if at all)
 	setTimeout(function(){
 		// os: font: use width of the fdCssOS* elements
@@ -512,11 +516,20 @@ function get_os_font() {
 		if (dom.fdCssOSW.offsetWidth > 0) {elCount = elCount+1; elCssOS = "Windows"};
 		if (dom.fdCssOSL.offsetWidth > 0) {elCount = elCount+1; elCssOS = "Linux"};
 		if (dom.fdCssOSM.offsetWidth > 0) {elCount = elCount+1; elCssOS = "Mac"};
-		if (elCount == 2 || elCount == 3) {elCssOS = "unknown"};
+		if (elCount == 2 || elCount == 3) {
+			if (location.protocol == "file:") {
+				elCssOS = "unknown";
+			} else {
+				elCssOS = "unknown [or timed out]";
+			}
+		};
 		dom.fontOS = elCssOS;
 		let t1 = performance.now();
-		if (sPerf) {console.debug("  ** section straggler: ua font os: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
-	}, 3000);
+		if (sPerf) {
+			let tmr = timer.toString().padStart(4);
+			outputDebug("1", "[font os] ua", (t1-t0) + "/" + tmr, (t1 - gt0))
+		};
+	}, timer);
 }
 
 function get_os_line_scrollbar() {
@@ -1098,7 +1111,7 @@ function outputScreen() {
 	};
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section screen: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (sPerf) {outputDebug("1", "screen", (t1-t0), (t1 - gt0))};
 	// start listening for dpr leaks
 	get_dpr();
 	// start listening for android toolbar height
@@ -1192,9 +1205,9 @@ function outputMath() {
 		fdMath1="Android"
 	} else if (m1 == "B") {
 		// B: always TB on WIN
+		isTorBrowser = true;
 		fdMath1="Windows";
 		if (m6 == "1") {
-			isTorBrowser = true;
 			// ESR60: 1B: always 64bit TB: thus 64bit WIN
 			fdMath6="Tor Browser [64-bit]"; fdMath1="Windows [64-bit]";
 		} else if (m6 == "2") {
@@ -1223,7 +1236,7 @@ function outputMath() {
 	dom.mathhash.innerHTML = mchash;
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section math: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (sPerf) {outputDebug("1", "math", (t1-t0), (t1 - gt0))};
 };
 
 function outputUA() {
@@ -1257,7 +1270,7 @@ function outputUA() {
 	};
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section ua [excl chrome + font]: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (sPerf) {outputDebug("1", "ua", (t1-t0), (t1 - gt0))};
 };
 
 function run_android() {
@@ -1274,7 +1287,11 @@ function run_first_script() {
 	// this is the very first script run
 	// set global var
 	gt0 = performance.now();
-	if (sPerf) {console.debug("  ** section start timing: screen.js loaded")};
+	if (sPerf) {
+		console.debug(" ** section start timing: screen.js loaded")
+		let str = "start"; str = str.padStart(12);
+		dom.debug1 = str + ":       screen.js loaded";
+	};
 	// re-calculate some global vars
 	if ((location.protocol) == "file:") {
 		note_file = " <span class='neutral'>[file:]</span>";
