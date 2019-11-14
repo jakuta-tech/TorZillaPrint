@@ -11,7 +11,7 @@ function outputMedia() {
 
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section media: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (sPerf) {outputDebug("1", "media", (t1-t0), (t1 - gt0))};
 };
 
 outputMedia();
