@@ -46,6 +46,11 @@ function append_canvas_notation() {
 	} else {
 		dom.cnv8.innerHTML = dom.cnv8.textContent + str
 	};
+	if (sha1(dom.cnv11.textContent) == "47bf7060be2764c531da228da96bd771b14917a1") {
+		dom.cnv11.innerHTML = dom.cnv11.textContent + slider_standard
+	} else if (sha1(dom.cnv11.textContent) == "80505e817edc581bfff3e1f9137d52efbc183f03") {
+		dom.cnv11.innerHTML = dom.cnv11.textContent + slider_safer
+	};
 };
 
 var outCounter = 0;
@@ -65,8 +70,8 @@ var canvas = {
 							return type + ": supported";
 						}
 						catch (e){
+							//console.debug("getContext:", type, "not supported", e.type, e.name, e.message);
 							return type + ": not supported";
-							//return type + ": not supported, " + e.name + ", " + e.type + ", " + e.message;
 						}
 					}).join(", ");
 				}
@@ -351,7 +356,7 @@ function outputCanvas() {
 	outCounter = 0;
 	canvas.output(canvas.createHashes(window), document.getElementById("tb8"));
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section canvas: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (sPerf) {outputDebug("1", "canvas", (t1-t0), (t1 - gt0))};
 };
 
 outputCanvas();
