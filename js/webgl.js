@@ -35,7 +35,7 @@ function outputWebGL() {
 
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section webgl: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (sPerf) {outputDebug("1", "webgl", (t1-t0), (t1 - gt0))};
 };
 
-outputWebGL();
+//outputWebGL();
