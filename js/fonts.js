@@ -407,7 +407,7 @@ function get_fallback(type, fontarray){
 		// perf
 		if (fontarray !== "tiny") {
 			let t2 = performance.now();
-			if (sPerf) {console.debug("  ** section " + type + " fonts: " + (t2-t0font) + " ms")};
+			if (sPerf) {outputDebug("1", type + " fonts", (t2-t0font))};
 
 			// show/hide relevant details sections if font details
 			// are showing but give it slight timer so things are loaded
@@ -437,12 +437,19 @@ function get_woff() {
 	function output_woff(state) {
 		dom.fontWoff2 = state;
 		let t1 = performance.now();
-		if (sPerf) {console.debug("  ** section straggler: fonts woff: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};		
+		if (sPerf) {
+			let timer = (delay*30);
+			let warning = "";
+			let timetaken = (t1-t0);
+			if ( (timetaken/timer) > 0.75 && timetaken/timer < 1) {warning = "warning: > 75%";}
+			timer = timer.toString().padStart(4);
+			outputDebug("1", "[woff] fonts", (t1-t0) + "/" + timer, (t1 - gt0), warning)
+		};
 	}
 	// check for a difference
 	function check_woff() {
 		// but cancel after a set time
-		if (counter < 25) {
+		if (counter < 30) {
 			if (nowoff !== element.offsetWidth) {
 				clearInterval(checking);
 				output_woff("enabled");
@@ -454,8 +461,12 @@ function get_woff() {
 		}
 		counter++;
 	}
+	let delay = 20;
+	if (location.protocol !== "file:") {
+		if (isMajorOS == "android" | isTorBrowser) {delay = delay*2};
+	}
 	let counter = 0;
-	let checking = setInterval(check_woff, 20)
+	let checking = setInterval(check_woff, delay)
 }
 
 function outputFonts1(){
@@ -493,7 +504,7 @@ function outputFonts1(){
 
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section fonts [excl woff]: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (sPerf) {outputDebug("1", "fonts", (t1-t0), (t1 - gt0))};
 };
 
 function outputFonts2(type){
@@ -655,7 +666,7 @@ function outputFonts2(type){
 					outputD.style.color = "#b3b3b3";
 					// perf
 					let t2 = performance.now();
-					if (sPerf) {console.debug("  ** section " + type + " fonts: " + (t2-t0font) + " ms")};
+					if (sPerf) {outputDebug("1", type + " fonts", (t2-t0font))};
 
 					// show/hide relevant details sections if font details
 					// are showing but give it slight timer
