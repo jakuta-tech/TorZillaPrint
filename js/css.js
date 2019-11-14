@@ -45,7 +45,7 @@ function outputCSS() {
 	get_system_colors();
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {console.debug("  ** section css: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (sPerf) {outputDebug("1", "css", (t1-t0), (t1 - gt0))};
 };
 
 outputCSS();
