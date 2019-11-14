@@ -17,6 +17,7 @@
 	--test16: #dc8cdc;
 	--test17: #dc8cc1;
 	--test18: #dc8ca7;
+	--test99: #808080;
 }
 
 /* main */
@@ -32,6 +33,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 .bad {color: #ff4f4f;}
 .good {color: #8cdc8c;} /* use test7 */
 .neutral {color: #dcdc8c;} /* use test4 */
+.orange {color: #dca78c;} /* use test2 */
 .mono, .toDataURL, .toBlob, .winding, .getImageData, .isPointInPath, .fillText,
 	.isPointInStroke, .readPixels, .getContext, .mozGetAsFile, .strokeText {
 	font-family: monospace, "Courier New";}
@@ -77,7 +79,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 /* show/hide */
 input[type='checkbox'] {display: none;}
 .lbl-toggle {display: block; cursor: pointer;}
-.togA, .togD, .togD1, .togM, .togC, .togE, .togF, .togF1, .togL, .togS, .togW {display: none;}
+.togA, .togD, .togD1, .togM, .togC, .togE, .togF, .togF1, .togL, .togS, .togW, .togZ {display: none;}
 
 /* buttons */
 button {background-color: #1a1a1a; border-width: 0px; text-align: center;
@@ -163,6 +165,7 @@ table td.sub11 {color: var(--test11);}
 #tb16 th {background-color: #f078f0;}
 #tb17 th {background-color: #f078c8;}
 #tb18 th {background-color: #f078a0;}
+#tb99 th {background-color: #808080;}
 
 #tb1 td:first-child {color: var(--test1);}
 #tb2 td:first-child {color: var(--test2);}
@@ -182,6 +185,7 @@ table td.sub11 {color: var(--test11);}
 #tb16 td:first-child {color: var(--test16);}
 #tb17 td:first-child {color: var(--test17);}
 #tb18 td:first-child {color: var(--test18);}
+#tb99 td:first-child {color: var(--test99);}
 
 /* about:logo */
 #fdResourceCss {
