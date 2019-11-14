@@ -44,7 +44,7 @@
 			<iframe id="appLang_4"></iframe>
 		</div>
 		<!-- domrect -->
-		<div id="drect" class="offscreen"></div>
+		<div id="drect" class="offscreen"><iframe id="ifdr"></iframe></div>
 		<!-- default font size -->
 		<div class="offscreen">
 			<div class="normalized">
@@ -799,7 +799,18 @@
 			&nbsp webassembly</td><td class="c" id="wasm"></td></tr>
 	</table>
 
-	<br><a name="theend"></a><br>
+	<!-- TABLE 99 -->
+	<br>
+	<table id="tb99">
+		<col width="29%"><col width="71%">
+		<thead><tr><th colspan="2" class="showhide">
+				<input id="collapseZ" class="toggle" type="checkbox" checked onchange="toggleitems(this, `Z`)">
+				<label for="collapseZ" class="lbl-toggle" id="labelZ">&#9660; show debugging</label>
+		</th></tr></thead>
+		<tr class="togZ"><td>[section] perf</td><td class="mono" style="white-space: pre;" id="debug1"></td></tr>
+	</table>
+
+	<a name="theend"></a><br>
 
 	<script src="js/main.js"></script>
 	<!-- first 3 sections: MUST load first as it sets global vars-->
@@ -815,9 +826,9 @@
 	<!-- slower sections -->
 	<script src="js/webgl.js"></script>
 	<script src="js/fonts.js"></script>
-	<script src="js/audio.js"></script>
 	<script src="js/canvas.js"></script>
-	<!-- MUST load as last js -->
+	<script src="js/audio.js"></script>
+	<!-- load last js -->
 	<script src="js/domrect.js"></script>
 
 	<!-- almost 500kb, load last -->
