@@ -13,12 +13,52 @@ function getUniqueElements() {
 	});
 };
 
+function outputDebug(type, str1, str2, str3, str4) {
+	let strA="", // pretty
+		strB =""; // console
+
+	// dom
+	let e = document.getElementById("debug"+type)
+	if (type == "1") {
+		str2 = str2.toString();
+		strA = str1.padStart(12) + ": " + "<span class='neutral'>" + str2.padStart(9) + "</span> ms"
+		if (str3 !== undefined && str3 !== "") {
+			// only output running time if not a section rerun
+			if (sRerun == false) {
+				str3 = str3.toString();
+				strA = strA + " | <span class='orange'>" + str3.padStart(4) + "</span> ms"
+			}
+		}
+		if (str4 !== undefined && str4 !== "") {
+			// warning
+			strA = strA + " |" + sb+ str4 + sc
+		}
+	}
+	e.innerHTML = e.innerHTML + "<br>" + strA;
+
+	// console
+	if (type == "1") {
+		strB = " ** section " + str1 + ": " + str2 + " ms"
+		if (str3 !== undefined & str3 !=="") {
+			strB = strB + " | " + str3 + " ms"
+		}
+	}
+	if (str4 !== undefined && str4 !== "") {
+		strB = strB + " | " + str4
+	}
+	console.debug(strB);
+}
+
 function showhide(toggleType, toggleID, togWord) {
 	var xyz = document.getElementsByClassName("tog"+toggleID);
 	var abc;
 	for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = toggleType;}
 	if (togWord !== "") {
-		document.getElementById("label"+toggleID).innerHTML = togWord+" details";
+		if (toggleID == "Z") {
+			document.getElementById("label"+toggleID).innerHTML = togWord+" debugging";
+		} else {
+			document.getElementById("label"+toggleID).innerHTML = togWord+" details";
+		}
 	};
 	// domrect show/hide extra sections & change drFirstHeader text
 	if (toggleID == "D") {
@@ -169,6 +209,7 @@ function byteArrayToHex(arrayBuffer){
 
 /* BUTTONS: (re)GENERATE SECTIONS */
 function outputSection(id, cls, page) {
+	sRerun = true;
 	// clear elements, &nbsp stops line height jitter
 	let tbl = document.getElementById("tb"+id);
 	tbl.querySelectorAll(`.${cls}`).forEach(e => {e.innerHTML = "&nbsp";});
