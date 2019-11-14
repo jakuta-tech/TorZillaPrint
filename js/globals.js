@@ -9,12 +9,15 @@ var jsZoom;
 let sb = " <span class='bad'>",
 	sg = " <span class='good'>",
 	sn = " <span class='neutral'>",
+	so = " <span class='orange'>",
 	se = " <span class='bad'>[test error: ",
 	sc = "</span>";
 
 // notation
 var tor_browser_green = sg + "[TB]" + sc; // u2713
 var tor_browser_red =  sb + "[TB]" + sc; // u2715
+var slider_standard = sg + "[TB Standard]" + sc;
+var slider_safer = sg + "[TB Safer]" + sc;
 var rfp_green = sg + "[RFP]" + sc;
 var rfp_red = sb + "[RFP]" + sc;
 var enUS_green = sg + "[en-US]</span> ";
@@ -37,7 +40,7 @@ var note_testtocome = sn + "test to come" + sc;
 var error_file_404 = se + "file not found]" + sc;
 var error_file_cors = sn + "[file:] [Cross-Origin Request Blocked]" + sc;
 var error_file_xhr = se + "xhr]" + sc;
-var error_iframe = se + " iframe]" + sc;
+var error_iframe = se + " iframe timed out]" + sc;
 var error_image = se + "image]" + sc;
 var error_global_os = sb + "[test error: global variable not set]" + sc;
 
@@ -63,4 +66,5 @@ var sDebug = false;
 // perf
 var mPerf = false; // minor
 var sPerf = true; // section
+var sRerun = false // 
 var gt0;
