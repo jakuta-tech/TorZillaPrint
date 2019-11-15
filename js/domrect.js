@@ -32,7 +32,7 @@ function remove_domrect(type) {
 		if (type == "cors") {str = error_file_cors};
 		if (type == "404") {str = error_file_404};
 		if (type == "iframe") {str = error_iframe};
-		if (type == "tryagain") {str = so+"[test error: you tried too quickly, try again]"+sc"};
+		if (type == "tryagain") {str = so+"[test error: you tried too quickly, try again]"+sc};
 		dom.dr1.innerHTML = str;
 		dom.dr2.innerHTML = str;
 		dom.dr3.innerHTML = str;
