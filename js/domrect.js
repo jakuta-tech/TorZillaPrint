@@ -124,8 +124,6 @@ function outputDomRect() {
 	// adjust timer
 	timerdr = 2000;
 	if (isMajorOS == "android" | isTorBrowser) {timerdr = 3000};
-	if (location.protocol == "file:") {timerdr = 600};
-	if (sRerun == true) { timerdr = (timerdr/2) };
 
 	// start timer
 	setTimeout(function(){
