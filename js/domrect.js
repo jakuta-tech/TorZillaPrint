@@ -128,8 +128,9 @@ function outputDomRect() {
 	t0dr = performance.now();
 
 	// adjust timer
-	timerdr = 2000;
-	if (isMajorOS == "android" | isTorBrowser) {timerdr = 3000};
+	// go quite high: if blocking iframes, they can wait
+	timerdr = 2500;
+	if (isMajorOS == "android" | isTorBrowser) {timerdr = 3500};
 
 	// start timer
 	setTimeout(function(){
