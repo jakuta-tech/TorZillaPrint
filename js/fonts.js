@@ -436,10 +436,10 @@ function get_woff() {
 	element = dom.woffyes;
 	function output_woff(state) {
 		dom.fontWoff2 = state;
-		let t1 = performance.now();
 		if (sPerf) {
 			let timer = (delay*30);
 			let warning = "";
+			let t1 = performance.now();
 			let timetaken = (t1-t0);
 			if ( (timetaken/timer) > 0.75 && timetaken/timer < 1) {warning = "warning: > 75%";}
 			timer = timer.toString().padStart(4);
@@ -449,6 +449,10 @@ function get_woff() {
 	// check for a difference
 	function check_woff() {
 		// but cancel after a set time
+		if (counter == 0) {
+			// start timer from here
+			let t0 = performance.now();
+		}
 		if (counter < 30) {
 			if (nowoff !== element.offsetWidth) {
 				clearInterval(checking);
@@ -461,11 +465,10 @@ function get_woff() {
 		}
 		counter++;
 	}
-	let delay = 20;
+	let counter = 0, delay = 20;
 	if (location.protocol !== "file:") {
-		if (isMajorOS == "android" | isTorBrowser) {delay = delay*2};
+		if (isMajorOS == "android" | isTorBrowser) {delay = 40};
 	}
-	let counter = 0;
 	let checking = setInterval(check_woff, delay)
 }
 
