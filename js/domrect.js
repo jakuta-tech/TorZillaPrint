@@ -39,8 +39,8 @@ function remove_domrect(type) {
 	}
 
 	// perf
-	let t1 = performance.now();
 	if (sPerf) {
+		let t1 = performance.now();		
 		let timetaken = t1-t0dr;
 		let warning = "";
 		if ( (timetaken/timerdr) > 0.75 && timetaken/timerdr < 1) {warning = "warning: > 75%";}
@@ -127,8 +127,9 @@ function outputDomRect() {
 	// adjust timer
 	timerdr = 2000;
 	if (isMajorOS == "android" | isTorBrowser) {timerdr = 3000};
-	if (location.protocol == "file:") {timerdr = 500};
+	if (location.protocol == "file:") {timerdr = 600};
 	if (sRerun == true) { timerdr = (timerdr/2) };
+
 	// start timer
 	setTimeout(function(){
 		// we're still empty
@@ -141,20 +142,13 @@ function outputDomRect() {
 		}
 	}, timerdr);
 
-	// create and append only on re-runs
-	if (sRerun == true) {
-		let iframe = document.createElement("iframe");
-		iframe.id = "ifdr";
-		document.getElementById("drect").appendChild(iframe);
-		// set src
-		iframe.src = "iframes/domrect.html";
-		iframe.addEventListener("load", test_domrect);
-	} else {
-		let iframe = document.getElementById("ifdr");
-		// set src
-		iframe.src = "iframes/domrect.html";
-		iframe.addEventListener("load", test_domrect);
-	}
+	// create & append iframe, set src, start listener
+	let iframe = document.createElement("iframe");
+	iframe.id = "ifdr";
+	document.getElementById("drect").appendChild(iframe);
+	iframe.src = "iframes/domrect.html";
+	iframe.addEventListener("load", test_domrect);
+
 }
 
 outputDomRect();
