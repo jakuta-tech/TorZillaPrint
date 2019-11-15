@@ -446,10 +446,9 @@ function get_woff() {
 	}
 
 	// adjust delay
-	let counter = 0, maxcounter = 29, delay = 20;
-	if (location.protocol !== "file:") {
-		if (isMajorOS == "android" | isTorBrowser) {delay*2};
-	}
+	// go high: blocking woff or d/l'able fonts is not normal
+	let counter = 0, maxcounter = 31, delay = 25; // 800ms
+	if (isMajorOS == "android" | isTorBrowser) {maxcounter = 59}; // 1500ms
 
 	// check for diff
 	element = dom.woffyes;
