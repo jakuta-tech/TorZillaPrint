@@ -526,7 +526,7 @@ function get_os_font() {
 		dom.fontOS = elCssOS;
 		if (sPerf) {
 			let t1 = performance.now();
-			outputDebug("1", "[font os] ua", (t1-t0), (t1 - gt0), "setTimer check");
+			outputDebug("1", "[font os] ua", (t1-t0), (t1 - gt0), "setTimeout check");
 		};
 	}, timer);
 }
