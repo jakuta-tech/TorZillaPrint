@@ -40,12 +40,9 @@ function remove_domrect(type) {
 
 	// perf
 	if (sPerf) {
-		let t1 = performance.now();		
-		let timetaken = t1-t0dr;
-		let warning = "";
-		if ( (timetaken/timerdr) > 0.75 && timetaken/timerdr < 1) {warning = "warning: > 75%";}
-		let tmr = timerdr.toString().padStart(4);
-		outputDebug("1", "domrect", timetaken + "/" + tmr, (t1 - gt0), warning);
+		let t1 = performance.now(), warning = "";
+		if (type == "iframe") {warning = "timed out [" + timerdr + "]"}
+		outputDebug("1", "domrect", t1-t0dr, (t1 - gt0), warning);
 	};
 
 }
