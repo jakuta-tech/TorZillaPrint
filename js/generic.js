@@ -21,7 +21,7 @@ function outputDebug(type, str1, str2, str3, str4) {
 	let e = document.getElementById("debug"+type)
 	if (type == "1") {
 		str2 = str2.toString();
-		strA = str1.padStart(12) + ": " + "<span class='neutral'>" + str2.padStart(9) + "</span> ms"
+		strA = str1.padStart(12) + ": " + "<span class='neutral'>" + str2.padStart(4) + "</span> ms"
 		if (str3 !== undefined && str3 !== "") {
 			// only output running time if not a section rerun
 			if (sRerun == false) {
