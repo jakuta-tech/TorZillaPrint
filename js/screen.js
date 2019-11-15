@@ -1259,7 +1259,7 @@ function run_first_script() {
 	if (sPerf) {
 		console.debug(" ** section start timing: screen.js loaded")
 		let str = "start"; str = str.padStart(12);
-		dom.debug1 = str + ":       screen.js loaded";
+		dom.debug1 = str + ":  screen.js loaded";
 	};
 	// re-calculate some global vars
 	if ((location.protocol) == "file:") {
