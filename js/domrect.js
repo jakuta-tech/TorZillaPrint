@@ -32,6 +32,7 @@ function remove_domrect(type) {
 		if (type == "cors") {str = error_file_cors};
 		if (type == "404") {str = error_file_404};
 		if (type == "iframe") {str = error_iframe};
+		if (type == "tryagain") {str = so+"[test error: you tried too quickly, try again]"+sc"};
 		dom.dr1.innerHTML = str;
 		dom.dr2.innerHTML = str;
 		dom.dr3.innerHTML = str;
@@ -48,8 +49,6 @@ function remove_domrect(type) {
 }
 
 function run_domrect() {
-
-	console.debug("domrect running")
 
 	function getElements(){
 		let iframeA = dom.ifdr;
@@ -119,11 +118,9 @@ function test_domrect() {
 		if (location.protocol == "file:") {
 			remove_domrect("cors");
 		} else {
-			//console.debug (e.message)
-			// "rect is undefined line 117"
-			// after blocking an iframe, you can't re-enable it
-			remove_domrect("iframe");
-
+			// if you check too quick between iframe block/unblock
+			// sometimes you can trigger this error catch
+			remove_domrect("tryagain");
 		}
 	}
 }
