@@ -122,10 +122,7 @@ function test_domrect() {
 			//console.debug (e.message)
 			// "rect is undefined line 117"
 			// after blocking an iframe, you can't re-enable it
-			//remove_domrect("iframe");
-
-			//run it again ?
-			outputDomRect();
+			remove_domrect("iframe");
 
 		}
 	}
