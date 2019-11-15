@@ -114,7 +114,15 @@ function test_domrect() {
 		element.innerHTML="success";
 		run_domrect();
 	} catch(e) {
-		remove_domrect("cors");
+		console.debug (e.message)
+
+		if (location.protocol == "file:") {
+			remove_domrect("cors");
+		} else {
+			// STR: load with iframe blocked, flip uBO iframe to allow, re-run
+			// but rerun again and it works?
+			remove_domrect("iframe");
+		}
 	}
 }
 
