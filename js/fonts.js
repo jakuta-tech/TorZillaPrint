@@ -429,31 +429,32 @@ function get_fallback(type, fontarray){
 function get_woff() {
 	// gfx.downloadable_fonts.woff2.enabled
 	let t0 = performance.now();
-	// get span measurement of non-woff2
+
+	// get span of non-woff2
 	let element = dom.woffno;
 	let nowoff = element.offsetWidth;
-	// select woff element
-	element = dom.woffyes;
+
+	// output
 	function output_woff(state) {
 		dom.fontWoff2 = state;
 		if (sPerf) {
-			let timer = (delay*30);
-			let warning = "";
 			let t1 = performance.now();
-			let timetaken = (t1-t0);
-			if ( (timetaken/timer) > 0.75 && timetaken/timer < 1) {warning = "warning: > 75%";}
-			timer = timer.toString().padStart(4);
-			outputDebug("1", "[woff] fonts", (t1-t0) + "/" + timer, (t1 - gt0), warning)
+			let warning = "";
+			if (counter == maxcounter) {warning = "timed out " + "[" + ((maxcounter+1)*delay) +"]" };
+			outputDebug("1", "[woff] fonts", (t1-t0), (t1 - gt0), warning);
 		};
 	}
-	// check for a difference
+
+	// adjust delay
+	let counter = 0, maxcounter = 29, delay = 20;
+	if (location.protocol !== "file:") {
+		if (isMajorOS == "android" | isTorBrowser) {delay*2};
+	}
+
+	// check for diff
+	element = dom.woffyes;
 	function check_woff() {
-		// but cancel after a set time
-		if (counter == 0) {
-			// start timer from here
-			let t0 = performance.now();
-		}
-		if (counter < 30) {
+		if (counter < maxcounter) {
 			if (nowoff !== element.offsetWidth) {
 				clearInterval(checking);
 				output_woff("enabled");
@@ -465,11 +466,8 @@ function get_woff() {
 		}
 		counter++;
 	}
-	let counter = 0, delay = 20;
-	if (location.protocol !== "file:") {
-		if (isMajorOS == "android" | isTorBrowser) {delay = 40};
-	}
 	let checking = setInterval(check_woff, delay)
+
 }
 
 function outputFonts1(){
@@ -500,10 +498,10 @@ function outputFonts1(){
 		dom.fontDoc="enabled"
 	};
 
-	// woff
-	get_woff();
 	// unicode glyphs
 	get_unicode();
+	// woff
+	get_woff();
 
 	// perf
 	let t1 = performance.now();
