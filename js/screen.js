@@ -502,35 +502,6 @@ function get_os_chrome() {
 	let checking = setInterval(check_linux, 20)
 };
 
-function get_os_font() {
-	let t0 = performance.now();
-	// adjust timer
-	let timer = 2500
-	if (isMajorOS == "android" | isTorBrowser) {timer = 3500};
-	if (location.protocol == "file:") {timer = 500};
-	// wait for font: this timeout currently sucks
-	// need a more elegant method to detect when the font is loaded (if at all)
-	setTimeout(function(){
-		// os: font: use width of the fdCssOS* elements
-		let elCount = 0, elCssOS = "Android";
-		if (dom.fdCssOSW.offsetWidth > 0) {elCount = elCount+1; elCssOS = "Windows"};
-		if (dom.fdCssOSL.offsetWidth > 0) {elCount = elCount+1; elCssOS = "Linux"};
-		if (dom.fdCssOSM.offsetWidth > 0) {elCount = elCount+1; elCssOS = "Mac"};
-		if (elCount == 2 || elCount == 3) {
-			if (location.protocol == "file:") {
-				elCssOS = "unknown";
-			} else {
-				elCssOS = "unknown [or timed out]";
-			}
-		};
-		dom.fontOS = elCssOS;
-		if (sPerf) {
-			let t1 = performance.now();
-			outputDebug("1", "[font os] ua", (t1-t0), (t1 - gt0), "setTimeout check");
-		};
-	}, timer);
-}
-
 function get_os_line_scrollbar() {
 
 	function decimal_count(value) {
@@ -1265,7 +1236,6 @@ function outputUA() {
 		get_browser_resource();
 		get_os_widgets(); // note: currently sets global var isMajorOs
 		get_os_chrome();
-		get_os_font();
 	};
 	// perf
 	let t1 = performance.now();
