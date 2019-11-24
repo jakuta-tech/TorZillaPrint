@@ -20,6 +20,8 @@ var slider_standard = sg + "[TB Standard]" + sc;
 var slider_safer = sg + "[TB Safer]" + sc;
 var rfp_green = sg + "[RFP]" + sc;
 var rfp_red = sb + "[RFP]" + sc;
+var lb_green = sg + "[LB]" + sc;
+var lb_red = sb + "[LB]" + sc;
 var enUS_green = sg + "[en-US]</span> ";
 var enUS_red = sb + "[en-US]</span> ";
 var spoof_green = sg + "[Spoof English]" + sc;
@@ -40,7 +42,7 @@ var note_testtocome = sn + "test to come" + sc;
 var error_file_404 = se + "file not found]" + sc;
 var error_file_cors = sn + "[file:] [Cross-Origin Request Blocked]" + sc;
 var error_file_xhr = se + "xhr]" + sc;
-var error_iframe = se + " iframe timed out]" + sc;
+var error_iframe = se + " iframe]" + sc;
 var error_image = se + "image]" + sc;
 var error_global_os = sb + "[test error: global variable not set]" + sc;
 
