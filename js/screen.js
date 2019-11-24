@@ -299,10 +299,16 @@ function get_screen_metrics(type) {
 	if (h < 501) {hstep = 50} else if (h < 1601) {hstep = 100};
 	lbw = Number.isInteger(w/wstep);
 	lbh = Number.isInteger(h/hstep);
-	if (lbw == true && lbh == true) {
-		dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_green;
+	// recalculate zoom
+	get_zoom();
+	if (jsZoom == 100) {
+		if (lbw == true && lbh == true) {
+			dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_green;
+		} else {
+			dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_red;
+		}
 	} else {
-		dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_red;
+		dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_orange;
 	}
 	if (type !== "screen") {
 		get_viewport("resize");
