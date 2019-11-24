@@ -287,8 +287,23 @@ function get_screen_metrics(type) {
 	dom.ScrRes = screen.width+" x "+screen.height+" ("+screen.left+","+screen.top+")";
 	dom.ScrAvail = screen.availWidth+" x "+screen.availHeight+" ("+screen.availLeft+","+screen.availTop+")";
 	dom.WndOut = window.outerWidth+" x "+window.outerHeight+" ("+window.screenX+","+window.screenY+")";
-	dom.WndIn = window.innerWidth+" x "+window.innerHeight+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")";
 	dom.fsState = window.fullScreen;
+	// does inner window conform to LB
+	let w = window.innerWidth,
+		h = window.innerHeight,
+		wstep = 200,
+		hstep = 200,
+		lbw = false,
+		lbh = false;
+	if (w < 501) {wstep = 50} else if (w < 1601) {wstep = 100};
+	if (h < 501) {hstep = 50} else if (h < 1601) {hstep = 100};
+	lbw = Number.isInteger(w/wstep);
+	lbh = Number.isInteger(h/hstep);
+	if (lbw == true && lbh == true) {
+		dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_green;
+	} else {
+		dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_red;
+	}
 	if (type !== "screen") {
 		get_viewport("resize");
 	};
@@ -416,6 +431,7 @@ function get_browser_resource() {
 	// browser: chrome: refine if Tor Browser
 	let imgLogoB = new Image();
 	imgLogoB.src = "resource://onboarding/img/tor-watermark.png";
+	// chrome://torbutton/skin/tor.png <- test on android
 	imgLogoB.style.visibility = "hidden";
 	document.body.appendChild(imgLogoB);
 	imgLogoB.addEventListener("load", function() {
@@ -662,6 +678,8 @@ function get_os_line_scrollbar() {
 	} else if (lh == "19.2") {
 		// TB: 19.2px seems to be unique to TB at any zoom on any platform
 		lhOS = tor_browser_green;
+		// set isTorBrowser in case math missed it
+		isTorBrowser = true;
 	} else {
 		// using TNR and not TB's 19.2
 		// detect WINDOWS / LINUX
