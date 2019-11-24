@@ -22,6 +22,7 @@ var rfp_green = sg + "[RFP]" + sc;
 var rfp_red = sb + "[RFP]" + sc;
 var lb_green = sg + "[LB]" + sc;
 var lb_red = sb + "[LB]" + sc;
+var lb_orange = so + "[LB only works at 100% zoom]" + sc;
 var enUS_green = sg + "[en-US]</span> ";
 var enUS_red = sb + "[en-US]</span> ";
 var spoof_green = sg + "[Spoof English]" + sc;
