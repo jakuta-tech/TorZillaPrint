@@ -62,7 +62,9 @@ function get_version() {
 	}
 	// reminder: append + on last test
 
-	isVersion = verNo.substring(0,2); // global var isVersion
+	// set global var isVersion
+	if (isVersion == "") {isVersion = verNo.replace(/\D/g,'')};
+	// perf
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua version: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	return verNo;
@@ -128,8 +130,12 @@ function get_zoom(type) {
 	if (jsZoom == 241) {jsZoom=240};
 	if (jsZoom == 250) {jsZoom=240};
 	dom.jsZoom = jsZoom;
-	let t1 = performance.now();
-	if (mPerf) {console.debug(type + " zoom: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (type !== "resize") {
+		if (mPerf) {
+			let t1 = performance.now();
+			console.debug(type + " zoom: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")
+		};
+	}
 	return jsZoom;
 };
 
@@ -295,7 +301,7 @@ function get_screen_metrics(type) {
 		dom.WndIn = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")";
 	} else {
 		// desktop only: letterboxing
-		get_zoom();
+		get_zoom("resize");
 		if (jsZoom == 100) {
 			// only calculate if 100% zoom
 			let wstep = 200,
