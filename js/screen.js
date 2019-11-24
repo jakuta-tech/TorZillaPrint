@@ -287,28 +287,34 @@ function get_screen_metrics(type) {
 	dom.ScrRes = screen.width+" x "+screen.height+" ("+screen.left+","+screen.top+")";
 	dom.ScrAvail = screen.availWidth+" x "+screen.availHeight+" ("+screen.availLeft+","+screen.availTop+")";
 	dom.WndOut = window.outerWidth+" x "+window.outerHeight+" ("+window.screenX+","+window.screenY+")";
-	dom.fsState = window.fullScreen;
-	// does inner window conform to LB
 	let w = window.innerWidth,
-		h = window.innerHeight,
-		wstep = 200,
-		hstep = 200,
-		lbw = false,
-		lbh = false;
-	if (w < 501) {wstep = 50} else if (w < 1601) {wstep = 100};
-	if (h < 501) {hstep = 50} else if (h < 1601) {hstep = 100};
-	lbw = Number.isInteger(w/wstep);
-	lbh = Number.isInteger(h/hstep);
-	// recalculate zoom
-	get_zoom();
-	if (jsZoom == 100) {
-		if (lbw == true && lbh == true) {
-			dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_green;
-		} else {
-			dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_red;
-		}
+		h = window.innerHeight;
+	dom.fsState = window.fullScreen;
+	// inner
+	if (isMajorOS == "android") {
+		dom.WndIn = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")";
 	} else {
-		dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_orange;
+		// desktop only: letterboxing
+		get_zoom();
+		if (jsZoom == 100) {
+			// only calculate if 100% zoom
+			let wstep = 200,
+				hstep = 200,
+				lbw = false,
+				lbh = false;
+			if (w < 501) {wstep = 50} else if (w < 1601) {wstep = 100};
+			if (h < 501) {hstep = 50} else if (h < 1601) {hstep = 100};
+			lbw = Number.isInteger(w/wstep);
+			lbh = Number.isInteger(h/hstep);
+			if (lbw == true && lbh == true) {
+				dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_green;
+			} else {
+				dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_red;
+			}
+		} else {
+			// not 100% zoom
+			dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_orange;
+		}
 	}
 	if (type !== "screen") {
 		get_viewport("resize");
@@ -801,7 +807,7 @@ function get_os_widgets() {
 		wdFFN = getComputedStyle(wdItem).getPropertyValue("font-family");
 		wdFSZ = getComputedStyle(wdItem).getPropertyValue("font-size");
 		wdS = wdFFN + ", " + wdFSZ;
-		// OS logic: just use the first item to detect OS
+		// OS logic: use the first item to detect OS
 		if (i == 1) {
 			if (wdFFN.slice(0,12) == "MS Shell Dlg") {wdOS = "Windows"}
 			else if (wdFFN == "Roboto") {wdOS="Android"}
@@ -1236,7 +1242,17 @@ function outputMath() {
 function outputUA() {
 	let t0 = performance.now();
 	// recheck isFirefox
-	if (isNaN(window.mozInnerScreenX) === false) {isFirefox = true};
+	if (isNaN(window.mozInnerScreenX) === false) {
+		isFirefox = true;
+		dom.fdetect="Firefox";
+		get_os_widgets(); // note: do early: sets global var isMajorOs
+		dom.versionNo = get_version();
+		get_os_line_scrollbar();
+		get_browser_resource();
+		get_os_chrome();
+	};
+	// don't forget the math section
+	outputMath();
 	// properties
 	dom.nAppName = navigator.appName;
 	dom.nAppVersion = navigator.appVersion;
@@ -1247,20 +1263,9 @@ function outputUA() {
 	dom.nProduct = navigator.product;
 	dom.nProductSub = navigator.productSub;
 	dom.nUserAgent = navigator.userAgent;
-	// also do the math section
-	outputMath();
 	// functions
 	get_browser_errors();
-	if (isFirefox == true){
-		// FF only properties
-		dom.fdetect="Firefox"; // already done with isFirefox
-		dom.versionNo = get_version();
-		// FF only functions
-		get_os_line_scrollbar();
-		get_browser_resource();
-		get_os_widgets(); // note: currently sets global var isMajorOs
-		get_os_chrome();
-	};
+
 	// perf
 	let t1 = performance.now();
 	if (sPerf) {outputDebug("1", "ua", (t1-t0), (t1 - gt0))};
