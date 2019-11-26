@@ -42,6 +42,9 @@ function outputMisc() {
 	})();
 	dom.wasm = (supported ? e : d);
 
+	// dom.webshare.enabled (todo canShare)
+	dom.webshare = (navigator.share ? "enabled" : "disabled")
+
 	// perf
 	let t1 = performance.now();
 	if (sPerf) {outputDebug("1", "misc", (t1-t0), (t1 - gt0))};
