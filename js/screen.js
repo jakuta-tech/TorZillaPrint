@@ -4,6 +4,22 @@
 
 /* FUNCTIONS */
 
+function isLB(w,h) {
+	let wstep = 200,
+		hstep = 200,
+		lbw = false,
+		lbh = false;
+		if (w < 501) {wstep = 50} else if (w < 1601) {wstep = 100};
+		if (h < 501) {hstep = 50} else if (h < 1601) {hstep = 100};
+		lbw = Number.isInteger(w/wstep);
+		lbh = Number.isInteger(h/hstep);
+		if (lbw == true && lbh == true) {
+			return true
+		} else {
+			return false
+		}
+};
+
 function get_version() {
 	let t0 = performance.now();
 	//<59
@@ -304,15 +320,7 @@ function get_screen_metrics(type) {
 		get_zoom("resize");
 		if (jsZoom == 100) {
 			// only calculate if 100% zoom
-			let wstep = 200,
-				hstep = 200,
-				lbw = false,
-				lbh = false;
-			if (w < 501) {wstep = 50} else if (w < 1601) {wstep = 100};
-			if (h < 501) {hstep = 50} else if (h < 1601) {hstep = 100};
-			lbw = Number.isInteger(w/wstep);
-			lbh = Number.isInteger(h/hstep);
-			if (lbw == true && lbh == true) {
+			if (isLB(w,h) == true) {
 				dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_green;
 			} else {
 				dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_red;
@@ -321,7 +329,7 @@ function get_screen_metrics(type) {
 			// not 100% zoom
 			dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_orange;
 		}
-	}
+	};
 	if (type !== "screen") {
 		get_viewport("resize");
 	};
@@ -1068,24 +1076,110 @@ function goFS() {
 };
 
 function goNW() {
+	// reset
+	dom.newWinLeak = "&nbsp";
+	let sizes = [], // history: pre-render to letterbox
+		changes = [], // history: changes
+		n = 1, // counter for setInterval
+		newWinLeak = "",
+		strError = "";
+
+	// open new window/tab and grab info immediately into array
 	let newWin = window.open("newwin.html","","width=9000,height=9000");
-	let a = newWin.outerWidth,
-		b = newWin.outerHeight,
-		c = newWin.innerWidth,
-		d = newWin.innerHeight;
-	let newWinLeak = c + " x " + d + " [inner] " + a + " x " + b + " [outer]";
-	if (isMajorOS == "android") {
-		if (d > firstH) {
-			// firstH was with the toolbar
-			newWinLeak = c + " x " + d + " [inner] [toolbar hidden] " + a + " x " + b + " [outer]";
-		} else if (d == firstH) {
-			// they should be the same
-			newWinLeak = c + " x " + d + " [inner] [toolbar visible] " + a + " x " + b + " [outer]";
+
+	// test for kkapsner
+	let testUA = newWin.navigator.userAgent;
+	console.debug("navigator.useragent", testUA)
+
+	let iw = newWin.innerWidth,
+		ih = newWin.innerHeight,
+		ow = newWin.outerWidth,
+		oh = newWin.outerHeight;
+	sizes.push(iw+" x "+ih);
+	newWinLeak = iw + " x " + ih + " [inner] " + ow + " x " + oh + " [outer]";
+
+	function output_newwin(output){
+		dom.newWinLeak.innerHTML = output;
+	}
+
+	// DESKTOP
+	if (isMajorOS !== "android") {
+
+		function check_newwin() {
+			// step1: inspect sizes array for changes
+			let prev = sizes[0],
+				isChanged = false;
+			for (let k=0; k < sizes.length; k++) {
+				if (sizes[k] !== prev ) {
+					isChanged = true;
+					changes.push(k);
+					console.debug(k, sizes[k], "[changed from: " + sizes [k-1] + "]");
+				}
+				prev = sizes[k];
+			};
+			// step2: inspect changes
+			console.debug( changes.length, "change(s)", n, "counter" );
+
+
+			// add TB clamping [desktop]
+			if (newWinLeak == "10 x 10 [inner] 10 x 10 [outer]") {newWinLeak = newWinLeak + tor_browser_green};
+			// add file error debug
+			if (strError !== "") {newWinLeak = newWinLeak + "<br>" + strError};
+			// output
+			output_newwin(newWinLeak)
 		};
+		function build_newwin() {
+			// check 'n' times as "fast" as we can/dare
+			// checks lots due to latency in TB
+			if (n == 150) {
+				clearInterval(checking);
+				check_newwin();
+			} else {
+				// grab metrics
+				try {
+					sizes.push(newWin.innerWidth+" x "+newWin.innerHeight);
+				} catch(e) {
+					clearInterval(checking);
+					// errors
+					let err = e.message
+					if ((location.protocol) == "file:") {
+						if (err.substring(0, 17) == "Permission denied") {
+							// privacy.file_unique_origin
+							strError = so + "file: debug: only checked "+ n +" times:" + sc + sn + "check privacy.file_unique_origin" + sc;
+						} else {
+							// too many repeated checks (regardless of the interval) or some time limit causes an
+							// error.name "NS_ERROR_UNEXPECTED", but we've done more than enough tests in file:///
+							strError = so + "file: debug: only checked "+ n +" times" + sc;
+						}
+					} else {
+						// do we get NS_ERROR_UNEXPECTED when https?
+						console.debug("new_win test [checked " + n + "times]: type: ", e.type);
+						console.debug("new_win test [checked " + n + "times]: name: ", e.name);
+						console.debug("new_win test [checked " + n + "times]: message: ", e.message);
+					}
+					// always output
+					check_newwin();
+				}
+			}
+			n++;
+		};
+		// use higher ms rather than 1 ms might extend the
+		// overall time to detect changes due to latency
+		// depends if HTTP(s) traps any errors
+		let checking = setInterval(build_newwin, 3);
+
+	} else {
+	// ANDROID
+		if (ih > firstH) {
+			// firstH should be with the toolbar
+			newWinLeak = iw + " x " + ih + " [inner] [toolbar hidden] " + ow + " x " + oh + " [outer]";
+		} else if (ih == firstH) {
+			// they should be the same
+			newWinLeak = iw + " x " + ih + " [inner] [toolbar visible] " + ow + " x " + oh + " [outer]";
+		};
+		output_newwin(newWinLeak)
 	};
-	// there is no clamping in TB for Android yet
-	if (newWinLeak == "10 x 10 [inner] 10 x 10 [outer]") {newWinLeak = newWinLeak + tor_browser_green};
-	dom.newWinLeak.innerHTML = newWinLeak;
+
 };
 
 /* OUTPUT */
