@@ -786,7 +786,7 @@ function get_os_line_scrollbar() {
 			| lhDec=="8333" | lhDec=="85" | lhDec=="7667" | lhDec=="6667" | lhDec=="5167") {lhOS=strM};
 	};
 	// detect ANDROID
-	if (lhOS == "") {if (lh == "19.5") {lhOS = strA}};
+	if (lhOS == "") {if (lh == "19.5" || lh == "19.55") {lhOS = strA}};
 	// still blank? and add logical guess or known metric
 	if (lhOS == "") {
 		lhOS = "[Linux] [logical guess]"
