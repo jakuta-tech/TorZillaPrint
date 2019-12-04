@@ -6,9 +6,17 @@ function outputMisc() {
 	let t0 = performance.now();
 	let e = "enabled", d = "disabled";
 
+	// beacon.enabled
 	dom.nBeacon = (navigator.sendBeacon ? e : d);
+
+	// dom.events.asyncClipboard
 	dom.nClipboard = ("clipboard" in navigator ? e: d); // FF63+
+
+	// dom.requestIdleCallback.enabled
 	dom.reqIdleCB = ("requestIdleCallback" in window ? e: d);
+
+	// dom.media.mediasession.enabled
+	dom.mediaSession = ("mediaSession" in navigator ? e: d); // FF71+
 
 	// mathml: control/none = visible + no distortion of height: compare control to test
 	let mathmlString = "<math><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form='prefix'>&minus;</mo><mi>b</mi>"+
