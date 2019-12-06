@@ -276,17 +276,13 @@ function get_matchmedia_metrics() {
 						// always round down since we use min- in our css files to be consistent
 						// this actually increases entropy by being different to window or screen
 						// AFAICT when dpi !=1 and on some figures this produces decimals
-						try {
-							if ( Number.isInteger(pivot) == true) {
-								wasRounded = false
-							} else {
-								wasRounded = true
-							}
-							// console.debug(pivot, wasRounded)
-							return Math.floor(pivot);
-						} catch(e) {
-							dom.debug2.innerHTML = "type: " + e.type + "<br>" + "name: " + e.name + "<br>" + "message: " + e.message;
+						if ( Number.isInteger(pivot) == true) {
+							wasRounded = false
+						} else {
+							wasRounded = true
 						}
+						// console.debug(pivot, wasRounded)
+						return Math.floor(pivot);
 					}
 					else if (testResult === searchValue.isBigger){
 						minValue = pivot;
