@@ -225,11 +225,11 @@ function get_matchmedia_metrics() {
 				dom.WndInMM = inner;
 			}
 			// debugging
-			dom.debug2.innerHTML = strDebug
+			dom.debug2.innerHTML = strDebug.trim();
 		});
 	}
 
-	function searchValue(tester){
+	function searchValue(tester, mmtype){
 		wasRounded = false; // reset
 		widthRounded = false;
 		heightRounded = false;
@@ -291,7 +291,7 @@ function get_matchmedia_metrics() {
 							wasRounded = true
 						}
 						// console.debug(pivot, wasRounded)
-						strDebug = strDebug + "<br>" + pivot + ", " + wasRounded;
+						strDebug = strDebug + pivot + ", " + wasRounded + "<br>";
 						return Math.floor(pivot);
 					}
 					else if (testResult === searchValue.isBigger){
@@ -321,6 +321,7 @@ function get_matchmedia_metrics() {
 	runTest(function(type, metric){
 		return searchValue(function(valueToTest){
 			if (window.matchMedia("(" + metric + type + ": " + valueToTest + "px)").matches){
+				strDebug = strDebug + metric + type + "<br>";
 				return Promise.resolve(searchValue.isEqual);
 			}
 			else if (window.matchMedia("(max-" + metric + type + ": " + valueToTest + "px)").matches){
