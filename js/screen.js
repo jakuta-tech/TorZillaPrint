@@ -191,7 +191,11 @@ function get_private_win() {
 
 function get_matchmedia_metrics() {
 
+	let strDebug = "";
 	let wasRounded = false;
+	let widthRounded = false;
+	let heightRounded = false;
+	// todo: determine exactly what was rounded: width, height or both
 
 	// promises and output
 	function runTest(callback){
@@ -220,11 +224,16 @@ function get_matchmedia_metrics() {
 			} else {
 				dom.WndInMM = inner;
 			}
+			// debugging
+			dom.debug2.innerHTML = strDebug
 		});
 	}
 
 	function searchValue(tester){
 		wasRounded = false; // reset
+		widthRounded = false;
+		heightRounded = false;
+
 		let minValue = 0;
 		let maxValue = 512;
 		let ceiling = Math.pow(2, 32);
@@ -282,6 +291,7 @@ function get_matchmedia_metrics() {
 							wasRounded = true
 						}
 						// console.debug(pivot, wasRounded)
+						strDebug = strDebug + "<br>" + pivot + ", " + wasRounded;
 						return Math.floor(pivot);
 					}
 					else if (testResult === searchValue.isBigger){
