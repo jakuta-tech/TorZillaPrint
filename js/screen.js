@@ -191,12 +191,6 @@ function get_private_win() {
 
 function get_matchmedia_metrics() {
 
-	let strDebug = "";
-	let wasRounded = false;
-	let widthRounded = false;
-	let heightRounded = false;
-	// todo: determine exactly what was rounded: width, height or both
-
 	// promises and output
 	function runTest(callback){
 		// device
@@ -206,11 +200,7 @@ function get_matchmedia_metrics() {
 		]);
 		devicePromise.then(function(device){
 			device = device.toString().replace(",", " x ")
-			if (wasRounded == true) {
-				dom.ScrMM.innerHTML = device + note_rounded;
-			} else {
-				dom.ScrMM = device;
-			}
+			dom.ScrMM = device;
 		});
 		// inner window
 		let innerPromise = Promise.all([
@@ -219,21 +209,11 @@ function get_matchmedia_metrics() {
 		]);
 		innerPromise.then(function(inner){
 			inner = inner.toString().replace(",", " x ")
-			if (wasRounded == true) {
-				dom.WndInMM.innerHTML = inner + note_rounded;
-			} else {
-				dom.WndInMM = inner;
-			}
-			// debugging
-			dom.debug2.innerHTML = strDebug.trim();
+			dom.WndInMM = inner;
 		});
 	}
 
-	function searchValue(tester, mmtype){
-		wasRounded = false; // reset
-		widthRounded = false;
-		heightRounded = false;
-
+	function searchValue(tester){
 		let minValue = 0;
 		let maxValue = 512;
 		let ceiling = Math.pow(2, 32);
@@ -282,17 +262,11 @@ function get_matchmedia_metrics() {
 				let pivot = (minValue + maxValue) / 2;
 				return tester(pivot).then(function(testResult){
 					if (testResult === searchValue.isEqual){
-						// always round down since we use min- in our css files to be consistent
-						// this actually increases entropy by being different to window or screen
-						// AFAICT when dpi !=1 and on some figures this produces decimals
-						if ( Number.isInteger(pivot) == true) {
-							wasRounded = false
-						} else {
-							wasRounded = true
-						}
-						// console.debug(pivot, wasRounded)
-						strDebug = strDebug + pivot + ", " + wasRounded + "<br>";
-						return Math.floor(pivot);
+						// we could round down since we use min- in our css files to be consistent
+						// but showing decimals increases entropy by being different to window or screen
+						// i.e AFAICT when dpi !=1 and on some figures this produces decimals
+						// return Math.floor(pivot); // round down
+						return pivot;
 					}
 					else if (testResult === searchValue.isBigger){
 						minValue = pivot;
@@ -321,7 +295,6 @@ function get_matchmedia_metrics() {
 	runTest(function(type, metric){
 		return searchValue(function(valueToTest){
 			if (window.matchMedia("(" + metric + type + ": " + valueToTest + "px)").matches){
-				strDebug = strDebug + metric + type + "<br>";
 				return Promise.resolve(searchValue.isEqual);
 			}
 			else if (window.matchMedia("(max-" + metric + type + ": " + valueToTest + "px)").matches){
