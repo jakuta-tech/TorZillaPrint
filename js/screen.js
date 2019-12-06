@@ -284,7 +284,7 @@ function get_matchmedia_metrics() {
 							}
 							// console.debug(pivot, wasRounded)
 							return Math.floor(pivot);
-						} catch(e)
+						} catch(e) {
 							dom.debug2.innerHTML = "type: " + e.type + "<br>" + "name: " + e.name + "<br>" + "message: " + e.message;
 						}
 					}
