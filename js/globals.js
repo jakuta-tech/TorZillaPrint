@@ -34,7 +34,6 @@ var default_ff_green = sg + "[FF default]" + sc;
 var default_red = sb + "[unusual]" + sc;
 var note_random = sg + "[random]" + sc;
 var note_file = "";
-var note_rounded = so + "[rounded down]" + sc;
 if (location.protocol == "file:") {
 	note_file = sn + "[file:]" + sc;
 };
