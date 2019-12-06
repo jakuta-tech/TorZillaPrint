@@ -191,6 +191,8 @@ function get_private_win() {
 
 function get_matchmedia_metrics() {
 
+	let wasRounded = false;
+
 	// promises and output
 	function runTest(callback){
 		// device
@@ -200,7 +202,11 @@ function get_matchmedia_metrics() {
 		]);
 		devicePromise.then(function(device){
 			device = device.toString().replace(",", " x ")
-			dom.ScrMM = device;
+			if (wasRounded == true) {
+				dom.ScrMM.innerHTML = device + note_rounded;
+			} else {
+				dom.ScrMM = device;
+			}
 		});
 		// inner window
 		let innerPromise = Promise.all([
@@ -209,11 +215,16 @@ function get_matchmedia_metrics() {
 		]);
 		innerPromise.then(function(inner){
 			inner = inner.toString().replace(",", " x ")
-			dom.WndInMM = inner;
+			if (wasRounded == true) {
+				dom.WndInMM.innerHTML = inner + note_rounded;
+			} else {
+				dom.WndInMM = inner;
+			}
 		});
 	}
 
 	function searchValue(tester){
+		wasRounded = false; // reset
 		let minValue = 0;
 		let maxValue = 512;
 		let ceiling = Math.pow(2, 32);
@@ -262,8 +273,15 @@ function get_matchmedia_metrics() {
 				let pivot = (minValue + maxValue) / 2;
 				return tester(pivot).then(function(testResult){
 					if (testResult === searchValue.isEqual){
-						// console.debug("found it", pivot);
-						// always round down since we use min- in our css files
+						// always round down since we use min- in our css files to be consistent
+						// this actually increases entropy by being different to window or screen
+						// AFAICT when dpi !=1 and on some figures this produces decimals
+						if ( Number.isInteger(pivot) == true) {
+							wasRounded = false
+						} else {
+							wasRounded = true
+						}
+						// console.debug(pivot, wasRounded)
 						return Math.floor(pivot);
 					}
 					else if (testResult === searchValue.isBigger){
