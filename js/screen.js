@@ -5,6 +5,7 @@
 /* FUNCTIONS */
 
 function isLB(w,h) {
+	// note: we only ever call this if zoom is 100%
 	let wstep = 200,
 		hstep = 200,
 		lbw = false,
@@ -14,6 +15,23 @@ function isLB(w,h) {
 		lbw = Number.isInteger(w/wstep);
 		lbh = Number.isInteger(h/hstep);
 		if (lbw == true && lbh == true) {
+			return true
+		} else {
+			return false
+		}
+};
+
+function isNW(w,h) {
+	// note: we only ever call this if zoom is 100%
+	let wstep = 200,
+		hstep = 100,
+		nww = false,
+		nwh = false;
+		nww = Number.isInteger(w/wstep);
+		nwh = Number.isInteger(h/hstep);
+		if (w > 1000) {nww = false};
+		if (h > 1000) {nwh = false};
+		if (nww == true && nwh == true) {
 			return true
 		} else {
 			return false
@@ -315,21 +333,28 @@ function get_screen_metrics(type) {
 		h = window.innerHeight;
 	dom.fsState = window.fullScreen;
 	// inner
+	let strTemp = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")";
 	if (isMajorOS == "android") {
-		dom.WndIn = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")";
+		dom.WndIn = strTemp;
 	} else {
 		// desktop only: letterboxing
 		get_zoom("resize");
 		if (jsZoom == 100) {
 			// only calculate if 100% zoom
 			if (isLB(w,h) == true) {
-				dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_green;
+				strTemp = strTemp + lb_green;
 			} else {
-				dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_red;
-			}
+				strTemp = strTemp + lb_red;
+			};
+			if (isNW(w,h) == true) {
+				strTemp = strTemp + nw_green;
+			} else {
+				strTemp = strTemp + nw_red;
+			};
+			dom.WndIn.innerHTML = strTemp
 		} else {
 			// not 100% zoom
-			dom.WndIn.innerHTML = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")" + lb_orange;
+			dom.WndIn.innerHTML = strTemp + lb_orange;
 		}
 	};
 	if (type !== "screen") {
