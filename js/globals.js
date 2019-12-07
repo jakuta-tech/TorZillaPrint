@@ -22,7 +22,9 @@ var rfp_green = sg + "[RFP]" + sc;
 var rfp_red = sb + "[RFP]" + sc;
 var lb_green = sg + "[LB]" + sc;
 var lb_red = sb + "[LB]" + sc;
-var lb_orange = so + "[LB only works at 100% zoom]" + sc;
+var lb_orange = so + "[LB and RFP New Window only work at 100% zoom]" + sc;
+var nw_green = sg + "[RFP New Window]" + sc;
+var nw_red = sb + "[RFP New Window]" + sc;
 var enUS_green = sg + "[en-US]</span> ";
 var enUS_red = sb + "[en-US]</span> ";
 var spoof_green = sg + "[Spoof English]" + sc;
@@ -34,6 +36,7 @@ var default_ff_green = sg + "[FF default]" + sc;
 var default_red = sb + "[unusual]" + sc;
 var note_random = sg + "[random]" + sc;
 var note_file = "";
+var note_rounded = so + "[rounded down]" + sc;
 if (location.protocol == "file:") {
 	note_file = sn + "[file:]" + sc;
 };
