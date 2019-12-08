@@ -2,6 +2,10 @@
 
 'use strict';
 
+function countCharacter(str, char) {
+    return str.split('').reduce((a, x) => x === char ? ++a : a, 0);
+};
+
 function outputMisc() {
 	let t0 = performance.now();
 	let e = "enabled", d = "disabled";
@@ -52,6 +56,14 @@ function outputMisc() {
 
 	// dom.webshare.enabled (todo canShare)
 	dom.webshare = (navigator.share ? "enabled" : "disabled")
+
+	// dom.use_components_shim
+	let comshim = (typeof Components === "undefined") ? "undefined" : Object.getOwnPropertyNames(Components.interfaces).join("~");
+	if (comshim !== "undefined") {
+		let k = comshim.split('~').length-1; // number of items
+		comshim = sha1(comshim) + " [" + (k-1) + " items]";
+	};
+	dom.comshim = comshim;
 
 	// perf
 	let t1 = performance.now();
