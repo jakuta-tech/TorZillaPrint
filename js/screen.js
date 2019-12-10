@@ -1106,9 +1106,7 @@ function goNW() {
 	// reset
 	dom.newWinLeak = "&nbsp";
 	let sizesi = [], // inner history: pre-render to letterbox
-		changesi = [], // inner history of changes
 		sizeso = [],   // outer history: pre-render to letterbox
-		changeso = [], // outer history of changes
 		n = 1, // counter for setInterval
 		newWinLeak = "",
 		strError = "";
@@ -1119,8 +1117,8 @@ function goNW() {
 		ih = newWin.innerHeight,
 		ow = newWin.outerWidth,
 		oh = newWin.outerHeight;
-	sizesi.push(iw+","+ih);
-	sizeso.push(ow+","+oh);
+	sizesi.push(iw+" x "+ih);
+	sizeso.push(ow+" x "+oh);
 	// default output
 	newWinLeak = iw + " x " + ih + " [inner] " + ow + " x " + oh + " [outer]";
 
@@ -1132,134 +1130,51 @@ function goNW() {
 	if (isMajorOS !== "android") {
 
 		function check_newwin() {
-			let hasLB = false, // reset: this is only detectable with the border patch
-				hasBM = false,   // bookmark toolbar quirk indicated
-				diffsi = [],     // array of 4 inner sizes to compare
-				diffso = [],     // array of 4 outer sizes to compare
-				firstchangei = 0,
-				firstchangeo = 0;
+			let diffsi = [], // array of 4 inner sizes to compare
+				diffso = [],   // array of 4 outer sizes to compare
+				changesi = 0,
+				changeso = 0;
 
-			// step1: build array of changes and note when the first change happened
+			// step1: detect changes
 			let prev = sizesi[0];
+			let strInner = s1 + "inner: " + sc + iw + " x " + ih;
 			for (let k=0; k < sizesi.length; k++) {
 				if (sizesi[k] !== prev ) {
-					if (firstchangei == 0) {firstchangei = k}
-					changesi.push( sizesi[k] + "," + sizesi[k-1]);
-					console.debug(k, sizesi[k], "[inner changed from: " + sizesi[k-1] + "]");
+					changesi++;
+					strInner = strInner + s1 + " &#9654 <b>[" + k + "]</b> " + sc + sizesi[k]
 				}
 				prev = sizesi[k];
 			};
 			prev = sizeso[0];
+			let strOuter = s1 + "outer: " + sc + ow + " x " + oh;
 			for (let k=0; k < sizeso.length; k++) {
 				if (sizeso[k] !== prev ) {
-					if (firstchangeo == 0) {firstchangeo = k}
-					changeso.push( sizeso[k] + "," + sizeso[k-1]);
-					console.debug(k, sizeso[k], "[outer changed from: " + sizeso[k-1] + "]");
+					changeso++;
+					strOuter = strOuter + s1 + " &#9654 <b>[" + k + "]</b> " + sc + sizeso[k]
 				}
 				prev = sizeso[k];
 			};
+			// if we had changes, change output
+			if (changesi > 0 || changeso > 0) {
+				newWinLeak = strInner + "<br>" + strOuter;
+			}
 
-			// step2: inspect first change
-			// if LBing - this adjusts for the new borders
-			// if clamping - we can bypass it
-			let strInner = iw + " x " + ih + " [inner]",
-				strOuter = ow + " x " + oh + " [outer]"
-			if (changesi.length > 0) {
-				// inner
-				let strParsei = changesi[0];
-				diffsi = strParsei.split(",")
-				let wdiffi = Number(diffsi[0]) - Number(diffsi[2]); // first-second width
-				let hdiffi = Number(diffsi[1]) - Number(diffsi[3]); // first-second height
-				if (wdiffi == 2 && hdiffi == 1 && firstchangei < 3) {
-					// if the real inner is 2px/1px out AND LB is on AND this is before the border patch
-					// then we will get false positive (a first change matching 2px/1px: pre-render -> LB)
-					// So far the LB border change always seems to be check number 1. The fastest I can get
-					// a false positive is check number 3 (using file:///, no HTTP latency); hence < 3
-					hasLB = true;
-					strInner = diffsi[0] + " x " + diffsi[1] + " [inner]";
-				} else if (wdiffi == 0 && hdiffi < 6 && firstchangei < 10 ) {
-					// if new windows are NOT opened as new tabs, the actual new window's first step can
-					// be the bookmark toolbar icons populating: requires pref flips to stop window meddling
-					// haven't seen anything higher than 5px height and I'll adjust the check number with more
-					// testing to reduce/remove false positives
-					hasBM = true;
-					strInner = diffsi[0] + " x " + diffsi[1] + " [inner]";
-				} else if ((diffsi[2] + diffsi[3]) == "1010") {
-					// detect old clamping of 10 x 10
-					strInner = diffsi[0] + " x " + diffsi[1] + " [inner]";
-				}
-			}
-			// outer
-			if (changeso.length > 0) {
-				let strParseo = changeso[0];
-				diffso = strParseo.split(",")
-				let wdiffo = Number(diffso[0]) - Number(diffso[2]); // first-second width
-				let hdiffo = Number(diffso[1]) - Number(diffso[3]); // first-second height
-				if (wdiffo == 2 && hdiffo == 1 && firstchangeo < 3) {
-					strOuter = diffso[0] + " x " + diffso[1] + " [outer]";
-				} else if (wdiffo == 0 && hdiffo < 6 && firstchangeo < 10 ) {
-					// actual new window step is bookmark toolbar icons populating
-					strOuter = diffso[0] + " x " + diffso[1] + " [inner]";
-				} else if ((diffso[2] + diffso[3]) == "1010") {
-					// detect old clamping of 10 x 10
-					strOuter = diffso[0] + " x " + diffso[1] + " [outer]";
-				} else if ((diffso[2] + diffso[3]) == "00") {
-					// TB with RFP disabled
-					strOuter = diffso[0] + " x " + diffso[1] + " [outer]";
-				}
-			}
-			newWinLeak = strInner + " " + strOuter;
-
-			// step3: add inner notation
-			if (newWinLeak == "10 x 10 [inner] 10 x 10 [outer]") {
-				// allow for old TB clamping in case they fix it
-				newWinLeak = newWinLeak + tor_browser_green
-			} else if (hasLB == true ) {
-				// LB is on (border patch tells us)
-				// todo: maybe add how many checks it took to land LB protection?
-				if ( isLB(Number(diffso[0]),Number(diffso[1])) == true) {
-					newWinLeak = newWinLeak + "<br>" + sg + " [LB is on... and the real inner window matches]" + sc;
-				} else {
-					newWinLeak = newWinLeak + "<br>" + sb + "[LB is on... but the real inner window differs... and can leak]" + sc;
-				}
-			} else {
-				if ( hasBM == true) {
-				// new window bookmark step: by 0px width, under 6px height, quite early
-					iw = diffsi[0];
-					ih = diffsi[1];
-				} else {
-					// no border patch: we're still using iw, ih
-					// however, if that's 0,0 or 10,10 then we're using the new values
-					if ((diffsi[2] + diffsi[3]) == "1010") {
-						iw = diffsi[0];
-						ih = diffsi[1];
-					} else if ((diffsi[2] + diffsi[3]) == "00") {
-						iw = diffsi[0];
-						ih = diffsi[1];
-					}
-				};
-				if (isLB(iw,ih) == true) {
-					newWinLeak = newWinLeak.replace("inner]", "inner] " + lb_green)
-				} else {
-					newWinLeak = newWinLeak.replace("inner]", "inner] " + lb_red)
-				}
-			}
 			// append file:/// error debug
 			if (strError !== "") {newWinLeak = newWinLeak + "<br>" + strError};
 			// output
 			output_newwin(newWinLeak)
 		};
+
 		function build_newwin() {
 			// check 'n' times as "fast" as we can/dare
-			// checks lots due to latency in TB
 			if (n == 150) {
 				clearInterval(checking);
 				check_newwin();
 			} else {
 				// grab metrics
 				try {
-					sizesi.push(newWin.innerWidth+","+newWin.innerHeight);
-					sizeso.push(newWin.outerWidth+","+newWin.outerHeight);
+					sizesi.push(newWin.innerWidth+" x "+newWin.innerHeight);
+					sizeso.push(newWin.outerWidth+" x "+newWin.outerHeight);
 				} catch(e) {
 					clearInterval(checking);
 					// errors
@@ -1267,7 +1182,7 @@ function goNW() {
 						let err = e.message;
 						if (err.substring(0, 17) == "Permission denied") {
 							// privacy.file_unique_origin
-							strError = so + "file: debug: only checked "+ n +" times:" + sc + sn + "check privacy.file_unique_origin" + sc;
+							strError = so + "file: debug: checked "+ n +" times:" + sc + sn + "check privacy.file_unique_origin" + sc;
 						}
 					}
 					// if not permission denied, eventually we will always get a
@@ -1278,8 +1193,7 @@ function goNW() {
 			n++;
 		};
 		// keep checking until we cause an error
-		// as fast as possible (1ms) allows for more precision with firstchange
-		let checking = setInterval(build_newwin, 1);
+		let checking = setInterval(build_newwin, 3);
 
 	} else {
 	// ANDROID
