@@ -1042,62 +1042,37 @@ function get_kbh() {
 
 function goFS() {
 	if (isFirefox == true) {
-		let wh1 = window.innerHeight,
-			winFSw = "",
-			winFSh = "";
+		let ih1 = window.innerHeight,
+			delay = 1;
 		function exitFS() {
-			if (isVersion > 63) {
-				document.exitFullscreen();
-			} else {
-				document.mozCancelFullScreen();
-			};
-			if (isMajorOS == "android") {
-				document.removeEventListener("mozfullscreenchange", getFS_android)
-			} else {
-				document.removeEventListener("mozfullscreenchange", getFS_desktop)
-			};
+			if (isVersion > 63) {	document.exitFullscreen() } else { document.mozCancelFullScreen() };
+			document.removeEventListener("mozfullscreenchange", getFS)
 		};
-		function getFS_android() {
-			// android: delay required
+		function getFS() {
 			if ( document.mozFullScreen ) {
 				setTimeout(function(){
-					winFSw = document.mozFullScreenElement.clientWidth;
-					winFSh = document.mozFullScreenElement.clientHeight;
-					dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
+					let iw = document.mozFullScreenElement.clientWidth;
+					let ih = document.mozFullScreenElement.clientHeight;
+					dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+iw+" x "+ih+" [mozFullScreenElement client]";
 					exitFS();
-				}, 1000);
-			};
-		};
-		function getFS_desktop() {
-			// desktop
-			if ( document.mozFullScreen ) {
-				winFSw = document.mozFullScreenElement.clientWidth;
-				winFSh = document.mozFullScreenElement.clientHeight;
-				dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+winFSw+" x "+winFSh+" [mozFullScreenElement client]";
-				exitFS();
-				// TB warning panel
-				if (isTorBrowser) {
-					setTimeout(function(){
-						let wh2 = window.innerHeight;
-						let panel = wh1-wh2;
-						if (panel !== 0) {
-							dom.fsLeak.innerHTML = dom.fsLeak.textContent + "<br>" + panel + "px [warning panel height]";
-						};
-					}, 600);
-				};
+					// TB desktop warning panel
+					if (isTorBrowser == true && isMajorOS !== "android") {
+						setTimeout(function(){
+						let ih2 = window.innerHeight;
+							let panel = ih1-ih2;
+							if (panel !== 0) {
+								dom.fsLeak.innerHTML = dom.fsLeak.textContent + "<br>" + panel + "px [warning panel height]";
+							};
+						}, 600);
+					};
+				}, delay);
 			};
 		};
 		if (document.mozFullScreenEnabled) {
 			let element = document.getElementById("imageFS");
-			if (isMajorOS == "android") {
-				element.mozRequestFullScreen();
-				document.addEventListener("mozfullscreenchange", getFS_android)
-			} else {
-				// desktop: eliminate all delays possible to beat the warning panel
-				// gradually eating height: hence FS request after android check
-				element.mozRequestFullScreen();
-				document.addEventListener("mozfullscreenchange", getFS_desktop)
-			};
+			if (isMajorOS == "android") { delay = 1000 }
+			element.mozRequestFullScreen();
+			document.addEventListener("mozfullscreenchange", getFS)
 		};
 	};
 };
