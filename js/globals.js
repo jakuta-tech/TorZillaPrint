@@ -11,6 +11,7 @@ let sb = " <span class='bad'>",
 	sn = " <span class='neutral'>",
 	so = " <span class='orange'>",
 	se = " <span class='bad'>[test error: ",
+	s1 = " <span class='s1'>",
 	sc = "</span>";
 
 // notation
