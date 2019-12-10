@@ -38,6 +38,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 	.isPointInStroke, .readPixels, .getContext, .mozGetAsFile, .strokeText {
 	font-family: monospace, "Courier New";}
 .strike {text-decoration: line-through;}
+.s1 {color: var(--test1);}
 
 .normalized {
 	font-family: none;
