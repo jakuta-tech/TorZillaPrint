@@ -267,7 +267,6 @@ function get_matchmedia_metrics() {
 								return maxValue;
 							}
 							else {
-								// we could round here and resolve?
 								return Promise.reject(
 									"between " + minValue + " and " + maxValue
 								);
@@ -282,7 +281,7 @@ function get_matchmedia_metrics() {
 					if (testResult === searchValue.isEqual){
 						// we could round down since we use min- in our css files to be consistent
 						// but showing decimals increases entropy by being different to window or screen
-						// i.e AFAICT when dpi !=1 and on some figures this produces decimals
+						// i.e AFAICT when devicePixelRatio !=1 on some figures this produces decimals
 						// return Math.floor(pivot); // round down
 						return pivot;
 					}
@@ -493,6 +492,7 @@ function get_browser_resource() {
 			dom.fdResource = "Tor Browser";
 			// set isTorBrowser in case math missed it
 			isTorBrowser = true;
+			outputDebug("2", "     resource:// = tor-watermark.png")
 		};
 		document.body.removeChild(imgLogoB);
 	});
@@ -733,6 +733,7 @@ function get_os_line_scrollbar() {
 		lhOS = tor_browser_green;
 		// set isTorBrowser in case math missed it
 		isTorBrowser = true;
+		outputDebug("2", " css line height = 19.2")
 	} else {
 		// using TNR and not TB's 19.2
 		// detect WINDOWS / LINUX
@@ -1308,6 +1309,7 @@ function outputMath() {
 	} else if (m1 == "B") {
 		// B: always TB on WIN
 		isTorBrowser = true;
+		outputDebug("2", "math 1st edition = letter B")
 		fdMath1="Windows";
 		if (m6 == "1") {
 			// ESR60: 1B: always 64bit TB: thus 64bit WIN
