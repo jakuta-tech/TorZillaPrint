@@ -33,8 +33,11 @@ function outputDebug(type, str1, str2, str3, str4) {
 			// warning
 			strA = strA + " |" + sb+ str4 + sc
 		}
+		e.innerHTML = e.innerHTML + "<br>" + strA;
+	} else {
+		strA = str1
+		e.innerHTML = e.innerHTML + strA + "<br>";
 	}
-	e.innerHTML = e.innerHTML + "<br>" + strA;
 
 	// console
 	if (type == "1") {
@@ -42,11 +45,11 @@ function outputDebug(type, str1, str2, str3, str4) {
 		if (str3 !== undefined & str3 !=="") {
 			strB = strB + " | " + str3 + " ms"
 		}
+		if (str4 !== undefined && str4 !== "") {
+			strB = strB + " | " + str4
+		}
+		console.debug(strB);
 	}
-	if (str4 !== undefined && str4 !== "") {
-		strB = strB + " | " + str4
-	}
-	console.debug(strB);
 }
 
 function showhide(toggleType, toggleID, togWord) {
