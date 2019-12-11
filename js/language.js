@@ -366,18 +366,8 @@ function get_datetime() {
 			let output = "";
 			let rtf2 = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"});
 			let rtf3 = rtf2.formatToParts(length, value);
-			try {
-				output = rtf3[0].value + rtf3[1].value + rtf3[2].value + rtf3[3].value;
-			} catch(e) {
-				try {
-					output = rtf3[0].value + rtf3[1].value + rtf3[2].value;
-				} catch(e) {
-					try {
-						output = rtf3[0].value + rtf3[1].value;
-					} catch(e) {
-						output = rtf3[0].value;
-					}
-				}
+			for (let x = 0; x < rtf3.length; x++) {
+				output = output + rtf3[x].value
 			}
 			return output;
 		};
