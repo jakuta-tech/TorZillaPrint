@@ -33,10 +33,10 @@ function outputDebug(type, str1, str2, str3, str4) {
 			// warning
 			strA = strA + " |" + sb+ str4 + sc
 		}
-		e.innerHTML = e.innerHTML + "<br>" + strA;
+		if (isPage == "main") {e.innerHTML = e.innerHTML + "<br>" + strA;}
 	} else {
 		strA = str1
-		e.innerHTML = e.innerHTML + strA + "<br>";
+		if (isPage == "main") {e.innerHTML = e.innerHTML + strA + "<br>";}
 	}
 
 	// console
