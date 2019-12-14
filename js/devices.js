@@ -59,6 +59,16 @@ function outputDevices() {
 		dom.speechEngines = na;
 	};
 
+	// media.webspeech.recognition.enable
+	// NOTE: media.webspeech.test.enable intil landed
+	try {
+		let recognition = new SpeechRecognition();
+		dom.speechRec = e;
+	} catch(e) {
+		// undefined
+		dom.speechRec = d + " [or " + ns + "]"
+	}
+
 	// perf
 	let t1 = performance.now();
 	if (sPerf) {outputDebug("1", "devices", (t1-t0), (t1 - gt0))};
