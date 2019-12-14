@@ -190,7 +190,7 @@ table td.sub11 {color: var(--test11);}
 
 /* about:logo */
 #fdResourceCss {
-	background-image: url("about:logo"), url("nothing.png");
+	background-image: url("about:logo"), url("");
 	background-size: auto 100%;	background-repeat: no-repeat;	background-position: 10px 0px;
 }
 /* line-height */
