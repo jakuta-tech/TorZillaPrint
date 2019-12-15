@@ -6,6 +6,25 @@ function countCharacter(str, char) {
     return str.split('').reduce((a, x) => x === char ? ++a : a, 0);
 };
 
+function get_svg() {
+	// create svg
+	let svg1 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+	svg1.setAttribute("width", "100");
+	svg1.setAttribute("height", "100");
+	// create circle
+	let c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+	c.setAttributeNS(null,"cx",50);
+	c.setAttributeNS(null,"cy",50);
+	c.setAttributeNS(null,"r",40);
+	// attach circle to svg and svg to element
+	svg1.appendChild(c);
+	dom.svgDiv.appendChild(svg1);
+	// output
+	dom.svgBasicTest = (dom.svgDiv.offsetHeight > 0 ? "enabled" : "disabled");
+	// remove
+	document.getElementById("svgDiv").removeChild(svg1);
+}
+
 function outputMisc() {
 	let t0 = performance.now();
 	let e = "enabled", d = "disabled";
@@ -64,6 +83,9 @@ function outputMisc() {
 		comshim = sha1(comshim) + " [" + (k+1) + " items]";
 	};
 	dom.comshim = comshim;
+
+	// svg.disabled
+	get_svg();
 
 	// perf
 	let t1 = performance.now();
