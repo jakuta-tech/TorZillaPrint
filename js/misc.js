@@ -50,7 +50,7 @@ function outputMisc() {
 	document.getElementById("mathmltest").innerHTML = mathmlString;
 	let mathmlnone = document.getElementById("pReducedMotion").offsetHeight;
 	let mathmltest = document.getElementById("mathmltest").offsetHeight;
-	dom.mathml = (mathmltest == mathmlnone ? d : e);
+	dom.mathml.innerHTML = (mathmltest == mathmlnone ? d + slider_safer : e + slider_standard);
 
 	// dom.IntersectionObserver.enabled
 	let callback = function(entries, observer) {};
@@ -72,7 +72,7 @@ function outputMisc() {
 		} catch (e) {}
 		return false;
 	})();
-	dom.wasm = (supported ? e : d);
+	dom.wasm.innerHTML = (supported ? e + slider_standard : d + slider_safer);
 
 	// dom.use_components_shim
 	let comshim = (typeof Components === "undefined") ? "undefined" : Object.getOwnPropertyNames(Components.interfaces).join("~");
