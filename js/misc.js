@@ -31,15 +31,14 @@ function outputMisc() {
 
 	// beacon.enabled
 	dom.nBeacon = (navigator.sendBeacon ? e : d);
-
 	// dom.events.asyncClipboard
 	dom.nClipboard = ("clipboard" in navigator ? e: d); // FF63+
-
 	// dom.requestIdleCallback.enabled
 	dom.reqIdleCB = ("requestIdleCallback" in window ? e: d);
-
 	// dom.media.mediasession.enabled
 	dom.mediaSession = ("mediaSession" in navigator ? e: d); // FF71+
+	// security.webauth.webauthn
+	dom.webauth = ("credentials" in navigator ? e: d);
 
 	// mathml: control/none = visible + no distortion of height: compare control to test
 	let mathmlString = "<math><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form='prefix'>&minus;</mo><mi>b</mi>"+
