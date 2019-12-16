@@ -37,8 +37,9 @@ function outputMisc() {
 	dom.reqIdleCB = ("requestIdleCallback" in window ? e: d);
 	// dom.media.mediasession.enabled
 	dom.mediaSession = ("mediaSession" in navigator ? e: d); // FF71+
-	// security.webauth.webauthn
-	dom.webauth = ("credentials" in navigator ? e: d);
+	// security.webauth.webauthn / security.webauth.u2f
+	dom.webauth = ("credentials" in navigator ? e: d) + " | "
+		+ ("u2f" in window ? e: d);
 
 	// mathml: control/none = visible + no distortion of height: compare control to test
 	let mathmlString = "<math><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form='prefix'>&minus;</mo><mi>b</mi>"+
