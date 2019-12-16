@@ -38,8 +38,9 @@ function outputMisc() {
 	// dom.media.mediasession.enabled
 	dom.mediaSession = ("mediaSession" in navigator ? e: d); // FF71+
 	// security.webauth.webauthn / security.webauth.u2f
-	dom.webauth = ("credentials" in navigator ? e: d) + " | "
-		+ ("u2f" in window ? e: d);
+	dom.webauth = ("credentials" in navigator ? e: d) + " | " + ("u2f" in window ? e: d);
+	// dom.webshare.enabled
+	dom.webshare = (navigator.share ? e : d)
 
 	// mathml: control/none = visible + no distortion of height: compare control to test
 	let mathmlString = "<math><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form='prefix'>&minus;</mo><mi>b</mi>"+
@@ -61,7 +62,7 @@ function outputMisc() {
 	};
 
 	// javascript.options.wasm
-	const supported = (() => {
+	let supported = (() => {
 		try {
 			if (typeof WebAssembly === "object"	&& typeof WebAssembly.instantiate === "function") {
 				const module = new WebAssembly.Module(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
@@ -73,13 +74,10 @@ function outputMisc() {
 	})();
 	dom.wasm = (supported ? e : d);
 
-	// dom.webshare.enabled (todo canShare)
-	dom.webshare = (navigator.share ? "enabled" : "disabled")
-
 	// dom.use_components_shim
 	let comshim = (typeof Components === "undefined") ? "undefined" : Object.getOwnPropertyNames(Components.interfaces).join("~");
 	if (comshim !== "undefined") {
-		let k = comshim.split('~').length-1; // number of items
+		let k = comshim.split('~').length-1;
 		comshim = sha1(comshim) + " [" + (k+1) + " items]";
 	};
 	dom.comshim = comshim;
