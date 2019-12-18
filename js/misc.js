@@ -72,7 +72,8 @@ function outputMisc() {
 		} catch (e) {}
 		return false;
 	})();
-	dom.wasm.innerHTML = (supported ? e + slider_standard : d + slider_safer);
+	// dom.wasm.innerHTML = (supported ? e + slider_standard : d + slider_safer); // currently only alpha
+	dom.wasm = (supported ? e : d );
 
 	// dom.use_components_shim
 	let comshim = (typeof Components === "undefined") ? "undefined" : Object.getOwnPropertyNames(Components.interfaces).join("~");
