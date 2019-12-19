@@ -466,36 +466,38 @@ function get_browser_errors() {
 function get_browser_resource() {
 	// browser: chrome: Firefox
 	let t0 = performance.now();
+
 	// about:logo: desktop 300x236 vs 258x99 android dimensions
 	let imgLogoA = new Image();
 	imgLogoA.src = "about:logo";
 	imgLogoA.style.visibility = "hidden";
 	document.body.appendChild(imgLogoA);
 	imgLogoA.addEventListener("load", function() {
-		let imgLogoAW = imgLogoA.width;
-		if (imgLogoAW == 300) {
+		if (imgLogoA.width == 300) {
 			// change displayed resource to icon64 (not on android)
 			dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/icon64.png')";
 		};
-		if (imgLogoAW > 0) {dom.fdResource = "Firefox"};
+		if (imgLogoA.width > 0) {dom.fdResource = "Firefox"};
 		document.body.removeChild(imgLogoA);
 	});
-	// browser: chrome: refine if Tor Browser
+
+	// browser: chrome: refine if Tor Browser desktop
 	let imgLogoB = new Image();
 	imgLogoB.src = "resource://onboarding/img/tor-watermark.png";
-	// chrome://torbutton/skin/tor.png <- test on android
 	imgLogoB.style.visibility = "hidden";
 	document.body.appendChild(imgLogoB);
 	imgLogoB.addEventListener("load", function() {
-		let imgLogoBW = imgLogoB.width;
-		if (imgLogoBW > 0) {
+		if (imgLogoB.width > 0) {
 			dom.fdResource = "Tor Browser";
-			// set isTorBrowser in case math missed it
+			// set isTorBrowser
 			isTorBrowser = true;
 			outputDebug("2", "     resource:// = tor-watermark.png")
 		};
 		document.body.removeChild(imgLogoB);
 	});
+	// need something for TB for Android
+
+
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua resource browser: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
@@ -587,6 +589,7 @@ function get_os_line_scrollbar() {
 		strWM = "[Windows or Mac]",
 		strWLM = "[Windows, Linux or Mac]",
 		strL = "[Linux]",
+		strLA = "[Linux or Android]",
 		strLM = "[Linux or Mac]",
 		strM = "[Mac]",
 		strA = "[Android]";
@@ -730,8 +733,9 @@ function get_os_line_scrollbar() {
 		lhOS = " <span class='bad'> [document fonts are disabled]</span>";
 	} else if (lh == "19.2") {
 		// TB: 19.2px seems to be unique to TB at any zoom on any platform
+    // update: not on android
 		lhOS = tor_browser_green;
-		// set isTorBrowser in case math missed it
+		// set isTorBrowser
 		isTorBrowser = true;
 		outputDebug("2", " css line height = 19.2")
 	} else {
@@ -813,11 +817,11 @@ function get_os_line_scrollbar() {
 		if (lhDec=="0167" | lhDec=="05" | lhDec=="0833" | lhDec=="1833" | lhDec=="35" | lhDec=="4333" | lhDec=="6833"
 			| lhDec=="8333" | lhDec=="85" | lhDec=="7667" | lhDec=="6667" | lhDec=="5167") {lhOS=strM};
 	};
-	// detect ANDROID
-	if (lhOS == "") {if (lh == "19.5" || lh == "19.55") {lhOS = strA}};
+	// detect ANDROID: unreliable due to devicePixelRatio
+	// if (lhOS == "") {if (lh == "19.5" || lh == "19.55") {lhOS = strA}};
 	// still blank? and add logical guess or known metric
 	if (lhOS == "") {
-		lhOS = "[Linux] [logical guess]"
+		lhOS = strLA + " [logical guess]"
 	} else {
 		if (myLHFont.slice(1,16) == "Times New Roman") {
 			lhOS = lhOS + " [known metric]"
