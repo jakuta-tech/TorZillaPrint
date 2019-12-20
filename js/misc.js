@@ -25,6 +25,12 @@ function get_svg() {
 	document.getElementById("svgDiv").removeChild(svg1);
 }
 
+function reset_misc() {
+	// change font color: try not to shrink/grow elements
+	dom.nProto2.style.color = "#1a1a1a";
+	dom.comshim2.style.color = "#1a1a1a";
+}
+
 function outputMisc() {
 	let t0 = performance.now();
 	let e = "enabled", d = "disabled";
@@ -77,11 +83,16 @@ function outputMisc() {
 
 	// dom.use_components_shim
 	let comshim = (typeof Components === "undefined") ? "undefined" : Object.getOwnPropertyNames(Components.interfaces).join("~");
-	if (comshim !== "undefined") {
-		let k = comshim.split('~').length-1;
-		comshim = sha1(comshim) + " [" + (k+1) + " items]";
-	};
+	dom.comshim2 = comshim.replace(/~/g, ", ");
+	if (comshim !== "undefined") { comshim = sha1(comshim) + " [" + comshim.split('~').length + " items]"; };
 	dom.comshim = comshim;
+	dom.comshim2.style.color = "#b3b3b3";
+
+	// navigator prototype
+	let nProto = Object.keys(Object.getPrototypeOf(navigator)).join("~");
+	dom.nProto = sha1(nProto) + " [" + nProto.split('~').length + " items]";
+	dom.nProto2 = nProto.replace(/~/g, ", ");
+	dom.nProto2.style.color = "#b3b3b3";
 
 	// svg.disabled
 	get_svg();
