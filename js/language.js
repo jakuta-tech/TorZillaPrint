@@ -318,8 +318,11 @@ function get_lang() {
 	let lang4 = new Intl.PluralRules().resolvedOptions().locale; dom.lang4 = lang4;
 	let lang5 = rOptions.locale; dom.lang5 = lang5;
 	let lHash1 = sha1(lang1 +"-"+ lang2 +"-"+ lang3 +"-"+ lang4 +"-"+ lang5);
-	let bool = (lHash1 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98");
-	dom.lHash1.innerHTML = (bool = true ? lHash1 + spoof_green : lHash1 + spoof_red)
+	if (lHash1 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98") {
+		dom.lHash1.innerHTML = lHash1 + spoof_green
+	} else {
+		dom.lHash1.innerHTML = lHash1 + spoof_red
+	}
 };
 
 function get_tz() {
@@ -327,8 +330,13 @@ function get_tz() {
 	let tz1 = dateUsed.getTimezoneOffset()+ ' | ' + dateOld.getTimezoneOffset(); dom.tz1 = tz1;
 	let tz2 = Intl.DateTimeFormat().resolvedOptions().timeZone; dom.tz2 = tz2;
 	let lHash0 = sha1(tz1 + "-"	+ tz2);
-	bTZ = (lHash0 == "f8296e18b30a4ae7669d1992c943b90dde8bf94f")
-	dom.lHash0.innerHTML = (bTZ ? lHash0 + rfp_green : lHash0 + rfp_red);
+	if (lHash0 == "f8296e18b30a4ae7669d1992c943b90dde8bf94f") {
+		bTZ	= true;
+		dom.lHash0.innerHTML = lHash0 + rfp_green;
+	} else {
+		bTZ	= false;
+		dom.lHash0.innerHTML = lHash0 + rfp_red;
+	}
 };
 
 function get_datetime() {
