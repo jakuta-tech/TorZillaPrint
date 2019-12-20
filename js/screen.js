@@ -95,8 +95,12 @@ function get_version() {
 		if (e.message.substring(0,6) == "unders" ) { verNo="72"};
 	}
 	//73: 1594241
-	let rule73 = document.getElementById('test73').sheet.cssRules[0];
-	if (rule73.style.border == "") { verNo= "73+"};
+	try {
+		let rule73 = document.getElementById('test73').sheet.cssRules[0];
+		if (rule73.style.border == "") { verNo= "73+"};
+	} catch(e) {
+		console.debug("verNo 73 test", e.type, e.name, e.message)
+	}
 	// reminder: append + on last test
 
 	// set global var isVersion
