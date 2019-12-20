@@ -602,14 +602,17 @@ function get_os_line_scrollbar() {
 		strA = "[Android]";
 
 	// os: scrollbar width
+console.debug("scrollbar: started")
 	let t0 = performance.now();
 	let sbWidth = (window.innerWidth-vw);
 	let sbWidthZoom = sbWidth;
 	let sbOS = "", sbZoom = "";
+console.debug("scrollbar: variables set")
 	// note: only Mac OS X (el capitan or lower) have zero width?
 	if (sbWidth == 0) {sbOS= "[Mac OS X, mobile or floating scrollbars]";}
 	else if (sbWidth < 0) {sbOS= "[mobile]";}
 	else {
+console.debug("scrollbar: checking known metrics")
 	// start with known metrics at preset FF zoom levels
 		if (jsZoom == 300) {
 			if (sbWidth==6) {sbOS=strWL};
@@ -704,7 +707,9 @@ function get_os_line_scrollbar() {
 		};
 	};
 	// add in zoom info if relevant
+console.debug("scrollbar: about to check zoom info")
 	if (jsZoom == 100) {} else { sbZoom = " at "+jsZoom+"% "};
+console.debug("scrollbar: about to output")
 	dom.scrollbarWidth = sbWidth+"px " + sbZoom + sbOS;
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua scrollbar: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
