@@ -140,9 +140,13 @@ function get_viewport(type) {
 function get_zoom(type) {
 	let t0 = performance.now();
 	// js dpi
+console.debug("zoom: start")
 	let devicePixelRatio = window.devicePixelRatio || 1;
+
 	let dpi_x = Math.round(dom.divDPI.offsetWidth * devicePixelRatio);
+console.debug("dpi_x calculated", dpi_x)
 	let dpi_y = Math.round(dom.divDPI.offsetHeight * devicePixelRatio);
+console.debug("dpi_y calculated", dpi_y)
 	dom.jsDPI = dpi_x;
 	// matchmedia dpi: handles FF default zoom levels 30%-300%
 	let varDPI = (function () {
@@ -151,13 +155,20 @@ function get_zoom(type) {
 			return i;}
 		} return i;})();
 	dom.mmDPI = varDPI;
+console.debug("varDPI calculated", varDPI)
 	// zoom: calculate from js dpi vs mediaMatch dpi
 	// use devicePixelRatio if RFP is off
+console.debug("zoom: decide method")
 	if (window.devicePixelRatio == 1) {
+console.debug("zoom: method a")
 		jsZoom = Math.round((varDPI/dpi_x)*100).toString();
+console.debug("zoom: method a calculated", jsZoom)
 	} else {
+console.debug("zoom: method b")
 		jsZoom = Math.round(window.devicePixelRatio*100).toString();
+console.debug("zoom: method b calculated", jsZoom)
 	};
+console.debug("zoom: decide method finished")
 	// fixup some numbers
 	if (jsZoom == 79) {jsZoom=80};
 	if (jsZoom == 92) {jsZoom=90};
