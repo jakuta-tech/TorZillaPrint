@@ -602,12 +602,10 @@ function get_os_line_scrollbar() {
 		strA = "[Android]";
 
 	// os: scrollbar width
-console.debug("scrollbar: started")
 	let t0 = performance.now();
 	let sbWidth = (window.innerWidth-vw);
 	let sbWidthZoom = sbWidth;
 	let sbOS = "", sbZoom = "";
-console.debug("scrollbar: variables set")
 	// note: only Mac OS X (el capitan or lower) have zero width?
 	if (sbWidth == 0) {sbOS= "[Mac OS X, mobile or floating scrollbars]";}
 	else if (sbWidth < 0) {sbOS= "[mobile]";}
@@ -651,6 +649,7 @@ console.debug("scrollbar: checking known metrics")
 			if (sbWidth==14) {sbOS=strLM};
 			if (sbWidth==11) {sbOS=strL};
 		} else if (jsZoom == 100) {
+console.debug("scrollbar: jsZoom is 100")
 			if (sbWidth==17) {sbOS=strW};
 			if (sbWidth==16) {sbOS=strL};
 			if (sbWidth==15) {sbOS=strM};
@@ -685,7 +684,9 @@ console.debug("scrollbar: checking known metrics")
 			if (sbWidth==50) {sbOS=strM};
 			if (sbWidth==40) {sbOS=strL};
 		};
+console.debug("scrollbar: checking known metrics finished")
 		if (sbOS == "") {
+console.debug("scrollbar: os still unknown")
 			// not a preset FF zoom and known metric
 			if (jsZoom == 100) {}
 			else {
@@ -702,6 +703,7 @@ console.debug("scrollbar: checking known metrics")
 			// add in notation if this is a best guess
 			sbOS = sbOS+" [logical guess]"
 		} else {
+console.debug("scrollbar: adding known metric notation")
 			// add in notation if this is a known metric
 			sbOS = sbOS+" [known metric]"
 		};
