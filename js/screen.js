@@ -10,15 +10,15 @@ function isLB(w,h) {
 		hstep = 200,
 		lbw = false,
 		lbh = false;
-		if (w < 501) {wstep = 50} else if (w < 1601) {wstep = 100};
-		if (h < 501) {hstep = 50} else if (h < 1601) {hstep = 100};
-		lbw = Number.isInteger(w/wstep);
-		lbh = Number.isInteger(h/hstep);
-		if (lbw == true && lbh == true) {
-			return true
-		} else {
-			return false
-		}
+	if (w < 501) {wstep = 50} else if (w < 1601) {wstep = 100};
+	if (h < 501) {hstep = 50} else if (h < 1601) {hstep = 100};
+	lbw = Number.isInteger(w/wstep);
+	lbh = Number.isInteger(h/hstep);
+	if (lbw == true && lbh == true) {
+		return true
+	} else {
+		return false
+	}
 };
 
 function isNW(w,h) {
@@ -27,15 +27,15 @@ function isNW(w,h) {
 		hstep = 100,
 		nww = false,
 		nwh = false;
-		nww = Number.isInteger(w/wstep);
-		nwh = Number.isInteger(h/hstep);
-		if (w > 1000) {nww = false};
-		if (h > 1000) {nwh = false};
-		if (nww == true && nwh == true) {
-			return true
-		} else {
-			return false
-		}
+	nww = Number.isInteger(w/wstep);
+	nwh = Number.isInteger(h/hstep);
+	if (w > 1000) {nww = false};
+	if (h > 1000) {nwh = false};
+	if (nww == true && nwh == true) {
+		return true
+	} else {
+		return false
+	}
 };
 
 function get_version() {
@@ -92,8 +92,11 @@ function get_version() {
 	try {
 		let err72 = eval('let a = 100_00_;');
 	} catch(e) {
-		if (e.message.substring(0,6) == "unders" ) { verNo="72+"};
+		if (e.message.substring(0,6) == "unders" ) { verNo="72"};
 	}
+	//73: 1594241
+	let rule73 = document.getElementById('test73').sheet.cssRules[0];
+	if (rule73.style.border == "") { verNo= "73+"};
 	// reminder: append + on last test
 
 	// set global var isVersion
