@@ -603,6 +603,9 @@ function get_os_line_scrollbar() {
 
 	// os: scrollbar width
 	let t0 = performance.now();
+console.debug("scrollbar: start")
+console.debug("scrollbar: window", window.innerWidth)
+console.debug("scrollbar: vw", vw)
 	let sbWidth = (window.innerWidth-vw);
 	let sbWidthZoom = sbWidth;
 	let sbOS = "", sbZoom = "";
