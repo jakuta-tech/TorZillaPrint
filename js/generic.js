@@ -221,6 +221,7 @@ function outputSection(id, cls, page) {
 	if (id=="9") {reset_domrect()};
 	if (id=="10" && cls=="c2") {reset_audio2()};
 	if (id=="11" && cls=="c1") {reset_unicode()};
+	if (id=="18") {reset_misc()};
 	let delay = 150;
 	// delay output so users can see something happened
 	function output_delay() {
