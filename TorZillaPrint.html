@@ -770,30 +770,27 @@
 
 	<!-- TABLE 18: Miscellaneous - misc.js -->
 	<table id="tb18">
-		<col width="50%"><a name="misc"></a><col width="50%">
-		<thead><tr><th colspan="2">
+		<col width="12%"><a name="misc"></a><col width="38%"><col width="50%">
+		<thead><tr><th colspan="3">
 				<div class="nav-title"><a href="#misc">Miscellaneous</a>
 				<div class="nav-up"><a href="#spare2">&#9650;</a></div>
 				<div class="nav-down"><a href="#theend">&#9660;</a></div></div>
 		</th></tr></thead>
-		<tr><td><div>
+		<tr><td colspan="2"><div>
 				<div class="btn-left"><button class="btn18" onClick="outputSection(`18`, `c`, `m`)">[ re-run tests ]</button></div>
 				<div><div class="ttip"><span class="icon">[ i ]</span><span class="ttxt">beacon.enabled</span></div>
 				&nbsp [navigator] beacon</div></div></td><td class="c" id="nBeacon"></td></tr>
-		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">dom.events.asyncClipboard</span></div>
 			&nbsp [api] clipboard</td><td class="c" id="nClipboard"></td></tr>
-		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
-			<span class="ttxtb">dom.use_components_shim</span></div>
-			&nbsp component interfaces</td><td class="c mono" id="comshim"></td></tr>
-		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">dom.IntersectionObserver.enabled</span></div>
 			&nbsp [api] intersection observer</td><td class="c" id="intObserver"></td></tr>
-		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">mathml.disabled</span></div>
 			&nbsp mathml</td><td class="c" id="mathml"></td>
 		</tr>
-		<tr><td>[test example] mathml</td><td id="mathmltest">
+		<tr><td colspan="2">[test example] mathml</td><td id="mathmltest">
 				<math>
 				<mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form="prefix">&minus;</mo><mi>b</mi>
 				<mo>&PlusMinus;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>&minus;</mo><mn>4</mn>
@@ -802,24 +799,35 @@
 				</math>
 			</td>
 		</tr>
-		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">dom.media.mediasession.enabled</span></div>
 			&nbsp [api] mediaSession</td><td class="c" id="mediaSession"></td></tr>
-		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">dom.requestIdleCallback.enabled</span></div>
 			&nbsp requestIdleCallback</td><td class="c" id="reqIdleCB"></td></tr>
-		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">svg.disabled</span></div>
 			&nbsp svg</td><td class="c" id="svgBasicTest"></td></tr>
-		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">javascript.options.wasm</span></div>
 			&nbsp webassembly</td><td class="c" id="wasm"></td></tr>
-		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">security.webauth.webauthn<br>security.webauth.u2f</span></div>
-			&nbsp web authentication</td><td class="c" id="webauth"></td></tr>
-		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+			&nbsp web authentication | u2f</td><td class="c" id="webauth"></td></tr>
+		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">dom.webshare.enabled</span></div>
 			&nbsp [api] web share</td><td class="c" id="webshare"></td></tr>
+		<tr><td colspan="3" class="center">------</td></tr>
+		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
+			<span class="ttxtb">dom.use_components_shim</span></div>
+			&nbsp component interfaces</td><td class="c mono" id="comshim"></td></tr>
+		<tr><td colspan="2">navigator properties</td><td class="c mono" id="nProto"></td></tr>
+		<tr><td colspan="3" class="showhide">
+				<input id="collapseM2" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M2`)">
+				<label for="collapseM2" class="lbl-toggle" id="labelM2">&#9660; show details</label>
+		</td></tr>
+		<tr class="togM2"><td>components</td><td colspan="2" id="comshim2"></td></tr>
+		<tr class="togM2"><td>navigator</td><td colspan="2" id="nProto2"></td></tr>
 	</table>
 
 	<!-- TABLE 99 -->
