@@ -140,13 +140,12 @@ function get_viewport(type) {
 function get_zoom(type) {
 	let t0 = performance.now();
 	// js dpi
-console.debug("zoom: start")
 	let devicePixelRatio = window.devicePixelRatio || 1;
+	// divDPI relies on css: if css is blocked this causes issues
+console.debug("zoom: divDPI offets", dom.divDPI.offsetWidth, dom.divDPI.offsetHeight)
 
 	let dpi_x = Math.round(dom.divDPI.offsetWidth * devicePixelRatio);
-console.debug("dpi_x calculated", dpi_x)
 	let dpi_y = Math.round(dom.divDPI.offsetHeight * devicePixelRatio);
-console.debug("dpi_y calculated", dpi_y)
 	dom.jsDPI = dpi_x;
 	// matchmedia dpi: handles FF default zoom levels 30%-300%
 	let varDPI = (function () {
@@ -160,15 +159,13 @@ console.debug("varDPI calculated", varDPI)
 	// use devicePixelRatio if RFP is off
 console.debug("zoom: decide method")
 	if (window.devicePixelRatio == 1) {
-console.debug("zoom: method a")
+		// when css is blocked this get fucked
+		// instead of jsZoom = 100, I get 9
+		// instead of both 96, dpi_x = 1038 dpi_y = 0
 		jsZoom = Math.round((varDPI/dpi_x)*100).toString();
-console.debug("zoom: method a calculated", jsZoom)
 	} else {
-console.debug("zoom: method b")
 		jsZoom = Math.round(window.devicePixelRatio*100).toString();
-console.debug("zoom: method b calculated", jsZoom)
 	};
-console.debug("zoom: decide method finished")
 	// fixup some numbers
 	if (jsZoom == 79) {jsZoom=80};
 	if (jsZoom == 92) {jsZoom=90};
