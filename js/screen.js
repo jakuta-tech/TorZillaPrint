@@ -140,7 +140,6 @@ function get_viewport(type) {
 function get_zoom(type) {
 	let t0 = performance.now();
 	// js dpi
-console.debug("zoom: window.devicePixelRatio", window.devicePixelRatio)
 	let devicePixelRatio = window.devicePixelRatio || 1;
 	// divDPI relies on css: if css is blocked (dpi_y = 0) this causes issues
 	let dpi_x = Math.round(dom.divDPI.offsetWidth * devicePixelRatio);
@@ -655,7 +654,6 @@ function get_os_line_scrollbar() {
 			if (sbWidth==14) {sbOS=strLM};
 			if (sbWidth==11) {sbOS=strL};
 		} else if (jsZoom == 100) {
-console.debug("scrollbar: jsZoom is 100")
 			if (sbWidth==17) {sbOS=strW};
 			if (sbWidth==16) {sbOS=strL};
 			if (sbWidth==15) {sbOS=strM};
@@ -694,15 +692,16 @@ console.debug("scrollbar: jsZoom is 100")
 			// not a preset FF zoom and known metric
 			if (jsZoom == 100) {}
 			else {
-				// recalculate width based on zoom: this is not perfect
+				// recalculate scrollbar width based on zoom: this is not perfect
 				if (window.devicePixelRatio == 1) {
-console.debug("scrollbar: os unknown: devicePixelRatio = 1, recalc A width")
-					sbWidthZoom = sbWidth * (((varDPI/dpi_x)*100)/100);
-console.debug("scrollbar: os unknown: recalc A finished")
+console.debug("scrollbar: os unknown & dPR = 1, reclaculating scrollbar width")
+					try {
+						sbWidthZoom = sbWidth * (((varDPI/dpi_x)*100)/100);
+					} catch(e) {
+console.debug("scrollbar: error", e.type, e.name, e.message)
+					}
 				} else {
-console.debug("scrollbar: os unknown: devicePixelRatio != 1, recalc B width")
 					sbWidthZoom = sbWidth * window.devicePixelRatio;
-console.debug("scrollbar: os unknown: recalc B finished")
 				};
 			};
 			// os logic: need more Mac / Android data
@@ -711,7 +710,6 @@ console.debug("scrollbar: os unknown: recalc B finished")
 			// add in notation if this is a best guess
 			sbOS = sbOS+" [logical guess]"
 		} else {
-console.debug("scrollbar: adding known metric notation")
 			// add in notation if this is a known metric
 			sbOS = sbOS+" [known metric]"
 		};
