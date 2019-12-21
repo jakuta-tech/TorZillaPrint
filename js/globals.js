@@ -5,6 +5,7 @@ var firstW = window.innerWidth;
 
 var dom;
 var jsZoom;
+var varDPI;
 
 let sb = " <span class='bad'>",
 	sg = " <span class='good'>",
