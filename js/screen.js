@@ -2,6 +2,10 @@
 
 'use strict';
 
+var varDPI;
+var dpi_x;
+var dpi_y;
+
 /* FUNCTIONS */
 
 function isLB(w,h) {
@@ -142,8 +146,8 @@ function get_zoom(type) {
 	// js dpi
 	let devicePixelRatio = window.devicePixelRatio || 1;
 	// divDPI relies on css: if css is blocked (dpi_y = 0) this causes issues
-	let dpi_x = Math.round(dom.divDPI.offsetWidth * devicePixelRatio);
-	let dpi_y = Math.round(dom.divDPI.offsetHeight * devicePixelRatio);
+	dpi_x = Math.round(dom.divDPI.offsetWidth * devicePixelRatio);
+	dpi_y = Math.round(dom.divDPI.offsetHeight * devicePixelRatio);
 	dom.jsDPI = dpi_x;
 	// matchmedia dpi: handles FF default zoom levels 30%-300%
 	varDPI = (function () {
