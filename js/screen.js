@@ -146,11 +146,12 @@ function get_zoom(type) {
 	let dpi_y = Math.round(dom.divDPI.offsetHeight * devicePixelRatio);
 	dom.jsDPI = dpi_x;
 	// matchmedia dpi: handles FF default zoom levels 30%-300%
-	let varDPI = (function () {
-	for (let i = 27; i < 2000; i++) {
-		if (matchMedia("(max-resolution:" + i + "dpi)").matches === true) {
-			return i;}
-	} return i;})();
+	varDPI = (function () {
+		for (let i = 27; i < 2000; i++) {
+			if (matchMedia("(max-resolution:" + i + "dpi)").matches === true) {
+				return i;}
+		} return i;
+	})();
 	dom.mmDPI = varDPI;
 	// zoom: chose method
 	if (window.devicePixelRatio == 1) {
@@ -693,13 +694,9 @@ function get_os_line_scrollbar() {
 			if (jsZoom == 100) {}
 			else {
 				// recalculate scrollbar width based on zoom: this is not perfect
+				// why am I doing this? we're already past the known metrics
 				if (window.devicePixelRatio == 1) {
-console.debug("scrollbar: os unknown & dPR = 1, reclaculating scrollbar width")
-					try {
-						sbWidthZoom = sbWidth * (((varDPI/dpi_x)*100)/100);
-					} catch(e) {
-console.debug("scrollbar: error", e.type, e.name, e.message)
-					}
+					sbWidthZoom = sbWidth * (((varDPI/dpi_x)*100)/100);
 				} else {
 					sbWidthZoom = sbWidth * window.devicePixelRatio;
 				};
@@ -715,9 +712,7 @@ console.debug("scrollbar: error", e.type, e.name, e.message)
 		};
 	};
 	// add in zoom info if relevant
-console.debug("scrollbar: about to check zoom info")
 	if (jsZoom == 100) {} else { sbZoom = " at "+jsZoom+"% "};
-console.debug("scrollbar: about to output")
 	dom.scrollbarWidth = sbWidth+"px " + sbZoom + sbOS;
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua scrollbar: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
