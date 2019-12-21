@@ -71,7 +71,7 @@ var avh = "";
 var sDebug = false;
 
 // perf
-var mPerf = true; // minor
+var mPerf = false; // minor
 var sPerf = true; // section
 var sRerun = false // 
 var gt0;
