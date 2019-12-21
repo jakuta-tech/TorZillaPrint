@@ -140,10 +140,9 @@ function get_viewport(type) {
 function get_zoom(type) {
 	let t0 = performance.now();
 	// js dpi
+console.debug("zoom: window.devicePixelRatio", window.devicePixelRatio)
 	let devicePixelRatio = window.devicePixelRatio || 1;
-	// divDPI relies on css: if css is blocked this causes issues
-console.debug("zoom: divDPI offets", dom.divDPI.offsetWidth, dom.divDPI.offsetHeight)
-
+	// divDPI relies on css: if css is blocked (dpi_y = 0) this causes issues
 	let dpi_x = Math.round(dom.divDPI.offsetWidth * devicePixelRatio);
 	let dpi_y = Math.round(dom.divDPI.offsetHeight * devicePixelRatio);
 	dom.jsDPI = dpi_x;
@@ -152,18 +151,18 @@ console.debug("zoom: divDPI offets", dom.divDPI.offsetWidth, dom.divDPI.offsetHe
 	for (let i = 27; i < 2000; i++) {
 		if (matchMedia("(max-resolution:" + i + "dpi)").matches === true) {
 			return i;}
-		} return i;})();
+	} return i;})();
 	dom.mmDPI = varDPI;
-console.debug("varDPI calculated", varDPI)
-	// zoom: calculate from js dpi vs mediaMatch dpi
-	// use devicePixelRatio if RFP is off
-console.debug("zoom: decide method")
+	// zoom: chose method
 	if (window.devicePixelRatio == 1) {
-		// when css is blocked this get fucked
+		// could be spoofed
+		console.debug("zoom: check values", dpi_x, dpi_y, varDPI)
+		// when css is blocked (dpi_y = 0) this is fucked
 		// instead of jsZoom = 100, I get 9
 		// instead of both 96, dpi_x = 1038 dpi_y = 0
 		jsZoom = Math.round((varDPI/dpi_x)*100).toString();
 	} else {
+		// use devicePixelRatio if we know RFP is off
 		jsZoom = Math.round(window.devicePixelRatio*100).toString();
 	};
 	// fixup some numbers
@@ -611,9 +610,6 @@ function get_os_line_scrollbar() {
 
 	// os: scrollbar width
 	let t0 = performance.now();
-console.debug("scrollbar: start")
-console.debug("scrollbar: window", window.innerWidth)
-console.debug("scrollbar: vw", vw)
 	let sbWidth = (window.innerWidth-vw);
 	let sbWidthZoom = sbWidth;
 	let sbOS = "", sbZoom = "";
@@ -621,7 +617,6 @@ console.debug("scrollbar: vw", vw)
 	if (sbWidth == 0) {sbOS= "[Mac OS X, mobile or floating scrollbars]";}
 	else if (sbWidth < 0) {sbOS= "[mobile]";}
 	else {
-console.debug("scrollbar: checking known metrics")
 	// start with known metrics at preset FF zoom levels
 		if (jsZoom == 300) {
 			if (sbWidth==6) {sbOS=strWL};
@@ -695,17 +690,19 @@ console.debug("scrollbar: jsZoom is 100")
 			if (sbWidth==50) {sbOS=strM};
 			if (sbWidth==40) {sbOS=strL};
 		};
-console.debug("scrollbar: checking known metrics finished")
 		if (sbOS == "") {
-console.debug("scrollbar: os still unknown")
 			// not a preset FF zoom and known metric
 			if (jsZoom == 100) {}
 			else {
 				// recalculate width based on zoom: this is not perfect
 				if (window.devicePixelRatio == 1) {
+console.debug("scrollbar: os unknown: devicePixelRatio = 1, recalc A width")
 					sbWidthZoom = sbWidth * (((varDPI/dpi_x)*100)/100);
+console.debug("scrollbar: os unknown: recalc A finished")
 				} else {
+console.debug("scrollbar: os unknown: devicePixelRatio != 1, recalc B width")
 					sbWidthZoom = sbWidth * window.devicePixelRatio;
+console.debug("scrollbar: os unknown: recalc B finished")
 				};
 			};
 			// os logic: need more Mac / Android data
