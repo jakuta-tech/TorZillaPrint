@@ -102,9 +102,7 @@ function get_version() {
 	try {
 		let rule73 = document.getElementById('test73').sheet.cssRules[0];
 		if (rule73.style.border == "") { verNo= "73+"};
-	} catch(e) {
-		console.debug("verNo 73 test", e.type, e.name, e.message)
-	}
+	} catch(e) {}
 	// reminder: append + on last test
 
 	// set global var isVersion
@@ -158,16 +156,13 @@ function get_zoom(type) {
 	})();
 	dom.mmDPI = varDPI;
 	// zoom: chose method
-	if (window.devicePixelRatio == 1) {
-		// could be spoofed
-		console.debug("zoom: check values", dpi_x, dpi_y, varDPI)
-		// when css is blocked (dpi_y = 0) this is fucked
-		// instead of jsZoom = 100, I get 9
-		// instead of both 96, dpi_x = 1038 dpi_y = 0
-		jsZoom = Math.round((varDPI/dpi_x)*100).toString();
-	} else {
+	if (window.devicePixelRatio !== 1 || dpi_y == 0) {
 		// use devicePixelRatio if we know RFP is off
+		// or if css is blocked (dpi_y = 0, dpi_x = body width)
 		jsZoom = Math.round(window.devicePixelRatio*100).toString();
+	} else {
+		// otherwise it could be spoofed
+		jsZoom = Math.round((varDPI/dpi_x)*100).toString();
 	};
 	// fixup some numbers
 	if (jsZoom == 79) {jsZoom=80};
@@ -622,6 +617,7 @@ function get_os_line_scrollbar() {
 	else if (sbWidth < 0) {sbOS= "[mobile]";}
 	else {
 	// start with known metrics at preset FF zoom levels
+	// nightly (windows) always seems to have diff results at some zoom levels
 		if (jsZoom == 300) {
 			if (sbWidth==6) {sbOS=strWL};
 			if (sbWidth==5) {sbOS=strWM};
@@ -646,10 +642,11 @@ function get_os_line_scrollbar() {
 			if (sbWidth==8) {sbOS=strL};
 		} else if (jsZoom == 133) {
 			if (sbWidth==13) {sbOS=strW};
-			if (sbWidth==12) {sbOS=strL};
+			if (sbWidth==12) {sbOS=strWL};
 			if (sbWidth==11) {sbOS=strM};
 			if (sbWidth==9) {sbOS=strL};
 		} else if (jsZoom == 120) {
+			if (sbWidth==15) {sbOS=strW};
 			if (sbWidth==14) {sbOS=strWL};
 			if (sbWidth==12) {sbOS=strM};
 			if (sbWidth==10) {sbOS=strL};
@@ -694,20 +691,25 @@ function get_os_line_scrollbar() {
 			if (sbWidth==40) {sbOS=strL};
 		};
 		if (sbOS == "") {
-			// not a preset FF zoom and known metric
-			if (jsZoom == 100) {}
-			else {
-				// recalculate scrollbar width based on zoom: this is not perfect
-				// why am I doing this? we're already past the known metrics
-				if (window.devicePixelRatio == 1) {
-					sbWidthZoom = sbWidth * (((varDPI/dpi_x)*100)/100);
-				} else {
+			// not a known zoom+metric
+			if (jsZoom !== 100) {
+				// what would scrollbar width be at 100%: this is not perfect
+				if (window.devicePixelRatio !== 1 || dpi_y == 0) {
+					// RFP is off or css is blocked
+					console.debug("[A] calculating scrollbar at 100%");
 					sbWidthZoom = sbWidth * window.devicePixelRatio;
+				} else {
+					// otherwise
+					console.debug("[B] calculating scrollbar at 100%");
+					sbWidthZoom = sbWidth * (((varDPI/dpi_x)*100)/100);
 				};
 			};
-			// os logic: need more Mac / Android data
-			// for now at least always return Linux as a minimum
-			if (sbWidthZoom>=16.5) {sbOS=strW} else {sbOS=strL};
+			// return something for os  based on calculated width at 100%
+			if (sbWidthZoom>=16.5) {
+				sbOS=strW // in testing only windows matches this
+			} else {
+				sbOS=strL // otherwise linux (andoid caught at 0, and mac is hopefully covered)
+			};
 			// add in notation if this is a best guess
 			sbOS = sbOS+" [logical guess]"
 		} else {
