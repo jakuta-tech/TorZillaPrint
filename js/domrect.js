@@ -7,7 +7,7 @@
 	 https://github.com/kkapsner/CanvasBlocker */
 
 var t0dr;
-var timerdr = 2000;
+var timerdr = 2500;
 
 function reset_domrect() {
 	// clear details
@@ -21,12 +21,12 @@ function reset_domrect() {
 
 function remove_domrect(type) {
 
-	// remove listener and iframe
+	// remove listener + iframe
 	let ifdr = dom.ifdr;
 	ifdr.removeEventListener("load", test_domrect);
 	document.getElementById("drect").removeChild(ifdr);
 
-	// output error notation
+	// error notation
 	if (type !== "") {
 		let str = "";
 		if (type == "cors") {str = error_file_cors};
@@ -40,11 +40,9 @@ function remove_domrect(type) {
 	}
 
 	// perf
-	if (sPerf) {
-		let t1 = performance.now(), warning = "";
-		if (type == "iframe") {warning = "timed out [" + timerdr + "]"}
-		outputDebug("1", "domrect", t1-t0dr, (t1 - gt0), warning);
-	};
+	let t1 = performance.now(), warning = "";
+	if (type == "iframe") {warning = "timed out [" + timerdr + "]"}
+	outputDebug("1", "domrect", t1-t0dr, (t1 - gt0), warning);
 
 }
 
@@ -128,9 +126,7 @@ function outputDomRect() {
 	t0dr = performance.now();
 
 	// adjust timer
-	// go quite high: if blocking iframes, they can wait
-	timerdr = 2500;
-	if (isMajorOS == "android" | isTorBrowser) {timerdr = 3500};
+	if (isOS == "android" | isTB) {timerdr = 3500};
 
 	// start timer
 	setTimeout(function(){
@@ -147,7 +143,7 @@ function outputDomRect() {
 	// create & append iframe, set src, start listener
 	let iframe = document.createElement("iframe");
 	iframe.id = "ifdr";
-	document.getElementById("drect").appendChild(iframe);
+	dom.drect.appendChild(iframe);
 	iframe.src = "iframes/domrect.html";
 	iframe.addEventListener("load", test_domrect);
 
