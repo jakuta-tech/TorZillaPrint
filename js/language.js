@@ -48,15 +48,14 @@ function get_app_lang_dtd1() {
 			};
 		}
 	});
-	// keep checking for dtd1 not blank, but stop after x tries
+	// keep checking dtd1 not blank, but stop after x tries
 	let counter = 0;
 	function check_dtd1() {
 		if (counter < 30) {
 			if (dtd1 !== "") {
 				clearInterval(checking);
-				// if en-US then append good or bad
+				// notate
 				if (navigator.language == "en-US") {
-					// 4496d79dd1843c7c743647b45b4f0d76abf46bfe = the en-US error string
 					if (sha1(dtd1) == "4496d79dd1843c7c743647b45b4f0d76abf46bfe") {
 						dtd1 = enUS_green + dtd1;
 					} else {
@@ -84,8 +83,6 @@ function get_app_lang_dtd2() {
 	dtd2 = "";
 	function output_dtd2(output) {
 		dom.appLang3.innerHTML = output;
-		// unload iframe
-		//iframe.src="";
 		let t1 = performance.now();
 		if (mPerf) {console.debug("app lang dtd2: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 	};
@@ -96,13 +93,13 @@ function get_app_lang_dtd2() {
 		window.addEventListener('message', ({ data }) => dtd2 = data);
 		iframe.contentWindow.postMessage('foo', '*');
 	});
-	// keep checking for dtd2 not blank, but stop after x tries
+	// keep checking dtd2 not blank, but stop after x tries
 	let counter = 0;
 	function check_dtd2() {
 		if (counter < 30) {
 			if (dtd2 !== "") {
 				clearInterval(checking);
-				// if en-US then append good or bad
+				// notate
 				if (navigator.language == "en-US") {
 					if (sha1(dtd2) == "4496d79dd1843c7c743647b45b4f0d76abf46bfe") {
 						dtd2 = enUS_green + dtd2;
@@ -114,7 +111,7 @@ function get_app_lang_dtd2() {
 			}
 		} else {
 			clearInterval(checking);
-			output_dtd2("<span class='good'>[bugzilla 467035]</span>");
+			output_dtd2(sg+"[bugzilla 467035]"+sc);
 		}
 		counter++;
 	}
@@ -135,7 +132,7 @@ function get_app_lang_mediadocument() {
 	function run_mediadocument() {
 		try {
 			let output = (iframe.contentWindow.document.title);
-			// if en-US then append good or bad
+			// notate
 			if (navigator.language == "en-US") {
 				if (sha1(output) == "12ad5833d780efdd0d7e66432a1abab3afd9901d") {
 					output = enUS_green + output;
@@ -172,11 +169,8 @@ function get_app_lang_mediadocument() {
 	let image = document.getElementById("imageTest");
 	image.src="images/dummy.png"; // 1px high
 	let counter = 0;
-	let maxcounter = 40; // 2 seconds
-	// wait longer for tor browser due to latency
-	if (isTorBrowser == true) {
-		maxcounter = 60 // 3 seconds
-	}
+	let maxcounter = 40; // 2 secs
+	if (isTB == true) {maxcounter = 60} // 3 secs: TB latency
 	function check_image() {
 		if (counter < maxcounter) {
 			if (image.offsetHeight == 1) {
@@ -214,17 +208,36 @@ function get_app_lang_xmlparser() {
 		output = output.slice(0,start) + output.slice(start+end,output.length);
 	};
 	// output
-	if (navigator.language !== "en-US") {
-		// if not en-US then it doesn't matter
-		dom.appLang5 = output
-	} else {
-		// if en-US then append good or bad
+	if (navigator.language == "en-US") {
+		// notate
 		if (sha1(output) === "0e4bcf212e9bcdae045444087659ffc9672c7582") {
-			dom.appLang5.innerHTML = enUS_green + output;
+			output = enUS_green + output;
 		} else {
-			dom.appLang5.innerHTML = enUS_red + output;
+			output = enUS_red + output;
 		}
 	}
+	dom.appLang5.innerHTML = output
+};
+
+function outputAppLanguage() {
+	// FF only
+	if (isFF == true) {
+		// dom.properties
+		let str = dom.appLang_1.validationMessage;
+		if (navigator.language == "en-US") {
+			// notate
+			if (sha1(str) == "c17ee6480cdfbdc082000efe84ca520283b761ef") {
+				str = enUS_green + str;
+			} else {
+				str = enUS_red + str;
+			}
+		}
+		dom.appLang1.innerHTML = str;
+		// the others
+		get_app_lang_xmlparser();
+		get_app_lang_dtd2();
+		test_iframe(); // fires last two PoCs
+	};
 };
 
 function test_iframe() {
@@ -267,10 +280,9 @@ function test_iframe() {
 
 	// keep checking if iframe success, but stop after x tries
 	let counter = 0;
-	let maxcounter = 40; // 2 seconds
-	// wait longer for tor browser due to latency
-	if (isTorBrowser == true) {
-		maxcounter = 60 // 3 seconds
+	let maxcounter = 40; // 2 secs
+	if (isTB == true) {
+		maxcounter = 60 // 3 secs: allow for TB latency
 	}
 	function check_iframe() {
 		if (counter < maxcounter) {
@@ -392,7 +404,7 @@ function get_datetime() {
 				+ ", " + concat_parts("1", "quarter");
 			dom.dtf18.innerHTML = tmp18;
 		} catch(e) {
-			tmp18 = (is70 == false ? ns : "supported <span class='bad'>[error: bad developer]</span>");
+			tmp18 = (is70 == false ? ns : "supported" + sb + "[error: bad developer]" + sc);
 			dom.dtf18.innerHTML = tmp18;
 		};
 	} catch(e) {
@@ -425,7 +437,7 @@ function get_datetime() {
 				tmp19 = tmp19 + " | 'unit' " + ns; // future catch-all?
 			}
 		}
-		// todo: what else can we add?
+		// ToDo: Intl.NumberFormat: add more types
 
 		// output
 		//console.debug("tmp19", tmp19);
@@ -459,9 +471,8 @@ function get_datetime() {
 			}
 		}
 	}
-	// concat types: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat/formatToParts
 	try {
-		// todo: currency, fraction, literal, plusSign (use a UTC time ahead GMT?), percentSign
+		// ToDo: formatToParts Intl.NumberFormat: add more types: currency/fraction/literal/percentSign/plusSign(use a UTC time ahead GMT?)
 		// decimal
 		type20 = "decimal";
 		str20 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(1000.2)[3]);
@@ -482,7 +493,6 @@ function get_datetime() {
 		type20 = "nan";
 		str20 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(4/5 + "%")[0]);
 		tmp20 = tmp20 + " | " + clean_string(type20, str20, false);
-		//console.debug("tmp20:" + tmp20);
 		// output
 		dom.dtf20.innerHTML = tmp20;
 	} catch(e) {
@@ -533,32 +543,38 @@ function get_datetime() {
 	//console.debug(lHash2);
 	lHash2 = sha1(lHash2);
 	dom.lHash2 = lHash2;
+
 	// add notation
-	let ff = "";
-	if (lHash2 == "314af3976e066468f7e68492ee320ddd3036353f") {
-		// FF72+: [formatToParts] Intl.NumberFormat
-		lHash2 = lHash2 + spoof_both_green; ff = " [FF72+]";
-	} else if (lHash2 == "e55df382836729c0460b77089dcb38218f854616") {
-		// FF71: [formatToParts] Intl.NumberFormat: diff error message
-		lHash2 = lHash2 + spoof_both_green; ff = " [FF71]";
-	} else if (lHash2 == "42c210e719845128b2df77275e96fd7fe1304013") {
-		// FF70+: [BigInt] Intl.NumberFormat
-		// FF70+: [BigInt] toLocaleString
-		lHash2 = lHash2 + spoof_both_green; ff = " [FF70]";
-	} else if (lHash2 == "1e6adada983598231470eea446329446c68dd875") {
-		// FF68+: BigInt
-		lHash2 = lHash2 + spoof_both_green; ff = " [FF68-69]";
-	} else if (lHash2 == "5da7d7dfdc8638edeab4e8fce5a07ed3e7b78d19") {
-		// FF65+: Intl.RelativeTimeFormat
-		lHash2 = lHash2 + spoof_both_green; ff = " [FF65-67]";
-	} else if (lHash2 == "fd7213bbb4a67c29ca9f3e1522c351b50b867be9") {
-		// FF63+: CUT
-		lHash2 = lHash2 + spoof_both_green; ff = " [FF63-64]";
-	} else if (lHash2 == "09ec48d99814d7ec532b0add024fb75ea252037b") {
-		// FF60-62: UTC
-		lHash2 = lHash2 + spoof_both_green; ff = " [FF60-62]";
-	} else {
-		// something is amiss
+	let ff = "", yup = spoof_both_green;
+	// these require bTZ=true, skip if false
+	// toggle bTZ to simulate RFP's TZ
+	if (bTZ) {
+		if (lHash2 == "314af3976e066468f7e68492ee320ddd3036353f") {
+			// FF72+: [formatToParts] Intl.NumberFormat
+			lHash2 += yup; ff = " [FF72+]";
+		} else if (lHash2 == "e55df382836729c0460b77089dcb38218f854616") {
+			// FF71: [formatToParts] Intl.NumberFormat: diff error message
+			lHash2 += yup; ff = " [FF71]";
+		} else if (lHash2 == "42c210e719845128b2df77275e96fd7fe1304013") {
+			// FF70+: [BigInt] Intl.NumberFormat
+			// FF70+: [BigInt] toLocaleString
+			lHash2 += yup; ff = " [FF70]";
+		} else if (lHash2 == "1e6adada983598231470eea446329446c68dd875") {
+			// FF68+: BigInt
+			lHash2 += yup; ff = " [FF68-69]";
+		} else if (lHash2 == "5da7d7dfdc8638edeab4e8fce5a07ed3e7b78d19") {
+			// FF65+: Intl.RelativeTimeFormat
+			lHash2 += yup; ff = " [FF65-67]";
+		} else if (lHash2 == "fd7213bbb4a67c29ca9f3e1522c351b50b867be9") {
+			// FF63+: CUT
+			lHash2 += yup; ff = " [FF63-64]";
+		} else if (lHash2 == "09ec48d99814d7ec532b0add024fb75ea252037b") {
+			// FF60-62: UTC
+			lHash2 += yup; ff = " [FF60-62]";
+		}
+	}
+	// something is amiss
+	if (ff == "") {
 		if (bTZ == true) {
 			// timezone
 			// state1: both green: see above
@@ -573,29 +589,8 @@ function get_datetime() {
 			lHash2 = lHash2 + spoof_both_red;
 		};
 	};
-	if (isFirefox == true) { lHash2 = lHash2 + ff};
+	if (isFF == true) { lHash2 = lHash2 + ff};
 	dom.lHash2.innerHTML = lHash2
-};
-
-function outputAppLanguage() {
-	// app lang pocs: FF only
-	if (isFirefox == true) {
-		let tmpStr = document.getElementById("appLang_1").validationMessage;
-		if (navigator.language !== "en-US") {
-			// if not en-US then it doesn't matter
-			dom.appLang1 = tmpStr;
-		} else {
-			// if en-US then append good or bad
-			if (sha1(tmpStr) == "c17ee6480cdfbdc082000efe84ca520283b761ef") {
-				dom.appLang1.innerHTML = enUS_green + tmpStr;
-			} else {
-				dom.appLang1.innerHTML = enUS_red + tmpStr;
-			}
-		}
-		get_app_lang_xmlparser();
-		get_app_lang_dtd2();
-		test_iframe(); // this starts the dtd1 and MediaDocument PoCs
-	};
 };
 
 function outputLanguage() {
@@ -607,7 +602,8 @@ function outputLanguage() {
 	get_geo();
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {outputDebug("1", "language", (t1-t0), (t1 - gt0))};
+	outputDebug("1", "language", (t1-t0), (t1 - gt0));
 };
 
 outputLanguage();
+
