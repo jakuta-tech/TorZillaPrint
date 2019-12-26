@@ -193,6 +193,11 @@ table td.sub11 {color: var(--test11);}
 	background-image: url("about:logo"), url("");
 	background-size: auto 100%;	background-repeat: no-repeat;	background-position: 10px 0px;
 }
+#fdBrandingCss {
+	background-image: url("chrome://branding/content/about-wordmark.svg"), url("");
+	background-size: auto 100%;	background-repeat: no-repeat;	background-position: 10px 0px;
+}
+
 /* line-height */
 .cssLH {font-size: 16px; font-family: "Times New Roman", Times, serif;}
 
