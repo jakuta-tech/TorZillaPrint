@@ -14,43 +14,30 @@ function getUniqueElements() {
 };
 
 function outputDebug(type, str1, str2, str3, str4) {
-	let strA="", // pretty
-		strB =""; // console
-
-	// dom
-	let e = document.getElementById("debug"+type)
-	if (type == "1") {
-		str2 = str2.toString();
-		strA = str1.padStart(12) + ": " + "<span class='neutral'>" + str2.padStart(4) + "</span> ms"
-		if (str3 !== undefined && str3 !== "") {
-			// only output running time if not a section rerun
-			if (sRerun == false) {
-				str3 = str3.toString();
-				strA = strA + " | <span class='orange'>" + str3.padStart(4) + "</span> ms"
+	if (isPage == "main") {
+		let str="";
+		let e = document.getElementById("debug"+type)
+		if (type == "1") {
+			str2 = str2.toString();
+			str = str1.padStart(12) + ": " + sn + str2.padStart(4) + sc + " ms"
+			if (str3 !== undefined && str3 !== "") {
+				// only output running time if not a section rerun
+				if (sRerun == false) {
+					str3 = str3.toString();
+					str = str + " | " + so + str3.padStart(4) + sc + " ms"
+				}
 			}
+			if (str4 !== undefined && str4 !== "") {
+				// warning
+				str += " |" + sb+ str4 + sc
+			}
+			e.innerHTML = e.innerHTML + "<br>" + str
+		} else {
+			str = str1
+			e.innerHTML = e.innerHTML + str + "<br>"
 		}
-		if (str4 !== undefined && str4 !== "") {
-			// warning
-			strA = strA + " |" + sb+ str4 + sc
-		}
-		if (isPage == "main") {e.innerHTML = e.innerHTML + "<br>" + strA;}
-	} else {
-		strA = str1
-		if (isPage == "main") {e.innerHTML = e.innerHTML + strA + "<br>";}
 	}
-
-	// console
-	if (type == "1") {
-		strB = " ** section " + str1 + ": " + str2 + " ms"
-		if (str3 !== undefined & str3 !=="") {
-			strB = strB + " | " + str3 + " ms"
-		}
-		if (str4 !== undefined && str4 !== "") {
-			strB = strB + " | " + str4
-		}
-		console.debug(strB);
-	}
-}
+};
 
 function showhide(toggleType, toggleID, togWord) {
 	var xyz = document.getElementsByClassName("tog"+toggleID);
@@ -217,19 +204,22 @@ function outputSection(id, cls, page) {
 	let tbl = document.getElementById("tb"+id);
 	tbl.querySelectorAll(`.${cls}`).forEach(e => {e.innerHTML = "&nbsp";});
 	// clear details if applicable
-	if (id=="1") {dom.kbt.value = ""};
-	if (id=="9") {reset_domrect()};
-	if (id=="10" && cls=="c2") {reset_audio2()};
-	if (id=="11" && cls=="c1") {reset_unicode()};
-	if (id=="18") {reset_misc()};
-	let delay = 150;
+	if (page == "m") {
+		if (id=="1") {dom.kbt.value = ""};
+		if (id=="7") {reset_devices()};
+		if (id=="9") {reset_domrect()};
+		if (id=="10" && cls=="c2") {reset_audio2()};
+		if (id=="11" && cls=="c1") {reset_unicode()};
+		if (id=="18") {reset_misc()};
+	};
+	let delay = 170;
 	// delay output so users can see something happened
 	function output_delay() {
 		clearInterval(checking);
 		// reset global timer
 		gt0 = performance.now();
 		if (page=="m") {
-			if (id=="1") {outputScreen()};
+			if (id=="1") {outputScreen("rerun")};
 			if (id=="2") {outputUA()};
 			if (id=="3") {outputMath()};
 			if (id=="4" && cls=="c") {outputLanguage()};
