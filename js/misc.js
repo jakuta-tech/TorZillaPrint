@@ -6,68 +6,81 @@ function countCharacter(str, char) {
     return str.split('').reduce((a, x) => x === char ? ++a : a, 0);
 };
 
+function get_components() {
+	let t0 = performance.now();
+	let comshim = (typeof Components === "undefined") ? "undefined" : Object.getOwnPropertyNames(Components.interfaces).join("~");
+	dom.comshim2 = comshim.replace(/~/g, ", ");
+	if (comshim !== "undefined") { comshim = sha1(comshim) + " [" + comshim.split('~').length + " items]"; };
+	dom.comshim = comshim;
+	dom.comshim2.style.color = zshow;
+	// perf
+	let t1 = performance.now();
+	if (mPerf) {console.debug("misc components: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+};
+
+function get_mathml(type) {
+	let t0 = performance.now();
+	// compare control to test
+	if (type !== "load") {
+		// rebuild test: only if not loading the page
+		let mathmlString = "<math><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form='prefix'>&minus;</mo><mi>b</mi>"+
+			"<mo>&PlusMinus;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>&minus;</mo><mn>4</mn>"+
+			"<mo>&InvisibleTimes;</mo><mi>a</mi><mo>&InvisibleTimes;</mo><mi>c</mi></msqrt></mrow>"+
+			"<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>a</mi></mrow></mfrac></mrow></math>";
+		dom.mathmltest.innerHTML = mathmlString;
+		dom.mathmltest.style.color = zshow;
+	}
+	// measure
+	let mathmltest = dom.mathmltest.offsetHeight;
+	let mathmlnone = dom.nOnLine.offsetHeight; // a row with plain text and info icon
+	let mdiff = Math.abs(mathmltest-mathmlnone);
+	// use a range: zoom affects line height: mathml enabled the diff is > 20
+	dom.mathml.innerHTML = (mdiff < 10 ?
+		"disabled | line height difference: "+ mdiff+ tb_safer  :
+		"enabled | line height difference: "+ mdiff+ tb_standard
+	);
+	// perf
+	let t1 = performance.now();
+	if (mPerf) {console.debug("misc mathml: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+};
+
+function get_nav_prototype() {
+	let t0 = performance.now();
+	let nProto = Object.keys(Object.getPrototypeOf(navigator)).join("~");
+	dom.nProto = sha1(nProto) + " [" + nProto.split('~').length + " items]";
+	dom.nProto2 = nProto.replace(/~/g, ", ");
+	dom.nProto2.style.color = zshow;
+	// perf
+	let t1 = performance.now();
+	if (mPerf) {console.debug("misc navigator properties: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+};
+
 function get_svg() {
-	// create svg
-	let svg1 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-	svg1.setAttribute("width", "100");
-	svg1.setAttribute("height", "100");
-	// create circle
+	let t0 = performance.now();
+	// svg
+	let s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+	s.setAttribute("width", "100");
+	s.setAttribute("height", "100");
+	// circle
 	let c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
 	c.setAttributeNS(null,"cx",50);
 	c.setAttributeNS(null,"cy",50);
 	c.setAttributeNS(null,"r",40);
-	// attach circle to svg and svg to element
-	svg1.appendChild(c);
-	dom.svgDiv.appendChild(svg1);
+	// attach circle->svg->element
+	s.appendChild(c);
+	dom.svgDiv.appendChild(s);
 	// output
 	dom.svgBasicTest = (dom.svgDiv.offsetHeight > 0 ? "enabled" : "disabled");
 	// remove
-	document.getElementById("svgDiv").removeChild(svg1);
-}
+	dom.svgDiv.removeChild(s);
+	// perf
+	let t1 = performance.now();
+	if (mPerf) {console.debug("misc svg: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+};
 
-function reset_misc() {
-	// change font color: try not to shrink/grow elements
-	dom.nProto2.style.color = "#1a1a1a";
-	dom.comshim2.style.color = "#1a1a1a";
-}
-
-function outputMisc() {
+function get_wasm() {
 	let t0 = performance.now();
-	let e = "enabled", d = "disabled";
-
-	// beacon.enabled
-	dom.nBeacon = (navigator.sendBeacon ? e : d);
-	// dom.events.asyncClipboard
-	dom.nClipboard = ("clipboard" in navigator ? e: d); // FF63+
-	// dom.requestIdleCallback.enabled
-	dom.reqIdleCB = ("requestIdleCallback" in window ? e: d);
-	// dom.media.mediasession.enabled
-	dom.mediaSession = ("mediaSession" in navigator ? e: d); // FF71+
-	// security.webauth.webauthn / security.webauth.u2f
-	dom.webauth = ("credentials" in navigator ? e: d) + " | " + ("u2f" in window ? e: d);
-	// dom.webshare.enabled
-	dom.webshare = (navigator.share ? e : d)
-
-	// mathml: control/none = visible + no distortion of height: compare control to test
-	let mathmlString = "<math><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form='prefix'>&minus;</mo><mi>b</mi>"+
-		"<mo>&PlusMinus;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>&minus;</mo><mn>4</mn>"+
-		"<mo>&InvisibleTimes;</mo><mi>a</mi><mo>&InvisibleTimes;</mo><mi>c</mi></msqrt></mrow>"+
-		"<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>a</mi></mrow></mfrac></mrow></math>";
-	document.getElementById("mathmltest").innerHTML = mathmlString;
-	let mathmlnone = document.getElementById("pReducedMotion").offsetHeight;
-	let mathmltest = document.getElementById("mathmltest").offsetHeight;
-	dom.mathml.innerHTML = (mathmltest == mathmlnone ? d + slider_safer : e + slider_standard);
-
-	// dom.IntersectionObserver.enabled
-	let callback = function(entries, observer) {};
-	try {
-		let observer = new IntersectionObserver(callback);
-		dom.intObserver = e
-	} catch(e) {
-		dom.intObserver = d
-	};
-
-	// javascript.options.wasm
+	// wasm
 	let supported = (() => {
 		try {
 			if (typeof WebAssembly === "object"	&& typeof WebAssembly.instantiate === "function") {
@@ -78,28 +91,63 @@ function outputMisc() {
 		} catch (e) {}
 		return false;
 	})();
-	// dom.wasm.innerHTML = (supported ? e + slider_standard : d + slider_safer); // currently only alpha
-	dom.wasm = (supported ? e : d );
+	// dom.wasm.innerHTML = (supported ? e + tb_standard : d + tb_safer); // currently only alpha
+	dom.wasm = (supported ? "enabled" : "disabled" );
+	// perf
+	let t1 = performance.now();
+	if (mPerf) {console.debug("misc wasm: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+};
 
-	// dom.use_components_shim
-	let comshim = (typeof Components === "undefined") ? "undefined" : Object.getOwnPropertyNames(Components.interfaces).join("~");
-	dom.comshim2 = comshim.replace(/~/g, ", ");
-	if (comshim !== "undefined") { comshim = sha1(comshim) + " [" + comshim.split('~').length + " items]"; };
-	dom.comshim = comshim;
-	dom.comshim2.style.color = "#b3b3b3";
+function reset_misc() {
+	// hide w/ color: don't shrink elements
+	dom.nProto2.style.color = zhide;
+	dom.comshim2.style.color = zhide;
+	dom.mathmltest.style.color = zhide;
+}
 
-	// navigator prototype
-	let nProto = Object.keys(Object.getPrototypeOf(navigator)).join("~");
-	dom.nProto = sha1(nProto) + " [" + nProto.split('~').length + " items]";
-	dom.nProto2 = nProto.replace(/~/g, ", ");
-	dom.nProto2.style.color = "#b3b3b3";
+function outputMisc(type) {
+	let t0 = performance.now();
+	let e = "enabled", d = "disabled";
 
-	// svg.disabled
+	// one-liners (1ms)
+	dom.nBeacon = (navigator.sendBeacon ? e : d);
+	dom.nClipboard = ("clipboard" in navigator ? e: d); // FF63+
+	dom.reqIdleCB = ("requestIdleCallback" in window ? e: d);
+	dom.mediaSession = ("mediaSession" in navigator ? e: d); // FF71+
+	dom.webauth = ("credentials" in navigator ? e: d) + " | " + ("u2f" in window ? e: d);
+	dom.webshare = (navigator.share ? e : d)
+
+	// functions
 	get_svg();
+	get_mathml(type);
+	get_wasm();
+	get_components();
+	get_nav_prototype();
+
+	// intersection observer
+	let callback = function(entries, observer) {};
+	try {
+		let observer = new IntersectionObserver(callback);
+		dom.intObserver = e
+	} catch(e) {
+		dom.intObserver = d
+	};
+
+
+	// a11y, AOM (accessability object model), HTML5 accessibility
+	// accessibility.force_disabled
+
+	// window properties
+	// ToDo: window properties: put into array, strip duplicates(case insensitive), ignore ones from my code
+	//let wProto = "", wcounter = 0;
+	//Object.getOwnPropertyNames(window)
+	//	.forEach(function(v, x) {wProto = wProto + v + "~"; wcounter++;});
+	//console.debug(wProto)
+	//dom.wProps = sha1(wProto) + " [" + wcounter + " items]";
 
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {outputDebug("1", "misc", (t1-t0), (t1 - gt0))};
+	outputDebug("1", "misc", (t1-t0), (t1 - gt0));
 };
 
-outputMisc();
+outputMisc("load");
