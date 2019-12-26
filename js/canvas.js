@@ -8,48 +8,46 @@
 - tiny modifications by newbie Thorin-Oakenpants */
 
 function append_canvas_notation() {
-	// temp string assume not the RFP hash
-	let str = rfp_red;
-	if ((location.protocol) == "file:") {
-		str = note_file
-	};
+	// assume rfp_red
+	let str = rfp_red, g = rfp_green;
+	if ((location.protocol) == "file:") {str = note_file};
 	// append notation
 	if (dom.cnv2.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc") {
-		dom.cnv2.innerHTML = dom.cnv2.textContent + rfp_green
+		dom.cnv2.innerHTML = dom.cnv2.textContent + g
 	} else {
 		dom.cnv2.innerHTML = dom.cnv2.textContent + str
 	};
 	if (dom.cnv3.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc") {
-		dom.cnv3.innerHTML = dom.cnv3.textContent + rfp_green
+		dom.cnv3.innerHTML = dom.cnv3.textContent + g
 	} else {
 		dom.cnv3.innerHTML = dom.cnv3.textContent + str
 	};
 	if (dom.cnv4.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc") {
-		dom.cnv4.innerHTML = dom.cnv4.textContent + rfp_green
+		dom.cnv4.innerHTML = dom.cnv4.textContent + g
 	} else {
 		if (cnv4.innerHTML !== "not supported") {
 			dom.cnv4.innerHTML = dom.cnv4.textContent + str
 		}
 	};
 	if (dom.cnv5.textContent == "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282") {
-		dom.cnv5.innerHTML = dom.cnv5.textContent + rfp_green
+		dom.cnv5.innerHTML = dom.cnv5.textContent + g
 	} else {
 		dom.cnv5.innerHTML = dom.cnv5.textContent + str
 	};
 	if (dom.cnv7.textContent == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8") {
-		dom.cnv7.innerHTML = dom.cnv7.textContent + rfp_green
+		dom.cnv7.innerHTML = dom.cnv7.textContent + g
 	} else {
 		dom.cnv7.innerHTML = dom.cnv7.textContent + str
 	};
 	if (dom.cnv8.textContent == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8") {
-		dom.cnv8.innerHTML = dom.cnv8.textContent + rfp_green
+		dom.cnv8.innerHTML = dom.cnv8.textContent + g
 	} else {
 		dom.cnv8.innerHTML = dom.cnv8.textContent + str
 	};
 	if (sha1(dom.cnv11.textContent) == "47bf7060be2764c531da228da96bd771b14917a1") {
-		dom.cnv11.innerHTML = dom.cnv11.textContent + slider_standard
+		dom.cnv11.innerHTML = dom.cnv11.textContent + tb_standard
 	} else if (sha1(dom.cnv11.textContent) == "80505e817edc581bfff3e1f9137d52efbc183f03") {
-		dom.cnv11.innerHTML = dom.cnv11.textContent + slider_safer
+		dom.cnv11.innerHTML = dom.cnv11.textContent + tb_safer
 	};
 };
 
@@ -354,9 +352,9 @@ var canvas = {
 function outputCanvas() {
 	let t0 = performance.now();
 	outCounter = 0;
-	canvas.output(canvas.createHashes(window), document.getElementById("tb8"));
+	canvas.output(canvas.createHashes(window), dom.tb8);
 	let t1 = performance.now();
-	if (sPerf) {outputDebug("1", "canvas", (t1-t0), (t1 - gt0))};
+	outputDebug("1", "canvas", (t1-t0), (t1 - gt0));
 };
 
 outputCanvas();
