@@ -2,111 +2,130 @@
 
 'use strict';
 
-var varDPI;
-var dpi_x;
-var dpi_y;
+var jsZoom, varDPI, dpi_x, dpi_y;
 
 /* FUNCTIONS */
 
-function isLB(w,h) {
-	// note: we only ever call this if zoom is 100%
-	let wstep = 200,
-		hstep = 200,
-		lbw = false,
-		lbh = false;
+function isInner(w,h) {
+	// only call if zoom = 100%
+	let r = ""
+	// LB
+	let wstep = 200, hstep = 200, bw = false, bh = false;
 	if (w < 501) {wstep = 50} else if (w < 1601) {wstep = 100};
 	if (h < 501) {hstep = 50} else if (h < 1601) {hstep = 100};
-	lbw = Number.isInteger(w/wstep);
-	lbh = Number.isInteger(h/hstep);
-	if (lbw == true && lbh == true) {
-		return true
-	} else {
-		return false
-	}
-};
-
-function isNW(w,h) {
-	// note: we only ever call this if zoom is 100%
-	let wstep = 200,
-		hstep = 100,
-		nww = false,
-		nwh = false;
-	nww = Number.isInteger(w/wstep);
-	nwh = Number.isInteger(h/hstep);
-	if (w > 1000) {nww = false};
-	if (h > 1000) {nwh = false};
-	if (nww == true && nwh == true) {
-		return true
-	} else {
-		return false
-	}
+	bw = Number.isInteger(w/wstep);
+	bh = Number.isInteger(h/hstep);
+	r = ((bw && bh) ? lb_green : lb_red );
+	// new win
+	wstep = 200, hstep = 100, bw = false, bh = false;
+	if (w < 1001) {bw = Number.isInteger(w/wstep)};
+	if (h < 1001) {bh = Number.isInteger(h/hstep)};
+	r = ((bw && bh) ? r += nw_green : r += nw_red );
+	return r
 };
 
 function get_version() {
 	let t0 = performance.now();
-	//<59
-	let verNo="59 or lower";
-	//60
-	try {(Object.getOwnPropertyDescriptor(Document.prototype, "body")
-		|| Object.getOwnPropertyDescriptor(HTMLDocument.prototype, "body")).get.call((new DOMParser).parseFromString(
-			"<html xmlns='http://www.w3.org/1999/xhtml'><body/></html>","application/xhtml+xml")) !== null; verNo="60";
-	} catch(e) {};
-	//61
-	let str61=" meh";
-	try {str61 = str61.trimStart(); verNo="61"} catch(e) {};
-	//62
-	console.time("ver62");
-	try {console.timeLog("ver62"); verNo="62"} catch(e) {};
-	console.timeEnd("ver62");
-	//63
-	if (Symbol.for(`foo`).description == "foo"){ verNo="63"};
-	//64
-	if (window.screenLeft == undefined){} else { verNo="64"};
-	//65
-	try {const rtf = new Intl.RelativeTimeFormat("en", {style: "long",}); verNo="65"} catch(e) {};
-	//66
-	try {
-		let str66 = "66 test";
-		const textEncoder = new TextEncoder();
-		const utf8 = new Uint8Array(str66.length);
-		let encodedResults = textEncoder.encodeInto(str66, utf8);
-		verNo="66"
-	} catch(e) {};
-	//67
-	if (!Symbol.hasOwnProperty('matchAll')) {} else { verNo="67"};
-	//68
-	let obj68 = document.getElementById('obj68');
-	if (obj68.typeMustMatch == false) {} else { verNo="68"};
-	//69
-	try {let err69 = new DOMError('name');} catch(e) { verNo="69"};
-	//70: 1541861
-	try {
-		let el = document.createElement('style');
-		document.head.appendChild(el);
-		el.sheet.deleteRule(0);
-	} catch(e) {
-		if (e.message.substring(0,6) == "Cannot") { verNo="70"};
-	}
-	//71: 1565991
-	try {
-		document.createElement("canvas").getContext("2d").createPattern(new Image(), "no-repeat");
-		verNo="71"
-	} catch(e) {}
-	//72: 1589072
-	try {
-		let err72 = eval('let a = 100_00_;');
-	} catch(e) {
-		if (e.message.substring(0,6) == "unders" ) { verNo="72"};
-	}
-	//73: 1594241
-	try {
-		let rule73 = document.getElementById('test73').sheet.cssRules[0];
-		if (rule73.style.border == "") { verNo= "73+"};
-	} catch(e) {}
-	// reminder: append + on last test
+	let go = true,
+		verNo = "";
+	// reminder: append + on first test
 
-	// set global var isVersion
-	if (isVersion == "") {isVersion = verNo.replace(/\D/g,'')};
+	//73: 1594241 (3 or 4ms)
+	// ToDo: replace this: slow and breaks if css is blocked
+	if (go) {
+		try {
+			let rule73 = dom.test73.sheet.cssRules[0];
+			if (rule73.style.border == "") { verNo= "73+"; go = false};
+		} catch(e) {}
+	}
+	//72: 1589072 (0ms)
+	if (go) {
+		try {
+			let err72 = eval('let a = 100_00_;');
+		} catch(e) {
+			if (e.message.substring(0,6) == "unders" ) { verNo="72"; go = false};
+		}
+	}
+	//71: 1565991 (0ms)
+	if (go) {
+		try {
+			document.createElement("canvas").getContext("2d").createPattern(new Image(), "no-repeat");
+			verNo="71"; go = false
+		} catch(e) {}
+	}
+	//70: 1541861 (1ms)
+	if (go) {
+		try {
+			let el = document.createElement('style');
+			document.head.appendChild(el);
+			el.sheet.deleteRule(0);
+		} catch(e) {
+			if (e.message.substring(0,6) == "Cannot") { verNo="70"; go = false};
+		}
+	}
+	//69 (0ms)
+	if (go) {
+		try {let err69 = new DOMError('name');} catch(e) { verNo="69"; go = false};
+	}
+	//68 (0ms)
+	if (go) {
+		let obj68 = dom.obj68;
+		if (obj68.typeMustMatch == false) {} else { verNo="68"; go = false};
+	}
+	//67 (0ms)
+	if (go) {
+		if (!Symbol.hasOwnProperty('matchAll')) {} else { verNo="67"; go = false};
+	}
+	//66 (0ms)
+	if (go) {
+		try {
+			let str66 = "66 test";
+			const textEncoder = new TextEncoder();
+			const utf8 = new Uint8Array(str66.length);
+			let encodedResults = textEncoder.encodeInto(str66, utf8);
+			verNo="66"; go = false
+		} catch(e) {};
+	}
+	//65 (1ms)
+	if (go) {
+		try {
+			const rtf = new Intl.RelativeTimeFormat("en", {style: "long",});
+			verNo="65"; go = false
+		} catch(e) {};
+	}
+	//64 (0ms)
+	if (go) {
+		if (window.screenLeft == undefined){} else { verNo="64"; go = false};
+	}
+	//63 (0ms)
+	if (go) {
+		if (Symbol.for(`foo`).description == "foo"){ verNo="63"; go = false};
+	}
+	//62 (2ms)
+	if (go) {
+		console.time("ver62");
+		try {console.timeLog("ver62"); verNo="62"; go = false} catch(e) {};
+		console.timeEnd("ver62");
+	}
+	//61 (0ms)
+	if (go) {
+		let str61=" meh";
+		try {str61 = str61.trimStart(); verNo="61"; go = false} catch(e) {};
+	}
+	//60 (1ms)
+	if (go) {
+		try {(Object.getOwnPropertyDescriptor(Document.prototype, "body")
+			|| Object.getOwnPropertyDescriptor(HTMLDocument.prototype, "body")).get.call((new DOMParser).parseFromString(
+				"<html xmlns='http://www.w3.org/1999/xhtml'><body/></html>","application/xhtml+xml")) !== null;
+			verNo="60"; go = false
+		} catch(e) {};
+	}
+	//<59
+	if (go) {
+		verNo="59 or lower";
+	}
+	// set isVer
+	if (isVer == "") {isVer = verNo.replace(/\D/g,'')};
 	// perf
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua version: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
@@ -114,7 +133,6 @@ function get_version() {
 };
 
 function get_viewport(type) {
-	let t0 = performance.now();
 	let e=document.createElement("div");
 	e.style.cssText="position:fixed;top:0;left:0;bottom:0;right:0;";
 	document.documentElement.insertBefore(e,document.documentElement.firstChild);
@@ -122,39 +140,32 @@ function get_viewport(type) {
 		vh=e.offsetHeight;
 	document.documentElement.removeChild(e);
 	dom.Viewport = vw + " x " + vh;
-	let t1 = performance.now();
-	if (mPerf) {
-		if (type !== "resize") {
-			console.debug(type + " viewport: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
-		}
-	// get the android viewport height once on first load
-	// this is always the value when the toolbar is visible (except if in FS)
-	if (avh == "") {
-		avh = vh;
-	}
+	// get android viewport height once on first load
+	// this s/be the value with toolbar visible (except in FS)
+	if (avh == "") {avh = vh}
+	// return
 	if (type == "ua") {
-		return vw; // called from scrollbar function
+		return vw; // scrollbar
 	} else {
-		return vh; // vh used in android screen tests
+		return vh; // android tests
 	};
 };
 
 function get_zoom(type) {
 	let t0 = performance.now();
-	// js dpi
+
+	// devicePixelRatio
 	let devicePixelRatio = window.devicePixelRatio || 1;
+
+	// dpi
+	varDPI = get_mm_dpi("dpi");
+	dom.mmDPI = varDPI + " | " + get_mm_dpi("dppx") + " | " + get_mm_dpi("dpcm") ;
+
 	// divDPI relies on css: if css is blocked (dpi_y = 0) this causes issues
 	dpi_x = Math.round(dom.divDPI.offsetWidth * devicePixelRatio);
 	dpi_y = Math.round(dom.divDPI.offsetHeight * devicePixelRatio);
 	dom.jsDPI = dpi_x;
-	// matchmedia dpi: handles FF default zoom levels 30%-300%
-	varDPI = (function () {
-		for (let i = 27; i < 2000; i++) {
-			if (matchMedia("(max-resolution:" + i + "dpi)").matches === true) {
-				return i;}
-		} return i;
-	})();
-	dom.mmDPI = varDPI;
+
 	// zoom: chose method
 	if (window.devicePixelRatio !== 1 || dpi_y == 0) {
 		// use devicePixelRatio if we know RFP is off
@@ -164,19 +175,26 @@ function get_zoom(type) {
 		// otherwise it could be spoofed
 		jsZoom = Math.round((varDPI/dpi_x)*100).toString();
 	};
+
+	// ToDo: zoom: css=blocked (dpi_y == 0) AND RFP=true: detect this state
+	// Can't guarantee zoom: notate output for zoom, css line height, scollbar width
+
 	// fixup some numbers
-	if (jsZoom == 79) {jsZoom=80};
-	if (jsZoom == 92) {jsZoom=90};
-	if (jsZoom == 109) {jsZoom=110};
-	if (jsZoom == 111) {jsZoom=110};
-	if (jsZoom == 121) {jsZoom=120};
-	if (jsZoom == 131) {jsZoom=133};
-	if (jsZoom == 167) {jsZoom=170};
-	if (jsZoom == 171) {jsZoom=170};
-	if (jsZoom == 172) {jsZoom=170};
-	if (jsZoom == 241) {jsZoom=240};
-	if (jsZoom == 250) {jsZoom=240};
+	if (jsZoom !== 100) {
+		if (jsZoom == 79) {jsZoom=80}
+		if (jsZoom == 92) {jsZoom=90}
+		if (jsZoom == 109) {jsZoom=110}
+		if (jsZoom == 111) {jsZoom=110}
+		if (jsZoom == 121) {jsZoom=120}
+		if (jsZoom == 131) {jsZoom=133}
+		if (jsZoom == 167) {jsZoom=170}
+		if (jsZoom == 171) {jsZoom=170}
+		if (jsZoom == 172) {jsZoom=170}
+		if (jsZoom == 241) {jsZoom=240}
+		if (jsZoom == 250) {jsZoom=240}
+	}
 	dom.jsZoom = jsZoom;
+	// perf
 	if (type !== "resize") {
 		if (mPerf) {
 			let t1 = performance.now();
@@ -187,22 +205,17 @@ function get_zoom(type) {
 };
 
 function get_orientation() {
-	dom.ScrOrient = (function () {
-		let o = screen.msOrientation || (screen.orientation || screen.mozOrientation || {}).type;
-		if (o === "landscape-primary") return "landscape";
-		if (o === "landscape-secondary") return "landscape upside down";
-		if (o === "portrait-secondary" || o === "portrait-primary") return "portrait";
-		if (o === undefined) return "undefined";
-	})();
+	let l = "landscape", p = "portrait", q ="(orientation: ";
 	dom.mmOrient = (function () {
-		if (window.matchMedia("(orientation: portrait)").matches) return "portrait";
-		if (window.matchMedia("(orientation: landscape)").matches) return "landscape";
+		if (window.matchMedia(q+p+")").matches) return p;
+		if (window.matchMedia(q+l+")").matches) return l;
 	})();
-	dom.mathOrient = (function () {
-		// dirty hack: doesn't always work e.g. if a smartphone keyboard reduces the height
-		if (window.innerHeight === window.innerWidth) return "square";
-		if (window.innerHeight < window.innerWidth) return "landscape";
-		return "portrait";
+	dom.ScrOrient = (function () {
+		let o = (screen.orientation || screen.mozOrientation || {}).type;
+		if (o === l+"-primary") return l;
+		if (o === l+"-secondary") return l+" upside down";
+		if (o === p+"-secondary" || o === "portrait-primary") return p;
+		if (o === undefined) return "undefined";
 	})();
 };
 
@@ -220,7 +233,23 @@ function get_private_win() {
 	};
 };
 
-function get_matchmedia_metrics() {
+function get_mm_dpi(type) {
+	let result = "",
+		q = "(max-resolution:"
+	try {
+		result = (function () {
+			for (let i = 1; i < 2000; i++) {
+				if (matchMedia(q + i + type + ")").matches === true) {
+					return i;}
+			} return i;
+		})();
+	} catch(e) {
+		result = "error"
+	}
+	return result
+};
+
+function get_mm_metrics() {
 
 	// promises and output
 	function runTest(callback){
@@ -292,10 +321,6 @@ function get_matchmedia_metrics() {
 				let pivot = (minValue + maxValue) / 2;
 				return tester(pivot).then(function(testResult){
 					if (testResult === searchValue.isEqual){
-						// we could round down since we use min- in our css files to be consistent
-						// but showing decimals increases entropy by being different to window or screen
-						// i.e AFAICT when devicePixelRatio !=1 on some figures this produces decimals
-						// return Math.floor(pivot); // round down
 						return pivot;
 					}
 					else if (testResult === searchValue.isBigger){
@@ -341,38 +366,29 @@ function get_screen_metrics(type) {
 	dom.ScrRes = screen.width+" x "+screen.height+" ("+screen.left+","+screen.top+")";
 	dom.ScrAvail = screen.availWidth+" x "+screen.availHeight+" ("+screen.availLeft+","+screen.availTop+")";
 	dom.WndOut = window.outerWidth+" x "+window.outerHeight+" ("+window.screenX+","+window.screenY+")";
-	let w = window.innerWidth,
-		h = window.innerHeight;
+	dom.DevPR = window.devicePixelRatio;
 	dom.fsState = window.fullScreen;
 	// inner
+	let w = window.innerWidth,
+		h = window.innerHeight;
 	let strTemp = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")";
-	if (isMajorOS == "android") {
+	if (isOS == "android") {
 		dom.WndIn = strTemp;
 	} else {
-		// desktop only: letterboxing
-		get_zoom("resize");
+		if (type !== "screen") {
+			get_zoom("resize");
+			get_viewport("resize");
+		}
 		if (jsZoom == 100) {
-			// only calculate if 100% zoom
-			if (isLB(w,h) == true) {
-				strTemp = strTemp + lb_green;
-			} else {
-				strTemp = strTemp + lb_red;
-			};
-			if (isNW(w,h) == true) {
-				strTemp = strTemp + nw_green;
-			} else {
-				strTemp = strTemp + nw_red;
-			};
-			dom.WndIn.innerHTML = strTemp
+			// add LB and NW notation
+			dom.WndIn.innerHTML = strTemp + isInner(w,h);
 		} else {
 			// not 100% zoom
 			dom.WndIn.innerHTML = strTemp + lb_orange;
 		}
 	};
-	if (type !== "screen") {
-		get_viewport("resize");
-	};
-	get_matchmedia_metrics();
+	get_mm_metrics();
+	get_orientation();
 }
 
 function get_fullscreen() {
@@ -391,55 +407,28 @@ function get_fullscreen() {
 
 function get_browser_errors() {
 	let t0 = performance.now();
-	let errh = ""; // string we concat and hash
-	// InternalError
-	try {
-		// method3: ~6ms
-		if (isFirefox == true) {
-			let lfLogBuffer = `if (lfCodeBuffer) loadFile(lfCodeBuffer);
-				function loadFile(await ) { eval(lfVarx);}`;
-			lfLogBuffer = lfLogBuffer.split('\n');
-			let lfCodeBuffer = "";
-			while (true) {
-				let line = lfLogBuffer.shift();
-				if (line == null) {
-					break;
-				} else {
-					lfCodeBuffer += line + "\n";
-				}
-			}
-			if (lfCodeBuffer) loadFile(lfCodeBuffer);
-			function loadFile(lfVarx) {
-				eval(lfVarx);
-			}
-		} else {
-			dom.err1.innerHTML = sb+"[excluded on non Firefox browsers]"+sc;
-		}
-	} catch(e) {
-		dom.err1=e;
-		errh = errh+e
-	};
+	let errh = ""; // string to hash
 	// RangeError
 	try {
 		let foodate = new Date(),
 			bar = new Date(foodate.endDate).toISOString();
 	} catch(e) {
-		dom.err2=e;
-		errh = errh+e
+		dom.err1=e;
+		errh += e
 	};
 	// ReferenceError
 	try {
 		foo=2
 	} catch(e) {
-		dom.err3=e;
-		errh = errh+e
+		dom.err2=e;
+		errh += e
 	};
 	// SyntaxError
 	try {
 		eval("alert('Hello)");
 	} catch(e) {
-		dom.err4=e;
-		errh = errh+e
+		dom.err3=e;
+		errh += e
 	};
 	// TypeError
 	try {
@@ -449,27 +438,27 @@ function get_browser_errors() {
 		}
 		window.onload = foobar();
 	} catch(e) {
-		dom.err5=e;
-		errh = errh+e
+		dom.err4=e;
+		errh += e
 	};
 	// TypeError
 	try {
 		var bar = new Date(bar[0].endDate).toISOString()
 	} catch(e) {
-		dom.err6=e;
-		errh = errh+e
+		dom.err5=e;
+		errh += e
 	};
 	// URIError
 	try {
 		decodeURIComponent("%")
 	} catch(e) {
-		dom.err7=e;
-		errh = errh+e
+		dom.err6=e;
+		errh += e
 	};
 	// error hash
 	errh = sha1(errh);
 	dom.errh = errh;
-	if (errh == "5ed4ad7ad001e60c30f31c52d994510bac1ca556") {
+	if (errh == "32e7cf958b5c1a791392fe7c70ed51474ec49e79") {
 		dom.fdError = "Firefox"
 	};
 	let t1 = performance.now();
@@ -481,35 +470,34 @@ function get_browser_resource() {
 	let t0 = performance.now();
 
 	// about:logo: desktop 300x236 vs 258x99 android dimensions
-	let imgLogoA = new Image();
-	imgLogoA.src = "about:logo";
-	imgLogoA.style.visibility = "hidden";
-	document.body.appendChild(imgLogoA);
-	imgLogoA.addEventListener("load", function() {
-		if (imgLogoA.width == 300) {
-			// change displayed resource to icon64 (not on android)
+	let imgA = new Image();
+	imgA.src = "about:logo";
+	imgA.style.visibility = "hidden";
+	document.body.appendChild(imgA);
+	imgA.addEventListener("load", function() {
+		if (imgA.width == 300) {
+			// change displayed resource to icon64
 			dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/icon64.png')";
 		};
-		if (imgLogoA.width > 0) {dom.fdResource = "Firefox"};
-		document.body.removeChild(imgLogoA);
+		if (imgA.width > 0) {dom.fdResource = "Firefox"};
+		document.body.removeChild(imgA);
 	});
 
-	// browser: chrome: refine if Tor Browser desktop
-	let imgLogoB = new Image();
-	imgLogoB.src = "resource://onboarding/img/tor-watermark.png";
-	imgLogoB.style.visibility = "hidden";
-	document.body.appendChild(imgLogoB);
-	imgLogoB.addEventListener("load", function() {
-		if (imgLogoB.width > 0) {
+	// browser: chrome: refine if TB desktop
+	let imgB = new Image();
+	imgB.src = "resource://onboarding/img/tor-watermark.png";
+	imgB.style.visibility = "hidden";
+	document.body.appendChild(imgB);
+	imgB.addEventListener("load", function() {
+		if (imgB.width > 0) {
 			dom.fdResource = "Tor Browser";
-			// set isTorBrowser
-			isTorBrowser = true;
+			// set isTB
+			isTB = true;
 			outputDebug("2", "     resource:// = tor-watermark.png")
 		};
-		document.body.removeChild(imgLogoB);
+		document.body.removeChild(imgB);
 	});
-	// need something for TB for Android
-
+	// ToDo: browser resource: TB Android
 
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua resource browser: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
@@ -517,7 +505,7 @@ function get_browser_resource() {
 
 function get_os_chrome() {
 	let t0 = performance.now();
-	// variables
+	// vars
 	let b = "chrome://branding/content/",
 		c = "chrome://browser/content/",
 		s = "chrome://browser/skin/",
@@ -525,11 +513,11 @@ function get_os_chrome() {
 		imgUris = [b+'icon64.png', s+'Toolbar-win7.png', s+'sync-horizontalbar-XPVista7.png'],
 		cssUris = [c+'extension-win-panel.css', c+'extension-mac-panel.css'],
 		objCount = 0;
-	// so we can output as soon as possible
+	// output
 	function output_os_chrome(type) {
 		dom.fdChromeOS = type;
 		let t1 = performance.now();
-		if (sPerf) {outputDebug("1", "[chrome] ua", (t1-t0), (t1 - gt0))};
+		outputDebug("1", "[chrome] ua", (t1-t0), (t1 - gt0));
 	};
 	// chrome:// css
 	cssUris.forEach(function(cssUri) {
@@ -574,7 +562,7 @@ function get_os_chrome() {
 			objCount++;
 		};
 	});
-	// check until we have tested 5 items
+	// check until all 5 tested
 	function check_linux() {
 		if (objCount == 5) {
 			clearInterval(checking);
@@ -609,129 +597,129 @@ function get_os_line_scrollbar() {
 
 	// os: scrollbar width
 	let t0 = performance.now();
-	let sbWidth = (window.innerWidth-vw);
-	let sbWidthZoom = sbWidth;
-	let sbOS = "", sbZoom = "";
-	// note: only Mac OS X (el capitan or lower) have zero width?
-	if (sbWidth == 0) {sbOS= "[Mac OS X, mobile or floating scrollbars]";}
-	else if (sbWidth < 0) {sbOS= "[mobile]";}
-	else {
-	// start with known metrics at preset FF zoom levels
-	// nightly (windows) always seems to have diff results at some zoom levels
-		if (jsZoom == 300) {
-			if (sbWidth==6) {sbOS=strWL};
-			if (sbWidth==5) {sbOS=strWM};
-			if (sbWidth==4) {sbOS=strL};
+	let w = (window.innerWidth-vw);
+	let wZoom = w;
+	let os = "", sbZoom = "";
+	if (w == 0) {
+		os= "[Mac OS X, mobile or floating scrollbars]"
+	} else if (w < 0) {
+		os= "[mobile]"
+	}	else {
+	// known metrics
+	// ToDo: scrollbar width: keep checking nightly vs dev (always some diffs)
+		if (jsZoom == 100) {
+			if (w==17) {os=strW};
+			if (w==16) {os=strL};
+			if (w==15) {os=strM};
+			if (w==12) {os=strL};
+		} else if (jsZoom == 300) {
+			if (w==6) {os=strWL};
+			if (w==5) {os=strWM};
+			if (w==4) {os=strL};
 		} else if (jsZoom == 240) {
-			if (sbWidth==7) {sbOS=strWM};
-			if (sbWidth==6) {sbOS=strL};
-			if (sbWidth==5) {sbOS=strL};
+			if (w==7) {os=strWM};
+			if (w==6) {os=strL};
+			if (w==5) {os=strL};
 		} else if (jsZoom == 200) {
-			if (sbWidth==9) {sbOS=strW};
-			if (sbWidth==8) {sbOS=strWLM};
-			if (sbWidth==7) {sbOS=strM};
-			if (sbWidth==6) {sbOS=strL};
+			if (w==9) {os=strW};
+			if (w==8) {os=strWLM};
+			if (w==7) {os=strM};
+			if (w==6) {os=strL};
 		} else if (jsZoom == 170) {
-			if (sbWidth==10) {sbOS=strWL};
-			if (sbWidth==8) {sbOS=strM};
-			if (sbWidth==7) {sbOS=strL};
+			if (w==10) {os=strWL};
+			if (w==8) {os=strM};
+			if (w==7) {os=strL};
 		} else if (jsZoom == 150) {
-			if (sbWidth==12) {sbOS=strW};
-			if (sbWidth==11) {sbOS=strW};
-			if (sbWidth==10) {sbOS=strLM};
-			if (sbWidth==8) {sbOS=strL};
+			if (w==12) {os=strW};
+			if (w==11) {os=strW};
+			if (w==10) {os=strLM};
+			if (w==8) {os=strL};
 		} else if (jsZoom == 133) {
-			if (sbWidth==13) {sbOS=strW};
-			if (sbWidth==12) {sbOS=strWL};
-			if (sbWidth==11) {sbOS=strM};
-			if (sbWidth==9) {sbOS=strL};
+			if (w==13) {os=strW};
+			if (w==12) {os=strWL};
+			if (w==11) {os=strM};
+			if (w==9) {os=strL};
 		} else if (jsZoom == 120) {
-			if (sbWidth==15) {sbOS=strW};
-			if (sbWidth==14) {sbOS=strWL};
-			if (sbWidth==12) {sbOS=strM};
-			if (sbWidth==10) {sbOS=strL};
+			if (w==15) {os=strW};
+			if (w==14) {os=strWL};
+			if (w==12) {os=strM};
+			if (w==10) {os=strL};
 		} else if (jsZoom == 110) {
-			if (sbWidth==16) {sbOS=strW};
-			if (sbWidth==15) {sbOS=strW};
-			if (sbWidth==14) {sbOS=strLM};
-			if (sbWidth==11) {sbOS=strL};
-		} else if (jsZoom == 100) {
-			if (sbWidth==17) {sbOS=strW};
-			if (sbWidth==16) {sbOS=strL};
-			if (sbWidth==15) {sbOS=strM};
-			if (sbWidth==12) {sbOS=strL};
+			if (w==16) {os=strW};
+			if (w==15) {os=strW};
+			if (w==14) {os=strLM};
+			if (w==11) {os=strL};
 		} else if (jsZoom == 90) {
-		if (sbWidth==19) {sbOS=strW};
-			if (sbWidth==18) {sbOS=strL};
-			if (sbWidth==17) {sbOS=strM};
-			if (sbWidth==16) {sbOS=strM};
-			if (sbWidth==13) {sbOS=strL};
+			if (w==19) {os=strW};
+			if (w==18) {os=strL};
+			if (w==17) {os=strM};
+			if (w==16) {os=strM};
+			if (w==13) {os=strL};
 		} else if (jsZoom == 80) {
-			if (sbWidth==21) {sbOS=strW};
-			if (sbWidth==20) {sbOS=strL};
-			if (sbWidth==19) {sbOS=strM};
-			if (sbWidth==15) {sbOS=strL};
+			if (w==21) {os=strW};
+			if (w==20) {os=strL};
+			if (w==19) {os=strM};
+			if (w==15) {os=strL};
 		} else if (jsZoom == 67) {
-			if (sbWidth==26) {sbOS=strW};
-			if (sbWidth==25) {sbOS=strW};
-			if (sbWidth==24) {sbOS=strL};
-			if (sbWidth==23) {sbOS=strM};
-			if (sbWidth==22) {sbOS=strM};
-			if (sbWidth==18) {sbOS=strL};
+			if (w==26) {os=strW};
+			if (w==25) {os=strW};
+			if (w==24) {os=strL};
+			if (w==23) {os=strM};
+			if (w==22) {os=strM};
+			if (w==18) {os=strL};
 		} else if (jsZoom == 50) {
-			if (sbWidth==34) {sbOS=strW};
-			if (sbWidth==32) {sbOS=strL};
-			if (sbWidth==30) {sbOS=strM};
-			if (sbWidth==24) {sbOS=strL};
+			if (w==34) {os=strW};
+			if (w==32) {os=strL};
+			if (w==30) {os=strM};
+			if (w==24) {os=strL};
 		} else if (jsZoom == 30) {
-			if (sbWidth==57) {sbOS=strW};
-			if (sbWidth==56) {sbOS=strW};
-			if (sbWidth==54) {sbOS=strL};
-			if (sbWidth==50) {sbOS=strM};
-			if (sbWidth==40) {sbOS=strL};
+			if (w==57) {os=strW};
+			if (w==56) {os=strW};
+			if (w==54) {os=strL};
+			if (w==50) {os=strM};
+			if (w==40) {os=strL};
 		};
-		if (sbOS == "") {
-			// not a known zoom+metric
+		if (os != "") {
+			// known metric
+			os += " [known metric]"
+		} else {
+			// still unknown
 			if (jsZoom !== 100) {
-				// what would scrollbar width be at 100%: this is not perfect
+				// recalc scrollbar at 100% for final guess: not perfect
 				if (window.devicePixelRatio !== 1 || dpi_y == 0) {
 					// RFP is off or css is blocked
-					console.debug("[A] calculating scrollbar at 100%");
-					sbWidthZoom = sbWidth * window.devicePixelRatio;
+					wZoom = w * window.devicePixelRatio;
 				} else {
-					// otherwise
-					console.debug("[B] calculating scrollbar at 100%");
-					sbWidthZoom = sbWidth * (((varDPI/dpi_x)*100)/100);
+					wZoom = w * (((varDPI/dpi_x)*100)/100);
 				};
 			};
-			// return something for os  based on calculated width at 100%
-			if (sbWidthZoom>=16.5) {
-				sbOS=strW // in testing only windows matches this
+			// final guess
+			if (wZoom>=16.5) {
+				os=strW // in testing = windows only
 			} else {
-				sbOS=strL // otherwise linux (andoid caught at 0, and mac is hopefully covered)
+				os=strL // guess linux (andoid s/be 0, mac s/be covered)
 			};
-			// add in notation if this is a best guess
-			sbOS = sbOS+" [logical guess]"
-		} else {
-			// add in notation if this is a known metric
-			sbOS = sbOS+" [known metric]"
+			// guess notation
+			os += " [logical guess]"
 		};
 	};
-	// add in zoom info if relevant
+	// zoom notation
 	if (jsZoom == 100) {} else { sbZoom = " at "+jsZoom+"% "};
-	dom.scrollbarWidth = sbWidth+"px " + sbZoom + sbOS;
+	// output
+	dom.scrollbarWidth = w+"px " + sbZoom + os;
+	// perf
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua scrollbar: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 
 	// os: css line-height
 	t0 = performance.now();
 	// get line-height
-	let myLHElem = document.getElementById("spanLH");
+	let myLHElem = dom.spanLH;
 	let lh = getComputedStyle(myLHElem).getPropertyValue("line-height");
 	let lhCR = "";
-	// bugzilla 1536871: fall back to clientrect: use div height
+	// 1536871: use clientrect div height
 	if (lh == "normal") {
-		let testLHdiv = document.getElementById("divLH");
+		let testLHdiv = dom.divLH;
 		let elementDiv = testLHdiv.getBoundingClientRect();
 		let newlh = elementDiv.height;
 		// more than 4 decimal places
@@ -739,119 +727,123 @@ function get_os_line_scrollbar() {
 			newlh = newlh.toFixed(4);
 		};
 		lh = newlh.toString();
-		lhCR = " <span class='neutral'>[clientrect]</span> normal <span class='good'>[getComputedStyle]</span>";
-		// todo: detect clientrect randomizing
+		lhCR = sn + "[clientrect]" + sc + " normal" + sg + "[getComputedStyle]" + sc;
+		// ToDo: os line height: detect clientrect randomizing
 	};
-	// trim off "px" if it exists
+	// trim "px"
 	if (lh.substr(-2) == "px") {
 		lh = lh.slice(0, -2);
 	};
-	let lhOS = "";
-	let strTBL = " [Linux]" + tor_browser_green;
+	os = "";
+	let strTBL = " [Linux]" + tb_green;
 	let myLHFont = getComputedStyle(myLHElem).getPropertyValue("font-family");
 	if (myLHFont.slice(1,16) !== "Times New Roman") {
 		// document fonts blocked: TNR might not be used
-		lhOS = " <span class='bad'> [document fonts are disabled]</span>";
+		os = sb + " [document fonts are disabled]" +sc;
 	} else if (lh == "19.2") {
-		// TB: 19.2px seems to be unique to TB at any zoom on any platform
-    // update: not on android
-		lhOS = tor_browser_green;
-		// set isTorBrowser
-		isTorBrowser = true;
+		// TB DESKTOP: 19.2px seems to be unique to TB any-zoom / any-platform
+		os = tb_green;
+		// set isTB
+		isTB = true;
 		outputDebug("2", " css line height = 19.2")
 	} else {
 		// using TNR and not TB's 19.2
-		// detect WINDOWS / LINUX
-		if (jsZoom == 300) {
-			if (lh=="19") {lhOS=strW};
-			if (lh=="18.6667") {lhOS=strW};
-			if (lh=="18") {lhOS=strL};
-			if (lh=="17.6667") {lhOS=strL};
+		// WINDOWS / LINUX: some known metrics
+		if (jsZoom == 100) {
+			if (lh=="20") {os=strW};
+			if (lh=="19") {os=strL};
+			if (lh=="18") {os=strW};
+			if (lh=="17") {os=strL};
+		} else if (jsZoom == 300) {
+			if (lh=="19") {os=strW};
+			if (lh=="18.6667") {os=strW};
+			if (lh=="18") {os=strL};
+			if (lh=="17.6667") {os=strL};
 		} else if (jsZoom == 240) {
-			if (lh=="19.1667") {lhOS=strW};
-			if (lh=="19") {lhOS=strTBL};
-			if (lh=="18.3333") {lhOS=strWL};
-			if (lh=="17.5") {lhOS=strL};
+			if (lh=="19.1667") {os=strW};
+			if (lh=="19") {os=strTBL};
+			if (lh=="18.3333") {os=strWL};
+			if (lh=="17.5") {os=strL};
 		} else if (jsZoom == 200) {
-			if (lh=="19") {lhOS=strW};
-			if (lh=="18") {lhOS=strL};
+			if (lh=="19") {os=strW};
+			if (lh=="18") {os=strL};
 		} else if (jsZoom == 170) {
-			if (lh=="19.25") {lhOS=strW};
-			if (lh=="18.9") {lhOS=strTBL};
-			if (lh=="18.6667") {lhOS=strW};
-			if (lh=="18.0833") {lhOS=strL};
-			if (lh=="17.5") {lhOS=strL};
+			if (lh=="19.25") {os=strW};
+			if (lh=="18.9") {os=strTBL};
+			if (lh=="18.6667") {os=strW};
+			if (lh=="18.0833") {os=strL};
+			if (lh=="17.5") {os=strL};
 		} else if (jsZoom == 150) {
-			if (lh=="20") {lhOS=strW};
-			if (lh=="18.6667") {lhOS=strWL};
-			if (lh=="17.3333") {lhOS=strL};
+			if (lh=="20") {os=strW};
+			if (lh=="18.6667") {os=strWL};
+			if (lh=="17.3333") {os=strL};
 		} else if (jsZoom == 133) {
-			if (lh=="19.5") {lhOS=strW};
-			if (lh=="18.9") {lhOS=strTBL};
-			if (lh=="18") {lhOS=strL};
-			if (lh=="18.75") {lhOS=strW};
+			if (lh=="19.5") {os=strW};
+			if (lh=="18.9") {os=strTBL};
+			if (lh=="18") {os=strL};
+			if (lh=="18.75") {os=strW};
 		} else if (jsZoom == 120) {
-			if (lh=="20") {lhOS=strW};
-			if (lh=="19.1667") {lhOS=strL};
-			if (lh=="19") {lhOS=strTBL};
-			if (lh=="18.3333") {lhOS=strW};
-			if (lh=="17.5") {lhOS=strL};
+			if (lh=="20") {os=strW};
+			if (lh=="19.1667") {os=strL};
+			if (lh=="19") {os=strTBL};
+			if (lh=="18.3333") {os=strW};
+			if (lh=="17.5") {os=strL};
 		} else if (jsZoom == 110) {
-			if (lh=="19.25") {lhOS=strW};
-			if (lh=="18.7") {lhOS=strTBL};
-			if (lh=="18.3333") {lhOS=strL};
-			if (lh=="17.4167") {lhOS=strL};
-		} else if (jsZoom == 100) {
-			if (lh=="20") {lhOS=strW};
-			if (lh=="19") {lhOS=strL};
-			if (lh=="18") {lhOS=strW};
-			if (lh=="17") {lhOS=strL};
+			if (lh=="19.25") {os=strW};
+			if (lh=="18.7") {os=strTBL};
+			if (lh=="18.3333") {os=strL};
+			if (lh=="17.4167") {os=strL};
 		} else if (jsZoom == 90) {
-			if (lh=="20.1") {lhOS=strW};
-			if (lh=="18.9833") {lhOS=strWL};
-			if (lh=="18.7667") {lhOS=strTBL};
-			if (lh=="16.75") {lhOS=strL};
+			if (lh=="20.1") {os=strW};
+			if (lh=="18.9833") {os=strWL};
+			if (lh=="18.7667") {os=strTBL};
+			if (lh=="16.75") {os=strL};
 		} else if (jsZoom == 80) {
-			if (lh=="20") {lhOS=strW};
-			if (lh=="19.5") {lhOS=strTBL};
-			if (lh=="18.75") {lhOS=strWL};
+			if (lh=="20") {os=strW};
+			if (lh=="19.5") {os=strTBL};
+			if (lh=="18.75") {os=strWL};
 		} else if (jsZoom == 67) {
-			if (lh=="21") {lhOS=strW};
-			if (lh=="19.8") {lhOS=strTBL};
-			if (lh=="19.5") {lhOS=strWL};
-			if (lh=="18") {lhOS=strL};
+			if (lh=="21") {os=strW};
+			if (lh=="19.8") {os=strTBL};
+			if (lh=="19.5") {os=strWL};
+			if (lh=="18") {os=strL};
 		} else if (jsZoom == 50) {
-			if (lh=="22") {lhOS=strW};
-			if (lh=="20") {lhOS=strWL};
-			if (lh=="18") {lhOS=strL};
+			if (lh=="22") {os=strW};
+			if (lh=="20") {os=strWL};
+			if (lh=="18") {os=strL};
 		} else if (jsZoom == 30) {
-			if (lh=="20") {lhOS=strWL};
-			if (lh=="26.6667") {lhOS=strW};
+			if (lh=="20") {os=strWL};
+			if (lh=="26.6667") {os=strW};
 		};
 	};
 	// detect MAC
-	if (lhOS == "") {
+	if (os == "") {
 	/*	mac unique: .0167 .05 .0833 .1833 .35 .4333 .6833 .8333 .85
 	mac not unique: .7667 .6667 (but unique at those zoom values)
 	19.5167 : from old hackernews */
 		let lhDec = (lh+"").split(".")[1];
 		if (lhDec=="0167" | lhDec=="05" | lhDec=="0833" | lhDec=="1833" | lhDec=="35" | lhDec=="4333" | lhDec=="6833"
-			| lhDec=="8333" | lhDec=="85" | lhDec=="7667" | lhDec=="6667" | lhDec=="5167") {lhOS=strM};
+			| lhDec=="8333" | lhDec=="85" | lhDec=="7667" | lhDec=="6667" | lhDec=="5167") {os=strM};
 	};
-	// detect ANDROID: unreliable due to devicePixelRatio
-	// if (lhOS == "") {if (lh == "19.5" || lh == "19.55") {lhOS = strA}};
-	// still blank? and add logical guess or known metric
-	if (lhOS == "") {
-		lhOS = strLA + " [logical guess]"
+	// detect ANDROID
+	if (os == "") {
+		// ToDo: css line height: Android affected by devicePixelRatio
+	};
+	if (os == "") {
+		// final guess
+		os = strLA + " [logical guess]"
 	} else {
 		if (myLHFont.slice(1,16) == "Times New Roman") {
-			lhOS = lhOS + " [known metric]"
+			// known notation
+			os = os + " [known metric]"
 		};
 	};
-	// output: sbZoom was already set in scrollbar width code
-	dom.cssLH.innerHTML = lh + "px " + sbZoom + lhOS + lhCR;
+	// output
+	dom.cssLH.innerHTML = lh + "px " + sbZoom + os + lhCR;
+	// perf
 	t1 = performance.now();
 	if (mPerf) {console.debug("ua css line height: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+
 };
 
 function get_os_widgets() {
@@ -880,13 +872,8 @@ function get_os_widgets() {
 			else if (wdFFN == "Roboto") {wdOS="Android"}
 			else if (wdFFN == "-apple-system") {wdOS="Mac"}
 			else {wdOS="Linux"};
-			// set global var isMajorOS
-			isMajorOS = wdOS.toLowerCase();
-			// set the two font list hyperlinks
-			dom.small_fontList.innerHTML = "<span class='no_color'><a href='txt/fonts_" + isMajorOS +
-				"_small.txt' target='blank' class='blue'>fonts_" + isMajorOS + "_small<a></span>";
-			dom.all_fontList.innerHTML = "<span class='no_color'><a href='txt/fonts_" + isMajorOS +
-				"_all.txt' target='blank' class='blue'>fonts_" + isMajorOS + "_all<a></span>";
+			// set isOS
+			isOS = wdOS.toLowerCase();
 		};
 		// compare: values 1 to 7: should always be the same: track state
 		if (i < 8) {
@@ -924,8 +911,8 @@ function get_os_widgets() {
 	// cleanup os string
 	if (wdBF == true) {wdOS = "unknown [font: mixed values]"} else {wdOS = wdOS + " [font: " + wdCF + "]"};
 	// output OS and hash
-	dom.widgetOS = wdOS;
 	dom.widgetH = sha1(wdH);
+	dom.widgetOS = wdOS;
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua widgets: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
@@ -1021,57 +1008,73 @@ function get_dpr() {
 	};
 };
 
-/* USER TESTS */
+/* OS SPECIFIC */
 
-function get_tbh() {
-	// only do if android
-	// this is to capture the toolbar height if the user has chosen
-	// to "hide the toolbar when scrolling down a page"
-	if (isMajorOS == "android") {
+function run_os() {
+	if (isOS == "android") {
+		// unhide stuff
+		showhide("table-row", "S", "");
+		// fill in stuff
+		dom.droidWin = firstW + " x " + firstH + " [inner] [toolbar visible]";
+		// listen for toolbar
+		get_android_tbh();
+		// rerun screen if needed: droid can be a little slow
+		if (window.innerWidth == firstW) {
+			setTimeout(function(){get_screen_metrics();}, 100);
+		};
+	} else {
+		// desktop: start listening for resize events
+		window.addEventListener("resize", get_screen_metrics);
+	};
+};
+
+function get_android_tbh() {
+	// toolbar height if user has chosen to "hide the toolbar when scrolling down a page"
+	// avh global var s/be with toolbar visible: so use new value > avh
+	// We only need one diff since the viewport size "snaps" to the new value
+	if (isOS == "android") {
 		window.addEventListener('scroll', toolbarScroll)
 		function toolbarScroll() {
-			// avh = global var with toolbar. If we only use a new value greater
-			// than avh then this would exclude the keyboard interfering with calculations
-			// we only need to check once since the viewport size "snaps" to the new value
 			// ignore fullscreen
 			if (window.fullScreen == false) {
-				// add a delay to let the user finish scrolling and the toolbar to show
+				// delay: allow time for toolbar change
 				setTimeout(function() {
 					let vh_new = get_viewport();
 					if (vh_new > avh) {
 						dom.tbh = (vh_new - avh);
 					};
-				}, 1000)
+				}, 800)
 			};
 		};
 	};
 };
 
-function get_kbh() {
-	// only do if android
-	if (isMajorOS == "android") {
-		// we use the viewport height as that doesn't change with zooming on android
-		// wait for keyboard to slide up
+function get_android_kbh() {
+	if (isOS == "android") {
+		// wait for keyboard
 		setTimeout(function() {
+			// use viewport: doesn't change on zoom
 			let vh_new = get_viewport();
-			// On android, the onfocus event is also triggered when the field loses focus, so
-			// always make the difference positive. We use the initial avh global var captured
-			// on first load as the toolbar can also be triggered into becoming visible if hidden
-			// note: if in FS, entering the text field exits FS, so we can rely on avh
+			// Compare to avh (captured on first load: s/be with toolbar visible)
+			// The event exits FS, so we can rely on avh
+			// use absolute value: event also triggered losing focus
 			let vh_diff = Math.abs(avh - vh_new);
 			dom.kbh = vh_diff;
-			// todo not perfect, as the keyboard can be slow to open, and it "slides" up.
+			// ToDo: keyboard height: use setInterval
+			// keyboard can be slow to open, and it "slides" up (stepped changes)
 			// instead we could keep checking for x time and return the max diff
 		}, 1000)
 	};
 };
 
+/* USER TESTS */
+
 function goFS() {
-	if (isFirefox == true) {
+	if (isFF == true) {
 		let ih1 = window.innerHeight,
 			delay = 1;
 		function exitFS() {
-			if (isVersion > 63) {	document.exitFullscreen() } else { document.mozCancelFullScreen() };
+			if (isVer > 63) {	document.exitFullscreen() } else { document.mozCancelFullScreen() };
 			document.removeEventListener("mozfullscreenchange", getFS)
 		};
 		function getFS() {
@@ -1082,7 +1085,7 @@ function goFS() {
 					dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+iw+" x "+ih+" [mozFullScreenElement client]";
 					exitFS();
 					// TB desktop warning panel
-					if (isTorBrowser == true && isMajorOS !== "android") {
+					if (isTB == true && isOS !== "android") {
 						setTimeout(function(){
 						let ih2 = window.innerHeight;
 							let panel = ih1-ih2;
@@ -1095,8 +1098,8 @@ function goFS() {
 			};
 		};
 		if (document.mozFullScreenEnabled) {
-			let element = document.getElementById("imageFS");
-			if (isMajorOS == "android") { delay = 1000 }
+			let element = dom.imageFS;
+			if (isOS == "android") { delay = 1000 }
 			element.mozRequestFullScreen();
 			document.addEventListener("mozfullscreenchange", getFS)
 		};
@@ -1128,7 +1131,7 @@ function goNW() {
 	}
 
 	// DESKTOP
-	if (isMajorOS !== "android") {
+	if (isOS !== "android") {
 
 		function check_newwin() {
 			let diffsi = [], // array of 4 inner sizes to compare
@@ -1212,72 +1215,57 @@ function goNW() {
 
 /* OUTPUT */
 
-function outputScreen() {
+function outputScreen(type) {
 	let t0 = performance.now();
 	// properties
 	get_screen_metrics("screen");
 	dom.PixDepth = screen.pixelDepth;
 	dom.ColDepth = screen.colorDepth;
-	dom.DevPR = window.devicePixelRatio;
 	// functions
-	get_zoom("screen");
-	get_viewport("screen");
+	if (type != "load") {get_zoom("screen")}; // ua already ran it
+	if (type != "load") {get_viewport("screen")} // ua already ran it
 	get_orientation();
 	get_private_win();
 	get_fullscreen();
-	// android check
-	if (isMajorOS == "android") {
-		// global vars taken as early as possible = native resolution with FF toolbar
-    // visible: e.g 360x559. New window: same but can run with FF toolbar hidden: e.g 360x615
-		dom.droidWin = firstW + " x " + firstH + " [inner] [toolbar visible]";
-		// after a wait, compare to current in case we need to re-run screen metrics
-		if (window.innerWidth == firstW) {
-			setTimeout(function(){
-				get_screen_metrics();
-			}, 100);
-		};
-	};
+	// listen for dpr leaks
+	get_dpr();
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {outputDebug("1", "screen", (t1-t0), (t1 - gt0))};
-	// start listening for dpr leaks
-	get_dpr();
-	// start listening for android toolbar height
-	get_tbh();
+	outputDebug("1", "screen", (t1-t0), (t1 - gt0));
 };
 
 function outputMath() {
 	let t0 = performance.now();
-	// variables: 1 = ecma1, 2 = ecma2, c = combined
+	// variables: 1 = ecma1, 6 = ecma6, c = combined
 	let r = "",
 		h1 = "", // string to hash
 		h6 = "",
 		m1hash = "", // sha1 hashes
 		m6hash = "",
 		mchash = "",
-		m1 = "", // short codes (used in analysis)
+		m1 = "", // short codes
 		m6 = "",
 		mc = "",
-		fdMath1 = "", // strings used for browser/os output
+		fdMath1 = "", // strings used for browser/os
 		fdMath6 = "";
 	// ECMASCript 1st edtion
 	r = Math.cos(1e251); dom.cos1 = r; h1 = r;
-	r = Math.cos(1e140); dom.cos2 = r; h1 = h1 + "-" + r;
-	r = Math.cos(1e12);  dom.cos3 = r; h1 = h1 + "-" + r;
-	r = Math.cos(1e130); dom.cos4 = r; h1 = h1 + "-" + r;
-	r = Math.cos(1e272); dom.cos5 = r; h1 = h1 + "-" + r;
-	r = Math.cos(1e0);   dom.cos6 = r; h1 = h1 + "-" + r;
-	r = Math.cos(1e284); dom.cos7 = r; h1 = h1 + "-" + r;
-	r = Math.cos(1e75);  dom.cos8 = r; h1 = h1 + "-" + r;
+	r = Math.cos(1e140); dom.cos2 = r; h1 += "-" + r;
+	r = Math.cos(1e12);  dom.cos3 = r; h1 += "-" + r;
+	r = Math.cos(1e130); dom.cos4 = r; h1 += "-" + r;
+	r = Math.cos(1e272); dom.cos5 = r; h1 += "-" + r;
+	r = Math.cos(1e0);   dom.cos6 = r; h1 += "-" + r;
+	r = Math.cos(1e284); dom.cos7 = r; h1 += "-" + r;
+	r = Math.cos(1e75);  dom.cos8 = r; h1 += "-" + r;
 	m1hash = sha1(h1);
 	// ECMASCript 6th edtion
 	let x, y;
 	x = 0.5; r = Math.log((1 + x) / (1 - x)) / 2; // atanh(0.5)
 	dom.math1 = r; h6 = r;
 	x=1; r = Math.exp(x) - 1; // expm1(1)
-	dom.math2 = r; h6 = h6 + "-" + r;
+	dom.math2 = r; h6 += "-" + r;
 	x = 1; y = Math.exp(x); r = (y - 1 / y) / 2; // sinh(1)
-	dom.math3 = r; h6 = h6 + "-" + r;
+	dom.math3 = r; h6 += "-" + r;
 	m6hash = sha1(h6);
 	mchash = sha1(h1+"-"+h6);
 	// build short code output
@@ -1333,7 +1321,7 @@ function outputMath() {
 		fdMath1="Android"
 	} else if (m1 == "B") {
 		// B: always TB on WIN
-		isTorBrowser = true;
+		isTB = true;
 		outputDebug("2", "math 1st edition = letter B")
 		fdMath1="Windows";
 		if (m6 == "1") {
@@ -1348,12 +1336,12 @@ function outputMath() {
 		}
 	};
 	// output browser/os
-	if (isFirefox == true) {
-		let strNew = " <span class='bad'>[NEW]</span>";
+	if (isFF == true) {
+		let strNew = sb + "[NEW]" + sc;
 		if (m1 == "") {m1hash=m1hash+strNew} else {m1hash=m1hash+" ["+m1+"]"};
 		if (m6 == "") {m6hash=m6hash+strNew} else {m6hash=m6hash+" ["+m6+"]"};
 		if (mc.length < 2) {mchash = mchash+strNew} else {mchash=mchash+" ["+mc+"]"};
-		strNew = "<span class='bad'>I haven't seen this Firefox math combo before</span>";
+		strNew = sb + "I haven't seen this Firefox math combo before" + sc;
 		if (fdMath1 == "") {fdMath1=strNew};
 		if (fdMath6 == "") {fdMath6=strNew};
 		dom.fdMathOS.innerHTML = fdMath1;
@@ -1365,23 +1353,21 @@ function outputMath() {
 	dom.mathhash.innerHTML = mchash;
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {outputDebug("1", "math", (t1-t0), (t1 - gt0))};
+	outputDebug("1", "math", (t1-t0), (t1 - gt0));
 };
 
 function outputUA() {
 	let t0 = performance.now();
-	// recheck isFirefox
-	if (isNaN(window.mozInnerScreenX) === false) {
-		isFirefox = true;
-		dom.fdetect="Firefox";
-		get_os_widgets(); // note: do early: sets global var isMajorOs
-		dom.versionNo = get_version();
-		get_os_line_scrollbar();
-		get_browser_resource();
-		get_os_chrome();
-	};
-	// don't forget the math section
-	outputMath();
+
+	// first script run: set global vars
+	isPage = "main";
+	if ((location.protocol) == "file:") {note_file = sn + "[file:]" + sc};
+	if (isNaN(window.mozInnerScreenX) === false) {isFF = true};
+	/* other:
+		if (isNaN(window.window.scrollMaxX) === false) {"isFF = true"};
+		if (navigator.oscpu == undefined){} else {"isFF = true"};
+		// see 1591968: dom.mozPaintCount.enabled
+	*/
 	// properties
 	dom.nAppName = navigator.appName;
 	dom.nAppVersion = navigator.appVersion;
@@ -1392,41 +1378,26 @@ function outputUA() {
 	dom.nProduct = navigator.product;
 	dom.nProductSub = navigator.productSub;
 	dom.nUserAgent = navigator.userAgent;
-	// functions
+	outputMath();
 	get_browser_errors();
-
+	// firefox only
+	if (isFF == true) {
+		dom.fdetect="Firefox";
+		get_os_widgets(); // sets isOS
+		get_browser_resource();
+		dom.versionNo = get_version();
+		get_os_line_scrollbar();
+		get_os_chrome();
+	};
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {outputDebug("1", "ua", (t1-t0), (t1 - gt0))};
+	outputDebug("1", "ua", (t1-t0), (t1 - gt0));
 };
 
-function run_android() {
-	if (isMajorOS !== "android") {
-		// desktop: start listening for resize events
-		window.addEventListener('resize', get_screen_metrics);
-	} else {
-		// android: unhide some screen results
-		showhide("table-row", "S", "");
-	};
-};
+// start page perf
+gt0 = performance.now();
+dom.debug1 = "       start:  screen.js loaded";
 
-function run_first_script() {
-	// this is the very first script run
-	// set global var
-	gt0 = performance.now();
-	if (sPerf) {
-		console.debug(" ** section start timing: screen.js loaded")
-		let str = "start"; str = str.padStart(12);
-		dom.debug1 = str + ":  screen.js loaded";
-	};
-	// re-calculate some global vars
-	if ((location.protocol) == "file:") {
-		note_file = " <span class='neutral'>[file:]</span>";
-	};
-	if (isNaN(window.mozInnerScreenX) === false) {isFirefox = true};
-};
-
-run_first_script(); // starts perf timer and sets vars for next lines
-outputUA();         // this sets vars for the next line
-outputScreen();     // this sets vars for the next line
-run_android();
+outputUA(); // run first: sets isFF, isOS: includes outputMath
+outputScreen("load");
+run_os(); // os specific tweaks
