@@ -5,7 +5,7 @@
 function outputHeaders() {
 	let t0 = performance.now();
 
-	dom.nDoNotTrack = navigator.doNotTrack;
+	dom.nDNT = navigator.doNotTrack;
 	dom.nOnLine = navigator.onLine;
 
 	// network info api: dom.netinfo.enabled
@@ -20,7 +20,7 @@ function outputHeaders() {
 
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {outputDebug("1", "headers", (t1-t0), (t1 - gt0))};
+	outputDebug("1", "headers", (t1-t0), (t1 - gt0));
 };
 
 outputHeaders();
