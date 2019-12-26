@@ -67,8 +67,6 @@
 		</div>
 		<!-- css -->
 		<div class="hidden"><span id="sColorElement"></span></div>
-		<div class="themed" id="pColorElement"></div>
-		<div class="motion" id="pMotionElement"></div>
 		<!-- svg -->
 		<div class="offscreen" id="svgDiv"></div>
 
@@ -125,19 +123,18 @@
 		<tr><td>[css aspect-ratio] orientation</td><td id="cssAS"></td></tr>
 		<tr><td>[css device-aspect-ratio] orientation</td><td id="cssDAS"></td></tr>
 		<tr><td>[matchMedia] window orientation</td><td class="c" id="mmOrient"></td></tr>
-		<tr><td>[inner width vs inner height] window orientation</td><td class="c" id="mathOrient"></td></tr>
 		<tr><td>pixel depth</td><td class="c" id="PixDepth"></td></tr>
 		<tr><td>color depth</td><td class="c" id="ColDepth"></td></tr>
 		<tr><td>[css color] bits per color</td><td id="cssBPC"></td></tr>
 		<tr><td>dpi</td><td class="c" id="jsDPI"></td ></tr>
-		<tr><td>[css resolution] dpi</td><td id="P"></td></tr>
-		<tr><td>[matchMedia] dpi</td><td class="c" id="mmDPI"></td></tr>
+		<tr><td>[css min-resolution] dpi</td><td id="P"></td></tr>
+		<tr><td>[matchMedia max-resolution] dpi | dppx | dpcm</td><td class="c" id="mmDPI"></td></tr>
 		<tr><td>zoom %</td><td class="c" id="jsZoom"></td></tr>
 		<tr><td>devicePixelRatio</td><td class="c" id="DevPR"></td></tr>
 		<tr><td>[scrollY] devicePixelRatio <sup>5</sup></td><td class="c" id="devPRscrollY"></td></tr>
 		<tr><td>[clientRect] devicePixelRatio <sup>5</sup></td><td class="c" id="devPRclientRect"></td></tr>
 		<tr class="togS"><td colspan="2" class="center">--- android ---</td></tr>
-		<tr class="togS"><td></td><td><input type="text" id="kbt" placeholder="tap in here" onfocus="get_kbh()"></td></tr>
+		<tr class="togS"><td></td><td><input type="text" id="kbt" placeholder="tap in here" onfocus="get_android_kbh()"></td></tr>
 		<tr class="togS"><td>keyboard height</td><td class="c" id="kbh"></td></tr>
 		<tr class="togS"><td>toolbar height</td><td class="c" id="tbh"></td></tr>
 		<tr><td colspan="2"><span class="no_color">code based on work by </span>
@@ -216,17 +213,16 @@
 			<tr class="togE"><td>error4</td><td class="c" id="err4"></td></tr>
 			<tr class="togE"><td>error5</td><td class="c" id="err5"></td></tr>
 			<tr class="togE"><td>error6</td><td class="c" id="err6"></td></tr>
-			<tr class="togE"><td>error7</td><td class="c" id="err7"></td></tr>
 		<tr class="togE"><td></td><td class="sub2">widgets</td></tr>
 			<tr class="togE"><td>hash</td><td class="c mono" id="widgetH"></td></tr>
 			<tr class="togE"><td id="widfirst">button|checkbox|color|combobox|datetime-local|radio|text</td>
-				<td style="white-space: pre;" class="c" id="wid1"></td></tr>
-			<tr class="hidden"><td>radio</td><td id="wid2"></td></tr>
-			<tr class="hidden"><td>button</td><td id="wid3"></td></tr>
+				<td style="white-space: pre;" class="c" id="wid1"></td></tr> <!-- button -->
+			<tr class="hidden"><td>checkbox</td><td id="wid2"></td></tr>
+			<tr class="hidden"><td>color</td><td id="wid3"></td></tr>
 			<tr class="hidden"><td>combobox</td><td id="wid4"></td></tr>
-			<tr class="hidden"><td>text</td><td id="wid5"></td></tr>
-			<tr class="hidden"><td>datetime-local</td><td id="wid6"></td></tr>
-			<tr class="hidden"><td>color</td><td id="wid7"></td></tr>
+			<tr class="hidden"><td>datetime-local</td><td id="wid5"></td></tr>
+			<tr class="hidden"><td>radio</td><td id="wid6"></td></tr>
+			<tr class="hidden"><td>text</td><td id="wid7"></td></tr>
 			<tr class="togE"><td>datetime</td><td class="c" id="wid8"></td></tr>
 			<tr class="togE"><td>textarea</td><td class="c" id="wid9"></td></tr>
 			<tr class="togE"><td colspan="2"></td></tr>
@@ -370,7 +366,7 @@
 		</th></tr></thead>
 		<tr><td><div>
 				<div class="btn-left"><button class="btn5" onClick="outputSection(`5`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div>[navigator] doNotTrack</div></div></td><td class="c" id="nDoNotTrack"></td>
+				<div>[navigator] doNotTrack</div></div></td><td class="c" id="nDNT"></td>
 		</tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">dom.netinfo.enabled</span></div>
@@ -438,24 +434,24 @@
 
 	<!-- TABLE 7: Devices & Hardware - devices.js -->
 	<table id="tb7">
-		<col width="50%"><a name="devices"></a><col width="50%">
+		<col width="29%"><a name="devices"></a><col width="71%">
 		<thead><tr><th colspan="2">
 				<div class="nav-title"><a href="#devices">Devices & Hardware</a>
 				<div class="nav-up"><a href="#cookies">&#9650;</a></div>
 				<div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
 		</th></tr></thead>
-		<tr><td><div><div class="btn-left"><button class="btn7" onClick="outputSection(`7`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div><div class="ttip"><span class="icon">[ i ]</span><span class="ttxtb">dom.maxHardwareConcurrency</span></div>
-				&nbsp [navigator] hardwareConcurrency</div></div></td><td class="c" id="nHardwareConcurrency"></td></tr>
+		<tr><td><div>
+				<div class="btn-left"><button class="btn7" onClick="outputSection(`7`, `c`, `m`)">[ re-run tests ]</button></div>
+				<div>[navigator] plugins</div></div></td><td id="plugins"></td>
+		</tr>
+		<tr><td>[navigator] mimeTypes</td><td id="mimeTypes"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
-			<span class="ttxt">dom.gamepad.enabled</span></div>
-			&nbsp [api] gamepad</td><td class="c" id="nGetGamepads"></td></tr>
-		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
-			<span class="ttxtb">media.navigator.enabled</span></div>
-			&nbsp mediaDevices</td><td class="c" id="nMediaDevices"></td></tr>
-		<tr><td>enumerateDevices</td><td class="c" id="eMediaDevices"></td></tr>
-		<tr><td>[css] pointer</td><td id="cssP"></td></tr>
+			<span class="ttxtb">dom.maxHardwareConcurrency</span></div>
+			&nbsp [navigator] hardwareConcurrency</td><td class="c" id="nHWC"></td></tr>
+		<tr><td>[api] pointer event</td><td class="c" id="pointer1"></td></tr>
 		<tr><td>[css] any-pointer</td><td id="cssAP"></td></tr>
+		<tr><td>[css] pointer</td><td id="cssP"></td></tr>
+		<tr><td>[matchMedia] any-pointer | pointer</td><td class="c" id="mmP"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">media.webspeech.recognition.enable</span></div>
 			&nbsp speech recognition</td><td class="c" id="speechRec"></td></tr>
@@ -466,6 +462,15 @@
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">maxTouchPoints<br>ontouchstart<br>ontouchend<br>TouchEvent</span>
 			</div>&nbsp touch</td><td class="c" id="touch1"></td></tr>
+		<tr><td colspan="2" class="center">------</td></tr>
+		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+			<span class="ttxt">dom.gamepad.enabled</span></div>
+			&nbsp [api] gamepad</td><td class="c" id="nGetGamepads"></td></tr>
+		<tr><td>gamepads</td><td class="c" id="eGamepads"></td></tr>
+		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
+			<span class="ttxtb">media.navigator.enabled</span></div>
+			&nbsp mediaDevices</td><td class="c" id="nMediaDevices"></td></tr>
+		<tr><td>enumerateDevices</td><td style="white-space: pre;" class="mono" id="eMediaDevices"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">dom.vr.enabled</span></div>
 			&nbsp [api] webvr</td><td class="c" id="nGetVR"></td></tr>
@@ -705,7 +710,7 @@
 				<div class="btn-left"><button class="btn12" onClick="outputSection(`12`, `c`, `m`)">[ re-run tests ]</button></div>
 				<div><div class="ttip"><span class="icon">[ i ]</span>
 					<span class="ttxtb">media.media-capabilities.enabled</span></div> &nbsp [navigator] mediaCapabilities</div></div></td>
-			<td class="c" id="nMediaCapabilities"></td>
+			<td class="c" id="nMediaC"></td>
 		</tr>
 	</table>
 
@@ -732,11 +737,14 @@
 				<div class="nav-down"><a href="#ciphers">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-			<div class="btn-left"><button class="btn13" onClick="outputSection(`14`, `c`, `m`)">[ re-run tests ]</button>
-			</div>prefers-color-scheme</div></td><td class="c" id="pColorScheme"></td></tr>
-		<tr><td>prefers-reduced-motion</td><td class="c" id="pReducedMotion"></td></tr>
-		<tr><td>system colors</td><td class="c mono" id="sColorHash"></td></tr>
-		<tr><td>-moz- colors</td><td class="c mono" id="mColorHash"></td></tr>
+				<div class="btn-left"><button class="btn14" onClick="outputSection(`14`, `c`, `m`)">[ re-run tests ]</button></div>
+				<div><div class="ttip"><span class="icon">[ i ]</span><span class="ttxtb">ui.systemUsesDarkTheme</span></div>
+				&nbsp [css] prefers-color-scheme</div></div></td><td id="cssPCS"></td></tr>
+		<tr><td>[matchMedia] prefers-color-scheme</td><td class="c" id="mmPCS"></td></tr>
+		<tr><td>[css] prefers-reduced-motion</td><td id="cssPRM"></td></tr>
+		<tr><td>[matchMedia] prefers-reduced-motion</td><td class="c" id="mmPRM"></td></tr>
+		<tr><td>[-moz-] colors</td><td class="c mono" id="mColorHash"></td></tr>
+		<tr><td>[system] colors</td><td class="c mono" id="sColorHash"></td></tr>
 	</table>
 
 	<!-- TABLE 15: Ciphers / TLS - ciphers.js -->
@@ -857,8 +865,8 @@
 	<script src="js/media.js"></script>
 	<script src="js/devices.js"></script>
 	<script src="js/css.js"></script>
-	<script src="js/misc.js"></script>
 	<script src="js/cookies.js"></script>
+	<script src="js/misc.js"></script>
 	<!-- slower sections -->
 	<script src="js/webgl.js"></script>
 	<script src="js/fonts.js"></script>
