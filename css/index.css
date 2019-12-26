@@ -229,11 +229,10 @@ table td.sub11 {color: var(--test11);}
 @media (any-pointer:none){#cssAP:after{content:"none";}}
 @media (any-pointer:coarse){#cssAP:after{content:"coarse";}}
 @media (any-pointer:fine){#cssAP:after{content:"fine";}}
-
-.themed {background-color: red; display: none;}
-@media (prefers-color-scheme:light) {.themed {background-color:white;}}
-@media (prefers-color-scheme:dark) {.themed {background-color:black;}}
-@media (prefers-color-scheme:no-preference) {.themed {background-color:blue;}}
-.motion {background-color: red; display: none;}
-@media (prefers-reduced-motion:no-preference) {.motion {background-color:white;}}
-@media (prefers-reduced-motion:reduce) {.motion {background-color:black;}}
+#cssPCS:after{content:"not supported";}
+@media (prefers-color-scheme:light){#cssPCS:after{content:"light";}}
+@media (prefers-color-scheme:dark){#cssPCS:after{content:"dark";}}
+@media (prefers-color-scheme:no-preference){#cssPCS:after{content:"no-preference";}}
+#cssPRM:after{content:"not supported";}
+@media (prefers-reduced-motion:no-preference){#cssPRM:after{content:"no-preference";}}
+@media (prefers-reduced-motion:reduce){#cssPRM:after{content:"reduce";}}
