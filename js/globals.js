@@ -1,10 +1,10 @@
 'use strict';
 
-var firstH = window.innerHeight;
-var firstW = window.innerWidth;
-
 var dom;
-var jsZoom;
+
+let avh = "", // android viewport height
+	firstH = window.innerHeight,
+	firstW = window.innerWidth;
 
 let sb = " <span class='bad'>",
 	sg = " <span class='good'>",
@@ -14,64 +14,51 @@ let sb = " <span class='bad'>",
 	s1 = " <span class='s1'>",
 	sc = "</span>";
 
-// notation
-var tor_browser_green = sg + "[TB]" + sc; // u2713
-var tor_browser_red =  sb + "[TB]" + sc; // u2715
-var slider_standard = sg + "[TB Standard]" + sc;
-var slider_safer = sg + "[TB Safer]" + sc;
-var rfp_green = sg + "[RFP]" + sc;
-var rfp_red = sb + "[RFP]" + sc;
-var lb_green = sg + "[LB]" + sc;
-var lb_red = sb + "[LB]" + sc;
-var lb_orange = so + "[LB and RFP New Window only work at 100% zoom]" + sc;
-var nw_green = sg + "[RFP New Window]" + sc;
-var nw_red = sb + "[RFP New Window]" + sc;
-var enUS_green = sg + "[en-US]</span> ";
-var enUS_red = sb + "[en-US]</span> ";
-var spoof_green = sg + "[Spoof English]" + sc;
-var spoof_red = sb + "[Spoof English]" + sc;
-var spoof_both_green = sg + "[Spoof English + RFP]" + sc;
-var spoof_both_red = sb + "[Spoof English +/or RFP]" + sc;
-var default_tb_green = sg + "[TB default]" + sc;
-var default_ff_green = sg + "[FF default]" + sc;
-var default_red = sb + "[unusual]" + sc;
-var note_random = sg + "[random]" + sc;
-var note_file = "";
-var note_rounded = so + "[rounded down]" + sc;
-if (location.protocol == "file:") {
-	note_file = sn + "[file:]" + sc;
-};
-var note_testtocome = sn + "test to come" + sc;
+let zhide = "#1a1a1a", // color to hide text
+	zshow = "#b3b3b3"; // color to show text
 
-// generic errors
-var error_file_404 = se + "file not found]" + sc;
-var error_file_cors = sn + "[file:] [Cross-Origin Request Blocked]" + sc;
-var error_file_xhr = se + "xhr]" + sc;
-var error_iframe = se + " iframe]" + sc;
-var error_image = se + "image]" + sc;
-var error_global_os = sb + "[test error: global variable not set]" + sc;
+// notation (u2713, u2715)
+let tb_green = sg + "[TB]" + sc,
+	tb_red =  sb + "[TB]" + sc,
+	tb_standard = sg + "[TB Standard]" + sc,
+	tb_safer = sg + "[TB Safer]" + sc,
+	rfp_green = sg + "[RFP]" + sc,
+	rfp_red = sb + "[RFP]" + sc,
+	lb_green = sg + "[LB]" + sc,
+	lb_red = sb + "[LB]" + sc,
+	lb_orange = so + "[LB and RFP New Window only work at 100% zoom]" + sc,
+	nw_green = sg + "[RFP New Window]" + sc,
+	nw_red = sb + "[RFP New Window]" + sc,
+	enUS_green = sg + "[en-US]</span> ",
+	enUS_red = sb + "[en-US]</span> ",
+	spoof_green = sg + "[Spoof English]" + sc,
+	spoof_red = sb + "[Spoof English]" + sc,
+	spoof_both_green = sg + "[Spoof English + RFP]" + sc,
+	spoof_both_red = sb + "[Spoof English +/or RFP]" + sc,
+	default_tb_green = sg + "[TB default]" + sc,
+	default_ff_green = sg + "[FF default]" + sc,
+	default_red = sb + "[unusual]" + sc,
+	note_random = sg + "[random]" + sc,
+	note_file = "",
+	note_ttc = sn + "test to come" + sc;
+
+// error notation
+let error_file_404 = se + "file not found]" + sc,
+	error_file_cors = sn + "[file:] [Cross-Origin Request Blocked]" + sc,
+	error_file_xhr = se + "xhr]" + sc,
+	error_iframe = se + " iframe]" + sc,
+	error_image = se + "image]" + sc,
+	error_global_os = sb + "[test error: global variable not set]" + sc;
 
 // other
-var isPage = "main";
-var isFirefox = false;
-var isTorBrowser = false;
-var isMajorOS = ""; // windows, mac, linux, android
-var isVersion = ""; // 2-digit numeric
-if (isNaN(window.mozInnerScreenX) === false) {isFirefox = true};
-	/* other FF methods
-	if (isNaN(window.mozPaintCount) === false) {isFirefox = true};
-	// see 1591968: dom.mozPaintCount.enabled
-	if (isNaN(window.window.scrollMaxX) === false) {"isFirefox = true"};
-	if (navigator.oscpu == undefined){} else {"isFirefox = true"}; */
+let isPage = "",
+	isFF = false,
+	isTB = false,
+	isOS = "",
+	isVer = "";
 
-// android viewport height
-var avh = "";
-
-// storage debug
-var sDebug = false;
-
-// perf
-var mPerf = false; // minor
-var sPerf = true; // section
-var sRerun = false // 
-var gt0;
+// perf/debug
+let	gt0,
+	mPerf = false, // minor
+	sRerun = false,
+	sDebug = false; // storage debug
