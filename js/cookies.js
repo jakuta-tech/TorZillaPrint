@@ -13,7 +13,7 @@ function rnd_number() {
 };
 
 function lookup_cookie(name) {
-	name = name + "=";
+	name += "=";
 	let decodedCookie = decodeURIComponent(document.cookie);
 	let ca = decodedCookie.split(';');
 	for(let i = 0 ; i < ca.length; i++) {
@@ -32,11 +32,7 @@ function lookup_cookie(name) {
 
 function get_cookies() {
 	// cookie support
-	if (navigator.cookieEnabled == true) {
-		dom.nCookieEnabled = "enabled"
-	} else {
-		dom.nCookieEnabled = "disabled"
-	};
+	dom.nCookieEnabled = (navigator.cookieEnabled == true ? "enabled" : "disabled")
 
 	// session cookie test: run even if cookieEnabled = false
 	let rndStrA = rnd_string("stest_");
@@ -229,14 +225,13 @@ function get_idb() {
 }
 
 function get_appcache() {
-
 	// appCache support (browser.cache.offline.enable)
 	if ("applicationCache" in window) {
 		dom.appCacheSupport = "enabled";
 		if ((location.protocol) === "https:") {
 			// appCache test
 			try {
-				dom.appCacheTest.innerHTML = note_testtocome
+				dom.appCacheTest.innerHTML = note_ttc
 			} catch(e) {
 				dom.appCacheTest = "failed: " + e.name
 			}
@@ -249,7 +244,6 @@ function get_appcache() {
 		dom.appCacheSupport = "disabled";
 		dom.appCacheTest = "n/a";
 	};
-
 };
 
 function get_workers() {
@@ -319,14 +313,14 @@ function get_service_workers() {
 			navigator.serviceWorker.register("js/workerservice.js").then(function(registration) {
 				dom.serviceWTest="success";
 				// service worker cache support (dom.caches.enabled)
-				dom.serviceWCacheSupport.innerHTML = note_testtocome;
+				dom.serviceWCacheSupport.innerHTML = note_ttc;
 				// service cache test
-				dom.serviceWCacheTest.innerHTML = note_testtocome;
+				dom.serviceWCacheTest.innerHTML = note_ttc;
 				// notifications support (dom.webnotifications.serviceworker.enabled)
-				dom.notificationsSupport.innerHTML = note_testtocome;
+				dom.notificationsSupport.innerHTML = note_ttc;
 				// notifications test
-				dom.notificationsTest.innerHTML = note_testtocome;
-				// unregister the sw?
+				dom.notificationsTest.innerHTML = note_ttc;
+				// ToDo: service workers: unregister the sw
 			},
 			function(e) {
 				// skip if service worker error
@@ -367,7 +361,7 @@ function get_service_workers() {
 function get_permissions() {
 
 	// permissions notifications / push
-	if (isFirefox == true) {
+	if (isFF == true) {
 		navigator.permissions.query({name:"notifications"}).then(e => dom.pNotifications=e.state);
 		navigator.permissions.query({name:"push"}).then(e => dom.pPush=e.state);
 	};
@@ -399,7 +393,7 @@ function get_storage_manager() {
 			// storage manager test
 			try {
 				// store some data, get usage/quota
-				dom.storageMTest.innerHTML = note_testtocome;
+				dom.storageMTest.innerHTML = note_ttc;
 			} catch(e) {
 				dom.storageMTest = "failed: " + e.name
 			}
@@ -431,7 +425,7 @@ function outputCookies() {
 	get_storage_manager();
 	// perf
 	let t1 = performance.now();
-	if (sPerf) {outputDebug("1", "cookies", (t1-t0), (t1 - gt0))};
+	outputDebug("1", "cookies", (t1-t0), (t1 - gt0));
 };
 
 outputCookies();
