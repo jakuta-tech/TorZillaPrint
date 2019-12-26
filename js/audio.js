@@ -3,178 +3,107 @@
 "use strict";
 
 /* code based on work by
-	kkapsner and canvasblocker
-	- https://canvasblocker.kkapsner.de/test/
-	- https://github.com/kkapsner/CanvasBlocker
-	openWPM
-	- https://audiofingerprint.openwpm.com/
+kkapsner
+- https://canvasblocker.kkapsner.de/test/
+- https://github.com/kkapsner/CanvasBlocker
+openWPM
+- https://audiofingerprint.openwpm.com/
 */
 
-var t0audio;
-var latencyError = false;
-var latencyTries = 0;
-var isWebAudio = false;
+var t0audio,
+	latencyError = false,
+	latencyTries = 0;
 
 function reset_audio2() {
-	// change font color: try not to shrink/grow elements
-	dom.audio1data.style.color = "#1a1a1a";
-	dom.audio2data.style.color = "#1a1a1a";
-	dom.audio3data.style.color = "#1a1a1a";
+	// hide w/ color: don't shrink elements
+	dom.audio1data.style.color = zhide;
+	dom.audio2data.style.color = zhide;
+	dom.audio3data.style.color = zhide;
 };
 
 function get_audio2_context() {
 	let t0 = performance.now();
+	latencyTries++;
+
 	function a(a, b, c) {
 		for (let d in b) "dopplerFactor" === d || "speedOfSound" === d || "currentTime" ===
 		d || "number" !== typeof b[d] && "string" !== typeof b[d] || (a[(c ? c : "") + d] = b[d]);
 		return a
 	};
-	try {
-		let f = new window.AudioContext;
-		// webaudio is enabled
-		isWebAudio = true;
-		latencyTries++;
-
-		let obj;
-		let hash = "", // str to hash
-			output = "", // pretty output
-			latency = "", // latency output
-			macLatency = false; // is it mac and is outputLatency supported
-		let	d = f.createAnalyser();
-			obj = a({}, f, "ac-");
-			obj = a(obj, f.destination, "ac-");
-			obj = a(obj, f.listener, "ac-");
-			obj = a(obj, d, "an-");
-		// loop key+value, build pretty output and string to hash
+	let f = new window.AudioContext;
+	let obj;
+	let hash = "", // str to hash
+		output = "",
+		latency = "",
+		rfpvalue = "",
+		macLatency = false; // mac=true & latency=supported
+	let	d = f.createAnalyser();
+		obj = a({}, f, "ac-");
+		obj = a(obj, f.destination, "ac-");
+		obj = a(obj, f.listener, "ac-");
+		obj = a(obj, d, "an-");
+		// loop key+value
 		for (const [key, value] of Object.entries(obj)) {
-			// split latency (FF70+) out
-			// RFP values: win 0.04, android 0.02, mac 512/sampleRate, other 0.025
 			if (key == "ac-outputLatency") {
-				// NOTE: nonRFP mode: Failure mode: return 0.0 if running on a normal thread
-				// NOTE: nonRFP mode: outputLatency returns 0 unless we detect a user gesture
+				// FF70+
 				if (value == 0) {
-					latency = "<span class='bad'>" + value + " [failure mode]</span>";
+					// nonRFP: return 0.0 if running on a normal thread
+					// nonRFP: return 0 unless we detect a user gesture
 					latencyError = true;
+					latency = sb + value + " [failed]" + sc;
 				} else {
-					latency = value;
 					latencyError = false;
-					if (isMajorOS == "windows") {
-						if (value == "0.04") {
-							latency = value + rfp_green;
-						} else {
-							latency = value + rfp_red;
-						}
-					} else if (isMajorOS == "android") {
-						if (value == "0.02") {
-							latency = value + rfp_green;
-						} else {
-							latency = value + rfp_red;
-						}
-					}  else if (isMajorOS == "linux") {
-						if (value == "0.025") {
-							latency = value + rfp_green;
-				 		} else {
-							latency = value + rfp_red;
-						}
-					} else if (isMajorOS == "mac") {
-						// can't do anything until we know the ac-sampleRate
-						// which we get after outputLatency
-						macLatency = true;
+					latency = value;
+					if (isOS == "windows") {rfpvalue = "0.04"}
+					if (isOS == "android") {rfpvalue = "0.02"}
+					if (isOS == "linux") {rfpvalue = "0.025"}
+					if (isOS == "mac") {macLatency = true}
+					if (rfpvalue !== "") {
+						latency = (value == rfpvalue ? latency += rfp_green : latency += rfp_red)
 					}
 				}
 			} else {
-				output = output + key.padStart(25, " ") + ": " + value + "<br>";
-				hash = hash + value + "-";
+				// concat output & string to hash
+				output += key.padStart(25) + ": " + value + "<br>";
+				hash += value + "-";
 			}
 			if (key == "ac-sampleRate") {
 				if (macLatency == true) {
-					// is mac and outputLatency is supported (latency was set earlier)
-					// example: 0.01185941 - without RFP / 0.011609977324263039 - with RFP
-					// console.debug (512/44100); // 0.011609977324263039
-					let RFPspoof = (512/value);
-					if (RFPspoof == latency) {
-						latency = latency + rfp_green;
-					} else {
-						latency = latency + rfp_red;
-					}
+					latency = (latency == (512/value) ? latency += rfp_green : latency += rfp_red)
 				}
 			}
 		};
-		hash = hash.slice(0, -1); // remove trailing delimiter
+		hash = hash.slice(0, -1); // trailing delimiter
 		dom.audio1hash = sha1(hash);
+
+		// output
 		if (latency == "") {
-			dom.audioLatency = "not supported"; // FF70+
+			dom.audioLatency = "not supported"
 		} else {
-			if (latencyError == false) {
-				// output
-				dom.audioLatency.innerHTML = latency;
-			} else if ( latencyTries == 2) {
-				// output on second and last try
-				dom.audioLatency.innerHTML = latency;
+			// no error or 2nd try
+			if (latencyError == false || latencyTries == 2) {
+				dom.audioLatency.innerHTML = latency
 			}
-		}
+		};
 		dom.audio1data.innerHTML = output;
-		dom.audio1data.style.color = "#b3b3b3";
+		dom.audio1data.style.color = zshow;
+
 		// perf
 		let t1 = performance.now();
-		if (mPerf) {console.debug("audio properties: " + (t1-t0) + " ms" + " | " + (t1 - t0audio) + " ms")};
+		if (mPerf) {console.debug("audio context: " + (t1-t0) + " ms" + " | " + (t1 - t0audio) + " ms")};
 
-	} catch (error) {
-		// output some error & clear details data
-		dom.audio1data = "";
-		dom.audio1data.style.color = "#b3b3b3";
-		// webaudio is disabled
-		dom.audioLatency = "n/a";
-		dom.audio1hash = "n/a";
-		dom.audio2hash = "n/a";
-		dom.audio3hash = "n/a";
-		dom.audio1data = "";
-		dom.audio2data = "";
-		dom.audio3data = "";
-		// no webaudio, no more tests
-		let t1 = performance.now();
-		if (sPerf) {outputDebug("1", "audio 2", (t1-t0audio), (t1 - t0audio))};
-	};
-};
+		// next test or section perf
+		if (latencyTries == 1) {
+			get_audio2_hybrid()
+		} else {
+			outputDebug("1", "audio 2", (t1-t0audio))
+		};
 
-function get_audio2_oscillator() {
-	let t0 = performance.now();
-	let cc_output = [];
-	let audioCtx = new window.AudioContext;
-	let oscillator = audioCtx.createOscillator(),
-		analyser = audioCtx.createAnalyser(),
-		gain = audioCtx.createGain(),
-		scriptProcessor = audioCtx.createScriptProcessor(4096, 1, 1);
-
-	gain.gain.value = 0; // disable volume
-	oscillator.type = "triangle"; // triangle wave
-	oscillator.connect(analyser); // connect oscillator output to analyser input
-	analyser.connect(scriptProcessor); // connect analyser output to scriptProcessor input
-	scriptProcessor.connect(gain); // connect scriptProcessor output to gain input
-	gain.connect(audioCtx.destination); // connect gain output to audiocontext destination
-
-	scriptProcessor.onaudioprocess = function (bins) {
-		bins = new Float32Array(analyser.frequencyBinCount);
-		analyser.getFloatFrequencyData(bins);
-		for (let i = 0; i < bins.length; i = i + 1) {
-			cc_output.push(" " + bins[i]);
-		}
-		analyser.disconnect();
-		scriptProcessor.disconnect();
-		gain.disconnect();
-		// output & reset color
-		dom.audio2data = cc_output.slice(0, 30);
-		dom.audio2hash = sha1(cc_output.slice(0, 30));
-		dom.audio2data.style.color = "#b3b3b3";
-		// perf
-		let t1 = performance.now();
-		if (mPerf) {console.debug("audio oscillator: " + (t1-t0) + " ms" + " | " + (t1 - t0audio) + " ms")};
-	};
-	oscillator.start(0);
 };
 
 function get_audio2_hybrid() {
 	let t0 = performance.now();
+
 	let hybrid_output = [];
 	let audioCtx = new window.AudioContext,
     oscillator = audioCtx.createOscillator(),
@@ -182,7 +111,7 @@ function get_audio2_hybrid() {
     gain = audioCtx.createGain(),
     scriptProcessor = audioCtx.createScriptProcessor(4096, 1, 1);
 
-	// create and configure compressor
+	// create & configure compressor
 	let compressor = audioCtx.createDynamicsCompressor();
 	compressor.threshold && (compressor.threshold.value = -50);
 	compressor.knee && (compressor.knee.value = 40);
@@ -208,35 +137,92 @@ function get_audio2_hybrid() {
 		analyser.disconnect();
 		scriptProcessor.disconnect();
 		gain.disconnect();
-		// output & reset color
+
+		// output
 		dom.audio3data = hybrid_output.slice(0, 30);
 		dom.audio3hash = sha1(hybrid_output.slice(0, 30));
-		dom.audio3data.style.color = "#b3b3b3";
+		dom.audio3data.style.color = zshow;
+
 		// perf
 		let t1 = performance.now();
 		if (mPerf) {console.debug("audio hybrid: " + (t1-t0) + " ms" + " | " + (t1 - t0audio) + " ms")};
-		// perf: last section
-		if (sPerf) {outputDebug("1", "audio 2", (t1-t0audio))};
+
+		// next test or section perf
+		if (latencyError == true && latencyTries == 1) {
+			get_audio2_context()
+		} else {
+			outputDebug("1", "audio 2", (t1-t0audio))
+		}
+	};
+	oscillator.start(0);
+};
+
+function get_audio2_oscillator() {
+	let t0 = performance.now();
+
+	let cc_output = [];
+	let audioCtx = new window.AudioContext;
+	let oscillator = audioCtx.createOscillator(),
+		analyser = audioCtx.createAnalyser(),
+		gain = audioCtx.createGain(),
+		scriptProcessor = audioCtx.createScriptProcessor(4096, 1, 1);
+
+	gain.gain.value = 0; // disable volume
+	oscillator.type = "triangle"; // triangle wave
+	oscillator.connect(analyser); // connect oscillator output to analyser input
+	analyser.connect(scriptProcessor); // connect analyser output to scriptProcessor input
+	scriptProcessor.connect(gain); // connect scriptProcessor output to gain input
+	gain.connect(audioCtx.destination); // connect gain output to audiocontext destination
+
+	scriptProcessor.onaudioprocess = function (bins) {
+		bins = new Float32Array(analyser.frequencyBinCount);
+		analyser.getFloatFrequencyData(bins);
+		for (let i = 0; i < bins.length; i = i + 1) {
+			cc_output.push(" " + bins[i]);
+		}
+		analyser.disconnect();
+		scriptProcessor.disconnect();
+		gain.disconnect();
+
+		// output
+		dom.audio2data = cc_output.slice(0, 30);
+		dom.audio2hash = sha1(cc_output.slice(0, 30));
+		dom.audio2data.style.color = zshow;
+
+		// perf
+		let t1 = performance.now();
+		if (mPerf) {console.debug("audio oscillator: " + (t1-t0) + " ms" + " | " + (t1 - t0audio) + " ms")};
+
+		// next test
+		get_audio2_context();
+
 	};
 	oscillator.start(0);
 };
 
 function outputAudio2() {
 	t0audio = performance.now();
-	isWebAudio = false;
-	latencyError = false;
 	latencyTries = 0;
-	get_audio2_context();
-	if (isWebAudio) {
-		// openWPM: there may be weird interference effects
-		// if the prints are run sequentially with no delay
-		setTimeout(function() { get_audio2_oscillator(); }, 150)
-		if (latencyError == true) {
-			// try again: this should work on the second go, esp after osc *and* a pause
-			setTimeout(function() { get_audio2_context(); }, 350)
-		}
-		setTimeout(function() { get_audio2_hybrid(); }, 425)
-	};
+	try {
+		let test = new window.AudioContext;
+		// each test calls the next: oscillator -> context [try1] -> hybrid -> context [try2 if req]
+			// if context is run first, outputLatency *always* = 0 = incorrect : so run after oscillator
+			// if context is not run first, outputLatency *sometimes* = 0 : hence context [try2]
+		get_audio2_oscillator();
+
+	} catch(e) {
+		// no webaudio
+		dom.audioLatency = "n/a";
+		dom.audio1hash = "n/a";
+		dom.audio2hash = "n/a";
+		dom.audio3hash = "n/a";
+		dom.audio1data = "";
+		dom.audio2data = "";
+		dom.audio3data = "";
+		dom.audio1data.style.color = zshow;
+		dom.audio2data.style.color = zshow;
+		dom.audio3data.style.color = zshow;
+	}
 };
 
 function outputAudio1(type) {
@@ -249,7 +235,7 @@ function outputAudio1(type) {
 		let pxi_oscillator = context.createOscillator();
 		pxi_oscillator.type = "triangle";
 		pxi_oscillator.frequency.value = 1e4;
-		// create and configure compressor
+		// create & configure compressor
 		let pxi_compressor = context.createDynamicsCompressor();
 		pxi_compressor.threshold && (pxi_compressor.threshold.value = -50);
 		pxi_compressor.knee && (pxi_compressor.knee.value = 40);
@@ -260,7 +246,7 @@ function outputAudio1(type) {
 		// connect nodes
 		pxi_oscillator.connect(pxi_compressor);
 		pxi_compressor.connect(context.destination);
-		// start audio processing
+		// start processing
 		pxi_oscillator.start(0);
 		context.startRendering();
 		context.oncomplete = function(event) {
@@ -282,16 +268,16 @@ function outputAudio1(type) {
 				pxi_compressor.disconnect();
 				// perf
 				let t1 = performance.now();
-				if (sPerf) {outputDebug("1", "audio 1", (t1-t0), (t1 - gt0))};
+				outputDebug("1", "audio 1", (t1-t0), (t1 - gt0));
 		};
 	} catch(error) {
-		// webaudio disabled
+		// no webaudio
 		dom.audioSupport = "disabled";
 		dom.audioCopy = "n/a";
 		dom.audioGet = "n/a";
 		dom.audioSum = "n/a";
 		if (type == "load") {
-			// on page load, also n/a audio2 tests
+			// on page load, also n/a audio2
 			dom.audioLatency = "n/a";
 			dom.audio1hash = "n/a";
 			dom.audio2hash = "n/a";
@@ -299,7 +285,7 @@ function outputAudio1(type) {
 		};
 		// perf
 		let t2 = performance.now();
-		if (sPerf) {outputDebug("1", "audio 1", (t2-t0), (t2 - gt0))};
+		outputDebug("1", "audio 1", (t2-t0), (t2 - gt0));
 	};
 };
 
