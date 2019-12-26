@@ -97,12 +97,11 @@ let spawn = (function () {
 })();
 
 function reset_unicode() {
-	// resets the display with no measurements
+	// reset unicode details
 	let str = "";
-	// reset global var to append to fpjs2
 	for (let i = 0 ; i < ugCodepoints.length; i++) {
 		let ugCode = "U+" + ugCodepoints[i].substr(2);
-		str = str + '<br>' + ugCode.padStart(7, ' ');
+		str += "<br>" + ugCode.padStart(7);
 	};
 	dom.fontUGFound1.innerHTML = ugHeader + str;
 };
@@ -125,7 +124,7 @@ function get_unicode() {
 	/* https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo	*/
 
 	let t0 = performance.now();
-	// initiate variables
+	// variables
 	let ugDiv = dom.ugDiv,
 		ugSpan = dom.ugSpan,
 		ugSlot = dom.ugSlot,
@@ -150,7 +149,7 @@ function get_unicode() {
 		let ugCode = "U+" + n.substr(2);
 		ugHashOffset = ugHashOffset + "-" + ugCode;
 		ugHashClientRect = ugHashClientRect + "-" + ugCode;
-		ugCode = ugCode.padStart(7, ' ');
+		ugCode = ugCode.padStart(7);
 		ugOutputOffset = ugOutputOffset + "<br>" + ugCode;
 		ugOutputClientRect = ugOutputClientRect + "<br>" + ugCode;
 
@@ -160,15 +159,15 @@ function get_unicode() {
 			ugSlot.style.fontFamily = style === "default" ? "" : style;
 			ugSlot.textContent = c;
 
-			// Read the span width, but the div height. Firefox always reports the same value
+			// Read SPAN width, but DIV height. Firefox always reports the same value
 			// for the span's offsetHeight, even if the div around it is changing size
 
 			// offset measurement + concatenate hash string
 			ugWide = ugSpan.offsetWidth; ugHigh = ugDiv.offsetHeight;
 			ugHashOffset = ugHashOffset + "-"+ugWide+"-"+ugHigh+"-";
 			// offset output
-			ugWide = ugWide.toString(); ugWide = ugWide.padStart(4, ' ');
-			ugHigh = ugHigh.toString(); ugHigh = ugHigh.padStart(4, ' ');
+			ugWide = ugWide.toString(); ugWide = ugWide.padStart(4);
+			ugHigh = ugHigh.toString(); ugHigh = ugHigh.padStart(4);
 			ugOutputOffset = ugOutputOffset + "    " + ugWide + " × " + ugHigh;
 
 			// clientrect measurement + concatenate hash string
@@ -314,14 +313,14 @@ function get_fpjs2(type) {
 	};
 	// output hash/counts & reset color
 	outputA.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]" + note_file;
-	outputC.style.color = "#b3b3b3";
+	outputC.style.color = zshow;
 	// perf
 	let t1 = performance.now();
 	if (mPerf) {console.debug(type + " fonts fpjs2: " + (t1-t0) + " ms" + " | " + (t1 - t0font) + " ms")};
 
 };
 
-function get_fallback(type, fontarray){
+function get_fallback(type, fontarray) {
 	/* https://github.com/arthuredelstein/tordemos */
 
 	let t0 = performance.now();
@@ -407,7 +406,7 @@ function get_fallback(type, fontarray){
 		// perf
 		if (fontarray !== "tiny") {
 			let t2 = performance.now();
-			if (sPerf) {outputDebug("1", type + " fonts", (t2-t0font))};
+			outputDebug("1", type + " fonts", (t2-t0font));
 
 			// show/hide relevant details sections if font details
 			// are showing but give it slight timer so things are loaded
@@ -417,7 +416,7 @@ function get_fallback(type, fontarray){
 					showhide("table-row", "F", "&#9650; hide");
 				};
 				// reset color
-				outputD.style.color = "#b3b3b3";
+				outputD.style.color = zshow;
 			}
 			let checking2 = setInterval(tidy_fonts, 25);
 		}
@@ -429,135 +428,79 @@ function get_fallback(type, fontarray){
 function get_woff() {
 	// gfx.downloadable_fonts.woff2.enabled
 	let t0 = performance.now();
-
-	// get span of non-woff2
-	let element = dom.woffno;
-	let nowoff = element.offsetWidth;
-
+	// span of non-woff2
+	let el = dom.woffno;
+	let nowoff = el.offsetWidth;
 	// output
 	function output_woff(state) {
 		dom.fontWoff2 = state;
-		if (sPerf) {
-			let t1 = performance.now();
-			let warning = "";
-			if (counter == maxcounter) {warning = "timed out " + "[" + ((maxcounter+1)*delay) +"]" };
-			outputDebug("1", "[woff] fonts", (t1-t0), (t1 - gt0), warning);
-		};
+		// perf
+		let t1 = performance.now();
+		let warning = "";
+		if (counter == maxcounter) {warning = "timed out " + "[" + ((maxcounter+1)*delay) +"]" };
+		outputDebug("1", "[woff] fonts", (t1-t0), (t1 - gt0), warning);
 	}
-
-	// adjust delay
-	// go high: blocking woff or d/l'able fonts is not normal
+	// set delay
 	let counter = 0, maxcounter = 31, delay = 25; // 800ms
-	if (isMajorOS == "android" | isTorBrowser) {maxcounter = 59}; // 1500ms
-
+	if (isOS == "android" | isTB) {maxcounter = 59}; // 1500ms
 	// check for diff
-	element = dom.woffyes;
+	el = dom.woffyes;
 	function check_woff() {
 		if (counter < maxcounter) {
-			if (nowoff !== element.offsetWidth) {
+			if (nowoff !== el.offsetWidth) {
 				clearInterval(checking);
 				output_woff("enabled");
 			}
 		} else {
-			// failed after a set time: infer it's blocked
+			// eventually failed
 			clearInterval(checking);
 			output_woff("disabled [or blocked]");
 		}
 		counter++;
 	}
 	let checking = setInterval(check_woff, delay)
-
 }
 
-function outputFonts1(){
-	let t0 = performance.now();
-
-	// layout.css.font-loading-api.enabled
-	dom.fontCSS = 'FontFace' in window ? 'enabled' : 'disabled';
-
-	// default proportional font
-	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
-
-	// default font sizes
-	dom.df1 = fontTestStringA;
-	dom.df2 = fontTestStringA;
-	dom.df3 = fontTestStringA;
-	let font_item = dom.df1;
-	let font_property = "serif/sans-serif: " + getComputedStyle(font_item).getPropertyValue("font-size");
-	font_item = dom.df3;
-	font_property = font_property + " | monospace: " + getComputedStyle(font_item).getPropertyValue("font-size");
-	dom.fontFCsize = font_property;
-
-	// document fonts
-	let element = document.getElementById("spanLH");
-	let fontfamily = getComputedStyle(element).getPropertyValue("font-family");
-	if (fontfamily.slice(1,16) !== "Times New Roman") {
-		dom.fontDoc="disabled"
-	} else {
-		dom.fontDoc="enabled"
-	};
-
-	// unicode glyphs
-	get_unicode();
-	// woff
-	get_woff();
-
-	// perf
-	let t1 = performance.now();
-	if (sPerf) {outputDebug("1", "fonts", (t1-t0), (t1 - gt0))};
-};
-
-function outputFonts2(type){
+function outputFonts2(type) {
 	let t0 = performance.now();
 	t0font = performance.now();
 
-	// if running the monsta test:
-	// - we don't need to check if FF
-	// - we don't need the os string
+	// if running the monsta test: extras page:
 	if (type == "monsta") {
-		isFirefox = true; // bypass Firefox check
-		isMajorOS = "x"; // bypass zero-length check
+		isFF = true; // bypass Firefox check
+		isOS = "x"; // bypass zero-length check
 	}
 
 	// only run on Firefox
-	if (isFirefox == true) {
+	if (isFF == true) {
 		// reset
 		fontList = [];
 		let textfile = "";
 
 		// assign elements to output to
 		let outputA = document.getElementById(type+"_fontFPJS2"), // fpjs2 hash
-			outputB = document.getElementById(type+"_fontFB"),      // fallback hash
+			outputB = document.getElementById(type+"_fontFB"), // fallback hash
 			outputC = document.getElementById(type+"_fontFPJS2Found"), // fpjs2 detected
-			outputD = document.getElementById(type+"_fontFBFound");    // fallback detected
+			outputD = document.getElementById(type+"_fontFBFound"); // fallback detected
 
-		// set text file(s) and hyperlink it
-		// note: global var isMajorOS: relying solely on widgets for now
-		// note: fallback font loaded early in css: this should mean isMajorOS is always set
-
-		// testing
-		// isMajorOS = "";
-		if (isMajorOS == "") {
-				// handle where isMajorOS is blank
+		if (isOS == "") {
+			// handle where isOS is blank
 			outputA.innerHTML = error_global_os;
 			outputB.innerHTML = error_global_os;
 		} else {
-
-			// testing
-			// isMajorOS = "mac";
 			if (type == "monsta") {
 				textfile = "fonts_" + type;
 			} else {
-				textfile = "fonts_" + isMajorOS + "_" + type;
+				textfile = "fonts_" + isOS + "_" + type;
 			}
 
 			// output status
 			outputA.innerHTML = "test is running... please wait";
 			outputB.innerHTML = "test is running... please wait";
 
-			// change font color to hide results: try not to shrink/grow elements
-			outputC.style.color = "#1a1a1a";
-			outputD.style.color = "#1a1a1a";
+			// hide previous details w/ color: don't shrink elements
+			outputC.style.color = zhide;
+			outputD.style.color = zhide;
 
 			// trap xhr/xmlhttp errors
 			let xhr_font_error = false;
@@ -585,15 +528,15 @@ function outputFonts2(type){
 			// build fontList from text file
 			let strPush = "";
 			function intoArray(lines) {
-				// exclude blank lines by filtering length
+				// ignore zero length
 				let lineArr = lines.split("\n").filter(s => s.length > 0);
 				for (let k = 0 ; k < lineArr.length; k++) {
 					// trim
 					strPush = lineArr[k];
 					strPush = strPush.trim();
-					// ignore if zero length			
+					// ignore zero length
 					if (strPush.length > 0) {
-						// ignore comment lines
+						// ignore comments
 						if (strPush.slice(0,2) !== "//") {
 							fontList.push(strPush);
 						}
@@ -623,7 +566,7 @@ function outputFonts2(type){
 			function run_enumerate() {
 				if (xhr_font_error == false) {
 
-					// sort fonts and remove duplicates
+					// sort & remove duplicates
 					fontList.sort();
 					fontList = fontList.filter(function (font, position) {
 						return fontList.indexOf(font) === position
@@ -636,7 +579,7 @@ function outputFonts2(type){
 					get_fpjs2(type);
 
 					// run fallback
-					// when blocking document fonts with whitelist)
+					// when blocking document fonts with whitelist
 					// first run (for me) is 19, re-run is 46: either small or all
 					// I do not know why: but running a tiny 3 font check first
 					// seems to prime it correctly: need to investigate more
@@ -662,11 +605,11 @@ function outputFonts2(type){
 					// clear found fonts, reset color
 					outputC.innerHTML = "";
 					outputD.innerHTML = "";
-					outputC.style.color = "#b3b3b3";
-					outputD.style.color = "#b3b3b3";
+					outputC.style.color = zshow;
+					outputD.style.color = zshow;
 					// perf
 					let t2 = performance.now();
-					if (sPerf) {outputDebug("1", type + " fonts", (t2-t0font))};
+					outputDebug("1", type + " fonts", (t2-t0font));
 
 					// show/hide relevant details sections if font details
 					// are showing but give it slight timer
@@ -711,7 +654,61 @@ function outputFonts2(type){
 	};
 };
 
-if (isPage == "main") {
-	outputFonts1();
-	//outputFonts2("small");
+function outputFonts1() {
+	let t0 = performance.now();
+
+	// layout.css.font-loading-api.enabled
+	dom.fontCSS = 'FontFace' in window ? 'enabled' : 'disabled';
+
+	// default proportional font
+	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
+
+	// default font sizes
+	dom.df1 = fontTestStringA;
+	dom.df2 = fontTestStringA;
+	dom.df3 = fontTestStringA;
+	let font_item = dom.df1;
+	let font_property = "serif/sans-serif: " + getComputedStyle(font_item).getPropertyValue("font-size");
+	font_item = dom.df3;
+	font_property = font_property + " | monospace: " + getComputedStyle(font_item).getPropertyValue("font-size");
+	dom.fontFCsize = font_property;
+
+	// document fonts
+	let element = dom.spanLH;
+	let fontfamily = getComputedStyle(element).getPropertyValue("font-family");
+	if (fontfamily.slice(1,16) !== "Times New Roman") {
+		dom.fontDoc="disabled"
+	} else {
+		dom.fontDoc="enabled"
+	};
+
+	// unicode glyphs
+	get_unicode();
+	// woff
+	get_woff();
+
+	// perf
+	let t1 = performance.now();
+	outputDebug("1", "fonts", (t1-t0), (t1 - gt0));
 };
+
+function outputFonts() {
+	if (isPage == "main") {
+		if (isFF == true) {
+		// do once: font hyperlinks
+			let pre = "<span class='no_color'><a href='txt/fonts_" + isOS,
+				mid = ".txt' target='blank' class='blue'>fonts_" + isOS;
+			dom.small_fontList.innerHTML = pre + "_small" + mid + "_small<a></span>";
+			dom.all_fontList.innerHTML = pre + "_all" + mid + "_all<a></span>";
+		} else {
+			let str = "this is not Firefox, use the <span class='no_color'><a href='extra.html' "
+				+ "target='blank' class='blue'>monsta font list<a></span>"
+			dom.small_fontList.innerHTML = str;
+			dom.all_fontList.innerHTML = str;
+		}
+		// autorun
+		outputFonts1();
+	}
+};
+
+outputFonts()
