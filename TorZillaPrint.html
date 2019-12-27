@@ -69,6 +69,7 @@
 		<div class="hidden"><span id="sColorElement"></span></div>
 		<!-- svg -->
 		<div class="offscreen" id="svgDiv"></div>
+		<div class="hidden"><img id="branding" src="chrome://branding/content/about-wordmark.svg"></img></div>
 
 	<table>
 	<tr><td><a name="top"></a><h2>TorZillaPrint</h2></td></tr>
@@ -133,10 +134,10 @@
 		<tr><td>devicePixelRatio</td><td class="c" id="DevPR"></td></tr>
 		<tr><td>[scrollY] devicePixelRatio <sup>5</sup></td><td class="c" id="devPRscrollY"></td></tr>
 		<tr><td>[clientRect] devicePixelRatio <sup>5</sup></td><td class="c" id="devPRclientRect"></td></tr>
-		<tr class="togS"><td colspan="2" class="center">--- android ---</td></tr>
-		<tr class="togS"><td></td><td><input type="text" id="kbt" placeholder="tap in here" onfocus="get_android_kbh()"></td></tr>
-		<tr class="togS"><td>keyboard height</td><td class="c" id="kbh"></td></tr>
-		<tr class="togS"><td>toolbar height</td><td class="c" id="tbh"></td></tr>
+		<tr class="togOS1"><td colspan="2" class="center">--- android ---</td></tr>
+		<tr class="togOS1"><td></td><td><input type="text" id="kbt" placeholder="tap in here" onfocus="get_android_kbh()"></td></tr>
+		<tr class="togOS1"><td>keyboard height</td><td class="c" id="kbh"></td></tr>
+		<tr class="togOS1"><td>toolbar height</td><td class="c" id="tbh"></td></tr>
 		<tr><td colspan="2"><span class="no_color">code based on work by </span>
 			<a target="_blank" class="blue" href="https://arthuredelstein.github.io/tordemos/media-query-fingerprint.html">Arthur Edelstein</a> <sup>1</sup>
 			<span class="no_color">, </span>
@@ -179,7 +180,7 @@
 		<tr><td>[navigator] productSub</td><td class="c" id="nProductSub"></td></tr>
 		<tr><td colspan="2" class="center">--- browser, version, os ---</td></tr>
 		<tr><td>[css] browser</td><td id="fdResourceCss"></td></tr>
-		<tr><td>[css] release channel</td><td id="fdBrandingCss"></td></tr>
+		<tr class="togOS2"><td>[css] branding</td><td id="fdBrandingCss"></td></tr>
 		<tr><td>[error messages] browser</td><td class="c" id="fdError"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt"><b>mozInnerScreenX:</b><br>we could also use<br>mozGetAsFile<br>mozScreenX<br>oscpu
