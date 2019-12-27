@@ -469,6 +469,10 @@ function get_browser_resource() {
 	// browser: chrome: Firefox
 	let t0 = performance.now();
 
+	// branding dimensions
+	let el = document.getElementById("branding");
+	let w = el.width, h = el.height;
+
 	// about:logo: desktop 300x236 vs 258x99 android dimensions
 	let imgA = new Image();
 	imgA.src = "about:logo";
@@ -476,10 +480,18 @@ function get_browser_resource() {
 	document.body.appendChild(imgA);
 	imgA.addEventListener("load", function() {
 		if (imgA.width == 300) {
-			// change displayed resource to icon64
+			// change resource to icon64
 			dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/icon64.png')";
 		};
-		if (imgA.width > 0) {dom.fdResource = "Firefox"};
+		if (imgA.width > 0) {
+			dom.fdResource = "Firefox";
+			// improve Firefox
+			if (h == 64) {
+				dom.fdResource = "Firefox [Developer or Nightly]"
+			} else {
+				dom.fdResource = "Firefox [Stable]"
+			}
+		}
 		document.body.removeChild(imgA);
 	});
 
@@ -489,12 +501,20 @@ function get_browser_resource() {
 	imgB.style.visibility = "hidden";
 	document.body.appendChild(imgB);
 	imgB.addEventListener("load", function() {
+		// check TB watermark
+		console.debug("tb watermark width", imgB.width)
 		if (imgB.width > 0) {
 			dom.fdResource = "Tor Browser";
 			// set isTB
 			isTB = true;
 			outputDebug("2", "     resource:// = tor-watermark.png")
-		};
+			// improve to alpha
+			if (w == 270 && h == 48) {
+				//  270x48 = tb9 alpha
+				dom.fdResource = "Tor Browser [alpha]";
+				outputDebug("2", "    css branding = 270 x 48px")
+			}
+		}
 		document.body.removeChild(imgB);
 	});
 	// ToDo: browser resource: TB Android
@@ -1013,7 +1033,7 @@ function get_dpr() {
 function run_os() {
 	if (isOS == "android") {
 		// unhide stuff
-		showhide("table-row", "S", "");
+		showhide("table-row", "OS1", "");
 		// fill in stuff
 		dom.droidWin = firstW + " x " + firstH + " [inner] [toolbar visible]";
 		// listen for toolbar
@@ -1023,6 +1043,8 @@ function run_os() {
 			setTimeout(function(){get_screen_metrics();}, 100);
 		};
 	} else {
+		// unhide stuff
+		showhide("table-row", "OS2", "");
 		// desktop: start listening for resize events
 		window.addEventListener("resize", get_screen_metrics);
 	};
