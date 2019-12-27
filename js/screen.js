@@ -379,13 +379,16 @@ function get_screen_metrics(type) {
 			get_zoom("resize");
 			get_viewport("resize");
 		}
-		if (jsZoom == 100) {
-			// add LB and NW notation
-			dom.WndIn.innerHTML = strTemp + isInner(w,h);
-		} else {
-			// not 100% zoom
-			dom.WndIn.innerHTML = strTemp + lb_orange;
+		// add LB and NW notation
+		if (isFF == true) {
+			if (jsZoom == 100) {
+				strTemp += isInner(w,h);
+			} else {
+				strTemp += lb_orange;
+			}
 		}
+		// output
+		dom.WndIn.innerHTML = strTemp
 	};
 	get_mm_metrics();
 	get_orientation();
@@ -512,7 +515,7 @@ function get_browser_resource() {
 			if (w == 270 && h == 48) {
 				//  270x48 = tb9 alpha
 				dom.fdResource = "Tor Browser [alpha]";
-				outputDebug("2", "    css branding = 270 x 48px")
+				outputDebug("2", "    css branding = 270 x 48 px = alpha")
 			}
 		}
 		document.body.removeChild(imgB);
@@ -1244,8 +1247,14 @@ function outputScreen(type) {
 	dom.PixDepth = screen.pixelDepth;
 	dom.ColDepth = screen.colorDepth;
 	// functions
-	if (type != "load") {get_zoom("screen")}; // ua already ran it
-	if (type != "load") {get_viewport("screen")} // ua already ran it
+	if (isFF == true) {
+		if (type != "load") {get_zoom("screen")}; // ua already ran it
+		if (type != "load") {get_viewport("screen")} // ua already ran it
+	} else {
+		// for non-Firefox browsers
+		get_zoom("screen");
+		get_viewport("screen");
+	}
 	get_orientation();
 	get_private_win();
 	get_fullscreen();
