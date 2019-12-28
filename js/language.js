@@ -32,7 +32,7 @@ function get_app_lang_dtd1() {
 		try {
 			dtd1 = iframe.contentDocument.getElementById("DTD1").innerText;
 		} catch(e) {
-			if ((location.protocol) == "file:") {
+			if (isFile) {
 				// could be CORS, or the patch: check MediaDocument result
 				setTimeout(function() {
 					let str = dom.appLang4.textContent;
@@ -142,7 +142,7 @@ function get_app_lang_mediadocument() {
 			}
 			output_mediadocument(output);
 		} catch(e) {
-			if ((location.protocol) == "file:") {
+			if (isFile) {
 				// file: Cross-Origin Request Blocked
 				output_mediadocument(error_file_cors);
 			} else {
@@ -253,7 +253,7 @@ function test_iframe() {
 		if (mPerf) {console.debug("app lang iframe test: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 		// output
 		if (iframeBlocked == true) {
-			if ((location.protocol) == "file:") {
+			if (isFile) {
 				// file: Cross-Origin Request Blocked
 				dom.appLang2.innerHTML = error_file_cors;
 				dom.appLang4.innerHTML = error_file_cors;
