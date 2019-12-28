@@ -168,7 +168,7 @@ function get_unicode() {
 			// offset output
 			ugWide = ugWide.toString(); ugWide = ugWide.padStart(4);
 			ugHigh = ugHigh.toString(); ugHigh = ugHigh.padStart(4);
-			ugOutputOffset = ugOutputOffset + "    " + ugWide + " × " + ugHigh;
+			ugOutputOffset = ugOutputOffset + "    " + ugWide + " x " + ugHigh;
 
 			// clientrect measurement + concatenate hash string
 			let elementDiv = ugDiv.getBoundingClientRect();
@@ -433,7 +433,7 @@ function get_woff() {
 	let nowoff = el.offsetWidth;
 	// output
 	function output_woff(state) {
-		dom.fontWoff2 = state;
+		dom.fontWoff2.innerHTML = state;
 		// perf
 		let t1 = performance.now();
 		let warning = "";
@@ -454,7 +454,13 @@ function get_woff() {
 		} else {
 			// eventually failed
 			clearInterval(checking);
-			output_woff("disabled [or blocked]");
+			if (isVer < 69 ) {
+			// FF68 and lower the pref exists: so blocked or disabled
+				output_woff("disabled [or blocked]");
+			} else {
+			// FF69 or higher no pref: so blocked
+				output_woff("blocked");
+			}
 		}
 		counter++;
 	}
@@ -593,7 +599,7 @@ function outputFonts2(type) {
 
 				} else {
 					// A+B=hashes , C+D=detected
-					if ((location.protocol) == "file:") {
+					if (isFile) {
 						// file error
 						outputA.innerHTML = error_file_cors;
 						outputB.innerHTML = error_file_cors;
