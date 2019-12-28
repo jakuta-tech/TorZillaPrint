@@ -12,64 +12,50 @@
 </head>
 
 <body>
-	<!-- non-displayed elements -->
-		<!-- WOFF2 -->
-		<div class="offscreen">
-			<div><span id="woffno" class="woffno">&#xe800;</span></div>
-			<div><span id="woffyes" class="woffyes">&#xe800;</span></div>
+
+	<img id="imageFS" width=0 height=0></img>
+	<!-- offscreen -->
+	<div class="offscreen">
+		<img id="imageTest" src="">
+		<div><span id="woffno" class="woffno">&#xe800;</span></div>
+		<div><span id="woffyes" class="woffyes">&#xe800;</span></div>
+		<div id='divDPI' style='height: 1in; width: 1in;'></div>
+		<div id="divLH"><span id="spanLH" class="cssLH">line height</span></div>
+		<div id="ugDiv" class="normalized" style='font-size: 22pt;'><span id="ugSpan"><span id="ugSlot"></span></span></div>
+		<div><span id="fontFBTest" style='white-space: nowrap; font-family: fontFallback;'></span></div>
+		<div class="normalized">
+			<div><span id="df1" style='font-family: serif;'></span></div>
+			<div><span id="df2" style='font-family: sans-serif;'></span></div>
+			<div><span id="df3" style='font-family: monospace;'></span></div>
 		</div>
-		<!-- screen, ua, os, etc -->
-		<div id='divDPI' class="offscreen" style='height: 1in; width: 1in;'></div>
-		<div id="divLH" class="offscreen">
-			<span id="spanLH" class="cssLH">line height</span>
+		<div id="drect"></div>
+		<div id="svgDiv"></div>
+	</div>
+	<!-- hidden -->
+	<div class="hidden">
+	  <object id="test68"></object>
+		<div id="test73"></div>
+		<span id="sColorElement"></span>
+		<img id="branding" src="chrome://branding/content/about-wordmark.svg"></img>
+		<div>
+			<input type="reset" value="" id="widget1">
+			<input type="checkbox" id="widget2">
+			<input type="color" id="widget3">
+			<select id="widget4"><option value="a"></option></select>
+			<input type="datetime-local" id="widget5">
+			<input type="radio" id="widget6">
+			<input type="text" id="widget7">
+			<input type="date" id="widget8">
+			<textarea id="widget9"></textarea>
 		</div>
-		<div class="hidden"><object id="obj68"></object></div>
-		<div class="hidden" id="test73"></div>
-		<img id="imageFS" width=0 height=0></img>
-		<!-- widget os -->
-		<div class="hidden">
-			<input type="reset" value="" id="widget1"><br>
-			<input type="checkbox" id="widget2"><br>
-			<input type="color" id="widget3"><br>
-			<select id="widget4"><option value="a"></option></select><br>
-			<input type="datetime-local" id="widget5"><br>
-			<input type="radio" id="widget6"><br>
-			<input type="text" id="widget7"><br>
-			<input type="date" id="widget8"><br>
-			<textarea id="widget9"></textarea><br>
-		</div>
-		<!-- app language -->
-		<div class="offscreen"><img id="imageTest" src=""></div>
-		<div class="hidden">
+		<div>
 			<iframe id="iframeTest"></iframe>
 			<form><input id="appLang_1" required="" type="text"></form>
 			<iframe id="appLang_2"></iframe>
 			<iframe id="appLang_3"></iframe>
 			<iframe id="appLang_4"></iframe>
 		</div>
-		<!-- domrect -->
-		<div id="drect" class="offscreen"></div>
-		<!-- default font size -->
-		<div class="offscreen">
-			<div class="normalized">
-				<div><span id="df1" style='font-family: serif;'></span></div>
-				<div><span id="df2" style='font-family: sans-serif;'></span></div>
-				<div><span id="df3" style='font-family: monospace;'></span></div>
-			</div>
-		</div>
-		<!-- unicode glyphs -->
-		<div class="offscreen">
-			<div id="ugDiv" class="normalized" style='font-size: 22pt;'><span id="ugSpan"><span id="ugSlot"></span></span></div>
-		</div>
-		<!-- font fallback -->
-		<div class="offscreen">
-			<span id="fontFBTest" style='white-space: nowrap; font-family: fontFallback;'></span>
-		</div>
-		<!-- css -->
-		<div class="hidden"><span id="sColorElement"></span></div>
-		<!-- svg -->
-		<div class="offscreen" id="svgDiv"></div>
-		<div class="hidden"><img id="branding" src="chrome://branding/content/about-wordmark.svg"></img></div>
+	</div>
 
 	<table>
 	<tr><td><a name="top"></a><h2>TorZillaPrint</h2></td></tr>
@@ -104,7 +90,7 @@
 			&nbsp [css min-] inner window <sup>1, 3</sup></td><td id="D"></td></tr>
 		<tr><td>[matchMedia] inner window <sup>2</sup></td><td class="c" id="WndInMM"></td></tr>
 		<tr><td>viewport <sup>4</sup></td><td class="c" id="Viewport"></td></tr>
-		<tr><td>[css] display-mode</td><td id="cssDM"></td></tr>
+		<tr><td>[css | matchMedia] display-mode</td><td><span id="cssDM"></span> | <span class="c" id="mmDM"></span></td></tr>
 		<tr><td>full screen</td><td class="c" id="fsState"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">full-screen-api.enabled</span></div>
@@ -120,13 +106,13 @@
 		<tr class="togOS1"><td>[android] new window</td><td class="c" id="droidWin"></td></tr>
 		<tr><td>private window</td><td class="c" id="IsPBMode"></td></tr>
 		<tr><td>orientation</td><td class="c" id="ScrOrient"></td></tr>
-		<tr><td>[css] orientation</td><td id="cssOrient"></td></tr>
-		<tr><td>[css aspect-ratio] orientation</td><td id="cssAS"></td></tr>
-		<tr><td>[css device-aspect-ratio] orientation</td><td id="cssDAS"></td></tr>
-		<tr><td>[matchMedia] window orientation</td><td class="c" id="mmOrient"></td></tr>
+		<tr><td>[css] orientation | aspect-ratio | device-aspect-ratio</td>
+			<td><span id="cssO"></span> | <span id="cssAR"></span> | <span id="cssDAR"></span></td></tr>
+		<tr><td>[matchMedia] orientation | aspect-ratio | device-aspect-ratio</td>
+			<td><span class="c" id="mmO"></span> | <span class="c" id="mmAR"></span> | <span class="c" id="mmDAR"></span></td></tr>
 		<tr><td>pixel depth</td><td class="c" id="PixDepth"></td></tr>
 		<tr><td>color depth</td><td class="c" id="ColDepth"></td></tr>
-		<tr><td>[css color] bits per color</td><td id="cssBPC"></td></tr>
+		<tr><td>[css | matchMedia] color</td><td><span id="cssC"></span> | <span class="c" id="mmC"></span></td></tr>
 		<tr><td>dpi</td><td class="c" id="jsDPI"></td ></tr>
 		<tr><td>[css min-resolution] dpi</td><td id="P"></td></tr>
 		<tr><td>[matchMedia max-resolution] dpi | dppx | dpcm</td><td class="c" id="mmDPI"></td></tr>
@@ -451,8 +437,9 @@
 			<span class="ttxtb">dom.maxHardwareConcurrency</span></div>
 			&nbsp [navigator] hardwareConcurrency</td><td class="c" id="nHWC"></td></tr>
 		<tr><td>[api] pointer event</td><td class="c" id="pointer1"></td></tr>
-		<tr><td>[css] any-pointer</td><td id="cssAP"></td></tr>
-		<tr><td>[css] pointer</td><td id="cssP"></td></tr>
+		<tr><td>[css] any-hover | hover</td><td><span id="cssAH"></span> | <span id="cssH"></span></td></tr>
+		<tr><td>[matchMedia] any-hover | hover</td><td class="c" id="mmH"></td></tr>
+		<tr><td>[css] any-pointer | pointer</td><td><span id="cssAP"></span> | <span id="cssP"></span></td></tr>		
 		<tr><td>[matchMedia] any-pointer | pointer</td><td class="c" id="mmP"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">media.webspeech.recognition.enable</span></div>
@@ -645,7 +632,7 @@
 		<tr><td colspan="2">[offset] unicode glyphs <sup>1</sup></td><td class="c1 mono" id="fontUG1"></td></tr>
 		<tr><td colspan="2">[clientrect] unicode glyphs <sup>1</sup></td><td class="c1 mono" id="fontUG2"></td></tr>
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
-			<span class="ttxtx">gfx.downloadable_fonts.woff2.enabled</span></div>
+			<span class="ttxtx">gfx.downloadable_fonts.woff2.enabled<br>Firefox 68 or lower</span></div>
 			&nbsp WOFF2</td><td class="c1" id="fontWoff2"></td></tr>
 		<!--WHITELIST: c2: small -->
 		<tr><td colspan="3" class="center">------</td></tr>
@@ -741,10 +728,12 @@
 		<tr><td><div>
 				<div class="btn-left"><button class="btn14" onClick="outputSection(`14`, `c`, `m`)">[ re-run tests ]</button></div>
 				<div><div class="ttip"><span class="icon">[ i ]</span><span class="ttxtb">ui.systemUsesDarkTheme</span></div>
-				&nbsp [css] prefers-color-scheme</div></div></td><td id="cssPCS"></td></tr>
-		<tr><td>[matchMedia] prefers-color-scheme</td><td class="c" id="mmPCS"></td></tr>
-		<tr><td>[css] prefers-reduced-motion</td><td id="cssPRM"></td></tr>
-		<tr><td>[matchMedia] prefers-reduced-motion</td><td class="c" id="mmPRM"></td></tr>
+				&nbsp [css | matchMedia] prefers-color-scheme</div></div></td>
+				<td><span id="cssPCS"></span> <span class="bad" id="cssPCSb"></span>
+				<span class="good" id="cssPCSg"></span> | <span class="c" id="mmPCS"></span></td></tr>
+		<tr><td>[css | matchMedia] prefers-reduced-motion</td>
+				<td><span id="cssPRM"></span> <span class="bad" id="cssPRMb"></span>
+				<span class="good" id="cssPRMg"></span> | <span class="c" id="mmPRM"></span></td></tr>
 		<tr><td>[-moz-] colors</td><td class="c mono" id="mColorHash"></td></tr>
 		<tr><td>[system] colors</td><td class="c mono" id="sColorHash"></td></tr>
 	</table>
@@ -836,6 +825,7 @@
 			<span class="ttxtb">dom.use_components_shim</span></div>
 			&nbsp component interfaces</td><td class="c mono" id="comshim"></td></tr>
 		<tr><td colspan="2">navigator properties</td><td class="c mono" id="nProto"></td></tr>
+		<tr><td colspan="2">window properties</td><td class="c mono" id="wProps"></td></tr>
 		<tr><td colspan="3" class="showhide">
 				<input id="collapseM2" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M2`)">
 				<label for="collapseM2" class="lbl-toggle" id="labelM2">&#9660; show details</label>
@@ -878,6 +868,7 @@
 	<script src="js/domrect.js"></script>
 
 	<!-- almost 500kb, load last -->
+	<link rel="stylesheet" type="text/css" href="css/media.css">
 	<link rel="stylesheet" type="text/css" href="css/window_size.css">
 	<link rel="stylesheet" type="text/css" href="css/screen_size.css">
 	<link rel="stylesheet" type="text/css" href="css/dpi.css">
