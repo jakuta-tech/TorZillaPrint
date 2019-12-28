@@ -524,7 +524,7 @@ function get_browser_resource() {
 			// improve Firefox
 			if (hFF == 64) {
 				dom.fdResource = "Firefox [Developer or Nightly: " + wFF + " x " + hFF + "]"
-			} else {
+			} else if (hFF > 0) {
 				dom.fdResource = "Firefox [Stable: " + wFF + " x " + hFF + "]"
 			}
 		}
@@ -550,7 +550,7 @@ function get_browser_resource() {
 				//  270x48 = tb9 alpha
 				dom.fdResource = "Tor Browser [alpha: " + wTB + " x " + hTB + "]";
 				outputDebug("2", "    css branding = 270 x 48 px = alpha")
-			} else {
+			} else if (hTB > 0) {
 				dom.fdResource = "Tor Browser [" + wTB + " x " + hTB + "]";
 			}
 		}
@@ -1432,9 +1432,9 @@ function outputUA() {
 	if ((location.protocol) == "https:") {isSecure = true};
 	if (isNaN(window.mozInnerScreenX) === false) {isFF = true};
 	/* other:
-		if (isNaN(window.window.scrollMaxX) === false) {"isFF = true"};
-		if (navigator.oscpu == undefined){} else {"isFF = true"};
-		// see 1591968: dom.mozPaintCount.enabled
+	if (isNaN(window.window.scrollMaxX) === false) {"isFF = true"};
+	if (navigator.oscpu == undefined){} else {"isFF = true"};
+	// see 1591968: dom.mozPaintCount.enabled
 	*/
 	// properties
 	dom.nAppName = navigator.appName;
