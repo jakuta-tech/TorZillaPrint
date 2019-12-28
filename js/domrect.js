@@ -113,7 +113,7 @@ function test_domrect() {
 		element.innerHTML="success";
 		run_domrect();
 	} catch(e) {
-		if (location.protocol == "file:") {
+		if (isFile) {
 			remove_domrect("cors");
 		} else {
 			// cache?/timing?: clicking re-run always works
@@ -132,7 +132,7 @@ function outputDomRect() {
 	setTimeout(function(){
 		// we're still empty
 		if (dom.dr1.textContent == "" | sha1(dom.dr1.textContent) == "ab90d23f7402359d51e25399fe46dac3401a3352") {
-			if (location.protocol == "file:") {
+			if (isFile) {
 				remove_domrect("404");
 			} else {
 				remove_domrect("iframe");
