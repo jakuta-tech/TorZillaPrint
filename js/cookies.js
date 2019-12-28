@@ -228,7 +228,7 @@ function get_appcache() {
 	// appCache support (browser.cache.offline.enable)
 	if ("applicationCache" in window) {
 		dom.appCacheSupport = "enabled";
-		if ((location.protocol) === "https:") {
+		if (isSecure) {
 			// appCache test
 			try {
 				dom.appCacheTest.innerHTML = note_ttc
@@ -251,7 +251,7 @@ function get_workers() {
 	// worker support
 	if (typeof(Worker) !== "undefined") {
 		dom.workerSupport = "enabled";
-		if ((location.protocol) !== "file:") {
+		if (!isFile) {
 			// web worker test
 			try {
 				let wwt = new Worker("js/worker.js");
@@ -306,7 +306,7 @@ function get_service_workers() {
 
 	let swMsg = "", na = "n/a";
 	// service worker support (dom.serviceWorkers.enabled)
-	if ((location.protocol) === "https:") {
+	if (isSecure) {
 		if ("serviceWorker" in navigator) {
 			dom.serviceWSupport = "enabled";
 			// service worker test
@@ -375,7 +375,7 @@ function get_storage_manager() {
 	// storage manager support (dom.storageManager.enabled)
 	if ("storage" in navigator) {
 		dom.storageMSupport = "enabled"
-		if ((location.protocol) !== "file:") {
+		if (!isFile) {
 
 			// storage manager properties
 			try {
