@@ -69,8 +69,8 @@ function get_version() {
 	}
 	//68 (0ms)
 	if (go) {
-		let obj68 = dom.obj68;
-		if (obj68.typeMustMatch == false) {} else { verNo="68"; go = false};
+		let test68 = dom.test68;
+		if (test68.typeMustMatch == false) {} else { verNo="68"; go = false};
 	}
 	//67 (0ms)
 	if (go) {
@@ -205,17 +205,35 @@ function get_zoom(type) {
 };
 
 function get_orientation() {
-	let l = "landscape", p = "portrait", q ="(orientation: ";
-	dom.mmOrient = (function () {
+	let l = "landscape", p = "portrait", q ="(orientation: ", s="square";
+	dom.mmO = (function () {
 		if (window.matchMedia(q+p+")").matches) return p;
 		if (window.matchMedia(q+l+")").matches) return l;
 	})();
+	dom.mmAR = (function () {
+		if (window.matchMedia("(aspect-ratio:1/1)").matches) return s;
+		if (window.matchMedia("(min-aspect-ratio:1000/999)").matches) return l;
+		if (window.matchMedia("(max-aspect-ratio:999/1000)").matches) return p;
+	})();
+	dom.mmDAR = (function () {
+		if (window.matchMedia("(device-aspect-ratio:1/1)").matches) return s;
+		if (window.matchMedia("(min-device-aspect-ratio:1000/999)").matches) return l;
+		if (window.matchMedia("(max-device-aspect-ratio:999/1000)").matches) return p;
+	})();
 	dom.ScrOrient = (function () {
-		let o = (screen.orientation || screen.mozOrientation || {}).type;
+		let o = (screen.orientation.type);
 		if (o === l+"-primary") return l;
 		if (o === l+"-secondary") return l+" upside down";
 		if (o === p+"-secondary" || o === "portrait-primary") return p;
 		if (o === undefined) return "undefined";
+	})();
+	dom.mmDM = (function () {
+		// we'll also throw display-mode in here
+		q="(display-mode:"
+		if (window.matchMedia(q+"fullscreen)").matches) return "fullscreen";
+		if (window.matchMedia(q+"browser)").matches) return "browser";
+		if (window.matchMedia(q+"minimal-ui)").matches) return "minimal-ui";
+		if (window.matchMedia(q+p+")").matches) return p;
 	})();
 };
 
@@ -232,6 +250,22 @@ function get_private_win() {
 		dom.IsPBMode="unknown: "+e.name
 	};
 };
+
+function get_mm_color(type) {
+	let result = "",
+		q = "(" + type + ":"
+	try {
+		result = (function () {
+			for (let i = 0; i < 1000; i++) {
+				if (matchMedia(q + i + ")").matches === true) {
+					return i;}
+			} return i;
+		})();
+	} catch(e) {
+		result = "error"
+	}
+	return result
+}
 
 function get_mm_dpi(type) {
 	let result = "",
@@ -1207,11 +1241,11 @@ function goNW() {
 				} catch(e) {
 					clearInterval(checking);
 					// errors
-					if ((location.protocol) == "file:") {
+					if (isFile) {
 						let err = e.message;
 						if (err.substring(0, 17) == "Permission denied") {
 							// privacy.file_unique_origin
-							strError = so + "file: debug: checked "+ n +" times:" + sc + sn + "check privacy.file_unique_origin" + sc;
+							strError = so + "only " + n + " checks: flip privacy.file_unique_origin" + sc;
 						}
 					}
 					// if not permission denied, eventually we will always get a
@@ -1243,19 +1277,19 @@ function goNW() {
 function outputScreen(type) {
 	let t0 = performance.now();
 	// properties
-	get_screen_metrics("screen");
+	get_screen_metrics("screen"); // also runs get_orientation
 	dom.PixDepth = screen.pixelDepth;
 	dom.ColDepth = screen.colorDepth;
+	dom.mmC = get_mm_color("color");
 	// functions
 	if (isFF == true) {
-		if (type != "load") {get_zoom("screen")}; // ua already ran it
-		if (type != "load") {get_viewport("screen")} // ua already ran it
+		if (type != "load") {get_zoom("screen")}; // outputUA already ran it
+		if (type != "load") {get_viewport("screen")} // outputUA already ran it
 	} else {
 		// for non-Firefox browsers
 		get_zoom("screen");
 		get_viewport("screen");
 	}
-	get_orientation();
 	get_private_win();
 	get_fullscreen();
 	// listen for dpr leaks
@@ -1392,7 +1426,8 @@ function outputUA() {
 
 	// first script run: set global vars
 	isPage = "main";
-	if ((location.protocol) == "file:") {note_file = sn + "[file:]" + sc};
+	if ((location.protocol) == "file:") {isFile = true; note_file = sn + "[file:]" + sc};
+	if ((location.protocol) == "https:") {isSecure = true};
 	if (isNaN(window.mozInnerScreenX) === false) {isFF = true};
 	/* other:
 		if (isNaN(window.window.scrollMaxX) === false) {"isFF = true"};
