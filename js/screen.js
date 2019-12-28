@@ -505,10 +505,7 @@ function get_browser_errors() {
 function get_browser_resource() {
 	// browser: chrome: Firefox
 	let t0 = performance.now();
-
-	// branding dimensions
 	let el = document.getElementById("branding");
-	let w = el.width, h = el.height;
 
 	// about:logo: desktop 300x236 vs 258x99 android dimensions
 	let imgA = new Image();
@@ -516,6 +513,8 @@ function get_browser_resource() {
 	imgA.style.visibility = "hidden";
 	document.body.appendChild(imgA);
 	imgA.addEventListener("load", function() {
+		// branding dimensions: we do this AFTER the load event to allow the branding resource to load
+		let wFF = el.width, hFF = el.height;
 		if (imgA.width == 300) {
 			// change resource to icon64
 			dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/icon64.png')";
@@ -523,10 +522,10 @@ function get_browser_resource() {
 		if (imgA.width > 0) {
 			dom.fdResource = "Firefox";
 			// improve Firefox
-			if (h == 64) {
-				dom.fdResource = "Firefox [Developer or Nightly: " + w + " x " + h + "]"
+			if (hFF == 64) {
+				dom.fdResource = "Firefox [Developer or Nightly: " + wFF + " x " + hFF + "]"
 			} else {
-				dom.fdResource = "Firefox [Stable: " + w + " x " + h + "]"
+				dom.fdResource = "Firefox [Stable: " + wFF + " x " + hFF + "]"
 			}
 		}
 		document.body.removeChild(imgA);
@@ -538,20 +537,21 @@ function get_browser_resource() {
 	imgB.style.visibility = "hidden";
 	document.body.appendChild(imgB);
 	imgB.addEventListener("load", function() {
+		// branding dimensions: we do this AFTER the load event to allow the branding resource to load
+		let wTB = el.width, hTB = el.height;
 		// check TB watermark
-		console.debug("tb watermark width", imgB.width)
 		if (imgB.width > 0) {
 			dom.fdResource = "Tor Browser";
 			// set isTB
 			isTB = true;
 			outputDebug("2", "     resource:// = tor-watermark.png")
 			// improve to alpha
-			if (w == 270 && h == 48) {
+			if (wTB == 270 && hTB == 48) {
 				//  270x48 = tb9 alpha
-				dom.fdResource = "Tor Browser [alpha: " + w + " x " + h + "]";
+				dom.fdResource = "Tor Browser [alpha: " + wTB + " x " + hTB + "]";
 				outputDebug("2", "    css branding = 270 x 48 px = alpha")
 			} else {
-				dom.fdResource = "Tor Browser [" + w + " x " + h + "]";
+				dom.fdResource = "Tor Browser [" + wTB + " x " + hTB + "]";
 			}
 		}
 		document.body.removeChild(imgB);
