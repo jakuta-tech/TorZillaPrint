@@ -10,7 +10,7 @@
 function append_canvas_notation() {
 	// assume rfp_red
 	let str = rfp_red, g = rfp_green;
-	if ((location.protocol) == "file:") {str = note_file};
+	if (isFile) {str = note_file};
 	// append notation
 	if (dom.cnv2.textContent == "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc") {
 		dom.cnv2.innerHTML = dom.cnv2.textContent + g
