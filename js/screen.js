@@ -524,9 +524,9 @@ function get_browser_resource() {
 			dom.fdResource = "Firefox";
 			// improve Firefox
 			if (h == 64) {
-				dom.fdResource = "Firefox [Developer or Nightly]"
+				dom.fdResource = "Firefox [Developer or Nightly: " + w + " x " + h + "]"
 			} else {
-				dom.fdResource = "Firefox [Stable]"
+				dom.fdResource = "Firefox [Stable: " + w + " x " + h + "]"
 			}
 		}
 		document.body.removeChild(imgA);
@@ -548,8 +548,10 @@ function get_browser_resource() {
 			// improve to alpha
 			if (w == 270 && h == 48) {
 				//  270x48 = tb9 alpha
-				dom.fdResource = "Tor Browser [alpha]";
+				dom.fdResource = "Tor Browser [alpha: " + w + " x " + h + "]";
 				outputDebug("2", "    css branding = 270 x 48 px = alpha")
+			} else {
+				dom.fdResource = "Tor Browser [" + w + " x " + h + "]";
 			}
 		}
 		document.body.removeChild(imgB);
