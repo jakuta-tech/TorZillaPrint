@@ -437,10 +437,10 @@
 			<span class="ttxtb">dom.maxHardwareConcurrency</span></div>
 			&nbsp [navigator] hardwareConcurrency</td><td class="c" id="nHWC"></td></tr>
 		<tr><td>[api] pointer event</td><td class="c" id="pointer1"></td></tr>
-		<tr><td>[css] any-hover | hover</td><td><span id="cssAH"></span> | <span id="cssH"></span></td></tr>
-		<tr><td>[matchMedia] any-hover | hover</td><td class="c" id="mmH"></td></tr>
-		<tr><td>[css] any-pointer | pointer</td><td><span id="cssAP"></span> | <span id="cssP"></span></td></tr>		
-		<tr><td>[matchMedia] any-pointer | pointer</td><td class="c" id="mmP"></td></tr>
+		<tr><td>[css | matchMedia] any-hover | hover</td>
+			<td>css: <span id="cssAH"></span> | <span id="cssH"></span> - matchMedia: <span class="c" id="mmH"></span></td></tr>
+		<tr><td>[css | matchMedia] any-pointer | pointer</td>
+			<td>css: <span id="cssAP"></span> | <span id="cssP"></span> - matchMedia: <span class="c" id="mmP"></span></td></tr>		
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">media.webspeech.recognition.enable</span></div>
 			&nbsp speech recognition</td><td class="c" id="speechRec"></td></tr>
@@ -825,7 +825,6 @@
 			<span class="ttxtb">dom.use_components_shim</span></div>
 			&nbsp component interfaces</td><td class="c mono" id="comshim"></td></tr>
 		<tr><td colspan="2">navigator properties</td><td class="c mono" id="nProto"></td></tr>
-		<tr><td colspan="2">window properties</td><td class="c mono" id="wProps"></td></tr>
 		<tr><td colspan="3" class="showhide">
 				<input id="collapseM2" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M2`)">
 				<label for="collapseM2" class="lbl-toggle" id="labelM2">&#9660; show details</label>
