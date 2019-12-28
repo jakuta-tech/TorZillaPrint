@@ -10,7 +10,6 @@ function reset_devices() {
 };
 
 function get_gamepads() {
-	// gamepads
 	if ("getGamepads" in navigator) {
 		dom.nGetGamepads = "enabled";
 		// ToDo: gamepads: enumerate
@@ -72,6 +71,14 @@ function get_mimetypes() {
 		dom.mimeTypes = "disabled";
 	}
 	dom.mimeTypes.style.color = zshow;
+};
+
+function get_mm_hover(type){
+	let x = "not supported", h="hover", n="none",
+		q = "("+type+": ";
+	if (window.matchMedia(q+n+")").matches) x = "none";
+	if (window.matchMedia(q+h+")").matches) x = "hover";
+	return x
 };
 
 function get_mm_pointer(type){
@@ -208,9 +215,10 @@ function outputDevices() {
 		dom.nHardware = "disabled";
 	}
 
-	// pointers
+	// pointer/hover
 	dom.pointer1 = (window.PointerEvent == "undefined" ? "disabled" : "enabled");
 	dom.mmP = get_mm_pointer("any-pointer") + " | " + get_mm_pointer("pointer");
+	dom.mmH = get_mm_hover("any-hover") + " | " + get_mm_hover("hover");
 
 	// touch
 	dom.touch1 = navigator.maxTouchPoints + " | "
