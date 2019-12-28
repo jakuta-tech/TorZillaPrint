@@ -36,8 +36,8 @@ function get_mathml(type) {
 	let mdiff = Math.abs(mathmltest-mathmlnone);
 	// use a range: zoom affects line height: mathml enabled the diff is > 20
 	dom.mathml.innerHTML = (mdiff < 10 ?
-		"disabled | line height difference: "+ mdiff+ tb_safer  :
-		"enabled | line height difference: "+ mdiff+ tb_standard
+		"disabled | offsetHeight difference: "+ mdiff+ tb_safer  :
+		"enabled | offsetHeight difference: "+ mdiff+ tb_standard
 	);
 	// perf
 	let t1 = performance.now();
@@ -132,18 +132,6 @@ function outputMisc(type) {
 	} catch(e) {
 		dom.intObserver = d
 	};
-
-
-	// a11y, AOM (accessability object model), HTML5 accessibility
-	// accessibility.force_disabled
-
-	// window properties
-	// ToDo: window properties: put into array, strip duplicates(case insensitive), ignore ones from my code
-	//let wProto = "", wcounter = 0;
-	//Object.getOwnPropertyNames(window)
-	//	.forEach(function(v, x) {wProto = wProto + v + "~"; wcounter++;});
-	//console.debug(wProto)
-	//dom.wProps = sha1(wProto) + " [" + wcounter + " items]";
 
 	// perf
 	let t1 = performance.now();
