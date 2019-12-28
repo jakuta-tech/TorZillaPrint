@@ -55,7 +55,9 @@ let isPage = "",
 	isFF = false,
 	isTB = false,
 	isOS = "",
-	isVer = "";
+	isVer = "",
+	isFile = false,
+	isSecure = false;
 
 // perf/debug
 let	gt0,
