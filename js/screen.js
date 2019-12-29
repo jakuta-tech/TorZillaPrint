@@ -212,13 +212,13 @@ function get_orientation() {
 	})();
 	dom.mmAR = (function () {
 		if (window.matchMedia("(aspect-ratio:1/1)").matches) return s;
-		if (window.matchMedia("(min-aspect-ratio:1000/999)").matches) return l;
-		if (window.matchMedia("(max-aspect-ratio:999/1000)").matches) return p;
+		if (window.matchMedia("(min-aspect-ratio:10000/9999)").matches) return l;
+		if (window.matchMedia("(max-aspect-ratio:9999/10000)").matches) return p;
 	})();
 	dom.mmDAR = (function () {
 		if (window.matchMedia("(device-aspect-ratio:1/1)").matches) return s;
-		if (window.matchMedia("(min-device-aspect-ratio:1000/999)").matches) return l;
-		if (window.matchMedia("(max-device-aspect-ratio:999/1000)").matches) return p;
+		if (window.matchMedia("(min-device-aspect-ratio:10000/9999)").matches) return l;
+		if (window.matchMedia("(max-device-aspect-ratio:9999/10000)").matches) return p;
 	})();
 	dom.ScrOrient = (function () {
 		let o = (screen.orientation.type);
