@@ -2,11 +2,11 @@
 @media (orientation:portrait){#cssO:after{content:"portrait";}}
 @media (orientation:landscape){#cssO:after{content:"landscape";}}
 @media (aspect-ratio:1/1){#cssAR:after{content:"square";}}
-@media (min-aspect-ratio:1000/999){#cssAR:after{content:"landscape";}}
-@media (max-aspect-ratio:999/1000){#cssAR:after{content:"portrait";}}
+@media (min-aspect-ratio:10000/9999){#cssAR:after{content:"landscape";}}
+@media (max-aspect-ratio:9999/10000){#cssAR:after{content:"portrait";}}
 @media (device-aspect-ratio:1/1){#cssDAR:after{content:"square";}}
-@media (min-device-aspect-ratio:1000/999){#cssDAR:after{content:"landscape";}}
-@media (max-device-aspect-ratio:999/1000){#cssDAR:after{content:"portrait";}}
+@media (min-device-aspect-ratio:10000/9999){#cssDAR:after{content:"landscape";}}
+@media (max-device-aspect-ratio:9999/10000){#cssDAR:after{content:"portrait";}}
 
 @media (display-mode:fullscreen){#cssDM:after{content:"fullscreen";}}
 @media (display-mode:browser){#cssDM:after{content:"browser";}}
