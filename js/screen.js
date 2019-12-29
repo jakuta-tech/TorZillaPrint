@@ -497,6 +497,8 @@ function get_browser_errors() {
 	dom.errh = errh;
 	if (errh == "32e7cf958b5c1a791392fe7c70ed51474ec49e79") {
 		dom.fdError = "Firefox"
+	} else if (isFF) {
+		dom.fdError.innerHTML = sb + "I haven't seen this Firefox error combo before" + sc;
 	};
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua errors: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
@@ -522,10 +524,16 @@ function get_browser_resource() {
 		if (imgA.width > 0) {
 			dom.fdResource = "Firefox";
 			// improve Firefox
-			if (hFF == 64) {
-				dom.fdResource = "Firefox [Developer or Nightly: " + wFF + " x " + hFF + "]"
+			if (wFF == 336 && hFF == 48) {
+				dom.fdResource = "Firefox Browser [" + wFF + " x " + hFF + "]" // FF70+ stable
+			} else if (wFF == 336 && hFF == 64) {
+				dom.fdResource = "Firefox Browser: Developer/Nightly [" + wFF + " x " + hFF + "]" // FF70+ dev nightly
+			} else if (wFF == 300 && hFF == 38) {
+				dom.fdResource = "Firefox Quantum [" + wFF + " x " + hFF + "]" // FF60-69 stable incl. esr
+			} else if (wFF == 132 && hFF == 62) {
+				dom.fdResource = "Firefox Developer/Nightly [" + wFF + " x " + hFF + "]" // FF60-69 dev (+ presumably nightly)
 			} else if (hFF > 0) {
-				dom.fdResource = "Firefox [Stable: " + wFF + " x " + hFF + "]"
+				dom.fdResource = "Firefox [" + wFF + " x " + hFF + "]"
 			}
 		}
 		document.body.removeChild(imgA);
@@ -547,8 +555,8 @@ function get_browser_resource() {
 			outputDebug("2", "     resource:// = tor-watermark.png")
 			// improve to alpha
 			if (wTB == 270 && hTB == 48) {
-				//  270x48 = tb9 alpha
-				dom.fdResource = "Tor Browser [alpha: " + wTB + " x " + hTB + "]";
+				//  270x48 = tb9.5 alpha (so far)
+				dom.fdResource = "Tor Browser: alpha [" + wTB + " x " + hTB + "]";
 				outputDebug("2", "    css branding = 270 x 48 px = alpha")
 			} else if (hTB > 0) {
 				dom.fdResource = "Tor Browser [" + wTB + " x " + hTB + "]";
