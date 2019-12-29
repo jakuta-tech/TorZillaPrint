@@ -36,6 +36,9 @@ function get_version() {
 		try {
 			let rule73 = dom.test73.sheet.cssRules[0];
 			if (rule73.style.border == "") { verNo= "73+"; go = false};
+			// test 73 breaks TB ESR60 version check
+			// if can't pass e.g. test 69, then it's not really 73
+			try {let torcheck = new DOMError('name'); go = true} catch(e) {};
 		} catch(e) {}
 	}
 	//72: 1589072 (0ms)
