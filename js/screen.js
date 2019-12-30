@@ -31,7 +31,7 @@ function get_version() {
 	// reminder: append + on first test
 
 	//73: 1594241 (3 or 4ms)
-	// ToDo: replace this: slow and breaks if css is blocked
+	// ToDo: test 73: replace: slow and breaks if css is blocked
 	if (go) {
 		try {
 			let rule73 = dom.test73.sheet.cssRules[0];
@@ -508,66 +508,72 @@ function get_browser_errors() {
 };
 
 function get_browser_resource() {
-	// browser: chrome: Firefox
 	let t0 = performance.now();
 	let el = document.getElementById("branding");
 
-	// about:logo: desktop 300x236 vs 258x99 android dimensions
+	// load about:logo
 	let imgA = new Image();
 	imgA.src = "about:logo";
 	imgA.style.visibility = "hidden";
 	document.body.appendChild(imgA);
 	imgA.addEventListener("load", function() {
-		// branding dimensions: we do this AFTER the load event to allow the branding resource to load
-		let wFF = el.width, hFF = el.height;
 		if (imgA.width == 300) {
-			// change resource to icon64
+			// desktop is 300x236: change to icon64
 			dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/icon64.png')";
+		} else {
+			// android is 258x99: change to favicon64
+			dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/favicon64.png')";
 		};
 		if (imgA.width > 0) {
+			// brand dimensions: do after load event to make sure the resource is loaded
+			let wFF = el.width, hFF = el.height;
 			dom.fdResource = "Firefox";
-			// improve Firefox
+			// improve entropy
 			if (wFF == 336 && hFF == 48) {
-				dom.fdResource = "Firefox Browser [" + wFF + " x " + hFF + "]" // FF70+ stable
+				// FF70+ stable/beta
+				dom.fdResource = "Firefox Browser [" + wFF + " x " + hFF + "]"
 			} else if (wFF == 336 && hFF == 64) {
-				dom.fdResource = "Firefox Browser: Developer/Nightly [" + wFF + " x " + hFF + "]" // FF70+ dev nightly
+				// FF70+ dev/nightly
+				dom.fdResource = "Firefox Browser: Developer/Nightly [" + wFF + " x " + hFF + "]"
 			} else if (wFF == 300 && hFF == 38) {
-				dom.fdResource = "Firefox Quantum [" + wFF + " x " + hFF + "]" // FF60-69 stable incl. esr
+				// FF60-69 stable/beta and ESR60/68
+				dom.fdResource = "Firefox Quantum [" + wFF + " x " + hFF + "]"
 			} else if (wFF == 132 && hFF == 62) {
-				dom.fdResource = "Firefox Developer/Nightly [" + wFF + " x " + hFF + "]" // FF60-69 dev (+ presumably nightly)
+				// FF60-69 dev (+ presumably nightly)
+				dom.fdResource = "Firefox Developer/Nightly [" + wFF + " x " + hFF + "]"
 			} else if (hFF > 0) {
+				// other
 				dom.fdResource = "Firefox [" + wFF + " x " + hFF + "]"
 			}
 		}
 		document.body.removeChild(imgA);
 	});
 
-	// browser: chrome: refine if TB desktop
+	// check if TB desktop
 	let imgB = new Image();
 	imgB.src = "resource://onboarding/img/tor-watermark.png";
 	imgB.style.visibility = "hidden";
 	document.body.appendChild(imgB);
 	imgB.addEventListener("load", function() {
-		// branding dimensions: we do this AFTER the load event to allow the branding resource to load
-		let wTB = el.width, hTB = el.height;
-		// check TB watermark
 		if (imgB.width > 0) {
-			dom.fdResource = "Tor Browser";
 			// set isTB
+			dom.fdResource = "Tor Browser";
 			isTB = true;
 			outputDebug("2", "     resource:// = tor-watermark.png")
-			// improve to alpha
+			// brand dimensions
+			let wTB = el.width, hTB = el.height;
+			// improve entropy
 			if (wTB == 270 && hTB == 48) {
-				//  270x48 = tb9.5 alpha (so far)
+				// 8.5a7+, 9.0a1+, 9.5a1+
 				dom.fdResource = "Tor Browser: alpha [" + wTB + " x " + hTB + "]";
 				outputDebug("2", "    css branding = 270 x 48 px = alpha")
 			} else if (hTB > 0) {
+				// other
 				dom.fdResource = "Tor Browser [" + wTB + " x " + hTB + "]";
 			}
 		}
 		document.body.removeChild(imgB);
 	});
-	// ToDo: browser resource: TB Android
 
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua resource browser: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
