@@ -531,16 +531,19 @@ function get_browser_resource() {
 			// improve entropy
 			if (wFF == 336 && hFF == 48) {
 				// FF70+ stable/beta
-				dom.fdResource = "Firefox Browser [" + wFF + " x " + hFF + "]"
+				dom.fdResource = "Firefox Browser - Release or Beta [" + wFF + " x " + hFF + "]"
 			} else if (wFF == 336 && hFF == 64) {
 				// FF70+ dev/nightly
-				dom.fdResource = "Firefox Browser: Developer/Nightly [" + wFF + " x " + hFF + "]"
+				dom.fdResource = "Firefox Browser - Developer or Nightly [" + wFF + " x " + hFF + "]"
 			} else if (wFF == 300 && hFF == 38) {
 				// FF60-69 stable/beta and ESR60/68
-				dom.fdResource = "Firefox Quantum [" + wFF + " x " + hFF + "]"
+				dom.fdResource = "Firefox Quantum - Release or Beta [" + wFF + " x " + hFF + "]"
 			} else if (wFF == 132 && hFF == 62) {
-				// FF60-69 dev (+ presumably nightly)
-				dom.fdResource = "Firefox Developer/Nightly [" + wFF + " x " + hFF + "]"
+				// FF60-69 dev
+				dom.fdResource = "Firefox - Developer Edition [" + wFF + " x " + hFF + "]"
+			} else if (wFF == 270 && hFF == 48) {
+				// FF60-69 nightly
+				dom.fdResource = "Firefox - Nightly [" + wFF + " x " + hFF + "]"
 			} else if (hFF > 0) {
 				// other
 				dom.fdResource = "Firefox [" + wFF + " x " + hFF + "]"
