@@ -217,8 +217,10 @@ function outputDevices() {
 
 	// pointer/hover
 	dom.pointer1 = (window.PointerEvent == "undefined" ? "disabled" : "enabled");
-	dom.mmP = get_mm_pointer("any-pointer") + " | " + get_mm_pointer("pointer");
-	dom.mmH = get_mm_hover("any-hover") + " | " + get_mm_hover("hover");
+	let str = get_mm_pointer("any-pointer") + " | " + get_mm_pointer("pointer");
+	dom.mmP.innerHTML = (str == "fine | fine" ? str + rfp_green : str + rfp_red);
+	str = get_mm_hover("any-hover") + " | " + get_mm_hover("hover");
+	dom.mmH.innerHTML = (str == "hover | hover" ? str + rfp_green : str + rfp_red);
 
 	// touch
 	dom.touch1 = navigator.maxTouchPoints + " | "
