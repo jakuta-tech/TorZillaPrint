@@ -46,6 +46,8 @@ function showhide(toggleType, toggleID, togWord) {
 	if (togWord !== "") {
 		if (toggleID == "Z") {
 			document.getElementById("label"+toggleID).innerHTML = togWord+" debugging";
+		} else if (toggleID == "L2") {
+			document.getElementById("label"+toggleID).innerHTML = togWord+" application language tests";
 		} else {
 			document.getElementById("label"+toggleID).innerHTML = togWord+" details";
 		}
@@ -219,7 +221,7 @@ function outputSection(id, cls, page) {
 		// reset global timer
 		gt0 = performance.now();
 		if (page=="m") {
-			if (id=="1") {outputScreen("rerun")};
+			if (id=="1") {outputScreen("screen")};
 			if (id=="2") {outputUA()};
 			if (id=="3") {outputMath()};
 			if (id=="4" && cls=="c") {outputLanguage()};
