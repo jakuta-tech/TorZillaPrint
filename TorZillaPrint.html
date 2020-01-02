@@ -71,20 +71,18 @@
 		<col width="50%"><a name="screen"></a><col width="50%">
 		<thead><tr><th colspan="2">
 			<div class="nav-title"><a href="#screen">Screen</a>
-				<div class="nav-up"><a href="#top">&#9650;</a></div>
-				<div class="nav-down"><a href="#useragent">&#9660;</a></div></div>
+			<div class="nav-up"><a href="#top">&#9650;</a></div>
+			<div class="nav-down"><a href="#useragent">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn1" onClick="outputSection(`1`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div>screen resolution</div></div></td><td class="c" id="ScrRes"></td>
-		</tr>
-		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
-			<span class="ttxt">range 500-2560</span></div>
-			&nbsp [css min-device-] screen resolution <sup>1</sup></td><td id="S"></td></tr>
+			<div class="btn-left"><button class="btn1" onClick="outputSection(`1`, `c`, `m`)">[ re-run tests ]</button></div>
+			<div><div class="ttip"><span class="icon">[ i ]</span><span class="ttxt">range 500-2560</span></div>
+			&nbsp [css min-device-] screen resolution <sup>1</sup></div></div></td><td id="S"></td></tr>
 		<tr><td>[matchMedia] screen resolution <sup>2</sup></td><td class="c" id="ScrMM"></td></tr>
-		<tr><td>available resolution</td><td class="c" id="ScrAvail"></td></tr>
-		<tr><td>outer window</td><td class="c" id="WndOut"></td></tr>
-		<tr><td>inner window</td><td class="c" id="WndIn"></td></tr>
+		<tr><td>screen resolution <span class="group">*</span></td><td class="c" id="ScrRes"></td></tr>
+		<tr><td><div class="match" id="match1"></div>available resolution <span class="group">*</span></td><td class="c" id="ScrAvail"></td></tr>
+		<tr><td><div class="match" id="match2"></div>outer window <span class="group">*</span></td><td class="c" id="WndOut"></td></tr>
+		<tr><td>inner window <span class="group">*</span></td><td class="c" id="WndIn"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">range 500-2560</span></div>
 			&nbsp [css min-] inner window <sup>1, 3</sup></td><td id="D"></td></tr>
@@ -105,19 +103,19 @@
 			&nbsp new window</td><td class="c" id="newWinLeak"></td></tr>
 		<tr class="togOS1"><td>[android] new window</td><td class="c" id="droidWin"></td></tr>
 		<tr><td>private window</td><td class="c" id="IsPBMode"></td></tr>
-		<tr><td>orientation</td><td class="c" id="ScrOrient"></td></tr>
+		<tr><td>[screen] orientation | mozOrientation | angle</td><td class="c" id="ScrOrient"></td></tr>
 		<tr><td>[css] orientation | aspect-ratio | device-aspect-ratio</td>
 			<td><span id="cssO"></span> | <span id="cssAR"></span> | <span id="cssDAR"></span></td></tr>
 		<tr><td>[matchMedia] orientation | aspect-ratio | device-aspect-ratio</td>
 			<td><span class="c" id="mmO"></span> | <span class="c" id="mmAR"></span> | <span class="c" id="mmDAR"></span></td></tr>
-		<tr><td>pixel depth</td><td class="c" id="PixDepth"></td></tr>
-		<tr><td>color depth</td><td class="c" id="ColDepth"></td></tr>
+		<tr><td>[screen] pixel depth | color depth</td><td class="c" id="ScrColor"></td></tr>
 		<tr><td>[css | matchMedia] color</td><td><span id="cssC"></span> | <span class="c" id="mmC"></span></td></tr>
 		<tr><td>dpi</td><td class="c" id="jsDPI"></td ></tr>
 		<tr><td>[css min-resolution] dpi</td><td id="P"></td></tr>
 		<tr><td>[matchMedia max-resolution] dpi | dppx | dpcm</td><td class="c" id="mmDPI"></td></tr>
 		<tr><td>zoom %</td><td class="c" id="jsZoom"></td></tr>
 		<tr><td>devicePixelRatio</td><td class="c" id="DevPR"></td></tr>
+		<tr><td>[matchMedia -webkit- | -moz-] device-pixel-ratio</td><td class="c" id="mmDPR"></td></tr>
 		<tr><td>[scrollY] devicePixelRatio <sup>5</sup></td><td class="c" id="devPRscrollY"></td></tr>
 		<tr><td>[clientRect] devicePixelRatio <sup>5</sup></td><td class="c" id="devPRclientRect"></td></tr>
 		<tr class="togOS1"><td colspan="2" class="center">--- android ---</td></tr>
@@ -143,8 +141,8 @@
 		<col width="37%"><a name="useragent"></a><col width="63%">
 		<thead><tr><th colspan="2">
 			<div class="nav-title"><a href="#useragent">User Agent</a>
-				<div class="nav-up"><a href="#screen">&#9650;</a></div>
-				<div class="nav-down"><a href="#math">&#9660;</a></div></div>
+			<div class="nav-up"><a href="#screen">&#9650;</a></div>
+			<div class="nav-down"><a href="#math">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td colspan="2" class="intro"><span class="no_color">
 			<code>Browser</code>, <code>version</code> and <code>os</code> tests are to show how trivial it is to detect Firefox/Tor
@@ -152,8 +150,8 @@
 			Returning the <code>browser/os</code> here is just for fun. Each test is independent of the others.</span>
 		</td></tr>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn2" onClick="outputSection(`2`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div>[header] http_user_agent</div></div></td><td></td>
+			<div class="btn-left"><button class="btn2" onClick="outputSection(`2`, `c`, `m`)">[ re-run tests ]</button></div>
+			<div>[header] http_user_agent</div></div></td><td></td>
 		</tr>
 		<tr><td>[navigator] userAgent</td><td class="c" id="nUserAgent"></td></tr>
 		<tr><td>[navigator] appCodeName</td><td class="c" id="nCodeName"></td></tr>
@@ -183,15 +181,15 @@
 			if <b>none</b> show = Android<br>if <b>all</b> show = fonts are blocked</span>
 			</div> &nbsp [css] os <sup>1</sup></td>
 			<td><span style="font-family: Arimo, DejaVu Serif, ABR;">Linux</span>
-				<span style="font-family: Lucida Grande, ABR;">Mac</span>
-				<span style="font-family: Segoe UI, ABR;">Windows</span></td></tr>
+			<span style="font-family: Lucida Grande, ABR;">Mac</span>
+			<span style="font-family: Segoe UI, ABR;">Windows</span></td></tr>
 		<tr><td>[css line-height] os</td><td class="c" id="cssLH"></td></tr>
 		<tr><td>[scrollbar width] os <sup>2, 3</sup></td><td class="c" id="scrollbarWidth"></td></tr>
 		<tr><td>[tcp/ip] os</td><td></td></tr>
 		<tr><td>[widgets] os</td><td class="c" id="widgetOS"></td></tr>
 		<tr><td colspan="2" class="showhide">
-				<input id="collapseE" class="toggle" type="checkbox" checked onchange="toggleitems(this, `E`)">
-				<label for="collapseE" class="lbl-toggle" id="labelE">&#9660; show details</label>
+			<input id="collapseE" class="toggle" type="checkbox" checked onchange="toggleitems(this, `E`)">
+			<label for="collapseE" class="lbl-toggle" id="labelE">&#9660; show details</label>
 		</td></tr>
 		<tr class="togE"><td></td><td class="sub2">error messages</td></tr>
 		<tr class="togE"><td>hash</td><td class="c mono" id="errh"></td></tr>
@@ -226,19 +224,19 @@
 	<table id="tb3">
 		<col width="37%"><a name="math"></a><col width="63%">
 		<thead><tr><th colspan="2">
-				<div class="nav-title"><a href="#math">Math</a>
-				<div class="nav-up"><a href="#useragent">&#9650;</a></div>
-				<div class="nav-down"><a href="#language">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#math">Math</a>
+			<div class="nav-up"><a href="#useragent">&#9650;</a></div>
+			<div class="nav-down"><a href="#language">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn3" onClick="outputSection(`3`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div>6th edition</div></div></td><td class="c mono" id="math6hash"></td>
+			<div class="btn-left"><button class="btn3" onClick="outputSection(`3`, `c`, `m`)">[ re-run tests ]</button></div>
+			<div>6th edition</div></div></td><td class="c mono" id="math6hash"></td>
 		</tr>
 		<tr><td>1st edition</td><td class="c mono" id="math1hash"></td></tr>
 		<tr><td>combined</td><td class="c mono" id="mathhash"></td></tr>
 		<tr><td colspan="2" class="showhide">
-				<input id="collapseM" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M`)">
-				<label for="collapseM" class="lbl-toggle" id="labelM">&#9660; show details</label>
+			<input id="collapseM" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M`)">
+			<label for="collapseM" class="lbl-toggle" id="labelM">&#9660; show details</label>
 		</td></tr>
 		<tr class="togM"><td></td><td class="sub3">ECMAScript 6th Edition</td></tr>
 			<tr class="togM"><td>atanh(0.5)</td><td class="c mono" id="math1"></td></tr>
@@ -263,30 +261,21 @@
 		<col width="37%"><a name="language"></a><col width="63%">
 		<thead><tr><th colspan="2">
 			<div class="nav-title"><a href="#language">Language & Locale / Date/Time & Format / Geolocation</a>
-				<div class="nav-up"><a href="#math">&#9650;</a></div>
-				<div class="nav-down"><a href="#headers">&#9660;</a></div></div>
+			<div class="nav-up"><a href="#math">&#9650;</a></div>
+			<div class="nav-down"><a href="#headers">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn4" onClick="outputSection(`4`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div>[header] http_accept_language</div></div></td>
+			<div class="btn-left"><button class="btn4" onClick="outputSection(`4`, `c`, `m`)">[ re-run tests ]</button></div>
+			<div>[header] http_accept_language</div></div></td>
 			<td id="lang0"></td></tr>
 		<tr><td>language & locale</td><td class="c mono" id="lHash1"></td></tr>
 		<tr><td>timezone</td><td class="c mono" id="lHash0"></td></tr>
 		<tr><td>date/time & format</td><td class="c mono" id="lHash2"></td></tr>
 		<tr><td>geolocation</td><td class="c mono" id="lHash3"></td></tr>
-		<!-- app lang -->
-		<tr><td colspan="2" class="center">--- app language leaks ---</td></tr>
-		<tr><td><div>
-				<div class="btn-left"><button class="btn4" onClick="outputSection(`4`, `c2`, `m`)">[ run app lang tests ]</button></div>
-				<div>dtd <sup>1</sup></div></div></td><td class="c2" id="appLang2"></td></tr>
-		<tr><td>dtd nullprinciple <sup>2</sup></td><td class="c2" id="appLang3"></td></tr>
-		<tr><td>dom.properties <sup>3</sup></td><td class="c2" id="appLang1"></td></tr>
-		<tr><td>MediaDocument.properties <sup>3</sup></td><td class="c2" id="appLang4"></td></tr>
-		<tr><td>xmlparser.properties <sup>3</sup></td><td class="c2" id="appLang5"></td></tr>
 		<!--details-->
-		<tr><td colspan="8" class="showhide">
-				<input id="collapseL" class="toggle" type="checkbox" checked onchange="toggleitems(this, `L`)"/>
-				<label for="collapseL" class="lbl-toggle" id="labelL">&#9660; show details</label>
+		<tr><td colspan="2" class="showhide">
+			<input id="collapseL" class="toggle" type="checkbox" checked onchange="toggleitems(this, `L`)"/>
+			<label for="collapseL" class="lbl-toggle" id="labelL">&#9660; show details</label>
 		</td></tr>
 		<!--lang-->
 		<tr class="togL"><td></td><td class="sub4">language & locale</td></tr>
@@ -323,16 +312,27 @@
 			<tr class="togL"><td>[formatToParts] Intl.NumberFormat</td><td class="c" id="dtf20"></td></tr>
 			<tr class="togL"><td>[BigInt] Intl.NumberFormat</td><td class="c" id="dtf21"></td></tr>
 			<tr class="togL"><td>[BigInt] toLocaleString </td><td class="c" id="dtf22"></td></tr>
+			<tr class="togL"><td>[currency] toLocaleString </td><td class="c" id="dtf25"></td></tr>
 			<tr class="togL"><td>[resolvedOptions] calendar</td><td class="c" id="dtf30"></td></tr>
 			<tr class="togL"><td>[resolvedOptions] numberingSystem</td><td class="c" id="dtf31"></td></tr>
 		<!--geo-->
 		<tr class="togL"><td></td><td class="sub4">geolocation</td></tr>
 			<tr class="togL"><td><div class="ttip"><span class="icon">[ i ]</span>
-				<span class="ttxt">geo.enabled</span></div>
-				&nbsp [api] geolocation</td><td class="c" id="geo1"></td></tr>
+				<span class="ttxt">geo.enabled</span></div> &nbsp [api] geolocation</td><td class="c" id="geo1"></td></tr>
 			<tr class="togL"><td><div class="ttip"><span class="icon">[ i ]</span>
-				<span class="ttxtb">permissions.default.geo</span></div>
-				&nbsp [permission] geolocation</td><td class="c" id="geo2"></td></tr>
+				<span class="ttxtb">permissions.default.geo</span></div> &nbsp [permission] geolocation</td><td class="c" id="geo2"></td></tr>
+		<!-- app lang -->
+		<tr><td colspan="2" class="showhide">
+			<input id="collapseL2" class="toggle" type="checkbox" checked onchange="toggleitems(this, `L2`)"/>
+			<label for="collapseL2" class="lbl-toggle" id="labelL2">&#9660; show application language tests</label>
+		</td></tr>
+		<tr class="togL2"><td><div>
+			<div class="btn-left"><button class="btn4" onClick="outputSection(`4`, `c2`, `m`)">[ run app lang tests ]</button></div>
+			<div>dtd <sup>1</sup></div></div></td><td class="c2" id="appLang2"></td></tr>
+		<tr class="togL2"><td>dtd nullprinciple <sup>2</sup></td><td class="c2" id="appLang3"></td></tr>
+		<tr class="togL2"><td>dom.properties <sup>3</sup></td><td class="c2" id="appLang1"></td></tr>
+		<tr class="togL2"><td>MediaDocument.properties <sup>3</sup></td><td class="c2" id="appLang4"></td></tr>
+		<tr class="togL2"><td>xmlparser.properties <sup>3</sup></td><td class="c2" id="appLang5"></td></tr>
 		<tr class="togL"><td colspan="2"></td></tr>
 		<!--credits-->
 		<tr><td colspan="2"><span class="no_color">app language code based on work by Alex Catarineu </span>
@@ -348,13 +348,13 @@
 	<table id="tb5">
 		<col width="50%"><a name="headers"></a><col width="50%">
 		<thead><tr><th colspan="2">
-				<div class="nav-title"><a href="#headers">HTTP Headers</a>
-				<div class="nav-up"><a href="#language">&#9650;</a></div>
-				<div class="nav-down"><a href="#cookies">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#headers">HTTP Headers</a>
+			<div class="nav-up"><a href="#language">&#9650;</a></div>
+			<div class="nav-down"><a href="#cookies">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn5" onClick="outputSection(`5`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div>[navigator] doNotTrack</div></div></td><td class="c" id="nDNT"></td>
+			<div class="btn-left"><button class="btn5" onClick="outputSection(`5`, `c`, `m`)">[ re-run tests ]</button></div>
+			<div>[navigator] doNotTrack</div></div></td><td class="c" id="nDNT"></td>
 		</tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">dom.netinfo.enabled</span></div>
@@ -373,17 +373,17 @@
 	<table id="tb6">
 		<col width="50%"><a name="cookies"></a><col width="50%">
 		<thead><tr><th colspan="2">
-				<div class="nav-title"><a href="#cookies">Cookies & Storage</a>
-				<div class="nav-up"><a href="#headers">&#9650;</a></div>
-				<div class="nav-down"><a href="#devices">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#cookies">Cookies & Storage</a>
+			<div class="nav-up"><a href="#headers">&#9650;</a></div>
+			<div class="nav-down"><a href="#devices">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td colspan="2" class="intro"><span class="no_color">The <code>[cookie]</code>, <code>[localStorage]</code>, 
 			<code>[sessionStorage]</code> and <code> [indexedDB]</code> tests, on each run, individually attempt to set a
 			new random name and value, and then to read them back. Only when it successfully reads back a matching value
 			is it deemed to be available and working.</span></td></tr>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn6" onClick="outputSection(`6`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div>[navigator] cookieEnabled</div></div></td><td class="c" id="nCookieEnabled"></td>
+			<div class="btn-left"><button class="btn6" onClick="outputSection(`6`, `c`, `m`)">[ re-run tests ]</button></div>
+			<div>[navigator] cookieEnabled</div></div></td><td class="c" id="nCookieEnabled"></td>
 		</tr>
 		<tr><td>[test] javascript 1st party session cookie</td><td class="c" id="cTest"></td></tr>
 		<tr><td>[test] javascript 1st party persistent cookie</td><td class="c" id="cTest2"></td></tr>
@@ -424,13 +424,13 @@
 	<table id="tb7">
 		<col width="29%"><a name="devices"></a><col width="71%">
 		<thead><tr><th colspan="2">
-				<div class="nav-title"><a href="#devices">Devices & Hardware</a>
-				<div class="nav-up"><a href="#cookies">&#9650;</a></div>
-				<div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#devices">Devices & Hardware</a>
+			<div class="nav-up"><a href="#cookies">&#9650;</a></div>
+			<div class="nav-down"><a href="#canvas">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn7" onClick="outputSection(`7`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div>[navigator] plugins</div></div></td><td id="plugins"></td>
+			<div class="btn-left"><button class="btn7" onClick="outputSection(`7`, `c`, `m`)">[ re-run tests ]</button></div>
+			<div>[navigator] plugins</div></div></td><td id="plugins"></td>
 		</tr>
 		<tr><td>[navigator] mimeTypes</td><td id="mimeTypes"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
@@ -438,9 +438,9 @@
 			&nbsp [navigator] hardwareConcurrency</td><td class="c" id="nHWC"></td></tr>
 		<tr><td>[api] pointer event</td><td class="c" id="pointer1"></td></tr>
 		<tr><td>[css | matchMedia] any-hover | hover</td>
-			<td>css: <span id="cssAH"></span> | <span id="cssH"></span> - matchMedia: <span class="c" id="mmH"></span></td></tr>
+			<td><span id="cssAH"></span> | <span id="cssH"></span> | <span class="c" id="mmH"></span></td></tr>
 		<tr><td>[css | matchMedia] any-pointer | pointer</td>
-			<td>css: <span id="cssAP"></span> | <span id="cssP"></span> - matchMedia: <span class="c" id="mmP"></span></td></tr>		
+			<td><span id="cssAP"></span> | <span id="cssP"></span> | <span class="c" id="mmP"></span></td></tr>		
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">media.webspeech.recognition.enable</span></div>
 			&nbsp speech recognition</td><td class="c" id="speechRec"></td></tr>
@@ -470,15 +470,13 @@
 	<table id="tb8">
 		<col width="29%"><a name="canvas"></a><col width="71%">
 		<thead><tr><th colspan="2">
-				<div class="nav-title"><a href="#canvas">Canvas</a>
-				<div class="nav-up"><a href="#devices">&#9650;</a></div>
-				<div class="nav-down"><a href="#domrect">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#canvas">Canvas</a>
+			<div class="nav-up"><a href="#devices">&#9650;</a></div>
+			<div class="nav-down"><a href="#domrect">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn8" onClick="outputSection(`8`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div>getContext</div></div></td>
-			<td class="c getContext" id="cnv1"></td>
-		</tr>
+			<div class="btn-left"><button class="btn8" onClick="outputSection(`8`, `c`, `m`)">[ re-run tests ]</button></div>
+			<div>getContext</div></div></td><td class="c getContext" id="cnv1"></td></tr>
 		<tr><td>toDataURL</td><td class="c toDataURL" id="cnv2"></td></tr>
 		<tr><td>toBlob</td><td class="c toBlob" id="cnv3"></td></tr>
 		<tr><td>mozGetAsFile</td><td class="c mozGetAsFile" id="cnv4"></td></tr>
@@ -498,13 +496,13 @@
 	<table id="tb9">
 		<col width="7%"><a name="domrect"></a><col width="15%"><col width="7%"><col width="8%"><col width="15%"><col width="15%"><col width="15%"><col width="18%">
 		<thead><tr><th colspan="8">
-				<div class="nav-title"><a href="#domrect">DOMRect</a>
-				<div class="nav-up"><a href="#canvas">&#9650;</a></div>
-				<div class="nav-down"><a href="#audio">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#domrect">DOMRect</a>
+			<div class="nav-up"><a href="#canvas">&#9650;</a></div>
+			<div class="nav-down"><a href="#audio">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td colspan="3"><div>
-				<div class="btn-left"><button class="btn9"  onClick="outputSection(`9`, `c1`, `m`)">[ re-run tests ]</button></div>
-				<div>Element.getClientRects</div></div></td><td colspan="5" class="mono" id="dr1"></td>
+			<div class="btn-left"><button class="btn9"  onClick="outputSection(`9`, `c1`, `m`)">[ re-run tests ]</button></div>
+			<div>Element.getClientRects</div></div></td><td colspan="5" class="mono" id="dr1"></td>
 		</tr>
 		<tr><td colspan="3">Element.getBoundingClientRect</td><td colspan="5" class="mono" id="dr2"></td></tr>
 		<tr><td colspan="3">Range.getClientRects</td><td colspan="5" class="mono" id="dr3"></td></tr>
@@ -512,8 +510,8 @@
 		<tr><td colspan="8"></td></tr>
 		<tr><td colspan="8" class="center"><a target="_blank" class="blue" href="iframes/domrect.html">click here to view what is being rendered</a></td></tr>
 		<tr><td colspan="8" class="showhide">
-				<input id="collapseD" class="toggle" type="checkbox" checked onchange="toggleitems(this, `D`)"/>
-				<label for="collapseD" class="lbl-toggle" id="labelD">&#9660; show details</label>
+			<input id="collapseD" class="toggle" type="checkbox" checked onchange="toggleitems(this, `D`)"/>
+			<label for="collapseD" class="lbl-toggle" id="labelD">&#9660; show details</label>
 		</td></tr>
 		<tr class="togD"><td></td><td>[ *browserleaks* ]</td><td colspan="2">[ *getClientRects* ]</td><td>[ Fingerprinting? ]</td><td>[ select ]</td><td>[ progress bar ]</td><td>[ empty button ]</td></tr>
 		<tr class="togD"><td></td><td colspan="7" class="sub9" id="drFirstHeader">Element.getClientRects<br>[note: the other three methods have the same hash and values]</td></tr>
@@ -567,32 +565,28 @@
 	<table id="tb10">
 		<col width="29%"><a name="audio"></a><col width="71%">
 		<thead><tr><th colspan="2">
-				<div class="nav-title"><a href="#audio">Audio</a>
-				<div class="nav-up"><a href="#domrect">&#9650;</a></div>
-				<div class="nav-down"><a href="#fonts">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#audio">Audio</a>
+			<div class="nav-up"><a href="#domrect">&#9650;</a></div>
+			<div class="nav-down"><a href="#fonts">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c1`, `m`)">[ re-run tests ]</button></div>
-				<div><div class="ttip"><span class="icon">[ i ]</span>
-					<span class="ttxt">dom.webaudio.enabled</span></div> &nbsp [api] web audio</div></div></td>
-			<td class="c1 mono" id="audioSupport"></td>
-		</tr>
+			<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c1`, `m`)">[ re-run tests ]</button></div>
+			<div><div class="ttip"><span class="icon">[ i ]</span>
+			<span class="ttxt">dom.webaudio.enabled</span></div> &nbsp [api] web audio</div></div></td>
+			<td class="c1 mono" id="audioSupport"></td></tr>
 		<tr><td>getChannelData <sup>1</sup></td><td class="c1 mono" id="audioGet"></td></tr>
 		<tr><td>copyFromChannel <sup>1</sup></td><td class="c1 mono" id="audioCopy"></td></tr>
 		<tr><td>sum <sup>1</sup></td><td class="c1 mono" id="audioSum"></td></tr>
 		<tr><td colspan="2" class="center">------</td></tr>
 		<tr><td>
-				<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c2`, `m`)">[ run tests ]</button></div>
-				<div>outputLatency <sup>2</sup></div></td>
-			<td class="c2 mono" id="audioLatency"></td>
-		</tr>
+			<div class="btn-left"><button class="btn10" onClick="outputSection(`10`, `c2`, `m`)">[ run tests ]</button></div>
+			<div>outputLatency <sup>2</sup></div></td><td class="c2 mono" id="audioLatency"></td></tr>
 		<tr><td>audioContext <sup>2</sup></td><td class="c2 mono" id="audio1hash"></td></tr>
 		<tr><td>OscillatorNode <sup>2</sup></td><td class="c2 mono" id="audio2hash"></td></tr>
 		<tr><td>OscillatorNode/DynamicsCompressor <sup>2</sup></td><td class="c2 mono" id="audio3hash"></td></tr>
 		<tr><td colspan="2" class="showhide">
-				<input id="collapseA" class="toggle" type="checkbox" checked onchange="toggleitems(this, `A`)">
-				<label for="collapseA" class="lbl-toggle" id="labelA">&#9660; show details</label>
-		</td></tr>
+			<input id="collapseA" class="toggle" type="checkbox" checked onchange="toggleitems(this, `A`)">
+			<label for="collapseA" class="lbl-toggle" id="labelA">&#9660; show details</label></td></tr>
 		<tr class="togA"><td>audioContext <sup>2</sup></td><td style="white-space: pre;" class="mono" id="audio1data"></td></tr>
 		<tr class="togA"><td>OscillatorNode <sup>2</sup></td><td class="mono" id="audio2data"></td></tr>
 		<tr class="togA"><td>OscillatorNode/DynamicsCompressor <sup>2</sup></td><td class="mono" id="audio3data"></td></tr>
@@ -609,9 +603,9 @@
 	<table id="tb11">
 		<col width="1%"><a name="fonts"></a><col width="36%"><col width="63%">
 		<thead><tr><th colspan="3">
-				<div class="nav-title"><a href="#fonts">Fonts</a>
-				<div class="nav-up"><a href="#audio">&#9650;</a></div>
-				<div class="nav-down"><a href="#media">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#fonts">Fonts</a>
+			<div class="nav-up"><a href="#audio">&#9650;</a></div>
+			<div class="nav-down"><a href="#media">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td colspan="3" class="intro"><span class="no_color">We already know we can enumerate fonts: see the
 			<a target="_blank" class="blue" href="extra.html">monsta</a> test. These font list tests are more refined:
@@ -619,9 +613,8 @@
 			while the	<code>os</code> tests are to get metrics on stable fonts per os.</span>
 		</td></tr>
 		<tr><td colspan="2"><div>
-				<div class="btn-left"><button class="btn11" onClick="outputSection(`11`, `c1`, `m`)">[ re-run tests ]</button></div>
-				<div>default proportional font</div></div></td><td class="c1" id="fontFCprop"></td>
-		</tr>
+			<div class="btn-left"><button class="btn11" onClick="outputSection(`11`, `c1`, `m`)">[ re-run tests ]</button></div>
+			<div>default proportional font</div></div></td><td class="c1" id="fontFCprop"></td></tr>
 		<tr><td colspan="2">default font sizes</td><td class="c1" id="fontFCsize"></td></tr>
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">layout.css.font-loading-api.enabled</span></div>
@@ -637,27 +630,22 @@
 		<!--WHITELIST: c2: small -->
 		<tr><td colspan="3" class="center">------</td></tr>
 		<tr><td colspan="2"><div>
-				<div class="btn-left"><button class="btn11" onClick="outputSection(`11`, `c2`, `m`)">[run whitelist tests ]</button></div>
-				<div>font list</div></div></td>
-				<td class="mono" id="small_fontList"></td>
-		</tr>
+			<div class="btn-left"><button class="btn11" onClick="outputSection(`11`, `c2`, `m`)">[run whitelist tests ]</button></div>
+			<div>font list</div></div></td><td class="mono" id="small_fontList"></td></tr>
 		<tr><td colspan="2">fingerprintjs2 <sup>2</sup></td><td class="c2 mono" id="small_fontFPJS2"></td></tr>
 		<tr><td colspan="2">font fallback <sup>3</sup></td><td class="c2 mono" id="small_fontFB"></td></tr>
 		<tr><td colspan="3"></td></tr>
 		<!--OS: c3: all -->
 		<tr><td colspan="3" class="center">------</td></tr>
 		<tr><td colspan="2"><div>
-				<div class="btn-left"><button class="btn11" onClick="outputSection(`11`, `c3`, `m`)">[ run os tests ]</button></div>
-				<div>font list</div></div></td>
-				<td class="mono" id="all_fontList"></td>
-		</tr>
+			<div class="btn-left"><button class="btn11" onClick="outputSection(`11`, `c3`, `m`)">[ run os tests ]</button></div>
+			<div>font list</div></div></td><td class="mono" id="all_fontList"></td></tr>
 		<tr><td colspan="2">fingerprintjs2 <sup>2</sup></td><td class="c3 mono" id="all_fontFPJS2"></td></tr>
 		<tr><td colspan="2">font fallback <sup>3</sup></td><td class="c3 mono" id="all_fontFB"></td></tr>
 		<!--DETAILS-->
 		<tr><td colspan="3" class="showhide">
-				<input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
-				<label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label>
-		</td></tr>
+			<input id="collapseF" class="toggle" type="checkbox" checked onchange="toggleitems(this, `F`)">
+			<label for="collapseF" class="lbl-toggle" id="labelF">&#9660; show details</label></td></tr>
 		<!--WHITELIST: c2-->
 		<tr class="togF"><td colspan="2" class="sub11" id="small_fontlabel">whitelist</td><td>
 			 <button class="btn0" onClick="copyclip(`small_fontFPJS2Found`)">[ copy to clipboard ]</button></td></tr>
@@ -691,14 +679,14 @@
 	<table id="tb12">
 		<col width="50%"><a name="media"></a><col width="50%">
 		<thead><tr><th colspan="2">
-				<div class="nav-title"><a href="#media">Media</a>
-				<div class="nav-up"><a href="#fonts">&#9650;</a></div>
-				<div class="nav-down"><a href="#webgl">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#media">Media</a>
+			<div class="nav-up"><a href="#fonts">&#9650;</a></div>
+			<div class="nav-down"><a href="#webgl">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn12" onClick="outputSection(`12`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div><div class="ttip"><span class="icon">[ i ]</span>
-					<span class="ttxtb">media.media-capabilities.enabled</span></div> &nbsp [navigator] mediaCapabilities</div></div></td>
+			<div class="btn-left"><button class="btn12" onClick="outputSection(`12`, `c`, `m`)">[ re-run tests ]</button></div>
+			<div><div class="ttip"><span class="icon">[ i ]</span>
+				<span class="ttxtb">media.media-capabilities.enabled</span></div> &nbsp [navigator] mediaCapabilities</div></div></td>
 			<td class="c" id="nMediaC"></td>
 		</tr>
 	</table>
@@ -707,33 +695,29 @@
 	<table id="tb13">
 		<col width="50%"><a name="webgl"></a><col width="50%">
 		<thead><tr><th colspan="2">
-				<div class="nav-title"><a href="#webgl">WebGL</a>
-				<div class="nav-up"><a href="#media">&#9650;</a></div>
-				<div class="nav-down"><a href="#css">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#webgl">WebGL</a>
+			<div class="nav-up"><a href="#media">&#9650;</a></div>
+			<div class="nav-down"><a href="#css">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn13" onClick="outputSection(`13`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div>webgl 1</div></div></td><td class="c" id="webgl1"></td></tr>
-		<tr><td>webgl 2</td><td id="webgl2"></td></tr>
+			<div class="btn-left"><button class="btn13" onClick="outputSection(`13`, `c`, `m`)">[ re-run tests ]</button></div>
+			<div>webgl 1</div></div></td><td class="c" id="webgl1"></td></tr><tr><td>webgl 2</td><td id="webgl2"></td></tr>
 	</table>
 
 	<!-- TABLE 14: CSS - css.js -->
 	<table id="tb14">
 		<col width="50%"><a name="css"></a><col width="50%">
 		<thead><tr><th colspan="2">
-				<div class="nav-title"><a href="#css">CSS</a>
-				<div class="nav-up"><a href="#webgl">&#9650;</a></div>
-				<div class="nav-down"><a href="#ciphers">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#css">CSS</a>
+			<div class="nav-up"><a href="#webgl">&#9650;</a></div>
+			<div class="nav-down"><a href="#ciphers">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn14" onClick="outputSection(`14`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div><div class="ttip"><span class="icon">[ i ]</span><span class="ttxtb">ui.systemUsesDarkTheme</span></div>
-				&nbsp [css | matchMedia] prefers-color-scheme</div></div></td>
-				<td><span id="cssPCS"></span> <span class="bad" id="cssPCSb"></span>
-				<span class="good" id="cssPCSg"></span> | <span class="c" id="mmPCS"></span></td></tr>
-		<tr><td>[css | matchMedia] prefers-reduced-motion</td>
-				<td><span id="cssPRM"></span> <span class="bad" id="cssPRMb"></span>
-				<span class="good" id="cssPRMg"></span> | <span class="c" id="mmPRM"></span></td></tr>
+			<div class="btn-left"><button class="btn14" onClick="outputSection(`14`, `c`, `m`)">[ re-run tests ]</button></div>
+			<div><div class="ttip"><span class="icon">[ i ]</span><span class="ttxtb">ui.systemUsesDarkTheme</span></div>
+			&nbsp [css | matchMedia] prefers-color-scheme</div></div></td>
+			<td><span id="cssPCS"></span> | <span class="c" id="mmPCS"></span></td></tr>
+		<tr><td>[css | matchMedia] prefers-reduced-motion</td><td><span id="cssPRM"></span> | <span class="c" id="mmPRM"></span></td></tr>
 		<tr><td>[-moz-] colors</td><td class="c mono" id="mColorHash"></td></tr>
 		<tr><td>[system] colors</td><td class="c mono" id="sColorHash"></td></tr>
 	</table>
@@ -742,9 +726,9 @@
 	<table id="tb15">
 		<col width="50%"><a name="ciphers"></a><col width="50%">
 		<thead><tr><th colspan="2">
-				<div class="nav-title"><a href="#ciphers">Ciphers / TLS</a>
-				<div class="nav-up"><a href="#css">&#9650;</a></div>
-				<div class="nav-down"><a href="#spare">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#ciphers">Ciphers / TLS</a>
+			<div class="nav-up"><a href="#css">&#9650;</a></div>
+			<div class="nav-down"><a href="#spare">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td>test</td><td>result</td></tr>
 	</table>
@@ -753,9 +737,9 @@
 	<table id="tb16">
 		<col width="50%"><a name="spare"></a><col width="50%">
 		<thead><tr><th colspan="2">
-				<div class="nav-title"><a href="#spare">oh no, i'm empty</a>
-				<div class="nav-up"><a href="#ciphers">&#9650;</a></div>
-				<div class="nav-down"><a href="#spare2">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#spare">oh no, i'm empty</a>
+			<div class="nav-up"><a href="#ciphers">&#9650;</a></div>
+			<div class="nav-down"><a href="#spare2">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td>test</td><td>result</td></tr>
 	</table>
@@ -764,9 +748,9 @@
 	<table id="tb17">
 		<col width="50%"><a name="spare2"></a><col width="50%">
 		<thead><tr><th colspan="2">
-				<div class="nav-title"><a href="#spare2">oh no, i'm empty as well</a>
-				<div class="nav-up"><a href="#spare">&#9650;</a></div>
-				<div class="nav-down"><a href="#misc">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#spare2">oh no, i'm empty as well</a>
+			<div class="nav-up"><a href="#spare">&#9650;</a></div>
+			<div class="nav-down"><a href="#misc">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td>test</td><td>result</td></tr>
 	</table>
@@ -775,14 +759,14 @@
 	<table id="tb18">
 		<col width="10%"><a name="misc"></a><col width="40%"><col width="50%">
 		<thead><tr><th colspan="3">
-				<div class="nav-title"><a href="#misc">Miscellaneous</a>
-				<div class="nav-up"><a href="#spare2">&#9650;</a></div>
-				<div class="nav-down"><a href="#theend">&#9660;</a></div></div>
+			<div class="nav-title"><a href="#misc">Miscellaneous</a>
+			<div class="nav-up"><a href="#spare2">&#9650;</a></div>
+			<div class="nav-down"><a href="#theend">&#9660;</a></div></div>
 		</th></tr></thead>
 		<tr><td colspan="2"><div>
-				<div class="btn-left"><button class="btn18" onClick="outputSection(`18`, `c`, `m`)">[ re-run tests ]</button></div>
-				<div><div class="ttip"><span class="icon">[ i ]</span><span class="ttxt">beacon.enabled</span></div>
-				&nbsp [navigator] beacon</div></div></td><td class="c" id="nBeacon"></td></tr>
+			<div class="btn-left"><button class="btn18" onClick="outputSection(`18`, `c`, `m`)">[ re-run tests ]</button></div>
+			<div><div class="ttip"><span class="icon">[ i ]</span><span class="ttxt">beacon.enabled</span></div>
+			&nbsp [navigator] beacon</div></div></td><td class="c" id="nBeacon"></td></tr>
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">dom.events.asyncClipboard</span></div>
 			&nbsp [api] clipboard</td><td class="c" id="nClipboard"></td></tr>
@@ -794,14 +778,12 @@
 			&nbsp mathml</td><td class="c" id="mathml"></td>
 		</tr>
 		<tr><td colspan="2">[test example] mathml</td><td id="mathmltest">
-				<math>
-				<mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form="prefix">&minus;</mo><mi>b</mi>
-				<mo>&PlusMinus;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>&minus;</mo><mn>4</mn>
-				<mo>&InvisibleTimes;</mo><mi>a</mi><mo>&InvisibleTimes;</mo><mi>c</mi></msqrt></mrow>
-				<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>a</mi></mrow></mfrac></mrow>
-				</math>
-			</td>
-		</tr>
+			<math>
+			<mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form="prefix">&minus;</mo><mi>b</mi>
+			<mo>&PlusMinus;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>&minus;</mo><mn>4</mn>
+			<mo>&InvisibleTimes;</mo><mi>a</mi><mo>&InvisibleTimes;</mo><mi>c</mi></msqrt></mrow>
+			<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>a</mi></mrow></mfrac></mrow>
+			</math></td></tr>
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">dom.media.mediasession.enabled</span></div>
 			&nbsp [api] mediaSession</td><td class="c" id="mediaSession"></td></tr>
@@ -825,10 +807,10 @@
 			<span class="ttxtb">dom.use_components_shim</span></div>
 			&nbsp component interfaces</td><td class="c mono" id="comshim"></td></tr>
 		<tr><td colspan="2">navigator properties</td><td class="c mono" id="nProto"></td></tr>
+		<tr><td colspan="2">window properties</td><td class="c mono" id="wProps"></td></tr>
 		<tr><td colspan="3" class="showhide">
-				<input id="collapseM2" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M2`)">
-				<label for="collapseM2" class="lbl-toggle" id="labelM2">&#9660; show details</label>
-		</td></tr>
+			<input id="collapseM2" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M2`)">
+			<label for="collapseM2" class="lbl-toggle" id="labelM2">&#9660; show details</label></td></tr>
 		<tr class="togM2"><td>component</td><td colspan="2" id="comshim2"></td></tr>
 		<tr class="togM2"><td>navigator</td><td colspan="2" id="nProto2"></td></tr>
 	</table>
@@ -838,9 +820,8 @@
 	<table id="tb99">
 		<col width="29%"><col width="71%">
 		<thead><tr><th colspan="2" class="showhide">
-				<input id="collapseZ" class="toggle" type="checkbox" checked onchange="toggleitems(this, `Z`)">
-				<label for="collapseZ" class="lbl-toggle" id="labelZ">&#9660; show debugging</label>
-		</th></tr></thead>
+			<input id="collapseZ" class="toggle" type="checkbox" checked onchange="toggleitems(this, `Z`)">
+			<label for="collapseZ" class="lbl-toggle" id="labelZ">&#9660; show debugging</label></th></tr></thead>
 		<tr class="togZ"><td>section perf</td><td class="mono" style="white-space: pre;" id="debug1"></td></tr>
 		<tr class="togZ"><td>tor browser detection points</td><td class="mono" style="white-space: pre;" id="debug2"></td></tr>
 	</table>
