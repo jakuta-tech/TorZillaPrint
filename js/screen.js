@@ -24,428 +24,91 @@ function isInner(w,h) {
 	return r
 };
 
-function get_version() {
+function get_chrome() {
 	let t0 = performance.now();
-	let go = true,
-		verNo = "";
-	// reminder: append + on first test
-
-	//73: 1594241 (3 or 4ms)
-	// ToDo: test 73: replace: slow and breaks if css is blocked
-	if (go) {
-		try {
-			let rule73 = dom.test73.sheet.cssRules[0];
-			if (rule73.style.border == "") { verNo= "73+"; go = false};
-			// test 73 breaks TB ESR60 version check
-			// if can't pass e.g. test 69, then it's not really 73
-			try {let torcheck = new DOMError('name'); go = true} catch(e) {};
-		} catch(e) {}
-	}
-	//72: 1589072 (0ms)
-	if (go) {
-		try {
-			let err72 = eval('let a = 100_00_;');
-		} catch(e) {
-			if (e.message.substring(0,6) == "unders" ) { verNo="72"; go = false};
-		}
-	}
-	//71: 1565991 (0ms)
-	if (go) {
-		try {
-			document.createElement("canvas").getContext("2d").createPattern(new Image(), "no-repeat");
-			verNo="71"; go = false
-		} catch(e) {}
-	}
-	//70: 1541861 (1ms)
-	if (go) {
-		try {
-			let el = document.createElement('style');
-			document.head.appendChild(el);
-			el.sheet.deleteRule(0);
-		} catch(e) {
-			if (e.message.substring(0,6) == "Cannot") { verNo="70"; go = false};
-		}
-	}
-	//69 (0ms)
-	if (go) {
-		try {let err69 = new DOMError('name');} catch(e) { verNo="69"; go = false};
-	}
-	//68 (0ms)
-	if (go) {
-		let test68 = dom.test68;
-		if (test68.typeMustMatch == false) {} else { verNo="68"; go = false};
-	}
-	//67 (0ms)
-	if (go) {
-		if (!Symbol.hasOwnProperty('matchAll')) {} else { verNo="67"; go = false};
-	}
-	//66 (0ms)
-	if (go) {
-		try {
-			let str66 = "66 test";
-			const textEncoder = new TextEncoder();
-			const utf8 = new Uint8Array(str66.length);
-			let encodedResults = textEncoder.encodeInto(str66, utf8);
-			verNo="66"; go = false
-		} catch(e) {};
-	}
-	//65 (1ms)
-	if (go) {
-		try {
-			const rtf = new Intl.RelativeTimeFormat("en", {style: "long",});
-			verNo="65"; go = false
-		} catch(e) {};
-	}
-	//64 (0ms)
-	if (go) {
-		if (window.screenLeft == undefined){} else { verNo="64"; go = false};
-	}
-	//63 (0ms)
-	if (go) {
-		if (Symbol.for(`foo`).description == "foo"){ verNo="63"; go = false};
-	}
-	//62 (2ms)
-	if (go) {
-		console.time("ver62");
-		try {console.timeLog("ver62"); verNo="62"; go = false} catch(e) {};
-		console.timeEnd("ver62");
-	}
-	//61 (0ms)
-	if (go) {
-		let str61=" meh";
-		try {str61 = str61.trimStart(); verNo="61"; go = false} catch(e) {};
-	}
-	//60 (1ms)
-	if (go) {
-		try {(Object.getOwnPropertyDescriptor(Document.prototype, "body")
-			|| Object.getOwnPropertyDescriptor(HTMLDocument.prototype, "body")).get.call((new DOMParser).parseFromString(
-				"<html xmlns='http://www.w3.org/1999/xhtml'><body/></html>","application/xhtml+xml")) !== null;
-			verNo="60"; go = false
-		} catch(e) {};
-	}
-	//<59
-	if (go) {
-		verNo="59 or lower";
-	}
-	// set isVer
-	if (isVer == "") {isVer = verNo.replace(/\D/g,'')};
-	// perf
-	let t1 = performance.now();
-	if (mPerf) {console.debug("ua version: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
-	return verNo;
-};
-
-function get_viewport(type) {
-	let e=document.createElement("div");
-	e.style.cssText="position:fixed;top:0;left:0;bottom:0;right:0;";
-	document.documentElement.insertBefore(e,document.documentElement.firstChild);
-	let vw=e.offsetWidth,
-		vh=e.offsetHeight;
-	document.documentElement.removeChild(e);
-	dom.Viewport = vw + " x " + vh;
-	// get android viewport height once on first load
-	// this s/be the value with toolbar visible (except in FS)
-	if (avh == "") {avh = vh}
-	// return
-	if (type == "ua") {
-		return vw; // scrollbar
-	} else {
-		return vh; // android tests
+	// vars
+	let b = "chrome://branding/content/",
+		c = "chrome://browser/content/",
+		s = "chrome://browser/skin/",
+		os = "Linux", // default
+		imgUris = [b+'icon64.png', s+'Toolbar-win7.png', s+'sync-horizontalbar-XPVista7.png'],
+		cssUris = [c+'extension-win-panel.css', c+'extension-mac-panel.css'],
+		objCount = 0;
+	// output
+	function output_chrome(type) {
+		dom.fdChromeOS = type;
+		let t1 = performance.now();
+		outputDebug("1", "[chrome] ua", (t1-t0), (t1 - gt0));
 	};
-};
-
-function get_zoom(type) {
-	let t0 = performance.now();
-
-	// devicePixelRatio
-	let devicePixelRatio = window.devicePixelRatio || 1;
-
-	// dpi
-	varDPI = get_mm_dpi("dpi");
-	dom.mmDPI = varDPI + " | " + get_mm_dpi("dppx") + " | " + get_mm_dpi("dpcm") ;
-
-	// divDPI relies on css: if css is blocked (dpi_y = 0) this causes issues
-	dpi_x = Math.round(dom.divDPI.offsetWidth * devicePixelRatio);
-	dpi_y = Math.round(dom.divDPI.offsetHeight * devicePixelRatio);
-	dom.jsDPI = dpi_x;
-
-	// zoom: chose method
-	if (window.devicePixelRatio !== 1 || dpi_y == 0) {
-		// use devicePixelRatio if we know RFP is off
-		// or if css is blocked (dpi_y = 0, dpi_x = body width)
-		jsZoom = Math.round(window.devicePixelRatio*100).toString();
-	} else {
-		// otherwise it could be spoofed
-		jsZoom = Math.round((varDPI/dpi_x)*100).toString();
-	};
-
-	// ToDo: zoom: css=blocked (dpi_y == 0) AND RFP=true: detect this state
-	// Can't guarantee zoom: notate output for zoom, css line height, scollbar width
-
-	// fixup some numbers
-	if (jsZoom !== 100) {
-		if (jsZoom == 79) {jsZoom=80}
-		if (jsZoom == 92) {jsZoom=90}
-		if (jsZoom == 109) {jsZoom=110}
-		if (jsZoom == 111) {jsZoom=110}
-		if (jsZoom == 121) {jsZoom=120}
-		if (jsZoom == 131) {jsZoom=133}
-		if (jsZoom == 167) {jsZoom=170}
-		if (jsZoom == 171) {jsZoom=170}
-		if (jsZoom == 172) {jsZoom=170}
-		if (jsZoom == 241) {jsZoom=240}
-		if (jsZoom == 250) {jsZoom=240}
-	}
-	dom.jsZoom = jsZoom;
-	// perf
-	if (type !== "resize") {
-		if (mPerf) {
-			let t1 = performance.now();
-			console.debug(type + " zoom: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")
+	// chrome:// css
+	cssUris.forEach(function(cssUri) {
+		let css = document.createElement("link");
+		css.href = cssUri;
+		css.type = "text/css";
+		css.rel = "stylesheet";
+		document.head.appendChild(css);
+		css.onload = function() {
+			if (cssUri === c+"extension-win-panel.css") {
+				os = "Windows";
+				output_chrome(os);
+			} else if (cssUri === c+"extension-mac-panel.css") {
+				os = "Mac";
+				output_chrome(os);
+			};
+			objCount++;
 		};
-	}
-	return jsZoom;
-};
-
-function get_orientation() {
-	let l = "landscape", p = "portrait", q ="(orientation: ", s="square";
-	dom.mmO = (function () {
-		if (window.matchMedia(q+p+")").matches) return p;
-		if (window.matchMedia(q+l+")").matches) return l;
-	})();
-	dom.mmAR = (function () {
-		if (window.matchMedia("(aspect-ratio:1/1)").matches) return s;
-		if (window.matchMedia("(min-aspect-ratio:10000/9999)").matches) return l;
-		if (window.matchMedia("(max-aspect-ratio:9999/10000)").matches) return p;
-	})();
-	dom.mmDAR = (function () {
-		if (window.matchMedia("(device-aspect-ratio:1/1)").matches) return s;
-		if (window.matchMedia("(min-device-aspect-ratio:10000/9999)").matches) return l;
-		if (window.matchMedia("(max-device-aspect-ratio:9999/10000)").matches) return p;
-	})();
-	dom.ScrOrient = (function () {
-		let o = (screen.orientation.type);
-		if (o === l+"-primary") return l;
-		if (o === l+"-secondary") return l+" upside down";
-		if (o === p+"-secondary" || o === "portrait-primary") return p;
-		if (o === undefined) return "undefined";
-	})();
-	dom.mmDM = (function () {
-		// we'll also throw display-mode in here
-		q="(display-mode:"
-		if (window.matchMedia(q+"fullscreen)").matches) return "fullscreen";
-		if (window.matchMedia(q+"browser)").matches) return "browser";
-		if (window.matchMedia(q+"minimal-ui)").matches) return "minimal-ui";
-		if (window.matchMedia(q+p+")").matches) return p;
-	})();
-};
-
-function get_private_win() {
-	try {
-		let db = indexedDB.open("_testPBMode");
-		db.onerror = function() {
-			dom.IsPBMode="true"
-		};
-		db.onsuccess = function() {
-			dom.IsPBMode="false"
-		};
-	} catch(e) {
-		dom.IsPBMode="unknown: "+e.name
-	};
-};
-
-function get_mm_color(type) {
-	let result = "",
-		q = "(" + type + ":"
-	try {
-		result = (function () {
-			for (let i = 0; i < 1000; i++) {
-				if (matchMedia(q + i + ")").matches === true) {
-					return i;}
-			} return i;
-		})();
-	} catch(e) {
-		result = "error"
-	}
-	return result
-}
-
-function get_mm_dpi(type) {
-	let result = "",
-		q = "(max-resolution:"
-	try {
-		result = (function () {
-			for (let i = 1; i < 2000; i++) {
-				if (matchMedia(q + i + type + ")").matches === true) {
-					return i;}
-			} return i;
-		})();
-	} catch(e) {
-		result = "error"
-	}
-	return result
-};
-
-function get_mm_metrics() {
-
-	// promises and output
-	function runTest(callback){
-		// device
-		let devicePromise = Promise.all([
-			callback("width", "device-"),
-			callback("height", "device-")
-		]);
-		devicePromise.then(function(device){
-			device = device.toString().replace(",", " x ")
-			dom.ScrMM = device;
-		});
-		// inner window
-		let innerPromise = Promise.all([
-			callback("width", ""),
-			callback("height", "")
-		]);
-		innerPromise.then(function(inner){
-			inner = inner.toString().replace(",", " x ")
-			dom.WndInMM = inner;
-		});
-	}
-
-	function searchValue(tester){
-		let minValue = 0;
-		let maxValue = 512;
-		let ceiling = Math.pow(2, 32);
-		function stepUp(){
-			if (maxValue > ceiling){
-				return Promise.reject("unable to find upper bound");
-			}
-			return tester(maxValue).then(function(testResult){
-				if (testResult === searchValue.isEqual){
-					return maxValue;
-				}
-				else if (testResult === searchValue.isBigger){
-					//console.debug("isBigger", maxValue);
-					minValue = maxValue;
-					maxValue *= 2;
-					return stepUp();
-				}
-				else {
-					//console.debug("isSmaller", maxValue);
-					return false;
-				}
-			});
+		css.onerror = function() {
+			objCount++;
 		}
-		function binarySearch(){
-			if (maxValue - minValue < 0.01){
-				return tester(minValue).then(function(testResult){
-					if (testResult.isEqual){
-						return minValue;
-					}
-					else {
-						return tester(maxValue).then(function(testResult){
-							if (testResult.isEqual){
-								return maxValue;
-							}
-							else {
-								return Promise.reject(
-									"between " + minValue + " and " + maxValue
-								);
-							}
-						});
-					}
-				});
-			}
-			else {
-				let pivot = (minValue + maxValue) / 2;
-				return tester(pivot).then(function(testResult){
-					if (testResult === searchValue.isEqual){
-						return pivot;
-					}
-					else if (testResult === searchValue.isBigger){
-						minValue = pivot;
-						return binarySearch();
-					}
-					else {
-						maxValue = pivot;
-						return binarySearch();
-					}
-				});
-			}
-		}
-		return stepUp().then(function(stepUpResult){
-			if (stepUpResult){
-				return stepUpResult;
-			}
-			else {
-				return binarySearch();
-			}
-		});
-	}
-	searchValue.isSmaller = -1;
-	searchValue.isEqual = 0;
-	searchValue.isBigger = 1;
-
-	runTest(function(type, metric){
-		return searchValue(function(valueToTest){
-			if (window.matchMedia("(" + metric + type + ": " + valueToTest + "px)").matches){
-				return Promise.resolve(searchValue.isEqual);
-			}
-			else if (window.matchMedia("(max-" + metric + type + ": " + valueToTest + "px)").matches){
-				return Promise.resolve(searchValue.isSmaller);
-			}
-			else {
-				return Promise.resolve(searchValue.isBigger);
-			}
-		});
+		document.head.removeChild(css);
 	});
-};
-
-function get_screen_metrics(type) {
-	dom.ScrRes = screen.width+" x "+screen.height+" ("+screen.left+","+screen.top+")";
-	dom.ScrAvail = screen.availWidth+" x "+screen.availHeight+" ("+screen.availLeft+","+screen.availTop+")";
-	dom.WndOut = window.outerWidth+" x "+window.outerHeight+" ("+window.screenX+","+window.screenY+")";
-	dom.DevPR = window.devicePixelRatio;
-	dom.fsState = window.fullScreen;
-	// inner
-	let w = window.innerWidth,
-		h = window.innerHeight;
-	let strTemp = w+" x "+h+" ("+window.mozInnerScreenX+","+window.mozInnerScreenY+")";
-	if (isOS == "android") {
-		dom.WndIn = strTemp;
-	} else {
-		if (type !== "screen") {
-			get_zoom("resize");
-			get_viewport("resize");
-		}
-		// add LB and NW notation
-		if (isFF == true) {
-			if (jsZoom == 100) {
-				strTemp += isInner(w,h);
-			} else {
-				strTemp += lb_orange;
+	// chrome:// images
+	imgUris.forEach(function(imgUri) {
+		let img = document.createElement("img");
+		img.src = imgUri;
+		img.style.height = "20px";
+		img.style.width = "20px";
+		img.onload = function() {
+			if (imgUri === s+"Toolbar-win7.png" || imgUri === s+"sync-horizontalbar-XPVista7.png") {
+				os = "Windows";
+				output_chrome(os);
+			};
+			objCount++;
+		};
+		img.onerror = function() {
+			if (imgUri === b+"icon64.png") {
+				os = "Android";
+				output_chrome(os);
+			};
+			objCount++;
+		};
+	});
+	// check until all 5 tested
+	function check_linux() {
+		if (objCount == 5) {
+			clearInterval(checking);
+			if (os == "Linux") {
+				output_chrome(os);
 			}
 		}
-		// output
-		dom.WndIn.innerHTML = strTemp
-	};
-	get_mm_metrics();
-	get_orientation();
-}
-
-function get_fullscreen() {
-	// full-screen-api.enabled
-	try {
-		if (document.mozFullScreenEnabled) {
-			dom.fsSupport="enabled";
-		}	else {
-			dom.fsSupport="disabled";
-			dom.fsLeak="n/a";
-		}
-	} catch(e) {
-		dom.fsSupport="no: " + e.name; dom.fsLeak="n/a"
-	};
+	}
+	let checking = setInterval(check_linux, 20)
 };
 
-function get_browser_errors() {
+function get_color() {
+	let r = screen.pixelDepth + " | " + screen.colorDepth;
+	dom.ScrColor.innerHTML = (r == "24 | 24" ? r + rfp_green : r + rfp_red)
+	r = "";
+	r = (function () {
+		for (let i = 0; i < 1000; i++) {
+			if (matchMedia("(color:" + i + ")").matches === true) {
+				return i;}
+		} return i;
+	})();
+	dom.mmC.innerHTML = (r == 8 ? r + rfp_green : r + rfp_red)
+}
+
+function get_errors() {
 	let t0 = performance.now();
 	let errh = ""; // string to hash
 	// RangeError
@@ -507,153 +170,21 @@ function get_browser_errors() {
 	if (mPerf) {console.debug("ua errors: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
-function get_browser_resource() {
-	let t0 = performance.now();
-	let el = document.getElementById("branding");
-
-	// load about:logo
-	let imgA = new Image();
-	imgA.src = "about:logo";
-	imgA.style.visibility = "hidden";
-	document.body.appendChild(imgA);
-	imgA.addEventListener("load", function() {
-		if (imgA.width == 300) {
-			// desktop is 300x236: change to icon64
-			dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/icon64.png')";
-		} else {
-			// android is 258x99: change to favicon64
-			dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/favicon64.png')";
-		};
-		if (imgA.width > 0) {
-			// brand dimensions: do after load event to make sure the resource is loaded
-			let wFF = el.width, hFF = el.height;
-			dom.fdResource = "Firefox";
-			// improve entropy
-			if (wFF == 336 && hFF == 48) {
-				// FF70+ stable/beta
-				dom.fdResource = "Firefox Browser - Release or Beta [" + wFF + " x " + hFF + "]"
-			} else if (wFF == 336 && hFF == 64) {
-				// FF70+ dev/nightly
-				dom.fdResource = "Firefox Browser - Developer or Nightly [" + wFF + " x " + hFF + "]"
-			} else if (wFF == 300 && hFF == 38) {
-				// FF60-69 stable/beta and ESR60/68
-				dom.fdResource = "Firefox Quantum - Release or Beta [" + wFF + " x " + hFF + "]"
-			} else if (wFF == 132 && hFF == 62) {
-				// FF60-69 dev
-				dom.fdResource = "Firefox - Developer Edition [" + wFF + " x " + hFF + "]"
-			} else if (wFF == 270 && hFF == 48) {
-				// FF60-69 nightly
-				dom.fdResource = "Firefox - Nightly [" + wFF + " x " + hFF + "]"
-			} else if (hFF > 0) {
-				// other
-				dom.fdResource = "Firefox [" + wFF + " x " + hFF + "]"
-			}
+function get_fullscreen() {
+	// full-screen-api.enabled
+	try {
+		if (document.mozFullScreenEnabled) {
+			dom.fsSupport="enabled";
+		}	else {
+			dom.fsSupport="disabled";
+			dom.fsLeak="n/a";
 		}
-		document.body.removeChild(imgA);
-	});
-
-	// check if TB desktop
-	let imgB = new Image();
-	imgB.src = "resource://onboarding/img/tor-watermark.png";
-	imgB.style.visibility = "hidden";
-	document.body.appendChild(imgB);
-	imgB.addEventListener("load", function() {
-		if (imgB.width > 0) {
-			// set isTB
-			dom.fdResource = "Tor Browser";
-			isTB = true;
-			outputDebug("2", "     resource:// = tor-watermark.png")
-			// brand dimensions
-			let wTB = el.width, hTB = el.height;
-			// improve entropy
-			if (wTB == 270 && hTB == 48) {
-				// 8.5a7+, 9.0a1+, 9.5a1+
-				dom.fdResource = "Tor Browser: alpha [" + wTB + " x " + hTB + "]";
-				outputDebug("2", "    css branding = 270 x 48 px = alpha")
-			} else if (hTB > 0) {
-				// other
-				dom.fdResource = "Tor Browser [" + wTB + " x " + hTB + "]";
-			}
-		}
-		document.body.removeChild(imgB);
-	});
-
-	let t1 = performance.now();
-	if (mPerf) {console.debug("ua resource browser: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
-};
-
-function get_os_chrome() {
-	let t0 = performance.now();
-	// vars
-	let b = "chrome://branding/content/",
-		c = "chrome://browser/content/",
-		s = "chrome://browser/skin/",
-		os = "Linux", // default
-		imgUris = [b+'icon64.png', s+'Toolbar-win7.png', s+'sync-horizontalbar-XPVista7.png'],
-		cssUris = [c+'extension-win-panel.css', c+'extension-mac-panel.css'],
-		objCount = 0;
-	// output
-	function output_os_chrome(type) {
-		dom.fdChromeOS = type;
-		let t1 = performance.now();
-		outputDebug("1", "[chrome] ua", (t1-t0), (t1 - gt0));
+	} catch(e) {
+		dom.fsSupport="no: " + e.name; dom.fsLeak="n/a"
 	};
-	// chrome:// css
-	cssUris.forEach(function(cssUri) {
-		let css = document.createElement("link");
-		css.href = cssUri;
-		css.type = "text/css";
-		css.rel = "stylesheet";
-		document.head.appendChild(css);
-		css.onload = function() {
-			if (cssUri === c+"extension-win-panel.css") {
-				os = "Windows";
-				output_os_chrome(os);
-			} else if (cssUri === c+"extension-mac-panel.css") {
-				os = "Mac";
-				output_os_chrome(os);
-			};
-			objCount++;
-		};
-		css.onerror = function() {
-			objCount++;
-		}
-		document.head.removeChild(css);
-	});
-	// chrome:// images
-	imgUris.forEach(function(imgUri) {
-		let img = document.createElement("img");
-		img.src = imgUri;
-		img.style.height = "20px";
-		img.style.width = "20px";
-		img.onload = function() {
-			if (imgUri === s+"Toolbar-win7.png" || imgUri === s+"sync-horizontalbar-XPVista7.png") {
-				os = "Windows";
-				output_os_chrome(os);
-			};
-			objCount++;
-		};
-		img.onerror = function() {
-			if (imgUri === b+"icon64.png") {
-				os = "Android";
-				output_os_chrome(os);
-			};
-			objCount++;
-		};
-	});
-	// check until all 5 tested
-	function check_linux() {
-		if (objCount == 5) {
-			clearInterval(checking);
-			if (os == "Linux") {
-				output_os_chrome(os);
-			}
-		}
-	}
-	let checking = setInterval(check_linux, 20)
 };
 
-function get_os_line_scrollbar() {
+function get_line_scrollbar() {
 
 	function decimal_count(value) {
 		if(Math.floor(value) === value) return 0;
@@ -925,7 +456,477 @@ function get_os_line_scrollbar() {
 
 };
 
-function get_os_widgets() {
+function get_mm_dpr() {
+	//let t0 = performance.now();
+
+	// -moz- Firefox only
+	let strMoz = "not supported"
+	if (isFF) {
+		strMoz = ""
+		//strMoz = return_dpr("-moz") + " | " + return_dpr("min--moz") + " | " + return_dpr("max--moz");
+	}
+	// FF63+ for -webkit-
+	let strWeb = "not supported"
+	if (isFF && isVer > 62 || isFF == false) {
+		strWeb = ""
+		//strWeb = return_dpr("-webkit") + " | " + return_dpr("-webkit-min") + " | " + return_dpr("-webkit-max");
+	}
+	// after some sort of promise
+	dom.mmDPR.innerHTML = strWeb + " | " + strMoz;
+
+	// perf
+	//let t1 = performance.now();
+	//if (mPerf) {console.debug("screen dpr: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	//console.debug("screen dpr: " + (t1-t0) + " ms");
+}
+
+function get_mm_metrics() {
+
+	// promises and output
+	function runTest(callback){
+		// device
+		let devicePromise = Promise.all([
+			callback("width", "device-"),
+			callback("height", "device-")
+		]);
+		devicePromise.then(function(device){
+			device = device.toString().replace(",", " x ")
+			dom.ScrMM = device;
+		});
+		// inner window
+		let innerPromise = Promise.all([
+			callback("width", ""),
+			callback("height", "")
+		]);
+		innerPromise.then(function(inner){
+			inner = inner.toString().replace(",", " x ")
+			dom.WndInMM = inner;
+		});
+	}
+
+	function searchValue(tester){
+		let minValue = 0;
+		let maxValue = 512;
+		let ceiling = Math.pow(2, 32);
+		function stepUp(){
+			if (maxValue > ceiling){
+				return Promise.reject("unable to find upper bound");
+			}
+			return tester(maxValue).then(function(testResult){
+				if (testResult === searchValue.isEqual){
+					return maxValue;
+				}
+				else if (testResult === searchValue.isBigger){
+					//console.debug("isBigger", maxValue);
+					minValue = maxValue;
+					maxValue *= 2;
+					return stepUp();
+				}
+				else {
+					//console.debug("isSmaller", maxValue);
+					return false;
+				}
+			});
+		}
+		function binarySearch(){
+			if (maxValue - minValue < 0.01){
+				return tester(minValue).then(function(testResult){
+					if (testResult.isEqual){
+						return minValue;
+					}
+					else {
+						return tester(maxValue).then(function(testResult){
+							if (testResult.isEqual){
+								return maxValue;
+							}
+							else {
+								return Promise.reject(
+									"between " + minValue + " and " + maxValue
+								);
+							}
+						});
+					}
+				});
+			}
+			else {
+				let pivot = (minValue + maxValue) / 2;
+				return tester(pivot).then(function(testResult){
+					if (testResult === searchValue.isEqual){
+						return pivot;
+					}
+					else if (testResult === searchValue.isBigger){
+						minValue = pivot;
+						return binarySearch();
+					}
+					else {
+						maxValue = pivot;
+						return binarySearch();
+					}
+				});
+			}
+		}
+		return stepUp().then(function(stepUpResult){
+			if (stepUpResult){
+				return stepUpResult;
+			}
+			else {
+				return binarySearch();
+			}
+		});
+	}
+	searchValue.isSmaller = -1;
+	searchValue.isEqual = 0;
+	searchValue.isBigger = 1;
+
+	runTest(function(type, metric){
+		return searchValue(function(valueToTest){
+			if (window.matchMedia("(" + metric + type + ": " + valueToTest + "px)").matches){
+				return Promise.resolve(searchValue.isEqual);
+			}
+			else if (window.matchMedia("(max-" + metric + type + ": " + valueToTest + "px)").matches){
+				return Promise.resolve(searchValue.isSmaller);
+			}
+			else {
+				return Promise.resolve(searchValue.isBigger);
+			}
+		});
+	});
+};
+
+function get_orientation() {
+	let l = "landscape", p = "portrait", q ="(orientation: ", s="square";
+	dom.mmO = (function () {
+		if (window.matchMedia(q+p+")").matches) return p;
+		if (window.matchMedia(q+l+")").matches) return l;
+	})();
+	dom.mmAR = (function () {
+		if (window.matchMedia("(aspect-ratio:1/1)").matches) return s;
+		if (window.matchMedia("(min-aspect-ratio:10000/9999)").matches) return l;
+		if (window.matchMedia("(max-aspect-ratio:9999/10000)").matches) return p;
+	})();
+	dom.mmDAR = (function () {
+		if (window.matchMedia("(device-aspect-ratio:1/1)").matches) return s;
+		if (window.matchMedia("(min-device-aspect-ratio:10000/9999)").matches) return l;
+		if (window.matchMedia("(max-device-aspect-ratio:9999/10000)").matches) return p;
+	})();
+	dom.ScrOrient.innerHTML = (function () {
+		let r = screen.orientation.type + " | " + screen.mozOrientation + " | " + screen.orientation.angle;
+		r = r.replace(/landscape-secondary/g, "upside down");
+		r = r.replace(/-primary/g, "");
+		r = r.replace(/-secondary/g, "");
+		r = (r == "landscape | landscape | 0" ? r + rfp_green : r + rfp_red);
+		return r
+	})();
+	dom.mmDM = (function () {
+		// we'll also throw display-mode in here
+		q="(display-mode:"
+		if (window.matchMedia(q+"fullscreen)").matches) return "fullscreen";
+		if (window.matchMedia(q+"browser)").matches) return "browser";
+		if (window.matchMedia(q+"minimal-ui)").matches) return "minimal-ui";
+		if (window.matchMedia(q+p+")").matches) return p;
+	})();
+};
+
+function get_private_win() {
+	try {
+		let db = indexedDB.open("_testPBMode");
+		db.onerror = function() {
+			dom.IsPBMode="true"
+		};
+		db.onsuccess = function() {
+			dom.IsPBMode="false"
+		};
+	} catch(e) {
+		dom.IsPBMode="unknown: "+e.name
+	};
+};
+
+function get_resources() {
+	let t0 = performance.now();
+	let el = document.getElementById("branding");
+
+	// load about:logo
+	let imgA = new Image();
+	imgA.src = "about:logo";
+	imgA.style.visibility = "hidden";
+	document.body.appendChild(imgA);
+	imgA.addEventListener("load", function() {
+		if (imgA.width == 300) {
+			// desktop is 300x236: change to icon64
+			dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/icon64.png')";
+		} else {
+			// android is 258x99: change to favicon64 (which gives us tor's icon)
+			dom.fdResourceCss.style.backgroundImage="url('chrome://branding/content/favicon64.png')";
+		};
+		if (imgA.width > 0) {
+			// brand dimensions: do after load event to make sure the resource is loaded
+			let wFF = el.width, hFF = el.height;
+			dom.fdResource = "Firefox";
+			// improve entropy
+			if (wFF == 336 && hFF == 48) {
+				// FF70+ stable/beta
+				dom.fdResource = "Firefox Browser - Release or Beta [" + wFF + " x " + hFF + "]"
+			} else if (wFF == 336 && hFF == 64) {
+				// FF70+ dev/nightly
+				dom.fdResource = "Firefox Browser - Developer or Nightly [" + wFF + " x " + hFF + "]"
+			} else if (wFF == 300 && hFF == 38) {
+				// FF60-69 stable/beta and ESR60/68
+				dom.fdResource = "Firefox Quantum - Release or Beta [" + wFF + " x " + hFF + "]"
+			} else if (wFF == 132 && hFF == 62) {
+				// FF60-69 dev
+				dom.fdResource = "Firefox - Developer Edition [" + wFF + " x " + hFF + "]"
+			} else if (wFF == 270 && hFF == 48) {
+				// FF60-69 nightly
+				dom.fdResource = "Firefox - Nightly [" + wFF + " x " + hFF + "]"
+			} else if (hFF > 0) {
+				// other
+				dom.fdResource = "Firefox [" + wFF + " x " + hFF + "]"
+			}
+		}
+		document.body.removeChild(imgA);
+	});
+
+	// check if TB desktop
+	let imgB = new Image();
+	imgB.src = "resource://onboarding/img/tor-watermark.png";
+	imgB.style.visibility = "hidden";
+	document.body.appendChild(imgB);
+	imgB.addEventListener("load", function() {
+		if (imgB.width > 0) {
+			// set isTB
+			dom.fdResource = "Tor Browser";
+			isTB = true;
+			outputDebug("2", "     resource:// = tor-watermark.png")
+			// brand dimensions
+			let wTB = el.width, hTB = el.height;
+			// improve entropy
+			if (wTB == 270 && hTB == 48) {
+				// 8.5a7+, 9.0a1+, 9.5a1+
+				dom.fdResource = "Tor Browser: alpha [" + wTB + " x " + hTB + "]";
+				outputDebug("2", "    css branding = 270 x 48 px = alpha")
+			} else if (hTB > 0) {
+				// other
+				dom.fdResource = "Tor Browser [" + wTB + " x " + hTB + "]";
+			}
+		}
+		document.body.removeChild(imgB);
+	});
+
+	let t1 = performance.now();
+	if (mPerf) {console.debug("ua resource browser: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+};
+
+function get_screen_metrics(type) {
+	let t0 = performance.now();
+
+	// window/screen
+	let s1 = screen.width, s2 = screen.height,
+		s3 = screen.availWidth, s4 = screen.availHeight,
+		s5 = window.outerWidth, s6 = window.outerHeight,
+		w = window.innerWidth, h = window.innerHeight,
+		p1 = screen.left, p2 = screen.top,
+		p3 = screen.availLeft, p4 = screen.availTop,
+		p5 = window.screenX, p6 = window.screenY,
+		p7 = window.mozInnerScreenX, p8 = window.mozInnerScreenY;
+
+	dom.ScrRes = s1+" x "+s2+" ("+p1+","+p2+")";
+	dom.ScrAvail = s3+" x "+s4+" ("+p3+","+p4+")";
+	dom.WndOut = s5+" x "+s6+" ("+p5+","+p6+")";
+
+	// RFP notation
+	if (isFF) {
+		// all four measurements are the same
+		let bolW = true, strW = "";
+		if (s1+"x"+s2 !== s3+"x"+s4) {bolW = false}
+		else if (s3+"x"+s4 !== s5+"x"+s6) {bolW = false}
+		else if (s5+"x"+s6 !== w+"x"+h) {bolW = false};
+		if (bolW) {
+			strW = sg + "* [matching sizes]" + sc;
+		} else {
+			strW = sb + "* [matching sizes]" + sc;
+		}
+		dom.match1.innerHTML = strW
+		// coordinates are all zero
+		let bolP = false;
+		let strP = sb + "* [coordinates 0,0]" + sc;
+		if ( p1+p2+p3+p4+p5+p6+p7+p8 == 0) {
+			strP = sg + "* [coordinates 0,0]" + sc;
+			bolP = true;
+		}
+		dom.match2.innerHTML = strP;
+		// unhide + color asterisks
+		let color = "#ff4f4f"; //red
+		if (bolP && bolW) {color = "#8cdc8c"};
+		let items = document.getElementsByClassName("group");
+		for(let i = 0; i < items.length; i++) {
+			items[i].style.color = color;
+		}
+	}
+
+	// inner
+	let strTemp = w+" x "+h+" ("+p7+","+p8+")";
+	if (isOS == "android") {
+		dom.WndIn = strTemp;
+	} else {
+		// update zoom and viewport except on load
+		if (type !== "load") {
+			get_zoom("resize");
+			get_viewport("resize");
+		}
+		// add inner LB and NW notation
+		if (isFF == true) {
+			if (jsZoom == 100) {
+				strTemp += isInner(w,h);
+			} else {
+				strTemp += lb_orange;
+			}
+		}
+		dom.WndIn.innerHTML = strTemp
+		//console.debug("C done (relies on updated zoom): screen_metrics", type)
+	};
+
+	// B: the rest
+	get_mm_metrics();
+	get_mm_dpr();
+	get_orientation();
+	dom.fsState = window.fullScreen;
+	//console.debug("D done (also relies on updated zoom): mm_metrics + mm_drp + orientation + fullscreen", type);
+}
+
+function get_version() {
+	let t0 = performance.now();
+	let go = true,
+		verNo = "";
+	// reminder: append + on first test
+
+	//73: 1594241 (3 or 4ms)
+	// ToDo: test 73: replace: slow and breaks if css is blocked
+	if (go) {
+		try {
+			let rule73 = dom.test73.sheet.cssRules[0];
+			if (rule73.style.border == "") { verNo= "73+"; go = false};
+			// test 73 breaks TB ESR60 version check
+			// if can't pass e.g. test 69, then it's not really 73
+			try {let torcheck = new DOMError('name'); go = true} catch(e) {};
+		} catch(e) {}
+	}
+	//72: 1589072 (0ms)
+	if (go) {
+		try {
+			let err72 = eval('let a = 100_00_;');
+		} catch(e) {
+			if (e.message.substring(0,6) == "unders" ) { verNo="72"; go = false};
+		}
+	}
+	//71: 1565991 (0ms)
+	if (go) {
+		try {
+			document.createElement("canvas").getContext("2d").createPattern(new Image(), "no-repeat");
+			verNo="71"; go = false
+		} catch(e) {}
+	}
+	//70: 1541861 (1ms)
+	if (go) {
+		try {
+			let el = document.createElement('style');
+			document.head.appendChild(el);
+			el.sheet.deleteRule(0);
+		} catch(e) {
+			if (e.message.substring(0,6) == "Cannot") { verNo="70"; go = false};
+		}
+	}
+	//69 (0ms)
+	if (go) {
+		try {let err69 = new DOMError('name');} catch(e) { verNo="69"; go = false};
+	}
+	//68 (0ms)
+	if (go) {
+		let test68 = dom.test68;
+		if (test68.typeMustMatch == false) {} else { verNo="68"; go = false};
+	}
+	//67 (0ms)
+	if (go) {
+		if (!Symbol.hasOwnProperty('matchAll')) {} else { verNo="67"; go = false};
+	}
+	//66 (0ms)
+	if (go) {
+		try {
+			let str66 = "66 test";
+			const textEncoder = new TextEncoder();
+			const utf8 = new Uint8Array(str66.length);
+			let encodedResults = textEncoder.encodeInto(str66, utf8);
+			verNo="66"; go = false
+		} catch(e) {};
+	}
+	//65 (1ms)
+	if (go) {
+		try {
+			const rtf = new Intl.RelativeTimeFormat("en", {style: "long",});
+			verNo="65"; go = false
+		} catch(e) {};
+	}
+	//64 (0ms)
+	if (go) {
+		if (window.screenLeft == undefined){} else { verNo="64"; go = false};
+	}
+	//63 (0ms)
+	if (go) {
+		if (Symbol.for(`foo`).description == "foo"){ verNo="63"; go = false};
+	}
+	//62 (2ms)
+	if (go) {
+		console.time("ver62");
+		try {console.timeLog("ver62"); verNo="62"; go = false} catch(e) {};
+		console.timeEnd("ver62");
+	}
+	//61 (0ms)
+	if (go) {
+		let str61=" meh";
+		try {str61 = str61.trimStart(); verNo="61"; go = false} catch(e) {};
+	}
+	//60 (1ms)
+	if (go) {
+		try {(Object.getOwnPropertyDescriptor(Document.prototype, "body")
+			|| Object.getOwnPropertyDescriptor(HTMLDocument.prototype, "body")).get.call((new DOMParser).parseFromString(
+				"<html xmlns='http://www.w3.org/1999/xhtml'><body/></html>","application/xhtml+xml")) !== null;
+			verNo="60"; go = false
+		} catch(e) {};
+	}
+	//<59
+	if (go) {
+		verNo="59 or lower";
+	}
+	// set isVer
+	if (isVer == "") {isVer = verNo.replace(/\D/g,'')};
+	// perf
+	let t1 = performance.now();
+	if (mPerf) {console.debug("ua version: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	return verNo;
+};
+
+function get_viewport(type) {
+	let e=document.createElement("div");
+	e.style.cssText="position:fixed;top:0;left:0;bottom:0;right:0;";
+	document.documentElement.insertBefore(e,document.documentElement.firstChild);
+	let vw=e.offsetWidth,
+		vh=e.offsetHeight;
+	document.documentElement.removeChild(e);
+	dom.Viewport = vw + " x " + vh;
+
+	//console.debug("B done (always follows zoom): viewport", type)
+
+	// get android viewport height once on first load
+	// this s/be the value with toolbar visible (except in FS)
+	if (avh == "") {avh = vh}
+	// return
+	if (type == "ua") {
+		return vw; // scrollbar
+	} else {
+		return vh; // android tests
+	};
+};
+
+function get_widgets() {
 	let t0 = performance.now();
 	// varibles
 	let wdFFN = "", // font family
@@ -994,6 +995,84 @@ function get_os_widgets() {
 	dom.widgetOS = wdOS;
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua widgets: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+};
+
+function get_zoom(type) {
+	let t0 = performance.now();
+
+	function get_mm_dpi(type) {
+		let result = "",
+			q = "(max-resolution:"
+		try {
+			result = (function () {
+				for (let i = 1; i < 2000; i++) {
+					if (matchMedia(q + i + type + ")").matches === true) {
+						return i;}
+				} return i;
+			})();
+		} catch(e) {
+			result = "error"
+		}
+		return result
+	};
+
+	// devicePixelRatio
+	let dpr = window.devicePixelRatio || 1;
+	let dprStr = (dpr == 1 ? "1" + rfp_green : dpr + rfp_red)
+	dom.DevPR.innerHTML = dprStr;
+
+	// dpi
+	varDPI = get_mm_dpi("dpi");
+	dom.mmDPI = varDPI + " | " + get_mm_dpi("dppx") + " | " + get_mm_dpi("dpcm");
+
+	// Note: when triggered by zoom event, getting the divDPI is slow
+	// 10ms on load - 1ms on chrome resize - 80ms+ on zoom
+	// Not sure if I speed this up - it's probably ok for zoomimg
+	let z0 = performance.now();
+	// divDPI relies on css: if css is blocked (dpi_y = 0) this causes issues
+	dpi_x = Math.round(dom.divDPI.offsetWidth * dpr);
+	dpi_y = Math.round(dom.divDPI.offsetHeight * dpr);
+	dom.jsDPI = dpi_x;
+	let z1 = performance.now();
+	//console.debug(" *** getting divDPI", (z1-z0) + " ms" )
+
+	// zoom: chose method
+	if (dpr !== 1 || dpi_y == 0) {
+		// use devicePixelRatio if we know RFP is off
+		// or if css is blocked (dpi_y = 0, dpi_x = body width)
+		jsZoom = Math.round(dpr*100).toString();
+	} else {
+		// otherwise it could be spoofed
+		jsZoom = Math.round((varDPI/dpi_x)*100).toString();
+	};
+
+	// ToDo: zoom: css=blocked (dpi_y == 0) AND RFP=true: detect this state
+	// Can't guarantee zoom: notate output for zoom, css line height, scollbar width
+
+	// fixup some numbers
+	if (jsZoom !== 100) {
+		if (jsZoom == 79) {jsZoom=80}
+		if (jsZoom == 92) {jsZoom=90}
+		if (jsZoom == 109) {jsZoom=110}
+		if (jsZoom == 111) {jsZoom=110}
+		if (jsZoom == 121) {jsZoom=120}
+		if (jsZoom == 131) {jsZoom=133}
+		if (jsZoom == 167) {jsZoom=170}
+		if (jsZoom == 171) {jsZoom=170}
+		if (jsZoom == 172) {jsZoom=170}
+		if (jsZoom == 241) {jsZoom=240}
+		if (jsZoom == 250) {jsZoom=240}
+	}
+	dom.jsZoom = jsZoom;
+	// perf
+	if (type !== "resize") {
+		if (mPerf) {
+			let t1 = performance.now();
+			console.debug(type + " zoom: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")
+		};
+	}
+	//console.debug("A done (must be first): zoom + dpi + devicePixelRatio", type);
+	return jsZoom;
 };
 
 function get_dpr() {
@@ -1298,24 +1377,20 @@ function goNW() {
 
 function outputScreen(type) {
 	let t0 = performance.now();
-	// properties
-	get_screen_metrics("screen"); // also runs get_orientation
-	dom.PixDepth = screen.pixelDepth;
-	dom.ColDepth = screen.colorDepth;
-	dom.mmC = get_mm_color("color");
-	// functions
-	if (isFF == true) {
-		if (type != "load") {get_zoom("screen")}; // outputUA already ran it
-		if (type != "load") {get_viewport("screen")} // outputUA already ran it
-	} else {
-		// for non-Firefox browsers
-		get_zoom("screen");
-		get_viewport("screen");
-	}
+
+	// we do these once
+	get_color();
 	get_private_win();
 	get_fullscreen();
+
+	// this function has everything called on the resize event
+	// zoom, viewport, dpi, dpr, orientation, fullscreen, screen/window measurements
+	// we pass type as "load" or "screen"
+	get_screen_metrics(type);
+
 	// listen for dpr leaks
 	get_dpr();
+
 	// perf
 	let t1 = performance.now();
 	outputDebug("1", "screen", (t1-t0), (t1 - gt0));
@@ -1443,7 +1518,7 @@ function outputMath() {
 	outputDebug("1", "math", (t1-t0), (t1 - gt0));
 };
 
-function outputUA() {
+function outputUA(type) {
 	let t0 = performance.now();
 
 	// first script run: set global vars
@@ -1467,16 +1542,31 @@ function outputUA() {
 	dom.nProductSub = navigator.productSub;
 	dom.nUserAgent = navigator.userAgent;
 	outputMath();
-	get_browser_errors();
+	get_errors();
 	// firefox only
 	if (isFF == true) {
 		dom.fdetect="Firefox";
-		get_os_widgets(); // sets isOS
-		get_browser_resource();
+		get_widgets(); // sets isOS
+		get_resources();
 		dom.versionNo = get_version();
-		get_os_line_scrollbar();
-		get_os_chrome();
+		get_line_scrollbar(); // this runs get_zoom and get_viewport
+		get_chrome();
+	} else {
+		// hide the screen astericks
+		let items = document.getElementsByClassName("group");
+		for(let i = 0; i < items.length; i++) {
+			items[i].style.display = "none";
+		}
 	};
+
+	// non-FF browsers need to run these on load
+	if (!isFF) {
+		if (type == "load") {
+			get_zoom();
+			get_viewport();
+		}
+	}
+
 	// perf
 	let t1 = performance.now();
 	outputDebug("1", "ua", (t1-t0), (t1 - gt0));
@@ -1485,7 +1575,6 @@ function outputUA() {
 // start page perf
 gt0 = performance.now();
 dom.debug1 = "       start:  screen.js loaded";
-
-outputUA(); // run first: sets isFF, isOS: includes outputMath
+outputUA("load"); // run first: sets isFF, isOS: includes outputMath
 outputScreen("load");
 run_os(); // os specific tweaks
