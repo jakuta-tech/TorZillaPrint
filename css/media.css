@@ -48,10 +48,10 @@
 @media (any-hover:hover){#cssAH:after{content:"hover";}}
 
 #cssPCS:after{content:"not supported";}
-@media (prefers-color-scheme:light){#cssPCS:after{content:"light";} #cssPCSg:after{content:"[RFP]";}}
-@media (prefers-color-scheme:dark){#cssPCS:after{content:"dark";} #cssPCSb:after{content:"[RFP]";}}
+@media (prefers-color-scheme:light){#cssPCS:after{content:"light";}}
+@media (prefers-color-scheme:dark){#cssPCS:after{content:"dark";}}
 @media (prefers-color-scheme:no-preference){#cssPCS:after{content:"no-preference";}}
 
 #cssPRM:after{content:"not supported";}
-@media (prefers-reduced-motion:no-preference){#cssPRM:after{content:"no-preference";} #cssPRMg:after{content:"[RFP]";}}
-@media (prefers-reduced-motion:reduce){#cssPRM:after{content:"reduce";} #cssPRMb:after{content:"[RFP]";}}
+@media (prefers-reduced-motion:no-preference){#cssPRM:after{content:"no-preference";}}
+@media (prefers-reduced-motion:reduce){#cssPRM:after{content:"reduce";}}
