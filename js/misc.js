@@ -3,30 +3,25 @@
 'use strict';
 
 function countCharacter(str, char) {
-    return str.split('').reduce((a, x) => x === char ? ++a : a, 0);
+		return str.split('').reduce((a, x) => x === char ? ++a : a, 0);
 };
 
 function get_components() {
-	let t0 = performance.now();
 	let comshim = (typeof Components === "undefined") ? "undefined" : Object.getOwnPropertyNames(Components.interfaces).join("~");
 	dom.comshim2 = comshim.replace(/~/g, ", ");
 	if (comshim !== "undefined") { comshim = sha1(comshim) + " [" + comshim.split('~').length + " items]"; };
 	dom.comshim = comshim;
 	dom.comshim2.style.color = zshow;
-	// perf
-	let t1 = performance.now();
-	if (mPerf) {console.debug("misc components: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
 function get_mathml(type) {
-	let t0 = performance.now();
 	// compare control to test
 	if (type !== "load") {
 		// rebuild test: only if not loading the page
 		let mathmlString = "<math><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form='prefix'>&minus;</mo><mi>b</mi>"+
-			"<mo>&PlusMinus;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>&minus;</mo><mn>4</mn>"+
-			"<mo>&InvisibleTimes;</mo><mi>a</mi><mo>&InvisibleTimes;</mo><mi>c</mi></msqrt></mrow>"+
-			"<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>a</mi></mrow></mfrac></mrow></math>";
+		"<mo>&PlusMinus;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>&minus;</mo><mn>4</mn>"+
+		"<mo>&InvisibleTimes;</mo><mi>a</mi><mo>&InvisibleTimes;</mo><mi>c</mi></msqrt></mrow>"+
+		"<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>a</mi></mrow></mfrac></mrow></math>";
 		dom.mathmltest.innerHTML = mathmlString;
 		dom.mathmltest.style.color = zshow;
 	}
@@ -39,20 +34,13 @@ function get_mathml(type) {
 		"disabled | offsetHeight difference: "+ mdiff+ tb_safer  :
 		"enabled | offsetHeight difference: "+ mdiff+ tb_standard
 	);
-	// perf
-	let t1 = performance.now();
-	if (mPerf) {console.debug("misc mathml: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
 function get_nav_prototype() {
-	let t0 = performance.now();
 	let nProto = Object.keys(Object.getPrototypeOf(navigator)).join("~");
 	dom.nProto = sha1(nProto) + " [" + nProto.split('~').length + " items]";
 	dom.nProto2 = nProto.replace(/~/g, ", ");
 	dom.nProto2.style.color = zshow;
-	// perf
-	let t1 = performance.now();
-	if (mPerf) {console.debug("misc navigator properties: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
 function get_svg() {
@@ -79,7 +67,6 @@ function get_svg() {
 };
 
 function get_wasm() {
-	let t0 = performance.now();
 	// wasm
 	let supported = (() => {
 		try {
@@ -93,9 +80,6 @@ function get_wasm() {
 	})();
 	// dom.wasm.innerHTML = (supported ? e + tb_standard : d + tb_safer); // currently only alpha
 	dom.wasm = (supported ? "enabled" : "disabled" );
-	// perf
-	let t1 = performance.now();
-	if (mPerf) {console.debug("misc wasm: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
 
 function reset_misc() {
