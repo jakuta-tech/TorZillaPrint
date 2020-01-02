@@ -32,6 +32,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 .offscreen {position: absolute; top: -2000%;}
 .bad {color: #ff4f4f;}
 .good {color: #8cdc8c;} /* use test7 */
+.group {font-weight: bold;}
 .neutral {color: #dcdc8c;} /* use test4 */
 .orange {color: #dca78c;} /* use test2 */
 .mono, .toDataURL, .toBlob, .winding, .getImageData, .isPointInPath, .fillText,
@@ -80,7 +81,8 @@ a.blue {color: #8abfda; text-decoration: none;}
 /* show/hide */
 input[type='checkbox'] {display: none;}
 .lbl-toggle {display: block; cursor: pointer;}
-.togA, .togD, .togD1, .togM, .togC, .togE, .togF, .togF1, .togL, .togM2, .togOS1, .togOS2, .togW, .togZ {display: none;}
+.togA, .togD, .togD1, .togM, .togC, .togE, .togF, .togF1, .togL, .togL2,
+.togM2, .togOS1, .togOS2, .togW, .togZ {display: none;}
 
 /* buttons */
 button {background-color: #1a1a1a; border-width: 0px; text-align: center;
@@ -104,7 +106,8 @@ button {background-color: #1a1a1a; border-width: 0px; text-align: center;
 .btn16 {border-color: var(--test16); color: var(--test16);}
 .btn17 {border-color: var(--test17); color: var(--test17);}
 .btn18 {border-color: var(--test18); color: var(--test18);}
-div.btn-left {float: left; position: relative; left: -10px; top: -2px;}
+.btn-left {float: left; position: relative; left: -10px; top: -2px;}
+.match {float: left; position: relative; left: 230px;}
 
 /* tooltips */
 .icon {font-size: 10px; font-weight: bold; color: #b3b3b3; cursor: default;}
