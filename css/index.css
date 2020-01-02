@@ -107,7 +107,7 @@ button {background-color: #1a1a1a; border-width: 0px; text-align: center;
 .btn17 {border-color: var(--test17); color: var(--test17);}
 .btn18 {border-color: var(--test18); color: var(--test18);}
 .btn-left {float: left; position: relative; left: -10px; top: -2px;}
-.match {float: left; position: relative; left: 230px;}
+.match {float: left; position: relative; left: 210px;}
 
 /* tooltips */
 .icon {font-size: 10px; font-weight: bold; color: #b3b3b3; cursor: default;}
