@@ -531,6 +531,10 @@ function get_datetime() {
 	};
 	dom.dtf22 = tmp22;
 
+	// currency
+	let tmp25 = Number(1234567.89).toLocaleString(undefined, {style: "currency", currency: "USD", currencyDisplay: "symbol"});
+	dom.dtf25 = tmp25;
+
 	// calendar/numbering/geo
 	let tmp30 = rOptions.calendar; dom.dtf30 = tmp30;
 	let tmp31 = rOptions.numberingSystem; dom.dtf31 = tmp31;
@@ -539,7 +543,7 @@ function get_datetime() {
 	let lHash2 = tmp1 + "-" + tmp2 + "-" + tmp3 + "-" + tmp4 + "-" + tmp5 + "-" + tmp6 + "-" + tmp7
 		+ "-" + tmp8 + "-" + tmp9 + "-" + tmp10 + "-" + tmp11 + "-" + tmp12 + "-" + tmp13 + "-" + tmp14
 		+ "-" + tmp15 + "-" + tmp16 + "-" + tmp17 + "-" + tmp18 + "-" + tmp19 + "-" + tmp20 + "-" + tmp21
-		+ "-" + tmp22 + "-" + tmp30 + "-" + tmp31;
+		+ "-" + tmp22 + "-" + tmp25 + "-" + tmp30 + "-" + tmp31;
 	//console.debug(lHash2);
 	lHash2 = sha1(lHash2);
 	dom.lHash2 = lHash2;
@@ -549,26 +553,26 @@ function get_datetime() {
 	// these require bTZ=true, skip if false
 	// toggle bTZ to simulate RFP's TZ
 	if (bTZ) {
-		if (lHash2 == "314af3976e066468f7e68492ee320ddd3036353f") {
+		if (lHash2 == "200b054b604133f84c1dcf92c3e03bdfa46a2c25") {
 			// FF72+: [formatToParts] Intl.NumberFormat
 			lHash2 += yup; ff = " [FF72+]";
-		} else if (lHash2 == "e55df382836729c0460b77089dcb38218f854616") {
+		} else if (lHash2 == "e229d82c050df4a80c281be73281788c0a4cbe66") {
 			// FF71: [formatToParts] Intl.NumberFormat: diff error message
 			lHash2 += yup; ff = " [FF71]";
-		} else if (lHash2 == "42c210e719845128b2df77275e96fd7fe1304013") {
+		} else if (lHash2 == "4c275a6837436e7a118c5fbb7d7b7a8533dd05b6") {
 			// FF70+: [BigInt] Intl.NumberFormat
 			// FF70+: [BigInt] toLocaleString
 			lHash2 += yup; ff = " [FF70]";
-		} else if (lHash2 == "1e6adada983598231470eea446329446c68dd875") {
+		} else if (lHash2 == "bc26eab83c35798e7b06368670c10a92477b1917") {
 			// FF68+: BigInt
 			lHash2 += yup; ff = " [FF68-69]";
-		} else if (lHash2 == "5da7d7dfdc8638edeab4e8fce5a07ed3e7b78d19") {
+		} else if (lHash2 == "9b0e3866cd3549632931276bfdd2673b13c8e5a9") {
 			// FF65+: Intl.RelativeTimeFormat
 			lHash2 += yup; ff = " [FF65-67]";
-		} else if (lHash2 == "fd7213bbb4a67c29ca9f3e1522c351b50b867be9") {
+		} else if (lHash2 == "ada2545006288bea8de6c0b1b7dea23b4cb90bac") {
 			// FF63+: CUT
 			lHash2 += yup; ff = " [FF63-64]";
-		} else if (lHash2 == "09ec48d99814d7ec532b0add024fb75ea252037b") {
+		} else if (lHash2 == "970221f99a1425679852f5986262dfb51050aef5") {
 			// FF60-62: UTC
 			lHash2 += yup; ff = " [FF60-62]";
 		}
@@ -606,4 +610,3 @@ function outputLanguage() {
 };
 
 outputLanguage();
-
