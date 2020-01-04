@@ -414,7 +414,6 @@ function get_mm_dpr() {
 			callback("-webkit")
 		]);
 		webPromise.then(function(web){
-			//web = web[0].toFixed(3);
 			dom.mmDPRw = web;
 		});
 	}
@@ -424,8 +423,7 @@ function get_mm_dpr() {
 			callback("-moz-device-pixel-ratio")
 		]);
 		mozPromise.then(function(moz){
-			//moz = moz[0].toFixed(3);
-			dom.mmDPRm.innerHTML = (moz == 1 ? moz + rfp_green : moz + rfp_red)
+			dom.mmDPRm = moz;
 		});
 	}
 
