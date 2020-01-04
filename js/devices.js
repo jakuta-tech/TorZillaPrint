@@ -27,7 +27,11 @@ function get_media_devices() {
 		// enumerate
 		let str = "", pad = 0, strPad = "";
 		navigator.mediaDevices.enumerateDevices().then(function(devices) {
+			let aCount = 0, vCount = 0, oCount = 0;
 			devices.forEach(function(device) {
+				if (device.kind == "audioinput") {aCount++}
+				else if (device.kind == "videoinput") {vCount++}
+				else {oCount++}
 				pad = device.kind.length + 2;
 				str += device.kind + ": " + device.deviceId
 				if (device.groupId.length > 0) {
@@ -40,6 +44,16 @@ function get_media_devices() {
 				}
 				str += "<br>"
 			});
+			// rfp
+			if (isFF) {
+				str = str.slice(0, -4); // trailing <br>
+				console.debug("after", str)
+				if (aCount == 1 && vCount == 1 && oCount == 0) {
+					str += rfp_green
+				} else {
+					str += rfp_red
+				}
+			}
 			dom.eMediaDevices.innerHTML = str
 		})
 		.catch(function(err) {
