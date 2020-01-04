@@ -841,16 +841,17 @@ function get_screen_metrics(type) {
 		}
 	}
 
-	// inner
+	// update zoom and viewport except on load
+	if (type !== "load") {
+		get_zoom("resize");
+		get_viewport("resize");
+	}
+
+	// inner (not that zoom is re-calculated
 	let strTemp = w+" x "+h+" ("+p7+","+p8+")";
 	if (isOS == "android") {
 		dom.WndIn = strTemp;
 	} else {
-		// update zoom and viewport except on load
-		if (type !== "load") {
-			get_zoom("resize");
-			get_viewport("resize");
-		}
 		// add inner LB and NW notation
 		if (isFF == true) {
 			if (jsZoom == 100) {
