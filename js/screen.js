@@ -425,7 +425,7 @@ function get_mm_dpr() {
 		]);
 		mozPromise.then(function(moz){
 			//moz = moz[0].toFixed(3);
-			dom.mmDPRm = moz;
+			dom.mmDPRm.innerHTML = (moz == 1 ? moz + rfp_green : moz + rfp_red)
 		});
 	}
 
