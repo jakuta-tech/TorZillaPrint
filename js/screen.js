@@ -27,12 +27,9 @@ function isInner(w,h) {
 function get_chrome() {
 	let t0 = performance.now();
 	// vars
-	let b = "chrome://branding/content/",
-		c = "chrome://browser/content/",
-		s = "chrome://browser/skin/",
-		os = "Linux", // default
-		imgUris = [b+'icon64.png', s+'Toolbar-win7.png', s+'sync-horizontalbar-XPVista7.png'],
+	let c = "chrome://browser/content/",
 		cssUris = [c+'extension-win-panel.css', c+'extension-mac-panel.css'],
+		os = "Linux", // default
 		objCount = 0;
 	// output
 	function output_chrome(type) {
@@ -40,7 +37,7 @@ function get_chrome() {
 		let t1 = performance.now();
 		outputDebug("1", "[chrome] ua", (t1-t0), (t1 - gt0));
 	};
-	// chrome:// css
+	// windows/mac
 	cssUris.forEach(function(cssUri) {
 		let css = document.createElement("link");
 		css.href = cssUri;
@@ -48,48 +45,25 @@ function get_chrome() {
 		css.rel = "stylesheet";
 		document.head.appendChild(css);
 		css.onload = function() {
-			if (cssUri === c+"extension-win-panel.css") {
-				os = "Windows";
-				output_chrome(os);
-			} else if (cssUri === c+"extension-mac-panel.css") {
-				os = "Mac";
-				output_chrome(os);
-			};
-			objCount++;
+			if (cssUri === c+"extension-win-panel.css") { os = "Windows"; objCount++; output_chrome(os) };
+			if (cssUri === c+"extension-mac-panel.css") { os = "Mac"; objCount++; output_chrome(os) };
 		};
-		css.onerror = function() {
-			objCount++;
-		}
+		css.onerror = function() { objCount++ }
 		document.head.removeChild(css);
 	});
-	// chrome:// images
-	imgUris.forEach(function(imgUri) {
-		let img = document.createElement("img");
-		img.src = imgUri;
-		img.style.height = "20px";
-		img.style.width = "20px";
-		img.onload = function() {
-			if (imgUri === s+"Toolbar-win7.png" || imgUri === s+"sync-horizontalbar-XPVista7.png") {
-				os = "Windows";
-				output_chrome(os);
-			};
-			objCount++;
-		};
-		img.onerror = function() {
-			if (imgUri === b+"icon64.png") {
-				os = "Android";
-				output_chrome(os);
-			};
-			objCount++;
-		};
-	});
-	// check until all 5 tested
+	// android
+	let imgX = new Image();
+	imgX.src = "chrome://branding/content/icon64.png";
+	imgX.style.visibility = "hidden";
+	document.body.appendChild(imgX);
+	imgX.onload = function() { objCount++ }
+	imgX.onerror = function() { os = "Android"; objCount++; output_chrome(os) };
+	document.body.removeChild(imgX);
+	// linux
 	function check_linux() {
-		if (objCount == 5) {
+		if (objCount == 3) {
 			clearInterval(checking);
-			if (os == "Linux") {
-				output_chrome(os);
-			}
+			if (os == "Linux") { output_chrome(os) }
 		}
 	}
 	let checking = setInterval(check_linux, 20)
@@ -683,8 +657,8 @@ function get_resources() {
 				dom.fdResource = "Firefox [" + wFF + " x " + hFF + "]"
 			}
 		}
-		document.body.removeChild(imgA);
 	});
+	document.body.removeChild(imgA);
 
 	// check if TB desktop
 	let imgB = new Image();
@@ -709,8 +683,8 @@ function get_resources() {
 				dom.fdResource = "Tor Browser [" + wTB + " x " + hTB + "]";
 			}
 		}
-		document.body.removeChild(imgB);
 	});
+	document.body.removeChild(imgB);
 
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua resource browser: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
