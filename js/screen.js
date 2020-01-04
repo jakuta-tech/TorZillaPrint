@@ -84,62 +84,34 @@ function get_color() {
 
 function get_errors() {
 	let t0 = performance.now();
-	let errh = ""; // string to hash
+	let errh = "";
 	// RangeError
-	try {
-		let foodate = new Date(),
-			bar = new Date(foodate.endDate).toISOString();
-	} catch(e) {
-		dom.err1=e;
-		errh += e
-	};
+	try { let foodate = new Date(),	bar = new Date(foodate.endDate).toISOString()
+	} catch(e) { dom.err1=e; errh += e };
 	// ReferenceError
-	try {
-		foo=2
-	} catch(e) {
-		dom.err2=e;
-		errh += e
-	};
+	try { foo=2
+	} catch(e) { dom.err2=e; errh += e };
 	// SyntaxError
-	try {
-		eval("alert('Hello)");
-	} catch(e) {
-		dom.err3=e;
-		errh += e
-	};
+	try { eval("alert('Hello)")
+	} catch(e) { dom.err3=e; errh += e };
 	// TypeError
-	try {
-		function foobar() {
-			let foo = document.getElementById("bar");
-			foo.value = screen.width;
-		}
+	try { function foobar() { let foo = document.getElementById("bar"); foo.value = screen.width }
 		window.onload = foobar();
-	} catch(e) {
-		dom.err4=e;
-		errh += e
-	};
+	} catch(e) { dom.err4=e; errh += e };
 	// TypeError
-	try {
-		var bar = new Date(bar[0].endDate).toISOString()
-	} catch(e) {
-		dom.err5=e;
-		errh += e
-	};
+	try { var bar = new Date(bar[0].endDate).toISOString()
+	} catch(e) { dom.err5=e; errh += e };
 	// URIError
-	try {
-		decodeURIComponent("%")
-	} catch(e) {
-		dom.err6=e;
-		errh += e
-	};
-	// error hash
-	errh = sha1(errh);
-	dom.errh = errh;
+	try { decodeURIComponent("%")
+	} catch(e) { dom.err6=e; errh += e };
+	// hash
+	errh = sha1(errh); dom.errh = errh;
 	if (errh == "32e7cf958b5c1a791392fe7c70ed51474ec49e79") {
 		dom.fdError = "Firefox"
 	} else if (isFF) {
 		dom.fdError.innerHTML = sb + "I haven't seen this Firefox error combo before" + sc;
 	};
+	// perf
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua errors: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 };
@@ -431,30 +403,148 @@ function get_line_scrollbar() {
 };
 
 function get_mm_dpr() {
-	//let t0 = performance.now();
+	// clear results (uncaught errors)
+	dom.mmDPRw = "";
+	dom.mmDPRm = "";
 
-	// -moz- Firefox only
-	let strMoz = "not supported"
+	// promises and output
+	function runWebkit(callback){
+		// webkit
+		let webPromise = Promise.all([
+			callback("-webkit")
+		]);
+		webPromise.then(function(web){
+			//web = web[0].toFixed(3);
+			dom.mmDPRw = web;
+		});
+	}
+	function runMoz(callback){
+		// moz
+		let mozPromise = Promise.all([
+			callback("-moz-device-pixel-ratio")
+		]);
+		mozPromise.then(function(moz){
+			//moz = moz[0].toFixed(3);
+			dom.mmDPRm = moz;
+		});
+	}
+
+	function searchValue(tester){
+		let minValue = 0;
+		let maxValue = 2;
+		let ceiling = Math.pow(2, 32);
+		function stepUp(){
+			if (maxValue > ceiling){
+				return Promise.reject("unable to find upper bound");
+			}
+			return tester(maxValue).then(function(testResult){
+				if (testResult === searchValue.isEqual){
+					return maxValue;
+				}
+				else if (testResult === searchValue.isBigger){
+					minValue = maxValue;
+					maxValue *= 2;
+					return stepUp();
+				}
+				else {
+					return false;
+				}
+			});
+		}
+		function binarySearch(){
+			if (maxValue - minValue < 0.0000001){
+				return tester(minValue).then(function(testResult){
+					if (testResult.isEqual){
+						return minValue;
+					}
+					else {
+						return tester(maxValue).then(function(testResult){
+							if (testResult.isEqual){
+								return maxValue;
+							}
+							else {
+								return Promise.reject(
+									"between " + minValue + " and " + maxValue
+								);
+							}
+						});
+					}
+				});
+			}
+			else {
+				let pivot = (minValue + maxValue) / 2;
+				return tester(pivot).then(function(testResult){
+					if (testResult === searchValue.isEqual){
+						return pivot;
+					}
+					else if (testResult === searchValue.isBigger){
+						minValue = pivot;
+						return binarySearch();
+					}
+					else {
+						maxValue = pivot;
+						return binarySearch();
+					}
+				});
+			}
+		}
+		return stepUp().then(function(stepUpResult){
+			if (stepUpResult){
+				return stepUpResult;
+			}
+			else {
+				return binarySearch();
+			}
+		});
+	}
+	searchValue.isSmaller = -1;
+	searchValue.isEqual = 0;
+	searchValue.isBigger = 1;
+
+	// -moz-
 	if (isFF) {
-		strMoz = ""
-		//strMoz = return_dpr("-moz") + " | " + return_dpr("min--moz") + " | " + return_dpr("max--moz");
-	}
-	// FF63+ for -webkit-
-	let strWeb = "not supported"
-	if (isFF && isVer > 62 || isFF == false) {
-		strWeb = ""
-		//strWeb = return_dpr("-webkit") + " | " + return_dpr("-webkit-min") + " | " + return_dpr("-webkit-max");
-	}
-	// after some sort of promise
-	dom.mmDPR.innerHTML = strWeb + " | " + strMoz;
+		runMoz(function(type){
+			return searchValue(function(valueToTest){
+				if (window.matchMedia("(" + type + ": " + valueToTest + ")").matches){
+					return Promise.resolve(searchValue.isEqual);
+				}
+				else if (window.matchMedia("(max-" + type + ": " + valueToTest + ")").matches){
+					return Promise.resolve(searchValue.isSmaller);
+				}
+				else {
+					return Promise.resolve(searchValue.isBigger);
+				}
+			});
+		});
+	} else {
+		dom.mmDPRm = "not supported";
+	};
 
-	// perf
-	//let t1 = performance.now();
-	//if (mPerf) {console.debug("screen dpr: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
-	//console.debug("screen dpr: " + (t1-t0) + " ms");
-}
+	// -webkit-
+	if (isFF && isVer > 62 || isFF == false) {
+		runWebkit(function(type){
+			return searchValue(function(valueToTest){
+				if (window.matchMedia("(" + type + "-device-pixel-ratio: " + valueToTest + ")").matches){
+					return Promise.resolve(searchValue.isEqual);
+				}
+				else if (window.matchMedia("(" + type + "-max-device-pixel-ratio: " + valueToTest + ")").matches){
+					return Promise.resolve(searchValue.isSmaller);
+				}
+				else {
+					return Promise.resolve(searchValue.isBigger);
+				}
+			});
+		});
+	} else {
+		dom.mmDPRw = "not supported";
+	};
+
+};
 
 function get_mm_metrics() {
+	// clear results (uncaught errors)
+	dom.ScrMM = "";
+	dom.WndInMM = "";
 
 	// promises and output
 	function runTest(callback){
