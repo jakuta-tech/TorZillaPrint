@@ -402,6 +402,22 @@ function get_line_scrollbar() {
 
 };
 
+function get_mm_dpi(type) {
+	let result = "",
+		q = "(max-resolution:"
+	try {
+		result = (function () {
+			for (let i = 1; i < 2000; i++) {
+				if (matchMedia(q + i + type + ")").matches === true) {
+					return i;}
+			} return i;
+		})();
+	} catch(e) {
+		result = "error"
+	}
+	return result
+};
+
 function get_mm_dpr() {
 	// clear results (uncaught errors)
 	dom.mmDPRw = "";
@@ -1061,22 +1077,6 @@ function get_widgets() {
 
 function get_zoom(type) {
 	let t0 = performance.now();
-
-	function get_mm_dpi(type) {
-		let result = "",
-			q = "(max-resolution:"
-		try {
-			result = (function () {
-				for (let i = 1; i < 2000; i++) {
-					if (matchMedia(q + i + type + ")").matches === true) {
-						return i;}
-				} return i;
-			})();
-		} catch(e) {
-			result = "error"
-		}
-		return result
-	};
 
 	// devicePixelRatio
 	let dpr = window.devicePixelRatio || 1;
