@@ -46,12 +46,10 @@ function get_media_devices() {
 			});
 			// rfp
 			if (isFF) {
-				str = str.slice(0, -4); // trailing <br>
-				console.debug("after", str)
 				if (aCount == 1 && vCount == 1 && oCount == 0) {
-					str += rfp_green
+					str = str.replace("<br>", rfp_green + "<br>");
 				} else {
-					str += rfp_red
+					str = str.replace("<br>", rfp_red + "<br>");
 				}
 			}
 			dom.eMediaDevices.innerHTML = str
@@ -145,13 +143,17 @@ function get_speech_synth() {
 			let voices = speechSynthesis.getVoices();
 			let str = "";
 			for (let i = 0; i < voices.length ; i++) {
-				str += voices[i].name + " [" + voices[i].lang + "]";
+				str += voices[i].name + " (" + voices[i].lang + ")";
 				if (voices[i].default) { str += " : default" }
 				str += "<br>"
 			}
-			if (str == "") {
-				str = "none" + rfp_green; // RFP: 1333641
-			};
+			if (isFF) {
+				if (str == "") {
+					str = "none" + rfp_green; // RFP: 1333641
+				} else {
+					str = str.replace("<br>", rfp_red + "<br>");
+				}
+			}
 			dom.speechEngines.innerHTML = str
 		}
 		populateVoiceList();
