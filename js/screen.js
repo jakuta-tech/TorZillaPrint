@@ -448,7 +448,7 @@ function get_mm_metrics() {
 				callback("-moz-device-pixel-ratio", "max--moz-device-pixel-ratio", "", 2, 0.0000001)
 			]);
 			mozPromise.then(function(moz){
-				dom.mmDPRm = moz
+				dom.mmDPRm.innerHTML = (moz == 1 ? moz + rfp_green : moz + rfp_red)
 			});
 		} else {
 			dom.mmDPRm = "not supported"
