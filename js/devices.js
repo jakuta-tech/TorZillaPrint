@@ -86,20 +86,24 @@ function get_mimetypes() {
 };
 
 function get_mm_hover(type){
-	let x = "not supported", h="hover", n="none",
-		q = "("+type+": ";
-	if (window.matchMedia(q+n+")").matches) x = "none";
-	if (window.matchMedia(q+h+")").matches) x = "hover";
+	let x = "not supported", h="hover", n="none", q = "("+type+": ";
+	if (window.matchMedia(q+n+")").matches) x = n;
+	if (window.matchMedia(q+h+")").matches) x = h;
 	return x
 };
 
 function get_mm_pointer(type){
-	let x = "not supported",
-		f="fine", c="coarse", n="none",
-		q = "("+type+": ";
-	if (window.matchMedia(q+n+")").matches) x = "none";
-	if (window.matchMedia(q+c+")").matches) x = "coarse";
-	if (window.matchMedia(q+f+")").matches) x = "fine";
+	let x = "not supported", f="fine", c="coarse", n="none", q = "("+type+": ";
+	if (window.matchMedia(q+n+")").matches) x = n;
+	if (window.matchMedia(q+c+")").matches) x = c;
+	if (window.matchMedia(q+f+")").matches) x = f;
+	return x
+};
+
+function get_mm_touch(){
+	let x = "not supported", q = "(-moz-touch-enabled: ";
+	if (window.matchMedia(q+"0)").matches) x = 0;
+	if (window.matchMedia(q+"1)").matches) x = 1;
 	return x
 };
 
@@ -240,6 +244,7 @@ function outputDevices() {
 
 	// touch
 	dom.touch1 = navigator.maxTouchPoints + " | "
+		+ get_mm_touch() + " | "
 		+ ("ontouchstart" in window) + " | "
 		+ ("ontouchend" in window) + " | "
 		+ get_touch_event();
