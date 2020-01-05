@@ -418,173 +418,56 @@ function get_mm_dpi(type) {
 	return result
 };
 
-function get_mm_dpr() {
-	// clear results (uncaught errors)
-	dom.mmDPRw = "";
-	dom.mmDPRm = "";
-
-	// promises and output
-	function runWebkit(callback){
-		// webkit
-		let webPromise = Promise.all([
-			callback("-webkit")
-		]);
-		webPromise.then(function(web){
-			dom.mmDPRw = web;
-		});
-	}
-	function runMoz(callback){
-		// moz
-		let mozPromise = Promise.all([
-			callback("-moz-device-pixel-ratio")
-		]);
-		mozPromise.then(function(moz){
-			dom.mmDPRm.innerHTML = (moz == 1 ? moz + rfp_green : moz + rfp_red)
-		});
-	}
-
-	function searchValue(tester){
-		let minValue = 0;
-		let maxValue = 2;
-		let ceiling = Math.pow(2, 32);
-		function stepUp(){
-			if (maxValue > ceiling){
-				return Promise.reject("unable to find upper bound");
-			}
-			return tester(maxValue).then(function(testResult){
-				if (testResult === searchValue.isEqual){
-					return maxValue;
-				}
-				else if (testResult === searchValue.isBigger){
-					minValue = maxValue;
-					maxValue *= 2;
-					return stepUp();
-				}
-				else {
-					return false;
-				}
-			});
-		}
-		function binarySearch(){
-			if (maxValue - minValue < 0.0000001){
-				return tester(minValue).then(function(testResult){
-					if (testResult.isEqual){
-						return minValue;
-					}
-					else {
-						return tester(maxValue).then(function(testResult){
-							if (testResult.isEqual){
-								return maxValue;
-							}
-							else {
-								return Promise.reject(
-									"between " + minValue + " and " + maxValue
-								);
-							}
-						});
-					}
-				});
-			}
-			else {
-				let pivot = (minValue + maxValue) / 2;
-				return tester(pivot).then(function(testResult){
-					if (testResult === searchValue.isEqual){
-						return pivot;
-					}
-					else if (testResult === searchValue.isBigger){
-						minValue = pivot;
-						return binarySearch();
-					}
-					else {
-						maxValue = pivot;
-						return binarySearch();
-					}
-				});
-			}
-		}
-		return stepUp().then(function(stepUpResult){
-			if (stepUpResult){
-				return stepUpResult;
-			}
-			else {
-				return binarySearch();
-			}
-		});
-	}
-	searchValue.isSmaller = -1;
-	searchValue.isEqual = 0;
-	searchValue.isBigger = 1;
-
-	// -moz-
-	if (isFF) {
-		runMoz(function(type){
-			return searchValue(function(valueToTest){
-				if (window.matchMedia("(" + type + ": " + valueToTest + ")").matches){
-					return Promise.resolve(searchValue.isEqual);
-				}
-				else if (window.matchMedia("(max-" + type + ": " + valueToTest + ")").matches){
-					return Promise.resolve(searchValue.isSmaller);
-				}
-				else {
-					return Promise.resolve(searchValue.isBigger);
-				}
-			});
-		});
-	} else {
-		dom.mmDPRm = "not supported";
-	};
-
-	// -webkit-
-	if (isFF && isVer > 62 || isFF == false) {
-		runWebkit(function(type){
-			return searchValue(function(valueToTest){
-				if (window.matchMedia("(" + type + "-device-pixel-ratio: " + valueToTest + ")").matches){
-					return Promise.resolve(searchValue.isEqual);
-				}
-				else if (window.matchMedia("(" + type + "-max-device-pixel-ratio: " + valueToTest + ")").matches){
-					return Promise.resolve(searchValue.isSmaller);
-				}
-				else {
-					return Promise.resolve(searchValue.isBigger);
-				}
-			});
-		});
-	} else {
-		dom.mmDPRw = "not supported";
-	};
-
-};
-
 function get_mm_metrics() {
 	// clear results (uncaught errors)
-	dom.ScrMM = "";
-	dom.WndInMM = "";
+	dom.mmDPRw = ""; dom.mmDPRm = ""; dom.ScrMM = ""; dom.WndInMM = "";
 
-	// promises and output
+	// output
 	function runTest(callback){
-		// device
+		// screen
 		let devicePromise = Promise.all([
-			callback("width", "device-"),
-			callback("height", "device-")
+			callback("device-width", "max-device-width", "px", 512, 0.01),
+			callback("device-height", "max-device-height", "px", 512, 0.01)
 		]);
 		devicePromise.then(function(device){
 			device = device.toString().replace(",", " x ")
-			dom.ScrMM = device;
+			dom.ScrMM = device
 		});
-		// inner window
+		// inner
 		let innerPromise = Promise.all([
-			callback("width", ""),
-			callback("height", "")
+			callback("width", "max-width", "px", 512, 0.01),
+			callback("height", "max-height", "px", 512, 0.01)
 		]);
 		innerPromise.then(function(inner){
 			inner = inner.toString().replace(",", " x ")
 			dom.WndInMM = inner;
 		});
+		// -moz-
+		if (isFF) {
+			let mozPromise = Promise.all([
+				callback("-moz-device-pixel-ratio", "max--moz-device-pixel-ratio", "", 2, 0.0000001)
+			]);
+			mozPromise.then(function(moz){
+				dom.mmDPRm = moz
+			});
+		} else {
+			dom.mmDPRm = "not supported"
+		};
+		// -webkit-
+		if (isFF && isVer > 62 || isFF == false) {
+			let webPromise = Promise.all([
+				callback("-webkit-device-pixel-ratio", "-webkit-max-device-pixel-ratio", "", 2, 0.0000001)
+			]);
+			webPromise.then(function(web){
+				dom.mmDPRw = web
+			});
+		} else {
+			dom.mmDPRw = "not supported"
+		};
 	}
 
-	function searchValue(tester){
+	function searchValue(tester, maxValue, precision){
 		let minValue = 0;
-		let maxValue = 512;
 		let ceiling = Math.pow(2, 32);
 		function stepUp(){
 			if (maxValue > ceiling){
@@ -607,7 +490,7 @@ function get_mm_metrics() {
 			});
 		}
 		function binarySearch(){
-			if (maxValue - minValue < 0.01){
+			if (maxValue - minValue < precision){
 				return tester(minValue).then(function(testResult){
 					if (testResult.isEqual){
 						return minValue;
@@ -656,19 +539,20 @@ function get_mm_metrics() {
 	searchValue.isEqual = 0;
 	searchValue.isBigger = 1;
 
-	runTest(function(type, metric){
+	runTest(function(prefix, maxPrefix, suffix, maxValue, precision){
 		return searchValue(function(valueToTest){
-			if (window.matchMedia("(" + metric + type + ": " + valueToTest + "px)").matches){
+			if (window.matchMedia("(" + prefix + ": " + valueToTest + suffix + ")").matches){
 				return Promise.resolve(searchValue.isEqual);
 			}
-			else if (window.matchMedia("(max-" + metric + type + ": " + valueToTest + "px)").matches){
+			else if (window.matchMedia("(" + maxPrefix + ": " + valueToTest + suffix + ")").matches){
 				return Promise.resolve(searchValue.isSmaller);
 			}
 			else {
 				return Promise.resolve(searchValue.isBigger);
 			}
-		});
+		}, maxValue, precision);
 	});
+
 };
 
 function get_orientation() {
@@ -866,7 +750,6 @@ function get_screen_metrics(type) {
 
 	// B: the rest
 	get_mm_metrics();
-	get_mm_dpr();
 	get_orientation();
 	dom.fsState = window.fullScreen;
 	//console.debug("D done (also relies on updated zoom): mm_metrics + mm_drp + orientation + fullscreen", type);
