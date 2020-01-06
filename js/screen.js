@@ -425,41 +425,41 @@ function get_mm_metrics() {
 	// output
 	function runTest(callback){
 		// screen
-		let devicePromise = Promise.all([
+		Promise.all([
 			callback("device-width", "max-device-width", "px", 512, 0.01),
 			callback("device-height", "max-device-height", "px", 512, 0.01)
-		]);
-		devicePromise.then(function(device){
-			device = device.toString().replace(",", " x ")
-			dom.ScrMM = device
+		]).then(function(device){
+			dom.ScrMM = device.join(" x ");
+		}).catch(function(error){
+			dom.ScrMM = error;
 		});
 		// inner
-		let innerPromise = Promise.all([
+		Promise.all([
 			callback("width", "max-width", "px", 512, 0.01),
 			callback("height", "max-height", "px", 512, 0.01)
-		]);
-		innerPromise.then(function(inner){
-			inner = inner.toString().replace(",", " x ")
-			dom.WndInMM = inner;
+		]).then(function(inner){
+			dom.WndInMM = inner.join(" x ");
+		}).catch(function(error){
+			dom.WndInMM = error;
 		});
 		// -moz-
 		if (isFF) {
-			let mozPromise = Promise.all([
-				callback("-moz-device-pixel-ratio", "max--moz-device-pixel-ratio", "", 2, 0.0000001)
-			]);
-			mozPromise.then(function(moz){
-				dom.mmDPRm.innerHTML = (moz == 1 ? moz + rfp_green : moz + rfp_red)
+			callback("-moz-device-pixel-ratio", "max--moz-device-pixel-ratio", "", 2, 0.0000001
+			).then(function(moz){
+				dom.mmDPRm = moz;
+			}).catch(function(error){
+				dom.mmDPRm = error;
 			});
 		} else {
 			dom.mmDPRm = "not supported"
 		};
 		// -webkit-
-		if (isFF && isVer > 62 || isFF == false) {
-			let webPromise = Promise.all([
-				callback("-webkit-device-pixel-ratio", "-webkit-max-device-pixel-ratio", "", 2, 0.0000001)
-			]);
-			webPromise.then(function(web){
-				dom.mmDPRw = web
+		if (!isFF || isVer > 62) {
+			callback("-webkit-device-pixel-ratio", "-webkit-max-device-pixel-ratio", "", 2, 0.0000001
+			).then(function(web){
+				dom.mmDPRw = web;
+			}).catch(function(error){
+				dom.mmDPRw = error;
 			});
 		} else {
 			dom.mmDPRw = "not supported"
