@@ -1,4 +1,7 @@
 /* @media */
+#cssOm:after{content:"undefined";}
+@media (-moz-device-orientation:portrait){#cssOm:after{content:"portrait";}}
+@media (-moz-device-orientation:landscape){#cssOm:after{content:"landscape";}}
 @media (orientation:portrait){#cssO:after{content:"portrait";}}
 @media (orientation:landscape){#cssO:after{content:"landscape";}}
 @media (aspect-ratio:1/1){#cssAR:after{content:"square";}}
