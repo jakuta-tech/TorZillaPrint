@@ -556,21 +556,28 @@ function get_mm_metrics() {
 };
 
 function get_orientation() {
-	let l = "landscape", p = "portrait", q ="(orientation: ", s="square";
-	dom.mmO = (function () {
+	let l = "landscape", p = "portrait", q ="(orientation: ", s="square", ns = "not supported";
+	let o1 = ns, o2 = ns, o3 = ns, o4 = ns;
+	o1 = (function () {
+		if (window.matchMedia("(-moz-device-orientation:"+l+")").matches) return l;
+		if (window.matchMedia("(-moz-device-orientation:"+p+")").matches) return p;
+	})();
+	o2 = (function () {
 		if (window.matchMedia(q+p+")").matches) return p;
 		if (window.matchMedia(q+l+")").matches) return l;
 	})();
-	dom.mmAR = (function () {
+	o3 = (function () {
 		if (window.matchMedia("(aspect-ratio:1/1)").matches) return s;
 		if (window.matchMedia("(min-aspect-ratio:10000/9999)").matches) return l;
 		if (window.matchMedia("(max-aspect-ratio:9999/10000)").matches) return p;
 	})();
-	dom.mmDAR = (function () {
+	o4 = (function () {
 		if (window.matchMedia("(device-aspect-ratio:1/1)").matches) return s;
 		if (window.matchMedia("(min-device-aspect-ratio:10000/9999)").matches) return l;
 		if (window.matchMedia("(max-device-aspect-ratio:9999/10000)").matches) return p;
 	})();
+	dom.mmO = o1 + " | " + o2 + " | " + o3 + " | " + o4;
+
 	dom.ScrOrient.innerHTML = (function () {
 		let r = screen.orientation.type + " | " + screen.mozOrientation + " | " + screen.orientation.angle;
 		r = r.replace(/landscape-secondary/g, "upside down");
