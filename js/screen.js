@@ -446,7 +446,7 @@ function get_mm_metrics() {
 		if (isFF) {
 			callback("-moz-device-pixel-ratio", "max--moz-device-pixel-ratio", "", 2, 0.0000001
 			).then(function(moz){
-				dom.mmDPRm = moz;
+				dom.mmDPRm.innerHTML = (moz == 1 ? moz + rfp_green : moz + rfp_red)
 			}).catch(function(error){
 				dom.mmDPRm = error;
 			});
