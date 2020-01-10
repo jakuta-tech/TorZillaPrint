@@ -768,12 +768,19 @@ function get_version() {
 		verNo = "";
 	// reminder: append + on first test
 
+	//74: 1605835
+	if (go) {
+		try {
+			eval("let test74 = ({ 1n: 1 })");
+			verNo = "74+"; go = false;
+		} catch(e) {}
+	}
 	//73: 1594241 (3 or 4ms)
 	// ToDo: test 73: replace: slow and breaks if css is blocked
 	if (go) {
 		try {
 			let rule73 = dom.test73.sheet.cssRules[0];
-			if (rule73.style.border == "") { verNo= "73+"; go = false};
+			if (rule73.style.border == "") { verNo= "73"; go = false};
 			// test 73 breaks TB ESR60 version check
 			// if can't pass e.g. test 69, then it's not really 73
 			try {let torcheck = new DOMError('name'); go = true} catch(e) {};
