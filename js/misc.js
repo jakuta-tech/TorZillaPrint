@@ -91,7 +91,7 @@ function reset_misc() {
 
 function outputMisc(type) {
 	let t0 = performance.now();
-	let e = "enabled", d = "disabled";
+	let e = "enabled", d = "disabled", ns = "not supported";
 
 	// one-liners (1ms)
 	dom.nBeacon = (navigator.sendBeacon ? e : d);
@@ -116,6 +116,18 @@ function outputMisc(type) {
 	} catch(e) {
 		dom.intObserver = d
 	};
+
+	// reporting api FF65+
+	try {
+		let observer = new ReportingObserver(function() {});
+		dom.reportingAPI = e;
+	} catch(e) {
+		if (isFF) {
+			dom.reportingAPI = (isVer > 64 ? d : ns )
+		} else {
+			dom.reportingAPI = d + " [or " + ns + "]";
+		}
+	}
 
 	// perf
 	let t1 = performance.now();
