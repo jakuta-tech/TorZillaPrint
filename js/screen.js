@@ -108,6 +108,9 @@ function get_errors() {
 	errh = sha1(errh); dom.errh = errh;
 	if (errh == "32e7cf958b5c1a791392fe7c70ed51474ec49e79") {
 		dom.fdError = "Firefox"
+	} else if (errh == "80b2d392e535c16bfa06eeefa19e8e39647cf7bd") {
+		// FF74 changes to TypeError
+		dom.fdError = "Firefox [FF74+]"
 	} else if (isFF) {
 		dom.fdError.innerHTML = sb + "I haven't seen this Firefox error combo before" + sc;
 	};
@@ -738,7 +741,7 @@ function get_screen_metrics(type) {
 		get_viewport("resize");
 	}
 
-	// inner (not that zoom is re-calculated
+	// inner
 	let strTemp = w+" x "+h+" ("+p7+","+p8+")";
 	if (isOS == "android") {
 		dom.WndIn = strTemp;
