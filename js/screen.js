@@ -987,16 +987,15 @@ function get_zoom(type) {
 	let dpr = window.devicePixelRatio || 1;
 	let dprStr = (dpr == 1 ? "1" + rfp_green : dpr + rfp_red)
 	// add extra dpr: 477157
-	let element = document.getElementById("dprdroid");
-	let dpr2 = getComputedStyle(element).borderTopWidth;
-	dpr2 = dpr2.slice(0, -2) // trim "px"
-	if (dpr2 > 0) {
-		dpr2 = (1/dpr2);
-		if (dpr2 != 1 ) {
-			dpr2 = (dpr2 == 1 ? dpr2 + rfp_green: dpr2 + rfp_red );
-			dprStr += " | " +  dpr2;
+	if (isFF) {
+		let element = document.getElementById("dprdroid");
+		let dpr2 = getComputedStyle(element).borderTopWidth;
+		dpr2 = dpr2.slice(0, -2) // trim "px"
+		if (dpr2 > 0) {
+			dpr2 = (1/dpr2);
+			if (dpr2 != 1 ) {dprStr += " | " +  dpr2 + rfp_red}
 		}
-	};
+	}
 	dom.dpr.innerHTML = dprStr;
 
 	// dpi
