@@ -986,7 +986,18 @@ function get_zoom(type) {
 	// devicePixelRatio
 	let dpr = window.devicePixelRatio || 1;
 	let dprStr = (dpr == 1 ? "1" + rfp_green : dpr + rfp_red)
-	dom.DevPR.innerHTML = dprStr;
+	// add extra dpr: 477157
+	let element = document.getElementById("dprdroid");
+	let dpr2 = getComputedStyle(element).borderTopWidth;
+	dpr2 = dpr2.slice(0, -2) // trim "px"
+	if (dpr2 > 0) {
+		dpr2 = (1/dpr2);
+		if (dpr2 != 1 ) {
+			dpr2 = (dpr2 == 1 ? dpr2 + rfp_green: dpr2 + rfp_red );
+			dprStr += " | " +  dpr2;
+		}
+	};
+	dom.dpr.innerHTML = dprStr;
 
 	// dpi
 	varDPI = get_mm_dpi("dpi");
