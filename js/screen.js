@@ -140,6 +140,10 @@ function get_line_scrollbar() {
 		return value.toString().split(".")[1].length || 0;
 	};
 
+	// element scrollbar
+	let eScroll = dom.tScroll;
+	dom.eScroll = (eScroll.offsetWidth - eScroll.clientWidth) + "px";
+
 	// recalculate zoom/viewport in case someone zoomed between tests
 	get_zoom("ua");
 	let vw = get_viewport("ua");
@@ -265,7 +269,7 @@ function get_line_scrollbar() {
 	// zoom notation
 	if (jsZoom == 100) {} else { sbZoom = " at "+jsZoom+"% "};
 	// output
-	dom.scrollbarWidth = w+"px " + sbZoom + os;
+	dom.vScroll = w+"px " + sbZoom + os;
 	// perf
 	let t1 = performance.now();
 	if (mPerf) {console.debug("ua scrollbar: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
