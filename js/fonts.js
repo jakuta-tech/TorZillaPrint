@@ -478,7 +478,7 @@ function outputFonts2(type) {
 	}
 
 	// only run on Firefox
-	if (isFF == true) {
+	if (isFF) {
 		// reset
 		fontList = [];
 		let textfile = "";
@@ -700,7 +700,7 @@ function outputFonts1() {
 
 function outputFonts() {
 	if (isPage == "main") {
-		if (isFF == true) {
+		if (isFF) {
 		// do once: font hyperlinks
 			let pre = "<span class='no_color'><a href='txt/fonts_" + isOS,
 				mid = ".txt' target='blank' class='blue'>fonts_" + isOS;
