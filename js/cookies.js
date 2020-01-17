@@ -361,7 +361,7 @@ function get_service_workers() {
 function get_permissions() {
 
 	// permissions notifications / push
-	if (isFF == true) {
+	if (isFF) {
 		navigator.permissions.query({name:"notifications"}).then(e => dom.pNotifications=e.state);
 		navigator.permissions.query({name:"push"}).then(e => dom.pPush=e.state);
 	};
