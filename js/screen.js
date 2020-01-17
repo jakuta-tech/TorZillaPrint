@@ -1207,7 +1207,7 @@ function get_android_kbh() {
 /* USER TESTS */
 
 function goFS() {
-	if (isFF == true) {
+	if (isFF) {
 		let ih1 = window.innerHeight,
 			delay = 1;
 		function exitFS() {
@@ -1475,7 +1475,7 @@ function outputMath() {
 		}
 	};
 	// output browser/os
-	if (isFF == true) {
+	if (isFF) {
 		let strNew = sb + "[NEW]" + sc;
 		if (m1 == "") {m1hash=m1hash+strNew} else {m1hash=m1hash+" ["+m1+"]"};
 		if (m6 == "") {m6hash=m6hash+strNew} else {m6hash=m6hash+" ["+m6+"]"};
@@ -1521,7 +1521,7 @@ function outputUA(type) {
 	outputMath();
 	get_errors();
 	// firefox only
-	if (isFF == true) {
+	if (isFF) {
 		dom.fdetect="Firefox";
 		get_widgets(); // sets isOS
 		get_resources();
