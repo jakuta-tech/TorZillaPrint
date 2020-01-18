@@ -141,8 +141,7 @@ function get_line_scrollbar() {
 	};
 
 	// element scrollbar
-	let eScroll = dom.tScroll;
-	dom.eScroll = (eScroll.offsetWidth - eScroll.clientWidth) + "px";
+	dom.eScroll = (100 - dom.tScroll.scrollWidth) + "px";
 
 	// recalculate zoom/viewport in case someone zoomed between tests
 	get_zoom("ua");
