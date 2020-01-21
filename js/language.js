@@ -6,7 +6,7 @@
 var dtd2 = "", bTZ = false;
 
 function get_app_lang_dtd1() {
-	// only called if iframes != blocked: no result = bugzilla fix
+	// only call if iframes != blocked: no result = bugzilla fix
 	let dtd1 = "";
 	function output_dtd1(output) {
 		dom.appLang2.innerHTML = output;
@@ -20,7 +20,7 @@ function get_app_lang_dtd1() {
 			dtd1 = iframe.contentDocument.getElementById("DTD1").innerText;
 		} catch(e) {
 			if (isFile) {
-				// could be CORS, or the patch: check MediaDocument result
+				// could be CORS or the patch: check MediaDocument result
 				setTimeout(function() {
 					let str = dom.appLang4.textContent;
 					if ( str == "[file:] [Cross-Origin Request Blocked]") {
@@ -43,19 +43,13 @@ function get_app_lang_dtd1() {
 				clearInterval(checking);
 				// notate
 				if (navigator.language == "en-US") {
-					if (sha1(dtd1) == "4496d79dd1843c7c743647b45b4f0d76abf46bfe") {
-						dtd1 = enUS_green + dtd1;
-					} else {
-						dtd1 = enUS_red + dtd1;
-					}
+					dtd1 = (sha1(dtd1) == "4496d79dd1843c7c743647b45b4f0d76abf46bfe" ? enUS_green + dtd1 : enUS_red + dtd1)
 				}
 				output_dtd1(dtd1);
 			}
 		} else {
 			clearInterval(checking);
-			if (dtdtemp == "") {
-				dtdtemp = sg+"[bugzilla 467035]"+sc;
-			};
+			if (dtdtemp == "") {dtdtemp = sg+"[bugzilla 467035]"+sc};
 			output_dtd1(dtdtemp);
 		}
 		counter++;
@@ -84,11 +78,7 @@ function get_app_lang_dtd2() {
 				clearInterval(checking);
 				// notate
 				if (navigator.language == "en-US") {
-					if (sha1(dtd2) == "4496d79dd1843c7c743647b45b4f0d76abf46bfe") {
-						dtd2 = enUS_green + dtd2;
-					} else {
-						dtd2 = enUS_red + dtd2;
-					}
+					dtd2 = (sha1(dtd2) == "4496d79dd1843c7c743647b45b4f0d76abf46bfe" ? enUS_green + dtd2 : enUS_red + dtd2)
 				}
 				output_dtd2(dtd2);
 			}
@@ -112,11 +102,7 @@ function get_app_lang_mediadocument() {
 			let output = (iframe.contentWindow.document.title);
 			// notate
 			if (navigator.language == "en-US") {
-				if (sha1(output) == "12ad5833d780efdd0d7e66432a1abab3afd9901d") {
-					output = enUS_green + output;
-				} else {
-					output = enUS_red + output;
-				}
+				output = (sha1(output) == "12ad5833d780efdd0d7e66432a1abab3afd9901d" ? enUS_green + output : enUS_red + output)
 			}
 			output_mediadocument(output);
 		} catch(e) {
@@ -383,16 +369,25 @@ function get_datetime() {
 		num19 = 5;
 		try {
 			// FF72+
-			tmp19 = tmp19 + " | " + new Intl.NumberFormat(undefined, {style: "unit", unit: "mile-per-hour", unitDisplay: "long"}).format(num19);
+			tmp19 += " | " + new Intl.NumberFormat(undefined, {style: "unit", unit: "mile-per-hour", unitDisplay: "long"}).format(num19);
 		} catch(e) {
 			err19 = sha1(e.message);
 			if (err19 == "5e74394a663ce1f31667968d4dbe3de7a21da4d2") {
-				tmp19 = tmp19 + " | unit " + ns; // FF70 and lower
+				tmp19 += " | unit " + ns; // FF70 and lower
 			} else if (err19 == "dabc0b854a78cdfdf4c0e8e3aa744da7056dc9ed") {
-				tmp19 = tmp19 + " | \"unit\" " + ns; // FF71
+				tmp19 += " | \"unit\" " + ns; // FF71
 			} else {
-				tmp19 = tmp19 + " | 'unit' " + ns; // future catch-all?
+				tmp19 += " | 'unit' " + ns; // future catch-all?
 			}
+		}
+		// scientific
+		num19 = 987654321
+		try {
+			// currently nightly only
+			tmp19 += " | " + new Intl.NumberFormat(undefined, {notation: "scientific"}).format(num19);
+		} catch(e) {
+			err19 = sha1(e.message);
+			console.debug(e.message)
 		}
 		// ToDo: Intl.NumberFormat: add more types
 
@@ -424,7 +419,7 @@ function get_datetime() {
 			if (e.message == "string is undefined") {
 				return type + " undefined"
 			} else {
-				return type + "error"
+				return type + " error"
 			}
 		}
 	}
@@ -506,27 +501,28 @@ function get_datetime() {
 	let ff = "", yup = spoof_both_green;
 	// these require bTZ=true, skip if false
 	if (bTZ) {
-		if (lHash2 == "200b054b604133f84c1dcf92c3e03bdfa46a2c25") {
-			// FF72+: [formatToParts] Intl.NumberFormat
-			lHash2 += yup; ff = " [FF74+]";
-		} else if (lHash2 == "e229d82c050df4a80c281be73281788c0a4cbe66") {
-			// FF71: [formatToParts] Intl.NumberFormat: diff error message
-			lHash2 += yup; ff = " [FF71-73]";
-		} else if (lHash2 == "4c275a6837436e7a118c5fbb7d7b7a8533dd05b6") {
+		if (lHash2 == "7435dbc48015ec6d7a01bb2916a11ed23ff97376") {
+			// Nightly only: [formatToParts] Intl.NumberFormat notation
+			// see 1609954
+			lHash2 += yup; ff = " [Nightly]";
+		} else if (lHash2 == "b1eb9ee8c744cd6b6cd82286c5c463afabd6070b") {
+			// FF71+: [formatToParts] Intl.NumberFormat: diff error message
+			lHash2 += yup; ff = " [FF71+]";
+		} else if (lHash2 == "2250141e22a0fa690347db0007c5436631506e0f") {
 			// FF70+: [BigInt] Intl.NumberFormat
 			// FF70+: [BigInt] toLocaleString
 			lHash2 += yup; ff = " [FF70]";
-		} else if (lHash2 == "bc26eab83c35798e7b06368670c10a92477b1917") {
+		} else if (lHash2 == "f9658ee215639e7ee43397aed0c50d425e477b04") {
 			// FF68+: BigInt
 			lHash2 += yup; ff = " [FF68-69]";
-		} else if (lHash2 == "9b0e3866cd3549632931276bfdd2673b13c8e5a9") {
+		} else if (lHash2 == "46191de20c4417d3ad50fddd65707f511df47733") {
 			// FF65+: Intl.RelativeTimeFormat
 			lHash2 += yup; ff = " [FF65-67]";
-		} else if (lHash2 == "ada2545006288bea8de6c0b1b7dea23b4cb90bac") {
+		} else if (lHash2 == "9137bcb6bf814d2890bc3fd79052a9a9f6e3792f") {
 			// FF63+: CUT
 			lHash2 += yup; ff = " [FF63-64]";
-		} else if (lHash2 == "970221f99a1425679852f5986262dfb51050aef5") {
-			// FF60-62: UTC
+		} else if (lHash2 == "0ae233553b7d703069847a8ff3f9edca829225af") {
+			// FF60+: UTC
 			lHash2 += yup; ff = " [FF60-62]";
 		}
 	}
