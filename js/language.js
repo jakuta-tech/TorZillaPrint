@@ -368,28 +368,30 @@ function get_datetime() {
 		debug19 = "unit";
 		num19 = 5;
 		try {
-			// FF72+
 			tmp19 += " | " + new Intl.NumberFormat(undefined, {style: "unit", unit: "mile-per-hour", unitDisplay: "long"}).format(num19);
 		} catch(e) {
 			err19 = sha1(e.message);
 			if (err19 == "5e74394a663ce1f31667968d4dbe3de7a21da4d2") {
-				tmp19 += " | unit " + ns; // FF70 and lower
+				// FF70 and lower: invalid value unit for option style
+				tmp19 += " | unit " + ns;
 			} else if (err19 == "dabc0b854a78cdfdf4c0e8e3aa744da7056dc9ed") {
-				tmp19 += " | \"unit\" " + ns; // FF71
+				// FF71+: invalid value "unit" for option style
+				tmp19 += " | \"unit\" " + ns;
 			} else {
-				tmp19 += " | 'unit' " + ns; // future catch-all?
+				tmp19 += " | " + e.message; // catch-all
 			}
 		}
-		// scientific
-		num19 = 987654321
+		// notation: scientific
+		num19 = 987654321;
 		try {
-			// currently nightly only
 			tmp19 += " | " + new Intl.NumberFormat(undefined, {notation: "scientific"}).format(num19);
-		} catch(e) {
-			err19 = sha1(e.message);
-			console.debug(e.message)
-		}
+		} catch(e) {}
+		// notation: long compact
+		try {
+			tmp19 += " | " + new Intl.NumberFormat(undefined, {notation: "compact", compactDisplay: "long"}).format(num19);
+		} catch(e) {}
 		// ToDo: Intl.NumberFormat: add more types
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
 
 		// output
 		//console.debug("tmp19", tmp19);
@@ -501,27 +503,26 @@ function get_datetime() {
 	let ff = "", yup = spoof_both_green;
 	// these require bTZ=true, skip if false
 	if (bTZ) {
-		if (lHash2 == "7435dbc48015ec6d7a01bb2916a11ed23ff97376") {
-			// Nightly only: [formatToParts] Intl.NumberFormat notation
-			// see 1609954
+		if (lHash2 == "025b1415cbfa999fa913acc3a6f37cd7aa533e5c") {
+			// Nightly only: [formatToParts] Intl.NumberFormat notation: see 1609954
+			// ToDo: keep checking when Intl.NumberFormat notation/unit ride the train from Nightly
 			lHash2 += yup; ff = " [Nightly]";
-		} else if (lHash2 == "b1eb9ee8c744cd6b6cd82286c5c463afabd6070b") {
+		} else if (lHash2 == "67d4560b4127fcdb07165d02d8a43ec03423f598") {
 			// FF71+: [formatToParts] Intl.NumberFormat: diff error message
 			lHash2 += yup; ff = " [FF71+]";
-		} else if (lHash2 == "2250141e22a0fa690347db0007c5436631506e0f") {
-			// FF70+: [BigInt] Intl.NumberFormat
-			// FF70+: [BigInt] toLocaleString
+		} else if (lHash2 == "83b6d2fb8255c034fcd7f0d7e187146d96d04cea") {
+			// FF70+: [BigInt] Intl.NumberFormat & toLocaleString
 			lHash2 += yup; ff = " [FF70]";
-		} else if (lHash2 == "f9658ee215639e7ee43397aed0c50d425e477b04") {
+		} else if (lHash2 == "2699921e4a7cf9f55e4ef9c9cbfddb84becd1106") {
 			// FF68+: BigInt
 			lHash2 += yup; ff = " [FF68-69]";
-		} else if (lHash2 == "46191de20c4417d3ad50fddd65707f511df47733") {
+		} else if (lHash2 == "e901d630db0f1daada6d9a804004585cf1f97390") {
 			// FF65+: Intl.RelativeTimeFormat
 			lHash2 += yup; ff = " [FF65-67]";
-		} else if (lHash2 == "9137bcb6bf814d2890bc3fd79052a9a9f6e3792f") {
+		} else if (lHash2 == "7ab9becf5ff7c4f23a85423a7b77b0a4614bc812") {
 			// FF63+: CUT
 			lHash2 += yup; ff = " [FF63-64]";
-		} else if (lHash2 == "0ae233553b7d703069847a8ff3f9edca829225af") {
+		} else if (lHash2 == "dbf26112f678b5d655b21992db8f2146a293757d") {
 			// FF60+: UTC
 			lHash2 += yup; ff = " [FF60-62]";
 		}
