@@ -207,7 +207,6 @@ function outputAudio2() {
 
 	} catch(e) {
 		// no webaudio
-		dom.audioLatency = "n/a";
 		dom.audio1hash = "n/a";
 		dom.audio2hash = "n/a";
 		dom.audio3hash = "n/a";
@@ -273,7 +272,6 @@ function outputAudio1(type) {
 		dom.audioSum = "n/a";
 		if (type == "load") {
 			// on page load, also n/a audio2
-			dom.audioLatency = "n/a";
 			dom.audio1hash = "n/a";
 			dom.audio2hash = "n/a";
 			dom.audio3hash = "n/a";
