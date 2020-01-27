@@ -19,6 +19,10 @@ function reset_audio2() {
 	dom.audio1data.style.color = zhide;
 	dom.audio2data.style.color = zhide;
 	dom.audio3data.style.color = zhide;
+	// hide notation
+	let str = dom.audio1data.innerHTML
+	str = str.replace(/\[RFP\]/g, "");
+	dom.audio1data.innerHTML = str;
 };
 
 function get_audio2_context() {
@@ -33,71 +37,66 @@ function get_audio2_context() {
 	let f = new window.AudioContext;
 	let obj;
 	let hash = "", // str to hash
-		output = "",
-		latency = "",
-		rfpvalue = "",
-		macLatency = false; // mac=true & latency=supported
+		results = [],
+		macSampleRate = "";
+
 	let	d = f.createAnalyser();
-		obj = a({}, f, "ac-");
-		obj = a(obj, f.destination, "ac-");
-		obj = a(obj, f.listener, "ac-");
-		obj = a(obj, d, "an-");
-		// loop key+value
-		for (const [key, value] of Object.entries(obj)) {
-			if (key == "ac-outputLatency") {
-				// FF70+
-				if (value == 0) {
-					// nonRFP: return 0.0 if running on a normal thread
-					// nonRFP: return 0 unless we detect a user gesture
-					latencyError = true;
-					latency = sb + value + " [failed]" + sc;
-				} else {
-					latencyError = false;
-					latency = value;
-					if (isOS == "windows") {rfpvalue = "0.04"}
-					if (isOS == "android") {rfpvalue = "0.02"}
-					if (isOS == "linux") {rfpvalue = "0.025"}
-					if (isOS == "mac") {macLatency = true}
-					if (rfpvalue !== "") {
-						latency = (value == rfpvalue ? latency += rfp_green : latency += rfp_red)
-					}
-				}
+	obj = a({}, f, "ac-");
+	obj = a(obj, f.destination, "ac-");
+	obj = a(obj, f.listener, "ac-");
+	obj = a(obj, d, "an-");
+	// build key+value array
+	for (const [key, value] of Object.entries(obj)) {
+		hash += key+value + "-";
+		results.push(key + ": " + value)
+		// remember sampleRate for mac
+		if (key == "ac-sampleRate") { macSampleRate = value }
+	};
+
+	// hash
+	hash = hash.slice(0, -1); // trailing delimiter
+	dom.audio1hash = sha1(hash) + " [" + results.length + " keys]";
+
+	// output
+	let k = "", v = "", n = 0, rfpvalue = "", output = "";
+	for (let i = 0 ; i < results.length; i++) {
+		n = results[i].search(":");    // delimiter
+		k = results[i].substring(0,n); // key
+		v = results[i].substring(n+2); // value
+		if (k == "ac-sampleRate") {v = (v == 44100 ? v + rfp_green : v + rfp_red)}
+		if (k == "ac-outputLatency") {
+			// FF70+
+			// nonRFP: return 0.0 if running on a normal thread or 0 unless we detect a user gesture
+			// v = 0 // simulate failure
+			if (v == 0) {
+				latencyError = true;
+				v = v + sb + "[failed]" + sc;
 			} else {
-				// concat output & string to hash
-				output += key.padStart(25) + ": " + value + "<br>";
-				hash += value + "-";
+				// isOS = "mac" // simulate mac
+				latencyError = false;
+				if (isOS == "windows") {rfpvalue = "0.04"};
+				if (isOS == "android") {rfpvalue = "0.02"};
+				if (isOS == "linux") {rfpvalue = "0.025"};
+				if (isOS == "mac") {rfpvalue = 512/macSampleRate};
+				v = (v == rfpvalue ? v + rfp_green : v + rfp_red)
 			}
-			if (key == "ac-sampleRate") {
-				if (macLatency == true) {
-					latency = (latency == (512/value) ? latency += rfp_green : latency += rfp_red)
-				}
-			}
-		};
-		hash = hash.slice(0, -1); // trailing delimiter
-		dom.audio1hash = sha1(hash);
+		}
+		k = k.padStart(25);
+		output += k + ": " + v + "<br>"
+	};
+	dom.audio1data.innerHTML = output;
+	dom.audio1data.style.color = zshow;
 
-		// output
-		if (latency == "") {
-			dom.audioLatency = "not supported"
-		} else {
-			// no error or 2nd try
-			if (latencyError == false || latencyTries == 2) {
-				dom.audioLatency.innerHTML = latency
-			}
-		};
-		dom.audio1data.innerHTML = output;
-		dom.audio1data.style.color = zshow;
+	// perf
+	let t1 = performance.now();
+	if (mPerf) {console.debug("audio context: " + (t1-t0) + " ms" + " | " + (t1 - t0audio) + " ms")};
 
-		// perf
-		let t1 = performance.now();
-		if (mPerf) {console.debug("audio context: " + (t1-t0) + " ms" + " | " + (t1 - t0audio) + " ms")};
-
-		// next test or section perf
-		if (latencyTries == 1) {
-			get_audio2_hybrid()
-		} else {
-			outputDebug("1", "audio 2", (t1-t0audio))
-		};
+	// next test or section perf
+	if (latencyTries == 1) {
+		get_audio2_hybrid()
+	} else {
+		outputDebug("1", "audio 2", (t1-t0audio))
+	};
 
 };
 
@@ -183,19 +182,15 @@ function get_audio2_oscillator() {
 		analyser.disconnect();
 		scriptProcessor.disconnect();
 		gain.disconnect();
-
 		// output
 		dom.audio2data = cc_output.slice(0, 30);
 		dom.audio2hash = sha1(cc_output.slice(0, 30));
 		dom.audio2data.style.color = zshow;
-
 		// perf
 		let t1 = performance.now();
 		if (mPerf) {console.debug("audio oscillator: " + (t1-t0) + " ms" + " | " + (t1 - t0audio) + " ms")};
-
 		// next test
 		get_audio2_context();
-
 	};
 	oscillator.start(0);
 };
