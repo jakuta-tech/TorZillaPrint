@@ -235,19 +235,25 @@ function outputDevices() {
 		dom.nHardware = "disabled";
 	}
 
-	// pointer/hover
+	// FF64: pointer/hover
 	dom.pointer1 = (window.PointerEvent == "undefined" ? "disabled" : "enabled");
 	let strP = get_mm_pointer("any-pointer") + " | " + get_mm_pointer("pointer");
 	let strH = get_mm_hover("any-hover") + " | " + get_mm_hover("hover");
 	// 1607316
 	// ToDo: pointer/hover: watch for tor #32886 to land
 	if (isVer > 73 && isOS == "android") {
-		dom.mmP.innerHTML = (strP == "coarse | coarse" ? strP + rfp_green : strP + rfp_red);
-		dom.mmH.innerHTML = (strH == "none | none" ? strH + rfp_green : strH + rfp_red);
+		strP = (strP == "coarse | coarse" ? strP + rfp_green : strP + rfp_red);
+		strH = (strH == "none | none" ? strH + rfp_green : strH + rfp_red);
 	} else {
-		dom.mmP.innerHTML = (strP == "fine | fine" ? strP + rfp_green : strP + rfp_red);
-		dom.mmH.innerHTML = (strH == "hover | hover" ? strH + rfp_green : strH + rfp_red);
+		if (strP !== "not supported | not supported") {
+			strP = (strP == "fine | fine" ? strP + rfp_green : strP + rfp_red);
+		}
+		if (strH !== "not supported | not supported") {
+			strH = (strH == "hover | hover" ? strH + rfp_green : strH + rfp_red);
+		}
 	}
+	dom.mmP.innerHTML = strP;
+	dom.mmH.innerHTML = strH;
 
 	// touch
 	dom.touch1 = navigator.maxTouchPoints + " | "
