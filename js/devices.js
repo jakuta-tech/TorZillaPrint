@@ -7,6 +7,10 @@ function reset_devices() {
 	dom.mimeTypes.style.color = zhide;
 	dom.plugins.style.color = zhide;
 	dom.eMediaDevices.style.color = zhide;
+	// hide notation
+	let str = dom.eMediaDevices.innerHTML
+	str = str.replace(/\[RFP\]/g, "");
+	dom.eMediaDevices.innerHTML = str;
 };
 
 function get_gamepads() {
