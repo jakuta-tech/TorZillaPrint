@@ -237,10 +237,17 @@ function outputDevices() {
 
 	// pointer/hover
 	dom.pointer1 = (window.PointerEvent == "undefined" ? "disabled" : "enabled");
-	let str = get_mm_pointer("any-pointer") + " | " + get_mm_pointer("pointer");
-	dom.mmP.innerHTML = (str == "fine | fine" ? str + rfp_green : str + rfp_red);
-	str = get_mm_hover("any-hover") + " | " + get_mm_hover("hover");
-	dom.mmH.innerHTML = (str == "hover | hover" ? str + rfp_green : str + rfp_red);
+	let strP = get_mm_pointer("any-pointer") + " | " + get_mm_pointer("pointer");
+	let strH = get_mm_hover("any-hover") + " | " + get_mm_hover("hover");
+	// 1607316
+	// ToDo: pointer/hover: watch for tor #32886 to land
+	if (isVer > 73 && isOS == "android") {
+		dom.mmP.innerHTML = (strP == "coarse | coarse" ? strP + rfp_green : strP + rfp_red);
+		dom.mmH.innerHTML = (strH == "none | none" ? strH + rfp_green : strH + rfp_red);
+	} else {
+		dom.mmP.innerHTML = (strP == "fine | fine" ? strP + rfp_green : strP + rfp_red);
+		dom.mmH.innerHTML = (strH == "hover | hover" ? strH + rfp_green : strH + rfp_red);
+	}
 
 	// touch
 	dom.touch1 = navigator.maxTouchPoints + " | "
