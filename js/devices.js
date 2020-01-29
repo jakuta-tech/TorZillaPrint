@@ -16,8 +16,16 @@ function reset_devices() {
 function get_gamepads() {
 	if ("getGamepads" in navigator) {
 		dom.nGetGamepads = "enabled";
-		// ToDo: gamepads: enumerate
-		dom.eGamepads.innerHTML = note_ttc
+		let gamepads = navigator.getGamepads();
+		if (gamepads.length == 0) {
+			dom.eGamepads.innerHTML = "none" + rfp_green
+		} else {
+			// ToDo: gamepads: enumerate
+			let items = (gamepads.length == 1 ? " item]" : " items]");
+			dom.eGamepads.innerHTML = note_ttc + " [" + gamepads.length + items + rfp_red
+			//gamepads.forEach(function(gamepad) {
+			//});
+		}
 	} else {
 		dom.nGetGamepads = "disabled";
 		dom.eGamepads = "n/a";
@@ -204,12 +212,12 @@ function get_vr() {
 		if ("activeVRDisplays" in navigator) {
 			let displays = navigator.activeVRDisplays;
 			if (displays.length == 0) {
-				// no active VR displays
 				dom.nActiveVR = "none"
 			} else {
 				// ToDo: activeVRDisplays: enumerate
-				dom.nActiveVR.innerHTML = note_ttc + " [" + displays.length + " items]";
-				for (let vc = 0; vc < displays.length; vc++) {
+				let items = (displays.length == 1 ? " item]" : " items]");
+				dom.nActiveVR.innerHTML = note_ttc + " [" + displays.length + items;
+				for (let i = 0; i < displays.length; i++) {
 					// console.debug(displays[i].displayId);
 				}
 			}
