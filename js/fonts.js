@@ -13,7 +13,7 @@ var ugCodepoints = ['0x20B9','0x2581','0x20BA','0xA73D','0xFFFD','0x20B8','0x05C
 	'0x061C','0x20E3','0xFFF9','0x0218','0x058F','0x08E4','0x09B3','0x1C50','0x2619'];
 var ugHeader = "  glyph        default     sans-serif          serif      monospace        cursive        fantasy<br>  -----";
 
-var fontCodepoints = ['0x0000','0x0080','0x0100','0x0180','0x0250','0x02B0','0x0300','0x0370','0x0400','0x0500','0x0530',
+var fntCodepoints = ['0x0000','0x0080','0x0100','0x0180','0x0250','0x02B0','0x0300','0x0370','0x0400','0x0500','0x0530',
 	'0x0590','0x0600','0x0700','0x0750','0x0780','0x07C0','0x0800','0x0840','0x08A0','0x0900','0x0980','0x0A00','0x0A80',
 	'0x0B00','0x0B80','0x0C00','0x0C80','0x0D00','0x0D80','0x0E00','0x0E80','0x0F00','0x1000','0x10A0','0x1100','0x1200',
 	'0x1380','0x13A0','0x1400','0x1680','0x16A0','0x1700','0x1720','0x1740','0x1760','0x1780','0x1800','0x18B0','0x1900',
@@ -35,13 +35,12 @@ var fontCodepoints = ['0x0000','0x0080','0x0100','0x0180','0x0250','0x02B0','0x0
 	'0x1E800','0x1EE00','0x1F000','0x1F030','0x1F0A0','0x1F100','0x1F200','0x1F300','0x1F600','0x1F650','0x1F680','0x1F700',
 	'0x1F780','0x1F800','0x1F900','0x20000','0x2A700','0x2B740','0x2B820','0x2F800','0xE0000','0xE0100','0xF0000','0x100000'];
 
-var fontTestSize = "256px";
-var fontTestStringA = "mmmLLLmmmWWWwwwmmmllliii";
-var fontTestStringB = ""; // the one built from fontCodepoints
-var fontTestStringD = ""; // add to fallback: built during unicode test like this: "</span>\u20B9</span>"
-
-var fontList = [];
-var fontTiny = ['Arial','Courier','GoFish'];
+var fntSize = "256px",
+	fntStrA = "mmmLLLmmmWWWwwwmmmllliii",
+	fntStrB = "", // built from fntCodepoints
+	fntStrD = "", // built from unicode test for fallback function
+	fntList = [],
+	fntTiny = ['Arial','Courier','GoFish'];
 
 let spawn = (function () {
 	/* arthur's spawn code */
@@ -101,8 +100,8 @@ function reset_unicode() {
 	// reset unicode details
 	let str = "";
 	for (let i = 0 ; i < ugCodepoints.length; i++) {
-		let ugCode = "U+" + ugCodepoints[i].substr(2);
-		str += "<br>" + ugCode.padStart(7);
+		let c = "U+" + ugCodepoints[i].substr(2);
+		str += "<br>" + c.padStart(7);
 	};
 	dom.fontUGFound1.innerHTML = ugHeader + str;
 };
@@ -121,114 +120,87 @@ function get_str_from_codepoint(n) {
 };
 
 function get_unicode() {
-	/* code based on work by David Fifield and Serge Egelman (2015) */
-	/* https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo	*/
+	/* code based on work by David Fifield and Serge Egelman (2015)
+		https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo
+		Use SPAN width, but DIV height. Firefox always reports the same value
+		for the span's offsetHeight, even if the div around it is changing size */
+
+	// reset global var: built below, used in font fallback
+	fntStrD = "";
+	// vars
+	let div = dom.ugDiv, span = dom.ugSpan, slot = dom.ugSlot;
+	let w = "",	h = "",	c = "", cp = "", d="";
+	let stylesO = [], stylesC = [], hashO = [], hashC = [];
+
+	/** unicode glyphs **/
 	let t0 = performance.now();
-
-	// variables
-	let ugDiv = dom.ugDiv,
-		ugSpan = dom.ugSpan,
-		ugSlot = dom.ugSlot,
-		ugWide = "",
-		ugHigh = "",
-		ugCode = "",
-		ugHashOffset = "", // the string we hash
-		ugHashClientRect = "",
-		ugOutputOffset = "", // the string we display
-		ugOutputClientRect = "";
-	// reset global var to append to fallback
-	fontTestStringD = "";
-
-	// cycle each unicode (i)
+	// for each char
 	for (let i = 0 ; i < ugCodepoints.length; i++) {
-		let n = ugCodepoints[i]; // codepoint
-		let c = get_str_from_codepoint(n); // character
-		// build global var to append to fallback
-		fontTestStringD = fontTestStringD + c + "</span>\n<span>";
-
-		// add unicode to outputs: e.g U+20B9
-		let ugCode = "U+" + n.substr(2);
-		ugHashOffset = ugHashOffset + "-" + ugCode;
-		ugHashClientRect = ugHashClientRect + "-" + ugCode;
-		ugCode = ugCode.padStart(7);
-		ugOutputOffset = ugOutputOffset + "<br>" + ugCode;
-		ugOutputClientRect = ugOutputClientRect + "<br>" + ugCode;
-
-		// cycle each style (j)
+		// build global var, get codepoint & char, start display string
+		let n = ugCodepoints[i];
+		cp = "U+" + n.substr(2);
+		d += "<br>" + cp.padStart(7);
+		c = get_str_from_codepoint(n);
+		fntStrD = fntStrD + c + "</span>\n<span>";
+		// for each style
 		for (let j = 0 ; j < ugStyles.length; j++) {
+			// set style & char
 			let style = ugStyles[j];
-			ugSlot.style.fontFamily = style === "default" ? "" : style;
-			ugSlot.textContent = c;
-
-			// Read SPAN width, but DIV height. Firefox always reports the same value
-			// for the span's offsetHeight, even if the div around it is changing size
-
-			// offset measurement + concatenate hash string
-			ugWide = ugSpan.offsetWidth; ugHigh = ugDiv.offsetHeight;
-			ugHashOffset = ugHashOffset + "-"+ugWide+"-"+ugHigh+"-";
-			// offset output
-			ugWide = ugWide.toString(); ugWide = ugWide.padStart(4);
-			ugHigh = ugHigh.toString(); ugHigh = ugHigh.padStart(4);
-			ugOutputOffset = ugOutputOffset + "    " + ugWide + " x " + ugHigh;
-
-			// clientrect measurement + concatenate hash string
-			let elementDiv = ugDiv.getBoundingClientRect();
-			let elementSpan = ugSpan.getBoundingClientRect();
-			ugWide = elementSpan.width;
-			ugHigh = elementDiv.height;
-			ugHashClientRect = ugHashClientRect + "-"+ugWide+"-"+ugHigh+"-";
-			// clientrect output
-			// ugOutputClientRect = ugOutputClientRect + " " + ugWide + " × " + ugHigh + " | ";
+			slot.style.fontFamily = style === "default" ? "" : style;
+			slot.textContent = c;
+			// offset
+			w = span.offsetWidth; h = div.offsetHeight;
+			stylesO.push(w+"-"+h)
+			// display
+			w = w.toString(); w = w.padStart(4);
+			h = h.toString(); h = h.padStart(4);
+			d += "    " + w + " x " + h;
+			// clientrect
+			let eDiv = div.getBoundingClientRect();
+			let eSpan = span.getBoundingClientRect();
+			w = eSpan.width; h = eDiv.height;
+			stylesC.push(w+"-"+h)
 		}
+		// add per style results, reset arrays
+		hashO.push(cp+"-"+stylesO.join());
+		hashC.push(cp+"-"+stylesC.join());
+		stylesO = [], stylesC = [];
 	}
-
-	// clear div causing horizontal scroll
-	dom.ugSlot = "";
-	// output results
-	dom.fontUGFound1.innerHTML = ugHeader + ugOutputOffset;
-	dom.fontUG1 = sha1(ugHashOffset);
-	dom.fontUG2 = sha1(ugHashClientRect);
+	// output
+	dom.fontUGFound1.innerHTML = ugHeader + d;
+	dom.fontUG1 = sha1(hashO.join("~"));
+	dom.fontUG2 = sha1(hashC.join("~"));
+	// perf
 	let t1 = performance.now();
 	if (mPerf) {console.debug("fonts unicode glyphs: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 
-
+	/** default font **/
 	t0 = performance.now();
-	// variables
 	let chars =['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s',
 	't','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O',
-	'P','Q','R','S','T','U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9','0'
-	]
-	let results = [],
-		output = [];
-
+	'P','Q','R','S','T','U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9','0'];
+	hashO = [];
 	// for each char
 	for (let i = 0 ; i < chars.length; i++) {
-		// get char
-		let c = chars[i];
-		// reset the six style results
-		results = [];
+		c = chars[i];
 		// measure each style
 		for (let j = 0 ; j < ugStyles.length; j++) {
-			// set style
 			let style = ugStyles[j];
-			ugSlot.style.fontFamily = style === "default" ? "" : style;
-			// set char
-			ugSlot.textContent = c;
-			// add to results
-			results.push(ugSpan.offsetWidth + "-" + ugDiv.offsetHeight);
+			slot.style.fontFamily = style === "default" ? "" : style;
+			slot.textContent = c;
+			stylesO.push(span.offsetWidth + "-" + div.offsetHeight);
 		}
-		// build output: char + six style measurements
-		output.push(c+"-"+results.join());
+		// add per style results, reset array
+		hashO.push(c+"-"+stylesO.join());
+		stylesO = [];
 	}
-
-	// clear div
+	// output & clear div
 	dom.ugSlot = "";
-
-	// output
-	let hash = output.join("~")
-	dom.fontFCmeasure.innerHTML = sha1(hash);
+	hashO = hashO.join("~")
+	dom.fontFCmeasure.innerHTML = sha1(hashO);
+	// perf
 	t1 = performance.now();
-	if (mPerf) {console.debug("default font measurements: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+	if (mPerf) {console.debug("fonts measurements: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
 
 };
 
@@ -237,15 +209,14 @@ function get_fpjs2(type) {
 	/* https://github.com/Valve/fingerprintjs2 */
 
 	let t0 = performance.now();
-	// variables
+	// vars
 	let baseFonts = ['monospace','sans-serif','serif'],
 		outputString = "",// detected fonts output
 		outputCount = 0;  // detected fonts count
-	// assign elements to output to
+	// elements to output to
 	let outputA = document.getElementById(type+"_fontFPJS2"), // fpjs2 hash
 		outputC = document.getElementById(type+"_fontFPJS2Found"); // fpjs2 detected
 
-	// the real test starts here
 	let h = document.getElementsByTagName('body')[0]
 	// div to load spans for the base fonts
 	let baseFontsDiv = document.createElement('div')
@@ -273,7 +244,7 @@ function get_fpjs2(type) {
 		s.style.whiteSpace = "normal"
 		s.style.wordBreak = "normal"
 		s.style.wordSpacing = "normal"
-		s.innerHTML = fontTestStringA
+		s.innerHTML = fntStrA
 		return s
 	}
 	// creates a span and load the font to detect and a base font for fallback
@@ -296,14 +267,14 @@ function get_fpjs2(type) {
 	// creates spans for the fonts to detect and adds them to fontsDiv
 	let initializeFontsSpans = function () {
 		let spans = {}
-		for (let i = 0; i < fontList.length; i++) {
+		for (let i = 0; i < fntList.length; i++) {
 			let fontSpans = []
 			for (let j = 0, numDefaultFonts = baseFonts.length; j < numDefaultFonts; j++) {
-				let s = createSpanWithFonts(fontList[i], baseFonts[j])
+				let s = createSpanWithFonts(fntList[i], baseFonts[j])
 				fontsDiv.appendChild(s)
 				fontSpans.push(s)
 			}
-			spans[fontList[i]] = fontSpans // Stores {fontName : [spans for that font]}
+			spans[fntList[i]] = fontSpans // Stores {fontName : [spans for that font]}
 		}
 		return spans
 	}
@@ -331,12 +302,12 @@ function get_fpjs2(type) {
 	h.appendChild(fontsDiv)
 	// check available fonts
 	let available = []
-	for (let i = 0 ; i < fontList.length; i++) {
-		if (isFontAvailable(fontsSpans[fontList[i]])) {
-			fontList[i]
-			available.push(fontList[i]);
+	for (let i = 0 ; i < fntList.length; i++) {
+		if (isFontAvailable(fontsSpans[fntList[i]])) {
+			fntList[i]
+			available.push(fntList[i]);
 			outputCount++;
-			outputString = outputString + ", " + fontList[i];
+			outputString = outputString + ", " + fntList[i];
 		}
 	}
 	// remove spans from DOM
@@ -352,7 +323,7 @@ function get_fpjs2(type) {
 		outputC.innerHTML = "no fonts detected"
 	};
 	// output hash/counts & reset color
-	outputA.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]" + note_file;
+	outputA.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fntList.length+"]" + note_file;
 	outputC.style.color = zshow;
 	// perf
 	let t1 = performance.now();
@@ -369,7 +340,7 @@ function get_fallback(type, fontarray) {
 		outputString = "",// detected fonts output
 		outputCount = 0;  // detected fonts count
 	let fontFBTest = dom.fontFBTest;
-	fontFBTest.style.fontSize = fontTestSize;
+	fontFBTest.style.fontSize = fntSize;
 
 	// assign elements to output to
 	let outputB = document.getElementById(type+"_fontFB"),    // fallback hash
@@ -378,7 +349,7 @@ function get_fallback(type, fontarray) {
 	// return width of the element with a given fontFamily
 	let measureWidthForFont = function (fontFamily) {
 		// re-normalize
-		fontFBTest.style.fontSize = fontTestSize
+		fontFBTest.style.fontSize = fntSize
 		fontFBTest.style.fontStyle = "normal"
 		fontFBTest.style.fontWeight = "normal"
 		fontFBTest.style.letterSpacing = "normal"
@@ -417,12 +388,12 @@ function get_fallback(type, fontarray) {
 	function output_fpjs2() {
 		clearInterval(checking);
 		// we built this string earlier
-		fontFBTest.innerHTML = fontTestStringB;
+		fontFBTest.innerHTML = fntStrB;
 		// run the test
 		if (fontarray == "tiny") {
-			enumerateFonts(fontTiny);
+			enumerateFonts(fntTiny);
 		} else {
-			enumerateFonts(fontList);
+			enumerateFonts(fntList);
 			// output detected fonts
 			if (outputCount > 0) {
 				// remove trailing comma + space
@@ -433,7 +404,7 @@ function get_fallback(type, fontarray) {
 			};
 			// output hash/counts
 			if (fontarray !== "tiny") {
-				outputB.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fontList.length+"]" + note_file;
+				outputB.innerHTML = sha1(outputString) + " ["+outputCount+"/"+fntList.length+"]" + note_file;
 			}
 		}
 		// clear div [causes horizontal scroll]
@@ -495,10 +466,10 @@ function get_woff() {
 			// eventually failed
 			clearInterval(checking);
 			if (isVer < 69 ) {
-			// FF68 and lower the pref exists: so blocked or disabled
+			// FF68 and lower the pref exists
 				output_woff("disabled [or blocked]");
 			} else {
-			// FF69 or higher no pref: so blocked
+			// FF69+ no pref
 				output_woff("blocked");
 			}
 		}
@@ -520,7 +491,7 @@ function outputFonts2(type) {
 	// only run on Firefox
 	if (isFF) {
 		// reset
-		fontList = [];
+		fntList = [];
 		let textfile = "";
 
 		// assign elements to output to
@@ -553,7 +524,7 @@ function outputFonts2(type) {
 
 			// build fallback test string
 			let getCodePoints = function* () {
-				let codePoints = fontCodepoints
+				let codePoints = fntCodepoints
 					.map(s => s.trim())
 					.filter(s => s.length > 0)
 					.map(x => parseInt(x))
@@ -562,16 +533,16 @@ function outputFonts2(type) {
 				return codePoints;
 			};
 			// only build it once
-			if (fontTestStringB.length == 0) {
+			if (fntStrB.length == 0) {
 				spawn(function* () {
 					let codePoints = yield getCodePoints();
-					fontTestStringB = codePoints.map(x => String.fromCodePoint(x)).join("</span>\n<span>");
+					fntStrB = codePoints.map(x => String.fromCodePoint(x)).join("</span>\n<span>");
 					// add unicode glyphs, add fpjs2 string
-					fontTestStringB = fontTestStringB + fontTestStringD + "</span>\n<span>" + fontTestStringA;
+					fntStrB = fntStrB + fntStrD + "</span>\n<span>" + fntStrA;
 				});
 			};
 
-			// build fontList from text file
+			// build fntList from text file
 			let strPush = "";
 			function intoArray(lines) {
 				// ignore zero length
@@ -584,7 +555,7 @@ function outputFonts2(type) {
 					if (strPush.length > 0) {
 						// ignore comments
 						if (strPush.slice(0,2) !== "//") {
-							fontList.push(strPush);
+							fntList.push(strPush);
 						}
 					}
 				}
@@ -613,9 +584,9 @@ function outputFonts2(type) {
 				if (xhr_font_error == false) {
 
 					// sort & remove duplicates
-					fontList.sort();
-					fontList = fontList.filter(function (font, position) {
-						return fontList.indexOf(font) === position
+					fntList.sort();
+					fntList = fntList.filter(function (font, position) {
+						return fntList.indexOf(font) === position
 					});
 					// perf
 					let t1 = performance.now();
@@ -638,7 +609,7 @@ function outputFonts2(type) {
 					let checking = setInterval(output_again, 300);
 
 				} else {
-					// A+B=hashes , C+D=detected
+					// A+B=hashs , C+D=detected
 					if (isFile) {
 						// file error
 						outputA.innerHTML = error_file_cors;
@@ -676,14 +647,14 @@ function outputFonts2(type) {
 					clearInterval(checking);
 					run_enumerate()
 				} else {
-					if (lastvalue == fontList.length) {
+					if (lastvalue == fntList.length) {
 						// we need the same result in succession
 						clearInterval(checking);
 						let filetime = ((checkcount+1) * 20);
 						run_enumerate()
-					} else if (fontList.length > 0) {
+					} else if (fntList.length > 0) {
 						// the array is underway
-						lastvalue = fontList.length;
+						lastvalue = fntList.length;
 					}
 				}
 				if (checkcount > 151) {
@@ -710,9 +681,9 @@ function outputFonts1() {
 	dom.fontFCprop = window.getComputedStyle(document.body,null).getPropertyValue("font-family");
 
 	// default font sizes
-	dom.df1 = fontTestStringA;
-	dom.df2 = fontTestStringA;
-	dom.df3 = fontTestStringA;
+	dom.df1 = fntStrA;
+	dom.df2 = fntStrA;
+	dom.df3 = fntStrA;
 	let font_item = dom.df1;
 	let font_property = "serif/sans-serif: " + getComputedStyle(font_item).getPropertyValue("font-size");
 	font_item = dom.df3;
