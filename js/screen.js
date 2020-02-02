@@ -69,6 +69,38 @@ function get_chrome() {
 	let checking = setInterval(check_linux, 20)
 };
 
+function get_collation() {
+	let t0 = performance.now();
+	let list = ["ar","bn","cs","cy","da","el","eo","et","fi","gu","he","hi","hr","hu","hy","is","ja",
+		"ko","lt","lv","ml","nb","pa","pl","ro","si","sk","sl","sq","sv","tr","uk","vi","zh","zh-Hant"];
+	let chars = ['a','\u00E4','\u0391','\u0410','\u00C2','a\u044A','ch','\u0108','\u00C7\a','\u010E\o',
+		'\u0110\h','Ez','\u0118\a','\u00ED','\u00EE','Kz','\u0136\a','\u00D8','\u00F6','th','tw','y','z',
+		'\u0409','\u0555','\u06C7','\u05D7','\u0920','\u0993','\u0ABD','\u0D90','\u3147','\u311A','\u4E01'];
+	let results = [], test = "";
+	// for each locale
+	for (let i = 0 ; i < list.length; i++) {
+		// sort and grab hash
+		chars = chars.sort(Intl.Collator(list[i]).compare)
+		test = sha1(chars.join());
+		results.push(test);
+	}
+	// hash all results
+	let hash = results.join("~");
+	hash = sha1(hash);
+	// output
+	if (hash == "c0da74abf86dafa83c2c8b53482ad2d72f737e27") {
+		dom.fdCollation = "Firefox"
+	} else {
+		if (isFF) {
+			dom.fdCollation.innerHTML = sb + "I haven't seen this Firefox collation before" + sc;
+		}
+		console.debug("collation:",hash)
+	}
+	// perf
+	let t1 = performance.now();
+	if (mPerf) {console.debug("ua collation: " + (t1-t0) + " ms" + " | " + (t1 - gt0) + " ms")};
+}
+
 function get_color() {
 	let r = screen.pixelDepth + " | " + screen.colorDepth;
 	dom.ScrColor.innerHTML = (r == "24 | 24" ? r + rfp_green : r + rfp_red)
@@ -1519,6 +1551,7 @@ function outputUA(type) {
 	dom.nUserAgent = navigator.userAgent;
 	outputMath();
 	get_errors();
+	get_collation();
 	// firefox only
 	if (isFF) {
 		dom.fdetect="Firefox";
