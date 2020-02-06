@@ -71,30 +71,47 @@ function get_chrome() {
 
 function get_collation() {
 	let t0 = performance.now();
-	let list = ["ar","bn","cs","cy","da","el","eo","et","fi","gu","he","hi","hr","hu","hy","is","ja",
-		"ko","lt","lv","ml","nb","pa","pl","ro","si","sk","sl","sq","sv","tr","uk","vi","zh","zh-Hant"];
-	let chars = ['a','\u00E4','\u0391','\u0410','\u00C2','a\u044A','ch','\u0108','\u00C7\a','\u010E\o',
-		'\u0110\h','Ez','\u0118\a','\u00ED','\u00EE','Kz','\u0136\a','\u00D8','\u00F6','th','tw','y','z',
-		'\u0409','\u0555','\u06C7','\u05D7','\u0920','\u0993','\u0ABD','\u0D90','\u3147','\u311A','\u4E01'];
-	let results = [], test = "";
-	// for each locale
+	let list = [
+		'af','as','az','be','bs','cy','dsb','ee','eo','fo','gl','ha','haw','hsb','hy','ig',
+		'is','ka','kk','kl','km','kok','ku','ky','ln','lo','mk','mn','mt','my','ne','no',
+		'om','or','pa','ps','si','sq','tk','to','ug','ur','uz','wo','yi','yo',];
+	let chars = [
+		'a','A','ch','ng','ts','tt','\u00E4','\u0107','\u0109','\u00E7\a','\u00ED','\u00EE',
+		'\u00F1','\u1ED9','\u1EE3','\u0649','\u0561','\u0453','\u0905','\u10D0','\u3147',
+		'\uFB4A','\u1780','\u0E9A','\u1D95','\u025B','\u0149','\u10350',];
+	let results = [], test = "", missing = [];
+	// control
+	let control = chars.sort(Intl.Collator("en-US").compare)
+	control = sha1(control.join());
+	// sort each locale
 	for (let i = 0 ; i < list.length; i++) {
-		// sort and grab hash
-		chars = chars.sort(Intl.Collator(list[i]).compare)
-		test = sha1(chars.join());
+		// sort, hash -> results
+		test = chars.sort(Intl.Collator(list[i]).compare)
+		test = sha1(test.join());
 		results.push(test);
-	}
-	// hash all results
-	let hash = results.join("~");
-	hash = sha1(hash);
-	// output
-	if (hash == "c0da74abf86dafa83c2c8b53482ad2d72f737e27") {
-		dom.fdCollation = "Firefox"
-	} else {
-		if (isFF) {
-			dom.fdCollation.innerHTML = sb + "I haven't seen this Firefox collation before" + sc;
+		if (control == test) {
+			missing.push("<code>"+list[i]+"</code>")
 		}
-		console.debug("collation:",hash)
+	}
+	let hash = sha1(results.join("~"))
+	// build output
+	let o = "Firefox";
+	if (missing.length > 0) {
+		o += " [missing locale code" + (missing.length > 1 ? "s" : "");
+		o = (missing.length > 0 ? o +":" + missing.join(", ") + "]" : o);
+	}
+	// output
+	if (hash == "60f6756f8cdf5c3aba95606e4ff4647fc3177338") {
+		// FF70+
+		dom.fdCollation = o
+	} else if (hash == "15b4b5b1b8dfb5fe5b71ea413e4d2d023f46556b") {
+		// FF65-69: missing: no
+		dom.fdCollation.innerHTML = o;
+	} else if (hash == "313c738825a2a08a14259f3f9f097ef13cb647a4") {
+		// FF60-64: missing: ku,no,tk
+		dom.fdCollation.innerHTML = o;
+	} else if (isFF) {
+		dom.fdCollation.innerHTML = sb + "I haven't seen this Firefox collation before" + sc;
 	}
 	// perf
 	let t1 = performance.now();
@@ -516,13 +533,11 @@ function get_mm_metrics() {
 					return maxValue;
 				}
 				else if (testResult === searchValue.isBigger){
-					//console.debug("isBigger", maxValue);
 					minValue = maxValue;
 					maxValue *= 2;
 					return stepUp();
 				}
 				else {
-					//console.debug("isSmaller", maxValue);
 					return false;
 				}
 			});
@@ -742,7 +757,7 @@ function get_screen_metrics(type) {
 
 	// RFP notation
 	if (isFF) {
-		// all four measurements are the same
+		// all four measurements = same
 		let bolW = true, strW = "";
 		if (s1+"x"+s2 !== s3+"x"+s4) {bolW = false}
 		else if (s3+"x"+s4 !== s5+"x"+s6) {bolW = false}
@@ -753,7 +768,7 @@ function get_screen_metrics(type) {
 			strW = sb + "* [matching sizes]" + sc;
 		}
 		dom.match1.innerHTML = strW
-		// coordinates are all zero
+		// all coordinates = 0
 		let bolP = false;
 		let strP = sb + "* [coordinates 0,0]" + sc;
 		if ( p1+p2+p3+p4+p5+p6+p7+p8 == 0) {
@@ -1033,9 +1048,9 @@ function get_zoom(type) {
 	varDPI = get_mm_dpi("dpi");
 	dom.mmDPI = varDPI + " | " + get_mm_dpi("dppx") + " | " + get_mm_dpi("dpcm");
 
-	// Note: when triggered by zoom event, getting the divDPI is slow
-	// 10ms on load - 1ms on chrome resize - 80ms+ on zoom
-	// Not sure if I speed this up - it's probably ok for zoomimg
+	// ToDo: when zooming, getting the divDPI is slow
+		// 10ms on load - 1ms on chrome resize - 80ms+ on zoom
+		// It's probably ok since it's just zoom. Not sure if I can actually speed it up
 	let z0 = performance.now();
 	// divDPI relies on css: if css is blocked (dpi_y = 0) this causes issues
 	dpi_x = Math.round(dom.divDPI.offsetWidth * dpr);
