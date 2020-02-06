@@ -10,8 +10,8 @@ function outputMedia() {
 	dom.nMediaC = ("mediaCapabilities" in navigator ? e : (Symbol.for(`foo`).description == "foo" ? d : ns))
 
 	// perf
-	let t1 = performance.now();
-	outputDebug("1", "media", (t1-t0), (t1 - gt0));
-};
+	let t1 = performance.now()
+	outputDebug("1","media",(t1-t0),(t1-gt0))
+}
 
-outputMedia();
+outputMedia()
