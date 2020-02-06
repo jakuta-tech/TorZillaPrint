@@ -62,6 +62,6 @@ let isPage="",
 
 // perf/debug
 let	gt0,
-	mPerf=true, // minor
+	mPerf=false, // minor
 	sRerun=false,
 	sDebug=false; // storage debug
