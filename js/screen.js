@@ -55,7 +55,7 @@ function get_chrome() {
 		if (runSim) {
 			if (isOS == "windows") {r = "Linux"} else {r = "Windows"}
 		}
-		store_data("ua","chrome",r,true)
+		store_data("ua","1 chrome",r,true)
 		// notation
 		if (r.toLowerCase() !== isOS) {
 			r += sb+"[doesn't match widget os]"+sc + (runSim ? zSIM : "")
@@ -127,7 +127,7 @@ function get_collation() {
 			output = not_seen+"collation combo before"+sc + codes + (runSim ? zSIM : "")
 		}
 		dom.fdCollation.innerHTML = output
-		store_data("ua","collation",hash,true)
+		store_data("ua","2 collation",hash,true)
 		if (logPerf) {debug_log("collation [ua]",t0)}
 	}
 	// function
@@ -181,7 +181,7 @@ function get_errors() {
 			dom.fdError.innerHTML = not_seen+"error combo before"+sc + (runSim ? zSIM : "")
 		}
 		dom.errh.innerHTML = hash + code
-		store_data("ua","errors",hash,true)
+		store_data("ua","3 errors",hash,true)
 		if (logPerf) {debug_log("errors [ua]",t0)}
 	}
 	// function
@@ -808,8 +808,8 @@ function get_resources() {
 			}
 			// output
 			dom.fdResource.innerHTML = browser + " " + output
-			store_data("ua","browser",browser,true)
-			store_data("ua","release channel", output,true)
+			store_data("ua","4 browser",browser,true)
+			store_data("ua","5 channel", output,true)
 			// perf
 			if (logPerf) {debug_log("resource [ua]",t0)}
 		}
@@ -1022,7 +1022,7 @@ function get_version() {
 	if (isVer == "") {isVer = verNo.replace(/\D/g,'')}
 	// perf
 	dom.versionNo = verNo
-	store_data("ua","version",verNo,true)
+	store_data("ua","6 version",verNo,true)
 	if (logPerf && isFF) {debug_log("version [ua]",t0)}
 }
 
@@ -1113,14 +1113,14 @@ function get_widgets() {
 			else if (font0 == "-apple-system") {os="Mac"}
 			else {os="Linux"}
 			isOS = os.toLowerCase()
-			store_data("ua","widget os",os,true)
+			store_data("ua","7 widget os",os,true)
 	}
 	os += " ["+font0+", "+size0+"]"
 
 	// output
 	dom.widgetH = sha1(hash.join())
 	dom.widgetOS.innerHTML = os + (runSim ? zSIM : "")
-	store_data("ua","widget",sha1(hash.join()),true)
+	store_data("ua","8 widget",sha1(hash.join()),true)
 	// perf
 	if (logPerf) {debug_log("widgets [ua]",t0)}
 }
@@ -1537,7 +1537,7 @@ function outputMath() {
 			//m6hash = sha1("c"), mchash = sha1("d") // emca6
 			//m1hash = sha1("e"), m6hash = sha1("f"), mchash = sha1("g") // both
 		}
-		store_data("ua","math",mchash,true)
+		store_data("ua","9 math",mchash,true)
 	}
 
 	function get_codes() {
