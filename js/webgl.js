@@ -1,5 +1,4 @@
 /* TABLE: webgl */
-
 'use strict';
 
 function outputWebGL() {
@@ -7,8 +6,7 @@ function outputWebGL() {
 	// functions
 
 	// perf
-	let t1 = performance.now();
-	outputDebug("1", "webgl", (t1-t0), (t1 - gt0));
+	if (logPerf) {debug_log("webgl",t0)}
 };
 
 //outputWebGL();
