@@ -1,30 +1,69 @@
 'use strict';
 
 function getUniqueElements() {
-	const dom = document.getElementsByTagName('*');
+	const dom = document.getElementsByTagName('*')
 	return new Proxy(dom, {
 		get: function(obj, prop) {
-			return obj[prop];
+			return obj[prop]
 		},
 		set: function(obj, prop, val) {
-			obj[prop].textContent = `${val}`;
-			return true;
+			obj[prop].textContent = `${val}`
+			return true
 		}
-	});
-};
+	})
+}
 
-function outputDebug(type, str1, str2, str3, str4) {
+function store_data(section, key, value, type) {
+	if (value == "") {value = "unknown"}
+	if (section == "ua") {
+		//console.log(section.padStart(10),key.padStart(20),value)
+		fp_ua.push(value)
+		if (fp_ua.length == 9) {
+			//console.debug(fp_ua.join())
+			dom.sectionUA = sha1(fp_ua.join())
+		}
+	}
+}
+
+function debug_log(str, time1, time2) {
+	// log dev info
+	let t0 = performance.now()
+	time1 = (t0-time1).toString()
+	if (gRerun) {
+		// manual
+		if (time2 == undefined && time2 !== "" || time2 == "ignore") {
+			time2 = ""
+		} else {
+			time2 = (t0-time2).toString()
+			time2 = " | " + time2.padStart(4) + " ms"
+		}
+	} else {
+		if (time2 == "ignore") {
+			time2 = ""
+		} else {
+			// page load: use gt0
+			time2 = (t0-gt0).toString()
+			time2 = " | " + time2.padStart(4) + " ms"
+		}
+	}
+	console.log(str.padStart(29) + ": "+ time1.padStart(4) + " ms" + time2)
+}
+
+function debug_page(target, str1, str2, str3, str4) {
 	if (isPage == "main") {
-		let str="";
-		let e = document.getElementById("debug"+type)
-		if (type == "1") {
-			str2 = str2.toString();
-			str = str1.padStart(12) + ": " + sn + str2.padStart(4) + sc + " ms"
+		// vars
+		let t0 = performance.now(),
+			str="",
+			e = document.getElementById("debug"+target)
+
+		if (target == "perf") {
+			let time1 = (t0-str2).toString()
+			str = str1.padStart(12) + ": " + sn + time1.padStart(4) + sc + " ms"
 			if (str3 !== undefined && str3 !== "") {
 				// only output running time if not a section rerun
-				if (sRerun == false) {
-					str3 = str3.toString();
-					str = str + " | " + so + str3.padStart(4) + sc + " ms"
+				if (gRerun == false) {
+					let time2 = (t0-str3).toString()
+					str = str + " | " + so + time2.padStart(4) + sc + " ms"
 				}
 			}
 			if (str4 !== undefined && str4 !== "") {
@@ -37,37 +76,38 @@ function outputDebug(type, str1, str2, str3, str4) {
 			e.innerHTML = e.innerHTML + str + "<br>"
 		}
 	}
-};
+}
 
-function showhide(toggleType, toggleID, togWord) {
-	var xyz = document.getElementsByClassName("tog"+toggleID);
+function showhide(togType, togID, togWord) {
+	var xyz = document.getElementsByClassName("tog"+togID);
 	var abc;
-	for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = toggleType;}
+	for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = togType;}
+	// change label
 	if (togWord !== "") {
-		if (toggleID == "Z") {
-			document.getElementById("label"+toggleID).innerHTML = togWord+" debugging";
-		} else if (toggleID == "L2") {
-			document.getElementById("label"+toggleID).innerHTML = togWord+" application language tests";
+		if (togID == "Z") {
+			document.getElementById("label"+togID).innerHTML = togWord+" debugging"
+		} else if (togID == "L2") {
+			document.getElementById("label"+togID).innerHTML = togWord+" application language tests"
 		} else {
-			document.getElementById("label"+toggleID).innerHTML = togWord+" details";
+			document.getElementById("label"+togID).innerHTML = togWord+" details"
 		}
-	};
+	}
 	// domrect show/hide extra sections & change drFirstHeader text
-	if (toggleID == "D") {
+	if (togID == "D") {
 		let drArray = [dom.dr1.innerHTML, dom.dr2.innerHTML, dom.dr3.innerHTML, dom.dr4.innerHTML];
 		var xyz = document.getElementsByClassName("togD1"); var abc;
 		if (drArray.every( (val, i, arr) => val === arr[0] )) {
 			// hide last three
-			dom.drFirstHeader.innerHTML = "Element.getClientRects"+`<br>`+"[note: the other three methods have the same hash and values]";
+			dom.drFirstHeader.innerHTML = "Element.getClientRects"+`<br>`+"[note: the other three methods are identical]";
 			for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = "none";};
 		} else {
 			// display last three
 			dom.drFirstHeader.innerHTML = "Element.getClientRects";
-			for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = toggleType;};
+			for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = togType;};
 		};
 	};
 	// font lists show/hide if same hash or not, and change label text
-	if (toggleID == "F") {
+	if (togID == "F") {
 		if (isPage == "main") {
 			let fontA = dom.small_fontFPJS2.innerHTML;
 			let fontB = dom.small_fontFB.innerHTML;
@@ -79,8 +119,8 @@ function showhide(toggleType, toggleID, togWord) {
 			} else {
 				// different: show both
 				dom.small_fontlabel = "fingerprintjs2 [whitelist]";
-				dom.fontB1.style.display = toggleType;
-				dom.fontB2.style.display = toggleType;
+				dom.fontB1.style.display = togType;
+				dom.fontB2.style.display = togType;
 			};
 			let fontC = dom.all_fontFPJS2.innerHTML;
 			let fontD = dom.all_fontFB.innerHTML;
@@ -92,8 +132,8 @@ function showhide(toggleType, toggleID, togWord) {
 			} else {
 				// different: show both
 				dom.all_fontlabel = "fingerprintjs2 [os]";
-				dom.fontD1.style.display = toggleType;
-				dom.fontD2.style.display = toggleType;
+				dom.fontD1.style.display = togType;
+				dom.fontD2.style.display = togType;
 			};
 		} else if (isPage == "extra") {
 			let fontE = dom.monsta_fontFPJS2.innerHTML;
@@ -106,43 +146,39 @@ function showhide(toggleType, toggleID, togWord) {
 			} else {
 				// different: show both
 				dom.monsta_fontlabel = "fingerprintjs2 [monsta]";
-				dom.fontF1.style.display = toggleType;
-				dom.fontF2.style.display = toggleType;
+				dom.fontF1.style.display = togType;
+				dom.fontF2.style.display = togType;
 			};
 		}
 	};
 };
 
-var drState = false; // track domrect details state
-var fntState = false; // track font details state
 function toggleitems(chkbxState, chkbxID) {
 	if (chkbxState.checked) {
-		if (chkbxID == "D") {drState = false};
-		if (chkbxID == "F") {fntState = false};
-		showhide("none", chkbxID, "&#9660; show");
+		if (chkbxID=="D") {stateDR = false}
+		if (chkbxID=="F") {stateFNT = false}
+		showhide("none",chkbxID,"&#9660; show")
+	} else {
+		if (chkbxID == "D") {stateDR = true}
+		if (chkbxID == "F") {stateFNT = true}
+		showhide("table-row",chkbxID,"&#9650; hide")
 	}
-	else {
-		if (chkbxID == "D") {drState = true};
-		if (chkbxID == "F") {fntState = true};
-		showhide("table-row", chkbxID, "&#9650; hide");
-	}
-};
+}
 
 function copyclip(element) {
 	if (document.selection) {
-		var range = document.body.createTextRange();
-		range.moveToElementText(document.getElementById(element));
-		range.select().createTextRange();
-		document.execCommand("copy");
+		var range = document.body.createTextRange()
+		range.moveToElementText(document.getElementById(element))
+		range.select().createTextRange()
+		document.execCommand("copy")
 	} else if (window.getSelection) {
-		var range = document.createRange();
-		range.selectNode(document.getElementById(element));
-		window.getSelection().addRange(range);
-		document.execCommand("copy");
+		var range = document.createRange()
+		range.selectNode(document.getElementById(element))
+		window.getSelection().addRange(range)
+		document.execCommand("copy")
 	}
-};
+}
 
-/* SHA1 STUFF*/
 function sha1(str1){
 	for (var blockstart=0,
 		i = 0,
@@ -201,55 +237,56 @@ function byteArrayToHex(arrayBuffer){
 
 /* BUTTONS: (re)GENERATE SECTIONS */
 function outputSection(id, cls, page) {
-	sRerun = true;
+	gRerun = true
 	// clear elements, &nbsp stops line height jitter
-	let tbl = document.getElementById("tb"+id);
-	tbl.querySelectorAll(`.${cls}`).forEach(e => {e.innerHTML = "&nbsp";});
+	let tbl = document.getElementById("tb"+id)
+	tbl.querySelectorAll(`.${cls}`).forEach(e => {e.innerHTML = "&nbsp"})
 	// clear details if applicable
 	if (page == "m") {
-		if (id=="1") {dom.kbt.value = ""};
-		if (id=="7") {reset_devices()};
-		if (id=="9") {reset_domrect()};
-		if (id=="10" && cls=="c2") {reset_audio2()};
-		if (id=="11" && cls=="c1") {reset_unicode()};
-		if (id=="18") {reset_misc()};
-	};
-	let delay = 170;
+		if (id=="1") {dom.kbt.value = ""}
+		if (id=="7") {reset_devices()}
+		if (id=="9") {reset_domrect()}
+		if (id=="10" && cls=="c2") {reset_audio2()}
+		if (id=="11" && cls=="c1") {reset_unicode()}
+		if (id=="18") {reset_misc()}
+	}
+
 	// delay output so users can see something happened
-	function output_delay() {
-		clearInterval(checking);
+	let delay = 170
+	function call_output() {
+		clearInterval(checking)
 		// reset global timer
-		gt0 = performance.now();
+		gt0 = performance.now()
 		if (page=="m") {
-			if (id=="1") {outputScreen("screen")};
-			if (id=="2") {outputUA()};
-			if (id=="3") {outputMath()};
-			if (id=="4" && cls=="c") {outputLanguage()};
-			if (id=="4" && cls=="c2") {outputAppLanguage()};
-			if (id=="5") {outputHeaders()};
-			if (id=="6") {outputCookies()};
-			if (id=="7") {outputDevices()};
-			if (id=="8") {outputCanvas()};
-			if (id=="9") {outputDomRect()};
-			if (id=="10" && cls=="c1") {outputAudio1()};
-			if (id=="10" && cls=="c2") {outputAudio2()};
-			if (id=="11" && cls=="c1") {outputFonts1()};
-			if (id=="12") {outputMedia()};
-			if (id=="13") {outputWebGL()};
-			if (id=="14") {outputCSS()};
-			if (id=="18") {outputMisc()};
+			if (id=="1") {outputScreen("screen")}
+			if (id=="2") {outputUA(); outputMath()}
+			if (id=="3") {outputMath()}
+			if (id=="4" && cls=="c") {outputLanguage()}
+			if (id=="5") {outputHeaders()}
+			if (id=="6") {outputCookies()}
+			if (id=="7") {outputDevices()}
+			if (id=="8") {outputCanvas()}
+			if (id=="9") {outputDomRect()}
+			if (id=="10" && cls=="c1") {outputAudio1()}
+			if (id=="10" && cls=="c2") {outputAudio2()}
+			if (id=="11" && cls=="c1") {outputFonts1()}
+			if (id=="12") {outputMedia()}
+			if (id=="13") {outputWebGL()}
+			if (id=="14") {outputCSS()}
+			if (id=="18") {outputMisc()}
 		} else if (page=="e") {
-			if (id=="2") {outputWidgets()};
+			if (id=="2") {outputWidgets()}
+			if (id=="4" && cls=="c2") {outputAppLanguage()}
 		}
 	}
-	let checking = setInterval(output_delay, delay);
+	let checking = setInterval(call_output, delay)
 
 	// don't delay these ones
 	if (page=="m") {
-		if (id=="11" && cls=="c2") {outputFonts2("small")};
-		if (id=="11" && cls=="c3") {outputFonts2("all")};
+		if (id=="11" && cls=="c2") {outputFonts2("small")}
+		if (id=="11" && cls=="c3") {outputFonts2("all")}
 	} else if (page=="e") {
-		if (id=="3") {outputChrome()};
-		if (id=="4") {outputFonts2("monsta")};
-	};
-};
+		if (id=="3") {outputChrome()}
+		if (id=="5") {outputFonts2("monsta")}
+	}
+}
