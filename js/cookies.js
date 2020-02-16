@@ -1,431 +1,390 @@
 /* TABLE: Cookies & Storage */
-
 'use strict';
 
 /* GENERIC FUNCTIONS */
 
 function rnd_string(type) {
 	return type + Math.random().toString(36).substring(2, 15)
-};
+}
 
 function rnd_number() {
-	return Math.floor((Math.random() * (99999 - 10000)) + 10000)
-};
+	return Math.floor((Math.random() * (99999-10000))+10000)
+}
 
 function lookup_cookie(name) {
-	name += "=";
-	let decodedCookie = decodeURIComponent(document.cookie);
+	name += "="
+	let decodedCookie = decodeURIComponent(document.cookie)
 	let ca = decodedCookie.split(';');
-	for(let i = 0 ; i < ca.length; i++) {
-		let c = ca[i];
-		while (c.charAt(0) == ' ') {
-			c = c.substring(1);
+	for(let i=0 ; i < ca.length; i++) {
+		let c = ca[i]
+		while (c.charAt(0) == " ") {
+			c = c.substring(1)
 		}
 		if (c.indexOf(name) == 0) {
-			return c.substring(name.length, c.length);
+			return c.substring(name.length, c.length)
 		}
 	}
-	return "";
-};
+	return ""
+}
 
 /* FUNCTIONS */
 
 function get_cookies() {
-	// cookie support
-	dom.nCookieEnabled = (navigator.cookieEnabled == true ? "enabled" : "disabled")
+	// support
+	dom.ctest0 = (navigator.cookieEnabled == true ? zE : zD)
 
-	// session cookie test: run even if cookieEnabled = false
-	let rndStrA = rnd_string("stest_");
-	let rndStrB = rnd_string("");
-	document.cookie = rndStrA + "=" + rndStrB;
-	let scookievalue = lookup_cookie(rndStrA)
-	if (scookievalue != "") {
-		if (sDebug) {
-			console.debug("session cookie set: name:", rndStrA, "value:", rndStrB);
-			console.debug("session cookie checked: name:", rndStrA, "value returned:", scookievalue);
-		};
-		if (scookievalue == rndStrB) {
-			// value matches
-			dom.cTest = "success"
+	// session test
+	let rndA = rnd_string("sc_")
+	let rndB = rnd_string("")
+	document.cookie = rndA + "=" + rndB
+	let svalue = lookup_cookie(rndA)
+	if (svalue != "") {
+		if (logStorage) {
+			console.log(" set:", rndA.padStart(18) + " -", rndB)
+			console.log("read:", rndA.padStart(18) + " -", svalue)
+		}
+		if (svalue == rndB) {
+			dom.ctest1 = zS
 		} else {
-			// value doesn't match: this should never happen?
-			dom.cTest = "failed: values do not match"
+			dom.ctest1 = zF+": values do not match"
 		}
 	} else {
-		dom.cTest = "failed"
-	};
+		dom.ctest1 = zF
+	}
 
-	// persistent cookie test: run even if cookieEnabled = false
-	let rndStrC = rnd_string("ptest_");
-	let rndStrD = rnd_string("");
-	let d = new Date();
-	d.setTime(d.getTime() + 86400000); // 1 day
-	let expires = "expires="+ d.toUTCString();
-	document.cookie = rndStrC + "=" + rndStrD + ";" + expires;
-	let pcookievalue = lookup_cookie(rndStrC)
-	if (pcookievalue != "") {
-		if (sDebug) {
-			console.debug("persistent cookie set: name:", rndStrC, "value:", rndStrD);
-			console.debug("persistent cookie checked: name:", rndStrC, "value returned:", pcookievalue);
-		};
-		if (pcookievalue == rndStrD) {
-			// value matches
-			dom.cTest2 = "success"
+	// persistent test
+	let rndC = rnd_string("pc_")
+	let rndD = rnd_string("")
+	let d = new Date()
+	d.setTime(d.getTime() + 86400000) // 1 day
+	let expires = "expires="+ d.toUTCString()
+	document.cookie = rndC + "=" + rndD + ";" + expires
+	let pvalue = lookup_cookie(rndC)
+	if (pvalue != "") {
+		if (logStorage) {
+			console.log(" set:", rndC.padStart(18) + " -", rndD)
+			console.log("read:", rndC.padStart(18) + " -", pvalue)
+		}
+		if (pvalue == rndD) {
+			dom.ctest2 = zS
 		} else {
-			// value doesn't match: this should never happen?
-			dom.cTest2 = "failed: values do not match"
+			dom.ctest2 = zF+": values do not match"
 		}
 	} else {
-		dom.cTest2 = "failed"
-	};
-};
+		dom.ctest2 = zF
+	}
+}
 
 function get_storage() {
-	// localStorage support
+	// LS support
 	try {
 		if (typeof(localStorage) != "undefined") {
-			dom.storageLSupport = "enabled"
+			dom.lstest0 = zE
 		}	else {
-			dom.storageLSupport = "disabled: undefined"
+			dom.lstest0 = zD+": undefined"
 		}
 	} catch(e) {
-		dom.storageLSupport = "disabled: " + e.name
-	};
-
-	// localStorage test: run even if localStorage unavailable
+		dom.lstest0 = zD+": " + e.name
+	}
+	// LS test
 	try {
-		let rndStrE = rnd_string("test_");
-		let rndStrF = rnd_string("");
-		localStorage.setItem(rndStrE, rndStrF);
-		let lsvalue = localStorage.getItem(rndStrE);
+		let rndE = rnd_string("pls_")
+		let rndF = rnd_string("")
+		localStorage.setItem(rndE, rndF)
+		let lsvalue = localStorage.getItem(rndE)
 		if (lsvalue == null) {
-			dom.storageLTest = "failed"
+			dom.lstest1 = zF
 		} else {
-			if (sDebug) {
-				console.debug("localStorage set: name:", rndStrE, "value:", rndStrF);
-				console.debug("localStorage checked: name:", rndStrE, "value returned:", lsvalue);
-			};			
-			if (lsvalue == rndStrF) {
-				// values match
-				dom.storageLTest = "success"
+			if (logStorage) {
+				console.log(" set:", rndE.padStart(18) + " -", rndF)
+				console.log("read:", rndE.padStart(18) + " -", lsvalue)
+			}			
+			if (lsvalue == rndF) {
+				dom.lstest1 = zS
 			} else {
-				// value doesn't match: this should never happen?
-				dom.storageLTest = "failed: values do not match"
+				dom.lstest1 = zF+": values do not match"
 			}
 		}
 	} catch(e) {
-		dom.storageLTest = "failed: " + e.name
-	};
-
-	// sessionStorage support
+		dom.lstest1 = zF+": " + e.name
+	}
+	// SS support
 	try {
 		if (typeof(sessionStorage) != "undefined") {
-			dom.storageSSupport = "enabled"
+			dom.lstest2 = zE
 		} else {
-			dom.storageSSupport = "disabled: undefined"
+			dom.lstest2 = zD+": undefined"
 		}
 	} catch(e) {
-		dom.storageSSupport = "disabled: " + e.name
-	};
-
-	// sessionStorage test: run even if sessionStorage unavailable
+		dom.lstest2 = zD+": " + e.name
+	}
+	// SS test
 	try {
-		let rndStrG = rnd_string("test_");
-		let rndStrH = rnd_string("");
-		sessionStorage.setItem(rndStrG, rndStrH);
-		let ssvalue = sessionStorage.getItem(rndStrG);
+		let rndStrG = rnd_string("sls_")
+		let rndStrH = rnd_string("")
+		sessionStorage.setItem(rndStrG, rndStrH)
+		let ssvalue = sessionStorage.getItem(rndStrG)
 		if (ssvalue == null) {
-			dom.storageSTest = "failed"
+			dom.lstest3 = zF
 		} else {
-			if (sDebug) {
-				console.debug("sessionStorage set: name:", rndStrG, "value:", rndStrH);
-				console.debug("sessionStorage checked: name:", rndStrG, "value returned:", ssvalue);
-			};			
+			if (logStorage) {
+				console.log(" set:", rndStrG.padStart(18) + " -", rndStrH)
+				console.log("read:", rndStrG.padStart(18) + " -", ssvalue)
+			}			
 			if (ssvalue == rndStrH) {
-				// values match
-				dom.storageSTest = "success"
+				dom.lstest3 = zS
 			} else {
-				// value doesn't match: this should never happen?
-				dom.storageSTest = "failed: values do not match"
+				dom.lstest3 = zF+": values do not match"
 			}
 		}
 	} catch(e) {
-		dom.storageSTest = "failed: " + e.name
-	};
-
+		dom.lstest3 = zF+": " + e.name
+	}
 }
 
 function get_idb() {
-
-	// indexedDB support
+	// support
 	try {
 		if (!window.indexedDB) {
-			dom.IDBSupport = "disabled"
+			dom.idb1 = zD
 		} else {
-			dom.IDBSupport = "enabled"
+			dom.idb1 = zE
 		}
 	} catch(e) {
-		dom.IDBSupport = "disabled: " + e.name
-	};
-
-	// indexedDB test: run even if IDB unavailable
+		dom.idb1 = zD+": " + e.name
+	}
+	// test
 	try {
-		let dbIDB = indexedDB.open("_testPBMode");
+		let dbIDB = indexedDB.open("_testPBMode")
 		dbIDB.onerror = function() {
-			// current pb mode
-			dom.IDBTest = "failed: onerror";
-		};
+			// pb mode
+			dom.idb2 = zF+": onerror"
+		}
 		dbIDB.onsuccess = function() {
-			let rndStrI = rnd_string("test_");
+			let rndStrI = rnd_string("idb_")
 			// normal mode
 			try {
-				let openIDB = indexedDB.open(rndStrI);
+				let openIDB = indexedDB.open(rndStrI)
 				// create objectStore
 				openIDB.onupgradeneeded = function(event){
-					let dbObject = event.target.result;
-					let dbStore = dbObject.createObjectStore("testIDB", {keyPath: "id"});
-				};
+					let dbObject = event.target.result
+					let dbStore = dbObject.createObjectStore("testIDB", {keyPath: "id"})
+				}
 				// test
 				openIDB.onsuccess = function(event) {
-					let dbObject = event.target.result;
+					let dbObject = event.target.result
 					// start transaction
-					let dbTx = dbObject.transaction("testIDB", "readwrite");
-					let dbStore = dbTx.objectStore("testIDB");
+					let dbTx = dbObject.transaction("testIDB", "readwrite")
+					let dbStore = dbTx.objectStore("testIDB")
 					// add some data
-					let rndIndex = rnd_number();
-					let rndValue = rnd_string("");
-					if (sDebug) {
-						console.debug("idb set: name:", rndStrI, "id", rndIndex, "value:", rndValue);
-					};
-					dbStore.put( {id: rndIndex, value: rndValue} );
+					let rndIndex = rnd_number()
+					let rndValue = rnd_string("")
+					if (logStorage) {
+						console.log(" set:", rndStrI.padStart(18) + " -", rndIndex, rndValue)
+					}
+					dbStore.put( {id: rndIndex, value: rndValue} )
 					// query the data
-					let getStr = dbStore.get(rndIndex);
+					let getStr = dbStore.get(rndIndex)
 					getStr.onsuccess = function() {
-						if (sDebug) {
-							console.debug("idb checked: name:", rndStrI, "id", getStr.result.id, "value:", getStr.result.value);
-						};
+						if (logStorage) {
+							console.log("read:", rndStrI.padStart(18) + " -", getStr.result.id, getStr.result.value)
+						}
 						if (getStr.result.value == rndValue) {
-							dom.IDBTest = "success"
+							dom.idb2 = zS
 						} else {
-							dom.IDBTest = "failed: values didn't match" // this should never occur?
+							dom.idb2 = zF+": values do not match"
 						}
 					}
 					// close transaction
-					dbTx.oncomplete = function() {dbObject.close();}
-				};
+					dbTx.oncomplete = function() {dbObject.close()}
+				}
 			} catch(e) {
-				dom.IDBTest = "failed: " + e.name
+				dom.idb2 = zF+": " + e.name
 			}
 		}
 	} catch(e) {
 		// blocking cookies or something
-		dom.IDBTest = "failed .open: " + e.name
-	};
-
+		dom.idb2 = zF+" .open: " + e.name
+	}
 }
 
 function get_appcache() {
-	// appCache support (browser.cache.offline.enable)
+	// support
 	if ("applicationCache" in window) {
-		dom.appCacheSupport = "enabled";
+		dom.appCacheSupport = zE
 		if (isSecure) {
-			// appCache test
+			// test
 			try {
 				dom.appCacheTest.innerHTML = note_ttc
 			} catch(e) {
-				dom.appCacheTest = "failed: " + e.name
+				dom.appCacheTest = zF+": " + e.name
 			}
 		} else {
-			// skip if insecure
-			dom.appCacheTest.innerHTML= "n/a" + note_file
+			// insecure
+			dom.appCacheTest.innerHTML= zNA + note_file
 		}
 	} else {
-		// skip if not supported
-		dom.appCacheSupport = "disabled";
-		dom.appCacheTest = "n/a";
-	};
-};
+		// not-supported
+		dom.appCacheSupport = zD
+		dom.appCacheTest = zNA
+	}
+}
 
 function get_workers() {
 
 	// worker support
 	if (typeof(Worker) !== "undefined") {
-		dom.workerSupport = "enabled";
-		if (!isFile) {
+		dom.workerSupport = zE
+		if (isFile) {
+			// isFile
+			dom.webWTest.innerHTML= zNA + note_file;
+			dom.sharedWTest.innerHTML= zNA + note_file;
+		} else {
 			// web worker test
 			try {
-				let wwt = new Worker("js/worker.js");
-				let rndStr1 = rnd_string();
+				let wwt = new Worker("js/worker.js")
+				let rndStr1 = rnd_string()
 				// assume failure
-				dom.webWTest = "failed";
+				dom.webWTest = zF
 				// add listener
 				wwt.addEventListener("message", function(e) {
-					// console.log("data <- web worker: "+e.data);
+					if (logStorage) {console.log("data <- web worker: "+e.data)}
 					if ("TZP-" + rndStr1 === e.data) {
-						dom.webWTest = "success"
+						dom.webWTest = zS
 					}
-				}, false);
-				wwt.postMessage(rndStr1);
+				}, false)
+				wwt.postMessage(rndStr1)
 			} catch(e) {
-				dom.webWTest = "failed: " + e.name
-			};
-
+				dom.webWTest = zF+": " + e.name
+			}
 			// shared worker test
 			try {
-				let swt = new SharedWorker("js/workershared.js");
-				let rndStr2 = rnd_string();
+				let swt = new SharedWorker("js/workershared.js")
+				let rndStr2 = rnd_string()
 				// assume failure
-				dom.sharedWTest = "failed"
+				dom.sharedWTest = zF
 				// add listener
 				swt.port.addEventListener("message", function(e) {
-					// console.log("data <- shared worker: "+e.data);
+					if (logStorage) {console.log("data <- shared worker: "+e.data)}
 					if ("TZP-" + rndStr2 === e.data) {
-						dom.sharedWTest = "success"
+						dom.sharedWTest = zS
 					}
 				}, false);
 				swt.port.start();
 				swt.port.postMessage(rndStr2);
 			} catch(e) {
-				dom.sharedWTest = "failed: " + e.name
+				dom.sharedWTest = zF+": " + e.name
 			}
-		} else {
-			// skip if file
-			dom.webWTest.innerHTML= "n/a" + note_file;
-			dom.sharedWTest.innerHTML= "n/a" + note_file;
 		}
 	} else {
-		// skip if no worker
-		dom.workerSupport = "disabled";
-		dom.webWTest = "n/a";
-		dom.sharedWTest = "n/a";
-	};
-
-};
+		// no worker
+		dom.workerSupport = zD; dom.webWTest = zNA; dom.sharedWTest = zNA
+	}
+}
 
 function get_service_workers() {
-
-	let swMsg = "", na = "n/a";
-	// service worker support (dom.serviceWorkers.enabled)
+	let output = ""
+	// support
 	if (isSecure) {
 		if ("serviceWorker" in navigator) {
-			dom.serviceWSupport = "enabled";
-			// service worker test
+			dom.serviceWSupport = zE
+			// test
 			navigator.serviceWorker.register("js/workerservice.js").then(function(registration) {
-				dom.serviceWTest="success";
-				// service worker cache support (dom.caches.enabled)
-				dom.serviceWCacheSupport.innerHTML = note_ttc;
-				// service cache test
-				dom.serviceWCacheTest.innerHTML = note_ttc;
-				// notifications support (dom.webnotifications.serviceworker.enabled)
-				dom.notificationsSupport.innerHTML = note_ttc;
+				dom.serviceWTest = zS
+				// cache support
+				dom.serviceWCacheSupport.innerHTML = note_ttc
+				// cache test
+				dom.serviceWCacheTest.innerHTML = note_ttc
+				// notifications support
+				dom.notificationsSupport.innerHTML = note_ttc
 				// notifications test
-				dom.notificationsTest.innerHTML = note_ttc;
+				dom.notificationsTest.innerHTML = note_ttc
 				// ToDo: service workers: unregister the sw
 			},
 			function(e) {
-				// skip if service worker error
-				// catch e.name length for when scripts or extensions block it
+				// sw error
 				if (e.name ==="") {
-					swMsg = "failed: unknown error"
+					output = zF+": unknown error"
 				} else {
-					swMsg = "failed: "+ e.name
+					output = zF+": "+ e.name
 				}
-				dom.serviceWTest = swMsg;
-				dom.serviceWCacheSupport = na;
-				dom.serviceWCacheTest = na;
-				dom.notificationsSupport = na;
-				dom.notificationsTest = na;
-			});
+				dom.serviceWTest = output
+				dom.serviceWCacheSupport = zNA; dom.serviceWCacheTest = zNA
+				dom.notificationsSupport = zNA; dom.notificationsTest = zNA
+			})
 		}	else {
-			// skip if no service worker
-			dom.serviceWSupport = "disabled";
-			dom.serviceWTest = na;
-			dom.serviceWCacheSupport = na;
-			dom.serviceWCacheTest = na;
-			dom.notificationsSupport = na;
-			dom.notificationsTest = na;
+			// no service worker
+			dom.serviceWSupport = zD
+			dom.serviceWTest = zNA; dom.serviceWCacheSupport = zNA
+			dom.serviceWCacheTest = zNA; dom.notificationsSupport = zNA
+			dom.notificationsTest = zNA
 		}
 	}	else {
-		// skip if file
-		swMsg = na + note_file
-		dom.serviceWSupport.innerHTML = swMsg;
-		dom.serviceWTest.innerHTML = swMsg;
-		dom.serviceWCacheSupport.innerHTML = swMsg;
-		dom.serviceWCacheTest.innerHTML = swMsg;
-		dom.notificationsSupport.innerHTML = swMsg;
-		dom.notificationsTest.innerHTML = swMsg;
-	};
-
-};
+		// isFile
+		output = zNA + note_file
+		dom.serviceWSupport.innerHTML = output; dom.serviceWTest.innerHTML = output
+		dom.serviceWCacheSupport.innerHTML = output; dom.serviceWCacheTest.innerHTML = output
+		dom.notificationsSupport.innerHTML = output; dom.notificationsTest.innerHTML = output
+	}
+}
 
 function get_permissions() {
-
 	// permissions notifications / push
 	if (isFF) {
-		navigator.permissions.query({name:"notifications"}).then(e => dom.pNotifications=e.state);
-		navigator.permissions.query({name:"push"}).then(e => dom.pPush=e.state);
-	};
+		navigator.permissions.query({name:"notifications"}).then(e => dom.pNotifications=e.state)
+		navigator.permissions.query({name:"push"}).then(e => dom.pPush=e.state)
+	}
 	// permission persistent-storage
-	navigator.permissions.query({name:"persistent-storage"}).then(e => dom.pPersistentStorage=e.state);
-
-};
+	navigator.permissions.query({name:"persistent-storage"}).then(e => dom.pPersistentStorage=e.state)
+}
 
 function get_storage_manager() {
-
-	// storage manager support (dom.storageManager.enabled)
+	// support
 	if ("storage" in navigator) {
-		dom.storageMSupport = "enabled"
-		if (!isFile) {
-
-			// storage manager properties
+		dom.storageMSupport = zE
+		if (isFile) {
+			dom.storageMProp.innerHTML = zNA + note_file
+			dom.storageMTest.innerHTML = zNA + note_file
+		} else {
+			// properties
 			try {
 				navigator.storage.persist().then(function(persistent) {
-					if (persistent) dom.storageMProp="persistent";
-					else dom.storageMProp="not persistent";
+					if (persistent) dom.storageMProp="persistent"
+					else dom.storageMProp="not persistent"
 					navigator.storage.estimate().then(estimate => {
-						dom.storageMProp.textContent += ` (${estimate.usage} of ${estimate.quota} bytes)`;
-					});
-				});
+						dom.storageMProp.textContent += ` (${estimate.usage} of ${estimate.quota} bytes)`
+					})
+				})
 			} catch(e) {
-				dom.storageMProp="failed: " + e.name
-			};
-
-			// storage manager test
-			try {
-				// store some data, get usage/quota
-				dom.storageMTest.innerHTML = note_ttc;
-			} catch(e) {
-				dom.storageMTest = "failed: " + e.name
+				dom.storageMProp = zF+": " + e.name
 			}
-		}	else {
-			// skip if file
-			dom.storageMProp.innerHTML = "n/a" + note_file;
-			dom.storageMTest.innerHTML = "n/a" + note_file;
-		};
+			// test
+			try {
+				dom.storageMTest.innerHTML = note_ttc
+			} catch(e) {
+				dom.storageMTest = zF+": " + e.name
+			}
+		}
 	}
 	else {
-		// skip if not supported
-		dom.storageMSupport = "disabled";
-		dom.storageMProp = "n/a";
-		dom.storageMTest = "n/a";
-	};
-
-};
+		// not-supported
+		dom.storageMSupport = zD; dom.storageMProp = zNA; dom.storageMTest = zNA
+	}
+}
 
 function outputCookies() {
-	let t0 = performance.now();
+	let t0 = performance.now()
 	// functions
-	get_cookies();
-	get_storage();
-	get_idb();
-	get_appcache();
-	get_workers();
-	get_service_workers();
-	get_permissions();
-	get_storage_manager();
+	get_cookies()
+	get_storage()
+	get_idb()
+	get_appcache()
+	get_workers()
+	get_service_workers()
+	get_permissions()
+	get_storage_manager()
 	// perf
-	let t1 = performance.now();
-	outputDebug("1", "cookies", (t1-t0), (t1 - gt0));
-};
+	debug_page("perf","cookies",t0,gt0)
+}
 
-outputCookies();
+outputCookies()
