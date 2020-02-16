@@ -1,3 +1,4 @@
-/* SERVICE WORKER SCRIPT */
+/* SW SCRIPT */
 'use strict';
-console.log("sw reporting");
+
+console.log("sw reporting")
