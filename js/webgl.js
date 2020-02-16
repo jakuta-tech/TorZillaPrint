@@ -7,6 +7,6 @@ function outputWebGL() {
 
 	// perf
 	if (logPerf) {debug_log("webgl",t0)}
-};
+}
 
-//outputWebGL();
+//outputWebGL()
