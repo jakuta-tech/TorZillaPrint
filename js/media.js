@@ -1,17 +1,14 @@
 /* TABLE: Media */
-
 'use strict';
 
 function outputMedia() {
-	let t0 = performance.now();
-	let e = "enabled", d = "disabled", ns = "not supported";
+	let t0 = performance.now()
 
-	// media.media-capabilities.enabled : FF63+
-	dom.nMediaC = ("mediaCapabilities" in navigator ? e : (Symbol.for(`foo`).description == "foo" ? d : ns))
+	// mediaCapabilities: FF63+
+	dom.nMediaC = ("mediaCapabilities" in navigator ? zE : (Symbol.for(`foo`).description == "foo" ? zD : zNS))
 
 	// perf
-	let t1 = performance.now()
-	outputDebug("1","media",(t1-t0),(t1-gt0))
+	debug_page("perf","media",t0,gt0)
 }
 
 outputMedia()
