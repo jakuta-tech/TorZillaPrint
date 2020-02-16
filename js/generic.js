@@ -16,7 +16,7 @@ function getUniqueElements() {
 function store_data(section, key, value, type) {
 	if (value == "") {value = "unknown"}
 	if (section == "ua") {
-		//console.log(section.padStart(10),key.padStart(20),value)
+		console.log(section.padStart(10),key.padStart(20),value)
 		fp_ua.push(value)
 		if (fp_ua.length == 9) {
 			//console.debug(fp_ua.join())
