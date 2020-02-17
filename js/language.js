@@ -248,7 +248,7 @@ function get_datetime() {
 		document.getElementById("dtf"+i).innerHTML = results[i]
 	}
 	// hash
-	lHash2 = sha1(results.join("-"))
+	let lHash2 = sha1(results.join("-"))
 	dom.lHash2 = lHash2
 	// notation
 	let ff = "", yup = spoof_both_green
