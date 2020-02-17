@@ -98,10 +98,6 @@ function test_cookie() {
 		// look it up
 		let pcookievalue = lookup_cookie(rndStrC)
 		if (pcookievalue != "") {
-			if (sDebug) {
-				console.debug("persistent cookie set: name:", rndStrC, "value:", rndStrD);
-				console.debug("persistent cookie checked: name:", rndStrC, "value returned:", pcookievalue);
-			};
 			if (pcookievalue == rndStrD) {
 				// value matches
 				debug = debug + "<br>cookies: test successful"
@@ -127,10 +123,6 @@ function set_zombie_cookie(name, value) {
 		// look it up
 		let pcookievalue = lookup_cookie(name)
 		if (pcookievalue != "") {
-			if (sDebug) {
-				console.debug("zombie " + name + " cookie set: value:", value);
-				console.debug("zombie " + name + " cookie checked: value returned:", pcookievalue);
-			};
 			if (pcookievalue == value) {
 				// value matches
 				debug = debug + "<br>zombie " + name + " cookie: successfully set"
@@ -175,10 +167,6 @@ function test_storage() {
 				if (lsvalue == null) {
 					debug = debug + "<br>" + "localStorage: test failed"
 				} else {
-					if (sDebug) {
-						console.debug("localStorage set: name:", rndStrE, "value:", rndStrF);
-						console.debug("localStorage checked: name:", rndStrE, "value returned:", lsvalue);
-					};			
 					if (lsvalue == rndStrF) {
 						// values match
 						ls = true;
@@ -206,10 +194,6 @@ function set_zombie_storage(key, value) {
 		if (lsvalue == null) {
 			debug = debug + "<br>zombie " + key + " key: failed"
 		} else {
-			if (sDebug) {
-				console.debug("zombie " + key + " key set: value:", value);
-				console.debug("zombie " + key + " key checked: value returned:", lsvalue);
-			};			
 			if (lsvalue == value) {
 				// values match
 				debug = debug + "<br>zombie " + key + " key: successfully set"
@@ -298,16 +282,10 @@ function test_idb() {
 							// add some data
 							let rndIndex = rnd_number();
 							let rndValue = rnd_string("");
-							if (sDebug) {
-								console.debug("idb set: name:", rndStrI, "id", rndIndex, "value:", rndValue);
-							};
 							dbStore.put( {id: rndIndex, value: rndValue} );
 							// query the data
 							let getStr = dbStore.get(rndIndex);
 							getStr.onsuccess = function() {
-								if (sDebug) {
-									console.debug("idb checked: name:", rndStrI, "id", getStr.result.id, "value:", getStr.result.value);
-								};
 								if (getStr.result.value == rndValue) {
 									// values match
 									debug = debug + "<br>" + "idb: test successful"
@@ -348,16 +326,10 @@ function set_zombie_idb(name, object, zid, zvalue) {
 		let dbTx = dbObject.transaction(object, "readwrite");
 		let dbStore = dbTx.objectStore(object);
 		// add the data
-		if (sDebug) {
-			console.debug("zombie " + name + " idb set:", object, zid, zvalue);
-		};
 		dbStore.put( {id: zid, value: zvalue} );
 		// query the data
 		let getStr = dbStore.get(zid);
 		getStr.onsuccess = function() {
-			if (sDebug) {
-				console.debug("zombie " + name + " idb checked:", object, getStr.result.id, getStr.result.value);
-			};
 			if (getStr.result.value == zvalue) {
 				// values match
 				debug = debug + "<br>zombie " + name + " store: successfully set";
@@ -443,7 +415,6 @@ function run_sanitize_check() {
 	}, 150);
 };
 
-//sDebug = true; // override global pref
 run_sanitize_check();
 </script>
 
