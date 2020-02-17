@@ -55,7 +55,7 @@ function get_chrome() {
 		if (runSim) {
 			if (isOS == "windows") {r = "Linux"} else {r = "Windows"}
 		}
-		store_data("ua","1 chrome",r,true)
+		store_data("ua","1 chrome",r)
 		// notation
 		if (r.toLowerCase() !== isOS) {
 			r += sb+"[doesn't match widget os]"+sc + (runSim ? zSIM : "")
@@ -116,7 +116,6 @@ function get_collation() {
 			codes = " [missing locale code" + (missing.length > 1 ? "s" : "")
 				+ ":" + missing.join(", ") + "]"
 		}
-		if (runSim) {hash = "k"}
 		if (hash == "d0e83d1d652f95d686870a59def6ddcc7cde5e28") {
 			output = zFF+" [FF70+]" + codes
 		} else if (hash == "e4a32b021b6743d34573ab91a9a31d1068e5b01e") {
@@ -127,7 +126,7 @@ function get_collation() {
 			output = not_seen+"collation combo before"+sc + codes + (runSim ? zSIM : "")
 		}
 		dom.fdCollation.innerHTML = output
-		store_data("ua","2 collation",hash,true)
+		store_data("ua","2 collation",hash)
 		if (logPerf) {debug_log("collation [ua]",t0)}
 	}
 	// function
@@ -140,7 +139,7 @@ function get_collation() {
 			results.push(test)
 			if (control == test) {missing.push("<code>" + list[i] + "</code>")}
 		}
-		output(sha1(results.join()))
+		output(sha1(results.join()) + (runSim ? "a" : ""))
 	}
 	run()
 }
@@ -149,7 +148,7 @@ function get_color() {
 	// depth
 	let r = screen.pixelDepth+" | "+screen.colorDepth
 	dom.ScrColor.innerHTML = r += (r == "24 | 24" ? rfp_green : rfp_red)
-	store_data("screen","depth",r,true)
+	store_data("screen","depth",r)
 	// bits
 	r = ""
 	r = (function () {
@@ -159,7 +158,7 @@ function get_color() {
 		return i
 	})()
 	dom.mmC.innerHTML = (r == 8 ? r+rfp_green : r+rfp_red)
-	store_data("screen","bits",r,true)
+	store_data("screen","bits",r)
 }
 
 function get_errors() {
@@ -181,7 +180,7 @@ function get_errors() {
 			dom.fdError.innerHTML = not_seen+"error combo before"+sc + (runSim ? zSIM : "")
 		}
 		dom.errh.innerHTML = hash + code
-		store_data("ua","3 errors",hash,true)
+		store_data("ua","3 errors",hash)
 		if (logPerf) {debug_log("errors [ua]",t0)}
 	}
 	// function
@@ -219,7 +218,7 @@ function get_fullscreen() {
 		r = "no: "+e.name; dom.fsLeak = zNA
 	}
 	dom.fsSupport = r
-	store_data("screen","full screen support",r,true)
+	store_data("screen","full screen support",r)
 }
 
 function get_line_scrollbar() {
@@ -693,7 +692,7 @@ function get_private_win() {
 	let t0 = performance.now()
 	function output(r) {
 		dom.IsPBMode = r
-		store_data("screen","private window",r,true)
+		store_data("screen","private window",r)
 		if (logPerf) {debug_log("pbmode [screen]",t0)}
 	}
 	try {
@@ -808,8 +807,8 @@ function get_resources() {
 			}
 			// output
 			dom.fdResource.innerHTML = browser + " " + output
-			store_data("ua","4 browser",browser,true)
-			store_data("ua","5 channel", output,true)
+			store_data("ua","4 browser",browser)
+			store_data("ua","5 channel",wFF+"x"+hFF)
 			// perf
 			if (logPerf) {debug_log("resource [ua]",t0)}
 		}
@@ -1022,7 +1021,7 @@ function get_version() {
 	if (isVer == "") {isVer = verNo.replace(/\D/g,'')}
 	// perf
 	dom.versionNo = verNo
-	store_data("ua","6 version",verNo,true)
+	store_data("ua","6 version",verNo)
 	if (logPerf && isFF) {debug_log("version [ua]",t0)}
 }
 
@@ -1105,7 +1104,7 @@ function get_widgets() {
 	if (sizediff) {size0 = "mixed sizes"}
 	if (fontdiff) {
 		font0 = "mixed fonts";
-		os = sb+"can't tell"+sc
+		os = not_seen+"mix before"+sc
 	} else {
 			// set isOS
 			if (font0.slice(0,12) == "MS Shell Dlg") {os="Windows"}
@@ -1113,14 +1112,13 @@ function get_widgets() {
 			else if (font0 == "-apple-system") {os="Mac"}
 			else {os="Linux"}
 			isOS = os.toLowerCase()
-			store_data("ua","7 widget os",os,true)
 	}
 	os += " ["+font0+", "+size0+"]"
 
 	// output
 	dom.widgetH = sha1(hash.join())
 	dom.widgetOS.innerHTML = os + (runSim ? zSIM : "")
-	store_data("ua","8 widget",sha1(hash.join()),true)
+	store_data("ua","7 widget",sha1(hash.join()))
 	// perf
 	if (logPerf) {debug_log("widgets [ua]",t0)}
 }
@@ -1537,7 +1535,7 @@ function outputMath() {
 			//m6hash = sha1("c"), mchash = sha1("d") // emca6
 			//m1hash = sha1("e"), m6hash = sha1("f"), mchash = sha1("g") // both
 		}
-		store_data("ua","9 math",mchash,true)
+		store_data("ua","8 math",mchash)
 	}
 
 	function get_codes() {
