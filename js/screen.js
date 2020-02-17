@@ -784,7 +784,7 @@ function get_resources() {
 				} else if (wFF == 300 && hFF == 38) {
 					// 
 					if (isVer > 67) {
-						channel = "stable"
+						channel = "release"
 						output = so+"["+channel+"]"+sc+" ["+wFF+" x "+hFF+"]"
 					} else {
 						output = " ["+wFF+" x "+hFF+"]"
