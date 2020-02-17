@@ -18,7 +18,7 @@ function store_data(section, key, value) {
 	if (section == "ua") {
 		//console.log(section.padStart(10),key.padStart(20),value)
 		fp_ua.push(key+":"+value)
-		if (fp_ua.length == 8) {
+		if (fp_ua.length == 7) {
 			fp_ua.sort() // by key
 			dom.sectionUA2.innerHTML = sha1(fp_ua.join()) + so+"[can't be spoofed]"+sc
 		}
