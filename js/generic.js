@@ -20,7 +20,7 @@ function store_data(section, key, value) {
 		fp_ua.push(key+":"+value)
 		if (fp_ua.length == 8) {
 			fp_ua.sort() // by key
-			dom.sectionUA = sha1(fp_ua.join())
+			dom.sectionUA2.innerHTML = sha1(fp_ua.join()) + so+"[can't be spoofed]"+sc
 		}
 	}
 }
