@@ -894,15 +894,47 @@ function get_screen_metrics(runtype) {
 }
 
 function get_ua_nav() {
-	dom.nCodeName.innerHTML = navigator.appCodeName
-	dom.nAppName.innerHTML = navigator.appName
-	dom.nProduct.innerHTML = navigator.product
-	dom.nBuildID.innerHTML = navigator.buildID
-	dom.nProductSub.innerHTML = navigator.productSub
-	dom.nPlatform.innerHTML = navigator.platform
-	dom.nAppVersion.innerHTML = navigator.appVersion
-	dom.nOscpu.innerHTML = navigator.oscpu
-	dom.nUserAgent.innerHTML = navigator.userAgent
+	let results = [],
+		str = ""
+
+	str = navigator.appCodeName
+	results.push(str)
+	dom.nCodeName.innerHTML = str
+
+	str = navigator.appName
+	results.push(str)
+	dom.nAppName.innerHTML = str
+
+	str = navigator.product
+	results.push(str)
+	dom.nProduct.innerHTML = str
+
+	str = navigator.buildID
+	results.push(str)
+	dom.nBuildID.innerHTML = str
+
+	str = navigator.productSub
+	results.push(str)
+	dom.nProductSub.innerHTML = str
+
+	str = navigator.platform
+	results.push(str)
+	dom.nPlatform.innerHTML = str
+
+	str = navigator.appVersion
+	results.push(str)
+	dom.nAppVersion.innerHTML = str
+
+	str = navigator.oscpu
+	results.push(str)
+	dom.nOscpu.innerHTML = str
+
+	str = navigator.userAgent
+	results.push(str)
+	dom.nUserAgent.innerHTML = str
+
+	dom.sectionUA1.innerHTML = sha1(results.join()) + (isFF ? so+"[can be spoofed]"+sc : "")
+
 }
 
 function get_version() {
