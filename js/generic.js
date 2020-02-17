@@ -13,14 +13,13 @@ function getUniqueElements() {
 	})
 }
 
-function store_data(section, key, value, type) {
-	if (value == "") {value = "unknown"}
+function store_data(section, key, value) {
+	//if (value == "") {value = "unknown"}
 	if (section == "ua") {
 		//console.log(section.padStart(10),key.padStart(20),value)
 		fp_ua.push(key+":"+value)
-		if (fp_ua.length == 9) {
+		if (fp_ua.length == 8) {
 			fp_ua.sort() // by key
-			//console.debug(fp_ua.join())
 			dom.sectionUA = sha1(fp_ua.join())
 		}
 	}
