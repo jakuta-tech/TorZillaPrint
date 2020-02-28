@@ -42,8 +42,10 @@ a.blue {color: #8abfda; text-decoration: none;}
 .neutral {color: #dcdc8c;} /* test4 */
 .orange {color: #dca78c;} /* test2 */
 
- /* s=section: for breaking output with color: e.g steps in LB */
+ /* s=section: for breaking output with color*/
 .s1 {color: var(--test1);}
+.s2 {color: var(--test2);}
+.s3 {color: var(--test3);}
 
 .normalized {
 	font-family: none;
@@ -86,7 +88,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 input[type='checkbox'] {display: none;}
 .lbl-toggle {display: block; cursor: pointer;}
 .togA, .togD, .togD1, .togM, .togC, .togE, .togF, .togF1,
-.togL, .togM2, .togOS1, .togW, .togZ {display: none;}
+.togL, .togM2, .togOS1, .togR, .togUA, .togW, .togZ {display: none;}
 
 /* buttons */
 button {background-color: #1a1a1a; border-width: 0px; text-align: center;
