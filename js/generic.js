@@ -275,8 +275,8 @@ function outputSection(id, cls, page) {
 			if (id=="14") {outputCSS()}
 			if (id=="18") {outputMisc()}
 		} else if (page=="e") {
-			if (id=="2") {outputWidgets()}
 			if (id=="4" && cls=="c2") {outputAppLanguage()}
+			if (id=="6") {outputWidgets()}
 		}
 	}
 	let checking = setInterval(call_output, delay)
@@ -286,6 +286,7 @@ function outputSection(id, cls, page) {
 		if (id=="11" && cls=="c2") {outputFonts2("small")}
 		if (id=="11" && cls=="c3") {outputFonts2("all")}
 	} else if (page=="e") {
+		if (id=="2") {outputResource()}
 		if (id=="3") {outputChrome()}
 		if (id=="5") {outputFonts2("monsta")}
 	}
