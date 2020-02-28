@@ -15,6 +15,8 @@ let avh = "",
 	so = " <span class='orange'>",
 	se = " <span class='bad'>[test error: ",
 	s1 = " <span class='s1'>",
+	s2 = " <span class='s2'>",
+	s3 = " <span class='s3'>",
 	sc = "</span>",
 // show/hide text colors
 	zhide = "#1a1a1a",
