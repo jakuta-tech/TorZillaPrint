@@ -79,13 +79,25 @@ var canvas = {
 				name: "toBlob",
 				value: function(){
 					return new Promise(function(resolve, reject){
-						getFilledContext().canvas.toBlob(function(blob){
-							var reader = new FileReader()
-							reader.onload = function(){
-								resolve(hashDataURL(reader.result))
-							}
-							reader.readAsDataURL(blob)
-						})
+						try {
+							var timeout = window.setTimeout(function(){
+								reject("timout in toBlob");
+							}, 500)
+							getFilledContext().canvas.toBlob(function(blob){
+								window.clearTimeout(timeout);
+								var reader = new FileReader()
+								reader.onload = function(){
+									resolve(hashDataURL(reader.result))
+								}
+								reader.onerror = function(){
+									reject("Unable to read blob!");
+								}
+								reader.readAsDataURL(blob)
+							})
+						}
+						catch (e){
+							resolve(e.name + ": " + e.message);
+						}
 					})
 				}
 			},
@@ -303,17 +315,17 @@ var canvas = {
 		var finished = Promise.all(outputs.map(function(output){
 			return new Promise(function(resolve, reject){
 				var displayValue;
-				var supported = output.supported? output.supported(): isSupported(output);
-				if (supported){
-					try {
+				try {
+					var supported = output.supported? output.supported(): isSupported(output);
+					if (supported){
 						displayValue = output.value();
 					}
-					catch (e){
-						displayValue = e.name +": "+e.message;
+					else {
+						displayValue = "not supported";
 					}
 				}
-				else {
-					displayValue = "not supported";
+				catch (e){
+					displayValue = e.name +": "+e.message;
 				}
 				Promise.resolve(displayValue).then(function(displayValue){
 					output.displayValue = displayValue;
