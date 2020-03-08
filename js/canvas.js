@@ -1,4 +1,3 @@
-/* TABLE: canvas */
 "use strict";
 
 /* code courtesy of kkapsner and canvasblocker
@@ -6,36 +5,49 @@
 - https://github.com/kkapsner/CanvasBlocker
 - tiny modifications by newbie Thorin-Oakenpants */
 
-function append_canvas_notation() {
+function append_canvas_note() {
 	// vars
-	let r = rfp_red, g = rfp_green
-	if (isFile) {r = note_file}
+	let r = rfp_red, g = rfp_green, test = "", control = ""
 
-	// getContext,toDataURL,mozGetAsFile
-	let control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
-	let test = dom.cnv2.textContent
-	if (test == control) {dom.cnv2.innerHTML = test + g} else {dom.cnv2.innerHTML = test + r}
-	test = dom.cnv3.textContent
-	if (test == control) {dom.cnv3.innerHTML = test + g} else {dom.cnv3.innerHTML = test + r}
-	test = dom.cnv4.textContent
-	if (test == control) {dom.cnv4.innerHTML = test + g} else {
-		if (test !== "not supported") {dom.cnv4.innerHTML = test + r}
+	// winding, fillText, strokeText
+	control = "supported"
+	test = dom.cnv6.innerHTML
+	dom.cnv6.innerHTML = test + (test == control ? g : r)
+	test = dom.cnv9.innerHTML
+	dom.cnv9.innerHTML = test + (test == control ? g : r)
+	test = dom.cnv10.innerHTML
+	dom.cnv10.innerHTML = test + (test == control ? g : r)
+	// getContext
+	test = dom.cnv1.textContent
+	if (test.substring(0,5) == "2d: s") {
+		test = test.replace("2d: supported", "2d: supported" + g)
+	} else {
+		test = test.replace("2d: not supported", "2d: not supported" + r)
 	}
+	dom.cnv1.innerHTML = test
 
+	// toDataURL,toBlob
+	control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
+	test = dom.cnv2.innerHTML
+	dom.cnv2.innerHTML = test + (test == control ? g : r)
+	test = dom.cnv3.innerHTML
+	dom.cnv3.innerHTML = test + (test == control ? g : r)
+	// mozGetAsFile: 74-
+	test = dom.cnv4.innerHTML
+	if (isVer > 74) {control = "not supported"}
+	dom.cnv4.innerHTML = test + (test == control ? g : r)
 	// getImageData
 	control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
-	test = dom.cnv5.textContent
-	if (test == control) {dom.cnv5.innerHTML = test + g} else {dom.cnv5.innerHTML = test + r}
-
-	//isPointInPath,isPointInStroke
+	test = dom.cnv5.innerHTML
+	dom.cnv5.innerHTML = test + (test == control ? g : r)
+	//isPoint*
 	control = "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8"
-	test = dom.cnv7.textContent
-	if (test == control) {dom.cnv7.innerHTML = test + g} else {dom.cnv7.innerHTML = test + r}
-	test = dom.cnv8.textContent
-	if (test == control) {dom.cnv8.innerHTML = test + g} else {dom.cnv8.innerHTML = test + r}
-
+	test = dom.cnv7.innerHTML
+	dom.cnv7.innerHTML = test + (test == control ? g : r)
+	test = dom.cnv8.innerHTML
+	dom.cnv8.innerHTML = test + (test == control ? g : r)
 	// readPixels
-	test = dom.cnv11.textContent
+	test = dom.cnv11.innerHTML
 	if (sha1(test) == "47bf7060be2764c531da228da96bd771b14917a1") {
 		// NotSupportedError: Operation is not supported
 		// TB windows metal
@@ -81,22 +93,22 @@ var canvas = {
 					return new Promise(function(resolve, reject){
 						try {
 							var timeout = window.setTimeout(function(){
-								reject("timout in toBlob");
+								reject("timout in toBlob")
 							}, 500)
-							getFilledContext().canvas.toBlob(function(blob){
-								window.clearTimeout(timeout);
-								var reader = new FileReader()
-								reader.onload = function(){
-									resolve(hashDataURL(reader.result))
-								}
-								reader.onerror = function(){
-									reject("Unable to read blob!");
-								}
-								reader.readAsDataURL(blob)
-							})
+						getFilledContext().canvas.toBlob(function(blob){
+							window.clearTimeout(timeout)
+							var reader = new FileReader()
+							reader.onload = function(){
+								resolve(hashDataURL(reader.result))
+							}
+							reader.onerror = function(){
+								reject("Unable to read blob!")
+							}
+							reader.readAsDataURL(blob)
+						})
 						}
 						catch (e){
-							resolve(e.name + ": " + e.message);
+							resolve(e.message)
 						}
 					})
 				}
@@ -141,7 +153,6 @@ var canvas = {
 				name: "isPointInPath",
 				value: function(){
 					var context = getPathContext()
-					
 					var data = new Uint8Array(30 * 30)
 					for (var x = 0; x < 30; x += 1){
 						for (var y = 0; y < 30; y += 1){
@@ -156,7 +167,6 @@ var canvas = {
 				name: "isPointInStroke",
 				value: function(){
 					var context = getPathContext()
-					
 					var data = new Uint8Array(30 * 30)
 					for (var x = 0; x < 30; x += 1){
 						for (var y = 0; y < 30; y += 1){
@@ -314,39 +324,41 @@ var canvas = {
 		}
 		var finished = Promise.all(outputs.map(function(output){
 			return new Promise(function(resolve, reject){
-				var displayValue;
+				var displayValue
 				try {
-					var supported = output.supported? output.supported(): isSupported(output);
-					if (supported){
-						displayValue = output.value();
+				var supported = output.supported? output.supported(): isSupported(output);
+				if (supported){
+						displayValue = output.value()
 					}
 					else {
-						displayValue = "not supported";
+						displayValue = "not supported"
 					}
 				}
-				catch (e){
-					displayValue = e.name +": "+e.message;
-				}
+					catch (e){
+						displayValue = (e.name == "TypeError" ? "" : e.name + ": ") + e.message
+					}
 				Promise.resolve(displayValue).then(function(displayValue){
-					output.displayValue = displayValue;
-					resolve(output);
+					output.displayValue = displayValue
+					resolve(output)
 				}, function(e){
-					console.error(e);
-					output.displayValue = "error while testing";
-					resolve(output);
-				});
-			});
-		}));
-		return finished;
+					//console.error(e)
+					output.displayValue = "error while testing"
+					resolve(output)
+				})
+			})
+		}))
+		return finished
 	},
 	output: function(dataPromise, table){
 		if (table){
 			dataPromise.then(function(outputs){
 				outputs.forEach(function(output){
-					var display = table.querySelector("." + output.name)
-					if (display){display.textContent = output.displayValue}
+					let display = table.querySelector("." + output.name)
+					if (display) {display.innerHTML = output.displayValue}
 					outCounter++
-					if (outCounter==11) {append_canvas_notation()}
+					if (outCounter==11) {
+						if (isFF) {append_canvas_note()}
+					}
 				})
 			})
 		}
