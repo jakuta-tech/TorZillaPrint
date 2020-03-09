@@ -1,4 +1,3 @@
-/* TABLE: webgl */
 'use strict';
 
 function outputWebGL() {
