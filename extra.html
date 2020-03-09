@@ -11,8 +11,8 @@
 <body>
 	<!-- offscreen -->
 	<div class="offscreen">
-		<span id="fontFBTest" style='white-space: nowrap; font-family: fontFallback;'></span>
-		<img id="imageTest" src="">
+		<div><span id="fontFBTest" style='white-space: nowrap; font-family: fontFallback;'></span></div>
+		<div><img id="imageTest" src=""></div>
 	</div>
 	<!-- hidden -->
 	<div class="hidden">
@@ -28,6 +28,18 @@
 	<table>
 		<tr><td><a anchor="top"><h2>TorZillaPrint: Extra Tests</h2></td></tr>
 		<tr><td class="blurb"><a class="blue" href="TorZillaPrint.html">return to the main test</a></td></tr>
+	</table>
+
+	<!-- screen.js -->
+	<table id="tb1">
+		<col width="37%"><col width="73%">
+		<thead><tr><th colspan="2">screen</th></tr></thead>
+		<tr><td><div class="btn-left"><button class="btn1" onClick="outputSection(`1`, `c`, `e`)">[ reset ]</button></div>
+			[clientRect] devicePixelRatio <sup>1</sup></td><td class="c mono" id="dprclientRect"></td></tr>
+		<tr><td>[scrollY] devicePixelRatio <sup>1</sup></td><td class="c" id="dprscrollY"></td></tr>
+		<tr><td colspan="2"><span class="no_color">code based on work by </span>
+			<a target="_blank" class="blue" href="https://acatarineu.github.io/fp/devicePixelRatio.html">Alex Catarineu</a> <sup>1</sup>
+		</td></tr>
 	</table>
 
 	<!-- resource:// -->
@@ -154,9 +166,10 @@
 	<br>
 	<script src="js/main.js"></script>
 	<script src="jsextra/widgets.js"></script>
-	<script src="jsextra/chrome.js"></script>
+	<script src="jsextra/screen.js"></script>
 	<script src="jsextra/language.js"></script>
 	<script src="jsextra/resource.js"></script>
+	<script src="jsextra/chrome.js"></script>
 	<script src="js/fonts.js"></script>
 
 </body>
