@@ -1,4 +1,3 @@
-/* TABLE: DOMRect */
 "use strict";
 
 /* code based on work by kkapsner and canvasblocker
@@ -9,7 +8,6 @@ var t0dr,
 	timerdr = 2500
 
 function reset_domrect() {
-	// clear details
 	for (let i=1; i < 5; i++) {
 		document.getElementById("dr"+i).innerHTML = "&nbsp"
 		for (let j=1; j < 49; j++) {
@@ -23,7 +21,7 @@ function remove_domrect(type) {
 	let ifdr = dom.ifdr
 	ifdr.removeEventListener("load", test_domrect)
 	document.getElementById("drect").removeChild(ifdr)
-	// error notation
+	// note error
 	if (type !== "") {
 		let s = ""
 		if (type == "cors") {s = error_file_cors}
@@ -42,7 +40,6 @@ function remove_domrect(type) {
 }
 
 function run_domrect() {
-
 	function getElements(){
 		let iframeA = dom.ifdr
 		let doc = iframeA.contentDocument
@@ -66,7 +63,7 @@ function run_domrect() {
 				let item=0
 				properties.map(function(property){
 					return rects.map(function(rect, i){
-						item=item+1
+						item++
 						document.getElementById(method+item).textContent = rect[property]
 						return rect[property]
 					}).join("")
@@ -74,8 +71,7 @@ function run_domrect() {
 		}
 		performTest()
 	}
-
-	// run the four tests
+	// run
 	createTest("dr1", function(element){return element.getClientRects()[0]})
 	createTest("dr2", function(element){return element.getBoundingClientRect()})
 	createTest("dr3", function(element){
@@ -88,17 +84,12 @@ function run_domrect() {
 		range.selectNode(element)
 		return range.getBoundingClientRect()
 	})
-
-	// cleanup
+	// remove
 	remove_domrect("")
-
-	// show/hide relevant details sections if dr details is showing
+	// cleanup details
 	setTimeout(function(){
-		if (stateDR == true) {
-			showhide("table-row","D","&#9650; hide")
-		}
-	}, 50) // delay to make sure things are loaded
-
+		if (stateDR == true) {showhide("table-row","D","&#9650; hide")}
+	}, 50)
 }
 
 function test_domrect() {
