@@ -1,4 +1,3 @@
-/* SHARED WORKER SCRIPT */
 'use strict';
 
 var ports = []
