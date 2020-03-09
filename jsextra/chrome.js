@@ -1,10 +1,8 @@
-/* TABLE: chrome:// */
 'use strict';
 
 function outputChrome() {
-
 // FF only
-if (isNaN(window.mozInnerScreenX) === false) {
+if ("undefined" != typeof InstallTrigger) {
 	dom.jsHash = "tests are running"
 	dom.cssHash = "give it 5 seconds"
 	let b = "chrome://branding/content/",
@@ -551,7 +549,7 @@ if (isNaN(window.mozInnerScreenX) === false) {
 			hashA = sha1(allHash.sort())
 		// output
 		dom.imgHash = hashI + " ["+ foundI +"/" + imgUris.length +"]"
-		dom.jsHash = hashJ  + " ["+ foundJ +"/" +  jsUris.length +"]"
+		dom.jsHash = hashJ + " ["+ foundJ +"/" + jsUris.length +"]"
 		dom.cssHash = hashC + " ["+ foundC +"/" + cssUris.length +"]"
 		let countTested = imgUris.length + jsUris.length + cssUris.length
 		dom.allHash = sha1(hashA) + " ["+ foundA +"/"+ countTested +"]"
