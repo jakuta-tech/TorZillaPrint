@@ -1,11 +1,8 @@
-/* TABLE: Language & Locale etc */
 'use strict';
 
-/* VARIABLES */
 let	bTZ = false
 
 function get_geo() {
-	// geo
 	let r = ("geolocation" in navigator ? zE : zD)
 	dom.geo1 = r
 	function geoState(state) {
@@ -24,7 +21,6 @@ function get_geo() {
 }
 
 function get_lang() {
-	// lang/locale
 	let lang1 = navigator.languages; dom.lang1 = lang1
 	let lang2 = navigator.language; dom.lang2 = lang2
 	let lang3 = navigator.languages[0]; dom.lang3 = lang3
@@ -35,7 +31,6 @@ function get_lang() {
 }
 
 function get_tz() {
-	// tz/offset
 	let d1 = new Date("January 30, 2019 13:00:00"),
 		d2 = new Date("July 30, 2018 13:00:00")
 	let tz1 = d1.getTimezoneOffset()+ ' | ' + d2.getTimezoneOffset(); dom.tz1 = tz1
@@ -74,12 +69,12 @@ function get_datetime() {
 
 	let tmp16 = "",	tmp17 = "", is70 = false
 	try {
-		// FF65+: Intl.RelativeTimeFormat: "7 days ago, yesterday, tomorrow, next month, in 2 years"
+		// 65+: Intl.RelativeTimeFormat
 		let rtf = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"})
 		tmp16 = rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
 			rtf.format(1, "day") +", "+ rtf.format(1, "month") +", "+ rtf.format(2, "year")
 
-		// FF70+: Intl.RelativeTimeFormat formatToParts
+		// 70+: Intl.RelativeTimeFormat formatToParts
 		function concat_parts(length, value) {
 			let output = ""
 			let rtf2 = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"})
@@ -90,10 +85,8 @@ function get_datetime() {
 			return output
 		}
 		try {
-			// trap support
-			let trap17 = rtf.formatToParts(-1, "year")
+			let test17 = rtf.formatToParts(-1, "year")
 			is70 = true
-			// "last year, 3 weeks ago, 1 hour ago, in 45 seconds, tomorrow, next quarter"
 			tmp17 = concat_parts("-1", "year")
 				+ ", " + concat_parts("-3", "week")
 				+ ", " + concat_parts("-1", "hour")
@@ -112,13 +105,13 @@ function get_datetime() {
 	let tmp18 = "", err18 = ""
 	function err_check(error) {
 		if (error == "5e74394a663ce1f31667968d4dbe3de7a21da4d2") {
-			// FF70 and lower: invalid value unit for option style
+			// 70-: invalid value unit...
 			return " | unit " + zNS
 		} else if (error == "dabc0b854a78cdfdf4c0e8e3aa744da7056dc9ed") {
-			// FF71+: invalid value "unit" for option style
+			// 71+: invalid value "unit"...
 			return " | \"unit\"" + zNS
 		} else {
-			return " | " + error
+			return " | "+ error
 		}
 	}
 	try {
@@ -126,53 +119,52 @@ function get_datetime() {
 		tmp18 = new Intl.NumberFormat(undefined).format(123456.789)
 		// unit long
 		try {
-			tmp18 += " | " + new Intl.NumberFormat(undefined, {style: "unit", unit: "mile-per-hour", unitDisplay: "long"}).format(5)
+			tmp18 += " | "+ new Intl.NumberFormat(undefined, {style: "unit", unit: "mile-per-hour", unitDisplay: "long"}).format(5)
 		} catch(e) {
 			tmp18 += err_check(sha1(e.message))
 		}
 		// notation: scientific
 		try {
-			tmp18 += " | " + new Intl.NumberFormat(undefined, {notation: "scientific"}).format(987654321)
+			tmp18 += " | "+ new Intl.NumberFormat(undefined, {notation: "scientific"}).format(987654321)
 		} catch(e) {}
 		// unit percent
 		try {
-			tmp18 += " | " + new Intl.NumberFormat(undefined, {style: "unit", unit: "percent"}).format(1/2)
+			tmp18 += " | "+ new Intl.NumberFormat(undefined, {style: "unit", unit: "percent"}).format(1/2)
 		} catch(e) {
 			tmp18 += err_check(sha1(e.message))
 		}
 		// notation: long compact
 		try {
-			tmp18 += " | " + new Intl.NumberFormat(undefined, {notation: "compact", compactDisplay: "long"}).format(654321987)
+			tmp18 += " | "+ new Intl.NumberFormat(undefined, {notation: "compact", compactDisplay: "long"}).format(654321987)
 		} catch(e) {}
 		// signDisplay
 		try {
-			tmp18 += " | " + (55).toLocaleString(undefined, {signDisplay: "always"})
+			tmp18 += " | "+ (55).toLocaleString(undefined, {signDisplay: "always"})
 		} catch(e) {}
 	} catch(e) {
 		console.debug("tmp18 error:", e.message)
 	}
 
 	// [formatToParts] Intl.NumberFormat
-	let tmp19 = "", str19 = "", type19 ="", debugchar = ""
+	let tmp19 = "", str19 = "", type19 ="", charcode = ""
 	function clean_string(type, string, extra) {
-		// prettify result
+		// prettify
 		try {
 			string = string.replace(/"/g, "")
 			string = string.replace("{type:", "")
 			string = string.replace(",value:", " ")
 			string = string.replace("}", "")
 			if (extra == true) {
-				// output charCode for single chars: e.g group/fr
-				debugchar = string.charCodeAt(string.length-1)
-				string = string + " <code>" + debugchar + "</code>"
+				// charCode single chars: e.g group/fr
+				charcode = string.charCodeAt(string.length-1)
+				string = string+" <code>"+ charcode +"</code>"
 			}
 			return string
 		} catch(e) {
-			// catch undefined
 			if (e.message == "string is undefined") {
-				return type + " undefined"
+				return type+" "+zU
 			} else {
-				return type + " error"
+				return type+" error"
 			}
 		}
 	}
@@ -188,11 +180,11 @@ function get_datetime() {
 		// group: e.g fr = narrow no-break space
 		type19 = "group"
 		str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(1000)[1])
-		tmp19 += " | " + clean_string(type19, str19, true)
+		tmp19 += " | "+ clean_string(type19, str19, true)
 		// infinity
 		type19 = "infinity"
 		str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(Infinity)[0])
-		tmp19 += " | " + clean_string(type19, str19, true)
+		tmp19 += " | "+ clean_string(type19, str19, true)
 		// minusSign
 		type19 = "minusSign"
 		str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(-5)[0])
@@ -200,44 +192,42 @@ function get_datetime() {
 		// nan: e.g. zh-TW
 		type19 = "nan"
 		str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(4/5 + "%")[0])
-		tmp19 += " | " + clean_string(type19, str19, false)
+		tmp19 += " | "+ clean_string(type19, str19, false)
 	} catch(e) {
 		console.debug("tmp19 error:", type19 + ":", e.message)
 	}
 
-	// FF70+: [BigInt] Intl.NumberFormat
+	// 70+: [BigInt] Intl.NumberFormat
 	let tmp20 = ""
 	try {
 		let bint1 = BigInt(9007199254740991)
-		// eval = no parsing errors
 		bint1 = eval("987654321987654321n")
 		let numFormat = new Intl.NumberFormat(undefined)
 		tmp20 = numFormat.format(bint1)
 	} catch(e) {
-		// true: FF67- / false: FF68-69
+		// condition ? 67- : 68-69
 		tmp20 = (e.message == "BigInt is not defined" ? zNS + " [BigInt]" : zNS)
 	}
 
-	// FF70+: [BigInt] toLocaleString
+	// 70+: [BigInt] toLocaleString
 	let tmp21 = ""
 	try {
 		let bint2 = BigInt(9007199254740991)
-		// eval = no parsing errors
 		bint2 = eval("123456789123456789n")
 		tmp21 = bint2.toLocaleString()
 		if (tmp21 == "123456789123456789") {
-			// no change: FF68-69
+			// 68-69
 			tmp21 = zNS
 		}
 	} catch(e) {
-		// FF67 or lower
+		// 67-
 		tmp21 = (e.message == "BigInt is not defined" ? zNS + " [BigInt]" : "error:" + e.message)
 	}
 
 	// currency
 	let tmp22 = Number(1234567.89).toLocaleString(undefined, {style: "currency", currency: "USD", currencyDisplay: "symbol"})
 
-	// calendar/numbering/geo
+	// calendar/numbering
 	let tmp23 = Intl.DateTimeFormat().resolvedOptions().calendar
 	let tmp24 = Intl.DateTimeFormat().resolvedOptions().numberingSystem
 
@@ -250,31 +240,25 @@ function get_datetime() {
 	// hash
 	let lHash2 = sha1(results.join("-"))
 	dom.lHash2 = lHash2
-	// notation
-	let ff = "", yup = spoof_both_green
+	// RFP
+	let ff = ""
 	if (bTZ) {
 		// state1: both green
 		if (lHash2 == "21e2e654c6a233b19114449720f51c0c3d045caf") {
-			// ToDo: keep checking when various Intl.NumberFormat changes ride the train
-			lHash2 += yup; ff = " [Nightly]"
+			// ToDo: hashes when Intl.NumberFormat changes ride the train
+			ff = " [Nightly]"
 		} else if (lHash2 == "c9830c97dac7521beab7989619c19f97b92213c2") {
-			// 71+
-			lHash2 += yup; ff = " [FF71+]"
+			ff = " [FF71+]"
 		} else if (lHash2 == "5be427e9c8c158e797579ca56648113b31a4eb7c") {
-			// 70+
-			lHash2 += yup; ff = " [FF70]"
+			ff = " [FF70]"
 		} else if (lHash2 == "48924ffee511b3fcdef805427a0331e196ac3c0b") {
-			// 68+
-			lHash2 += yup; ff = " [FF68-69]"
+			ff = " [FF68-69]"
 		} else if (lHash2 == "5987dd55b3b9b33a4b6c40eae09488ef1cdd5ad1") {
-			// 65+
-			lHash2 += yup; ff = " [FF65-67]"
+			ff = " [FF65-67]"
 		} else if (lHash2 == "df6e25c6fd98c60b68ca7c8bdc880ee9ef686f48") {
-			// 63
-			lHash2 += yup; ff = " [FF63-64]"
+			ff = " [FF63-64]"
 		} else if (lHash2 == "9758d0a0efb5214a30bcc749af2d724aba3370ad") {
-			// 60+
-			lHash2 += yup; ff = " [FF60-62]"
+			ff = " [FF60-62]"
 		}
 	}
 	if (ff == "") {
@@ -288,6 +272,8 @@ function get_datetime() {
 			// state4: both red: just default to "and/or"
 			lHash2 += spoof_both_red
 		}
+	} else {
+		lHash2 += spoof_both_green
 	}
 	dom.lHash2.innerHTML = lHash2 += (isFF ? ff : "")
 
