@@ -1,4 +1,3 @@
-/* TABLE: HTTP Headers */
 'use strict';
 
 function outputHeaders() {
