@@ -37,6 +37,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 .strike {text-decoration: line-through;}
 
 /* notation colors */
+.notcoded {color: #606060;} /* #888888 darker off white */
 .good {color: #8cdc8c;} /* test7 */
 .bad {color: #ff4f4f;}
 .neutral {color: #dcdc8c;} /* test4 */
@@ -88,7 +89,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 input[type='checkbox'] {display: none;}
 .lbl-toggle {display: block; cursor: pointer;}
 .togA, .togD, .togD1, .togM, .togC, .togE, .togF, .togF1,
-.togL, .togM2, .togOS1, .togR, .togUA, .togW, .togZ {display: none;}
+.togL, .togM2, .togOS1, .togR, .togUA, .togUG, .togW, .togZ {display: none;}
 
 /* buttons */
 button {background-color: #1a1a1a; border-width: 0px; text-align: center;
@@ -113,7 +114,6 @@ button {background-color: #1a1a1a; border-width: 0px; text-align: center;
 .btn17 {border-color: var(--test17); color: var(--test17);}
 .btn18 {border-color: var(--test18); color: var(--test18);}
 .btn-left {float: left; position: relative; left: -10px; top: -2px;}
-.match {float: left; position: relative; left: 210px;}
 
 /* tooltips */
 .icon {font-size: 10px; font-weight: bold; color: #b3b3b3; cursor: default;}
