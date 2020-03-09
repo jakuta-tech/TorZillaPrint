@@ -1,12 +1,9 @@
-/* TABLE: Devices & Hardware */
 'use strict';
 
 function reset_devices() {
-	// hide/color: dont shrink elements
 	dom.mimeTypes.style.color = zhide
 	dom.plugins.style.color = zhide
 	dom.eMD.style.color = zhide
-	// hide notation
 	let str = dom.eMD.innerHTML
 	str = str.replace(/\[RFP\]/g, "")
 	dom.eMD.innerHTML = str
@@ -152,7 +149,7 @@ function get_speech_synth() {
 		dom.sSynth = zE
 		// speech engines
 		function populateVoiceList() {
-			if(typeof speechSynthesis === 'undefined') {
+			if(typeof speechSynthesis == "undefined") {
 				return
 			}
 			let v = speechSynthesis.getVoices()
