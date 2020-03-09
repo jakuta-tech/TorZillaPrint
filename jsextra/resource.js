@@ -1,48 +1,43 @@
-/* TABLE: chrome:// */
 'use strict';
 
 function outputResource() {
-
 // FF only
 if ("undefined" != typeof InstallTrigger) {
 	dom.jsHashR = "tests are running"
 	dom.cssHashR = "give it a second"
 	let c = "chrome://browser/content/",
-		o =  "resource://onboarding/",
-		oi = "resource://onboarding/img/",
-		ol = "resource://onboarding/lib/",
+		o = "resource://onboarding/",
+		oi = o+"img/",
+		oif = oi+"figure_tor-",
+		ol = o+"lib/",
 		s = "chrome://browser/skin/"
 
-	// we only want to pick up TB files: so exclude anything used by FF (for now)
-	// can I detect anything for TB on Android
-
 	let jsUris = [
-		'resource://torbutton-abouttor/aboutTor.js', // new in 9.5a5
+		'resource://torbutton-abouttor/aboutTor.js', // added in 9.5a5+ -> 9.0.6+?
 		o+'onboarding-tor-circuit-display.js',
 	]
 	let imgUris = [
-		c+'torpreferences/torPreferencesIcon.svg', // new in 9
 		c+'securitylevel/securityLevelButton.svg',
-		s+'new_circuit.svg', // new in 9
-		s+'new_identity.svg', // new in 9
+		c+'torpreferences/torPreferencesIcon.svg', //9+
+		s+'new_circuit.svg', //9+
+		s+'new_identity.svg', //9+
 		s+'onion.svg',
 		s+'onion-disabled.svg',
 		s+'onion-lock.svg',
-		oi+'figure_tor-circuit-display.png',
-		oi+'figure_tor-expect-differences.png',
-		oi+'figure_tor-network.png',
-		oi+'figure_tor-onion-services.png',
-		oi+'figure_tor-privacy.png',
-		oi+'figure_tor-security-level.png',
-		oi+'figure_tor-security.png',
-		oi+'figure_tor-toolbar-layout.png',
-		oi+'figure_tor-welcome.png',
+		oif+'circuit-display.png',
+		oif+'expect-differences.png',
+		oif+'network.png',
+		oif+'onion-services.png',
+		oif+'privacy.png',
+		oif+'security-level.png',
+		oif+'security.png',
+		oif+'toolbar-layout.png',
+		oif+'welcome.png',
 		oi+'icons_no-icon.png',
 		oi+'tor-watermark.png',
 	]
 	let cssUris = [
 		'resource://torbutton-assets/aboutTor.css',
-		//o+'onboarding.css', // isFF and isTB: can I read the contents
 	]
 
 	// JS
@@ -125,5 +120,5 @@ if ("undefined" != typeof InstallTrigger) {
 	// wait 1 second
 	let checking = setInterval(output_chrome, 1000)
 
-};
-};
+}
+}
