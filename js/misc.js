@@ -1,18 +1,16 @@
-/* TABLE: Miscellaneous */
 'use strict';
 
 function reset_misc() {
-	// hide/color: dont shrink elements
 	dom.nProto2.style.color = zhide
 	dom.shimdata.style.color = zhide
 	dom.mathmltest.style.color = zhide
 }
 
 function get_component_shims() {
-	let shim = (typeof Components === "undefined") ? "undefined" : Object.getOwnPropertyNames(Components.interfaces).join(", ")
+	let shim = (typeof Components === "undefined") ? zU : Object.getOwnPropertyNames(Components.interfaces).join(", ")
 	dom.shimdata = shim
 	dom.shimdata.style.color = zshow
-	if (shim !== "undefined") {shim = sha1(shim) + " [" + shim.split(", ").length + " items]"}
+	if (shim !== zU) {shim = sha1(shim) + " [" + shim.split(", ").length + " items]"}
 	dom.shim = shim
 }
 
@@ -27,22 +25,20 @@ function get_int_observer() {
 }
 
 function get_mathml(type) {
-	// rebuild test
-	if (type !== "load") {
-		let str = "<math><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form='prefix'>&minus;</mo><mi>b</mi>"+
+	// build
+	let str = "<math><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form='prefix'>&minus;</mo><mi>b</mi>"+
 		"<mo>&PlusMinus;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>&minus;</mo><mn>4</mn>"+
 		"<mo>&InvisibleTimes;</mo><mi>a</mi><mo>&InvisibleTimes;</mo><mi>c</mi></msqrt></mrow>"+
 		"<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>a</mi></mrow></mfrac></mrow></math>"
-		dom.mathmltest.innerHTML = str
-		dom.mathmltest.style.color = zshow
-	}
+	dom.mathmltest.innerHTML = str
+	dom.mathmltest.style.color = zshow
 	// measure
 	let test = dom.mathmltest.offsetHeight,
 		control = dom.nOnLine.offsetHeight, // a row with plain text and info icon
 		diff = Math.abs(test-control)
 	// compare: use a range as zoom affects diff
 	dom.mathml.innerHTML = (diff < 10 ?
-		zD+" | offsetHeight difference: "+ diff+ tb_safer  :
+		zD+" | offsetHeight difference: "+ diff+ tb_safer :
 		zE+" | offsetHeight difference: "+ diff+ tb_standard
 	)
 }
@@ -111,7 +107,7 @@ function outputMisc(type) {
 	dom.mediaSession = ("mediaSession" in navigator ? zE: zD) // FF71+
 	dom.webauth = ("credentials" in navigator ? zE: zD) +" | "+ ("u2f" in window ? zE: zD)
 	dom.webshare = (navigator.share ? zE : zD)
-	// functions
+	// other
 	get_component_shims()
 	get_int_observer()
 	get_mathml(type)
