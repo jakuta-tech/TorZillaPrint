@@ -1,4 +1,3 @@
-/* TABLE: Audio */
 "use strict";
 
 /* code based on work by
@@ -13,11 +12,9 @@ var t0audio,
 	latencyTries = 0
 
 function reset_audio2() {
-	// hide/color: dont shrink elements
 	dom.audio1data.style.color = zhide
 	dom.audio2data.style.color = zhide
 	dom.audio3data.style.color = zhide
-	// hide notation
 	let str = dom.audio1data.innerHTML
 	str = str.replace(/\[RFP\]/g, "")
 	dom.audio1data.innerHTML = str
@@ -54,13 +51,13 @@ function get_audio2_context() {
 	// output
 	let k="", v="", n=0, rfp="", output=""
 	for (let i=0; i < results.length; i++) {
-		n = results[i].search(":")    // delimiter
+		n = results[i].search(":")
 		k = results[i].substring(0,n) // key
 		v = results[i].substring(n+2) // value
 		if (k == "ac-sampleRate") {v += (v == 44100 ? rfp_green : rfp_red)}
 		if (k == "ac-outputLatency") {
 			// FF70+ nonRFP: return 0.0 if running on a normal thread or 0 unless we detect a user gesture
-			if (runSim) {v = 0}
+			if (runS) {v = 0}
 			if (v == 0) {
 				latencyError = true
 				v = v + sb+"["+zF+"]"+sc+zSIM
@@ -95,10 +92,10 @@ function get_audio2_hybrid() {
 	let results = []
 
 	let audioCtx = new window.AudioContext,
-    oscillator = audioCtx.createOscillator(),
-    analyser = audioCtx.createAnalyser(),
-    gain = audioCtx.createGain(),
-    scriptProcessor = audioCtx.createScriptProcessor(4096, 1, 1)
+		oscillator = audioCtx.createOscillator(),
+		analyser = audioCtx.createAnalyser(),
+		gain = audioCtx.createGain(),
+		scriptProcessor = audioCtx.createScriptProcessor(4096, 1, 1)
 
 	// create & configure compressor
 	let compressor = audioCtx.createDynamicsCompressor()
@@ -189,7 +186,7 @@ function outputAudio2() {
 	try {
 		let test = new window.AudioContext
 		// each test calls the next: oscillator -> context [try1] -> hybrid -> context [try2 if req]
-			// if context is run first, outputLatency *always* = 0 = incorrect : so run after oscillator
+			// if context is run first, outputLatency *always* = 0 = incorrect : hence run it after oscillator
 			// if context is not run first, outputLatency *sometimes* = 0 : hence context [try2]
 		get_audio2_oscillator()
 	} catch(e) {
