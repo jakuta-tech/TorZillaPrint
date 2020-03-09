@@ -1,5 +1,5 @@
 
-// 25-Jul-2019
+// 08-Mar-2020
 // fonts_windows_all
 // https://docs.microsoft.com/en-us/typography/fonts/font-faq
 
@@ -73,6 +73,7 @@ Arial Nova Cond Light Italic
 Arial Nova Italic
 Arial Nova Light
 Arial Nova Light Italic
+Arial Unicode MS
 BIZ UDGothic
 BIZ UDGothic Bold
 BIZ UDMincho Medium
