@@ -4,7 +4,7 @@ var dom;
 
 let fp_ua = [];
 
-// android viewport
+// android
 let avh = "",
 	firstH = window.innerHeight,
 	firstW = window.innerWidth,
@@ -13,7 +13,6 @@ let avh = "",
 	sg = " <span class='good'>",
 	sn = " <span class='neutral'>",
 	so = " <span class='orange'>",
-	se = " <span class='bad'>[test error: ",
 	s1 = " <span class='s1'>",
 	s2 = " <span class='s2'>",
 	s3 = " <span class='s3'>",
@@ -22,17 +21,19 @@ let avh = "",
 	zhide = "#1a1a1a",
 	zshow = "#b3b3b3",
 // common results
+	zB = sb+"[blocked]"+sc,
 	zD = "disabled",
 	zE = "enabled",
 	zNS = "not supported",
 	zNA = "n/a",
 	zS = "success",
 	zF = "failed",
+	zU = "undefined",
 	zFF = "Firefox",
 	zTB = "Tor Browser",
 	zSIM = " [simulated]",
 	zNEW = sb+"[NEW]"+sc,
-// notation
+// notes
 	tb_green = sg+"[TB]"+sc,
 	tb_red = sb+"[TB]"+sc,
 	tb_standard = sg+"[TB Standard]"+sc,
@@ -55,22 +56,24 @@ let avh = "",
 	note_file = "",
 	note_ttc = sn+"test to come"+sc,
 	not_seen = sb+"I haven't seen this Firefox ",
-	not_seen_tb = sb+"I haven't seen this Tor Browser ",
-// error notation
+// error notes
+	se = sb+"[test error: ",
 	error_file_404 = se+"file not found]"+sc,
 	error_file_cors = sn+"[file:] [Cross-Origin Request Blocked]"+sc,
 	error_file_xhr = se+"xhr]"+sc,
-	error_iframe = se+" iframe]"+sc,
+	error_iframe = se+"iframe]"+sc,
 	error_image = se+"image]"+sc,
-	error_global_os = sb+"[test error: global variable not set]"+sc,
+	error_global_os = se+"global variable not set]"+sc,
 // toggle states
 	stateDR = false,
 	stateFNT = false,
 // other
-	isPage = "",
+	isPage = "main",
 	isFF = false,
 	isTB = false,
+	isTB2 = "",
 	isOS = "",
+	isErr = "",
 	isVer = "",
 	isFile = false,
 	isSecure = false,
@@ -79,6 +82,8 @@ let avh = "",
 	logExtra = false,
 	logPerf = false,
 	logStorage = false,
-	runSim = false,
+	runS = false,
+	runUA = false,
+	stateSIM = false,
 // rerun
 	gRerun = false
