@@ -7,9 +7,6 @@
 	<style id="test73">
 		.a{border-width: 1px; border-style: solid; border-color: black; border-image: linear-gradient(white,black);}
 	</style>
-	<style type=" text/css ">
-		.test75 {background-color: green;}
-	</style>
 	<script src="js/generic.js"></script>
 	<script src="js/globals.js"></script>
 </head>
@@ -24,11 +21,11 @@
 		<div id='divDPI' style='height: 1in; width: 1in;'></div>
 		<div id="divLH"><span id="spanLH" class="cssLH">line height</span></div>
 		<div id="ugDiv" class="normalized" style='font-size: 22pt;'><span id="ugSpan"><span id="ugSlot"></span></span></div>
+		<div><canvas id="ugCanvas" style='font-size: 22pt;'></canvas></div>
 		<div><span id="fontFBTest" style='white-space: nowrap; font-family: fontFallback;'></span></div>
 		<div class="normalized">
 			<div><span id="df1" style='font-family: serif;'></span></div>
-			<div><span id="df2" style='font-family: sans-serif;'></span></div>
-			<div><span id="df3" style='font-family: monospace;'></span></div>
+			<div><span id="df2" style='font-family: monospace;'></span></div>
 		</div>
 		<div id="drect"></div>
 		<div id="svgDiv"></div>
@@ -37,13 +34,10 @@
 	<!-- hidden -->
 	<div class="hidden">
 	  <object id="test68"></object>
-		<div id="test75" class="test75"></div>
 		<div id="test73"></div>
 		<span id="sColorElement"></span>
 		<img id="branding" src="chrome://branding/content/about-wordmark.svg"></img>
-		<!--<img id="branding" src=""></img>-->
 		<img id="torbranding" src="resource://onboarding/img/tor-watermark.png"></img>
-		<!--<img id="torbranding" src=""></img>-->
 		<div id="dprdroid" style="border: 0.1px solid;">Foo</div>
 		<div>
 			<input type="reset" value="" id="widget0">
@@ -60,14 +54,14 @@
 
 	<table>
 	<tr><td><a name="top"></a><h2>TorZillaPrint</h2></td></tr>
-	<tr><td class="blurb">TZP is only designed for Firefox <code>[<b>v68+</b>]</code> and the Tor Browser <code>[<b>v9+</b>]</code>.
+	<tr><td class="blurb">TZP is only designed for Firefox <code>[<b>v60+</b>]</code> and the Tor Browser <code>[<b>v8+</b>]</code>.
 	<a target="_blank" class="blue" href="extra.html">Here</a> are additonal tests, and <a target="_blank" class="blue"
 	href="https://github.com/ghacksuserjs/TorZillaPrint">here</a> is the repo [feel free to drop in]. When re-testing
 	sections, be aware that some pref/option changes may require a page refresh [<b>F5</b>] or even a new browser session.
 	</td></tr>
 	</table>
 
-	<!-- TABLE 1: Screen - screen.js -->
+	<!-- screen.js -->
 	<table id="tb1">
 		<col width="50%"><a name="screen"></a><col width="50%">
 		<thead><tr><th colspan="2">
@@ -80,9 +74,9 @@
 			<div><div class="ttip"><span class="icon">[ i ]</span><span class="ttxt">range 500-2560</span></div>
 			&nbsp [css min-device-] screen resolution <sup>1</sup></div></div></td><td id="S"></td></tr>
 		<tr><td>[matchMedia] screen resolution <sup>2</sup></td><td class="c" id="ScrMM"></td></tr>
-		<tr><td>screen resolution <span class="group">*</span></td><td class="c" id="ScrRes"></td></tr>
-		<tr><td><div class="match" id="match1"></div>available resolution <span class="group">*</span></td><td class="c" id="ScrAvail"></td></tr>
-		<tr><td><div class="match" id="match2"></div>outer window <span class="group">*</span></td><td class="c" id="WndOut"></td></tr>
+		<tr><td>screen resolution <span class="group">*</span></td><td><span class="c" id="ScrRes"></span><span id="match"></span></td></tr>
+		<tr><td>available resolution <span class="group">*</span></td><td class="c" id="ScrAvail"></td></tr>
+		<tr><td>outer window <span class="group">*</span></td><td class="c" id="WndOut"></td></tr>
 		<tr><td>inner window <span class="group">*</span></td><td class="c" id="WndIn"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">range 500-2560</span></div>
@@ -116,8 +110,6 @@
 		<tr><td>zoom %</td><td class="c" id="jsZoom"></td></tr>
 		<tr><td>devicePixelRatio</td><td class="c" id="dpr"></td></tr>
 		<tr><td>[matchMedia -webkit- | -moz-] device-pixel-ratio</td><td><span class="c" id="mmDPRw"></span> | <span class="c" id="mmDPRm"></span></td></tr>
-		<tr><td>[scrollY | clientRect] devicePixelRatio <sup>5</sup></td>
-			<td><span class="c" id="dprscrollY"></span> | <span class="c" id="dprclientRect"></span></td></tr>
 		<tr class="togOS1"><td colspan="2" class="center">--- android ---</td></tr>
 		<tr class="togOS1"><td></td><td><input type="text" id="kbt" placeholder="tap in here" onfocus="get_android_kbh()"></td></tr>
 		<tr class="togOS1"><td>keyboard height</td><td class="c" id="kbh"></td></tr>
@@ -129,14 +121,12 @@
 			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a> <sup>2</sup>
 			<span class="no_color">, </span>
 			<a target="_blank" class="blue" href="https://matt.traudt.xyz/posts/how-css-alone-YF4ciVY6.html">Matt Traudt</a> <sup>3</sup>
-			<span class="no_color">, </span>
-			<a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a> <sup>4</sup>
 			<span class="no_color"> and </span>
-			<a target="_blank" class="blue" href="https://acatarineu.github.io/fp/devicePixelRatio.html">Alex Catarineu</a> <sup>5</sup>
+			<a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a> <sup>4</sup>
 		</td></tr>
 	</table>
 
-	<!-- TABLE 2: User Agent - part of screen.js-->
+	<!-- screen.js-->
 	<table id="tb2">
 		<col width="37%"><a name="useragent"></a><col width="63%">
 		<thead><tr><th colspan="2">
@@ -151,27 +141,32 @@
 		</td></tr>
 		<tr><td><div>
 			<div class="btn-left"><button class="btn2" onClick="outputSection(`2`, `c`, `m`)">[ re-run tests ]</button></div>
-			<div>[header] http_user_agent</div></div></td><td></td>
+			<div>[header] http_user_agent</div></div></td><td class="notcoded"></td>
 		</tr>
-		<tr><td>user agent hash</td><td class="c mono" id="sectionUA1"></td></tr>
-		<tr><td>[navigator] userAgent</td><td class="c" id="nUserAgent"></td></tr>
-		<tr><td>appCodeName</td><td class="c" id="nCodeName"></td></tr>
-		<tr><td>appName</td><td class="c" id="nAppName"></td></tr>
-		<tr><td>product</td><td class="c" id="nProduct"></td></tr>
-		<tr><td>appVersion</td><td class="c" id="nAppVersion"></td></tr>
-		<tr><td>oscpu</td><td class="c" id="nOscpu"></td></tr>
-		<tr><td>platform</td><td class="c" id="nPlatform"></td></tr>
-		<tr><td>buildID</td><td class="c" id="nBuildID"></td></tr>
-		<tr><td>productSub</td><td class="c" id="nProductSub"></td></tr>
+		<tr><td>hash</td><td class="c mono" id="sectionUA1"></td></tr>
+		<tr><td><button class="btn0" onClick="goNW_UA()">[ click here ]</button>
+			[window.open] hash</td><td class="c mono" id="sectionUA2"></td></tr>
+		<tr><td id="UA00">userAgent</td><td class="c" id="nUA00"></td></tr>
+		<tr><td id="UA01">appCodeName</td><td class="c" id="nUA01"></td></tr>
+		<tr><td id="UA02">appName</td><td class="c" id="nUA02"></td></tr>
+		<tr><td id="UA03">product</td><td class="c" id="nUA03"></td></tr>
+		<tr><td id="UA04">appVersion</td><td class="c" id="nUA04"></td></tr>
+		<tr><td id="UA05">oscpu</td><td class="c" id="nUA05"></td></tr>
+		<tr><td id="UA06">platform</td><td class="c" id="nUA06"></td></tr>
+		<tr><td id="UA07">buildID</td><td class="c" id="nUA07"></td></tr>
+		<tr><td id="UA08">productSub</td><td class="c" id="nUA08"></td></tr>
+		<tr class="togUA" id="togUA09"><td id="UA09">vendor</td><td class="c" id="nUA09"></td></tr>
+		<tr class="togUA" id="togUA10"><td id="UA10">vendorSub</td><td class="c" id="nUA10"></td></tr>
+		<tr class="togUA" id="togUA11"><td id="UA11"></td>
+			<td><span class="bad">that's implausible and you are now highly fingerprintable</span></td></tr>
 		<tr><td colspan="2" class="center">--- browser, version, os ---</td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
-			 <span class="ttxt">uses stable feature<br>detection results</span></div>
-			 &nbsp user agent hash</td><td class="c mono" id="sectionUA2"></td></tr>
+			 <span class="ttxt">uses <b>some</b> feature<br>detection results</span></div>
+			 &nbsp hash</td><td class="c mono" id="sectionUA3"></td></tr>
 		<tr><td>[css] branding</td><td id="fdBrandingCss"></td></tr>
 		<tr><td>[css] browser</td><td id="fdResourceCss"></td></tr>
 		<tr><td>[collation] browser</td><td class="c" id="fdCollation"></td></tr>
 		<tr><td>[error messages] browser</td><td class="c" id="fdError"></td></tr>
-		<tr><td>[feature detection] browser</td><td class="c" id="fdetect"></td></tr>
 		<tr><td>[resource://] browser</td><td class="c" id="fdResource"></td></tr>
 		<tr><td>[math] browser</td><td class="c" id="fdMath"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
@@ -188,7 +183,6 @@
 		<tr><td>[css line-height] os</td><td class="c" id="cssLH"></td></tr>
 		<tr><td>[viewport scrollbar width] os <sup>2, 3</sup></td><td class="c" id="vScroll"></td></tr>
 		<tr><td>[element scrollbar width] os</td><td class="c" id="eScroll"></td></tr>
-		<!--<tr><td>[tcp/ip] os</td><td></td></tr>-->
 		<tr><td>[widgets] os</td><td class="c" id="widgetOS"></td></tr>
 		<tr><td colspan="2" class="showhide">
 			<input id="collapseE" class="toggle" type="checkbox" checked onchange="toggleitems(this, `E`)">
@@ -200,8 +194,7 @@
 			<tr class="togE"><td>error2</td><td class="c" id="err2"></td></tr>
 			<tr class="togE"><td>error3</td><td class="c" id="err3"></td></tr>
 			<tr class="togE"><td>error4</td><td class="c" id="err4"></td></tr>
-			<tr class="togE"><td>error5</td><td class="c" id="err5"></td></tr>
-			<tr class="togE"><td>error6</td><td class="c" id="err6"></td></tr>
+			<tr class="togE" id="togE5"><td>error5</td><td class="c" id="err5"></td></tr>
 		<tr class="togE"><td></td><td class="sub2">widgets</td></tr>
 			<tr class="togE"><td>hash</td><td class="c mono" id="widgetH"></td></tr>
 			<tr class="togE"><td id="widfirst">button|checkbox|color|combobox|datetime-local|radio|text</td>
@@ -223,7 +216,7 @@
 			<a target="_blank" class="blue" href="https://github.com/earthlng/testpages">earthlng</a> <sup>3</sup></td></tr>
 	</table>
 
-	<!-- TABLE 3: Math - part of screen.js-->
+	<!-- screen.js-->
 	<table id="tb3">
 		<col width="37%"><a name="math"></a><col width="63%">
 		<thead><tr><th colspan="2">
@@ -246,20 +239,20 @@
 			<tr class="togM"><td>expm1(1)</td><td class="c mono" id="math2"></td></tr>
 			<tr class="togM"><td>sinh(1)</td><td class="c mono" id="math3"></td></tr>
 		<tr class="togM"><td></td><td class="sub3">ECMAScript 1st Edition</td></tr>
-			<tr class="togM"><td>cos(1e251)</td><td class="c mono" id="cos1"></td></tr>
-			<tr class="togM"><td>cos(1e140)</td><td class="c mono" id="cos2"></td></tr>
-			<tr class="togM"><td>cos(1e12)</td><td class="c mono" id="cos3"></td></tr>
-			<tr class="togM"><td>cos(1e130)</td><td class="c mono" id="cos4"></td></tr>
-			<tr class="togM"><td>cos(1e272)</td><td class="c mono" id="cos5"></td></tr>
-			<tr class="togM"><td>cos(1e0)</td><td class="c mono" id="cos6"></td></tr>
-			<tr class="togM"><td>cos(1e284)</td><td class="c mono" id="cos7"></td></tr>
-			<tr class="togM"><td>cos(1e75)</td><td class="c mono" id="cos8"></td></tr>
+			<tr class="togM"><td>cos(1e251)</td><td class="c mono" id="cos0"></td></tr>
+			<tr class="togM"><td>cos(1e140)</td><td class="c mono" id="cos1"></td></tr>
+			<tr class="togM"><td>cos(1e12)</td><td class="c mono" id="cos2"></td></tr>
+			<tr class="togM"><td>cos(1e130)</td><td class="c mono" id="cos3"></td></tr>
+			<tr class="togM"><td>cos(1e272)</td><td class="c mono" id="cos4"></td></tr>
+			<tr class="togM"><td>cos(1e0)</td><td class="c mono" id="cos5"></td></tr>
+			<tr class="togM"><td>cos(1e284)</td><td class="c mono" id="cos6"></td></tr>
+			<tr class="togM"><td>cos(1e75)</td><td class="c mono" id="cos7"></td></tr>
 		<tr class="togM"><td colspan="2"></td></tr>
 		<tr><td colspan="2"><span class="no_color">ECMAScript 6th edition math code courtesy of </span>
 			<a target="_blank" class="blue" href="https://fpcentral.tbb.torproject.org/">Fingerprint Central</a></td></tr>
 	</table>
 
-	<!-- TABLE 4: Language & Locale / Time Zone & Date Format / Geolocation - language.js -->
+	<!-- language.js -->
 	<table id="tb4">
 		<col width="37%"><a name="language"></a><col width="63%">
 		<thead><tr><th colspan="2">
@@ -326,7 +319,7 @@
 		<tr class="togL" colspan="2"><td></td></tr>
 	</table>
 
-	<!-- TABLE 5: HTTP Headers - headers.js -->
+	<!-- headers.js -->
 	<table id="tb5">
 		<col width="50%"><a name="headers"></a><col width="50%">
 		<thead><tr><th colspan="2">
@@ -344,14 +337,15 @@
 		<tr><td>[navigator] connection</td><td class="c" id="nConnection"></td></tr>
 		<tr><td>[navigator] onLine</td><td class="c" id="nOnLine"></td></tr>
 		<tr><td colspan="2" class="center">------</td></tr>
-		<tr><td>http_accept</td><td></td></tr>
-		<tr><td>http_accept_encoding</td><td></td></tr>
-		<tr><td>http_dnt</td><td></td></tr>
-		<tr><td>http_upgrade_insecure_requests</td><td></td></tr>
-		<tr><td>server_protocol</td><td></td></tr>
+		<!--<tr><td>ToDo: [names + values + order] hash</td><td></td></tr>-->
+		<tr><td>http_accept</td><td class="notcoded"></td></tr>
+		<tr><td>http_accept_encoding</td><td class="notcoded"></td></tr>
+		<tr><td>http_dnt</td><td class="notcoded"></td></tr>
+		<tr><td>http_upgrade_insecure_requests</td><td class="notcoded"></td></tr>
+		<tr><td>server_protocol</td><td class="notcoded"></td></tr>
 	</table>
 
-	<!-- TABLE 6: Cookies & Storage - cookies.js -->
+	<!-- cookies.js -->
 	<table id="tb6">
 		<col width="50%"><a name="cookies"></a><col width="50%">
 		<thead><tr><th colspan="2">
@@ -367,42 +361,35 @@
 			<div class="btn-left"><button class="btn6" onClick="outputSection(`6`, `c`, `m`)">[ re-run tests ]</button></div>
 			<div>[navigator] cookieEnabled</div></div></td><td class="c" id="ctest0"></td>
 		</tr>
-		<tr><td>[test] javascript 1st party session cookie</td><td class="c" id="ctest1"></td></tr>
-		<tr><td>[test] javascript 1st party persistent cookie</td><td class="c" id="ctest2"></td></tr>
-		<tr><td>localStorage</td><td class="c" id="lstest0"></td></tr>
-		<tr><td>[test] localStorage</td><td class="c" id="lstest1"></td></tr>
-		<tr><td>sessionStorage</td><td class="c" id="lstest2"></td></tr>
-		<tr><td>[test] sessionStorage</td><td class="c" id="lstest3"></td></tr>
-		<tr><td>indexedDB</td><td class="c" id="idb1"></td></tr>
-		<tr><td>[test] indexedDB</td><td class="c" id="idb2"></td></tr>
+		<tr><td>[javascript 1st party cookie] session | persistent</td>
+			<td><span class="c" id="ctest1"></span> | <span class="c" id="ctest2"></span></td></tr>
+		<tr><td>localStorage | test</td><td>
+			<span class="c" id="lstest0"></span> | <span class="c" id="lstest1"></span></td></tr>
+		<tr><td>sessionStorage | test</td><td><span class="c" id="lstest2"></span>	| <span class="c" id="lstest3"></span></td></tr>
+		<tr><td>indexedDB | test</td><td><span class="c" id="idb1"></span>	| <span class="c" id="idb2"></span></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
-			<span class="ttxtb">browser.cache.offline.enable</span></div>
-			&nbsp appCache</td><td class="c" id="appCacheSupport"></td></tr>
-		<tr><td>[test] appCache</td><td class="c" id="appCacheTest"></td></tr>
-		<tr><td>worker</td><td class="c" id="workerSupport"></td></tr>
-		<tr><td>[test] web worker</td><td class="c" id="webWTest"></td></tr>
-		<tr><td>[test] shared worker</td><td class="c" id="sharedWTest"></td></tr>
+			<span class="ttxtb">browser.cache.offline.enable</span></div>&nbsp appCache | test</td>
+			<td><span class="c" id="appcache1"></span> | <span class="c" id="appcache2"></span></td></tr>
+		<tr><td>worker</td><td class="c" id="work1"></td></tr>
+		<tr><td>web worker | shared worker</td><td>
+			<span class="c" id="work2"></span> | <span class="c" id="work3"></span></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
-			<span class="ttxtb">dom.serviceWorkers.enabled</span></div>
-			&nbsp service worker</td><td class="c" id="serviceWSupport"></td></tr>
-		<tr><td>[test] service worker</td><td class="c" id="serviceWTest"></td></tr>
+			<span class="ttxtb">dom.serviceWorkers.enabled</span></div>	&nbsp service worker | test</td>
+			<td><span class="c" id="swork1"></span> | <span class="c" id="swork2"></span></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
-			<span class="ttxt">dom.caches.enabled</span></div>
-			&nbsp service worker cache</td><td class="c" id="serviceWCacheSupport"></td></tr>
-		<tr><td>[test] service worker cache</td><td class="c" id="serviceWCacheTest"></td></tr>
-		<tr><td>notifications</td><td class="c" id="notificationsSupport"></td></tr>
-		<tr><td>[test] notifications</td><td class="c" id="notificationsTest"></td></tr>
-		<tr><td>[permission] notifications</td><td class="c" id="pNotifications"></td></tr>
-		<tr><td>[permission] push</td><td class="c" id="pPush"></td></tr>
+			<span class="ttxt">dom.caches.enabled</span></div> &nbsp service worker cache | test</td>
+			<td><span class="c" id="swork3"></span> | <span class="c" id="swork4"></span></td></tr>
+		<tr><td>notifications | test</td><td><span class="c" id="notif1"></span> | <span class="c" id="notif2"></span></td></tr>
+		<tr><td>[permission] notifications | push | persistent storage</td><td>	
+			<span class="c" id="pNote"></span> | <span class="c" id="pPush"></span> | <span class="c" id="pStore"></span></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">dom.storageManager.enabled</span></div>
 			&nbsp storage manager</td><td class="c" id="storageMSupport"></td></tr>
 		<tr><td>[properties] storage manager</td><td class="c" id="storageMProp"></td></tr>
 		<tr><td>[test] storage manager</td><td class="c" id="storageMTest"></td></tr>
-		<tr><td>[permission] persistent storage</td><td class="c" id="pPersistentStorage"></td></tr>
 	</table>
 
-	<!-- TABLE 7: Devices & Hardware - devices.js -->
+	<!-- devices.js -->
 	<table id="tb7">
 		<col width="29%"><a name="devices"></a><col width="71%">
 		<thead><tr><th colspan="2">
@@ -448,7 +435,7 @@
 		<tr><td>activeVRDisplays</td><td class="c" id="aVR"></td></tr>
 	</table>
 
-	<!-- TABLE 8: Canvas - canvas.js -->
+	<!-- canvas.js -->
 	<table id="tb8">
 		<col width="29%"><a name="canvas"></a><col width="71%">
 		<thead><tr><th colspan="2">
@@ -474,7 +461,7 @@
 			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
 	</table>
 
-<!-- TABLE 9: DOMRect - domrect.js -->
+<!-- domrect.js -->
 	<table id="tb9">
 		<col width="7%"><a name="domrect"></a><col width="15%"><col width="7%"><col width="8%"><col width="15%"><col width="15%"><col width="15%"><col width="18%">
 		<thead><tr><th colspan="8">
@@ -507,7 +494,7 @@
 			<tr class="togD"><td>right</td><td id="dr137"></td><td colspan="2" id="dr138"></td><td id="dr139"></td><td id="dr140"></td><td id="dr141"></td><td id="dr142"></td></tr>
 			<tr class="togD"><td>bottom</td><td id="dr143"></td><td colspan="2" id="dr144"></td><td id="dr145"></td><td id="dr146"></td><td id="dr147"></td><td id="dr148"></td></tr>
 			<tr class="togD"><td colspan="8"></td></tr>
-		<!-- class D1 is hidden and only shown if hashes differ -->
+		<!-- class D1 is hidden & only shown if hashes differ -->
 		<tr class="togD1"><td></td><td colspan="7" class="sub9">Element.getBoundingClientRect</td></tr>
 			<tr class="togD1"><td>x</td><td id="dr21"></td><td colspan="2" id="dr22"></td><td id="dr23"></td><td id="dr24"></td><td id="dr25"></td><td id="dr26"></td></tr>
 			<tr class="togD1"><td>y</td><td id="dr27"></td><td colspan="2" id="dr28"></td><td id="dr29"></td><td id="dr210"></td><td id="dr211"></td><td id="dr212"></td></tr>
@@ -543,7 +530,7 @@
 			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
 	</table>
 
-	<!-- TABLE 10: Audio - audio.js -->
+	<!-- audio.js -->
 	<table id="tb10">
 		<col width="29%"><a name="audio"></a><col width="71%">
 		<thead><tr><th colspan="2">
@@ -580,7 +567,7 @@
 		</td></tr>
 	</table>
 
-	<!-- TABLE 10: Fonts - fonts.js -->
+	<!-- fonts.js -->
 	<table id="tb11">
 		<col width="1%"><a name="fonts"></a><col width="36%"><col width="63%">
 		<thead><tr><th colspan="3">
@@ -597,15 +584,16 @@
 			<div class="btn-left"><button class="btn11" onClick="outputSection(`11`, `c1`, `m`)">[ re-run tests ]</button></div>
 			<div>default proportional font</div></div></td><td class="c1" id="fontFCprop"></td></tr>
 		<tr><td colspan="2">default font sizes</td><td class="c1" id="fontFCsize"></td></tr>
-		<tr><td colspan="2">default font measurements</td><td class="c1 mono" id="fontFCmeasure"></td></tr>
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">layout.css.font-loading-api.enabled</span></div>
 			&nbsp css font loading api</td><td class="c1" id="fontCSS"></td></tr>
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">browser.display.use_document_fonts</span></div>
 			&nbsp document fonts</td><td class="c1" id="fontDoc"></td></tr>
-		<tr><td colspan="2">[offset] unicode glyphs <sup>1</sup></td><td class="c1 mono" id="fontUG1"></td></tr>
-		<tr><td colspan="2">[clientrect] unicode glyphs <sup>1</sup></td><td class="c1 mono" id="fontUG2"></td></tr>
+		<tr><td colspan="2">[offset] unicode glyphs <sup>1</sup></td><td class="c1 mono" id="ug1"></td></tr>
+		<tr><td colspan="2">[measureText] unicode glyphs <sup>1</sup></td><td class="c1 mono" id="ug2"></td></tr>
+		<tr><td colspan="2">[<span id="labelUG">clientrect</span>] unicode glyphs <sup>1</sup></td><td class="c1 mono" id="ug3"></td></tr>
+		<tr id="togUG"><td colspan="2">[getClientRects] unicode glyphs <sup>1</sup></td><td class="c1 mono" id="ug4"></td></tr>
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtx">gfx.downloadable_fonts.woff2.enabled<br>Firefox 68 or lower</span></div>
 			&nbsp WOFF2</td><td class="c1" id="fontWoff2"></td></tr>
@@ -644,10 +632,10 @@
 		<tr id="fontD2" class="togF1"><td></td><td colspan="2" class="intro" id="all_fontFBFound"></td></tr>
 		<!--GLYPHS -->
 		<tr class="togF"><td colspan="2" class="sub11">[offset] unicode glyphs</td><td>
-			 <button class="btn0" onClick="copyclip(`fontUGFound1`)">[ copy to clipboard ]</button></td></tr>
-		<tr class="togF"><td></td><td colspan="2" style="white-space: pre;" class="mono" id="fontUGFound1"></td></tr>
+			 <button class="btn0" onClick="copyclip(`ug10`)">[ copy to clipboard ]</button></td></tr>
+		<tr class="togF"><td></td><td colspan="2" style="white-space: pre;" class="mono" id="ug10"></td></tr>
 		<tr class="togF"><td colspan="3"></td></tr>
-		<!--CREDITS-->
+		<!--CRED-->
 		<tr><td colspan="3"><span class="no_color">code based on work by </span>
 			<a target="_blank" class="blue" href="https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo">David Fifield & Serge Egelman</a> <sup>1</sup>
 			<span class="no_color">, </span>
@@ -657,7 +645,7 @@
 		</td></tr>
 	</table>
 
-	<!-- TABLE 12: Media - media.js -->
+	<!-- media.js -->
 	<table id="tb12">
 		<col width="50%"><a name="media"></a><col width="50%">
 		<thead><tr><th colspan="2">
@@ -673,7 +661,7 @@
 		</tr>
 	</table>
 
-	<!-- TABLE 13: WebGL - webgl.js -->
+	<!-- webgl.js -->
 	<table id="tb13">
 		<col width="37%"><a name="webgl"></a><col width="63%">
 		<thead><tr><th colspan="2">
@@ -683,10 +671,11 @@
 		</th></tr></thead>
 		<tr><td><div>
 			<div class="btn-left"><button class="btn13" onClick="outputSection(`13`, `c`, `m`)">[ re-run tests ]</button></div>
-			<div>webgl 1</div></div></td><td class="c" id="webgl1"></td></tr><tr><td>webgl 2</td><td id="webgl2"></td></tr>
+			<div>webgl 1</div></div></td><td class="c notcoded" id="webgl1"></td></tr>
+		<tr><td>webgl 2</td><td class="notcoded" id="webgl2"></td></tr>
 	</table>
 
-	<!-- TABLE 14: CSS - css.js -->
+	<!-- css.js -->
 	<table id="tb14">
 		<col width="37%"><a name="css"></a><col width="63%">
 		<thead><tr><th colspan="2">
@@ -705,7 +694,7 @@
 		<tr><td>[css | matchMedia] prefers-reduced-motion</td><td><span id="cssPRM"></span> | <span class="c" id="mmPRM"></span></td></tr>
 	</table>
 
-	<!-- TABLE 15: Ciphers / TLS - ciphers.js -->
+	<!-- ciphers.js -->
 	<table id="tb15">
 		<col width="50%"><a name="ciphers"></a><col width="50%">
 		<thead><tr><th colspan="2">
@@ -716,7 +705,7 @@
 		<tr><td>test</td><td>result</td></tr>
 	</table>
 
-	<!-- TABLE 16: -->
+	<!-- spare -->
 	<table id="tb16">
 		<col width="50%"><a name="spare"></a><col width="50%">
 		<thead><tr><th colspan="2">
@@ -727,7 +716,7 @@
 		<tr><td>test</td><td>result</td></tr>
 	</table>
 
-	<!-- TABLE 17: -->
+	<!-- spare -->
 	<table id="tb17">
 		<col width="50%"><a name="spare2"></a><col width="50%">
 		<thead><tr><th colspan="2">
@@ -738,7 +727,7 @@
 		<tr><td>test</td><td>result</td></tr>
 	</table>
 
-	<!-- TABLE 18: Miscellaneous - misc.js -->
+	<!-- misc.js -->
 	<table id="tb18">
 		<col width="10%"><a name="misc"></a><col width="27%"><col width="63%">
 		<thead><tr><th colspan="3">
@@ -760,13 +749,7 @@
 			<span class="ttxt">mathml.disabled</span></div>
 			&nbsp mathml</td><td class="c" id="mathml"></td>
 		</tr>
-		<tr><td colspan="2">[test example] mathml</td><td id="mathmltest">
-			<math>
-			<mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo form="prefix">&minus;</mo><mi>b</mi>
-			<mo>&PlusMinus;</mo><msqrt><msup><mi>b</mi><mn>2</mn></msup><mo>&minus;</mo><mn>4</mn>
-			<mo>&InvisibleTimes;</mo><mi>a</mi><mo>&InvisibleTimes;</mo><mi>c</mi></msqrt></mrow>
-			<mrow><mn>2</mn><mo>&InvisibleTimes;</mo><mi>a</mi></mrow></mfrac></mrow>
-			</math></td></tr>
+		<tr><td colspan="2">[test example] mathml</td><td id="mathmltest"></td></tr>
 		<tr><td colspan="2"><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">dom.media.mediasession.enabled</span></div>
 			&nbsp [api] mediaSession</td><td class="c" id="mediaSession"></td></tr>
@@ -793,7 +776,7 @@
 			<span class="ttxtb">dom.use_components_shim</span></div>
 			&nbsp component interfaces</td><td class="c mono" id="shim"></td></tr>
 		<tr><td colspan="2">navigator properties</td><td class="c mono" id="nProto"></td></tr>
-		<tr><td colspan="2">window properties</td><td class="c mono" id="wProps"></td></tr>
+		<!--<tr><td colspan="2">window properties</td><td class="c mono" id="wProps"></td></tr>-->
 		<tr><td colspan="3" class="showhide">
 			<input id="collapseM2" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M2`)">
 			<label for="collapseM2" class="lbl-toggle" id="labelM2">&#9660; show details</label></td></tr>
@@ -823,7 +806,7 @@
 	<script src="js/media.js"></script>
 	<script src="js/devices.js"></script>
 	<script src="js/css.js"></script>
-	<script src="js/cookies.js"></script>
+	<script src="js/storage.js"></script>
 	<script src="js/misc.js"></script>
 	<!-- slower sections -->
 	<script src="js/canvas.js"></script>
