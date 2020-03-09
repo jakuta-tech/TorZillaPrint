@@ -1,4 +1,3 @@
-/* TABLE: Media */
 'use strict';
 
 function outputMedia() {
