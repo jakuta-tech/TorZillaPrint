@@ -1,4 +1,3 @@
-/* TABLE: Language & Locale etc */
 'use strict';
 
 var dtd2 = ""
@@ -37,12 +36,10 @@ function test_iframe() {
 		} catch(e) {}
 	})
 
-	// keep checking if iframe loaded, but stop after x tries
+	// keep checking iframe loaded, but stop after x tries
 	let counter = 0
-	let maxcounter = 40 // 2 secs
-	if (isTB) {maxcounter = 60} // 3 secs: allow for TB latency
 	function check_iframe() {
-		if (counter < maxcounter) {
+		if (counter < 60) {
 			if (iframeBlocked == false) {
 				clearInterval(checking)
 				output_iframe()
@@ -62,7 +59,7 @@ function get_app_lang_dtd1() {
 	function output_dtd1(output) {
 		dom.appLang2.innerHTML = output
 	}
-	// load it up
+	// load it
 	let iframe = dom.appLang_2,
 		dtdtemp = ""
 	iframe.src="iframes/dtdlocale.xml"
@@ -180,14 +177,12 @@ function get_app_lang_mediadocument() {
 		}
 	}
 
-	// keep checking if image is loaded, but stop after x tries
+	// keep checking if image loaded, but stop after x tries
 	let image = dom.imageTest
 	image.src="images/dummy.png" // 1px high
 	let counter = 0
-	let maxcounter = 40 // 2 secs
-	if (isTB) {maxcounter = 60} // 3 secs: TB latency
 	function check_image() {
-		if (counter < maxcounter) {
+		if (counter < 60) {
 			if (image.offsetHeight == 1) {
 				// empty_src=0px, broken_src= approx 24px
 				// extensions blocking images = if placeholders = approx 20px
