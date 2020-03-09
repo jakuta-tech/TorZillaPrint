@@ -1,5 +1,5 @@
 
-// 25-Jul-2019
+// 08-Mar-2020
 // fonts_windows_small
 
 // EMOJI
@@ -85,6 +85,7 @@ Arial Narrow
 Arial Narrow Bold
 Arial Narrow Bold Italic
 Arial Narrow Italic
+Arial Unicode MS
 Cambria Bold
 Cambria Bold Italic
 Cambria Italic
