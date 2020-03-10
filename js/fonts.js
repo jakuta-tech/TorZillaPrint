@@ -65,10 +65,10 @@ let spawn = (function () {
 })()
 
 function reset_unicode() {
-	let r=""
+	let r = ""
 	for (let i=0; i < fntCode.length; i++) {
 		let c = "u+"+fntCode[i].substr(2)
-		r += "<br>"+c.padStart(7)
+		r += "\n"+c.padStart(7)
 	}
 	dom.ug10.innerHTML = fntHead + r
 }
@@ -166,7 +166,6 @@ function get_fpjs2(type) {
 	}
 	let fontsSpans = initializeFontsSpans()
 	h.appendChild(fontsDiv)
-
 	// detect
 	let found = []
 	for (let i=0; i < fntList.length; i++) {
@@ -305,95 +304,98 @@ function get_fallback_string() {
 function get_unicode() {
 	/* code based on work by David Fifield (dcf) and Serge Egelman (2015)
 		https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo */
-	// vars
-	let styles = ["default","sans-serif","serif","monospace","cursive","fantasy"],
-		div = dom.ugDiv, span = dom.ugSpan, slot = dom.ugSlot, m = "",
-		offset = [], bounding = [], client = [], measure = [],
-		munique = [], diffsb = [], diffsc = [], display = "",
-		canvas = dom.ugCanvas, ctx = canvas.getContext("2d"),
+	let offset = [], measure = [], bounding = [], client = [],
+		unique = [], diffsb = [], diffsc = [], display = "",
 		t0 = performance.now()
+	let mgo = true, bgo = true, cgo = true
 
-	// each char
-	for (let i=0; i < fntCode.length; i++) {
-		let	c = get_str_from_codepoint(fntCode[i]),
-			cp = "u+" + (fntCode[i]).substr(2)
-		display += "<br>" + cp.padStart(7)
-		// each style
-		for (let j=0; j < styles.length; j++) {
-			// set
-			slot.style.fontFamily = (j == 0 ? "" : styles[j])
-			slot.textContent = c
-			// offset
-			let w = span.offsetWidth, h = div.offsetHeight
-			offset.push((j==0 ? cp+"-" : "" ) + w+"x"+h)
-			display += (w.toString()).padStart(8) +" x "+ (h.toString()).padStart(4)
-			// measuretext
-			try {
-				ctx.font = "normal normal 22000px " + (j == 0 ? "none" : styles[j])
-				m = ctx.measureText(c).width
-				measure.push( (j==0 ? cp+"-" : "" ) + m)
-				munique.push(m)
-			} catch(err) {}
-			// bounding: w=div h=span
-			let bDiv = div.getBoundingClientRect()
-			let bSpan = span.getBoundingClientRect()
-			try {
-				w = bSpan.width; h = bDiv.height
-				bounding.push( (j==0 ? cp+"-" : "" ) + w+"x"+h )
-				if (m !== w) {diffsb.push(m+" vs "+w)}
-			} catch(err) {}
-			// client: w=span, h=div
-			let cDiv = div.getClientRects()
-			let cSpan = span.getClientRects()
-			try {
-				w = cSpan[0].width; h = cDiv[0].height
-				client.push( (j==0 ? cp+"-" : "" ) + w+"x"+h )
-				if (m !== w) {diffsc.push(m+" vs "+w)}
-			} catch(err) {}
+	function output() {
+		// de-dupe
+		unique = unique.filter(function (item, position) {return unique.indexOf(item) === position})
+		diffsb = diffsb.filter(function (item, position) {return diffsb.indexOf(item) === position})
+		diffsc = diffsc.filter(function (item, position) {return diffsc.indexOf(item) === position})
+		// show/hide
+		let bhash = sha1(bounding.join()), chash = sha1(client.join())
+		if (bhash == chash) {
+			dom.togUG.style.display = "none"; dom.labelUG = "domrect"
+		} else {
+			dom.togUG.style.display = "table-row"; dom.labelUG = "getBoundingClientRect"
 		}
+		// output
+		let total = "|"+ unique.length +" diffs]", r = ""
+		dom.ug1 = sha1(offset.join())
+		dom.ug2.innerHTML = sha1(measure.join()) + (mgo ? "" : zB + (runS ? zSIM : ""))
+		r = (bgo ? "" : zB + (runS ? zSIM : ""))
+		if (bgo && mgo) {r = " ["+ diffsb.length + total}
+		dom.ug3.innerHTML = bhash + r
+		r = (cgo ? "" : zB + (runS ? zSIM : ""))
+		if (cgo && mgo) {r = " ["+ diffsc.length + total}
+		dom.ug4.innerHTML = chash + r
+		dom.ug10.innerHTML = fntHead + display
+		// log
+		if (logExtra && mgo) {
+			r = ""
+			if (bgo) {r = "measuretext vs bounding\n" + diffsb.join("\n")}
+			if (cgo && cgo !== bgo) {r += "measuretext vs clientrects\n" + diffsc.join("\n")}
+			if (r !== "") {console.log(r)}
+		}
+		// perf
+		if (logPerf) {debug_log("unicode glyphs [fonts]",t0)}
 	}
-	// clear
-	dom.ugSlot = ""
-	// diffs
-	munique = munique.filter(function (item, position) {return munique.indexOf(item) === position})
-	diffsb = diffsb.filter(function (item, position) {return diffsb.indexOf(item) === position})
-	diffsc = diffsc.filter(function (item, position) {return diffsc.indexOf(item) === position})
-	// log
-	if (logExtra) {
-		let strD = "measuretext vs bounding\n"
-		for (let i=0; i < diffsb.length; i++) {strD += i+1 + " " + diffsb[i] + "\n"  }
-		strD += "measuretext vs clientrects\n"
-		for (let i=0; i < diffsc.length; i++) {strD += i+1 + " " + diffsc[i] + "\n"  }
-		console.log(strD)
+	function run() {
+		if (runS) {bgo = false}
+		let styles = ["default","sans-serif","serif","monospace","cursive","fantasy"],
+			div = dom.ugDiv, span = dom.ugSpan, slot = dom.ugSlot, m = "",
+			canvas = dom.ugCanvas, ctx = canvas.getContext("2d")
+		// each char
+		for (let i=0; i < fntCode.length; i++) {
+			let	c = get_str_from_codepoint(fntCode[i]),
+				cp = "u+" + (fntCode[i]).substr(2)
+			display += "<br>" + cp.padStart(7)
+			// each style
+			for (let j=0; j < styles.length; j++) {
+				// set
+				slot.style.fontFamily = (j == 0 ? "" : styles[j])
+				slot.textContent = c
+				// offset: w=span h=div
+				let w = span.offsetWidth, h = div.offsetHeight
+				offset.push((j==0 ? cp+"-" : "" ) + w+"x"+h)
+				display += (w.toString()).padStart(8) +" x "+ (h.toString()).padStart(4)
+				// measure
+				if (mgo) {
+					try {
+						ctx.font = "normal normal 22000px " + (j == 0 ? "none" : styles[j])
+						m = ctx.measureText(c).width
+						measure.push( (j==0 ? cp+"-" : "" ) + m)
+						unique.push(m)
+					} catch(err) {mgo = false}
+				}
+				// bounding: w=div h=span
+				if (bgo) {
+					let bDiv = div.getBoundingClientRect()
+					let bSpan = span.getBoundingClientRect()
+					try {
+						w = bSpan.width; h = bDiv.height
+						bounding.push( (j==0 ? cp+"-" : "" ) + w+"x"+h )
+						if (m !== w) {diffsb.push(m+" vs "+w)}
+					} catch(err) {bgo = false}
+				}
+				// client: w=span, h=div
+				if (cgo) {
+					let cDiv = div.getClientRects()
+					let cSpan = span.getClientRects()
+					try {
+						w = cSpan[0].width; h = cDiv[0].height
+						client.push( (j==0 ? cp+"-" : "" ) + w+"x"+h )
+						if (m !== w) {diffsc.push(m+" vs "+w)}
+					} catch(err) {cgo = false}
+				}
+			}
+		}
+		dom.ugSlot = ""
+		output()
 	}
-	// show/hide, change label
-	let bhash = sha1(bounding.join())
-	let chash = sha1(client.join())
-	if (bhash == chash) {
-		dom.togUG.style.display = "none"
-		dom.labelUG = "domrect"
-	} else {
-		dom.togUG.style.display = "table-row"
-		dom.labelUG = "getBoundingClientRect"
-	}
-	// output
-	let total = munique.length +" diffs]",
-		go = (measure.length > 0 ? true : false)
-	dom.ug1 = sha1(offset.join())
-	dom.ug2.innerHTML = sha1(measure.join()) + (go ? "" : zB)
-
-	let strR = (bounding.length == 0 ? zB : "")
-	if (strR == "") {strR = (go ? " ["+ diffsb.length +"|"+ total : "")}
-	dom.ug3.innerHTML = bhash + strR
-
-	
-	strR = (client.length == 0 ? zB : "")
-	if (strR == "") {strR = (go ? " ["+ diffsc.length +"|"+ total : "")}
-	dom.ug4.innerHTML = chash + strR
-
-	dom.ug10.innerHTML = fntHead + display
-	// perf
-	if (logPerf) {debug_log("unicode glyphs [fonts]",t0)}
+	run()
 }
 
 function get_woff() {
