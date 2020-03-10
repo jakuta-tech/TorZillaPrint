@@ -164,37 +164,32 @@ function get_errors() {
 	let res = [],
 		test = "",
 		hash = "",
+		code = "",
+		ff = "",
 		t0 = performance.now()
 	// output
 	function output() {
-		let code = "",
-			ff= ""
 		hash = sha1(res.join())
 		if (isErr == "") {isErr = hash.substring(0,4)}
-		if (runS) {hash = sha1(hash)}
-		// ToDo: check E capped at 74, new hash F for 75+ [1615600 hits Dev]
-			// Nightly should still differ due to err 2, and 5
-		if (hash == "e09e23efbfb70afc921e7eb9f9a65e3a3115dce6") {	
-			ff = "[FF60-67]"
-			code = " [A]"
+		if (isErr == "X") {
+			code = "X"; ff = "[FF59 or lower]"
+		} else if (hash == "e09e23efbfb70afc921e7eb9f9a65e3a3115dce6") {	
+			code = "A"; ff = "[FF60-67]"
 		} else if (hash == "9be311282c55265db8f50f57e711c4aa56f9a287") {
-			ff = "[FF68-69]"
-			code = " [B]"
+			code = "B"; ff = "[FF68-69]"
 		} else if (hash == "1492f1bd135e254d2b2ec97465aabf93e81830ac") {
-			ff = "[FF70]"
-			code = " [C]"
+			code = "C"; ff = "[FF70]"
 		} else if (hash == "7121c507d7602cb06de27b345ea57afe52bb9fa2") {
-			ff = "[FF71]"
-			code = " [D]"
+			code = "D"; ff = "[FF71]"
 		} else if (hash == "fa8efa5727a14d4a33cf12ccca36c5928cfdc13a") {
-			ff = "[FF72-74]"
-			code = " [E]"
+			code = "E"; ff = "[FF72-74]"
+		} else if (hash == "214fc55f92a637bd5fb93eb283b1c6181f6e2a27") {
+			code = "F"; ff = "[FF75+]"
 		} else if (hash == "0dc5e92b7d01a8ddf77f55fb0a540f65d3a85f9c") {
-			ff = "[Nightly]"
-			code = " [N]"
+			code = "N"; ff = "[Nightly]"
 		}
 		if (code !== "") {
-			code = s2+code+sc
+			code = s2+"["+code+"]"+sc
 			isFF = true
 			dom.fdError.innerHTML = zFF +" "+ ff
 		} else if (isFF) {
@@ -210,13 +205,16 @@ function get_errors() {
 		//1
 		try {eval("alert('A)")} catch(e) {
 			dom.err1=e; res.push(e)
-			if (e.message == "unterminated string literal") {isErr = "<60"}
+			if (e.message == "unterminated string literal") {isErr = "X"}
 		}
 		//2
 		try {
 			function foobar() {let foo = document.getElementById("bar"); foo.value = screen.width}
 			window.onload = foobar()
-		} catch(e) {dom.err2=e; res.push(e)}
+		} catch(e) {
+			if (runS) {e += zSIM}
+			dom.err2=e; res.push(e)
+		}
 		//3
 		try {
 			test = BigInt(2.5)
@@ -963,29 +961,46 @@ function get_version() {
 	let go = true,
 		verNo = "",
 		test = "",
+		isNew = false,
 		t0 = performance.now()
 	function output(){
 		// set isVer
 		if (isVer == "") {isVer = verNo.replace(/\D/g,'')}
-		dom.versionNo.innerHTML = verNo
+		dom.versionNo.innerHTML = verNo + (isNew ? zNEW : "") + (runS ? zSIM : "")
 		store_data("ua","3 ver",verNo)
 		if (logPerf) {debug_log("version [ua]",t0)}
 	}
 	// use isErr
-	if (isErr == "<60") { verNo = "59 or lower"
+	if (isErr == "X") { verNo = "59 or lower"
 	} else if (isErr == "e09e") { v67minus()
 	} else if (isErr == "9be3") { v69minus()
 	} else if (isErr == "1492") { verNo = "70"
 	} else if (isErr == "7121") { verNo = "71"
 	} else if (isErr == "fa8e") { v74minus()
+	} else if (isErr == "214f") { verNo = "75"
+	} else if (isErr == "0dc5") { verNo = "75+ Nightly"
 	} else {
-		// 0dc5 nightly 75
-		v75plus()
+		// new
+		isNew = true
+		//75: 1615600
+		// we only care about 75+ but catch 68+/67- for runS+runUA
+		// we will still get a new error hash notation for good measure
+		try {
+			let test = BigInt(2.5)
+		} catch(e) {
+			let str = e.message.substring(0,3)
+			if (str == "2.5") {
+				v75plus()
+			} else if (str == "can") {
+				verNo = "68+"
+			} else {
+				v67minus()
+			}
+		}
 	}
 	// run
 	function v75plus() {
-		//75
-		if (verNo == "") {verNo = "75+"}
+		if (go) {verNo = "75+"}
 	}
 	function v74minus () {
 		//74:1605835
@@ -998,13 +1013,13 @@ function get_version() {
 			} catch(e) {}
 		}
 		//72
-		if (verNo == "") {verNo = "72"}
+		if (go) {verNo = "72"}
 	}
 	function v69minus() {
 		//69:1558387
 		if (go) {try {test = new DOMError('a')} catch(e) {verNo="69"; go = false}}
 		//68
-		if (verNo == "") {verNo = "68"}
+		if (go) {verNo = "68"}
 	}
 	function v67minus() {
 		//67:1531830
@@ -1046,7 +1061,7 @@ function get_version() {
 			} catch(e) {}
 		}
 		//60
-		if (verNo == "") {verNo="60"}
+		if (go) {verNo="60" + (isNew ? " or lower": "")}
 	}
 	output()
 }
@@ -1092,7 +1107,6 @@ function get_widgets() {
 		let el = document.getElementById("widget"+i)
 		font = getComputedStyle(el).getPropertyValue("font-family")
 		size = getComputedStyle(el).getPropertyValue("font-size")
-		// runS
 		if (runS) {
 			if (i == 1) {font = "-apple-system"; size="11px"} // font + size
 			//if (i == 4) {font = "-apple-system"} // font
