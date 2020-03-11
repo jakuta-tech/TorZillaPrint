@@ -930,7 +930,7 @@ function get_screen_metrics(runtype) {
 	} else {
 		// LB+NW
 		if (isFF == true) {
-			if (jsZoom == 100) {strTemp += return_lb_nw(w,h)} else {strTemp += lb_orange}
+			if (jsZoom == 100) {strTemp += return_lb_nw(w,h)} else {strTemp += "<br>"+lb_orange}
 		}
 		dom.WndIn.innerHTML = strTemp
 		if (logExtra) {console.log("C [must follow zoom]: ", runtype, ": screen_metrics")}
@@ -977,8 +977,8 @@ function get_version() {
 	} else if (isErr == "1492") { verNo = "70"
 	} else if (isErr == "7121") { verNo = "71"
 	} else if (isErr == "fa8e") { v74minus()
-	} else if (isErr == "214f") { verNo = "75"
-	} else if (isErr == "0dc5") { verNo = "75+ Nightly"
+	} else if (isErr == "214f") { verNo = "75+"
+	} else if (isErr == "0dc5") { verNo = "75+ [Nightly]"
 	} else {
 		// new
 		isNew = true
@@ -1007,19 +1007,13 @@ function get_version() {
 		if (go) {try {eval("let t = ({ 1n: 1 })"); verNo = "74"; go = false;} catch(e) {}}
 		//73:1594241
 		if (go) {
-			try {
-				test = dom.test73.sheet.cssRules[0]
-				if (test.style.border == "") {verNo= "73"; go = false}
-			} catch(e) {}
+			test = dom.test73.sheet.cssRules[0]
+			if (test.style.border == "") {verNo = "73"} else {verNo = "72"}
 		}
-		//72
-		if (go) {verNo = "72"}
 	}
 	function v69minus() {
 		//69:1558387
-		if (go) {try {test = new DOMError('a')} catch(e) {verNo="69"; go = false}}
-		//68
-		if (go) {verNo = "68"}
+		if (go) {try {test = new DOMError('a'); verNo = "68"} catch(e) {verNo = "69"}}
 	}
 	function v67minus() {
 		//67:1531830
@@ -1413,7 +1407,6 @@ function goNW_UA() {
 	let list = ['userAgent','appCodeName','appName','product','appVersion',
 		'oscpu','platform','buildID','productSub','vendor','vendorSub'],
 		res = []
-	// clear
 	dom.sectionUA2.innerHTML = "&nbsp"
 	// open, get results, close
 	let newWin = window.open()
@@ -1635,7 +1628,7 @@ function outputStart() {
 	// perf
 	gt0 = performance.now()
 	// not-coded
-	let items = document.getElementsByClassName("notcoded")
+	let items = document.getElementsByClassName("faint")
 	for(let i=0; i < items.length; i++) {	items[i].textContent = "not coded yet"}	
 	// run once
 	dom.debugperf = "       start:    screen.js loaded"
