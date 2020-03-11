@@ -37,7 +37,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 .strike {text-decoration: line-through;}
 
 /* notation colors */
-.notcoded {color: #606060;} /* #888888 darker off white */
+.faint {color: #606060;} /* #888888 darker off white */
 .good {color: #8cdc8c;} /* test7 */
 .bad {color: #ff4f4f;}
 .neutral {color: #dcdc8c;} /* test4 */
