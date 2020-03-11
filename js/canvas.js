@@ -26,6 +26,7 @@ function append_canvas_note() {
 	}
 	dom.cnv1.innerHTML = test
 
+	if (isFile) {r = note_file}
 	// toDataURL,toBlob
 	control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
 	test = dom.cnv2.innerHTML
