@@ -170,23 +170,31 @@ function get_errors() {
 	// output
 	function output() {
 		hash = sha1(res.join())
+		let temp = hash.substring(0,10)
 		if (isErr == "") {isErr = hash.substring(0,4)}
 		if (isErr == "X") {
 			code = "X"; ff = "[FF59 or lower]"
-		} else if (hash == "e09e23efbfb70afc921e7eb9f9a65e3a3115dce6") {	
+		} else if (temp == "e09e23efbf") {	
 			code = "A"; ff = "[FF60-67]"
-		} else if (hash == "9be311282c55265db8f50f57e711c4aa56f9a287") {
+		} else if (temp == "9be311282c") {
 			code = "B"; ff = "[FF68-69]"
-		} else if (hash == "1492f1bd135e254d2b2ec97465aabf93e81830ac") {
+		} else if (temp == "1492f1bd13") {
 			code = "C"; ff = "[FF70]"
-		} else if (hash == "7121c507d7602cb06de27b345ea57afe52bb9fa2") {
+		} else if (temp == "7121c507d7") {
 			code = "D"; ff = "[FF71]"
-		} else if (hash == "fa8efa5727a14d4a33cf12ccca36c5928cfdc13a") {
-			code = "E"; ff = "[FF72-74]"
-		} else if (hash == "214fc55f92a637bd5fb93eb283b1c6181f6e2a27") {
-			code = "F"; ff = "[FF75+]"
-		} else if (hash == "0dc5e92b7d01a8ddf77f55fb0a540f65d3a85f9c") {
-			code = "N"; ff = "[Nightly]"
+		// 74+: 1259822: pref alters err2: 2 outcomes
+		} else if (temp == "fa8efa5727") {
+			code = "E1"; ff = "[FF72-74]"
+		} else if (temp == "fb19e1bedb") {
+			code = "E2"; ff = "[FF74]"
+		} else if (temp == "214fc55f92") {
+			code = "F1"; ff = "[FF75]" // ToDo: when 76 hits dev, check if this should be 75+
+		} else if (temp == "5186bfbb76") {
+			code = "F2"; ff = "[FF75]" // ditto
+		} else if (temp == "0dc5e92b7d") {
+			code = "N1"; ff = "[Nightly]"
+		} else if (temp == "b75bad7247") {
+			code = "N2"; ff = "[Nightly]"
 		}
 		if (code !== "") {
 			code = s2+"["+code+"]"+sc
@@ -976,9 +984,11 @@ function get_version() {
 	} else if (isErr == "9be3") { v69minus()
 	} else if (isErr == "1492") { verNo = "70"
 	} else if (isErr == "7121") { verNo = "71"
-	} else if (isErr == "fa8e") { v74minus()
-	} else if (isErr == "214f") { v75plus()
-	} else if (isErr == "0dc5") { v75plus() // nightly
+	// 74+: 1259822: pref alters err2: now 2 outcomes per bucket
+	// javascript.options.property_error_message_fix
+	} else if (isErr == "fa8e" || isErr == "fb19") { v74minus()
+	} else if (isErr == "214f" || isErr == "5186") { v75plus()
+	} else if (isErr == "0dc5" || isErr == "b75b") { v75plus() // nightly
 	} else {
 		// new
 		isNew = true
@@ -1003,7 +1013,8 @@ function get_version() {
 		//76: 1608010 [might get backported to 75]
 		if (test76.validity.rangeOverflow) {} else {verNo = "76+"; go = false}
 		if (go) {verNo = "75"}
-		verNo += (isErr == "0dc5" ? " [Nightly]": "")
+		// current nghtly only sigs
+		verNo += ((isErr == "0dc5" || isErr == "b75b") ? " [Nightly]": "")
 	}
 	function v74minus () {
 		//74:1605835
