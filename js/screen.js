@@ -192,9 +192,9 @@ function get_errors() {
 		} else if (temp == "5186bfbb76") {
 			code = "F2"; ff = "[FF75]" // ditto
 		} else if (temp == "0dc5e92b7d") {
-			code = "N1"; ff = "[Nightly]"
+			code = "N1"; ff = "[Nightly]" // ToDo: keep an eye on Nightly unique hashes
 		} else if (temp == "b75bad7247") {
-			code = "N2"; ff = "[Nightly]"
+			code = "N2"; ff = "[Nightly]" // ditto
 		}
 		if (code !== "") {
 			code = s2+"["+code+"]"+sc
