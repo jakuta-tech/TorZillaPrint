@@ -977,14 +977,14 @@ function get_version() {
 	} else if (isErr == "1492") { verNo = "70"
 	} else if (isErr == "7121") { verNo = "71"
 	} else if (isErr == "fa8e") { v74minus()
-	} else if (isErr == "214f") { verNo = "75+"
-	} else if (isErr == "0dc5") { verNo = "75+ [Nightly]"
+	} else if (isErr == "214f") { v75plus()
+	} else if (isErr == "0dc5") { v75plus() // nightly
 	} else {
 		// new
 		isNew = true
 		//75: 1615600
 		// we only care about 75+ but catch 68+/67- for runS+runUA
-		// we will still get a new error hash notation for good measure
+		// we still get a new error hash notation for good measure
 		try {
 			let test = BigInt(2.5)
 		} catch(e) {
@@ -1000,7 +1000,10 @@ function get_version() {
 	}
 	// run
 	function v75plus() {
-		if (go) {verNo = "75+"}
+		//76: 1608010 [might get backported to 75]
+		if (test76.validity.rangeOverflow) {} else {verNo = "76+"; go = false}
+		if (go) {verNo = "75"}
+		verNo += (isErr == "0dc5" ? " [Nightly]": "")
 	}
 	function v74minus () {
 		//74:1605835
