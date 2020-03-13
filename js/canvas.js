@@ -33,9 +33,9 @@ function append_canvas_note() {
 	dom.cnv2.innerHTML = test + (test == control ? g : r)
 	test = dom.cnv3.innerHTML
 	dom.cnv3.innerHTML = test + (test == control ? g : r)
-	// mozGetAsFile: 74-
+	// mozGetAsFile: 73-
 	test = dom.cnv4.innerHTML
-	if (isVer > 74) {control = "not supported"}
+	if (isVer > 73) {control = "not supported"}
 	dom.cnv4.innerHTML = test + (test == control ? g : r)
 	// getImageData
 	control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
