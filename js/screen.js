@@ -169,6 +169,7 @@ function get_errors() {
 		t0 = performance.now()
 	// output
 	function output() {
+		let unusual = false
 		hash = sha1(res.join())
 		let temp = hash.substring(0,10)
 		if (isErr == "") {isErr = hash.substring(0,4)}
@@ -186,20 +187,21 @@ function get_errors() {
 		} else if (temp == "fa8efa5727") {
 			code = "E1"; ff = "[FF72-74]"
 		} else if (temp == "fb19e1bedb") {
-			code = "E2"; ff = "[FF74]"
+			code = "E2"; ff = "[FF74]"; unusual = true
 		} else if (temp == "214fc55f92") {
 			code = "F1"; ff = "[FF75]" // ToDo: when 76 hits dev, check if this should be 75+
 		} else if (temp == "5186bfbb76") {
-			code = "F2"; ff = "[FF75]" // ditto
+			code = "F2"; ff = "[FF75]"; unusual = true // ditto
 		} else if (temp == "0dc5e92b7d") {
-			code = "N1"; ff = "[Nightly]" // ToDo: keep an eye on Nightly unique hashes
+			code = "N1"; ff = "[Nightly]"
 		} else if (temp == "b75bad7247") {
-			code = "N2"; ff = "[Nightly]" // ditto
+			code = "N2"; ff = "[Nightly]"; unusual = true
 		}
+		dom.labelErr2.innerHTML = (unusual ? sb+"[non-standard] "+sc + "error2" : "error2")
 		if (code !== "") {
 			code = s2+"["+code+"]"+sc
 			isFF = true
-			dom.fdError.innerHTML = zFF +" "+ ff
+			dom.fdError.innerHTML = zFF +" "+ ff + (unusual ? sb+"[non-standard: see details]"+sc : "")
 		} else if (isFF) {
 			code = zNEW
 			dom.fdError.innerHTML = not_seen+" error combo before"+sc + (runS ? zSIM : "")
