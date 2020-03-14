@@ -406,7 +406,11 @@ function get_line_scrollbar() {
 		if (jsZoom !== 100) {sbZoom=" at "+jsZoom+"% "}
 		dom.vScroll = w+"px "+sbZoom+os
 		// element scrollbar
-		dom.eScroll = (100-dom.tScroll.scrollWidth)+"px"
+		let eW = (100-dom.tScroll.scrollWidth)
+		if (jsZoom == 100) {
+			eW += "px" + (eW == w ? "" : sb+"[!= viewport scrollbar]"+sc)
+		}
+		dom.eScroll.innerHTML = eW
 		// perf
 		if (logPerf) {debug_log("scrollbar [ua]",t0)}
 	}
