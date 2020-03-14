@@ -620,16 +620,17 @@ function outputFonts1() {
 }
 
 function outputFonts() {
-	if (isPage == "main" && isFF) {
-		// font list hyperlinks
-		let pre = "<span class='no_color'><a href='txt/fonts_" + isOS,
-			mid = ".txt' target='blank' class='blue'>fonts_" + isOS
-		dom.small_fontList.innerHTML = pre + "_small" + mid + "_small<a></span>"
-		dom.all_fontList.innerHTML = pre + "_all" + mid + "_all<a></span>"
+	if (isPage == "main") {
+		if (isFF) {
+			// font list hyperlinks
+			let pre = "<span class='no_color'><a href='txt/fonts_" + isOS,
+				mid = ".txt' target='blank' class='blue'>fonts_" + isOS
+			dom.small_fontList.innerHTML = pre + "_small" + mid + "_small<a></span>"
+			dom.all_fontList.innerHTML = pre + "_all" + mid + "_all<a></span>"
+		}
 		// autorun
 		outputFonts1()
 	}
-
 	get_fallback_string()
 
 }
