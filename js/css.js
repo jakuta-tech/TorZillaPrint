@@ -36,14 +36,14 @@ function get_colors(runtype) {
 	let count = " ["+list.length+"] "
 	if (runtype == "s") {
 		if (hash == "4701edd5e383b4875b5927bbf4c2ac36d2c7506a") {
-			dom.sColorHash.innerHTML = hash += count + rfp_green + " [FF71 or lower]"
+			dom.sColorHash.innerHTML = hash + count + rfp_green + " [FF71 or lower]"
 		} else if (hash == "43745a20b9434144f62917c78edfdea8661ac8c5") {
-			dom.sColorHash.innerHTML = hash += count + rfp_green + " [FF72-75]" // "field"
+			dom.sColorHash.innerHTML = hash + count + rfp_green + " [FF72-75]" // "field"
 		} else if (hash == "edde01c67c1e3c41e6a87a694f64b3d75413a8ee") {
 			// note: browser.display.use_system_colors: default false affects this
-			dom.sColorHash.innerHTML = hash += count + rfp_green + " [FF76+]" // 1590894
+			dom.sColorHash.innerHTML = hash + count + rfp_green + " [FF76+]" // 1590894
 		} else {
-			dom.sColorHash.innerHTML = hash += count + rfp_red
+			dom.sColorHash.innerHTML = hash + count + rfp_red
 		}
 	} else {
 		dom.mColorHash = hash + count
