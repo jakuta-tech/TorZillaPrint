@@ -33,7 +33,7 @@ function get_colors(runtype) {
 		results.push(window.getComputedStyle(element, null).getPropertyValue("background-color"))
 	})
 	let hash = sha1(results.join())
-	let count = " ["+list.length+"] "
+	let count = s14 + "["+list.length+"] " + sc
 	if (runtype == "s") {
 		if (hash == "4701edd5e383b4875b5927bbf4c2ac36d2c7506a") {
 			dom.sColorHash.innerHTML = hash + count + rfp_green + " [FF71 or lower]"
@@ -46,7 +46,7 @@ function get_colors(runtype) {
 			dom.sColorHash.innerHTML = hash + count + rfp_red
 		}
 	} else {
-		dom.mColorHash = hash + count
+		dom.mColorHash.innerHTML = hash + count
 	}
 }
 
