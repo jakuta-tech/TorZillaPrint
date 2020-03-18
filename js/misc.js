@@ -10,8 +10,8 @@ function get_component_shims() {
 	let shim = (typeof Components === "undefined") ? zU : Object.getOwnPropertyNames(Components.interfaces).join(", ")
 	dom.shimdata = shim
 	dom.shimdata.style.color = zshow
-	if (shim !== zU) {shim = sha1(shim) + " [" + shim.split(", ").length + " items]"}
-	dom.shim = shim
+	if (shim !== zU) {shim = sha1(shim) + s18 +"["+ shim.split(", ").length +" items]"+ sc}
+	dom.shim.innerHTML = shim
 }
 
 function get_int_observer() {
@@ -45,7 +45,7 @@ function get_mathml(type) {
 
 function get_nav_prototype() {
 	let nProto = Object.keys(Object.getPrototypeOf(navigator)).join(", ")
-	dom.nProto = sha1(nProto) + " [" + nProto.split(', ').length + " items]"
+	dom.nProto.innerHTML = sha1(nProto) + s18 +"["+ nProto.split(', ').length +" items]"+ sc
 	dom.nProto2 = nProto
 	dom.nProto2.style.color = zshow
 }
@@ -62,6 +62,25 @@ function get_reporting_api() {
 			dom.reportingAPI = zD+" [or "+zNS+"]"
 		}
 	}
+}
+
+function get_rfptime() {
+	let i = 0,
+		result = true,
+		times = [],
+		p0 = performance.now()
+	function run() {
+		if (i < 10) {
+			let p1 = performance.now()
+			times.push((p1-p0) % 100)
+			if ((p1-p0) % 100 > 0) {result = false}
+			i++
+		} else {
+			clearInterval(check)
+			dom.rfpperf.innerHTML = (result? "100 ms" + rfp_green : times.join(", ") + rfp_red)
+		}
+	}
+	let check = setInterval(run, 13)
 }
 
 function get_svg() {
@@ -115,6 +134,7 @@ function outputMisc(type) {
 	get_reporting_api()
 	get_svg()
 	get_wasm()
+	get_rfptime()
 	// perf
 	debug_page("perf","misc",t0,gt0)
 }
