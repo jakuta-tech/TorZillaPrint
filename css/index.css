@@ -47,6 +47,11 @@ a.blue {color: #8abfda; text-decoration: none;}
 .s1 {color: var(--test1);}
 .s2 {color: var(--test2);}
 .s3 {color: var(--test3);}
+.s5 {color: var(--test5);}
+.s10 {color: var(--test10);}
+.s11 {color: var(--test11);}
+.s14 {color: var(--test14);}
+.s18 {color: var(--test18);}
 
 .normalized {
 	font-family: none;
