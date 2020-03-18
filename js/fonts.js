@@ -177,7 +177,8 @@ function get_fpjs2(type) {
 	// output
 	outputC.innerHTML = (found.length > 0 ? found.join(", ") : "no fonts detected")
 	outputC.style.color = zshow
-	outputA.innerHTML = sha1(found.join(", ")) + " ["+found.length+"/"+fntList.length+"]" + note_file
+	outputA.innerHTML = sha1(found.join(", ")) + (isPage == "main" ? s11 : s5)
+		+ "["+found.length+"/"+fntList.length+"]" + sc + note_file
 	// perf
 	if (logPerf) {debug_log("fpjs2 "+type+" [fonts]",t0,t0font)}
 }
@@ -223,8 +224,9 @@ function get_fallback(type, list) {
 			enumerate(['Arial','Courier'])
 		} else {
 			enumerate(fntList)
+			outputB.innerHTML = sha1(found.join(", ")) + (isPage == "main" ? s11 : s5)
+				+ "["+found.length+"/"+fntList.length+"]" + sc + note_file
 			outputD.innerHTML = (found.length > 0 ? found.join(", ") : "no fonts detected")
-			outputB.innerHTML = sha1(found.join(", ")) + " ["+found.length+"/"+fntList.length+"]" + note_file
 		}
 		dom.fontFBTest = ""
 		if (logPerf) {debug_log("fallback-"+list+" "+type+" [fonts]",t0,t0font)}
@@ -322,14 +324,14 @@ function get_unicode() {
 			dom.togUG.style.display = "table-row"; dom.labelUG = "getBoundingClientRect"
 		}
 		// output
-		let total = "|"+ unique.length +" diffs]", r = ""
+		let total = "|"+ unique.length +" diffs]"+ sc, r = ""
 		dom.ug1 = sha1(offset.join())
 		dom.ug2.innerHTML = sha1(measure.join()) + (mgo ? "" : zB + (runS ? zSIM : ""))
 		r = (bgo ? "" : zB + (runS ? zSIM : ""))
-		if (bgo && mgo) {r = " ["+ diffsb.length + total}
+		if (bgo && mgo) {r = s11 +"["+ diffsb.length + total}
 		dom.ug3.innerHTML = bhash + r
 		r = (cgo ? "" : zB + (runS ? zSIM : ""))
-		if (cgo && mgo) {r = " ["+ diffsc.length + total}
+		if (cgo && mgo) {r = s11 +"["+ diffsc.length + total}
 		dom.ug4.innerHTML = chash + r
 		dom.ug10.innerHTML = fntHead + display
 		// log
@@ -632,7 +634,6 @@ function outputFonts() {
 		outputFonts1()
 	}
 	get_fallback_string()
-
 }
 
 outputFonts()
