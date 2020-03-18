@@ -2,21 +2,27 @@
 
 var dom;
 
-let fp_ua = [];
+let fp_ua = []
 
 // android
 let avh = "",
 	firstH = window.innerHeight,
 	firstW = window.innerWidth,
 // css
-	sb = " <span class='bad'>",
-	sg = " <span class='good'>",
-	sf = " <span class='faint'>",
-	sn = " <span class='neutral'>",
-	so = " <span class='orange'>",
-	s1 = " <span class='s1'>",
-	s2 = " <span class='s2'>",
-	s3 = " <span class='s3'>",
+	s0 = " <span class='",
+	sb = s0+"bad'>",
+	sg = s0+"good'>",
+	sf = s0+"faint'>",
+	sn = s0+"neutral'>",
+	so = s0+"orange'>",
+	s1 = s0+"s1'>",
+	s2 = s0+"s2'>",
+	s3 = s0+"s3'>",
+	s5 = s0+"s5'>",
+	s10 = s0+"s10'>",
+	s11 = s0+"s11'>",
+	s14 = s0+"s14'>",
+	s18 = s0+"s18'>",
 	sc = "</span>",
 // show/hide text colors
 	zhide = "#1a1a1a",
