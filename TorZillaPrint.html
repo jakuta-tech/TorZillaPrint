@@ -647,18 +647,26 @@
 
 	<!-- media.js -->
 	<table id="tb12">
-		<col width="37%"><a name="media"></a><col width="63%">
-		<thead><tr><th colspan="2">
+		<col width="10%"><col width="27%"><a name="media"></a><col width="63%">
+		<thead><tr><th colspan="3">
 			<div class="nav-title"><a href="#media">Media</a>
 			<div class="nav-up"><a href="#fonts">&#9650;</a></div>
 			<div class="nav-down"><a href="#webgl">&#9660;</a></div></div>
 		</th></tr></thead>
-		<tr><td><div>
+		<tr><td colspan="2"><div>
 			<div class="btn-left"><button class="btn12" onClick="outputSection(`12`, `c`, `m`)">[ re-run tests ]</button></div>
 			<div><div class="ttip"><span class="icon">[ i ]</span>
 				<span class="ttxtb">media.media-capabilities.enabled</span></div> &nbsp mediaCapabilities</div></div></td>
-			<td class="c" id="nMediaC"></td>
-		</tr>
+			<td class="c" id="nMediaC"></td></tr>
+		<tr><td colspan="2">[canPlayType] audio</td><td class="c mono" id="audiocan"></td></tr>
+		<tr><td colspan="2">[isTypeSupported] audio</td><td class="c mono" id="audiotype"></td></tr>
+		<tr><td colspan="2">[canPlayType] video</td><td class="c mono" id="videocan"></td></tr>
+		<tr><td colspan="2">[isTypeSupported] video</td><td class="c mono" id="videotype"></td></tr>
+		<tr><td colspan="3" class="showhide">
+			<input id="collapseM3" class="toggle" type="checkbox" checked onchange="toggleitems(this, `M3`)">
+			<label for="collapseM3" class="lbl-toggle" id="labelM3">&#9660; show details</label></td></tr>
+		<tr class="togM3"><td>audio</td><td colspan="2" id="audiodata"></td></tr>
+		<tr class="togM3"><td>video</td><td colspan="2" id="videodata"></td></tr>
 	</table>
 
 	<!-- webgl.js -->
@@ -806,11 +814,11 @@
 	<!-- faster sections -->
 	<script src="js/language.js"></script>
 	<script src="js/headers.js"></script>
-	<script src="js/media.js"></script>
 	<script src="js/devices.js"></script>
 	<script src="js/css.js"></script>
 	<script src="js/storage.js"></script>
 	<script src="js/misc.js"></script>
+	<script src="js/media.js"></script>
 	<!-- slower sections -->
 	<script src="js/canvas.js"></script>
 	<script src="js/fonts.js"></script>
