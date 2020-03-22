@@ -417,16 +417,16 @@ function get_line_scrollbar() {
 
 	// css lineheight
 	function run_lineheight() {
-		let lhNormal = "",
-			blocked = false,
+		let method = "computedstyle",
+			strFont = "",
 			t0 = performance.now()
 		os = ""
 		// computedStyle
 		let element = dom.spanLH,
 			lh = getComputedStyle(element).getPropertyValue("line-height")
 		// font
-		let font = getComputedStyle(element).getPropertyValue("font-family"),
-			fontname = font.slice(1,16)
+		let font = getComputedStyle(element).getPropertyValue("font-family")
+		if (font.slice(1,16) !== "Times New Roman") {strFont = sb+"[document fonts are disabled]"+sc}
 		// clientrect
 		if (lh == "normal") {
 			element = dom.divLH
@@ -436,17 +436,18 @@ function get_line_scrollbar() {
 				// trim decimals
 				if (count_decimals(lh) > 4) {lh = lh.toFixed(4)}
 				lh = lh.toString()
-				lhNormal = s2+"[clientrect]"+sc
+				method = "clientrect"
 			} catch(err) {
-				blocked = true
+				method = "none"
 			}
 		}
-		if (!blocked) {
+		// build
+		if (method !== "none") {
 			// trim
 			if (lh.substr(-2) == "px") {lh = lh.slice(0, -2)}
 			// check font
-			if (fontname !== "Times New Roman") {
-				os = sb+" [document fonts are disabled]"+sc
+			if (strFont !== "") {
+				os = strFont
 			} else if (lh == "19.2") {
 				// TB DESKTOP: 19.2 seems TB unique any-zoom/any-platform
 				os = tb_green
@@ -545,12 +546,16 @@ function get_line_scrollbar() {
 			}
 		}
 		// output
-		if (blocked) {dom.cssLH.innerHTML = zB} else {dom.cssLH.innerHTML = lh + "px "+ sbZoom + os + lhNormal}
+		if (method == "none") {
+			dom.cssLH.innerHTML = sb+"[api is blocked]"+sc + strFont
+		} else {
+			dom.cssLH.innerHTML = lh + "px "+ sbZoom + os + s2+"["+method+"]"+sc
+		}
 		if (logPerf) {debug_log("css line height [ua]",t0)}
 	}
 
-	run_scrollbar();
-	run_lineheight();
+	run_scrollbar()
+	run_lineheight()
 }
 
 function get_mm_metrics(runtype) {
