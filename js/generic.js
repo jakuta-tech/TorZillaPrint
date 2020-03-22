@@ -14,9 +14,8 @@ function getUniqueElements() {
 }
 
 function store_data(section, key, value) {
-	//if (value == "") {value = "unknown"}
+	//console.log(section.padStart(4),key.padStart(8),value)
 	if (section == "ua") {
-		//console.log(section.padStart(4),key.padStart(8),value)
 		fp_ua.push(key+":"+value)
 		if (fp_ua.length == 5) {
 			fp_ua.sort()
@@ -259,6 +258,7 @@ function outputSection(id, cls, page) {
 		if (id=="9") {reset_domrect()}
 		if (id=="10" && cls=="c2") {reset_audio2()}
 		if (id=="11" && cls=="c1") {reset_unicode()}
+		if (id=="12") {reset_media()}
 		if (id=="18") {reset_misc()}
 	}
 
