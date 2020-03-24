@@ -94,8 +94,8 @@ a.blue {color: #8abfda; text-decoration: none;}
 /* show/hide */
 input[type='checkbox'] {display: none;}
 .lbl-toggle {display: block; cursor: pointer;}
-.togA, .togD, .togD1, .togC, .togE, .togF, .togF1, .togL,
-.togM, .togM2, .togM3, .togOS1, .togR, .togUA, .togUG, .togW, .togZ {display: none;}
+.togA, .togD, .togD1, .togC, .togE, .togF, .togF1, .togF2, .togL, .togM, .togM2,
+.togM3, .togOS1, .togR, .togUA, .togUG, .togW, .togZ {display: none;}
 
 /* buttons */
 button {background-color: #1a1a1a; border-width: 0px; text-align: center;
