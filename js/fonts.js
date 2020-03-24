@@ -306,12 +306,51 @@ function get_fallback_string() {
 function get_unicode() {
 	/* code based on work by David Fifield (dcf) and Serge Egelman (2015)
 		https://www.bamsoftware.com/talks/fc15-fontfp/fontfp.html#demo */
-	let offset = [], measure = [], bounding = [], client = [],
+	let offset = [], bounding = [], client = [],
 		unique = [], diffsb = [], diffsc = [], display = "",
 		t0 = performance.now()
 	let mgo = true, bgo = true, cgo = true
 
+	// textMetrics
+	let tm00 = [], tm01 = [], tm02 = [], tm03 = [], tm04 = [], tm05 = [],
+		tm06 = [], tm07 = [], tm08 = [], tm09 = [], tm10 = [], tm11 = []
+	// undefined
+	let tm00u = false
+
+	// combined textMetrics
+	let tmhash = [], tmcount = 0
+	function status(group, hash) {
+		tmhash.push(hash); tmcount++
+		if (tmcount == 11) {dom.ug2 = sha1(tmhash.join())}
+		if (hash == "7bc077692d4196982921fa6c4fcc08d424a03cd3") {
+			// actualBounding: FF74+: no pref: so these would be blocked
+			if (isFF && group == "2" && isVer > 73) {
+				return "blocked"
+			} else {
+				return zNS // or blocked
+			}
+		} else if (hash == "da39a3ee5e6b4b0d3255bfef95601890afd80709") {
+			return "blocked"
+		} else {
+			return hash
+		}
+	}
 	function output() {
+		// width
+		dom.tm00.innerHTML = (tm00u ? zU : status("1",sha1(tm00.join())))
+		// actualBounding
+		dom.tm01.innerHTML = status("2",sha1(tm01.join()))
+		dom.tm02.innerHTML = status("2",sha1(tm02.join()))
+		dom.tm03.innerHTML = status("2",sha1(tm03.join()))
+		dom.tm04.innerHTML = status("2",sha1(tm04.join()))
+		// other: prefs yet to flip
+		dom.tm05.innerHTML = status("3",sha1(tm05.join()))
+		dom.tm06.innerHTML = status("3",sha1(tm06.join()))
+		dom.tm07.innerHTML = status("3",sha1(tm07.join()))
+		dom.tm08.innerHTML = status("3",sha1(tm08.join()))
+		dom.tm09.innerHTML = status("3",sha1(tm09.join()))
+		dom.tm10.innerHTML = status("3",sha1(tm10.join()))
+		dom.tm11.innerHTML = status("3",sha1(tm11.join()))
 		// de-dupe
 		unique = unique.filter(function (item, position) {return unique.indexOf(item) === position})
 		diffsb = diffsb.filter(function (item, position) {return diffsb.indexOf(item) === position})
@@ -326,7 +365,6 @@ function get_unicode() {
 		// output
 		let total = "|"+ unique.length +" diffs]"+ sc, r = ""
 		dom.ug1 = sha1(offset.join())
-		dom.ug2.innerHTML = sha1(measure.join()) + (mgo ? "" : zB + (runS ? zSIM : ""))
 		r = (bgo ? "" : zB + (runS ? zSIM : ""))
 		if (bgo && mgo) {r = s11 +"["+ diffsb.length + total}
 		dom.ug3.innerHTML = bhash + r
@@ -335,7 +373,7 @@ function get_unicode() {
 		dom.ug4.innerHTML = chash + r
 		dom.ug10.innerHTML = fntHead + display
 		// log
-		if (logExtra && mgo) {
+		if (logExtra && mgo && tm00u == false) {
 			r = ""
 			if (bgo) {r = "measuretext vs bounding\n" + diffsb.join("\n")}
 			if (cgo && cgo !== bgo) {r += "measuretext vs clientrects\n" + diffsc.join("\n")}
@@ -345,7 +383,6 @@ function get_unicode() {
 		if (logPerf) {debug_log("unicode glyphs [fonts]",t0)}
 	}
 	function run() {
-		if (runS) {bgo = false}
 		let styles = ["default","sans-serif","serif","monospace","cursive","fantasy"],
 			div = dom.ugDiv, span = dom.ugSpan, slot = dom.ugSlot, m = "",
 			canvas = dom.ugCanvas, ctx = canvas.getContext("2d")
@@ -363,14 +400,34 @@ function get_unicode() {
 				let w = span.offsetWidth, h = div.offsetHeight
 				offset.push((j==0 ? cp+"-" : "" ) + w+"x"+h)
 				display += (w.toString()).padStart(8) +" x "+ (h.toString()).padStart(4)
-				// measure
+				// measureText
 				if (mgo) {
 					try {
 						ctx.font = "normal normal 22000px " + (j == 0 ? "none" : styles[j])
 						m = ctx.measureText(c).width
-						measure.push( (j==0 ? cp+"-" : "" ) + m)
+						if (m == undefined) {
+							tm00u = true
+						} else {
+							tm00.push( (j==0 ? cp+"-" : "" ) + m)
+						}
 						unique.push(m)
-					} catch(err) {mgo = false}
+						// other textMetrics
+						let tm = ctx.measureText(c)
+						try {tm01.push(tm.actualBoundingBoxAscent)} catch(err) {}
+						try {tm02.push(tm.actualBoundingBoxDescent)} catch(err) {}
+						try {tm03.push(tm.actualBoundingBoxLeft)} catch(err) {}
+						try {tm04.push(tm.actualBoundingBoxRight)} catch(err) {}
+						try {tm05.push(tm.alphabeticBaseline)} catch(err) {}
+						try {tm06.push(tm.emHeightAscent)} catch(err) {}
+						try {tm07.push(tm.emHeightDescent)} catch(err) {}
+						try {tm08.push(tm.fontBoundingBoxAscent)} catch(err) {}
+						try {tm09.push(tm.fontBoundingBoxDescent)} catch(err) {}
+						try {tm10.push(tm.hangingBaseline)} catch(err) {}
+						try {tm11.push(tm.ideographicBaseline)} catch(err) {}
+					} catch(err) {
+						// canvas is blocked
+						mgo = false
+					}
 				}
 				// bounding: w=div h=span
 				if (bgo) {
