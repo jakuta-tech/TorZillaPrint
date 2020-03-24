@@ -316,20 +316,26 @@ function get_unicode() {
 		tm06 = [], tm07 = [], tm08 = [], tm09 = [], tm10 = [], tm11 = []
 	// undefined
 	let tm00u = false
-
 	// combined textMetrics
-	let tmhash = [], tmcount = 0
+	let tmhash = []
+
+	// pretty results
 	function status(group, hash) {
-		tmhash.push(hash); tmcount++
-		if (tmcount == 11) {dom.ug2 = sha1(tmhash.join())}
-		if (hash == "7bc077692d4196982921fa6c4fcc08d424a03cd3") {
+		tmhash.push(hash)
+		if (hash == "430f7dd58a56499d33ebeefdcc42a1777c251164") {
+			return "undefined"
+		} else if (hash == "7bc077692d4196982921fa6c4fcc08d424a03cd3") {
 			// actualBounding: FF74+: no pref: so these would be blocked
+			// add logic to entropy
 			if (isFF && group == "2" && isVer > 73) {
+				tmhash.push("blocked")
 				return "blocked"
 			} else {
+				tmhash.push("not supported")
 				return zNS // or blocked
 			}
 		} else if (hash == "da39a3ee5e6b4b0d3255bfef95601890afd80709") {
+			// this only happens when canvas 2d is blocked
 			return "blocked"
 		} else {
 			return hash
@@ -337,7 +343,7 @@ function get_unicode() {
 	}
 	function output() {
 		// width
-		dom.tm00.innerHTML = (tm00u ? zU : status("1",sha1(tm00.join())))
+		dom.tm00.innerHTML = status("1",sha1(tm00.join()))
 		// actualBounding
 		dom.tm01.innerHTML = status("2",sha1(tm01.join()))
 		dom.tm02.innerHTML = status("2",sha1(tm02.join()))
@@ -351,6 +357,9 @@ function get_unicode() {
 		dom.tm09.innerHTML = status("3",sha1(tm09.join()))
 		dom.tm10.innerHTML = status("3",sha1(tm10.join()))
 		dom.tm11.innerHTML = status("3",sha1(tm11.join()))
+		// combined
+		dom.ug2 = sha1(tmhash.join())
+		//console.debug(tmhash.join("\n"))
 		// de-dupe
 		unique = unique.filter(function (item, position) {return unique.indexOf(item) === position})
 		diffsb = diffsb.filter(function (item, position) {return diffsb.indexOf(item) === position})
@@ -366,10 +375,10 @@ function get_unicode() {
 		let total = "|"+ unique.length +" diffs]"+ sc, r = ""
 		dom.ug1 = sha1(offset.join())
 		r = (bgo ? "" : zB + (runS ? zSIM : ""))
-		if (bgo && mgo) {r = s11 +"["+ diffsb.length + total}
+		if (bgo && mgo && tm00u == false) {r = s11 +"["+ diffsb.length + total}
 		dom.ug3.innerHTML = bhash + r
 		r = (cgo ? "" : zB + (runS ? zSIM : ""))
-		if (cgo && mgo) {r = s11 +"["+ diffsc.length + total}
+		if (cgo && mgo && tm00u == false) {r = s11 +"["+ diffsc.length + total}
 		dom.ug4.innerHTML = chash + r
 		dom.ug10.innerHTML = fntHead + display
 		// log
@@ -405,11 +414,8 @@ function get_unicode() {
 					try {
 						ctx.font = "normal normal 22000px " + (j == 0 ? "none" : styles[j])
 						m = ctx.measureText(c).width
-						if (m == undefined) {
-							tm00u = true
-						} else {
-							tm00.push( (j==0 ? cp+"-" : "" ) + m)
-						}
+						if (m == undefined) {tm00u = true}
+						tm00.push( (j==0 ? cp+"-" : "" ) + m)
 						unique.push(m)
 						// other textMetrics
 						let tm = ctx.measureText(c)
