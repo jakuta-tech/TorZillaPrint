@@ -314,18 +314,22 @@ function get_unicode() {
 	// textMetrics
 	let tm00 = [], tm01 = [], tm02 = [], tm03 = [], tm04 = [], tm05 = [],
 		tm06 = [], tm07 = [], tm08 = [], tm09 = [], tm10 = [], tm11 = []
-	// undefined
-	let tm00u = false
+	// undefined, random
+	let tm00u = false,
+		tm00c = "",
+		tm00w = "",
+		tm00r = ""
 	// combined textMetrics
 	let tmhash = []
 
 	// pretty results
 	function status(group, hash) {
 		tmhash.push(hash)
+		// ToDo: textMetrics: dom.textMetrics pref default changes
 		if (hash == "430f7dd58a56499d33ebeefdcc42a1777c251164") {
 			return "undefined"
 		} else if (hash == "7bc077692d4196982921fa6c4fcc08d424a03cd3") {
-			// actualBounding: FF74+: no pref: so these would be blocked
+			// actualBounding: FF74+ enabled
 			// add logic to entropy
 			if (isFF && group == "2" && isVer > 73) {
 				tmhash.push("blocked")
@@ -343,13 +347,13 @@ function get_unicode() {
 	}
 	function output() {
 		// width
-		dom.tm00.innerHTML = status("1",sha1(tm00.join()))
-		// actualBounding
+		dom.tm00.innerHTML = status("1",sha1(tm00.join())) + tm00r
+		// actualBounding: 74+ true
 		dom.tm01.innerHTML = status("2",sha1(tm01.join()))
 		dom.tm02.innerHTML = status("2",sha1(tm02.join()))
 		dom.tm03.innerHTML = status("2",sha1(tm03.join()))
 		dom.tm04.innerHTML = status("2",sha1(tm04.join()))
-		// other: prefs yet to flip
+		// other: 74+: prefs yet to flip
 		dom.tm05.innerHTML = status("3",sha1(tm05.join()))
 		dom.tm06.innerHTML = status("3",sha1(tm06.join()))
 		dom.tm07.innerHTML = status("3",sha1(tm07.join()))
@@ -358,7 +362,7 @@ function get_unicode() {
 		dom.tm10.innerHTML = status("3",sha1(tm10.join()))
 		dom.tm11.innerHTML = status("3",sha1(tm11.join()))
 		// combined
-		dom.ug2 = sha1(tmhash.join())
+		dom.ug2.innerHTML = sha1(tmhash.join()) + tm00r
 		//console.debug(tmhash.join("\n"))
 		// de-dupe
 		unique = unique.filter(function (item, position) {return unique.indexOf(item) === position})
@@ -414,7 +418,17 @@ function get_unicode() {
 					try {
 						ctx.font = "normal normal 22000px " + (j == 0 ? "none" : styles[j])
 						m = ctx.measureText(c).width
-						if (m == undefined) {tm00u = true}
+						if (m == undefined) {
+							tm00u = true
+						} else {
+							// find a default style char with 13 decimal places
+							if (tm00r == "" && j == 0) {
+								if (count_decimals(m) == 13) {
+									tm00c = c // char
+									tm00w = m // single char
+								}
+							}
+						}
 						tm00.push( (j==0 ? cp+"-" : "" ) + m)
 						unique.push(m)
 						// other textMetrics
@@ -458,6 +472,12 @@ function get_unicode() {
 			}
 		}
 		dom.ugSlot = ""
+		// measureText.width randomization
+		if (tm00c !== "" & mgo) {
+			ctx.font = "normal normal 22000px none"
+			m = ctx.measureText(tm00c+tm00c).width
+			if (tm00w * 2 !== m) {tm00r = note_random}
+		}
 		output()
 	}
 	run()
