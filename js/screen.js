@@ -4,11 +4,6 @@ var jsZoom, varDPI, dpi_x, dpi_y;
 
 /* FUNCTIONS */
 
-function count_decimals(value) {
-	if(Math.floor(value) === value) return 0
-	return value.toString().split(".")[1].length || 0
-}
-
 function return_lb_nw(w,h) {
 	// LB
 	let wstep = 200, hstep = 200, bw = false, bh = false
