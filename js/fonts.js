@@ -316,8 +316,6 @@ function get_unicode() {
 		tm06 = [], tm07 = [], tm08 = [], tm09 = [], tm10 = [], tm11 = []
 	// undefined, random
 	let tm00u = false,
-		tm00c = "",
-		tm00w = "",
 		tm00r = ""
 	// combined textMetrics
 	let tmhash = []
@@ -421,11 +419,10 @@ function get_unicode() {
 						if (m == undefined) {
 							tm00u = true
 						} else {
-							// find a default style char with 13 decimal places
+							// random check
 							if (tm00r == "" && j == 0) {
-								if (count_decimals(m) == 13) {
-									tm00c = c // char
-									tm00w = m // single char
+								if (i < 11) {
+									if (ctx.measureText(c+c).width !== (m*2)) {tm00r = note_random}
 								}
 							}
 						}
@@ -472,12 +469,6 @@ function get_unicode() {
 			}
 		}
 		dom.ugSlot = ""
-		// measureText.width randomization
-		if (tm00c !== "" & mgo) {
-			ctx.font = "normal normal 22000px none"
-			m = ctx.measureText(tm00c+tm00c).width
-			if (tm00w * 2 !== m) {tm00r = note_random}
-		}
 		output()
 	}
 	run()
