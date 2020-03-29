@@ -16,18 +16,18 @@ function reset_domrect() {
 	}
 }
 
-function remove_domrect(type) {
+function remove_domrect(reason) {
 	// remove listener + iframe
 	let ifdr = dom.ifdr
 	ifdr.removeEventListener("load", test_domrect)
-	document.getElementById("drect").removeChild(ifdr)
+	dom.iframes.removeChild(ifdr)
 	// note error
-	if (type !== "") {
+	if (reason !== "") {
 		let s = ""
-		if (type == "cors") {s = error_file_cors}
-		if (type == "404") {s = error_file_404}
-		if (type == "iframe") {s = error_iframe}
-		if (type == "tryagain") {s = so+"[oophs]"+sc + " click re-run"}
+		if (reason == "cors") {s = error_file_cors}
+		if (reason == "404") {s = error_file_404}
+		if (reason == "iframe") {s = error_iframe}
+		if (reason == "tryagain") {s = so+"[oophs]"+sc + " click re-run"}
 		dom.dr1.innerHTML = s
 		dom.dr2.innerHTML = s
 		dom.dr3.innerHTML = s
@@ -35,7 +35,7 @@ function remove_domrect(type) {
 	}
 	// perf
 	let warning = ""
-	if (type == "iframe") {warning = "timed out ["+timerdr+"]"}
+	if (reason == "iframe") {warning = "timed out ["+timerdr+"]"}
 	debug_page("perf","domrect",t0dr,gt0,warning)
 }
 
@@ -129,7 +129,7 @@ function outputDomRect() {
 	// create & append iframe, set src, start listener
 	let iframe = document.createElement("iframe")
 	iframe.id = "ifdr"
-	dom.drect.appendChild(iframe)
+	dom.iframes.appendChild(iframe)
 	iframe.src = "iframes/domrect.html"
 	iframe.addEventListener("load", test_domrect)
 
