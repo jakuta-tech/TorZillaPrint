@@ -969,6 +969,68 @@ function get_ua_nav() {
 	}
 	res.sort()
 	dom.sectionUA1.innerHTML = sha1(res.join()) + (isFF ? s2+"[spoofable + detectable]"+sc : "")
+
+	// start nav checks
+	get_ua_nav_iframe()
+}
+
+function get_ua_nav_iframe() {
+	let hash = ""
+	function remove_iframe(reason) {
+		try {
+			let ifua = dom.ifua
+			ifua.removeEventListener("load", test)
+			dom.iframes.removeChild(ifua)
+		} catch(e) {}
+		// errors
+		if (reason !== "") {
+			let s = ""
+			if (reason == "cors") {s = error_file_cors}
+			if (reason == "404") {s = error_file_404}
+			if (reason == "iframe") {s = error_iframe}
+			dom.sectionUA5.innerHTML = s
+		}
+	}
+	function compare() {
+		let hash2 = (dom.sectionUA1.textContent).substring(0,40)
+		dom.sectionUA5.innerHTML = hash + (hash == hash2 ? match_green : match_red)
+		remove_iframe("")
+	}
+	function test() {
+		setTimeout(function() {
+			try {
+				let ifua = dom.ifua
+				hash = ifua.contentWindow.document.getElementById("result").textContent
+				compare()
+			} catch(e) {
+				if (isFile) {
+					remove_iframe("cors")
+				} else {
+					dom.sectionUA5 = e.message
+					remove_iframe("")
+				}
+			}
+		}, 15)
+	}
+	// start timer
+	let delay = 2500
+	if (isOS == "android" | isTB) {delay = 3500}
+	setTimeout(function(){
+		// we're still empty
+		if (dom.sectionUA5.textContent == "") {
+			if (isFile) {
+				remove_iframe("404")
+			} else {
+				remove_iframe("iframe")
+			}
+		}
+	}, delay)
+	// create & load iframe
+	let iframe = document.createElement("iframe")
+	iframe.id = "ifua"
+	dom.iframes.appendChild(iframe)
+	iframe.src = "iframes/ua.html"
+	iframe.addEventListener("load", test)
 }
 
 function get_version() {
@@ -1427,7 +1489,7 @@ function goNW_UA() {
 	let list = ['userAgent','appCodeName','appName','product','appVersion',
 		'oscpu','platform','buildID','productSub','vendor','vendorSub'],
 		res = []
-	dom.sectionUA2.innerHTML = "&nbsp"
+	dom.sectionUA6.innerHTML = "&nbsp"
 	// open, get results, close
 	let newWin = window.open()
 	for(let i=0; i < list.length; i++) {
@@ -1441,7 +1503,7 @@ function goNW_UA() {
 	let hash = sha1(res.join())
 	let hash2 = (dom.sectionUA1.textContent).substring(0,40)
 	// output
-	dom.sectionUA2.innerHTML = hash + (hash != hash2 ? sb+"[does not match]"+sc : "")
+	dom.sectionUA6.innerHTML = hash + (hash == hash2 ? match_green : match_red)
 }
 
 /* OUTPUT */
