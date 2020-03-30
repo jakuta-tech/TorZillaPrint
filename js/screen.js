@@ -1492,6 +1492,7 @@ function goNW_UA() {
 	dom.sectionUA6.innerHTML = "&nbsp"
 	// open, get results, close
 	let newWin = window.open()
+	let navigator = newWin.navigator
 	for(let i=0; i < list.length; i++) {
 		let r = navigator[list[i]]
 		if (r == "") {r = zU}
