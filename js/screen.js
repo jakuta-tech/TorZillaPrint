@@ -976,7 +976,9 @@ function get_ua_nav() {
 }
 
 function get_ua_nav_iframe() {
-	let hash = ""
+	let hash = "",
+		el = dom.sectionUA6
+
 	function remove_iframe(reason) {
 		try {
 			let ifua = dom.ifua
@@ -989,12 +991,12 @@ function get_ua_nav_iframe() {
 			if (reason == "cors") {s = error_file_cors}
 			if (reason == "404") {s = error_file_404}
 			if (reason == "iframe") {s = error_iframe}
-			dom.sectionUA5.innerHTML = s
+			el.innerHTML = s
 		}
 	}
 	function compare() {
 		let hash2 = (dom.sectionUA1.textContent).substring(0,40)
-		dom.sectionUA5.innerHTML = hash + (hash == hash2 ? match_green : match_red)
+		el.innerHTML = hash + (hash == hash2 ? match_green : match_red)
 		remove_iframe("")
 	}
 	function test() {
@@ -1007,7 +1009,7 @@ function get_ua_nav_iframe() {
 				if (isFile) {
 					remove_iframe("cors")
 				} else {
-					dom.sectionUA5 = e.message
+					el.innerHTML = e.message
 					remove_iframe("")
 				}
 			}
@@ -1018,7 +1020,7 @@ function get_ua_nav_iframe() {
 	if (isOS == "android" | isTB) {delay = 3500}
 	setTimeout(function(){
 		// we're still empty
-		if (dom.sectionUA5.textContent == "") {
+		if (el.textContent == "") {
 			if (isFile) {
 				remove_iframe("404")
 			} else {
@@ -1035,20 +1037,18 @@ function get_ua_nav_iframe() {
 }
 
 function get_ua_nav_worker() {
-	// clear
-	dom.sectionUA2.innerHTML = ""
-	dom.sectionUA3.innerHTML = ""
-	dom.sectionUA4.innerHTML = ""
+	function exit(s) {
+		dom.sectionUA2.innerHTML = 
+		dom.sectionUA3.innerHTML = s
+		dom.sectionUA4.innerHTML = s
+		dom.sectionUA5.innerHTML = s
+	}
 	if (isFile) {
 		// file
-		dom.sectionUA2.innerHTML = zNA + note_file
-		dom.sectionUA3.innerHTML = zNA + note_file
-		dom.sectionUA4.innerHTML = zNA + note_file
+		exit(zNA + note_file)
 	} else if (typeof(Worker) == "undefined") {
 		// no workers
-		dom.sectionUA2.innerHTML = "workers are disabled"
-		dom.sectionUA3.innerHTML = zNA
-		dom.sectionUA4.innerHTML = zNA
+		exit(zD)
 	} else {
 		// control
 		let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
@@ -1059,7 +1059,7 @@ function get_ua_nav_worker() {
 			res.push((i).toString().padStart(2,"0")+" "+r)
 		}
 		let control = sha1(res.join())
-		// web worker
+		// web
 		let test = ""
 		try {
 			let workernav = new Worker("js/worker_ua.js")
@@ -1072,10 +1072,12 @@ function get_ua_nav_worker() {
 		} catch(e) {
 			dom.sectionUA2 = zF+": " + e.name
 		}
-		// service worker
+		// shared
 		dom.sectionUA3.innerHTML = note_ttc
-		// nested worker
+		// service
 		dom.sectionUA4.innerHTML = note_ttc
+		// nested
+		dom.sectionUA5.innerHTML = note_ttc
 	}
 }
 
@@ -1535,7 +1537,7 @@ function goNW_UA() {
 	let list = ['userAgent','appCodeName','appName','product','appVersion',
 		'oscpu','platform','buildID','productSub','vendor','vendorSub'],
 		res = []
-	dom.sectionUA6.innerHTML = "&nbsp"
+	dom.sectionUA8.innerHTML = "&nbsp"
 	// open, get results, close
 	let newWin = window.open()
 	let navigator = newWin.navigator
@@ -1550,7 +1552,7 @@ function goNW_UA() {
 	let hash = sha1(res.join())
 	let hash2 = (dom.sectionUA1.textContent).substring(0,40)
 	// output
-	dom.sectionUA6.innerHTML = hash + (hash == hash2 ? match_green : match_red)
+	dom.sectionUA8.innerHTML = hash + (hash == hash2 ? match_green : match_red)
 }
 
 /* OUTPUT */
