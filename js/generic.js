@@ -25,7 +25,7 @@ function store_data(section, key, value) {
 		if (fp_ua.length == 5) {
 			fp_ua.sort()
 			//console.debug(fp_ua.join())
-			dom.sectionUA7.innerHTML = sha1(fp_ua.join()) + s2+"[unspoofable?]"+sc
+			dom.sectionUA9.innerHTML = sha1(fp_ua.join()) + s2+"[unspoofable?]"+sc
 		}
 	}
 }
