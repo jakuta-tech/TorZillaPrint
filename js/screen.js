@@ -978,6 +978,7 @@ function get_ua_nav() {
 function get_ua_nav_iframe() {
 	let hash = "",
 		el = dom.sectionUA6
+	dom.sectionUA7.innerHTML = note_ttc //nested
 
 	function remove_iframe(reason) {
 		try {
@@ -996,6 +997,18 @@ function get_ua_nav_iframe() {
 	}
 	function compare() {
 		let hash2 = (dom.sectionUA1.textContent).substring(0,40)
+		let win = iframe.contentWindow
+		let navigator = win.navigator
+		let list = ['userAgent','appCodeName','appName','product','appVersion',
+			'oscpu','platform','buildID','productSub','vendor','vendorSub'],
+			res = []
+		for (let i=0; i < list.length; i++) {
+			let r = navigator[list[i]]
+			if (r == "") {r = "undefined"}
+			res.push((i).toString().padStart(2,"0")+" "+r)
+		}
+		res.sort()
+		let hash = sha1(res.join())
 		el.innerHTML = hash + (hash == hash2 ? match_green : match_red)
 		remove_iframe("")
 	}
@@ -1003,7 +1016,7 @@ function get_ua_nav_iframe() {
 		setTimeout(function() {
 			try {
 				let ifua = dom.ifua
-				hash = ifua.contentWindow.document.getElementById("result").textContent
+				let check = ifua.contentWindow.document.getElementById("test").textContent
 				compare()
 			} catch(e) {
 				if (isFile) {
@@ -1032,7 +1045,7 @@ function get_ua_nav_iframe() {
 	let iframe = document.createElement("iframe")
 	iframe.id = "ifua"
 	dom.iframes.appendChild(iframe)
-	iframe.src = "iframes/ua.html"
+	iframe.src = "iframes/test.html"
 	iframe.addEventListener("load", test)
 }
 
