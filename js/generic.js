@@ -18,6 +18,22 @@ function count_decimals(value) {
 	return value.toString().split(".")[1].length || 0
 }
 
+function get_ua_hash(type) {
+	let list = ['userAgent','appCodeName','appName','product','appVersion',
+		'oscpu','platform','buildID','productSub','vendor','vendorSub'],
+	res = []
+	if (type == "worker") {
+		list = ['userAgent','appCodeName','appName','product','appVersion','platform']
+	}
+	for (let i=0; i < list.length; i++) {
+		let r = navigator[list[i]]
+		if (r == "") {r = "undefined"}
+		res.push((i).toString().padStart(2,"0")+" "+r)
+	}
+	res.sort()
+	return sha1(res.join())
+}
+
 function store_data(section, key, value) {
 	//console.log(section.padStart(4),key.padStart(8),value)
 	if (section == "ua") {
