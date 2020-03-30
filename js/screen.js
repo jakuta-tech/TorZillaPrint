@@ -972,6 +972,7 @@ function get_ua_nav() {
 
 	// start nav checks
 	get_ua_nav_iframe()
+	get_ua_nav_worker()
 }
 
 function get_ua_nav_iframe() {
@@ -1031,6 +1032,51 @@ function get_ua_nav_iframe() {
 	dom.iframes.appendChild(iframe)
 	iframe.src = "iframes/ua.html"
 	iframe.addEventListener("load", test)
+}
+
+function get_ua_nav_worker() {
+	// clear
+	dom.sectionUA2.innerHTML = ""
+	dom.sectionUA3.innerHTML = ""
+	dom.sectionUA4.innerHTML = ""
+	if (isFile) {
+		// file
+		dom.sectionUA2.innerHTML = zNA + note_file
+		dom.sectionUA3.innerHTML = zNA + note_file
+		dom.sectionUA4.innerHTML = zNA + note_file
+	} else if (typeof(Worker) == "undefined") {
+		// no workers
+		dom.sectionUA2.innerHTML = "workers are disabled"
+		dom.sectionUA3.innerHTML = zNA
+		dom.sectionUA4.innerHTML = zNA
+	} else {
+		// control
+		let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
+			res = []
+		for (let i=0; i < list.length; i++) {
+			let r = navigator[list[i]]
+			if (r == "") {r = "undefined"}
+			res.push((i).toString().padStart(2,"0")+" "+r)
+		}
+		let control = sha1(res.join())
+		// web worker
+		let test = ""
+		try {
+			let workernav = new Worker("js/worker_ua.js")
+			dom.sectionUA2 = zF
+			workernav.addEventListener("message", function(e) {
+				test = sha1((e.data).join())
+				dom.sectionUA2.innerHTML = test + (test == control ? match_green : match_red)
+			}, false)
+				workernav.postMessage("hi")
+		} catch(e) {
+			dom.sectionUA2 = zF+": " + e.name
+		}
+		// service worker
+		dom.sectionUA3.innerHTML = note_ttc
+		// nested worker
+		dom.sectionUA4.innerHTML = note_ttc
+	}
 }
 
 function get_version() {
