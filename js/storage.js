@@ -12,7 +12,7 @@ function lookup_cookie(name) {
 	name += "="
 	let decodedCookie = decodeURIComponent(document.cookie)
 	let ca = decodedCookie.split(';');
-	for(let i=0 ; i < ca.length; i++) {
+	for (let i=0 ; i < ca.length; i++) {
 		let c = ca[i]
 		while (c.charAt(0) == " ") {
 			c = c.substring(1)
@@ -226,8 +226,8 @@ function get_workers() {
 		dom.work1 = zE
 		if (isFile) {
 			// isFile
-			dom.work2.innerHTML= zNA + note_file;
-			dom.work3.innerHTML= zNA + note_file;
+			dom.work2.innerHTML= zNA + note_file
+			dom.work3.innerHTML= zNA + note_file
 		} else {
 			// web worker test
 			try {
@@ -277,7 +277,7 @@ function get_service_workers() {
 	if (isSecure) {
 		if ("serviceWorker" in navigator) {
 			dom.swork1 = zE
-			// test
+			// register
 			navigator.serviceWorker.register("js/workerservice.js").then(function(registration) {
 				dom.swork2 = zS
 				// cache support
@@ -288,7 +288,8 @@ function get_service_workers() {
 				dom.notif1.innerHTML = note_ttc
 				// notifications test
 				dom.notif2.innerHTML = note_ttc
-				// ToDo: service workers: unregister
+				// unregister
+				registration.unregister().then(function(boolean) {})
 			},
 			function(e) {
 				// sw error
