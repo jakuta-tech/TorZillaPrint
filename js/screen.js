@@ -1051,47 +1051,86 @@ function get_ua_nav_iframe() {
 }
 
 function get_ua_nav_worker() {
-	function exit(s) {
-		dom.sectionUA2.innerHTML = 
-		dom.sectionUA3.innerHTML = s
-		dom.sectionUA4.innerHTML = s
-		dom.sectionUA5.innerHTML = s
+	// control
+	let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
+		res = []
+	for (let i=0; i < list.length; i++) {
+		let r = navigator[list[i]]
+		if (r == "") {r = "undefined"}
+		res.push((i).toString().padStart(2,"0")+" "+r)
 	}
+	let control = sha1(res.join())
+
+	function exit(s) {
+		dom.sectionUA2.innerHTML = s //web
+		dom.sectionUA3.innerHTML = s //shared
+		dom.sectionUA4.innerHTML = s //nested
+	}
+	// workers
 	if (isFile) {
 		// file
 		exit(zNA + note_file)
 	} else if (typeof(Worker) == "undefined") {
-		// no workers
+		// none
 		exit(zD)
 	} else {
-		// control
-		let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
-			res = []
-		for (let i=0; i < list.length; i++) {
-			let r = navigator[list[i]]
-			if (r == "") {r = "undefined"}
-			res.push((i).toString().padStart(2,"0")+" "+r)
-		}
-		let control = sha1(res.join())
 		// web
-		let test = ""
 		try {
 			let workernav = new Worker("js/worker_ua.js")
+			let test2 = ""
 			dom.sectionUA2 = zF
 			workernav.addEventListener("message", function(e) {
-				test = sha1((e.data).join())
-				dom.sectionUA2.innerHTML = test + (test == control ? match_green : match_red)
+				test2 = sha1((e.data).join())
+				dom.sectionUA2.innerHTML = test2 + (test2 == control ? match_green : match_red)
 			}, false)
-				workernav.postMessage("hi")
+			workernav.postMessage("hi")
 		} catch(e) {
 			dom.sectionUA2 = zF+": " + e.name
 		}
 		// shared
-		dom.sectionUA3.innerHTML = note_ttc
-		// service
-		dom.sectionUA4.innerHTML = note_ttc
+		try {
+			let sharednav = new SharedWorker("js/workershared_ua.js")
+			let test3 = ""
+			dom.sectionUA3 = zF
+			sharednav.port.addEventListener("message", function(e) {
+				test3 = sha1((e.data).join())
+				dom.sectionUA3.innerHTML = test3 + (test3 == control ? match_green : match_red)
+			}, false);
+			sharednav.port.start();
+			sharednav.port.postMessage("Hi");
+		} catch(e) {
+			dom.sectionUA3 = zF+": " + e.name
+		}
 		// nested
-		dom.sectionUA5.innerHTML = note_ttc
+		dom.sectionUA4.innerHTML = note_ttc
+	}
+
+	// service
+	let el = dom.sectionUA5,
+		output = ""
+	if (isFile) {
+		el.innerHTML = zNA + note_file
+	} else if (isSecure) {
+		if ("serviceWorker" in navigator) {
+			let test5 = ""
+			// register
+			navigator.serviceWorker.register("js/workerservice_ua.js").then(function(registration) {
+				el.innerHTML = note_ttc
+				// unregister
+				registration.unregister().then(function(boolean) {})
+			},
+			function(e) {
+				if (e.name ==="") {
+					output = zF+": unknown error"
+				} else {
+					output = zF+": "+ e.name
+				}
+				el.innerHTML = output
+			})
+		} else {
+			// none
+			el.innerHTML = zD
+		}
 	}
 }
 
