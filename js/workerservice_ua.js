@@ -1,6 +1,5 @@
 'use strict';
 
-console.debug("sw ua reporting")
 addEventListener("message", function(e) {
 	let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
 		res = []
