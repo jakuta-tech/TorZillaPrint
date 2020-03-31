@@ -997,11 +997,12 @@ function get_ua_nav_iframe() {
 	}
 	function compare() {
 		let hash2 = (dom.sectionUA1.textContent).substring(0,40)
-		let win = iframe.contentWindow
-		let navigator = win.navigator
 		let list = ['userAgent','appCodeName','appName','product','appVersion',
 			'oscpu','platform','buildID','productSub','vendor','vendorSub'],
 			res = []
+		let target = dom.ifua,
+			win = target.contentWindow,
+			navigator = win.navigator
 		for (let i=0; i < list.length; i++) {
 			let r = navigator[list[i]]
 			if (r == "") {r = "undefined"}
