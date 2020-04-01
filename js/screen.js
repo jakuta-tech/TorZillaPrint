@@ -1068,7 +1068,11 @@ function get_ua_nav_worker() {
 			if (res[i] !== data[i]) {
 				output = data[i].slice(3, data[i].length)
 				target = data[i].substring(0,2)
-				console.debug(target, output)
+				// match to correct element: nUAxx
+				if (target == "05") {target = "06"}
+				target = document.getElementById("nUA"+target)
+				// append
+				target.innerHTML += "<br>" + sb + output + sc
 			}
 		}
 	}
