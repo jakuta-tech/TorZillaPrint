@@ -1061,6 +1061,18 @@ function get_ua_nav_worker() {
 	}
 	let control = sha1(res.join())
 
+	function update(data) {
+		// compare shared worker to control: output diffs
+		let target = "", output = ""
+		for (let i=0; i < res.length; i++) {
+			if (res[i] !== data[i]) {
+				output = data[i].slice(3, data[i].length)
+				target = data[i].substring(0,2)
+				console.debug(target, output)
+			}
+		}
+	}
+
 	function exit(s) {
 		dom.sectionUA2.innerHTML = s //web
 		dom.sectionUA3.innerHTML = s //shared
@@ -1072,64 +1084,62 @@ function get_ua_nav_worker() {
 		exit(zNA + note_file)
 	} else if (typeof(Worker) == "undefined") {
 		// none
-		exit(zD)
+		exit(zF)
 	} else {
+
 		// web
+		let el2 = dom.sectionUA2, test2 = ""
 		try {
 			let workernav = new Worker("js/worker_ua.js")
-			let test2 = ""
-			dom.sectionUA2 = zF
+			el2.innerHTML = zF
 			workernav.addEventListener("message", function(e) {
 				test2 = sha1((e.data).join())
-				dom.sectionUA2.innerHTML = test2 + (test2 == control ? match_green : match_red)
+				el2.innerHTML = test2 + (test2 == control ? match_green : match_red)
 			}, false)
 			workernav.postMessage("hi")
 		} catch(e) {
-			dom.sectionUA2 = zF+": " + e.name
+			el2.innerHTML = zF
 		}
+
 		// shared
+		let el3 = dom.sectionUA3, test3 = ""
 		try {
 			let sharednav = new SharedWorker("js/workershared_ua.js")
-			let test3 = ""
-			dom.sectionUA3 = zF
+			el3.innerHTML = zF
 			sharednav.port.addEventListener("message", function(e) {
 				test3 = sha1((e.data).join())
-				dom.sectionUA3.innerHTML = test3 + (test3 == control ? match_green : match_red)
-			}, false);
-			sharednav.port.start();
-			sharednav.port.postMessage("Hi");
+				el3.innerHTML = test3 + (test3 == control ? match_green : match_red)
+				if (test3 !== control) {
+					update(e.data)
+				}
+			}, false)
+			sharednav.port.start()
+			sharednav.port.postMessage("hi")
 		} catch(e) {
-			dom.sectionUA3 = zF+": " + e.name
+			el3.innerHTML = zF
 		}
+
 		// nested
 		dom.sectionUA4.innerHTML = note_ttc
 	}
 
 	// service
-	let el = dom.sectionUA5,
-		output = ""
+	let el5 = dom.sectionUA5, test5 = ""
 	if (isFile) {
-		el.innerHTML = zNA + note_file
+		el5.innerHTML = zNA + note_file
 	} else if (isSecure) {
 		if ("serviceWorker" in navigator) {
-			let test5 = ""
 			// register
 			navigator.serviceWorker.register("js/workerservice_ua.js").then(function(registration) {
-				el.innerHTML = note_ttc
+				el5.innerHTML = note_ttc
 				// unregister
-				registration.unregister().then(function(boolean) {})
+				//registration.unregister().then(function(boolean) {})
 			},
 			function(e) {
-				if (e.name ==="") {
-					output = zF+": unknown error"
-				} else {
-					output = zF+": "+ e.name
-				}
-				el.innerHTML = output
+				el5.innerHTML = zF
 			})
 		} else {
-			// none
-			el.innerHTML = zD
+			el5.innerHTML = zF
 		}
 	}
 }
