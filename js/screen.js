@@ -1139,11 +1139,12 @@ function get_ua_nav_worker() {
 					// listen
 					let channel = new BroadcastChannel("sw-ua")
 					channel.addEventListener("message", event => {
-						let array = event.data.msg
-						test5 = sha1(array.join())
+						test5 = sha1((event.data.msg).join())
 						el5.innerHTML = test5 + (test5 == control ? match_green : match_red)
 						// unregister
 						swr.unregister().then(function(boolean) {})
+						// close
+						channel.close()
 					})
 				} else {
 					el5.innerHTML = zF
