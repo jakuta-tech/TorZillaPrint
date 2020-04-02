@@ -1134,10 +1134,20 @@ function get_ua_nav_worker() {
 	} else if (isSecure) {
 		if ("serviceWorker" in navigator) {
 			// register
-			navigator.serviceWorker.register("js/workerservice_ua.js").then(function(registration) {
-				el5.innerHTML = note_ttc
-				// unregister
-				//registration.unregister().then(function(boolean) {})
+			navigator.serviceWorker.register("js/workerservice_ua.js").then(function(swr) {
+				if (swr.installing) {
+					// listen
+					let channel = new BroadcastChannel("sw-ua")
+					channel.addEventListener("message", event => {
+						let array = event.data.msg
+						test5 = sha1(array.join())
+						el5.innerHTML = test5 + (test5 == control ? match_green : match_red)
+						// unregister
+						swr.unregister().then(function(boolean) {})
+					})
+				} else {
+					el5.innerHTML = zF
+				}
 			},
 			function(e) {
 				el5.innerHTML = zF
