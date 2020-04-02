@@ -1072,7 +1072,7 @@ function get_ua_nav_worker() {
 				if (target == "05") {target = "06"}
 				target = document.getElementById("nUA"+target)
 				// append
-				target.innerHTML += "<br>" + sb + output + sc
+				target.innerHTML += "<br>" + sb.trim() + output + sc
 			}
 		}
 	}
