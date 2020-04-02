@@ -144,17 +144,17 @@
 			<div>[header] http_user_agent</div></div></td><td class="faint"></td>
 		</tr>
 		<tr><td>hash</td><td class="c mono" id="sectionUA1"></td></tr>
-		<tr><td id="UA00">userAgent</td><td class="c" id="nUA00"></td></tr>
-		<tr><td id="UA01">appCodeName</td><td class="c" id="nUA01"></td></tr>
-		<tr><td id="UA02">appName</td><td class="c" id="nUA02"></td></tr>
-		<tr><td id="UA03">product</td><td class="c" id="nUA03"></td></tr>
-		<tr><td id="UA04">appVersion</td><td class="c" id="nUA04"></td></tr>
-		<tr><td id="UA05">oscpu</td><td class="c" id="nUA05"></td></tr>
-		<tr><td id="UA06">platform</td><td class="c" id="nUA06"></td></tr>
-		<tr><td id="UA07">buildID</td><td class="c" id="nUA07"></td></tr>
-		<tr><td id="UA08">productSub</td><td class="c" id="nUA08"></td></tr>
-		<tr class="togUA" id="togUA09"><td id="UA09">vendor</td><td class="c" id="nUA09"></td></tr>
-		<tr class="togUA" id="togUA10"><td id="UA10">vendorSub</td><td class="c" id="nUA10"></td></tr>
+		<tr><td id="UA00">userAgent</td><td class="c spaces" id="nUA00"></td></tr>
+		<tr><td id="UA01">appCodeName</td><td class="c spaces" id="nUA01"></td></tr>
+		<tr><td id="UA02">appName</td><td class="c spaces" id="nUA02"></td></tr>
+		<tr><td id="UA03">product</td><td class="c spaces" id="nUA03"></td></tr>
+		<tr><td id="UA04">appVersion</td><td class="c spaces" id="nUA04"></td></tr>
+		<tr><td id="UA05">oscpu</td><td class="c spaces" id="nUA05"></td></tr>
+		<tr><td id="UA06">platform</td><td class="c spaces" id="nUA06"></td></tr>
+		<tr><td id="UA07">buildID</td><td class="c spaces" id="nUA07"></td></tr>
+		<tr><td id="UA08">productSub</td><td class="c spaces" id="nUA08"></td></tr>
+		<tr class="togUA" id="togUA09"><td id="UA09">vendor</td><td class="c spaces" id="nUA09"></td></tr>
+		<tr class="togUA" id="togUA10"><td id="UA10">vendorSub</td><td class="c spaces" id="nUA10"></td></tr>
 		<tr class="togUA" id="togUA11"><td id="UA11"></td>
 			<td><span class="bad">that's implausible and you are now highly fingerprintable</span></td></tr>
 		<tr><td colspan="2" class="center">--- navigator checks ---</td></tr>
@@ -205,7 +205,7 @@
 		<tr class="togE"><td></td><td class="sub2">widgets</td></tr>
 			<tr class="togE"><td>hash</td><td class="c mono" id="widgetH"></td></tr>
 			<tr class="togE"><td id="widfirst">button|checkbox|color|combobox|datetime-local|radio|text</td>
-				<td style="white-space: pre;" class="c" id="wid0"></td></tr> <!-- button -->
+				<td class="c spaces" id="wid0"></td></tr> <!-- button -->
 			<tr class="hidden"><td>checkbox</td><td id="wid1"></td></tr>
 			<tr class="hidden"><td>color</td><td id="wid2"></td></tr>
 			<tr class="hidden"><td>combobox</td><td id="wid3"></td></tr>
@@ -435,7 +435,7 @@
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxtb">media.navigator.enabled</span></div>
 			&nbsp mediaDevices</td><td class="c" id="nMD"></td></tr>
-		<tr><td>enumerateDevices</td><td style="white-space: pre;" class="mono" id="eMD"></td></tr>
+		<tr><td>enumerateDevices</td><td class="mono spaces" id="eMD"></td></tr>
 		<tr><td><div class="ttip"><span class="icon">[ i ]</span>
 			<span class="ttxt">dom.vr.enabled</span></div>
 			&nbsp [api] webvr</td><td class="c" id="nVR"></td></tr>
@@ -562,7 +562,7 @@
 		<tr><td colspan="2" class="showhide">
 			<input id="collapseA" class="toggle" type="checkbox" checked onchange="toggleitems(this, `A`)">
 			<label for="collapseA" class="lbl-toggle" id="labelA">&#9660; show details</label></td></tr>
-		<tr class="togA"><td>audioContext <sup>2</sup></td><td style="white-space: pre;" class="mono" id="audio1data"></td></tr>
+		<tr class="togA"><td>audioContext <sup>2</sup></td><td class="mono spaces" id="audio1data"></td></tr>
 		<tr class="togA"><td>OscillatorNode <sup>2</sup></td><td class="mono" id="audio2data"></td></tr>
 		<tr class="togA"><td>OscillatorNode/DynamicsCompressor <sup>2</sup></td><td class="mono" id="audio3data"></td></tr>
 		<tr class="togA"><td colspan="2"></td></tr>
@@ -626,7 +626,7 @@
 		<!--GLYPHS -->
 		<tr class="togF2"><td colspan="2" class="sub11">[offset] unicode glyphs</td><td>
 			 <button class="btn0" onClick="copyclip(`ug10`)">[ copy to clipboard ]</button></td></tr>
-		<tr class="togF2"><td></td><td colspan="2" style="white-space: pre;" class="mono" id="ug10"></td></tr>
+		<tr class="togF2"><td></td><td colspan="2" class="mono spaces" id="ug10"></td></tr>
 		<tr class="togF2"><td colspan="3"></td></tr>
 
 		<!--WHITELIST: c2: small -->
@@ -830,8 +830,8 @@
 		<thead><tr><th colspan="2" class="showhide">
 			<input id="collapseZ" class="toggle" type="checkbox" checked onchange="toggleitems(this, `Z`)">
 			<label for="collapseZ" class="lbl-toggle" id="labelZ">&#9660; show debugging</label></th></tr></thead>
-		<tr class="togZ"><td>section perf</td><td class="mono" style="white-space: pre;" id="debugperf"></td></tr>
-		<tr class="togZ"><td>tor browser detection points</td><td class="mono" style="white-space: pre;" id="debugtb"></td></tr>
+		<tr class="togZ"><td>section perf</td><td class="mono spaces" id="debugperf"></td></tr>
+		<tr class="togZ"><td>tor browser detection points</td><td class="mono spaces" id="debugtb"></td></tr>
 	</table>
 
 	<a name="theend"></a><br>
