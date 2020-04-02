@@ -35,6 +35,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 	.isPointInStroke, .readPixels, .getContext, .mozGetAsFile, .strokeText {
 	font-family: monospace, "Courier New";}
 .strike {text-decoration: line-through;}
+.spaces {white-space: pre;}
 
 /* notation colors */
 .faint {color: #606060;} /* #888888 darker off white */
