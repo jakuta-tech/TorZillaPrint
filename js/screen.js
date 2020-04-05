@@ -1133,8 +1133,20 @@ function get_ua_nav_worker() {
 		el5.innerHTML = zNA + note_file
 	} else if (isSecure) {
 		if ("serviceWorker" in navigator) {
+			// assume failure
+			el5.innerHTML = zF + " [A: assumed]"
 			// register
 			navigator.serviceWorker.register("js/workerservice_ua.js").then(function(swr) {
+
+				// debug
+				let sw
+				if (swr.installing) {sw = swr.installing}
+				else if (swr.waiting) {sw = swr.waiting}
+				else if (swr.active) {sw = swr.active}
+				sw.addEventListener("statechange", function(e) {
+					console.debug("sw: " + e.target.state)
+				})
+
 				if (swr.installing) {
 					// listen
 					let channel = new BroadcastChannel("sw-ua")
@@ -1147,14 +1159,14 @@ function get_ua_nav_worker() {
 						channel.close()
 					})
 				} else {
-					el5.innerHTML = zF
+					el5.innerHTML = zF + " [B: not swr.installing]"
 				}
 			},
 			function(e) {
-				el5.innerHTML = zF
+				el5.innerHTML = zF + " [C: not registering]: "  + e.message
 			})
 		} else {
-			el5.innerHTML = zF
+			el5.innerHTML = zF + " [D: no sw]"
 		}
 	}
 }
