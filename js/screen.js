@@ -1147,7 +1147,8 @@ function get_ua_nav_worker() {
 					console.debug("sw: " + e.target.state)
 				})
 
-				if (swr.installing) {
+				//if (swr.installing) {
+				if (sw) {
 					// listen
 					let channel = new BroadcastChannel("sw-ua")
 					channel.addEventListener("message", event => {
