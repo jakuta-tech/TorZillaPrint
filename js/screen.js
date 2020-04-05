@@ -1145,9 +1145,11 @@ function get_ua_nav_worker() {
 				else if (swr.active) {sw = swr.active}
 				sw.addEventListener("statechange", function(e) {
 					console.debug("sw: " + e.target.state)
+					if (e.target.state == "activated") {
+						swr.postMessage("hi")
+					}
 				})
 
-				//if (swr.installing) {
 				if (sw) {
 					// listen
 					let channel = new BroadcastChannel("sw-ua")
