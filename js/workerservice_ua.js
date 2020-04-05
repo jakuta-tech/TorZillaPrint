@@ -1,7 +1,11 @@
 'use strict';
 
 self.addEventListener("activate", function(e) {
-	console.debug("workerservice_ua.js: activated")
+	console.debug("sw_ua: activated")
+})
+
+addEventListener("message", function(e) {
+	console.debug("sw-ua: received message")
 	let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
 		res = []
 	for (let i=0; i < list.length; i++) {
@@ -11,4 +15,4 @@ self.addEventListener("activate", function(e) {
 	}
 	let channel = new BroadcastChannel("sw-ua");
 	channel.postMessage({msg: res});
-})
+}, false)
