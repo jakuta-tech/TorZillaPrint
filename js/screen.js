@@ -1151,6 +1151,7 @@ function get_ua_nav_worker() {
 				if (sw) {
 					// listen
 					let channel = new BroadcastChannel("sw-ua")
+					console.debug("listening for sw")
 					channel.addEventListener("message", event => {
 						test5 = sha1((event.data.msg).join())
 						el5.innerHTML = test5 + (test5 == control ? match_green : match_red)
