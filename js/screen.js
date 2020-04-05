@@ -1146,7 +1146,7 @@ function get_ua_nav_worker() {
 				sw.addEventListener("statechange", function(e) {
 					console.debug("sw: " + e.target.state)
 					if (e.target.state == "activated") {
-						swr.postMessage("hi")
+						sw.postMessage("hi")
 					}
 				})
 
