@@ -1,6 +1,7 @@
 'use strict';
 
 self.addEventListener("activate", function(e) {
+	console.debug("workerservice_ua.js: activated")
 	let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
 		res = []
 	for (let i=0; i < list.length; i++) {
