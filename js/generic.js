@@ -264,6 +264,7 @@ function outputSection(id, cls, page) {
 		if (id=="10" && cls=="c2") {reset_audio2()}
 		if (id=="11" && cls=="c1") {reset_unicode()}
 		if (id=="12") {reset_media()}
+		if (id=="14") {reset_css()}
 		if (id=="18") {reset_misc()}
 	}
 
