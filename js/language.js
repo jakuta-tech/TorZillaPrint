@@ -230,10 +230,20 @@ function get_datetime() {
 	// calendar/numbering
 	let tmp23 = Intl.DateTimeFormat().resolvedOptions().calendar
 	let tmp24 = Intl.DateTimeFormat().resolvedOptions().numberingSystem
+	let tmp25 = ""
+	try {
+		// 70+
+		tmp25 = new Intl.RelativeTimeFormat().resolvedOptions().numberingSystem
+		// 65-69
+		if (tmp25 == undefined) {tmp25 = "undefined"}
+	} catch(e) {
+		// <65: ...not a constructor
+		tmp25 = zNS
+	}
 
 	// output
 	let results = [tmp0,tmp1,tmp2,tmp3,tmp4,tmp5,tmp6,tmp7,tmp8,tmp9,tmp10,tmp11,tmp12,
-		tmp13,tmp14,tmp15,tmp16,tmp17,tmp18,tmp19,tmp20,tmp21,tmp22, tmp23, tmp24]
+		tmp13,tmp14,tmp15,tmp16,tmp17,tmp18,tmp19,tmp20,tmp21,tmp22, tmp23, tmp24, tmp25]
 	for (let i=0; i < results.length; i++) {
 		document.getElementById("dtf"+i).innerHTML = results[i]
 	}
@@ -244,20 +254,20 @@ function get_datetime() {
 	let ff = ""
 	if (bTZ) {
 		// state1: both green
-		if (lHash2 == "21e2e654c6a233b19114449720f51c0c3d045caf") {
+		if (lHash2 == "a0223c8bb33b69683c75227084622f537c4356c7") {
 			// ToDo: hashes when Intl.NumberFormat changes ride the train
 			ff = " [Nightly]"
-		} else if (lHash2 == "c9830c97dac7521beab7989619c19f97b92213c2") {
+		} else if (lHash2 == "8edb0d11307cf291add9b4bb715942a304d241a8") {
 			ff = " [FF71+]"
-		} else if (lHash2 == "5be427e9c8c158e797579ca56648113b31a4eb7c") {
+		} else if (lHash2 == "f865fc2b5d47d8d4dbcf1aa849474dc3f713a0a7") {
 			ff = " [FF70]"
-		} else if (lHash2 == "48924ffee511b3fcdef805427a0331e196ac3c0b") {
+		} else if (lHash2 == "0845d94f24d251ac5b8f80b6e3c416dbdb24ce4a") {
 			ff = " [FF68-69]"
-		} else if (lHash2 == "5987dd55b3b9b33a4b6c40eae09488ef1cdd5ad1") {
+		} else if (lHash2 == "4d0a65443920ede0f4c03b0175604fb4899af597") {
 			ff = " [FF65-67]"
-		} else if (lHash2 == "df6e25c6fd98c60b68ca7c8bdc880ee9ef686f48") {
+		} else if (lHash2 == "0c57c4d5a9fda6c3ebf00e308b3c6e6a6d89d9d7") {
 			ff = " [FF63-64]"
-		} else if (lHash2 == "9758d0a0efb5214a30bcc749af2d724aba3370ad") {
+		} else if (lHash2 == "64e27d186c1e75fad6c0797ea40e43487c2d0212") {
 			ff = " [FF60-62]"
 		}
 	}
