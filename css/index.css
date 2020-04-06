@@ -95,7 +95,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 /* show/hide */
 input[type='checkbox'] {display: none;}
 .lbl-toggle {display: block; cursor: pointer;}
-.togA, .togD, .togD1, .togC, .togE, .togF, .togF1, .togF2, .togL, .togM, .togM2,
+.togA, .togD, .togD1, .togC, .togCSS, .togE, .togF, .togF1, .togF2, .togL, .togM, .togM2,
 .togM3, .togOS1, .togR, .togUA, .togUG, .togW, .togZ {display: none;}
 
 /* buttons */
