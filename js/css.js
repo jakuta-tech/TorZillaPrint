@@ -1,7 +1,12 @@
 'use strict';
 
+function reset_css() {
+	dom.sColorHashData.style.color = zhide
+}
+
 function get_colors(runtype) {
 	let results = [],
+		data = [],
 		list = [],
 		m = "-moz-", mm = m+"mac-",
 		element = dom.sColorElement
@@ -10,8 +15,9 @@ function get_colors(runtype) {
 		'ButtonHighlight','ButtonShadow','ButtonText','CaptionText','GrayText','Highlight',
 		'HighlightText','InactiveBorder','InactiveCaption', 'InactiveCaptionText','InfoBackground',
 		'InfoText','Menu','MenuText','Scrollbar','ThreeDDarkShadow','ThreeDFace','ThreeDHighlight',
-		'ThreeDLightShadow','ThreeDShadow','Window','WindowFrame','WindowText',
-		'Canvas','CanvasText','LinkText','VisitedText','ActiveText','Field','FieldText']
+		'ThreeDLightShadow','ThreeDShadow','Window','WindowFrame','WindowText']
+	} else if (runtype == "n") {
+		list = ['Canvas','CanvasText','LinkText','VisitedText','ActiveText','Field','FieldText']
 	} else {
 		list = [m+'activehyperlinktext',m+'appearance',m+'buttondefault',m+'buttonhoverface',
 		m+'buttonhovertext',m+'cellhighlight',m+'cellhighlighttext',m+'combobox',m+'comboboxtext',
@@ -30,21 +36,24 @@ function get_colors(runtype) {
 	}
 	list.forEach(function (item) {
 		element.style.backgroundColor = item
-		results.push(window.getComputedStyle(element, null).getPropertyValue("background-color"))
+		let x = window.getComputedStyle(element, null).getPropertyValue("background-color")
+		results.push(x)
+		if (runtype == "n") {
+			data.push(item.padStart(11) + ": " + x)
+		}
 	})
 	let hash = sha1(results.join())
 	let count = s14 + "["+list.length+"] " + sc
 	if (runtype == "s") {
-		if (hash == "4701edd5e383b4875b5927bbf4c2ac36d2c7506a") {
-			dom.sColorHash.innerHTML = hash + count + rfp_green + " [FF71 or lower]"
-		} else if (hash == "43745a20b9434144f62917c78edfdea8661ac8c5") {
-			dom.sColorHash.innerHTML = hash + count + rfp_green + " [FF72-75]" // "field"
-		} else if (hash == "edde01c67c1e3c41e6a87a694f64b3d75413a8ee") {
-			// note: browser.display.use_system_colors: default false affects this
-			dom.sColorHash.innerHTML = hash + count + rfp_green + " [FF76+]" // 1590894
+		if (hash == "c833ed5e44c6da5e9fc2964259bf34b280891b73") {
+			dom.sColorHash.innerHTML = hash + count + rfp_green
 		} else {
 			dom.sColorHash.innerHTML = hash + count + rfp_red
 		}
+	} else if (runtype == "n") {
+		dom.sColorHashNew.innerHTML = hash + count
+		dom.sColorHashData.innerHTML = data.join("<br>")
+		dom.sColorHashData.style.color = zshow
 	} else {
 		dom.mColorHash.innerHTML = hash + count
 	}
@@ -71,6 +80,7 @@ function outputCSS() {
 	get_mm_prefers("color-scheme")
 	get_mm_prefers("reduced-motion")
 	get_colors("s")
+	get_colors("n")
 	get_colors("m")
 	// perf
 	debug_page("perf","css",t0,gt0)
