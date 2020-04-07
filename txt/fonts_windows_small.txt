@@ -1,5 +1,5 @@
 
-// 08-Mar-2020
+// 06-Apr-2020
 // fonts_windows_small
 
 // EMOJI
@@ -150,6 +150,7 @@ Verdana Bold
 Verdana Bold Italic
 Verdana Italic
 Vrinda Bold
+Yu Gothic
 Yu Gothic UI Bold
 Yu Gothic UI Light
 Yu Gothic UI Regular
