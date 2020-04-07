@@ -1,20 +1,19 @@
 
-// 25-Jul-2019
+// 06-Apr-2020
 // fonts_mac_all
 //  10.9 https://support.apple.com/en-us/HT201375
-// 10.12 https://support.apple.com/en-us/HT206872
 // 10.10/11 https://en.wikipedia.org/wiki/List_of_typefaces_included_with_macOS
+// 10.12 https://support.apple.com/en-us/HT206872
 // 10.13 https://support.apple.com/en-us/HT207962
 // 10.14 https://support.apple.com/en-us/HT208968
+// 10.15 [06-Apr-20] https://dxr.mozilla.org/mozilla-central/source/gfx/thebes/StandardFonts-macos.inc
 
 // EMOJI
 EmojiOne Mozilla
 Twemoji Mozilla
 
-// TB WHITELIST (not in Mac combined)
+// TB WHITELIST (not in combined)
 .Helvetica Neue DeskInterface
-AppleGothic
-Heiti TC
 Hiragino Kaku Gothic ProN
 Noto Sans Armenian
 Noto Sans Bengali
@@ -39,9 +38,8 @@ Noto Sans Thaana
 Noto Sans Tibetan
 Noto Sans Yi
 STIX Math
-Times
 
-// MAC: combined 10.9 to 10.14
+// MAC: combined 10.9 to 10.15
 .Aqua Kana
 .Aqua Kana Bold
 .Helvetica LT MM
@@ -50,6 +48,7 @@ Times
 .Helvetica Neue Desk UI Bold Italic
 .Helvetica Neue Desk UI Italic
 .Times LT MM
+Al Bayan
 Al Bayan Bold
 Al Bayan Plain
 Al Nile
@@ -73,6 +72,7 @@ Apple Chancery
 Apple Color Emoji
 Apple LiGothic Medium
 Apple LiSung Light
+Apple SD Gothic Neo
 Apple SD Gothic Neo Bold
 Apple SD Gothic Neo Heavy
 Apple SD Gothic Neo Light
@@ -83,7 +83,9 @@ Apple SD Gothic Neo Thin
 Apple SD Gothic Neo UltraLight
 Apple SD GothicNeo ExtraBold
 Apple Symbols
+AppleGothic
 AppleGothic Regular
+AppleMyungjo
 AppleMyungjo Regular
 Arial
 Arial Black
@@ -106,6 +108,7 @@ Athelas Bold
 Athelas Bold Italic
 Athelas Italic
 Athelas Regular
+Avenir
 Avenir Black
 Avenir Black Oblique
 Avenir Book
@@ -116,6 +119,7 @@ Avenir Light
 Avenir Light Oblique
 Avenir Medium
 Avenir Medium Oblique
+Avenir Next
 Avenir Next Bold
 Avenir Next Bold Italic
 Avenir Next Condensed Bold
@@ -161,23 +165,30 @@ Beirut
 Beirut Regular
 BiauKai
 Big Caslon Medium
+Bodoni 72
 Bodoni 72 Bold
 Bodoni 72 Book
 Bodoni 72 Book Italic
+Bodoni 72 Oldstyle
 Bodoni 72 Oldstyle Bold
 Bodoni 72 Oldstyle Book
 Bodoni 72 Oldstyle Book Italic
+Bodoni 72 Smallcaps
 Bodoni 72 Smallcaps Book
 Bodoni Ornaments
+Bradley Hand
 Bradley Hand Bold
+Brush Script MT
 Brush Script MT Italic
 Chalkboard
 Chalkboard Bold
+Chalkboard SE
 Chalkboard SE Bold
 Chalkboard SE Light
 Chalkboard SE Regular
 Chalkduster
 Charcoal CY
+Charter
 Charter Black
 Charter Black Italic
 Charter Bold
@@ -203,7 +214,9 @@ Courier New Bold
 Courier New Bold Italic
 Courier New Italic
 Courier Oblique
+DIN Alternate
 DIN Alternate Bold
+DIN Condensed
 DIN Condensed Bold
 Damascus
 Damascus Bold
@@ -232,6 +245,7 @@ Farah
 Farah Regular
 Farisi
 Farisi Regular
+Futura
 Futura Bold
 Futura Condensed ExtraBold
 Futura Condensed Medium
@@ -276,8 +290,10 @@ HanziPen TC Bold
 HanziPen TC Regular
 HeadLineA Regular
 Hei Regular
+Heiti SC
 Heiti SC Light
 Heiti SC Medium
+Heiti TC
 Heiti TC Light
 Heiti TC Medium
 Helvetica
@@ -312,13 +328,17 @@ Hiragino Kaku Gothic ProN W6
 Hiragino Kaku Gothic Std W8
 Hiragino Kaku Gothic StdN W8
 Hiragino Maru Gothic Pro W4
+Hiragino Maru Gothic ProN
 Hiragino Maru Gothic ProN W4
 Hiragino Mincho Pro W3
 Hiragino Mincho Pro W6
+Hiragino Mincho ProN
 Hiragino Mincho ProN W3
 Hiragino Mincho ProN W6
+Hiragino Sans
 Hiragino Sans CNS W3
 Hiragino Sans CNS W6
+Hiragino Sans GB
 Hiragino Sans GB W3
 Hiragino Sans GB W6
 Hiragino Sans W0
@@ -336,10 +356,12 @@ Hoefler Text Black
 Hoefler Text Black Italic
 Hoefler Text Italic
 Hoefler Text Ornaments
+ITF Devanagari
 ITF Devanagari Bold
 ITF Devanagari Book
 ITF Devanagari Demi
 ITF Devanagari Light
+ITF Devanagari Marathi
 ITF Devanagari Marathi Bold
 ITF Devanagari Marathi Book
 ITF Devanagari Marathi Demi
@@ -357,6 +379,7 @@ Iowan Old Style Italic
 Iowan Old Style Roman
 Iowan Old Style Titling
 Kai Regular
+Kailasa
 Kailasa Bold
 Kailasa Regular
 Kaiti SC Black
@@ -369,6 +392,7 @@ Kannada MN
 Kannada MN Bold
 Kannada Sangam MN
 Kannada Sangam MN Bold
+Kefa
 Kefa Bold
 Kefa Regular
 Keyboard
@@ -382,6 +406,7 @@ Kohinoor Bangla Bold
 Kohinoor Bangla Light
 Kohinoor Bangla Medium
 Kohinoor Bangla Semibold
+Kohinoor Devanagari
 Kohinoor Devanagari Bold
 Kohinoor Devanagari Light
 Kohinoor Devanagari Medium
@@ -392,6 +417,7 @@ Kohinoor Telugu Bold
 Kohinoor Telugu Light
 Kohinoor Telugu Medium
 Kohinoor Telugu Semibold
+Kokonor
 Kokonor Regular
 Krungthep
 KufiStandardGK
@@ -422,13 +448,17 @@ Malayalam Sangam MN Bold
 Marion Bold
 Marion Italic
 Marion Regular
+Marker Felt
 Marker Felt Thin
 Marker Felt Wide
+Menlo
 Menlo Bold
 Menlo Bold Italic
 Menlo Italic
 Menlo Regular
 Microsoft Sans Serif
+Mishafi
+Mishafi Gold
 Mishafi Gold Regular
 Mishafi Regular
 Monaco
@@ -468,9 +498,11 @@ New Peninim MT
 New Peninim MT Bold
 New Peninim MT Bold Inclined
 New Peninim MT Inclined
+Noteworthy
 Noteworthy Bold
 Noteworthy Light
 Noto Nastaliq Urdu
+Optima
 Optima Bold
 Optima Bold Italic
 Optima ExtraBlack
@@ -505,21 +537,25 @@ Palatino Bold Italic
 Palatino Italic
 Papyrus
 Papyrus Condensed
+Phosphate
 Phosphate Inline
 Phosphate Solid
 PilGi Regular
+PingFang HK
 PingFang HK Light
 PingFang HK Medium
 PingFang HK Regular
 PingFang HK Semibold
 PingFang HK Thin
 PingFang HK Ultralight
+PingFang SC
 PingFang SC Light
 PingFang SC Medium
 PingFang SC Regular
 PingFang SC Semibold
 PingFang SC Thin
 PingFang SC Ultralight
+PingFang TC
 PingFang TC Light
 PingFang TC Medium
 PingFang TC Regular
@@ -540,33 +576,46 @@ STIX Two Text
 STIX Two Text Bold
 STIX Two Text Bold Italic
 STIX Two Text Italic
+STIXGeneral
 STIXGeneral-Bold
 STIXGeneral-BoldItalic
 STIXGeneral-Italic
 STIXGeneral-Regular
+STIXIntegralsD
 STIXIntegralsD-Bold
 STIXIntegralsD-Regular
+STIXIntegralsSm
 STIXIntegralsSm-Bold
 STIXIntegralsSm-Regular
+STIXIntegralsUp
 STIXIntegralsUp-Bold
 STIXIntegralsUp-Regular
+STIXIntegralsUpD
 STIXIntegralsUpD-Bold
 STIXIntegralsUpD-Regular
+STIXIntegralsUpSm
 STIXIntegralsUpSm-Bold
 STIXIntegralsUpSm-Regular
+STIXNonUnicode
 STIXNonUnicode-Bold
 STIXNonUnicode-BoldItalic
 STIXNonUnicode-Italic
 STIXNonUnicode-Regular
+STIXSizeFiveSym
 STIXSizeFiveSym-Regular
+STIXSizeFourSym
 STIXSizeFourSym-Bold
 STIXSizeFourSym-Regular
+STIXSizeOneSym
 STIXSizeOneSym-Bold
 STIXSizeOneSym-Regular
+STIXSizeThreeSym
 STIXSizeThreeSym-Bold
 STIXSizeThreeSym-Regular
+STIXSizeTwoSym
 STIXSizeTwoSym-Bold
 STIXSizeTwoSym-Regular
+STIXVariants
 STIXVariants-Bold
 STIXVariants-Regular
 STKaiti
@@ -575,6 +624,7 @@ STXihei
 Sana
 Sana Regular
 Sathu
+Savoye LET
 Savoye LET Plain CC.:1.0
 Savoye LET Plain:1.0
 Seravek
@@ -591,6 +641,7 @@ Shree Devanagari 714
 Shree Devanagari 714 Bold
 Shree Devanagari 714 Bold Italic
 Shree Devanagari 714 Italic
+SignPainter
 SignPainter-HouseScript
 SignPainter-HouseScript Semibold
 Silom
@@ -598,6 +649,7 @@ Sinhala MN
 Sinhala MN Bold
 Sinhala Sangam MN
 Sinhala Sangam MN Bold
+Skia
 Skia Black
 Skia Black Condensed
 Skia Black Extended
@@ -611,13 +663,16 @@ Skia Regular
 Snell Roundhand
 Snell Roundhand Black
 Snell Roundhand Bold
+Songti SC
 Songti SC Black
 Songti SC Bold
 Songti SC Light
 Songti SC Regular
+Songti TC
 Songti TC Bold
 Songti TC Light
 Songti TC Regular
+Sukhumvit Set
 Sukhumvit Set Bold
 Sukhumvit Set Light
 Sukhumvit Set Medium
@@ -649,6 +704,7 @@ Telugu Sangam MN Bold
 Thonburi
 Thonburi Bold
 Thonburi Light
+Times
 Times Bold
 Times Bold Italic
 Times Italic
