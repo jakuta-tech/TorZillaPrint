@@ -184,9 +184,9 @@ function get_errors() {
 		} else if (temp == "fb19e1bedb") {
 			code = "E2"; ff = "[FF74]"; unusual = true
 		} else if (temp == "214fc55f92") {
-			code = "F1"; ff = "[FF75]" // ToDo: when 76 hits dev, check if this should be 75+
+			code = "F1"; ff = "[FF75+]"
 		} else if (temp == "5186bfbb76") {
-			code = "F2"; ff = "[FF75]"; unusual = true // ditto
+			code = "F2"; ff = "[FF75+]"; unusual = true
 		} else if (temp == "0dc5e92b7d") {
 			code = "N1"; ff = "[Nightly]"
 		} else if (temp == "b75bad7247") {
