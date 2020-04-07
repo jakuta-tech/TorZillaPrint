@@ -1,5 +1,5 @@
 
-// 08-Mar-2020
+// 06-Apr-2020
 // fonts_windows_all
 // https://docs.microsoft.com/en-us/typography/fonts/font-faq
 
@@ -35,9 +35,9 @@ Times
 ＭＳ Ｐ明朝
 
 // WINDOWS: combined 7 + 8 + 8.1 + 10
-// note: "Yu Gothic UI" (see TB whitelist) and "Yu Gothic": is "Regular" even meant to be appended
 Aharoni Bold
 Aldhabi
+AlternateGothic2 BT
 Andalus
 Angsana New
 Angsana New Bold
@@ -76,11 +76,16 @@ Arial Nova Light Italic
 Arial Unicode MS
 BIZ UDGothic
 BIZ UDGothic Bold
+BIZ UDMincho
 BIZ UDMincho Medium
 BIZ UDPGothic
 BIZ UDPGothic Bold
+BIZ UDPMincho
 BIZ UDPMincho Medium
 Bahnschrift
+Bahnschrift Light
+Bahnschrift SemiBold
+Bahnschrift SemiLight
 Batang
 BatangChe
 Browallia New
@@ -142,6 +147,7 @@ DFKai-SB
 DaunPenh
 David
 David Bold
+DengXian
 DengXian Bold
 DengXian Light
 DilleniaUPC
@@ -218,6 +224,7 @@ Gulim
 GulimChe
 Gungsuh
 GungsuhChe
+HoloLens MDL2 Assets
 Impact
 Ink Free
 IrisUPC
@@ -429,6 +436,7 @@ Trebuchet MS Bold Italic
 Trebuchet MS Italic
 Tunga
 Tunga Bold
+UD Digi Kyokasho
 UD Digi Kyokasho N-B
 UD Digi Kyokasho N-R
 UD Digi Kyokasho NK-B
@@ -484,6 +492,7 @@ Yu Gothic UI Light
 Yu Gothic UI Regular
 Yu Gothic UI Semibold
 Yu Gothic UI Semilight
+Yu Mincho
 Yu Mincho Demibold
 Yu Mincho Light
 Yu Mincho Regular
