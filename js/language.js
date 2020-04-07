@@ -230,16 +230,26 @@ function get_datetime() {
 	// calendar/numbering
 	let tmp23 = Intl.DateTimeFormat().resolvedOptions().calendar
 	let tmp24 = Intl.DateTimeFormat().resolvedOptions().numberingSystem
-	let tmp25 = ""
+	let tmp24b = ""
 	try {
 		// 70+
-		tmp25 = new Intl.RelativeTimeFormat().resolvedOptions().numberingSystem
+		tmp24b = new Intl.RelativeTimeFormat().resolvedOptions().numberingSystem
 		// 65-69
-		if (tmp25 == undefined) {tmp25 = "undefined"}
+		if (tmp24b == undefined) {tmp24b = "undefined"}
 	} catch(e) {
 		// <65: ...not a constructor
-		tmp25 = zNS
+		tmp24b = zNS
 	}
+	tmp24 += " | "+ tmp24b
+
+	// relatedYear, yearName
+	let tmp25 = Intl.DateTimeFormat(undefined, {relatedYear: "long"})
+		tmp25 = tmp25.formatToParts(d)
+		tmp25 = tmp25.map(function(entry){return entry.value}).join("")
+	let tmp25b = Intl.DateTimeFormat(undefined, {year: "numeric", yearName: "long"})
+		tmp25b = tmp25b.formatToParts(d)
+		tmp25b = tmp25b.map(function(entry){return entry.value}).join("")
+	tmp25 += " | "+ tmp25b
 
 	// dayPeriod: 1569103
 	function get_day_period(date) {
@@ -271,20 +281,20 @@ function get_datetime() {
 	let ff = ""
 	if (bTZ) {
 		// state1: both green
-		if (lHash2 == "9b64c0f6eb8ee24674cc6fa641db57981e2e384d") {
+		if (lHash2 == "ba0062cbc7fa36d0225fc60fb0924de045d6f69b") {
 			// ToDo: hashes when Intl.NumberFormat changes ride the train
 			ff = " [Nightly]"
-		} else if (lHash2 == "a9d366b0affe8e8c0103b438d4d4d972e96427e5") {
+		} else if (lHash2 == "f24c9cc2ba6589524fb08a838b3e5ecf00ca8035") {
 			ff = " [FF71+]"
-		} else if (lHash2 == "4878c9cc7d1e0f52968d612344bfe80fd60d72e8") {
+		} else if (lHash2 == "574c41539b43f4a2402b75e95c135d973b8b2fb5") {
 			ff = " [FF70]"
-		} else if (lHash2 == "8818ad2fa51cf72d02a59ee5e9d9ffba17399c44") {
+		} else if (lHash2 == "a1b90485f98c44f6d44d211c74a6484cff1ed623") {
 			ff = " [FF68-69]"
-		} else if (lHash2 == "0502928817f506780838990f962952a4a8fecb92") {
+		} else if (lHash2 == "da1b920f1862b13951266d23a98c4aa1250e2513") {
 			ff = " [FF65-67]"
-		} else if (lHash2 == "6ab7f4d70ce29928a52ac213cbe7a29505352530") {
+		} else if (lHash2 == "c7a4bbaf7fb8dbd5e8afaa6701caa7d9f6dc080e") {
 			ff = " [FF63-64]"
-		} else if (lHash2 == "18c204922eb6a73461a0d9acfce3ffb9dfc11250") {
+		} else if (lHash2 == "1e31c6218850da0a71d6e5b2849a58596587c9f0") {
 			ff = " [FF60-62]"
 		}
 	}
