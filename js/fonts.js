@@ -340,37 +340,30 @@ function get_unicode() {
 		} else if (hash == "da39a3ee5e6b4b0d3255bfef95601890afd80709") {
 			// this only happens when canvas 2d is blocked
 			// which we can already detect if mgo = false
-			return "blocked"
+			return "canvas is blocked"
 		} else {
 			return hash
 		}
 	}
 	function output() {
-		if (mgo) {
-			// width
-			dom.tm00.innerHTML = status("1",sha1(tm00.join())) + tm00r
-			// actualBounding: 74+ true
-			dom.tm01.innerHTML = status("2",sha1(tm01.join()))
-			dom.tm02.innerHTML = status("2",sha1(tm02.join()))
-			dom.tm03.innerHTML = status("2",sha1(tm03.join()))
-			dom.tm04.innerHTML = status("2",sha1(tm04.join()))
-			// other: 74+: prefs yet to flip
-			dom.tm05.innerHTML = status("3",sha1(tm05.join()))
-			dom.tm06.innerHTML = status("3",sha1(tm06.join()))
-			dom.tm07.innerHTML = status("3",sha1(tm07.join()))
-			dom.tm08.innerHTML = status("3",sha1(tm08.join()))
-			dom.tm09.innerHTML = status("3",sha1(tm09.join()))
-			dom.tm10.innerHTML = status("3",sha1(tm10.join()))
-			dom.tm11.innerHTML = status("3",sha1(tm11.join()))
-			// combined
-			dom.ug2.innerHTML = sha1(tmhash.join()) + tm00r
-			console.debug(tmhash.join("\n"))
-		} else {
-			// canvas is blocked
-			let nocanvas = sb +"[canvas is blocked]" + sc
-			dom.tm00.innerHTML = nocanvas
-			dom.ug2.innerHTML = nocanvas
-		}
+		// width
+		dom.tm00.innerHTML = status("1",sha1(tm00.join())) + tm00r
+		// actualBounding: 74+ true
+		dom.tm01.innerHTML = status("2",sha1(tm01.join()))
+		dom.tm02.innerHTML = status("2",sha1(tm02.join()))
+		dom.tm03.innerHTML = status("2",sha1(tm03.join()))
+		dom.tm04.innerHTML = status("2",sha1(tm04.join()))
+		// other: 74+: prefs yet to flip
+		dom.tm05.innerHTML = status("3",sha1(tm05.join()))
+		dom.tm06.innerHTML = status("3",sha1(tm06.join()))
+		dom.tm07.innerHTML = status("3",sha1(tm07.join()))
+		dom.tm08.innerHTML = status("3",sha1(tm08.join()))
+		dom.tm09.innerHTML = status("3",sha1(tm09.join()))
+		dom.tm10.innerHTML = status("3",sha1(tm10.join()))
+		dom.tm11.innerHTML = status("3",sha1(tm11.join()))
+		// combined
+		dom.ug2.innerHTML = sha1(tmhash.join()) + tm00r
+		console.debug("debug:", tmhash.join("\n")) // temp
 		// de-dupe
 		unique = unique.filter(function (item, position) {return unique.indexOf(item) === position})
 		diffsb = diffsb.filter(function (item, position) {return diffsb.indexOf(item) === position})
