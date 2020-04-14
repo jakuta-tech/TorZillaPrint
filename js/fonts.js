@@ -323,26 +323,28 @@ function get_unicode() {
 
 	// pretty results
 	function status(group, hash) {
-		tmhash.push(hash)
-		// ToDo: textMetrics: dom.textMetrics pref default changes
-		if (hash == "430f7dd58a56499d33ebeefdcc42a1777c251164") {
-			return "undefined"
-		} else if (hash == "7bc077692d4196982921fa6c4fcc08d424a03cd3") {
-			// actualBounding: FF74+ enabled
-			// add logic to entropy
-			if (isFF && group == "2" && isVer > 73) {
-				tmhash.push("blocked")
-				return "blocked"
-			} else {
-				tmhash.push("not supported")
-				return zNS // or blocked
-			}
-		} else if (hash == "da39a3ee5e6b4b0d3255bfef95601890afd80709") {
-			// this only happens when canvas 2d is blocked
-			// which we can already detect if mgo = false
-			return "canvas is blocked"
+		// always push something unique to the hash array
+		if (mgo == false) {
+			tmhash.push("nocanvas")
+			return sb+"[canvas api is blocked]"+sc
 		} else {
-			return hash
+			tmhash.push(hash)
+			// ToDo: textMetrics: dom.textMetrics pref default changes
+			if (hash == "430f7dd58a56499d33ebeefdcc42a1777c251164") {
+				return "undefined"
+			} else if (hash == "7bc077692d4196982921fa6c4fcc08d424a03cd3") {
+				// actualBounding: FF74+ enabled
+				// add logic to entropy
+				if (isFF && group == "2" && isVer > 73) {
+					tmhash.push("blocked")
+					return "blocked"
+				} else {
+					tmhash.push("not supported")
+					return zNS // or blocked
+				}
+			} else {
+				return hash
+			}
 		}
 	}
 	function output() {
@@ -362,8 +364,12 @@ function get_unicode() {
 		dom.tm10.innerHTML = status("3",sha1(tm10.join()))
 		dom.tm11.innerHTML = status("3",sha1(tm11.join()))
 		// combined
-		dom.ug2.innerHTML = sha1(tmhash.join()) + tm00r
-		console.debug("debug:", tmhash.join("\n")) // temp
+		dom.ug2.innerHTML = sha1(tmhash.join()) + tm00r + (mgo ? "" : sb+"[canvas]"+sc)
+		//console.debug("debug:", tmhash.join("\n")) // temp
+
+		// cleanup details: canvas duplication
+		if (stateTM == true) {showhide("table-row","F2","&#9650; hide")}
+
 		// de-dupe
 		unique = unique.filter(function (item, position) {return unique.indexOf(item) === position})
 		diffsb = diffsb.filter(function (item, position) {return diffsb.indexOf(item) === position})
@@ -715,4 +721,3 @@ function outputFonts() {
 }
 
 outputFonts()
-
