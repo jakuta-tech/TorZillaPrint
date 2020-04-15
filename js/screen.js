@@ -1220,8 +1220,10 @@ function get_version() {
 	}
 	// run
 	function v75plus() {
-		//76: 1608010 [might get backported to 75]
-		if (test76.validity.rangeOverflow) {} else {verNo = "76+"; go = false}
+		//77: 1627285
+		if (go) {if (isNaN(new DOMRect(0, 0, NaN, NaN).top)) {verNo = "77+"; go = false}}
+		//76: 1608010
+		if (go) {if (test76.validity.rangeOverflow) {} else {verNo = "76"; go = false}}
 		if (go) {verNo = "75"}
 		// current nghtly only sigs
 		verNo += ((isErr == "0dc5" || isErr == "b75b") ? " [Nightly]": "")
