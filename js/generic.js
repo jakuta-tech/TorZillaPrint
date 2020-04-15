@@ -107,21 +107,6 @@ function showhide(togType, togID, togWord) {
 			dom.togE5.style.display = "none"
 		}
 	}
-	// textMetrics
-	if (togID == "F2") {
-		if (stateTM) {
-			let itemsTM = document.getElementsByClassName("togTM")
-			let noteTM = "width"
-			if (sha1(dom.tm00.innerHTML) == "3192a2184aad6631adde193b6fa7ca2a3fc1983d") {
-				noteTM = "textMetrics"
-			}
-			dom.labelTM.innerHTML = noteTM
-			noteTM = (noteTM == "width" ? "table=row" : "none")
-			for (let i=0; i < itemsTM.length; i++) {
-				itemsTM[i].style.display = noteTM
-			}
-		}
-	}
 	// domrect show/hide extra sections & change drFirstHeader text
 	if (togID == "D") {
 		let drArray = [dom.dr1.innerHTML, dom.dr2.innerHTML, dom.dr3.innerHTML, dom.dr4.innerHTML]
@@ -187,12 +172,10 @@ function toggleitems(chkbxState, chkbxID) {
 	if (chkbxState.checked) {
 		if (chkbxID=="D") {stateDR = false}
 		if (chkbxID=="F") {stateFNT = false}
-		if (chkbxID=="F2") {stateTM = false}
 		showhide("none",chkbxID,"&#9660; show")
 	} else {
 		if (chkbxID=="D") {stateDR = true}
 		if (chkbxID=="F") {stateFNT = true}
-		if (chkbxID=="F2") {stateTM = true}
 		showhide("table-row",chkbxID,"&#9650; hide")
 	}
 }
