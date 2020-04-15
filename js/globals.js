@@ -77,7 +77,6 @@ let avh = "",
 // toggle states
 	stateDR = false,
 	stateFNT = false,
-	stateTM = false,
 // other
 	isPage = "main",
 	isFF = false,
