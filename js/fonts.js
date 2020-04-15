@@ -389,19 +389,19 @@ function get_unicode() {
 					if (group == "3") {
 						// ToDo: textMetrics group 3 prefs flipped
 						if (isVer > 73 && support) {
-							tmhash.push(hash+"_no canvas unusual")
+							tmhash.push(hash+"_no canvas supported unusual")
 							return "supported" + unusual
 						} else {
-							tmhash.push(hash+"_no canvas standard")
+							tmhash.push(hash+"_no canvas not supported standard")
 							return zNS
 						}
 					} else {
 						// Groups 1+2 are expected
 						if (support) {
-							tmhash.push(hash+"_no canvas standard")
+							tmhash.push(hash+"_no canvas supported standard")
 							return "supported"
 						} else {
-							tmhash.push(hash+"_no canvas unusual")
+							tmhash.push(hash+"_no canvas not supported unusual")
 							return zNS + unusual
 						}
 					}
@@ -441,7 +441,7 @@ function get_unicode() {
 		dom.tm11.innerHTML = status(tm11s,"3",sha1(tm11.join()))
 		// combined
 		dom.ug2.innerHTML = sha1(tmhash.join()) + tm00r + (mgo ? "" : sb+"[canvas]"+sc)
-		//console.debug("combined TM hash \n" + tmhash.join("\n")) // temp
+		console.debug("combined TM hash \n" + tmhash.join("\n")) // temp
 
 		// de-dupe
 		unique = unique.filter(function (item, position) {return unique.indexOf(item) === position})
