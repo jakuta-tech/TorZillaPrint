@@ -1136,6 +1136,7 @@ function get_ua_nav_worker() {
 			// assume failure
 			el5.innerHTML = zF + " [A: assumed]"
 			// register
+			console.debug(performance.now(), "sw: client: about to register")
 			navigator.serviceWorker.register("js/workerservice_ua.js").then(function(swr) {
 
 				// debug
@@ -1144,23 +1145,29 @@ function get_ua_nav_worker() {
 				else if (swr.waiting) {sw = swr.waiting}
 				else if (swr.active) {sw = swr.active}
 				sw.addEventListener("statechange", function(e) {
-					console.debug("sw: " + e.target.state)
+					console.debug(performance.now(), "sw: client sees state " + e.target.state)
 					if (e.target.state == "activated") {
+						console.debug(performance.now(), "sw: client about to send message")
 						sw.postMessage("hi")
+						console.debug(performance.now(), "sw: client message sent")
 					}
 				})
 
 				if (sw) {
 					// listen
+					console.debug(performance.now(), "sw: client about to set up broadcast channel")
 					let channel = new BroadcastChannel("sw-ua")
-					console.debug("listening for sw")
+					console.debug(performance.now(), "sw: client broadcast channel set, now listening")
 					channel.addEventListener("message", event => {
+						console.debug(performance.now(), "sw: client recieved message from sw")
 						test5 = sha1((event.data.msg).join())
 						el5.innerHTML = test5 + (test5 == control ? match_green : match_red)
 						// unregister
 						swr.unregister().then(function(boolean) {})
+						console.debug(performance.now(), "sw: client unregisters sw")
 						// close
 						channel.close()
+						console.debug(performance.now(), "sw: client closes channel")
 					})
 				} else {
 					el5.innerHTML = zF + " [B: not swr.installing]"
