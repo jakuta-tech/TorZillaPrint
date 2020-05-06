@@ -109,7 +109,7 @@ function get_datetime() {
 			return " | unit " + zNS
 		} else if (error == "dabc0b854a78cdfdf4c0e8e3aa744da7056dc9ed") {
 			// 71+: invalid value "unit"...
-			return " | \"unit\"" + zNS
+			return " | \"unit\" " + zNS
 		} else {
 			return " | "+ error
 		}
@@ -251,7 +251,7 @@ function get_datetime() {
 		tmp25b = tmp25b.map(function(entry){return entry.value}).join("")
 	tmp25 += " | "+ tmp25b
 
-	// dayPeriod: 1569103
+	// dayPeriod: 1569103: enabled nightly-only FF78+
 	function get_day_period(date) {
 		return new Intl.DateTimeFormat(undefined, {dayPeriod: "long"}).format(date)
 	}
@@ -281,10 +281,9 @@ function get_datetime() {
 	let ff = ""
 	if (bTZ) {
 		// state1: both green
-		if (lHash2 == "ba0062cbc7fa36d0225fc60fb0924de045d6f69b") {
-			// ToDo: hashes when Intl.NumberFormat changes ride the train
+		if (lHash2 == "6a6a4c2196c35860f9c722e7dff96d55fe6e63f9") {
 			ff = " [Nightly]"
-		} else if (lHash2 == "f24c9cc2ba6589524fb08a838b3e5ecf00ca8035") {
+		} else if (lHash2 == "9fa92106e3861c2af69074eba494a11ac351c44c") {
 			ff = " [FF71+]"
 		} else if (lHash2 == "574c41539b43f4a2402b75e95c135d973b8b2fb5") {
 			ff = " [FF70]"
