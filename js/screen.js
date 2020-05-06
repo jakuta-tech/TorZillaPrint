@@ -1227,8 +1227,15 @@ function get_version() {
 	}
 	// run
 	function v75plus() {
+		//78: 1633836
+		if (go) {
+			try {
+				test = new Intl.NumberFormat(undefined, {style: "unit", unit: "percent"}).format(1/2)
+				verNo = "78+"; go = false
+			} catch(e) {}
+		}
 		//77: 1627285
-		if (go) {if (isNaN(new DOMRect(0, 0, NaN, NaN).top)) {verNo = "77+"; go = false}}
+		if (go) {if (isNaN(new DOMRect(0, 0, NaN, NaN).top)) {verNo = "77"; go = false}}
 		//76: 1608010
 		if (go) {if (test76.validity.rangeOverflow) {} else {verNo = "76"; go = false}}
 		if (go) {verNo = "75"}
