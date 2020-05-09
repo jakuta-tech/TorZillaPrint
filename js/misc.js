@@ -83,6 +83,16 @@ function get_rfptime() {
 	let check = setInterval(run, 13)
 }
 
+function get_rfptime2() {
+	let result = zD
+	if (window.PerformanceNavigationTiming) {result = zE}
+	if (isFF && isVer > 77) {
+		//78+: 1511941
+		result = (result == zD ? result + rfp_green : result + rfp_red)
+	}
+	dom.rfpperf2.innerHTML = result
+}
+
 function get_svg() {
 	// svg
 	let s = document.createElementNS("http://www.w3.org/2000/svg", "svg")
@@ -117,6 +127,16 @@ function get_wasm() {
 	dom.wasm = (supported ? zE : zD )
 }
 
+function get_windowcontent() {
+	try {
+		let test = window.content
+		let test2 = content.name
+		return zE
+	} catch(e) {
+		return zD
+	}
+}
+
 function outputMisc(type) {
 	let t0 = performance.now()
 	// one-liners
@@ -126,6 +146,7 @@ function outputMisc(type) {
 	dom.mediaSession = ("mediaSession" in navigator ? zE: zD) // FF71+
 	dom.webauth = ("credentials" in navigator ? zE: zD) +" | "+ ("u2f" in window ? zE: zD)
 	dom.webshare = (navigator.share ? zE : zD)
+	dom.wincon = get_windowcontent()
 	// other
 	get_component_shims()
 	get_int_observer()
@@ -134,6 +155,7 @@ function outputMisc(type) {
 	get_reporting_api()
 	get_svg()
 	get_wasm()
+	get_rfptime2()
 	get_rfptime()
 	// perf
 	debug_page("perf","misc",t0,gt0)
