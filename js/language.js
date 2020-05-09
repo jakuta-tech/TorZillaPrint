@@ -6,26 +6,26 @@ function get_geo() {
 	let r = ("geolocation" in navigator ? zE : zD)
 	dom.geo1 = r
 	function geoWrite(r) {
-		if (isTB2 == "n") {
-			if (r == "175f198d52a4381a6cf15505aae8cd85101f8e72") {
-				r += default_ff_green
-			} else {
-				r += default_ff_red
-			}
-		} else if (isTB2 == "y") {
+		if (isTB2 == "y") {
 			if (r == "8845161313a6aace13d9a29c675144b09840b11a") {
 				r += default_tb_green
 			} else {
 				r += default_tb_red
 			}
+		} else {
+			if (r == "175f198d52a4381a6cf15505aae8cd85101f8e72") {
+				r += default_ff_green
+			} else {
+				r += default_ff_red
+			}
 		}
-		dom.lHash3.innerHTML = r	
+		dom.lHash3.innerHTML = r
 	}
 	function geoState(state) {
 		dom.geo2 = state
 		r = sha1(r + "-" + state)
 		// isTB2
-		if (isTB2 == "") {
+		if (isFF & isTB2 == "") {
 			function checkTB() {
 				if (isTB2 !== "") {
 					clearInterval(tbCheck)
