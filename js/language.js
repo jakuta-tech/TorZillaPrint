@@ -5,17 +5,37 @@ let	bTZ = false
 function get_geo() {
 	let r = ("geolocation" in navigator ? zE : zD)
 	dom.geo1 = r
+	function geoWrite(r) {
+		if (isTB2 == "n") {
+			if (r == "175f198d52a4381a6cf15505aae8cd85101f8e72") {
+				r += default_ff_green
+			} else {
+				r += default_ff_red
+			}
+		} else if (isTB2 == "y") {
+			if (r == "8845161313a6aace13d9a29c675144b09840b11a") {
+				r += default_tb_green
+			} else {
+				r += default_tb_red
+			}
+		}
+		dom.lHash3.innerHTML = r	
+	}
 	function geoState(state) {
 		dom.geo2 = state
 		r = sha1(r + "-" + state)
-		if (r == "175f198d52a4381a6cf15505aae8cd85101f8e72") {
-			r += default_ff_green
-		} else if (r == "8845161313a6aace13d9a29c675144b09840b11a") {
-			r += default_tb_green
+		// isTB2
+		if (isTB2 == "") {
+			function checkTB() {
+				if (isTB2 !== "") {
+					clearInterval(tbCheck)
+					geoWrite(r)		
+				}
+			}
+			let tbCheck = setInterval(checkTB, 50)
 		} else {
-			r += default_red
+			geoWrite(r)
 		}
-		dom.lHash3.innerHTML = r
 	}
 	navigator.permissions.query({name:"geolocation"}).then(e => geoState(e.state))
 }
