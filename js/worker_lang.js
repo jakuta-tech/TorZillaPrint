@@ -10,7 +10,7 @@ addEventListener("message", function(e) {
 	res.push(navigator.languages)
 	res.push(navigator.language)
 	res.push(navigator.languages[0])
-	res.push(Intl.PluralRules().resolvedOptions().locale)
+	res.push(new Intl.PluralRules().resolvedOptions().locale)
 	res.push(Intl.DateTimeFormat().resolvedOptions().locale)
 	self.postMessage(res)
 }, false)
