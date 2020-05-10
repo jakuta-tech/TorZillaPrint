@@ -338,16 +338,20 @@ function get_datetime() {
 function get_workers() {
 	// workers
 	if (isFile) {
-		// file
 	} else if (typeof(Worker) == "undefined") {
-		// none
 	} else {
 		// web
 		try {
 			let workernav = new Worker("js/worker_lang.js")
 			workernav.addEventListener("message", function(e) {
-				// compare
-				console.debug("lang data from worker" + "\n" + (e.data).join("\n") )
+				// timezone
+				// ToDo: if something doesn't match, show that with the hash
+				let chk1 = dom.tz1.textContent, chk2 = dom.tz2.textContent
+				if (e.data[0] !== chk0) {dom.tz1.innerHTML = chk0 +" | "+ sb + e.data[0] + sc}
+				if (e.data[1] !== chk1) {dom.tz2.innerHTML = chk1 +" | "+ sb + e.data[1] + sc}
+
+				// language
+
 			}, false)
 			workernav.postMessage("hi")
 		} catch(e) {}
