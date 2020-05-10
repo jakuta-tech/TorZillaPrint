@@ -335,6 +335,25 @@ function get_datetime() {
 
 }
 
+function get_workers() {
+	// workers
+	if (isFile) {
+		// file
+	} else if (typeof(Worker) == "undefined") {
+		// none
+	} else {
+		// web
+		try {
+			let workernav = new Worker("js/worker_lang.js")
+			workernav.addEventListener("message", function(e) {
+				// compare
+				console.debug("lang data from worker" + "\n" + (e.data).join("\n") )
+			}, false)
+			workernav.postMessage("hi")
+		} catch(e) {}
+	}
+}
+
 function outputLanguage() {
 	let t0 = performance.now()
 	// run
@@ -342,8 +361,10 @@ function outputLanguage() {
 	get_tz()
 	get_datetime()
 	get_geo()
+	get_workers()
 	// perf
 	debug_page("perf","language",t0,gt0)
 }
 
 outputLanguage()
+
