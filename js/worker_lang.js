@@ -6,7 +6,8 @@ addEventListener("message", function(e) {
 		d2 = new Date("July 30, 2018 13:00:00")
 	let tz1 = d1.getTimezoneOffset()+ ' | ' + d2.getTimezoneOffset()
 	let tz2 = Intl.DateTimeFormat().resolvedOptions().timeZone
-	res.push(tz1 + "-"	+ tz2)
+	res.push(tz1)
+	res.push(tz2)
 	res.push(navigator.languages)
 	res.push(navigator.language)
 	res.push(navigator.languages[0])
