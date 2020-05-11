@@ -66,7 +66,7 @@ function get_tz_lang() {
 	} else {
 		try {
 			let sharedlang = new SharedWorker("js/workershared_lang.js")
-			sharedlang.addEventListener("message", function(e) {
+			sharedlang.port.addEventListener("message", function(e) {
 				// timezone
 				let isLeak = false
 				if (e.data[0] !== tz1) {dom.tz1.innerHTML = tz1 +" | "+ sb + e.data[0] + sc; isLeak = true}
