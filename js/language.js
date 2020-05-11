@@ -77,14 +77,6 @@ function get_tz_lang() {
 				}
 				// language
 				isLeak = false
-					// what the hell
-				console.debug("e.data[2]", "~"+e.data[2]+"~", "~"+lang1+"~", "~"+ navigator.languages +"~")
-				let control = sha1(navigator.languages)
-				let test = sha1(e.data[2])
-				console.debug(control + "\n" + test)
-				if (e.data[2] == lang1) { console.debug("match") } else { console.debug("no-match")}
-				if (control == test) { console.debug("hash match") } else { console.debug("hash no-match")}
-
 				if (sha1(e.data[2]) !== sha1(lang1)) {dom.lang1.innerHTML = lang1 +" | "+ sb + e.data[2] + sc; isLeak = true}
 				if (e.data[3] !== lang2) {dom.lang2.innerHTML = lang2 +" | "+ sb + e.data[3] + sc; isLeak = true}
 				if (e.data[4] !== lang3) {dom.lang3.innerHTML = lang3 +" | "+ sb + e.data[4] + sc; isLeak = true}
