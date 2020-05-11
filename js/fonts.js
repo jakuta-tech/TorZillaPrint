@@ -338,9 +338,9 @@ function get_unicode() {
 
 	// pretty results
 	function status(support, group, hash) {
-		let unusual = sb+"[non-standard config]"+sc
+		let unusual = sb+"[non-standard]"+sc
 
-		// always push something unique to the hash array
+		// always push something unique
 		if (isFF) {
 			if (hash == "7bc077692d4196982921fa6c4fcc08d424a03cd3") {
 				// array of blanks: support = true
@@ -441,7 +441,7 @@ function get_unicode() {
 		dom.tm11.innerHTML = status(tm11s,"3",sha1(tm11.join()))
 		// combined
 		dom.ug2.innerHTML = sha1(tmhash.join()) + tm00r + (mgo ? "" : sb+"[canvas]"+sc)
-		console.debug("combined TM hash \n" + tmhash.join("\n")) // temp
+		//console.debug("combined TM hash \n" + tmhash.join("\n")) // temp
 
 		// de-dupe
 		unique = unique.filter(function (item, position) {return unique.indexOf(item) === position})
