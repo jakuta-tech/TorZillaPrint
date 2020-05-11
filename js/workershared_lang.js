@@ -14,6 +14,6 @@ onconnect = function(e) {
 	res.push(navigator.languages[0])
 	res.push(new Intl.PluralRules().resolvedOptions().locale)
 	res.push(Intl.DateTimeFormat().resolvedOptions().locale)
-	self.postMessage(res)
+	port.postMessage(res)
 }
 
