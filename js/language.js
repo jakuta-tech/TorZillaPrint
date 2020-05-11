@@ -346,7 +346,7 @@ function get_workers() {
 			workernav.addEventListener("message", function(e) {
 				// timezone
 				// ToDo: if something doesn't match, show that with the hash
-				let chk1 = dom.tz1.textContent, chk2 = dom.tz2.textContent
+				let chk0 = dom.tz1.textContent, chk1 = dom.tz2.textContent
 				if (e.data[0] !== chk0) {dom.tz1.innerHTML = chk0 +" | "+ sb + e.data[0] + sc}
 				if (e.data[1] !== chk1) {dom.tz2.innerHTML = chk1 +" | "+ sb + e.data[1] + sc}
 
