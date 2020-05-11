@@ -79,10 +79,11 @@ function get_tz_lang() {
 				isLeak = false
 					// what the hell
 				console.debug("e.data[2]", "~"+e.data[2]+"~", "~"+lang1+"~", "~"+ navigator.languages +"~")
-				let control = navigator.languages
-				let test = e.data[2]
-				console.debug(sha1(control),"control")
-				console.debug(sha1(test),"test")
+				let control = sha1(navigator.languages)
+				let test = sha1(e.data[2])
+				console.debug(control + "\n" + test)
+				if (e.data[2] == lang1) { console.debug("match") } else { console.debug("no-match")}
+				if (control == test) { console.debug("hash match") } else { console.debug("hash no-match")}
 
 				if (e.data[2] !== lang1) {dom.lang1.innerHTML = lang1 +" | "+ sb + e.data[2] + sc; isLeak = true}
 				if (e.data[3] !== lang2) {dom.lang2.innerHTML = lang2 +" | "+ sb + e.data[3] + sc; isLeak = true}
