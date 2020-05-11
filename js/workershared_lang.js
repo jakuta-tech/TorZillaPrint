@@ -2,10 +2,12 @@
 
 var ports = []
 onconnect = function(e) {
+	console.debug("testing: onconnect")
 	let port = e.ports[0]
 	ports.push(port)
 	port.start()
 	port.onmessage = function(e) {
+		console.debug("testing: onmessage")
 		let res = [],
 			d1 = new Date("January 30, 2019 13:00:00"),
 			d2 = new Date("July 30, 2018 13:00:00")
