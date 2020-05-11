@@ -61,14 +61,12 @@ function get_tz_lang() {
 	lHash1 += (lHash1 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98" ? enUS_green : enUS_red)
 	dom.lHash1.innerHTML = lHash1
 
-	// workers
-	if (isFile) {
-	} else if (typeof(Worker) == "undefined") {
+	// shared worker
+	if (isFile || typeof(Worker) == "undefined") {
 	} else {
-		// web
 		try {
-			let workernav = new Worker("js/worker_lang.js")
-			workernav.addEventListener("message", function(e) {
+			let sharedlang = new SharedWorker("js/workershared_lang.js")
+			sharedlang.addEventListener("message", function(e) {
 				// timezone
 				let isLeak = false
 				if (e.data[0] !== tz1) {dom.tz1.innerHTML = tz1 +" | "+ sb + e.data[0] + sc; isLeak = true}
@@ -89,7 +87,7 @@ function get_tz_lang() {
 						+ " [see details]" +sc
 				}
 			}, false)
-			workernav.postMessage("hi")
+			sharedlang.postMessage("hi")
 		} catch(e) {}
 	}
 }
@@ -380,3 +378,4 @@ function outputLanguage() {
 }
 
 outputLanguage()
+
