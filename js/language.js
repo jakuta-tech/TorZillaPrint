@@ -90,7 +90,9 @@ function get_tz_lang() {
 			}, false)
 			sharedlang.port.start()
 			sharedlang.postMessage("hi")
-		} catch(e) {}
+		} catch(e) {
+			console.debug("lang shared worker error", e.message)
+		}
 	}
 }
 
