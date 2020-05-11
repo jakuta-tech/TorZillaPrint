@@ -40,7 +40,17 @@ function get_geo() {
 	navigator.permissions.query({name:"geolocation"}).then(e => geoState(e.state))
 }
 
-function get_lang() {
+function get_tz_lang() {
+	// timezone
+	let d1 = new Date("January 30, 2019 13:00:00"),
+		d2 = new Date("July 30, 2018 13:00:00")
+	let tz1 = d1.getTimezoneOffset()+ ' | ' + d2.getTimezoneOffset(); dom.tz1 = tz1
+	let tz2 = Intl.DateTimeFormat().resolvedOptions().timeZone; dom.tz2 = tz2
+	let lHash0 = sha1(tz1 + "-"	+ tz2)
+	bTZ = (lHash0 == "f8296e18b30a4ae7669d1992c943b90dde8bf94f" ? true : false)
+	dom.lHash0.innerHTML = lHash0 + (bTZ ? rfp_green : rfp_red)
+
+	// language
 	let lang1 = navigator.languages; dom.lang1 = lang1
 	let lang2 = navigator.language; dom.lang2 = lang2
 	let lang3 = navigator.languages[0]; dom.lang3 = lang3
@@ -48,16 +58,30 @@ function get_lang() {
 	let lang5 = Intl.DateTimeFormat().resolvedOptions().locale; dom.lang5 = lang5
 	let lHash1 = sha1(lang1 +"-"+ lang2 +"-"+ lang3 +"-"+ lang4 +"-"+ lang5)
 	dom.lHash1.innerHTML = lHash1 += (lHash1 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98" ? enUS_green : enUS_red)
-}
 
-function get_tz() {
-	let d1 = new Date("January 30, 2019 13:00:00"),
-		d2 = new Date("July 30, 2018 13:00:00")
-	let tz1 = d1.getTimezoneOffset()+ ' | ' + d2.getTimezoneOffset(); dom.tz1 = tz1
-	let tz2 = Intl.DateTimeFormat().resolvedOptions().timeZone; dom.tz2 = tz2
-	let h = sha1(tz1 + "-"	+ tz2)
-	bTZ = (h == "f8296e18b30a4ae7669d1992c943b90dde8bf94f" ? true : false)
-	dom.lHash0.innerHTML = h + (bTZ ? rfp_green : rfp_red)
+	// workers
+	if (isFile) {
+	} else if (typeof(Worker) == "undefined") {
+	} else {
+		// web
+		try {
+			let workernav = new Worker("js/worker_lang.js")
+			workernav.addEventListener("message", function(e) {
+				// timezone
+				let isLeak = false
+				if (e.data[0] !== tz1) {dom.tz1.innerHTML = tz1 +" | "+ sb + e.data[0] + sc; isLeak = true}
+				if (e.data[1] !== tz2) {dom.tz2.innerHTML = tz2 +" | "+ sb + e.data[1] + sc; isLeak = true}
+				if (isLeak) {
+					dom.lHash0.innerHTML = dom.lHash0.textContent +" | "+ sb + sha1(e.data[0]+"-"+e.data[1]) + " [see details]" +sc
+				}
+
+				// language
+				isLeak = false
+
+			}, false)
+			workernav.postMessage("hi")
+		} catch(e) {}
+	}
 }
 
 function get_datetime() {
@@ -335,37 +359,12 @@ function get_datetime() {
 
 }
 
-function get_workers() {
-	// workers
-	if (isFile) {
-	} else if (typeof(Worker) == "undefined") {
-	} else {
-		// web
-		try {
-			let workernav = new Worker("js/worker_lang.js")
-			workernav.addEventListener("message", function(e) {
-				// timezone
-				// ToDo: if something doesn't match, show that with the hash
-				let chk0 = dom.tz1.textContent, chk1 = dom.tz2.textContent
-				if (e.data[0] !== chk0) {dom.tz1.innerHTML = chk0 +" | "+ sb + e.data[0] + sc}
-				if (e.data[1] !== chk1) {dom.tz2.innerHTML = chk1 +" | "+ sb + e.data[1] + sc}
-
-				// language
-
-			}, false)
-			workernav.postMessage("hi")
-		} catch(e) {}
-	}
-}
-
 function outputLanguage() {
 	let t0 = performance.now()
 	// run
-	get_lang()
-	get_tz()
+	get_tz_lang()
 	get_datetime()
 	get_geo()
-	get_workers()
 	// perf
 	debug_page("perf","language",t0,gt0)
 }
