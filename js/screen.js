@@ -1666,7 +1666,26 @@ function goNW_UA() {
 	let hash = sha1(res.join())
 	let hash2 = (dom.sectionUA1.textContent).substring(0,40)
 	// output
-	dom.sectionUA8.innerHTML = hash + (hash == hash2 ? match_green : match_red)
+	if (hash == hash2) {
+		dom.sectionUA8.innerHTML = hash + match_green
+	} else {
+		dom.sectionUA8.innerHTML = hash + match_red
+		// output diffs if not already exposed (has line break)
+		let target = "", output = "", str = "", n = ""
+		for (let i=0; i < res.length; i++) {
+			target = document.getElementById("nUA" + res[i].substring(0,2))
+			str = target.innerHTML
+			output = res[i].slice(3, res[i].length)
+			if (str.indexOf("<br>" == -1) && str !== output) {
+				target.innerHTML += "<br>" + sb.trim() + output + sc
+				n = (i).toString().padStart(2,"0")
+				// show vendor*
+				if (n == "09" || n == "10") {
+					document.getElementById("togUA"+n).style.display = "table-row"
+				}
+			}
+		}
+	}
 }
 
 /* OUTPUT */
