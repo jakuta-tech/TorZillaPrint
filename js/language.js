@@ -87,6 +87,7 @@ function get_tz_lang() {
 						+ " [see details]" +sc
 				}
 			}, false)
+			sharedlang.port.start()
 			sharedlang.postMessage("hi")
 		} catch(e) {}
 	}
