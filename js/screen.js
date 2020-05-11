@@ -1676,8 +1676,7 @@ function goNW_UA() {
 			target = document.getElementById("nUA" + res[i].substring(0,2))
 			str = target.innerHTML
 			output = res[i].slice(3, res[i].length)
-			console.debug(i, str.indexOf("<br>"))
-			if (str.indexOf("<br>" == -1) && str !== output) {
+			if (str.indexOf("<br>") == -1 && str !== output) {
 				target.innerHTML += "<br>" + sb.trim() + output + sc
 				n = (i).toString().padStart(2,"0")
 				// show vendor*
