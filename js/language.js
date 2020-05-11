@@ -62,7 +62,8 @@ function get_tz_lang() {
 	dom.lHash1.innerHTML = lHash1
 
 	// shared worker
-	if (isFile || typeof(Worker) == "undefined") {
+	if (isFile) {
+	} else if (typeof(Worker) == "undefined") {
 	} else {
 		try {
 			let sharedlang = new SharedWorker("js/workershared_lang.js")
