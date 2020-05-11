@@ -48,7 +48,8 @@ function get_tz_lang() {
 	let tz2 = Intl.DateTimeFormat().resolvedOptions().timeZone; dom.tz2 = tz2
 	let lHash0 = sha1(tz1 + "-"	+ tz2)
 	bTZ = (lHash0 == "f8296e18b30a4ae7669d1992c943b90dde8bf94f" ? true : false)
-	dom.lHash0.innerHTML = lHash0 + (bTZ ? rfp_green : rfp_red)
+	lHash0 += (bTZ ? rfp_green : rfp_red)
+	dom.lHash0.innerHTML = lHash0
 
 	// language
 	let lang1 = navigator.languages; dom.lang1 = lang1
@@ -57,7 +58,8 @@ function get_tz_lang() {
 	let lang4 = new Intl.PluralRules().resolvedOptions().locale; dom.lang4 = lang4
 	let lang5 = Intl.DateTimeFormat().resolvedOptions().locale; dom.lang5 = lang5
 	let lHash1 = sha1(lang1 +"-"+ lang2 +"-"+ lang3 +"-"+ lang4 +"-"+ lang5)
-	dom.lHash1.innerHTML = lHash1 += (lHash1 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98" ? enUS_green : enUS_red)
+	lHash1 += (lHash1 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98" ? enUS_green : enUS_red)
+	dom.lHash1.innerHTML = lHash1
 
 	// workers
 	if (isFile) {
@@ -72,12 +74,20 @@ function get_tz_lang() {
 				if (e.data[0] !== tz1) {dom.tz1.innerHTML = tz1 +" | "+ sb + e.data[0] + sc; isLeak = true}
 				if (e.data[1] !== tz2) {dom.tz2.innerHTML = tz2 +" | "+ sb + e.data[1] + sc; isLeak = true}
 				if (isLeak) {
-					dom.lHash0.innerHTML = dom.lHash0.textContent +" | "+ sb + sha1(e.data[0]+"-"+e.data[1]) + " [see details]" +sc
+					dom.lHash0.innerHTML = lHash0 +"<br>"+ sb + sha1(e.data[0]+"-"+e.data[1]) + " [see details]" +sc
 				}
-
 				// language
 				isLeak = false
-
+				if (e.data[2] !== lang1) {dom.lang1.innerHTML = lang1 +" | "+ sb + e.data[2] + sc; isLeak = true}
+				if (e.data[3] !== lang2) {dom.lang2.innerHTML = lang2 +" | "+ sb + e.data[3] + sc; isLeak = true}
+				if (e.data[4] !== lang3) {dom.lang3.innerHTML = lang3 +" | "+ sb + e.data[4] + sc; isLeak = true}
+				if (e.data[5] !== lang4) {dom.lang4.innerHTML = lang4 +" | "+ sb + e.data[5] + sc; isLeak = true}
+				if (e.data[6] !== lang5) {dom.lang5.innerHTML = lang5 +" | "+ sb + e.data[6] + sc; isLeak = true}
+				if (isLeak) {
+					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb
+						+ sha1(e.data[2]+"-"+e.data[3]+"-"+e.data[4]+"-"+e.data[5]+"-"+e.data[6])
+						+ " [see details]" +sc
+				}
 			}, false)
 			workernav.postMessage("hi")
 		} catch(e) {}
@@ -370,4 +380,3 @@ function outputLanguage() {
 }
 
 outputLanguage()
-
