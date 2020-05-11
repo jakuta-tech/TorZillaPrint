@@ -77,6 +77,7 @@ function get_tz_lang() {
 				}
 				// language
 				isLeak = false
+				console.debug("e.data[2]", "~"+e.data[2]+"~", "~"+lang1+"~")
 				if (e.data[2] !== lang1) {dom.lang1.innerHTML = lang1 +" | "+ sb + e.data[2] + sc; isLeak = true}
 				if (e.data[3] !== lang2) {dom.lang2.innerHTML = lang2 +" | "+ sb + e.data[3] + sc; isLeak = true}
 				if (e.data[4] !== lang3) {dom.lang3.innerHTML = lang3 +" | "+ sb + e.data[4] + sc; isLeak = true}
