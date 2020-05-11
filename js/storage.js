@@ -202,21 +202,7 @@ function get_idb() {
 }
 
 function get_appcache() {
-	// support
-	if ("applicationCache" in window) {
-		dom.appcache1 = zE
-		if (isSecure) {
-			// test
-			dom.appcache2.innerHTML = note_ttc
-		} else {
-			// insecure
-			dom.appcache2.innerHTML= zNA + note_file
-		}
-	} else {
-		// not-supported
-		dom.appcache1 = zD
-		dom.appcache2 = zNA
-	}
+	dom.appcache = ("applicationCache" in window ? zE : zD)
 }
 
 function get_workers() {
