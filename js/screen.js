@@ -966,6 +966,10 @@ function get_ua_nav() {
 		let n = (i).toString().padStart(2,"0")
 		res.push(n+" "+r)
 		document.getElementById("nUA"+n).innerHTML = r
+		// show/hide vendor* if not undefined
+		if (n == "09" || n == "10") {
+			document.getElementById("togUA"+n).style.display = (r == "undefined" ? "none" : "table-row")
+		}
 	}
 	res.sort()
 	dom.sectionUA1.innerHTML = sha1(res.join()) + (isFF ? s2+"[spoofable + detectable]"+sc : "")
