@@ -11,7 +11,7 @@ function rnd_number() {
 function lookup_cookie(name) {
 	name += "="
 	let decodedCookie = decodeURIComponent(document.cookie)
-	let ca = decodedCookie.split(';');
+	let ca = decodedCookie.split(';')
 	for (let i=0 ; i < ca.length; i++) {
 		let c = ca[i]
 		while (c.charAt(0) == " ") {
@@ -215,7 +215,7 @@ function get_workers() {
 			dom.work2.innerHTML= zNA + note_file
 			dom.work3.innerHTML= zNA + note_file
 		} else {
-			// web worker test
+			// web worker
 			try {
 				let wwt = new Worker("js/worker.js")
 				let rndStr1 = rnd_string()
@@ -227,12 +227,13 @@ function get_workers() {
 					if ("TZP-" + rndStr1 === e.data) {
 						dom.work2 = zS
 					}
+					wwt.terminate
 				}, false)
 				wwt.postMessage(rndStr1)
 			} catch(e) {
 				dom.work2 = zF+": " + e.name
 			}
-			// shared worker test
+			// shared worker
 			try {
 				let swt = new SharedWorker("js/workershared.js")
 				let rndStr2 = rnd_string()
@@ -244,9 +245,10 @@ function get_workers() {
 					if ("TZP-" + rndStr2 === e.data) {
 						dom.work3 = zS
 					}
-				}, false);
-				swt.port.start();
-				swt.port.postMessage(rndStr2);
+					swt.port.close()
+				}, false)
+				swt.port.start()
+				swt.port.postMessage(rndStr2)
 			} catch(e) {
 				dom.work3 = zF+": " + e.name
 			}
