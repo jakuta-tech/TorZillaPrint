@@ -1096,7 +1096,7 @@ function get_ua_nav_worker() {
 		// none
 		exit(zF)
 	} else {
-
+		let amFF = (isFF ? "y" : "n")
 		// web
 		let el2 = dom.sectionUA2, test2 = ""
 		try {
@@ -1106,7 +1106,7 @@ function get_ua_nav_worker() {
 				test2 = sha1((e.data).join())
 				el2.innerHTML = test2 + (test2 == control ? match_green : match_red)
 			}, false)
-			workernav.postMessage("hi")
+			workernav.postMessage(amFF)
 		} catch(e) {
 			el2.innerHTML = zF
 		}
