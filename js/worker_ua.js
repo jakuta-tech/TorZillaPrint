@@ -5,8 +5,7 @@ addEventListener("message", function(e) {
 		res = [],
 		zBT = "<span class='bad'>[blocked]</span>",
 		amFF = false
-	if ("undefined" != typeof InstallTrigger) {amFF = true}
-	console.debug("amFF", amFF)
+	// ToDo: only use blocked for amFF: for now extensions can't handle workers
 	for (let i=0; i < list.length; i++) {
 		let r = navigator[list[i]]
 		if (r == "") {r = "undefined"}
