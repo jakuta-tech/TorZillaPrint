@@ -18,6 +18,6 @@ addEventListener("message", function(e) {
 	}
 	//console.debug(performance.now(), "sw: service worker: nav properties done, broadcasting")
 	let channel = new BroadcastChannel("sw-ua");
-	//channel.postMessage({msg: res});
+	channel.postMessage({msg: res});
 	//console.debug(performance.now(), "sw: service worker: broadcast sent")
 }, false)
