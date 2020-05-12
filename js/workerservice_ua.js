@@ -7,7 +7,7 @@ self.addEventListener("activate", function(e) {
 addEventListener("message", function(e) {
 	console.debug(performance.now(), "sw: service worker: received message from client, getting nav properties")
 	let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
-		res = []
+		res = [],
 		zBT = "<span class='bad'>[blocked]</span>",
 		amFF = false
 	// ToDo: only use blocked for amFF: for now extensions can't handle workers
