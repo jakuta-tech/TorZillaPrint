@@ -959,10 +959,12 @@ function get_screen_metrics(runtype) {
 function get_ua_nav() {
 	let list = ['userAgent','appCodeName','appName','product','appVersion',
 		'oscpu','platform','buildID','productSub','vendor','vendorSub'],
-		res = []
+		res = [],
+		zBT = zB.trim()
 	for(let i=0; i < list.length; i++) {
 		let r = navigator[list[i]]
 		if (r == "") {r = zU}
+		if (r == undefined && isFF) {r = zBT}
 		let n = (i).toString().padStart(2,"0")
 		res.push(n+" "+r)
 		document.getElementById("nUA"+n).innerHTML = r
@@ -1650,7 +1652,8 @@ function goNW() {
 function goNW_UA() {
 	let list = ['userAgent','appCodeName','appName','product','appVersion',
 		'oscpu','platform','buildID','productSub','vendor','vendorSub'],
-		res = []
+		res = [],
+		zBT = zB.trim()
 	dom.sectionUA8.innerHTML = "&nbsp"
 	// open, get results, close
 	let newWin = window.open()
@@ -1658,6 +1661,7 @@ function goNW_UA() {
 	for(let i=0; i < list.length; i++) {
 		let r = navigator[list[i]]
 		if (r == "") {r = zU}
+		if (r == undefined && isFF) {r = zBT}
 		res.push((i).toString().padStart(2,"0")+" "+r)
 	}
 	newWin.close()
