@@ -2,10 +2,15 @@
 
 addEventListener("message", function(e) {
 	let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
-		res = []
+		res = [],
+		zBT = "<span class='bad'>[blocked]</span>",
+		amFF = false
+	if ("undefined" != typeof InstallTrigger) {amFF = true}
+	console.debug("amFF", amFF)
 	for (let i=0; i < list.length; i++) {
 		let r = navigator[list[i]]
 		if (r == "") {r = "undefined"}
+		if (str == undefined && amFF) {str = zBT}
 		res.push((i).toString().padStart(2,"0")+" "+r)
 	}
 	self.postMessage(res)
