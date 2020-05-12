@@ -87,6 +87,7 @@ function get_tz_lang() {
 						+ sha1(e.data[2]+"-"+e.data[3]+"-"+e.data[4]+"-"+e.data[5]+"-"+e.data[6])
 						+ " [see details]" +sc
 				}
+				workerlang.terminate
 			}, false)
 			workerlang.postMessage("hi")
 		} catch(e) {}
