@@ -1123,7 +1123,7 @@ function get_ua_nav_worker() {
 				}
 			}, false)
 			sharednav.port.start()
-			sharednav.port.postMessage("hi")
+			sharednav.port.postMessage(isFF)
 		} catch(e) {
 			el3.innerHTML = zF
 		}
