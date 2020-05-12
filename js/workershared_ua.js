@@ -7,7 +7,7 @@ onconnect = function(e) {
 	port.start()
 	port.onmessage = function(e) {
 		let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
-			res = []
+			res = [],
 			zBT = "<span class='bad'>[blocked]</span>",
 			amFF = false
 		// ToDo: only use blocked for amFF: for now extensions can't handle workers
