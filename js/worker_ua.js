@@ -4,8 +4,8 @@ addEventListener("message", function(e) {
 	let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
 		res = [],
 		zBT = "<span class='bad'>[blocked]</span>",
-		amFF = (e == "y" ? true : false)
-	console.debug("I am firefox?", amFF)
+		amFF = (e.data == "y" ? true : false)
+	console.debug("I am firefox?", amFF, e.data)
 	for (let i=0; i < list.length; i++) {
 		let r = navigator[list[i]]
 		if (r == "") {r = "undefined"}
