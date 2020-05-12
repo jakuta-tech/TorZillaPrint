@@ -977,92 +977,18 @@ function get_ua_nav() {
 	dom.sectionUA1.innerHTML = sha1(res.join()) + (isFF ? s2+"[spoofable + detectable]"+sc : "")
 
 	// start nav checks
-	get_ua_nav_iframe()
-	get_ua_nav_worker()
+	get_ua_nav_checks()
 }
 
-function get_ua_nav_iframe() {
-	let hash = "",
-		el = dom.sectionUA6
-	dom.sectionUA7.innerHTML = note_ttc //nested
-
-	function remove_iframe(reason) {
-		try {
-			let ifua = dom.ifua
-			ifua.removeEventListener("load", test)
-			dom.iframes.removeChild(ifua)
-		} catch(e) {}
-		// errors
-		if (reason !== "") {
-			let s = ""
-			if (reason == "cors") {s = error_file_cors}
-			if (reason == "404") {s = error_file_404}
-			if (reason == "iframe") {s = error_iframe}
-			el.innerHTML = s
-		}
-	}
-	function compare() {
-		let hash2 = (dom.sectionUA1.textContent).substring(0,40)
-		let list = ['userAgent','appCodeName','appName','product','appVersion',
-			'oscpu','platform','buildID','productSub','vendor','vendorSub'],
-			res = []
-		let target = dom.ifua,
-			win = target.contentWindow,
-			navigator = win.navigator
-		for (let i=0; i < list.length; i++) {
-			let r = navigator[list[i]]
-			if (r == "") {r = "undefined"}
-			res.push((i).toString().padStart(2,"0")+" "+r)
-		}
-		res.sort()
-		let hash = sha1(res.join())
-		el.innerHTML = hash + (hash == hash2 ? match_green : match_red)
-		remove_iframe("")
-	}
-	function test() {
-		setTimeout(function() {
-			try {
-				let ifua = dom.ifua
-				let check = ifua.contentWindow.document.getElementById("test").textContent
-				compare()
-			} catch(e) {
-				if (isFile) {
-					remove_iframe("cors")
-				} else {
-					el.innerHTML = e.message
-					remove_iframe("")
-				}
-			}
-		}, 15)
-	}
-	// start timer
-	let delay = 2500
-	if (isOS == "android" | isTB) {delay = 3500}
-	setTimeout(function(){
-		// we're still empty
-		if (el.textContent == "") {
-			if (isFile) {
-				remove_iframe("404")
-			} else {
-				remove_iframe("iframe")
-			}
-		}
-	}, delay)
-	// create & load iframe
-	let iframe = document.createElement("iframe")
-	iframe.id = "ifua"
-	dom.iframes.appendChild(iframe)
-	iframe.src = "iframes/test.html"
-	iframe.addEventListener("load", test)
-}
-
-function get_ua_nav_worker() {
+function get_ua_nav_checks() {
 	// control
 	let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
-		res = []
+		res = [],
+		zBT = zB.trim()
 	for (let i=0; i < list.length; i++) {
 		let r = navigator[list[i]]
 		if (r == "") {r = "undefined"}
+		if (r == undefined && isFF) {r = zBT}
 		res.push((i).toString().padStart(2,"0")+" "+r)
 	}
 	let control = sha1(res.join())
@@ -1104,12 +1030,12 @@ function get_ua_nav_worker() {
 			workernav.addEventListener("message", function(e) {
 				test2 = sha1((e.data).join())
 				el2.innerHTML = test2 + (test2 == control ? match_green : match_red)
+				workernav.terminate
 			}, false)
 			workernav.postMessage(isFF)
 		} catch(e) {
 			el2.innerHTML = zF
 		}
-
 		// shared
 		let el3 = dom.sectionUA3, test3 = ""
 		try {
@@ -1118,6 +1044,7 @@ function get_ua_nav_worker() {
 			sharednav.port.addEventListener("message", function(e) {
 				test3 = sha1((e.data).join())
 				el3.innerHTML = test3 + (test3 == control ? match_green : match_red)
+				sharednav.port.close()
 				if (test3 !== control) {
 					update(e.data)
 				}
@@ -1127,7 +1054,6 @@ function get_ua_nav_worker() {
 		} catch(e) {
 			el3.innerHTML = zF
 		}
-
 		// nested
 		dom.sectionUA4.innerHTML = note_ttc
 	}
@@ -1141,38 +1067,25 @@ function get_ua_nav_worker() {
 			// assume failure
 			el5.innerHTML = zF + " [A: assumed]"
 			// register
-			//console.debug(performance.now(), "sw: client: about to register")
 			navigator.serviceWorker.register("js/workerservice_ua.js").then(function(swr) {
-
-				// debug
 				let sw
 				if (swr.installing) {sw = swr.installing}
 				else if (swr.waiting) {sw = swr.waiting}
 				else if (swr.active) {sw = swr.active}
 				sw.addEventListener("statechange", function(e) {
-					//console.debug(performance.now(), "sw: client sees state " + e.target.state)
 					if (e.target.state == "activated") {
-						//console.debug(performance.now(), "sw: client about to send message")
 						sw.postMessage(isFF)
-						//console.debug(performance.now(), "sw: client message sent")
 					}
 				})
-
 				if (sw) {
 					// listen
-					//console.debug(performance.now(), "sw: client about to set up broadcast channel")
 					let channel = new BroadcastChannel("sw-ua")
-					//console.debug(performance.now(), "sw: client broadcast channel set, now listening")
 					channel.addEventListener("message", event => {
-						//console.debug(performance.now(), "sw: client recieved message from sw")
 						test5 = sha1((event.data.msg).join())
 						el5.innerHTML = test5 + (test5 == control ? match_green : match_red)
-						// unregister
+						// unregister & close
 						swr.unregister().then(function(boolean) {})
-						//console.debug(performance.now(), "sw: client unregisters sw")
-						// close
 						channel.close()
-						//console.debug(performance.now(), "sw: client closes channel")
 					})
 				} else {
 					el5.innerHTML = zF + " [B: not swr.installing]"
