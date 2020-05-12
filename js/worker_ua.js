@@ -10,7 +10,7 @@ addEventListener("message", function(e) {
 	for (let i=0; i < list.length; i++) {
 		let r = navigator[list[i]]
 		if (r == "") {r = "undefined"}
-		if (str == undefined && amFF) {str = zBT}
+		if (r == undefined && amFF) {r = zBT}
 		res.push((i).toString().padStart(2,"0")+" "+r)
 	}
 	self.postMessage(res)
