@@ -3,13 +3,13 @@
 addEventListener("message", function(e) {
 	let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
 		res = [],
-		zBT = "<span class='bad'>[blocked]</span>",
-		amFF = (e.data == "y" ? true : false)
-	console.debug("I am firefox?", amFF, e.data)
+		zBT = "<span class='bad'>[blocked]</span>"
+	console.debug("isFF", e.data)
+	if (e.data) {console.debug("banana")}
 	for (let i=0; i < list.length; i++) {
 		let r = navigator[list[i]]
 		if (r == "") {r = "undefined"}
-		if (r == undefined && amFF) {r = zBT}
+		if (r == undefined && e.data) {r = zBT}
 		res.push((i).toString().padStart(2,"0")+" "+r)
 	}
 	self.postMessage(res)
