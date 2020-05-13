@@ -208,7 +208,12 @@ function get_errors() {
 		if (code !== "") {
 			isFF = true
 			// don't show F1/F2 yet
-			if (code !== "F1" && code !== "F2") {
+			if (code == "F1" || code == "F2") {
+				// output non unusual
+				dom.fdError.innerHTML = zFF +" "+ ff
+				dom.errh.innerHTML = hash + code + (runS ? zSIM : "")
+			} else {
+				// output
 				output()
 			}
 		} else if (isFF) {
