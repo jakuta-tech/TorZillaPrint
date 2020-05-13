@@ -816,6 +816,15 @@ function get_resources() {
 
 	// output
 	function output() {
+		// set isBrand for get_error: which is only used for 77+
+		if (channel == "Developer/Nightly") {
+			isBrand = "Developer"
+		} else if (channel == "Release/Beta") {
+			isBrand = "Beta"
+		} else {
+			isBrand == "unknown"
+		}
+		// output
 		dom.fdResource.innerHTML = browser + " " + result
 		store_data("ua","2 res",browser+" "+wFF+"x"+hFF+" "+extra)
 		if (logPerf) {debug_log("resource [ua]",t0)}
@@ -925,14 +934,6 @@ function get_resources() {
 						}
 						// now we output
 						output()
-						// set isBrand for get_error: which is only used for 77+
-						if (channel == "Developer/Nightly") {
-							isBrand = "Developer"
-						} else if (channel == "Release/Beta") {
-							isBrand = "Beta"
-						} else {
-							isBrand == "unknown"
-						}
 					}
 				}
 				// wait for isTB2
