@@ -86,6 +86,7 @@ let avh = "",
 	isOS = "",
 	isErr = "",
 	isVer = "",
+	isBrand = "",
 	isFile = false,
 	isSecure = false,
 // dev
@@ -94,7 +95,6 @@ let avh = "",
 	logPerf = false,
 	logStorage = false,
 	runS = false,
-	runUA = false,
 	stateSIM = false,
 // rerun
 	gRerun = false
