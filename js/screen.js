@@ -161,10 +161,23 @@ function get_errors() {
 		hash = "",
 		code = "",
 		ff = "",
+		unusual = false,
 		t0 = performance.now()
 	// output
 	function output() {
-		let unusual = false
+		let str = ""
+		code = s2+"["+code+"]"+sc
+		dom.errh.innerHTML = hash + code + (runS ? zSIM : "")
+		if (isBrand == "Developer") {
+			str = isBrand.toLowerCase() +" "
+		} else if (isBrand == "Beta") {
+			str = "release/beta "
+		}
+		dom.fdError.innerHTML = zFF +" "+ ff + (unusual ? sb+"["+str+"non-standard: see details]"+sc : "")
+		dom.labelErr2.innerHTML = (unusual ? sb+"["+str+"non-standard] "+sc + "error2" : "error2")
+	}
+	// build
+	function build() {
 		hash = sha1(res.join())
 		let temp = hash.substring(0,10)
 		if (isErr == "") {isErr = hash.substring(0,4)}
@@ -192,18 +205,42 @@ function get_errors() {
 		} else if (temp == "b75bad7247") {
 			code = "N2"; ff = "[Nightly]"; unusual = true
 		}
-		dom.labelErr2.innerHTML = (unusual ? sb+"[non-standard] "+sc + "error2" : "error2")
 		if (code !== "") {
-			code = s2+"["+code+"]"+sc
 			isFF = true
-			dom.fdError.innerHTML = zFF +" "+ ff + (unusual ? sb+"[non-standard: see details]"+sc : "")
+			// don't show F1/F2 yet
+			if (code !== "F1" && code !== "F2") {
+				output()
+			}
 		} else if (isFF) {
 			code = zNEW
+			dom.errh.innerHTML = hash + code + (runS ? zSIM : "")
 			dom.fdError.innerHTML = not_seen+" error combo before"+sc + (runS ? zSIM : "")
+		} else {
+			dom.errh = hash
 		}
-		dom.errh.innerHTML = hash + code + (runS ? zSIM : "")
 		store_data("ua","1 err",hash)
 		if (logPerf) {debug_log("errors [ua]",t0)}
+
+		// 1636195: 77+ [F1/F2] dev=normal beta=unusual: need isVer & isBrand
+		if (code == "F1" || code == "F2") {
+			// wait for isBrand
+			function check_brand() {
+				if (isBrand !== "") {
+					clearInterval(checking)
+					if (isVer > 76) {
+						if (isBrand == "unknown") {
+							// no brand = do nothing: e.g android
+							unusual = false
+						} else if (isBrand == "Developer") {
+							// dev = flip logic
+							unusual = !unusual
+						}
+					}
+					output()
+				}
+			}
+			let checking = setInterval(check_brand, 50)
+		}
 	}
 	// run
 	function run() {
@@ -252,7 +289,7 @@ function get_errors() {
 		} catch(e) {
 			test = e.name+": "+e.message; dom.err5=test; res.push(test)
 		}
-		output()
+		build()
 	}
 	run()
 }
@@ -888,6 +925,14 @@ function get_resources() {
 						}
 						// now we output
 						output()
+						// set isBrand for get_error: which is only used for 77+
+						if (channel == "Developer/Nightly") {
+							isBrand = "Developer"
+						} else if (channel == "Release/Beta") {
+							isBrand = "Beta"
+						} else {
+							isBrand == "unknown"
+						}
 					}
 				}
 				// wait for isTB2
@@ -897,7 +942,6 @@ function get_resources() {
 		document.body.removeChild(imgA)
 	}
 	run()
-
 }
 
 function get_screen_metrics(runtype) {
