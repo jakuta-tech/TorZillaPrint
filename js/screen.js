@@ -211,7 +211,7 @@ function get_errors() {
 			if (code == "F1" || code == "F2") {
 				// output non unusual
 				dom.fdError.innerHTML = zFF +" "+ ff
-				dom.errh.innerHTML = hash + code + (runS ? zSIM : "")
+				dom.errh.innerHTML = hash + s2+"["+code+"]"+sc + (runS ? zSIM : "")
 			} else {
 				// output
 				output()
