@@ -1010,6 +1010,7 @@ function get_ua_nav() {
 	let list = ['userAgent','appCodeName','appName','product','appVersion',
 		'oscpu','platform','buildID','productSub','vendor','vendorSub'],
 		res = [],
+		r = "",
 		zBT = zB.trim()
 	for(let i=0; i < list.length; i++) {
 		try {r = navigator[list[i]]} catch(e) {r = "error"; console.debug("get_ua_nav", e.message)}
