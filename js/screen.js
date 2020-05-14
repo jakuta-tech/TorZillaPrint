@@ -1012,7 +1012,7 @@ function get_ua_nav() {
 		res = [],
 		zBT = zB.trim()
 	for(let i=0; i < list.length; i++) {
-		let r = navigator[list[i]]
+		try {r = navigator[list[i]]} catch(e) {r = "error"; console.debug("get_ua_nav", e.message)}
 		if (r == "") {r = zU}
 		if (r == undefined && isFF) {r = zBT}
 		let n = (i).toString().padStart(2,"0")
