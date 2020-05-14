@@ -1689,18 +1689,18 @@ function outputMath() {
 		let list = ['1e251','1e140','1e12','1e130','1e272','1e0','1e284','1e75'],
 			res = []
 		for (let i=0; i < list.length; i++) {
-			r = Math.cos(list[i])
+			try {r = Math.cos(list[i])} catch(e) {r = "error"}
 			res.push(r)
 			document.getElementById("cos"+i).innerHTML = r
 		}
 		h1 = res.join("-")
 		// 6th
 		let x, y;
-		x = 0.5; r = Math.log((1 + x) / (1 - x)) / 2 // atanh(0.5)
+		x = 0.5; try {r = Math.log((1 + x) / (1 - x)) / 2} catch(e) {r = "error"} // atanh(0.5)
 		dom.math1 = r; h6 = r
-		x=1; r = Math.exp(x) - 1 // expm1(1)
+		x=1; try {r = Math.exp(x) - 1} catch(e) {r = "error"} // expm1(1)
 		dom.math2 = r; h6 += "-"+r
-		x = 1; y = Math.exp(x); r = (y - 1 / y) / 2 // sinh(1)
+		x = 1; try {y = Math.exp(x); r = (y - 1 / y) / 2} catch(e) {r = "error"} // sinh(1)
 		dom.math3 = r; h6 += "-"+r
 		// hashes
 		m1hash = sha1(h1)
@@ -1822,7 +1822,6 @@ function outputMath() {
 	get_codes()
 	build_output()
 	output()
-
 }
 
 function outputUA(runtype) {
