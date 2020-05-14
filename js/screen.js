@@ -1035,9 +1035,10 @@ function get_ua_nav_checks() {
 	// control
 	let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
 		res = [],
+		r = "",
 		zBT = zB.trim()
 	for (let i=0; i < list.length; i++) {
-		let r = navigator[list[i]]
+		try {r = navigator[list[i]]} catch(e) {r = "error"}
 		if (r == "") {r = "undefined"}
 		if (r == undefined && isFF) {r = zBT}
 		res.push((i).toString().padStart(2,"0")+" "+r)
