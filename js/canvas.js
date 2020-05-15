@@ -367,10 +367,28 @@ var canvas = {
 }
 
 function outputCanvas() {
-	let t0 = performance.now()
-	outCounter = 0
-	canvas.output(canvas.createHashes(window), dom.tb8)
-	debug_page("perf","canvas",t0,gt0)
+	// temp block RFP on 78+
+	let go = false
+	if (isFF) {
+		if (isVer < 78) {
+			go = true
+		} else {
+			if (window.PerformanceNavigationTiming) {
+				go = true
+			}
+		}
+	} else {
+		go = true
+	}
+
+	if (go) {
+		let t0 = performance.now()
+		outCounter = 0
+		canvas.output(canvas.createHashes(window), dom.tb8)
+		debug_page("perf","canvas",t0,gt0)
+	} else {
+		dom.cnv1 = "canvas tests disabled"
+	}
 }
 
 outputCanvas()
