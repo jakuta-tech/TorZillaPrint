@@ -48,10 +48,9 @@ function outputCanvas() {
 				value1 += (value1 == control ? g2 : r2 )
 			}
 			if (item == "toDataURL" || item == "toBlob" || item == "getImageData") {
-				// is78rfp: white canvas is bad
+				// 1621433: random
 				if (is78rfp) {
-					// second test should be different for RFP
-					value1 += (value1 == value2 ? rr : rfpr_green ) + "\n" + value2
+					value1 += (value1 == value2 ? rr : rfpr_green + "\n" + value2)
 				} else {
 					if (item == "getImageData") {
 						control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
@@ -62,13 +61,9 @@ function outputCanvas() {
 				}
 			}
 		}
-		element.innerHTML = value1 // + (value1 == value2 ? "" : "<br>" + value2)
+		element.innerHTML = value1
 	}
-
 	function run_results() {
-		// temp debug
-		//console.debug("ONE\n" + res1.join("\n"))
-		//console.debug("TWO\n" + res2.join("\n"))
 		for (let i=0; i < res1.length; i++) {
 			let str1 = res1[i],
 				str2 = res2[i],
