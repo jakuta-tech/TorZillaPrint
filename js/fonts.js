@@ -505,8 +505,8 @@ function get_unicode() {
 							tm00.push( (j==0 ? cp+"-" : "" ) + m)
 							// random check
 							if (tm00r == "" && j == 0) {
-								if (i < 11) {
-									if (ctx.measureText(c+c).width !== (m*2)) {tm00r = note_random}
+								if (i < 11 && i !==3) {
+									if (ctx.measureText(c+c).width !== (m*2)) {tm00r = sb11 + note_random}
 								}
 							}
 						}
