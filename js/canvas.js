@@ -9,12 +9,12 @@ function outputCanvas() {
 	// vars
 	let count = 0, expected = 11, res1 = [], res2 = []
 	let table = dom.tb8
-	let is78 = false,
+	let is78rfp = false,
 		r = rfp_red, r2 = r,
 		g = rfp_green, g2 = g,
 		control = ""
 	if (isFile) {r = note_file}
-	if (!window.PerformanceNavigationTiming) {is78 = true}
+	if (!window.PerformanceNavigationTiming) {is78rfp = true}
 
 	function display_results(item, value1, value2) {
 		let element = table.querySelector("." + item)
@@ -48,13 +48,10 @@ function outputCanvas() {
 				value1 += (value1 == control ? g2 : r2 )
 			}
 			if (item == "toDataURL" || item == "toBlob" || item == "getImageData") {
-				// is78: white canvas is bad
-				if (is78) {
+				// is78rfp: white canvas is bad
+				if (is78rfp) {
 					// second test should be different for RFP
-					// do nothing for now
-					//value1 += (value1 == value2 ? r + "\n" + value2 + " [second]" : g )
-
-
+					value1 += (value1 == value2 ? r : g ) + "\n" + value2
 				} else {
 					if (item == "getImageData") {
 						control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
@@ -70,9 +67,8 @@ function outputCanvas() {
 
 	function run_results() {
 		// temp debug
-		console.debug("ONE\n" + res1.join("\n"))
-		console.debug("TWO\n" + res2.join("\n"))
-
+		//console.debug("ONE\n" + res1.join("\n"))
+		//console.debug("TWO\n" + res2.join("\n"))
 		for (let i=0; i < res1.length; i++) {
 			let str1 = res1[i],
 				str2 = res2[i],
