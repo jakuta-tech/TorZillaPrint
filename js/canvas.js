@@ -10,10 +10,10 @@ function outputCanvas() {
 	let count = 0, expected = 11, res1 = [], res2 = []
 	let table = dom.tb8
 	let is78rfp = false,
-		r = rfp_red, r2 = r,
+		r = rfp_red, r2 = r, rr = rfpr_red,
 		g = rfp_green, g2 = g,
 		control = ""
-	if (isFile) {r = note_file}
+	if (isFile) {r = note_file; rr = r}
 	if (!window.PerformanceNavigationTiming) {is78rfp = true}
 
 	function display_results(item, value1, value2) {
@@ -51,7 +51,7 @@ function outputCanvas() {
 				// is78rfp: white canvas is bad
 				if (is78rfp) {
 					// second test should be different for RFP
-					value1 += (value1 == value2 ? r : g ) + "\n" + value2
+					value1 += (value1 == value2 ? rr : rfpr_green ) + "\n" + value2
 				} else {
 					if (item == "getImageData") {
 						control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
