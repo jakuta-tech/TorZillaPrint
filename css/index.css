@@ -31,9 +31,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 .hidden {display: none;}
 .offscreen {position: absolute; top: -2000%;}
 .group {font-weight: bold;}
-.mono, .toDataURL, .toBlob, .winding, .getImageData, .isPointInPath, .fillText,
-	.isPointInStroke, .readPixels, .getContext, .mozGetAsFile, .strokeText {
-	font-family: monospace, "Courier New";}
+.mono {font-family: monospace, "Courier New";}
 .strike {text-decoration: line-through;}
 .spaces {white-space: pre;}
 
