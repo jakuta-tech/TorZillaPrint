@@ -91,8 +91,6 @@ function outputCanvas() {
 					// distinguish randomness
 					if (isRandom) {
 						if (is78rfp) {pushvalue = "random RFP good"} else {pushvalue = "random RFP extension"}
-					} else {
-						pushvalue = "random RFP bad"
 					}
 				} else {
 					// old static behavior
