@@ -45,7 +45,7 @@ function outputDomRect() {
 	}
 
 	let t0 = performance.now()
-	// unhide divrect
+	// unhide
 	document.getElementById("divrect").style.display = "block"
 	// run
 	createTest("dr1", function(element){return element.getClientRects()[0]})
@@ -60,7 +60,7 @@ function outputDomRect() {
 		range.selectNode(element)
 		return range.getBoundingClientRect()
 	})
-	// hide divrect
+	// hide
 	document.getElementById("divrect").style.display = "none"
 	// cleanup details
 	setTimeout(function(){
