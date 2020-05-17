@@ -82,8 +82,6 @@ function outputCanvas() {
 		}
 		// hashes: 1621433: randomized 78+ or static RFP
 		if (item == "toDataURL" || item == "toBlob" || item == "getImageData") {
-			//isVer = 77
-
 			if (isFF) {
 				if (isVer > 77) {
 					// new random behavior
@@ -130,11 +128,21 @@ function outputCanvas() {
 		// overall hash
 		chash1.sort()
 		console.debug("OVERALL HASH\n" + chash1.join("\n"))
+		let note = ""
 		Promise.all([
 			sha256_str(chash1.join())
 		]).then(function(hash){
 			hash = hash[0]
-			dom.chash1.innerHTML = hash
+			if (hash == "52f1642531c3a1b5dcb1eb8b45f6b063d169bbc0f2345c7560b1c51e057f3634") {
+				note = rfp_green + " [FF78+]"
+			} else if (hash == "09a923c4a70817b75d49a6446895faac505375bca45ee5a785aec9ae215500c9") {
+				note = rfp_green + " [FF74-77]"
+			} else if (hash == "f3f988d1a390eddb13f26d602a129f7c8d6d3efedc04569cc09c72608b011654") {
+				note = rfp_green + " [FF77 or lower]"
+			} else {
+				note = rfp_red
+			}
+			dom.chash1.innerHTML = hash + note
 		})
 		// perf
 		debug_page("perf","canvas",t0,gt0)		
