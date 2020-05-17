@@ -23,7 +23,6 @@ function outputCanvas() {
 			grnr = rfpr_green,
 			random = s8 + note_random
 		let element = table.querySelector("." + item)
-
 		// tweak
 		if (!window.PerformanceNavigationTiming) {is78rfp = true}
 		if (value1 !== value2) {isRandom = true; pushvalue = "random"}
@@ -40,6 +39,12 @@ function outputCanvas() {
 				} else {
 					value1 = value1.replace("2d: not supported", "2d: not supported" + rfp_red)
 					if(value1.substring(0,5) == "2d: n") {pushvalue = "2d: not supported"}
+				}
+				// split results
+				if (value1.substring(0,2) == "2d") {
+					let start = value1.indexOf(",")
+					dom.getContext2 = value1.substring(start+2, value1.length)
+					value1 = value1.substring(0, start-1)
 				}
 			}
 			// FF only
@@ -74,38 +79,43 @@ function outputCanvas() {
 		if (item.substring(0,3) == "isP") {
 			control = "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8"
 			if (isRandom) {
-				value1 += (isFile ? note_file : rfp_red)
-				value1 += (isRandom ? random + "<br>" + value2 : "")
+				value1 += (isRandom ? rfp_red + random + "<br>" + value2 : "")
 			} else {
 				if (isFF) {value1 += (value1 == control ? grn : red)}
 			}
 		}
 		// hashes: 1621433: randomized 78+ or static RFP
 		if (item == "toDataURL" || item == "toBlob" || item == "getImageData") {
-			if (isFF) {
-				if (isVer > 77) {
-					// new random behavior
-					value1 += (isRandom ? grnr + "\n" + value2 : redr)
-					// distinguish randomness
-					if (isRandom) {
-						if (is78rfp) {pushvalue = "random RFP good"} else {pushvalue = "random RFP extension"}
-					}
-				} else {
-					// old static behavior
-					if (isRandom) {
-						value1 += red + random + "\n" + value2
-					} else {
-						if (item == "getImageData") {
-							control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
-						} else {
-							control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
-						}
-						value1 += (value1 == control ? grn : red )
-					}
+			if (value1 == "error while testing") {
+				if (isFF) {
+					value1 += (isVer > 77 ? redr : red)
 				}
 			} else {
-				// non-FF
-				if (isRandom) {value1 += (isRandom ? random + "<br>" + value2 : "")}
+				if (isFF) {
+					if (isVer > 77) {
+						// new random behavior
+						value1 += (isRandom ? grnr + "\n" + value2 : redr)
+						// distinguish randomness
+						if (isRandom) {
+							if (is78rfp) {pushvalue = "random RFP good"} else {pushvalue = "random RFP extension"}
+						}
+					} else {
+						// old static behavior
+						if (isRandom) {
+							value1 += red + random + "\n" + value2
+						} else {
+							if (item == "getImageData") {
+								control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
+							} else {
+								control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
+							}
+							value1 += (value1 == control ? grn : red )
+						}
+					}
+				} else {
+					// non-FF
+						if (isRandom) {value1 += (isRandom ? random + "<br>" + value2 : "")}
+				}
 			}
 		}
 		// push + output
@@ -128,28 +138,10 @@ function outputCanvas() {
 		// overall hash
 		chash1.sort()
 		console.debug("OVERALL HASH\n" + chash1.join("\n"))
-		let note = ""
 		Promise.all([
 			sha256_str(chash1.join())
 		]).then(function(hash){
-			hash = hash[0]
-			if (isFF) {
-				if (isFile) {
-					note = note_file
-				} else if (hash == "ad069b006b5b2358d74910892e60cad56d199c7e5aba5b1ca50b20bd14523ec5" && isVer > 77) {
-					// randomizing
-					note = rfp_green + " [FF78+]"
-				} else if (hash == "b9b2c8644b709d75abca0f9b174a7192d3a26ed7313035f4833a233ed3786c41" && isVer < 78 && isVer > 73) {
-					// moz dropped
-					note = rfp_green + " [FF74-77]"
-				} else if (hash == "133d57a9e7651517e60529cb2968ef2ecb501c1da023062356ac6da7f6653f83" && isVer < 74) {
-					// older
-					note = rfp_green + " [FF73 or lower]"
-				} else {
-					note = rfp_red
-				}
-			}
-			dom.chash1.innerHTML = hash + note
+			dom.chash1.innerHTML = hash[0] + (isFile ? note_file : "")
 		})
 		// perf
 		debug_page("perf","canvas",t0,gt0)		
@@ -162,6 +154,7 @@ function outputCanvas() {
 					name: "getContext",
 						value: function(){
 						return ["2d", "webgl", "webgl2"].map(function(type){
+						//return ["2d"].map(function(type){
 							var canvas = getCanvas()
 							try {
 								var context = canvas.getContext(type)
