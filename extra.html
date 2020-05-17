@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>TorZillaPrint: Extra Tests</title>
+	<title>TZP: Extras</title>
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<script src="js/generic.js"></script>
 	<script src="js/globals.js"></script>
@@ -34,7 +34,7 @@
 	<table id="tb1">
 		<col width="37%"><col width="73%">
 		<thead><tr><th colspan="2">screen</th></tr></thead>
-		<tr><td><div class="btn-left"><button class="btn1" onClick="outputSection(`1`, `c`, `e`)">[ reset ]</button></div>
+		<tr><td><div class="btn-left"><button class="btn1 btn" onClick="outputSection(`1`, `c`, `e`)">[ reset ]</button></div>
 			[clientRect] devicePixelRatio <sup>1</sup></td><td class="c mono" id="dprclientRect"></td></tr>
 		<tr><td>[scrollY] devicePixelRatio <sup>1</sup></td><td class="c" id="dprscrollY"></td></tr>
 		<tr><td colspan="2"><span class="no_color">code based on work by </span>
@@ -47,7 +47,7 @@
 		<col width="37%"></a><col width="63%">
 		<thead><tr><th colspan="2">[tor browser] chrome:// & resource://</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn2" id="resourceRun" onClick="outputSection(`2`, `c`, `e`)">[ run tests ]</button></div>
+				<div class="btn-left"><button class="btn2 btn" id="resourceRun" onClick="outputSection(`2`, `c`, `e`)">[ run tests ]</button></div>
 				<div>images</div></div></td>
 			<td class="c mono" id="imgHashR"></td></tr>
 		<tr><td>js</td><td class="c mono" id="jsHashR"></td></tr>
@@ -58,7 +58,7 @@
 				<label for="collapseR" class="lbl-toggle" id="labelR">&#9660; show details</label>
 		</td></tr>
 		<tr class="togR">
-		 <td><button class="btn0" onClick="copyclip(`allLoadedR`)">[ copy to clipboard ]</button>results</td>
+		 <td><button class="btn0 btn" onClick="copyclip(`allLoadedR`)">[ copy to clipboard ]</button>results</td>
 		 <td class="c" id="allLoadedR"></td>
 		</tr>
 	</table>
@@ -73,7 +73,7 @@
 			releases. This test removed one item, <code>chrome://global/content/minimal-xul.css</code>, for stability purposes on this site.</span>
 		</td></tr>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn3" id="chromeRun" onClick="outputSection(`3`, `c`, `e`)">[ run tests ]</button></div>
+				<div class="btn-left"><button class="btn3 btn" id="chromeRun" onClick="outputSection(`3`, `c`, `e`)">[ run tests ]</button></div>
 				<div>images</div></div></td>
 			<td class="c mono" id="imgHash"></td></tr>
 		<tr><td>js</td><td class="c mono" id="jsHash"></td></tr>
@@ -84,7 +84,7 @@
 				<label for="collapseC" class="lbl-toggle" id="labelC">&#9660; show details</label>
 		</td></tr>
 		<tr class="togC">
-		 <td><button class="btn0" onClick="copyclip(`allLoaded`)">[ copy to clipboard ]</button>[alphabetically sorted] all</td>
+		 <td><button class="btn0 btn" onClick="copyclip(`allLoaded`)">[ copy to clipboard ]</button>[alphabetically sorted] all</td>
 		 <td class="c" id="allLoaded"></td>
 		</tr>
 		<tr class="togC"><td colspan="2"></td></tr>
@@ -97,7 +97,7 @@
 		<col width="37%"></a><col width="63%">
 		<thead><tr><th colspan="2">application language</th></tr></thead>
 		<tr><td><div>
-			<div class="btn-left"><button class="btn4" onClick="outputSection(`4`, `c2`, `e`)">[ run tests ]</button></div>
+			<div class="btn-left"><button class="btn4 btn" onClick="outputSection(`4`, `c2`, `e`)">[ run tests ]</button></div>
 			<div>dtd <sup>1</sup></div></div></td><td class="c2" id="appLang2"></td></tr>
 		<tr><td>dtd nullprinciple <sup>2</sup></td><td class="c2" id="appLang3"></td></tr>
 		<tr><td>dom.properties <sup>3</sup></td><td class="c2" id="appLang1"></td></tr>
@@ -121,7 +121,7 @@
 			high: The list linked below, will include os lists, whitelists, and some unique fonts bundled with popular applications.
 			In reality a much smaller list can be used without sacrificing much entropy.</span>
 		</td></tr>
-		<tr><td colspan="2"><div><div class="btn-left"><button class="btn5" onClick="outputSection(`5`, `c`, `e`)">[ run monsta tests ]</button></div>
+		<tr><td colspan="2"><div><div class="btn-left"><button class="btn5 btn" onClick="outputSection(`5`, `c`, `e`)">[ run monsta tests ]</button></div>
 			<div>font list</div></div></td>
 			<td class="mono" id="monsta_fontList"><span class="no_color">
 			<a href="txt/fonts_monsta.txt" target='blank' class='blue'>fonts_monsta<a></span></td></tr>
@@ -134,10 +134,10 @@
 		</td></tr>
 		<!--WHITELIST: c2-->
 		<tr class="togF"><td colspan="2" class="sub10" id="monsta_fontlabel">monsta</td>
-			<td><button class="btn0" onClick="copyclip(`small_fontFPJS2Found`)">[ copy to clipboard ]</button></td></tr>
+			<td><button class="btn0 btn" onClick="copyclip(`small_fontFPJS2Found`)">[ copy to clipboard ]</button></td></tr>
 		<tr class="togF"><td></td><td colspan="2" class="intro" id="monsta_fontFPJS2Found"></td></tr>
 		<tr id="fontF1" class="togF1"><td colspan="2" class="sub10">font fallback [monsta]</td>
-			<td><button class="btn0" onClick="copyclip(`small_fontFBFound`)">[ copy to clipboard ]</button></td></tr>
+			<td><button class="btn0 btn" onClick="copyclip(`small_fontFBFound`)">[ copy to clipboard ]</button></td></tr>
 		<tr id="fontF2" class="togF1"><td></td><td colspan="2" class="intro" id="monsta_fontFBFound"></td></tr>
 		<!--CREDITS-->
 		<tr><td colspan="3"><span class="no_color">code based on work by </span>
@@ -151,7 +151,7 @@
 		<col width="37%"></a><col width="63%">
 		<thead><tr><th colspan="2">widgets / form controls</div></th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn6" onClick="outputSection(`6`, `c`, `e`)">[ re-run tests ]</button></div>
+				<div class="btn-left"><button class="btn6 btn" onClick="outputSection(`6`, `c`, `e`)">[ re-run tests ]</button></div>
 				<div>one</div></div></td><td></td></tr>
 		<tr><td>two</td><td></td></tr>
 		<tr><td colspan="2" class="showhide">
