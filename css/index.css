@@ -49,6 +49,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 .s2 {color: var(--test2);}
 .s3 {color: var(--test3);}
 .s5 {color: var(--test5);}
+.s8 {color: var(--test8);}
 .s10 {color: var(--test10);}
 .s11 {color: var(--test11);}
 .s12 {color: var(--test12);}
