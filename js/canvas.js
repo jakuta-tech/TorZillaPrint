@@ -25,7 +25,6 @@ function outputCanvas() {
 		let element = table.querySelector("." + item)
 
 		// tweak
-		if (isFile) {red = note_file; grn = red; redr = red; grnr = red}
 		if (!window.PerformanceNavigationTiming) {is78rfp = true}
 		if (value1 !== value2) {isRandom = true; pushvalue = "random"}
 
@@ -37,8 +36,10 @@ function outputCanvas() {
 			if (item == "getContext") {
 				if (value1.substring(0,5) == "2d: s") {
 					value1 = value1.replace("2d: supported", "2d: supported" + rfp_green)
+					pushvalue = "2d: supported"
 				} else {
 					value1 = value1.replace("2d: not supported", "2d: not supported" + rfp_red)
+					if(value1.substring(0,5) == "2d: n") {pushvalue = "2d: not supported"}
 				}
 			}
 			// FF only
@@ -58,7 +59,6 @@ function outputCanvas() {
 		// hash: webgl
 		if (item == "readPixels") {
 			if (isRandom) {
-				value1 += (isFile ? note_file : "")
 				value1 += (isRandom ? random + "<br>" + value2 : "")
 			} else if (isFF) {
 				if (sha1(value1) == "47bf7060be2764c531da228da96bd771b14917a1") {
