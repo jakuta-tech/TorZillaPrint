@@ -136,13 +136,13 @@ function outputCanvas() {
 			if (isFF) {
 				if (isFile) {
 					note = note_file
-				} else if (hash == "52f1642531c3a1b5dcb1eb8b45f6b063d169bbc0f2345c7560b1c51e057f3634") {
+				} else if (hash == "ad069b006b5b2358d74910892e60cad56d199c7e5aba5b1ca50b20bd14523ec5" && isVer > 77) {
 					// randomizing
 					note = rfp_green + " [FF78+]"
-				} else if (hash == "09a923c4a70817b75d49a6446895faac505375bca45ee5a785aec9ae215500c9" && isVer < 78) {
+				} else if (hash == "b9b2c8644b709d75abca0f9b174a7192d3a26ed7313035f4833a233ed3786c41" && isVer < 78 && isVer > 73) {
 					// moz dropped
 					note = rfp_green + " [FF74-77]"
-				} else if (hash == "f3f988d1a390eddb13f26d602a129f7c8d6d3efedc04569cc09c72608b011654" && isVer < 74) {
+				} else if (hash == "133d57a9e7651517e60529cb2968ef2ecb501c1da023062356ac6da7f6653f83" && isVer < 74) {
 					// older
 					note = rfp_green + " [FF73 or lower]"
 				} else {
