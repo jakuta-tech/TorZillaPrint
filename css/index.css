@@ -98,7 +98,7 @@ input[type='checkbox'] {display: none;}
 .togM3, .togOS1, .togR, .togUA, .togUG, .togW, .togZ {display: none;}
 
 /* buttons */
-button {background-color: #1a1a1a; border-width: 0px; text-align: center;
+.btn {background-color: #1a1a1a; border-width: 0px; text-align: center;
 	display: inline-block; font-size: 12px; font-weight: bold; cursor: pointer;}
 .btn0 {border-color: #b3b3b3; color: #b3b3b3;}
 .btn1 {border-color: var(--test1); color: var(--test1);}
@@ -213,6 +213,43 @@ table td.sub11 {color: var(--test11);}
 	background-image: url("chrome://branding/content/about-wordmark.svg"), url("");
 	background-size: auto 100%;	background-repeat: no-repeat;	background-position: 10px 0px;
 }
+
+/*domrect*/
+#divrect {
+  position: fixed;
+  display: none;
+  top: 10;
+  left: 10;
+}
+#insideDOMRect{
+	white-space: nowrap;
+	color:#5B5B5B;
+	position: absolute;
+	padding: 1.3333px;
+	left: 10.5555px;
+	top: 28.4444px;
+	font-size: 24.5555px;
+	-ms-transform: scale(1.31123) matrix3d(0.373513, -0.0440105, 0, -0.000202461, -0.0851682, 0.616234, 0, -0.00123197, 2.17, 0.21, 1, 0.02, 13.81, 2.11, 0, 0.98);
+	-moz-transform: scale(1.31123) matrix3d(0.373513, -0.0440105, 0, -0.000202461, -0.0851682, 0.616234, 0, -0.00123197, 2.17, 0.21, 1, 0.02, 13.81, 2.11, 0, 0.98);
+	-webkit-transform: scale(1.31123) matrix3d(0.373513, -0.0440105, 0, -0.000202461, -0.0851682, 0.616234, 0, -0.00123197, 2.17, 0.21, 1, 0.02, 13.81, 2.11, 0, 0.98);
+	transform: scale(1.31123) matrix3d(0.373513, -0.0440105, 0, -0.000202461, -0.0851682, 0.616234, 0, -0.00123197, 2.17, 0.21, 1, 0.02, 13.81, 2.11, 0, 0.98);
+	-ms-transform-origin: 0.1111px 0.2222px 0.3333px;
+	-moz-transform-origin: 0.1111px 0.2222px 0.3333px;
+	-webkit-transform-origin: 0.1111px 0.2222px 0.3333px;
+	transform-origin: 0.1111px 0.2222px 0.3333px;
+}
+#rect3 { transform: rotate(1.23deg); }
+#rect4 {
+	transform: scale(3.14);
+	position: absolute;
+	top: 300px;
+	left: 200px;
+}
+#rect5 {
+	padding: 4.937px;
+	margin: 9.876px;
+}
+.testRect {outline: 2px dotted lightblue;}
 
 /* line-height */
 .cssLH {font-size: 16px; font-family: "Times New Roman", Times, serif;}
