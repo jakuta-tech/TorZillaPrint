@@ -7,33 +7,65 @@
 
 function outputCanvas() {
 	// vars
-	let count = 0, expected = 11, res1 = [], res2 = []
-	let table = dom.tb8
-	let is78rfp = false,
-		r = rfp_red, r2 = r, rr = rfpr_red,
-		g = rfp_green, g2 = g,
-		control = ""
-	if (isFile) {r = note_file; rr = r}
-	if (!window.PerformanceNavigationTiming) {is78rfp = true}
+	let count = 0, expected = 11, res1 = [], res2 = [], chash1 = []
 
-	function display_results(item, value1, value2) {
+	function display_canvas(item, value1, value2) {
+		// vars
+		let table = dom.tb8
+		let is78rfp = false,
+			pushvalue = value1,
+			control = "",
+			isRandom = false
+		// hash notation strings
+		let red = rfp_red,
+			grn = rfp_green,
+			redr = rfpr_red,
+			grnr = rfpr_green,
+			random = s8 + note_random
 		let element = table.querySelector("." + item)
+
+		// simulate
+		//isFile = false
+		//isRandom = true
+		//isVer = 77
+
+		// tweak
+		if (isFile) {red = note_file; grn = red; redr = red; grnr = red}
+		if (!window.PerformanceNavigationTiming) {is78rfp = true}
+		if (value1 !== value2) {isRandom = true; pushvalue = "random"}
+
+		// supported/not-supported
 		if (isFF) {
 			if (item == "winding" || item == "fillText" || item == "strokeText") {
-				value1 += (value1 == "supported" ? g2 : r2 )
+				value1 += (value1 == "supported" ? rfp_green : rfp_red)
 			}
 			if (item == "getContext") {
 				if (value1.substring(0,5) == "2d: s") {
-					value1 = value1.replace("2d: supported", "2d: supported" + g2)
+					value1 = value1.replace("2d: supported", "2d: supported" + rfp_green)
 				} else {
-					value1 = value1.replace("2d: not supported", "2d: not supported" + r2)
+					value1 = value1.replace("2d: not supported", "2d: not supported" + rfp_red)
 				}
 			}
-			if (item.substring(0,3) == "isP") {
-				control = "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8"
-				value1 += (value1 == control ? g : r )
+			// FF only
+			if (item == "mozGetAsFile") {
+				if (isVer > 73) {
+					// supported
+					control = "not supported"
+					value1 += (value1 == control ? rfp_green : rfp_red )
+				} else {
+					// hash
+					control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
+					value1 += (value1 == control ? grn : red)
+					value1 += (isRandom ? random + "<br>" + value2 : "")
+				}
 			}
-			if (item == "readPixels") {
+		}
+		// hash: webgl
+		if (item == "readPixels") {
+			if (isRandom) {
+				value1 += (isFile ? note_file : "")
+				value1 += (isRandom ? random + "<br>" + value2 : "")
+			} else if (isFF) {
 				if (sha1(value1) == "47bf7060be2764c531da228da96bd771b14917a1") {
 					// NotSupportedError: Operation is not supported
 					value1 += tb_standard
@@ -42,27 +74,54 @@ function outputCanvas() {
 					value1 += tb_safer
 				}
 			}
-			if (item == "mozGetAsFile") {
-				control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
-				if (isVer > 73) {control = "not supported"}
-				value1 += (value1 == control ? g2 : r2 )
-			}
-			if (item == "toDataURL" || item == "toBlob" || item == "getImageData") {
-				// 1621433: random
-				if (is78rfp) {
-					value1 += (value1 == value2 ? rr : rfpr_green + "\n" + value2)
-				} else {
-					if (item == "getImageData") {
-						control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
-					} else {
-						control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
-					}
-					value1 += (value1 == control ? g : r )
-				}
+		}
+		// hashes: static RFP
+		if (item.substring(0,3) == "isP") {
+			control = "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8"
+			if (isRandom) {
+				value1 += (isFile ? note_file : rfp_red)
+				value1 += (isRandom ? random + "<br>" + value2 : "")
+			} else {
+				if (isFF) {value1 += (value1 == control ? grn : red)}
 			}
 		}
+		// hashes: 1621433: randomized 78+ or static RFP
+		if (item == "toDataURL" || item == "toBlob" || item == "getImageData") {
+			//isVer = 77
+
+			if (isFF) {
+				if (isVer > 77) {
+					// new random behavior
+					value1 += (isRandom ? grnr + "\n" + value2 : redr)
+					// distinguish randomness
+					if (isRandom) {
+						if (is78rfp) {pushvalue = "random RFP good"} else {pushvalue = "random RFP extension"}
+					} else {
+						pushvalue = "random RFP bad"
+					}
+				} else {
+					// old static behavior
+					if (isRandom) {
+						value1 += red + random + "\n" + value2
+					} else {
+						if (item == "getImageData") {
+							control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
+						} else {
+							control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
+						}
+						value1 += (value1 == control ? grn : red )
+					}
+				}
+			} else {
+				// non-FF
+				if (isRandom) {value1 += (isRandom ? random + "<br>" + value2 : "")}
+			}
+		}
+		// push + output
+		chash1.push(item+", "+pushvalue)
 		element.innerHTML = value1
 	}
+
 	function run_results() {
 		for (let i=0; i < res1.length; i++) {
 			let str1 = res1[i],
@@ -71,9 +130,13 @@ function outputCanvas() {
 				display = str1.substring(0,delim),
 				value1 = str1.substring(delim+1, str1.length),
 				value2 = str2.substring(delim+1, str1.length)
-			display_results(display, value1, value2)
+			display_canvas(display, value1, value2)
 		}
-		// finished
+		// overall hash
+		chash1.sort()
+		console.debug("OVERALL HASH\n" + chash1.join("\n"))
+		//dom.chash1.innerHTML = crypto.subtle.digest("SHA-256", chash1.join()),
+		// perf
 		debug_page("perf","canvas",t0,gt0)		
 	}
 
