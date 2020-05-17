@@ -133,16 +133,21 @@ function outputCanvas() {
 			sha256_str(chash1.join())
 		]).then(function(hash){
 			hash = hash[0]
-			if (isFile) {
-				note = note_file
-			} else if (hash == "52f1642531c3a1b5dcb1eb8b45f6b063d169bbc0f2345c7560b1c51e057f3634") {
-				note = rfp_green + " [FF78+]"
-			} else if (hash == "09a923c4a70817b75d49a6446895faac505375bca45ee5a785aec9ae215500c9") {
-				note = rfp_green + " [FF74-77]"
-			} else if (hash == "f3f988d1a390eddb13f26d602a129f7c8d6d3efedc04569cc09c72608b011654") {
-				note = rfp_green + " [FF77 or lower]"
-			} else {
-				note = rfp_red
+			if (isFF) {
+				if (isFile) {
+					note = note_file
+				} else if (hash == "52f1642531c3a1b5dcb1eb8b45f6b063d169bbc0f2345c7560b1c51e057f3634") {
+					// randomizing
+					note = rfp_green + " [FF78+]"
+				} else if (hash == "09a923c4a70817b75d49a6446895faac505375bca45ee5a785aec9ae215500c9" && isVer < 78) {
+					// moz dropped
+					note = rfp_green + " [FF74-77]"
+				} else if (hash == "f3f988d1a390eddb13f26d602a129f7c8d6d3efedc04569cc09c72608b011654" && isVer < 74) {
+					// older
+					note = rfp_green + " [FF77 or lower]"
+				} else {
+					note = rfp_red
+				}
 			}
 			dom.chash1.innerHTML = hash + note
 		})
