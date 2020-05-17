@@ -24,11 +24,6 @@ function outputCanvas() {
 			random = s8 + note_random
 		let element = table.querySelector("." + item)
 
-		// simulate
-		//isFile = false
-		//isRandom = true
-		//isVer = 77
-
 		// tweak
 		if (isFile) {red = note_file; grn = red; redr = red; grnr = red}
 		if (!window.PerformanceNavigationTiming) {is78rfp = true}
@@ -118,7 +113,9 @@ function outputCanvas() {
 			}
 		}
 		// push + output
-		chash1.push(item+", "+pushvalue)
+		if (item !== "readPixels") {
+			chash1.push(item+", "+pushvalue)
+		}
 		element.innerHTML = value1
 	}
 
@@ -135,7 +132,12 @@ function outputCanvas() {
 		// overall hash
 		chash1.sort()
 		console.debug("OVERALL HASH\n" + chash1.join("\n"))
-		//dom.chash1.innerHTML = crypto.subtle.digest("SHA-256", chash1.join()),
+		Promise.all([
+			sha256_str(chash1.join())
+		]).then(function(hash){
+			hash = hash[0]
+			dom.chash1.innerHTML = hash
+		})
 		// perf
 		debug_page("perf","canvas",t0,gt0)		
 	}
