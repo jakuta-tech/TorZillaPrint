@@ -144,7 +144,7 @@ function outputCanvas() {
 					note = rfp_green + " [FF74-77]"
 				} else if (hash == "f3f988d1a390eddb13f26d602a129f7c8d6d3efedc04569cc09c72608b011654" && isVer < 74) {
 					// older
-					note = rfp_green + " [FF77 or lower]"
+					note = rfp_green + " [FF73 or lower]"
 				} else {
 					note = rfp_red
 				}
