@@ -5,7 +5,7 @@
 	 https://github.com/kkapsner/CanvasBlocker */
 
 var t0dr,
-	timerdr = 2500
+	timerdr = 3500
 
 function reset_domrect() {
 	for (let i=1; i < 5; i++) {
@@ -112,7 +112,7 @@ function outputDomRect() {
 	t0dr = performance.now()
 
 	// adjust timer
-	if (isOS == "android" | isTB) {timerdr = 3500}
+	if (isOS == "android" | isTB) {timerdr = 4500}
 
 	// start timer
 	setTimeout(function(){
