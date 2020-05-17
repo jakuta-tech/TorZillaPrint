@@ -48,18 +48,26 @@ function outputDomRect() {
 	// unhide
 	document.getElementById("divrect").style.display = "block"
 	// run
-	createTest("dr1", function(element){return element.getClientRects()[0]})
-	createTest("dr2", function(element){return element.getBoundingClientRect()})
-	createTest("dr3", function(element){
-		let range = document.createRange()
-		range.selectNode(element)
-		return range.getClientRects()[0]
-	})
-	createTest("dr4", function(element){
-		let range = document.createRange()
-		range.selectNode(element)
-		return range.getBoundingClientRect()
-	})
+	try {
+		createTest("dr1", function(element){return element.getClientRects()[0]})
+	} catch(e) {dom.dr1.innerHTML = zB}
+	try {
+		createTest("dr2", function(element){return element.getBoundingClientRect()})
+	} catch(e) {dom.dr2.innerHTML = zB}
+	try {
+		createTest("dr3", function(element){
+			let range = document.createRange()
+			range.selectNode(element)
+			return range.getClientRects()[0]
+		})
+	} catch(e) {dom.dr3.innerHTML = zB}
+	try {
+		createTest("dr4", function(element){
+			let range = document.createRange()
+			range.selectNode(element)
+			return range.getBoundingClientRect()
+		})
+	} catch(e) {dom.dr4.innerHTML = zB}
 	// hide
 	document.getElementById("divrect").style.display = "none"
 	// cleanup details
