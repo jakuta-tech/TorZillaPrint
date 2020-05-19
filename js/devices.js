@@ -31,7 +31,6 @@ function get_hardware_concurrency() {
 function get_media_devices() {
 	if ("mediaDevices" in navigator) {
 		dom.nMD = zE
-		let res = []
 		// enumerate
 		let str="", pad=13, strPad=""
 		navigator.mediaDevices.enumerateDevices().then(function(devices) {
