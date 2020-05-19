@@ -28,24 +28,24 @@ function outputCanvas() {
 		if (value1 !== value2) {isRandom = true; pushvalue = "random"}
 
 		// supported/not-supported
+		if (item == "getContext") {
+			if (value1.substring(0,5) == "2d: s") {
+				if (isFF) {value1 = value1.replace("2d: supported", "2d: supported" + rfp_green)}
+				pushvalue = "2d: supported"
+			} else {
+				if (isFF) {value1 = value1.replace("2d: not supported", "2d: not supported" + rfp_red)}
+				if(value1.substring(0,5) == "2d: n") {pushvalue = "2d: not supported"}
+			}
+			// split results
+			if (value1.substring(0,2) == "2d") {
+				let start = value1.indexOf(",")
+				dom.getContext2 = value1.substring(start+2, value1.length)
+				value1 = value1.substring(0, start)
+			}
+		}
 		if (isFF) {
 			if (item == "winding" || item == "fillText" || item == "strokeText") {
 				value1 += (value1 == "supported" ? rfp_green : rfp_red)
-			}
-			if (item == "getContext") {
-				if (value1.substring(0,5) == "2d: s") {
-					value1 = value1.replace("2d: supported", "2d: supported" + rfp_green)
-					pushvalue = "2d: supported"
-				} else {
-					value1 = value1.replace("2d: not supported", "2d: not supported" + rfp_red)
-					if(value1.substring(0,5) == "2d: n") {pushvalue = "2d: not supported"}
-				}
-				// split results
-				if (value1.substring(0,2) == "2d") {
-					let start = value1.indexOf(",")
-					dom.getContext2 = value1.substring(start+2, value1.length)
-					value1 = value1.substring(0, start-1)
-				}
 			}
 			// FF only
 			if (item == "mozGetAsFile") {
