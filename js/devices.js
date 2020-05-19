@@ -31,15 +31,15 @@ function get_hardware_concurrency() {
 function get_media_devices() {
 	if ("mediaDevices" in navigator) {
 		dom.nMD = zE
+		let res = []
 		// enumerate
-		let str="", pad=0, strPad=""
+		let str="", pad=13, strPad=""
 		navigator.mediaDevices.enumerateDevices().then(function(devices) {
 			let aCount=0, vCount=0, oCount=0
 			devices.forEach(function(d) {
 				if (d.kind == "audioinput") {aCount++}
 				else if (d.kind == "videoinput") {vCount++}	else {oCount++}
-				pad = d.kind.length + 2
-				str += d.kind+": "+d.deviceId
+				str += (d.kind+": ").padStart(pad)+d.deviceId
 				if (d.groupId.length > 0) {
 					strPad = ("group: ").padStart(pad)
 					str += "<br>"+strPad+d.groupId
@@ -61,7 +61,7 @@ function get_media_devices() {
 			dom.eMD.innerHTML = str
 		})
 		.catch(function(e) {
-			console.debug("enumerateDevices", e.name, e.message)
+			dom.eMD.innerHTML = e.name +": "+ e.message
 		})
 	}	else {
 		dom.nMD = zD; dom.eMD = zNA
