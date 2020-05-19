@@ -7,25 +7,43 @@
 
 function outputCanvas() {
 	// vars
-	let count = 0, expected = 11, res1 = [], res2 = [], chash1 = []
+	let count = 0, expected = 11, res1 = [], res2 = [], chash1 = [],
+		diff78 = false,
+		table = dom.tb8
 
 	function display_canvas(item, value1, value2) {
 		// vars
-		let table = dom.tb8
 		let is78rfp = false,
+			isRandom = false,
 			pushvalue = value1,
 			control = "",
-			isRandom = false
-		// hash notation strings
-		let red = rfp_red,
-			grn = rfp_green,
-			redr = rfpr_red,
-			grnr = rfpr_green,
-			random = s8 + note_random
+			combined = ""
 		let element = table.querySelector("." + item)
-		// tweak
-		if (!window.PerformanceNavigationTiming) {is78rfp = true}
-		if (value1 !== value2) {isRandom = true; pushvalue = "random"}
+		// simulate random hashes
+		let simulate = false
+		if (simulate) {
+			if (item == "readPixels" || item == "toDataURL" || item == "toBlob" ||
+				item == "getImageData" || item.substring(0,3) == "isP" || item == "mozGetAsFile") {
+				if (value1.length == 64) {
+					if (item == "toDataURL" || item == "mozGetAsFile" || item == "isPointInPath") {
+						diff78 = true
+						value1 = (Math.random().toString(36).replace(/[^a-z]+/g, '') + value1).substring(0,64)
+					}
+					value2 = (Math.random().toString(36).replace(/[^a-z]+/g, '') + value2).substring(0,64)
+				}
+			}
+		}
+		// set
+		if (!window.PerformanceNavigationTiming) {if (isFF) {is78rfp = true}}
+		if (value1 == "error while testing") {
+			// toBlob: chrome/opera sometimes errors on 1st and truncates 2nd
+			// e.g.: "toBlob, error while testing, bcd26c653fc52ba8f07"
+			if (value1 !== value2) {console.debug("canvas: isFF", isFF, item, value1, value2)}
+		} else {
+			if (value1 !== value2) {isRandom = true; pushvalue = "random"}
+		}
+		combined = "random " + s8 +" [1] "+ sc + value1.substring(0,22) + ".."
+			+ s8 +" [2] "+ sc + value2.substring(0,22) + ".."
 
 		// supported/not-supported
 		if (item == "getContext") {
@@ -47,7 +65,6 @@ function outputCanvas() {
 			if (item == "winding" || item == "fillText" || item == "strokeText") {
 				value1 += (value1 == "supported" ? rfp_green : rfp_red)
 			}
-			// FF only
 			if (item == "mozGetAsFile") {
 				if (isVer > 73) {
 					// supported
@@ -56,15 +73,15 @@ function outputCanvas() {
 				} else {
 					// hash
 					control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
-					value1 += (value1 == control ? grn : red)
-					value1 += (isRandom ? random + "<br>" + value2 : "")
+					if (isRandom) {value1 = combined}
+					value1 += (value1 == control ? rfp_green : rfp_red)
 				}
 			}
 		}
 		// hash: webgl
 		if (item == "readPixels") {
 			if (isRandom) {
-				value1 += (isRandom ? random + "<br>" + value2 : "")
+				value1 = combined
 			} else if (isFF) {
 				if (sha1(value1) == "47bf7060be2764c531da228da96bd771b14917a1") {
 					// NotSupportedError: Operation is not supported
@@ -79,53 +96,80 @@ function outputCanvas() {
 		if (item.substring(0,3) == "isP") {
 			control = "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8"
 			if (isRandom) {
-				value1 += (isRandom ? rfp_red + random + "<br>" + value2 : "")
+				value1 = combined + (isFF ? rfp_red : "")
 			} else {
-				if (isFF) {value1 += (value1 == control ? grn : red)}
+				if (isFF) {value1 += (value1 == control ? rfp_green : rfp_red)}
 			}
 		}
 		// hashes: 1621433: randomized 78+ or static RFP
 		if (item == "toDataURL" || item == "toBlob" || item == "getImageData") {
 			if (value1 == "error while testing") {
 				if (isFF) {
-					value1 += (isVer > 77 ? redr : red)
+					value1 += (isVer > 77 ? rfp_random_red : rfp_red)
 				}
 			} else {
 				if (isFF) {
 					if (isVer > 77) {
 						// new random behavior
-						value1 += (isRandom ? grnr + "\n" + value2 : redr)
-						// distinguish randomness
 						if (isRandom) {
-							if (is78rfp) {pushvalue = "random RFP good"} else {pushvalue = "random RFP extension"}
+							if (is78rfp) {
+								// diff78: toDataURL vs toBlob
+								if (item == "toDataURL" || item == "toBlob") {
+									if (diff78) {
+										pushvalue = "random RFP good"
+									} else {
+										pushvalue = "random RFP extension"
+										console.debug(item, "datatoURL matches toBlob")
+									}
+								} else {
+									pushvalue = "random RFP good"
+								}
+							} else {
+								pushvalue = "random RFP extension"
+							}
+							value1 = combined + (pushvalue == "random RFP good" ? rfp_random_green : rfp_random_red)
+						} else {
+							value1 += rfp_random_red
 						}
 					} else {
 						// old static behavior
 						if (isRandom) {
-							value1 += red + random + "\n" + value2
+							value1 = combined + rfp_red
 						} else {
 							if (item == "getImageData") {
 								control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
 							} else {
 								control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
 							}
-							value1 += (value1 == control ? grn : red )
+							value1 += (value1 == control ? rfp_green : rfp_red)
 						}
 					}
 				} else {
 					// non-FF
-						if (isRandom) {value1 += (isRandom ? random + "<br>" + value2 : "")}
+					if (isRandom) {value1 = combined}
 				}
 			}
 		}
 		// push + output
-		if (item !== "readPixels") {
-			chash1.push(item+", "+pushvalue)
-		}
+		if (item !== "readPixels") {chash1.push(item+", "+pushvalue)}
 		element.innerHTML = value1
 	}
 
 	function run_results() {
+		// 78+ toDataURL + toBlob should be different: let's track that
+		let valueD = "", valueB = ""
+		for (let i=0; i < res1.length; i++) {
+			let str1 = res1[i],
+				delim = str1.search(","),
+				display = str1.substring(0,delim)
+			if (display == "toBlob") {
+				valueB = str1.substring(delim+1, str1.length)
+			} else if (display == "toDataURL") {
+				valueD = str1.substring(delim+1, str1.length)
+			}
+		}
+		if (valueB !== valueD) {diff78 = true}
+		// output
 		for (let i=0; i < res1.length; i++) {
 			let str1 = res1[i],
 				str2 = res2[i],
@@ -137,11 +181,11 @@ function outputCanvas() {
 		}
 		// overall hash
 		chash1.sort()
-		console.debug("OVERALL HASH\n" + chash1.join("\n"))
 		Promise.all([
 			sha256_str(chash1.join())
 		]).then(function(hash){
 			dom.chash1.innerHTML = hash[0] + (isFile ? note_file : "")
+			console.debug("OVERALL HASH: " + chash1.length + ": " + hash[0] +"\n" + chash1.join("\n"))
 		})
 		// perf
 		debug_page("perf","canvas",t0,gt0)		
@@ -429,7 +473,7 @@ function outputCanvas() {
 						output.displayValue = displayValue
 						resolve(output)
 					}, function(e){
-						//console.error(e)
+						//console.error("canvas", e.name, e.message)
 						output.displayValue = "error while testing"
 						resolve(output)
 					})
@@ -450,7 +494,15 @@ function outputCanvas() {
 					res2.push(output.name+","+output.displayValue)
 					count++
 					if (count==expected) {
-						run_results()
+						if (res1.length !== expected) {
+							// sometimes chrome does res2 before res1 
+							setTimeout(function() {
+								console.debug("isFF", isFF, "res1 was empty, try again in 20ms")
+								run_results()
+							}, 20)
+						} else {
+							run_results()
+						}
 					}
 				})
 			})
@@ -458,6 +510,7 @@ function outputCanvas() {
 	}
 
 	let t0 = performance.now()
+	// ToDo: canvas: turn into promises
 	canvas.output(canvas.createHashes(window))
 	canvas.output2(canvas.createHashes(window))
 }
