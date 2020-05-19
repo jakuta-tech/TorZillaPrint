@@ -198,8 +198,7 @@ function outputCanvas() {
 	}
 
 	var canvas = {
-		//createHashes: function(window){
-		createHashes: function(window, runtype){
+		createHashes: function(window){
 			let outputs = [
 				{
 					name: "getContext",
