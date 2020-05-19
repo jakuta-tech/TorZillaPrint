@@ -45,8 +45,6 @@ function outputDomRect() {
 	}
 
 	let t0 = performance.now()
-	// unhide
-	document.getElementById("divrect").style.display = "block"
 	// run
 	try {
 		createTest("dr1", function(element){return element.getClientRects()[0]})
@@ -68,8 +66,6 @@ function outputDomRect() {
 			return range.getBoundingClientRect()
 		})
 	} catch(e) {dom.dr4.innerHTML = zB}
-	// hide
-	document.getElementById("divrect").style.display = "none"
 	// cleanup details
 	setTimeout(function(){
 		if (stateDR == true) {showhide("table-row","D","&#9650; hide")}
