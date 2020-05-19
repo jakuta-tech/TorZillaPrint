@@ -9,7 +9,8 @@ function outputCanvas() {
 	// vars
 	let count = 0, expected = 11, res1 = [], res2 = [], chash1 = [],
 		diff78 = false,
-		table = dom.tb8
+		table = dom.tb8,
+		error_string = "error while testing"
 
 	function display_canvas(item, value1, value2) {
 		// vars
@@ -35,15 +36,20 @@ function outputCanvas() {
 		}
 		// set
 		if (!window.PerformanceNavigationTiming) {if (isFF) {is78rfp = true}}
-		if (value1 == "error while testing") {
-			// toBlob: chrome/opera sometimes errors on 1st and truncates 2nd
-			// e.g.: "toBlob, error while testing, bcd26c653fc52ba8f07"
-			if (value1 !== value2) {console.debug("canvas: isFF", isFF, item, value1, value2)}
+		// always push/output error !== two valid results
+		if (value1 == error_string || value2 == error_string) {
+			if (value1 !== value2) {console.debug("canvas: ", item, value1, value2)}
+			value1 = error_string
+			pushvalue = value1
 		} else {
-			if (value1 !== value2) {isRandom = true; pushvalue = "random"}
+			// randomness
+			if (value1 !== value2) {
+				isRandom = true
+				pushvalue = "random"
+				combined = "random " + s8 +" [1] "+ sc + value1.substring(0,22) + ".."
+					+ s8 +" [2] "+ sc + value2.substring(0,22) + ".."
+			}
 		}
-		combined = "random " + s8 +" [1] "+ sc + value1.substring(0,22) + ".."
-			+ s8 +" [2] "+ sc + value2.substring(0,22) + ".."
 
 		// supported/not-supported
 		if (item == "getContext") {
@@ -103,7 +109,7 @@ function outputCanvas() {
 		}
 		// hashes: 1621433: randomized 78+ or static RFP
 		if (item == "toDataURL" || item == "toBlob" || item == "getImageData") {
-			if (value1 == "error while testing") {
+			if (value1 == error_string) {
 				if (isFF) {
 					value1 += (isVer > 77 ? rfp_random_red : rfp_red)
 				}
@@ -192,7 +198,8 @@ function outputCanvas() {
 	}
 
 	var canvas = {
-		createHashes: function(window){
+		//createHashes: function(window){
+		createHashes: function(window, runtype){
 			let outputs = [
 				{
 					name: "getContext",
@@ -226,7 +233,7 @@ function outputCanvas() {
 							try {
 								var timeout = window.setTimeout(function(){
 									reject("timout in toBlob")
-								}, 500)
+								}, 750)
 							getFilledContext().canvas.toBlob(function(blob){
 								window.clearTimeout(timeout)
 								var reader = new FileReader()
@@ -474,7 +481,7 @@ function outputCanvas() {
 						resolve(output)
 					}, function(e){
 						//console.error("canvas", e.name, e.message)
-						output.displayValue = "error while testing"
+						output.displayValue = error_string
 						resolve(output)
 					})
 				})
