@@ -217,9 +217,11 @@ table td.sub11 {color: var(--test11);}
 /*domrect*/
 #divrect {
   position: fixed;
-  display: none;
-  top: 10;
-  left: 10;
+  top: 0;
+  left: 0;
+	padding: 8px;
+	opacity: 0;
+	z-index: -1;
 }
 #insideDOMRect{
 	white-space: nowrap;
