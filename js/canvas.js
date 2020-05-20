@@ -9,7 +9,7 @@ function outputCanvas() {
 	// vars
 	let count = 0, expected = 11, res1 = [], res2 = [], chash1 = [],
 		diff78 = false,
-		table = dom.tb8,
+		table = dom.tb9,
 		error_string = "error while testing"
 
 	function display_canvas(item, value1, value2) {
