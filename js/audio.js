@@ -47,7 +47,7 @@ function get_audio2_context() {
 		if (key == "ac-sampleRate") {samplerate = value}
 	}
 	// hash
-	dom.audio1hash.innerHTML = sha1(hash.join()) + s10 + "["+ results.length +" keys]" + sc
+	dom.audio1hash.innerHTML = sha1(hash.join()) + s11 + "["+ results.length +" keys]" + sc
 	// output
 	let k="", v="", n=0, rfp="", output=""
 	for (let i=0; i < results.length; i++) {
