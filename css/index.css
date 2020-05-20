@@ -42,19 +42,7 @@ a.blue {color: #8abfda; text-decoration: none;}
 .neutral {color: #dcdc8c;} /* test4 */
 .orange {color: #dca78c;} /* test2 */
 
- /* s=section: for breaking output with color*/
-.s1 {color: var(--test1);}
-.s2 {color: var(--test2);}
-.s3 {color: var(--test3);}
-.s5 {color: var(--test5);}
-.s8 {color: var(--test8);}
-.s10 {color: var(--test10);}
-.s11 {color: var(--test11);}
-.s12 {color: var(--test12);}
-.s14 {color: var(--test14);}
-.s18 {color: var(--test18);}
-
-.normalized {
+ .normalized {
 	font-family: none;
   font-style: normal;
 	font-variant: normal;
@@ -97,28 +85,28 @@ input[type='checkbox'] {display: none;}
 .togA, .togD, .togD1, .togC, .togCSS, .togE, .togF, .togF1, .togF2, .togL, .togM, .togM2,
 .togM3, .togOS1, .togR, .togUA, .togUG, .togW, .togZ {display: none;}
 
-/* buttons */
+/* buttons & section color */
 .btn {background-color: #1a1a1a; border-width: 0px; text-align: center;
 	display: inline-block; font-size: 12px; font-weight: bold; cursor: pointer;}
 .btn0 {border-color: #b3b3b3; color: #b3b3b3;}
-.btn1 {border-color: var(--test1); color: var(--test1);}
-.btn2 {border-color: var(--test2); color: var(--test2);}
-.btn3 {border-color: var(--test3); color: var(--test3);}
-.btn4 {border-color: var(--test4); color: var(--test4);}
-.btn5 {border-color: var(--test5); color: var(--test5);}
-.btn6 {border-color: var(--test6); color: var(--test6);}
-.btn7 {border-color: var(--test7); color: var(--test7);}
-.btn8 {border-color: var(--test8); color: var(--test8);}
-.btn9 {border-color: var(--test9); color: var(--test9);}
-.btn10 {border-color: var(--test10); color: var(--test10);}
-.btn11 {border-color: var(--test11); color: var(--test11);}
-.btn12 {border-color: var(--test12); color: var(--test12);}
-.btn13 {border-color: var(--test13); color: var(--test13);}
-.btn14 {border-color: var(--test14); color: var(--test14);}
-.btn15 {border-color: var(--test15); color: var(--test15);}
-.btn16 {border-color: var(--test16); color: var(--test16);}
-.btn17 {border-color: var(--test17); color: var(--test17);}
-.btn18 {border-color: var(--test18); color: var(--test18);}
+.btn1, .s1 {border-color: var(--test1); color: var(--test1);}
+.btn2, .s2 {border-color: var(--test2); color: var(--test2);}
+.btn3, .s3 {border-color: var(--test3); color: var(--test3);}
+.btn4, .s4 {border-color: var(--test4); color: var(--test4);}
+.btn5, .s5 {border-color: var(--test5); color: var(--test5);}
+.btn6, .s6 {border-color: var(--test6); color: var(--test6);}
+.btn7, .s7 {border-color: var(--test7); color: var(--test7);}
+.btn8, .s8 {border-color: var(--test8); color: var(--test8);}
+.btn9, .s9 {border-color: var(--test9); color: var(--test9);}
+.btn10, .s10 {border-color: var(--test10); color: var(--test10);}
+.btn11, .s11 {border-color: var(--test11); color: var(--test11);}
+.btn12, .s12 {border-color: var(--test12); color: var(--test12);}
+.btn13, .s13 {border-color: var(--test13); color: var(--test13);}
+.btn14, .s14 {border-color: var(--test14); color: var(--test14);}
+.btn15, .s15 {border-color: var(--test15); color: var(--test15);}
+.btn16, .s16 {border-color: var(--test16); color: var(--test16);}
+.btn17, .s17 {border-color: var(--test17); color: var(--test17);}
+.btn18, .s18 {border-color: var(--test18); color: var(--test18);}
 .btn-left {float: left; position: relative; left: -10px; top: -2px;}
 
 /* tooltips */
@@ -155,14 +143,6 @@ table td.blurb {text-align: center; line-height: 1.5em;}
 table td.center {text-align: center;}
 table td.intro {text-align: left; line-height: 1.5em; padding-bottom: 10px;}
 table td.showhide {text-align: center; padding-top: 7px; padding-bottom: 7px;}
-table td.sub2 {color: var(--test2);}
-table td.sub3 {color: var(--test3);}
-table td.sub4 {color: var(--test4);}
-table td.sub6 {color: var(--test6);}
-table td.sub7 {color: var(--test7);}
-table td.sub9 {color: var(--test9);}
-table td.sub10 {color: var(--test10);}
-table td.sub11 {color: var(--test11);}
 
 #tb1 th {background-color: #f07878;}
 #tb2 th {background-color: #f0a078;}
