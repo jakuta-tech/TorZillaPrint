@@ -113,7 +113,7 @@ function showhide(togType, togID, togWord) {
 		let xyz = document.getElementsByClassName("togD1"); let abc
 		if (drArray.every( (val, i, arr) => val === arr[0] )) {
 			// hide last three
-			dom.drFirstHeader.innerHTML = "Element.getClientRects"+`<br>`+"[note: the other three methods are identical]"
+			dom.drFirstHeader.innerHTML = "Element.getClientRects [the other three methods are identical]"
 			for (abc = 0; abc < xyz.length; abc++) { xyz[abc].style.display = "none"}
 		} else {
 			// display last three
@@ -265,10 +265,10 @@ function outputSection(id, cls, page) {
 	if (page == "m") {
 		if (id=="1") {dom.kbt.value = ""}
 		if (id=="7") {reset_devices()}
-		if (id=="9") {reset_domrect()}
-		if (id=="10" && cls=="c2") {reset_audio2()}
-		if (id=="11" && cls=="c1") {reset_unicode()}
-		if (id=="12") {reset_media()}
+		if (id=="8") {reset_domrect()}
+		if (id=="11" && cls=="c2") {reset_audio2()}
+		if (id=="12" && cls=="c1") {reset_unicode()}
+		if (id=="13") {reset_media()}
 		if (id=="14") {reset_css()}
 		if (id=="18") {reset_misc()}
 	}
@@ -286,13 +286,13 @@ function outputSection(id, cls, page) {
 			if (id=="5") {outputHeaders()}
 			if (id=="6") {outputStorage()}
 			if (id=="7") {outputDevices()}
-			if (id=="8") {outputCanvas()}
-			if (id=="9") {outputDomRect()}
-			if (id=="10" && cls=="c1") {outputAudio1()}
-			if (id=="10" && cls=="c2") {outputAudio2()}
-			if (id=="11" && cls=="c1") {outputFonts1()}
-			if (id=="12") {outputMedia()}
-			if (id=="13") {outputWebGL()}
+			if (id=="8") {outputDomRect()}
+			if (id=="9") {outputCanvas()}
+			if (id=="10") {outputWebGL()}
+			if (id=="11" && cls=="c1") {outputAudio1()}
+			if (id=="11" && cls=="c2") {outputAudio2()}
+			if (id=="12" && cls=="c1") {outputFonts1()}
+			if (id=="13") {outputMedia()}
 			if (id=="14") {outputCSS()}
 			if (id=="18") {outputMisc()}
 		} else if (page=="e") {
@@ -304,8 +304,8 @@ function outputSection(id, cls, page) {
 
 	// don't wait
 	if (page=="m") {
-		if (id=="11" && cls=="c2") {outputFonts2("small")}
-		if (id=="11" && cls=="c3") {outputFonts2("all")}
+		if (id=="12" && cls=="c2") {outputFonts2("small")}
+		if (id=="12" && cls=="c3") {outputFonts2("all")}
 	} else if (page=="e") {
 		isPage = "extra"
 		if (id=="1") {outputScreen()}
