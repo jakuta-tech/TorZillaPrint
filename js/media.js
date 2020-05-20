@@ -4,10 +4,10 @@ function reset_media() {
 	dom.audiodata.style.color = zhide
 	dom.videodata.style.color = zhide
 	let str = dom.audiodata.innerHTML
-	str = str.replace(/s12/g, "")
+	str = str.replace(/s13/g, "")
 	dom.audiodata.innerHTML = str
 	str = dom.videodata.innerHTML
-	str = str.replace(/s12/g, "")
+	str = str.replace(/s13/g, "")
 	dom.videodata.innerHTML = str
 }
 
@@ -26,7 +26,7 @@ function get_media(runtype) {
 			v+'msvideo',v+'ogg',v+'quicktime',v+'wavelet',v+'webm',v+'x-flv',v+'x-la-asf',v+'x-m4v',
 			v+'x-matroska',v+'x-mkv',v+'x-mng',v+'x-mpeg2',v+'x-ms-wmv',v+'x-msvideo',v+'x-theora',
 			// codecs
-			v4+'hev1.1.6.L93.90"',v4+'hvc1.1.6.L93.90"',v4+'hev1.1.6.L93.B0"',v4+'hvc1.1.6.L93.B0"',
+			v4+'hev1"',v4+'hev1.1.6.L93.90"',v4+'hvc1.1.6.L93.90"',v4+'hev1.1.6.L93.B0"',v4+'hvc1.1.6.L93.B0"',
 			v4+'vp09.00.10.08"',v4+'vp09.00.50.08"',v4+'vp09.01.20.08.01"',v4+'vp09.01.20.08.01.01.01.01.00"',
 			v4+'vp09.02.10.10.01.09.16.09.01"',v4+'av01.0.08M.08"',vo+'dirac, flac"',vo+'dirac, vorbis"',
 			vo+'flac"',vo+'theora"',vo+'theora, flac"',vo+'theora, speex"',vo+'theora, vorbis"',vw+'vorbis"',
@@ -97,12 +97,12 @@ function get_media(runtype) {
 	// output
 	let hashcan = "maybe,"+ canm.join() + ",probably,"+ canp.join(),
 		hashtype = "mediasource,"+ src.join() + ",mediarecoder,"+ rec.join()
-	ecan.innerHTML = sha1(hashcan) + s12 +" ["+ canm.length +"|"+ canp.length +"/"+ list.length +"]"+ sc
-	etype.innerHTML = sha1(hashtype) + s12 +" ["+ src.length  +"|"+ rec.length +"/"+ list.length +"]"+ sc
-	edata.innerHTML = s12+"maybe: "+sc + canm.join(", ") + " "
-		+ s12+"probably: "+sc + canp.join(", ") + " "
-		+ s12+"mediasource: "+sc + src.join(", ") + " "
-		+ s12+"mediarecorder: "+sc + rec.join(", ")
+	ecan.innerHTML = sha1(hashcan) + s13 +" ["+ canm.length +"|"+ canp.length +"/"+ list.length +"]"+ sc
+	etype.innerHTML = sha1(hashtype) + s13 +" ["+ src.length  +"|"+ rec.length +"/"+ list.length +"]"+ sc
+	edata.innerHTML = s13+"maybe: "+sc + canm.join(", ") + " "
+		+ s13+"probably: "+sc + canp.join(", ") + " "
+		+ s13+"mediasource: "+sc + src.join(", ") + " "
+		+ s13+"mediarecorder: "+sc + rec.join(", ")
 	edata.style.color = zshow
 	// perf
 	if (logPerf) {debug_log(runtype +" [media]",t0)}
