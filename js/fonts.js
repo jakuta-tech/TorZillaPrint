@@ -177,7 +177,7 @@ function get_fpjs2(type) {
 	// output
 	outputC.innerHTML = (found.length > 0 ? found.join(", ") : "no fonts detected")
 	outputC.style.color = zshow
-	outputA.innerHTML = sha1(found.join(", ")) + (isPage == "main" ? s11 : s5)
+	outputA.innerHTML = sha1(found.join(", ")) + (isPage == "main" ? s12 : s5)
 		+ "["+found.length+"/"+fntList.length+"]" + sc + note_file
 	// perf
 	if (logPerf) {debug_log("fpjs2 "+type+" [fonts]",t0,t0font)}
@@ -224,7 +224,7 @@ function get_fallback(type, list) {
 			enumerate(['Arial','Courier'])
 		} else {
 			enumerate(fntList)
-			outputB.innerHTML = sha1(found.join(", ")) + (isPage == "main" ? s11 : s5)
+			outputB.innerHTML = sha1(found.join(", ")) + (isPage == "main" ? s12 : s5)
 				+ "["+found.length+"/"+fntList.length+"]" + sc + note_file
 			outputD.innerHTML = (found.length > 0 ? found.join(", ") : "no fonts detected")
 		}
@@ -458,10 +458,10 @@ function get_unicode() {
 		let total = "|"+ unique.length +" diffs]"+ sc, r = ""
 		dom.ug1 = sha1(offset.join())
 		r = (bgo ? "" : zB + (runS ? zSIM : ""))
-		if (bgo && mgo && tm00u == false) {r = s11 +"["+ diffsb.length + total}
+		if (bgo && mgo && tm00u == false) {r = s12 +"["+ diffsb.length + total}
 		dom.ug3.innerHTML = bhash + r
 		r = (cgo ? "" : zB + (runS ? zSIM : ""))
-		if (cgo && mgo && tm00u == false) {r = s11 +"["+ diffsc.length + total}
+		if (cgo && mgo && tm00u == false) {r = s12 +"["+ diffsc.length + total}
 		dom.ug4.innerHTML = chash + r
 		dom.ug10.innerHTML = fntHead + display
 		// log
@@ -506,7 +506,7 @@ function get_unicode() {
 							// random check
 							if (tm00r == "" && j == 0) {
 								if (i < 11 && i !==3) {
-									if (ctx.measureText(c+c).width !== (m*2)) {tm00r = s11 + note_random}
+									if (ctx.measureText(c+c).width !== (m*2)) {tm00r = s12 + note_random}
 								}
 							}
 						}
