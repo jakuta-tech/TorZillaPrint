@@ -182,7 +182,7 @@ function outputCanvas() {
 				delim = str1.search(","),
 				display = str1.substring(0,delim),
 				value1 = str1.substring(delim+1, str1.length),
-				value2 = str2.substring(delim+1, str1.length)
+				value2 = str2.substring(delim+1, str2.length)
 			display_canvas(display, value1, value2)
 		}
 		// overall hash
