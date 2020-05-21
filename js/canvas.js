@@ -7,7 +7,7 @@
 
 function outputCanvas() {
 	// vars
-	let count = 0, expected = 11, res1 = [], res2 = [], chash1 = [],
+	let count = 0, expected = 10, res1 = [], res2 = [], chash1 = [],
 		diff78 = false,
 		table = dom.tb9,
 		error_string = "error while testing"
@@ -18,27 +18,24 @@ function outputCanvas() {
 			isRandom = false,
 			pushvalue = value1,
 			control = "",
-			combined = ""
+			combined = "",
+			sname = item.substring(0,4)
 		let element = table.querySelector("." + item)
-		// simulate random hashes
-		let simulate = false
-		if (simulate) {
-			if (item == "readPixels" || item == "toDataURL" || item == "toBlob" ||
-				item == "getImageData" || item.substring(0,3) == "isP" || item == "mozGetAsFile") {
+		// simulate random
+		let sim = false
+		if (sim) {
+			if (sname == "toDa" || sname == "toBl" || sname == "getI" || sname == "isPo" || sname == "mozG") {
 				if (value1.length == 64) {
-					if (item == "toDataURL" || item == "mozGetAsFile" || item == "isPointInPath") {
-						diff78 = true
-						value1 = (Math.random().toString(36).replace(/[^a-z]+/g, '') + value1).substring(0,64)
-					}
-					value2 = (Math.random().toString(36).replace(/[^a-z]+/g, '') + value2).substring(0,64)
+					diff78 = true
+					value1 = (Math.random().toString(36).replace(/[^a-z]+/g, '') + value1).substring(0,64)
+					value2 = (Math.random().toString(36).replace(/[^a-z]+/g, '') + value1).substring(0,64)
 				}
 			}
 		}
 		// set
 		if (!window.PerformanceNavigationTiming) {if (isFF) {is78rfp = true}}
-		// always push/output error !== two valid results
+		// push/output error if not two valid results
 		if (value1 == error_string || value2 == error_string) {
-			if (value1 !== value2) {console.debug("canvas: ", item, value1, value2)}
 			value1 = error_string
 			pushvalue = value1
 		} else {
@@ -46,32 +43,24 @@ function outputCanvas() {
 			if (value1 !== value2) {
 				isRandom = true
 				pushvalue = "random"
-				combined = "random " + s8 +" [1] "+ sc + value1.substring(0,22) + ".."
-					+ s8 +" [2] "+ sc + value2.substring(0,22) + ".."
+				combined = "random " + s9 +" [1] "+ sc + value1.substring(0,22) + ".."
+					+ s9 +" [2] "+ sc + value2.substring(0,22) + ".."
 			}
 		}
 
 		// supported/not-supported
-		if (item == "getContext") {
-			if (value1.substring(0,5) == "2d: s") {
-				if (isFF) {value1 = value1.replace("2d: supported", "2d: supported" + rfp_green)}
-				pushvalue = "2d: supported"
-			} else {
-				if (isFF) {value1 = value1.replace("2d: not supported", "2d: not supported" + rfp_red)}
-				if(value1.substring(0,5) == "2d: n") {pushvalue = "2d: not supported"}
-			}
-			// split results
-			if (value1.substring(0,2) == "2d") {
-				let start = value1.indexOf(",")
-				dom.getContext2 = value1.substring(start+2, value1.length)
-				value1 = value1.substring(0, start)
-			}
-		}
 		if (isFF) {
-			if (item == "winding" || item == "fillText" || item == "strokeText") {
+			if (sname == "wind" || sname == "fill" || sname == "stro") {
 				value1 += (value1 == "supported" ? rfp_green : rfp_red)
 			}
-			if (item == "mozGetAsFile") {
+			if (sname == "getC") {
+				if (value1.substring(0,5) == "2d: s") {
+					value1 = value1.replace("2d: supported", "2d: supported" + rfp_green)
+				} else {
+					value1 = value1.replace("2d: not supported", "2d: not supported" + rfp_red)
+				}
+			}
+			if (sname == "mozG") {
 				if (isVer > 73) {
 					// supported
 					control = "not supported"
@@ -84,22 +73,8 @@ function outputCanvas() {
 				}
 			}
 		}
-		// hash: webgl
-		if (item == "readPixels") {
-			if (isRandom) {
-				value1 = combined
-			} else if (isFF) {
-				if (sha1(value1) == "47bf7060be2764c531da228da96bd771b14917a1") {
-					// NotSupportedError: Operation is not supported
-					value1 += tb_standard
-				} else if (sha1(value1) == "80505e817edc581bfff3e1f9137d52efbc183f03") {
-					// Error: Permission denied to access property "createBuffer"
-					value1 += tb_safer
-				}
-			}
-		}
 		// hashes: static RFP
-		if (item.substring(0,3) == "isP") {
+		if (sname == "isPo") {
 			control = "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8"
 			if (isRandom) {
 				value1 = combined + (isFF ? rfp_red : "")
@@ -108,7 +83,7 @@ function outputCanvas() {
 			}
 		}
 		// hashes: 1621433: randomized 78+ or static RFP
-		if (item == "toDataURL" || item == "toBlob" || item == "getImageData") {
+		if (sname == "toDa" || sname == "toBl" || sname == "getI") {
 			if (value1 == error_string) {
 				if (isFF) {
 					value1 += (isVer > 77 ? rfp_random_red : rfp_red)
@@ -116,33 +91,27 @@ function outputCanvas() {
 			} else {
 				if (isFF) {
 					if (isVer > 77) {
-						// new random behavior
+						// 78+: random
 						if (isRandom) {
 							if (is78rfp) {
-								// diff78: toDataURL vs toBlob
-								if (item == "toDataURL" || item == "toBlob") {
-									if (diff78) {
-										pushvalue = "random RFP good"
-									} else {
-										pushvalue = "random RFP extension"
-										console.debug(item, "datatoURL matches toBlob")
-									}
-								} else {
-									pushvalue = "random RFP good"
+								pushvalue = "random rfp"
+								// toDataURL vs toBlob
+								if (sname == "toDa" || sname == "toBl") {
+									if (!diff78) {pushvalue = "random ext"}
 								}
 							} else {
-								pushvalue = "random RFP extension"
+								pushvalue = "random ext"
 							}
-							value1 = combined + (pushvalue == "random RFP good" ? rfp_random_green : rfp_random_red)
+							value1 = combined + (pushvalue == "random rfp" ? rfp_random_green : rfp_random_red)
 						} else {
 							value1 += rfp_random_red
 						}
 					} else {
-						// old static behavior
+						// <78: static
 						if (isRandom) {
 							value1 = combined + rfp_red
 						} else {
-							if (item == "getImageData") {
+							if (sname == "getI") {
 								control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
 							} else {
 								control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
@@ -156,14 +125,14 @@ function outputCanvas() {
 				}
 			}
 		}
-		// push + output
-		if (item !== "readPixels") {chash1.push(item+", "+pushvalue)}
+		// push + display
+		chash1.push(item+", "+pushvalue)
 		element.innerHTML = value1
 	}
 
 	function run_results() {
-		// 78+ toDataURL + toBlob should be different: let's track that
-		let valueD = "", valueB = ""
+		// 78+: track toDataURL vs toBlob randomness
+		let valueB = "", valueD = ""
 		for (let i=0; i < res1.length; i++) {
 			let str1 = res1[i],
 				delim = str1.search(","),
@@ -175,7 +144,9 @@ function outputCanvas() {
 			}
 		}
 		if (valueB !== valueD) {diff78 = true}
-		// output
+		// sort arrays and output
+		res1.sort()
+		res2.sort()
 		for (let i=0; i < res1.length; i++) {
 			let str1 = res1[i],
 				str2 = res2[i],
@@ -191,10 +162,10 @@ function outputCanvas() {
 			sha256_str(chash1.join())
 		]).then(function(hash){
 			dom.chash1.innerHTML = hash[0] + (isFile ? note_file : "")
-			console.debug("OVERALL HASH: " + chash1.length + ": " + hash[0] +"\n" + chash1.join("\n"))
+			console.log("CANVAS hash: " + hash[0] +"\n" + chash1.join("\n"))
+			// perf
+			debug_page("perf","canvas",t0,gt0)
 		})
-		// perf
-		debug_page("perf","canvas",t0,gt0)		
 	}
 
 	var canvas = {
@@ -203,8 +174,7 @@ function outputCanvas() {
 				{
 					name: "getContext",
 						value: function(){
-						return ["2d", "webgl", "webgl2"].map(function(type){
-						//return ["2d"].map(function(type){
+						return ["2d"].map(function(type){
 							var canvas = getCanvas()
 							try {
 								var context = canvas.getContext(type)
@@ -330,19 +300,6 @@ function outputCanvas() {
 						return "supported"
 					}
 				},
-				{
-					class: window.WebGLRenderingContext,
-					name: "readPixels",
-					value: function(){
-						var context = getFilledWebGlContext()
-						if (!context){
-							return "webgl not supported"
-						}
-						var pixels = new Uint8Array(context.drawingBufferWidth * context.drawingBufferHeight * 4)
-						context.readPixels(0, 0, context.drawingBufferWidth, context.drawingBufferHeight, context.RGBA, context.UNSIGNED_BYTE, pixels)
-						return window.crypto.subtle.digest("SHA-256", pixels).then(hashToString)
-					}
-				},
 			];
 			function isSupported(output){
 				return !!(output.class? output.class: window.HTMLCanvasElement).prototype[output.name]
@@ -415,39 +372,6 @@ function outputCanvas() {
 				context.fill()
 				return context
 			}
-			function getFilledWebGlContext(){
-				// taken from https://github.com/Valve/fingerprintjs2/blob/master/fingerprint2.js
-				var context = getContext("webgl") || getContext("webgl2")
-				if (!context){
-					return null
-				}
-				var vertexShaderTemplate = "attribute vec2 attrVertex;varying vec2 varyinTexCoordinate;uniform vec2 uniformOffset;void main(){varyinTexCoordinate=attrVertex+uniformOffset;gl_Position=vec4(attrVertex,0,1);}";
-				var fragmentShaderTemplate = "precision mediump float;varying vec2 varyinTexCoordinate;void main() {gl_FragColor=vec4(varyinTexCoordinate,0,1);}";
-				var vertexPosBuffer = context.createBuffer()
-				context.bindBuffer(context.ARRAY_BUFFER, vertexPosBuffer)
-				var vertices = new Float32Array([-0.2, -0.9, 0, 0.4, -0.26, 0, 0, 0.732134444, 0])
-				context.bufferData(context.ARRAY_BUFFER, vertices, context.STATIC_DRAW)
-				vertexPosBuffer.itemSize = 3
-				vertexPosBuffer.numItems = 3
-				var program = context.createProgram()
-				var vertexShader = context.createShader(context.VERTEX_SHADER)
-				context.shaderSource(vertexShader, vertexShaderTemplate)
-				context.compileShader(vertexShader)
-				var fragmentShader = context.createShader(context.FRAGMENT_SHADER)
-				context.shaderSource(fragmentShader, fragmentShaderTemplate)
-				context.compileShader(fragmentShader)
-				context.attachShader(program, vertexShader)
-				context.attachShader(program, fragmentShader)
-				context.linkProgram(program)
-				context.useProgram(program)
-				program.vertexPosAttrib = context.getAttribLocation(program, "attrVertex")
-				program.offsetUniform = context.getUniformLocation(program, "uniformOffset")
-				context.enableVertexAttribArray(program.vertexPosArray)
-				context.vertexAttribPointer(program.vertexPosAttrib, vertexPosBuffer.itemSize, context.FLOAT, !1, 0, 0)
-				context.uniform2f(program.offsetUniform, 1, 1)
-				context.drawArrays(context.TRIANGLE_STRIP, 0, vertexPosBuffer.numItems)
-				return context
-			}
 			function hashToString(hash){
 				var chunks = [];
 				(new Uint32Array(hash)).forEach(function(num){
@@ -479,7 +403,6 @@ function outputCanvas() {
 						output.displayValue = displayValue
 						resolve(output)
 					}, function(e){
-						//console.error("canvas", e.name, e.message)
 						output.displayValue = error_string
 						resolve(output)
 					})
@@ -501,9 +424,7 @@ function outputCanvas() {
 					count++
 					if (count==expected) {
 						if (res1.length !== expected) {
-							// sometimes chrome does res2 before res1 
 							setTimeout(function() {
-								console.debug("isFF", isFF, "res1 was empty, try again in 20ms")
 								run_results()
 							}, 20)
 						} else {
