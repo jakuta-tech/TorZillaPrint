@@ -1,4 +1,5 @@
 "use strict";
+"use strict";
 
 /* code based on work by
 	kkapsner: - https://canvasblocker.kkapsner.de/test/
@@ -46,9 +47,7 @@ function get_audio2_context() {
 		results.push(key + ": " + value)
 		if (key == "ac-sampleRate") {samplerate = value}
 	}
-	// hash
-	dom.audio1hash.innerHTML = sha1(hash.join()) + s11 + "["+ results.length +" keys]" + sc
-	// output
+	// build output
 	let k="", v="", n=0, rfp="", output=""
 	for (let i=0; i < results.length; i++) {
 		n = results[i].search(":")
@@ -60,7 +59,7 @@ function get_audio2_context() {
 			if (runS) {v = 0}
 			if (v == 0) {
 				latencyError = true
-				v = v + sb+"["+zF+"]"+sc+zSIM
+				v = v + sb+"["+zF+"]"+sc
 			} else {
 				// isOS = "mac" // simulate mac
 				latencyError = false
@@ -73,12 +72,19 @@ function get_audio2_context() {
 		}
 		output += k.padStart(25) + ": " + v + "<br>"
 	}
-	dom.audio1data.innerHTML = output
-	dom.audio1data.style.color = zshow
-
-	// perf
-	if (logPerf) {debug_log("context [audio]",t0,t0audio)}
-
+	// output
+	if (!latencyError || latencyTries == 2) {
+		dom.audio1data.innerHTML = output
+		dom.audio1data.style.color = zshow
+		// hash
+		Promise.all([
+			sha256_str(hash.join())
+		]).then(function(result){
+			dom.audio1hash.innerHTML = result[0] + s11 + "["+ results.length +" keys]" + sc
+			// perf
+			if (logPerf) {debug_log("context [audio]",t0,t0audio)}
+		})
+	}
 	// next test or section perf
 	if (latencyTries == 1) {
 		get_audio2_hybrid()
@@ -123,15 +129,17 @@ function get_audio2_hybrid() {
 		analyser.disconnect()
 		scriptProcessor.disconnect()
 		gain.disconnect()
-
 		// output
 		dom.audio3data = results.slice(0, 30)
-		dom.audio3hash = sha1(results.slice(0, 30))
 		dom.audio3data.style.color = zshow
-
-		// perf
-		if (logPerf) {debug_log("hybrid [audio]",t0,t0audio)}
-
+		// hash
+		Promise.all([
+			sha256_str(results.slice(0, 30))
+		]).then(function(result){
+			dom.audio3hash = result[0]
+			// perf
+			if (logPerf) {debug_log("hybrid [audio]",t0,t0audio)}
+		})
 		// next test or section perf
 		if (latencyError == true && latencyTries == 1) {
 			get_audio2_context()
@@ -170,10 +178,15 @@ function get_audio2_oscillator() {
 		gain.disconnect()
 		// output
 		dom.audio2data = cc_output.slice(0, 30)
-		dom.audio2hash = sha1(cc_output.slice(0, 30))
 		dom.audio2data.style.color = zshow
-		// perf
-		if (logPerf) {debug_log("oscillator [audio]",t0,t0audio)}
+		// hash
+		Promise.all([
+			sha256_str(cc_output.slice(0, 30))
+		]).then(function(result){
+			dom.audio2hash = result[0]
+			// perf
+			if (logPerf) {debug_log("oscillator [audio]",t0,t0audio)}
+		})
 		// next test
 		get_audio2_context()
 	}
