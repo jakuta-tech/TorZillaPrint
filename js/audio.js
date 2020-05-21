@@ -1,11 +1,8 @@
 "use strict";
-"use strict";
 
 /* code based on work by
-	kkapsner: - https://canvasblocker.kkapsner.de/test/
-		https://github.com/kkapsner/CanvasBlocker
-	openWPM
-		https://audiofingerprint.openwpm.com/
+	kkapsner: - https://canvasblocker.kkapsner.de/test/, https://github.com/kkapsner/CanvasBlocker
+	openWPM: https://audiofingerprint.openwpm.com/
 */
 
 var t0audio,
@@ -83,19 +80,19 @@ function get_audio2_context() {
 			dom.audio1hash.innerHTML = result[0] + s11 + "["+ results.length +" keys]" + sc
 			// perf
 			if (logPerf) {debug_log("context [audio]",t0,t0audio)}
+			// section perf
+			if (latencyTries == 2) {debug_page("perf","audio 2",t0audio)}
 		})
 	}
-	// next test or section perf
-	if (latencyTries == 1) {
-		get_audio2_hybrid()
-	} else {
-		debug_page("perf","audio 2",t0audio)
-	}
+	// next test
+	if (latencyTries == 1) {get_audio2_hybrid()}
 }
 
 function get_audio2_hybrid() {
-	let t0 = performance.now()
-	let results = []
+	let t0 = performance.now(),
+		results = [],
+		showperf = false
+	if (latencyError == false || latencyTries == 2) {showperf = true}
 
 	let audioCtx = new window.AudioContext,
 		oscillator = audioCtx.createOscillator(),
@@ -139,13 +136,11 @@ function get_audio2_hybrid() {
 			dom.audio3hash = result[0]
 			// perf
 			if (logPerf) {debug_log("hybrid [audio]",t0,t0audio)}
+			// section perf
+			if (showperf) {debug_page("perf","audio 2",t0audio)}
 		})
-		// next test or section perf
-		if (latencyError == true && latencyTries == 1) {
-			get_audio2_context()
-		} else {
-			debug_page("perf","audio 2",t0audio)
-		}
+		// re-test context
+		if (latencyError == true && latencyTries == 1) {get_audio2_context()}
 	}
 	oscillator.start(0)
 }
