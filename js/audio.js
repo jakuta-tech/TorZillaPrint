@@ -1,7 +1,7 @@
 "use strict";
 
 /* code based on work by
-	kkapsner: - https://canvasblocker.kkapsner.de/test/, https://github.com/kkapsner/CanvasBlocker
+	kkapsner: https://canvasblocker.kkapsner.de/test/, https://github.com/kkapsner/CanvasBlocker
 	openWPM: https://audiofingerprint.openwpm.com/
 */
 
@@ -80,7 +80,6 @@ function get_audio2_context() {
 			dom.audio1hash.innerHTML = result[0] + s11 + "["+ results.length +" keys]" + sc
 			// perf
 			if (logPerf) {debug_log("context [audio]",t0,t0audio)}
-			// section perf
 			if (latencyTries == 2) {debug_page("perf","audio 2",t0audio)}
 		})
 	}
@@ -136,7 +135,6 @@ function get_audio2_hybrid() {
 			dom.audio3hash = result[0]
 			// perf
 			if (logPerf) {debug_log("hybrid [audio]",t0,t0audio)}
-			// section perf
 			if (showperf) {debug_page("perf","audio 2",t0audio)}
 		})
 		// re-test context
