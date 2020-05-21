@@ -553,10 +553,6 @@
 		<tr><td>isPointInStroke</td><td class="c mono isPointInStroke"></td></tr>
 		<tr><td>fillText</td><td class="c mono fillText"></td></tr>
 		<tr><td>strokeText</td><td class="c mono strokeText"></td></tr>
-		<tr><td colspan="2" class="center">--- webgl ---</td></tr>
-		<tr><td>getContext</td><td class="c mono" id="getContext2"></td></tr>
-		<tr><td>readPixels</td><td class="c mono readPixels"></td></tr>
-
 		<tr><td colspan="2"><span class="no_color">canvas code courtesy of </span>
 			<a target="_blank" class="blue" href="https://canvasblocker.kkapsner.de/test">kkapsner</a><span class="no_color"> & </span>
 			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
@@ -573,8 +569,19 @@
 		</th></tr></thead>
 		<tr><td><div>
 			<div class="btn-left"><button class="btn10 btn" onClick="outputSection(`10`, `c`, `m`)">[ re-run tests ]</button></div>
-			<div>webgl 1</div></div></td><td class="faint" id="webgl1"></td></tr>
-		<tr><td>webgl 2</td><td class="faint" id="webgl2"></td></tr>
+			<div>hash</div></div></td><td class="c mono" id="glhash0"></td></tr>
+		<tr><td>getContext</td><td class="c mono" id="glsupport"></td></tr>
+		<tr><td>vendor | unmasked</td><td class="faint mono" id="glvend"></td></tr>
+		<tr><td>renderer | unmasked</td><td class="faint mono" id="glrend"></td></tr>
+		<tr><td>[webgl] parameters</td><td class="mono faint"></td></tr>
+		<tr><td>[webgl2] parameters</td><td class="mono faint"></td></tr>
+		<tr><td colspan="2" class="center">--- render ---</td></tr>
+		<tr><td>readPixels</td><td class="c mono" id="glreadPixels"></td></tr>
+		<tr><td>[webgl] image</td><td class="mono faint" id="glimage1"></td></tr>
+		<tr><td>[webgl2] image</td><td class="mono faint" id="glimage2"></td></tr>
+		<tr><td colspan="2"><span class="no_color">canvas code courtesy of </span>
+			<a target="_blank" class="blue" href="https://canvasblocker.kkapsner.de/test">kkapsner</a><span class="no_color"> & </span>
+			<a target="_blank" class="blue" href="https://github.com/kkapsner/CanvasBlocker">CanvasBlocker</a></td></tr>
 	</table>
 
 	<!--audio.js-->
