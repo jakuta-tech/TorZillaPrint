@@ -104,7 +104,7 @@ let avh = "",
 	gt0,
 	logExtra = false,
 	logPerf = false,
-	logStorage = true,
+	logStorage = false,
 	runS = false,
 	stateSIM = false,
 // rerun
