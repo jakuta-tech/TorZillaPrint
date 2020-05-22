@@ -21,6 +21,20 @@ function rnd_number() {
 	return Math.floor((Math.random() * (99999-10000))+10000)
 }
 
+function get_RFP() {
+	let r = false
+	try {
+		performance.mark("a")
+		r = performance.getEntriesByName("a","mark").length
+			+ performance.getEntries().length
+			+ performance.getEntries({name:"a", entryType:"mark"}).length
+			+ performance.getEntriesByName("a","mark").length
+			performance.clearMarks()
+		if (r == 0) {r = true}
+	} catch(e) {}
+	return r
+}
+
 function count_decimals(value) {
 	if(Math.floor(value) === value) return 0
 	return value.toString().split(".")[1].length || 0
