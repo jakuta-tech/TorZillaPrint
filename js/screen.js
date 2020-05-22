@@ -1160,7 +1160,11 @@ function get_version() {
 		t0 = performance.now()
 	function output(){
 		// set isVer
-		if (isVer == "") {isVer = verNo.replace(/\D/g,'')}
+		if (isVer == "") {
+			isVer = verNo.replace(/\D/g,',')
+			let start = isVer.indexOf(",")
+			if (start !== -1) {isVer = isVer.substring(0,start)}
+		}
 		dom.versionNo.innerHTML = verNo + (isNew ? zNEW : "") + (runS ? zSIM : "")
 		store_data("ua","3 ver",verNo)
 		if (logPerf) {debug_log("version [ua]",t0)}
@@ -1180,7 +1184,7 @@ function get_version() {
 		// new
 		isNew = true
 		//75: 1615600
-		// we only care about 75+ but catch 68+/67- for runS+runUA
+		// we only care about 75+ but need to know 68+/67- for UA BS purposes
 		// we still get a new error hash notation for good measure
 		try {
 			let test = BigInt(2.5)
@@ -1213,20 +1217,25 @@ function get_version() {
 		verNo += ((isErr == "0dc5" || isErr == "b75b") ? " [Nightly]": "")
 	}
 	function v74minus () {
-		//74:1605835
+		//74: 1605835
 		if (go) {try {eval("let t = ({ 1n: 1 })"); verNo = "74"; go = false;} catch(e) {}}
-		//73:1594241
+		//73: 1594241
 		if (go) {
-			test = dom.test73.sheet.cssRules[0]
-			if (test.style.border == "") {verNo = "73"} else {verNo = "72"}
+			try {
+				test = dom.test73.sheet.cssRules[0]
+				if (test.style.border == "") {verNo = "73"} else {verNo = "72"}
+			} catch(e) {
+				// ToDo: 73 test replace
+				verNo = "72-73"
+			}
 		}
 	}
 	function v69minus() {
-		//69:1558387
+		//69: 1558387
 		if (go) {try {test = new DOMError('a'); verNo = "68"} catch(e) {verNo = "69"}}
 	}
 	function v67minus() {
-		//67:1531830
+		//67: 1531830
 		if (go) {if (!Symbol.hasOwnProperty('matchAll')) {} else {verNo="67"; go = false}}
 		//66
 		if (go) {
