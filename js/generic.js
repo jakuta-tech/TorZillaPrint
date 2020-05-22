@@ -13,6 +13,14 @@ function getUniqueElements() {
 	})
 }
 
+function rnd_string(prefix) {
+	return (prefix == undefined ? "" : prefix) + Math.random().toString(36).substring(2, 15)
+}
+
+function rnd_number() {
+	return Math.floor((Math.random() * (99999-10000))+10000)
+}
+
 function count_decimals(value) {
 	if(Math.floor(value) === value) return 0
 	return value.toString().split(".")[1].length || 0
