@@ -227,7 +227,7 @@ function get_workers() {
 			}
 			// shared worker
 			try {
-				let swt = new SharedWorker("js/storage_workers.js")
+				let swt = new SharedWorker("js/storage_shared_worker.js")
 				let rndStr2 = rnd_string()
 				// assume fail
 				dom.work3 = zF
