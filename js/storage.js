@@ -258,7 +258,7 @@ function get_service_workers() {
 		if ("serviceWorker" in navigator) {
 			dom.swork1 = zE
 			// register
-			navigator.serviceWorker.register("js/storage_workers.js").then(function(registration) {
+			navigator.serviceWorker.register("js/storage_service_worker.js").then(function(registration) {
 				dom.swork2 = zS
 				// cache support
 				dom.swork3.innerHTML = note_ttc
