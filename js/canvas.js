@@ -23,11 +23,10 @@ function outputCanvas() {
 				+ performance.getEntriesByName("a","mark").length
 				performance.clearMarks()
 			if (r1 == 0) {is78rfp = true}
-			console.debug("is78rfp", is78rfp)
 		} catch(e) {}
 	}
 
-	function display_canvas(item, value1, value2, is78rfp) {
+	function display_canvas(item, value1, value2) {
 		// vars
 		let isRandom = false,
 			pushvalue = value1,
