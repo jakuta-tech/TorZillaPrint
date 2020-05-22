@@ -64,7 +64,7 @@ function get_reporting_api() {
 	}
 }
 
-function get_rfptime() {
+function get_perf() {
 	let i = 0,
 		result = true,
 		times = [],
@@ -77,20 +77,51 @@ function get_rfptime() {
 			i++
 		} else {
 			clearInterval(check)
-			dom.rfpperf.innerHTML = (result? "100 ms" + rfp_green : times.join(", ") + rfp_red)
+			dom.perf2.innerHTML = (result? "100 ms" + rfp_green : times.join(", ") + rfp_red)
 		}
 	}
 	let check = setInterval(run, 13)
 }
 
-function get_rfptime2() {
-	let result = zD
-	if (window.PerformanceNavigationTiming) {result = zE}
-	if (isFF && isVer > 77) {
-		//78+: 1511941
-		result = (result == zD ? result + rfp_green : result + rfp_red)
+function get_perf2() {
+	// mark
+	let r1 = ""
+	if (performance.mark === undefined) {
+		r1 = "not supported"
+	} else {
+		try {
+			performance.mark("a")
+			r1 = performance.getEntriesByName("a","mark").length
+				+ ", " + performance.getEntries().length
+				+ ", " + performance.getEntries({name:"a", entryType:"mark"}).length
+				+ ", " + performance.getEntriesByName("a","mark").length
+			performance.clearMarks()
+			r1 = (r1 == "0, 0, 0, 0" ? "zero": "not zero") + " ["+ r1 + "]"
+		} catch(e) {
+			r1 = "error"
+		}
 	}
-	dom.rfpperf2.innerHTML = result
+	dom.perf1.innerHTML = r1
+
+	// loadEventEnd
+	let r3 = ""
+	try {
+		let timing = performance.timing
+		r3 = timing.navigationStart - timing.loadEventEnd
+		r3 = (r3 == 0 ? "zero" : "not zero") + " ["+ r3 + "]"
+	} catch(e) {
+		r3 = "error"
+	}
+	dom.perf3.innerHTML = r3
+
+	// PerformanceNavigationTiming  
+	let r4 = zD
+	if (window.PerformanceNavigationTiming) {r4 = zE}
+	if (isFF && isVer > 77) {
+		//78+: 1511941:
+		r4 += (r4 == zD ? rfp_green : rfp_red)
+	}
+	dom.perf4.innerHTML = r4
 }
 
 function get_svg() {
@@ -155,8 +186,8 @@ function outputMisc(type) {
 	get_reporting_api()
 	get_svg()
 	get_wasm()
-	get_rfptime2()
-	get_rfptime()
+	get_perf2()
+	get_perf()
 	// perf
 	debug_page("perf","misc",t0,gt0)
 }
