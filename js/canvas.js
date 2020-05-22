@@ -9,13 +9,27 @@ function outputCanvas() {
 	// vars
 	let count = 0, expected = 10, res1 = [], res2 = [], chash1 = [],
 		diff78 = false,
+		is78rfp = false,
 		table = dom.tb9,
 		error_string = "error while testing"
 
-	function display_canvas(item, value1, value2) {
+	// RFP
+	if (isFF && isVer > 77 && performance.mark !== undefined) {
+		try {
+			performance.mark("a")
+			let r1 = performance.getEntriesByName("a","mark").length
+				+	performance.getEntries().length
+				+ performance.getEntries({name:"a", entryType:"mark"}).length
+				+ performance.getEntriesByName("a","mark").length
+				performance.clearMarks()
+			if (r1 == 0) {is78rfp = true}
+			console.debug("is78rfp", is78rfp)
+		} catch(e) {}
+	}
+
+	function display_canvas(item, value1, value2, is78rfp) {
 		// vars
-		let is78rfp = false,
-			isRandom = false,
+		let isRandom = false,
 			pushvalue = value1,
 			control = "",
 			combined = "",
@@ -32,8 +46,6 @@ function outputCanvas() {
 				}
 			}
 		}
-		// set
-		if (!window.PerformanceNavigationTiming) {if (isFF) {is78rfp = true}}
 		// push/output error if not two valid results
 		if (value1 == error_string || value2 == error_string) {
 			value1 = error_string
@@ -162,7 +174,7 @@ function outputCanvas() {
 			sha256_str(chash1.join())
 		]).then(function(hash){
 			dom.chash1.innerHTML = hash[0] + (isFile ? note_file : "")
-			console.log("CANVAS hash: " + hash[0] +"\n" + chash1.join("\n"))
+			if (!isFile) {console.log("CANVAS hash: " + hash[0] +"\n" + chash1.join("\n"))}
 			// perf
 			debug_page("perf","canvas",t0,gt0)
 		})
