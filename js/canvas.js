@@ -15,15 +15,7 @@ function outputCanvas() {
 
 	// RFP
 	if (isFF && isVer > 77 && performance.mark !== undefined) {
-		try {
-			performance.mark("a")
-			let r1 = performance.getEntriesByName("a","mark").length
-				+	performance.getEntries().length
-				+ performance.getEntries({name:"a", entryType:"mark"}).length
-				+ performance.getEntriesByName("a","mark").length
-				performance.clearMarks()
-			if (r1 == 0) {is78rfp = true}
-		} catch(e) {}
+		if (get_RFP() == true) {is78rfp = true}
 	}
 
 	function display_canvas(item, value1, value2) {
