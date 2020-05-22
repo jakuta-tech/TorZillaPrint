@@ -209,7 +209,7 @@ function get_workers() {
 		} else {
 			// web worker
 			try {
-				let wwt = new Worker("js/worker.js")
+				let wwt = new Worker("js/storage_workers.js")
 				let rndStr1 = rnd_string()
 				// assume fail
 				dom.work2 = zF
@@ -227,7 +227,7 @@ function get_workers() {
 			}
 			// shared worker
 			try {
-				let swt = new SharedWorker("js/workershared.js")
+				let swt = new SharedWorker("js/storage_workers.js")
 				let rndStr2 = rnd_string()
 				// assume fail
 				dom.work3 = zF
@@ -258,7 +258,7 @@ function get_service_workers() {
 		if ("serviceWorker" in navigator) {
 			dom.swork1 = zE
 			// register
-			navigator.serviceWorker.register("js/workerservice.js").then(function(registration) {
+			navigator.serviceWorker.register("js/storage_workers.js").then(function(registration) {
 				dom.swork2 = zS
 				// cache support
 				dom.swork3.innerHTML = note_ttc
