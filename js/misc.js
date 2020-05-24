@@ -84,7 +84,7 @@ function get_perf() {
 }
 
 function get_perf2() {
-	// mark
+	// mark (seems only RFP affects this)
 	let r1 = ""
 	if (performance.mark === undefined) {
 		r1 = "not supported"
@@ -96,25 +96,25 @@ function get_perf2() {
 				+ ", " + performance.getEntries({name:"a", entryType:"mark"}).length
 				+ ", " + performance.getEntriesByName("a","mark").length
 			performance.clearMarks()
-			r1 = (r1 == "0, 0, 0, 0" ? "zero": "not zero") + " ["+ r1 + "]"
+			r1 += (r1 == "0, 0, 0, 0" ? rfp_green: rfp_red)
 		} catch(e) {
 			r1 = "error"
 		}
 	}
 	dom.perf1.innerHTML = r1
 
-	// loadEventEnd
+	// loadEventEnd (also dom.enable_performance)
 	let r3 = ""
 	try {
 		let timing = performance.timing
 		r3 = timing.navigationStart - timing.loadEventEnd
-		r3 = (r3 == 0 ? "zero" : "not zero") + " ["+ r3 + "]"
+		r3 = (r3 == 0 ? r3 + rfp_green : "not zero" + rfp_red)
 	} catch(e) {
 		r3 = "error"
 	}
 	dom.perf3.innerHTML = r3
 
-	// PerformanceNavigationTiming  
+	// also: dom.enable_performance_navigation_timing)
 	let r4 = zD
 	if (window.PerformanceNavigationTiming) {r4 = zE}
 	if (isFF && isVer > 77) {
