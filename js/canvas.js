@@ -5,20 +5,24 @@
 - https://github.com/kkapsner/CanvasBlocker
 - tiny modifications by newbie Thorin-Oakenpants */
 
-function outputCanvas() {
+var t0canvas
+
+function analyzeCanvas(runtype, res1, res2) {
+
 	// vars
-	let count = 0, expected = 10, res1 = [], res2 = [], chash1 = [],
+	let chash1 = [],
 		diff78 = false,
 		is78rfp = false,
 		table = dom.tb9,
-		error_string = "error while testing"
+		error_string = "error while testing",
+		t0 = performance.now()
 
 	// RFP
 	if (isFF && isVer > 77 && performance.mark !== undefined) {
 		if (get_RFP() == true) {is78rfp = true}
 	}
 
-	function display_canvas(item, value1, value2) {
+	function display_value(item, value1, value2) {
 		// vars
 		let isRandom = false,
 			pushvalue = value1,
@@ -133,43 +137,46 @@ function outputCanvas() {
 		element.innerHTML = value1
 	}
 
-	function run_results() {
-		// 78+: track toDataURL vs toBlob randomness
-		let valueB = "", valueD = ""
-		for (let i=0; i < res1.length; i++) {
-			let str1 = res1[i],
-				delim = str1.search(","),
-				display = str1.substring(0,delim)
-			if (display == "toBlob") {
-				valueB = str1.substring(delim+1, str1.length)
-			} else if (display == "toDataURL") {
-				valueD = str1.substring(delim+1, str1.length)
-			}
+	// 78+: track toDataURL vs toBlob randomness
+	let valueB = "", valueD = ""
+	for (let i=0; i < res1.length; i++) {
+		let str1 = res1[i],
+			delim = str1.search(","),
+			display = str1.substring(0,delim)
+		if (display == "toBlob") {
+			valueB = str1.substring(delim+1, str1.length)
+		} else if (display == "toDataURL") {
+			valueD = str1.substring(delim+1, str1.length)
 		}
-		if (valueB !== valueD) {diff78 = true}
-		// sort arrays and output
-		res1.sort()
-		res2.sort()
-		for (let i=0; i < res1.length; i++) {
-			let str1 = res1[i],
-				str2 = res2[i],
-				delim = str1.search(","),
-				display = str1.substring(0,delim),
-				value1 = str1.substring(delim+1, str1.length),
-				value2 = str2.substring(delim+1, str2.length)
-			display_canvas(display, value1, value2)
-		}
-		// overall hash
-		chash1.sort()
-		Promise.all([
-			sha256_str(chash1.join())
-		]).then(function(hash){
-			dom.chash1.innerHTML = hash[0] + (isFile ? note_file : "")
-			if (!isFile) {console.log("CANVAS hash: " + hash[0] +"\n" + chash1.join("\n"))}
-			// perf
-			debug_page("perf","canvas",t0,gt0)
-		})
 	}
+	if (valueB !== valueD) {diff78 = true}
+
+	// sort arrays, output values
+	res1.sort()
+	res2.sort()
+	for (let i=0; i < res1.length; i++) {
+		let str1 = res1[i],
+			str2 = res2[i],
+			delim = str1.search(","),
+			display = str1.substring(0,delim),
+			value1 = str1.substring(delim+1, str1.length),
+			value2 = str2.substring(delim+1, str2.length)
+		display_value(display, value1, value2)
+	}
+	// overall hash
+	chash1.sort()
+	Promise.all([
+		sha256_str(chash1.join())
+	]).then(function(hash){
+		dom.chash1.innerHTML = hash[0] + (isFile ? note_file : "")
+		if (!isFile) {console.log("CANVAS hash: " + hash[0] +"\n" + chash1.join("\n"))}
+		// perf
+		if (logPerf) {debug_log("display " + runtype + " [canvas]",t0)}
+		debug_page("perf","canvas",t0canvas,gt0)
+	})
+}
+
+function outputCanvas() {
 
 	var canvas = {
 		createHashes: function(window){
@@ -406,43 +413,35 @@ function outputCanvas() {
 						output.displayValue = displayValue
 						resolve(output)
 					}, function(e){
-						output.displayValue = error_string
+						output.displayValue = "error while testing"
 						resolve(output)
 					})
 				})
 			}))
 			return finished
-		},
-		output: function(dataPromise){
-			dataPromise.then(function(outputs){
-				outputs.forEach(function(output){
-					res1.push(output.name+","+output.displayValue)
-				})
-			})
-		},
-		output2: function(dataPromise){
-			dataPromise.then(function(outputs){
-				outputs.forEach(function(output){
-					res2.push(output.name+","+output.displayValue)
-					count++
-					if (count==expected) {
-						if (res1.length !== expected) {
-							setTimeout(function() {
-								run_results()
-							}, 20)
-						} else {
-							run_results()
-						}
-					}
-				})
-			})
 		}
 	}
 
-	let t0 = performance.now()
-	// ToDo: canvas: turn into promises
-	canvas.output(canvas.createHashes(window))
-	canvas.output2(canvas.createHashes(window))
+	// vars
+	t0canvas = performance.now()
+	let t0 = performance.now(),
+		main1 = [], main2 = []
+
+	Promise.all([
+		canvas.createHashes(window),
+		canvas.createHashes(window)
+	]).then(function(outputs){
+		outputs[0].forEach(function(output){
+			main1.push(output.name+","+output.displayValue)
+		})
+		outputs[1].forEach(function(output){
+			main2.push(output.name+","+output.displayValue)
+		})
+		if (logPerf) {debug_log("main [canvas]",t0)}
+		analyzeCanvas("main", main1, main2)
+	})
+	// ToDo: canvas: iframes: each with two passes
+
 }
 
 outputCanvas()
