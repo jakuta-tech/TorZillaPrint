@@ -23,14 +23,14 @@ function return_lb_nw(w,h) {
 function return_mm_dpi(type) {
 	let r = ""
 	try {
-		r = (function () {
+		r = (function() {
 			for (let i=1; i < 2000; i++) {
 				if (matchMedia("(max-resolution:"+i+type+")").matches === true) {
 					return i}
 			} return i
 		})()
 	} catch(e) {
-		r = "error"
+		r = zB
 	}
 	return r
 }
@@ -125,18 +125,14 @@ function get_collation() {
 		if (logPerf) {debug_log("collation [ua]",t0)}
 	}
 	// run
-	function run() {
-		let control = chars.sort(Intl.Collator("en-US").compare)
-		control = sha1(control.join())
-		for (let i=0; i < list.length; i++) {
-			chars.sort(Intl.Collator(list[i]).compare)
-			let test = sha1(chars.join())
-			results.push(test)
-			if (control == test) {missing.push("<code>" + list[i] + "</code>")}
-		}
-		output(sha1(results.join()) + (runS ? "a" : ""))
-	}
-	run()
+	let control = sha1(chars.sort(Intl.Collator("en-US").compare))
+	list.forEach(function(i) {
+		chars.sort(Intl.Collator(i).compare)
+		let test = sha1(chars.join())
+		results.push(test)
+		if (control == test) {missing.push("<code>" + i + "</code>")}
+	})
+	output(sha1(results.join()) + (runS ? "a" : ""))
 }
 
 function get_color() {
@@ -145,7 +141,7 @@ function get_color() {
 	let r = r1+" | "+r2
 	dom.ScrColor.innerHTML = r += (r == "24 | 24" ? rfp_green : rfp_red)
 	// color
-	r = (function () {
+	r = (function() {
 		for (let i=0; i < 1000; i++) {
 			if (matchMedia("(color:"+i+")").matches === true) {return i}
 		}
@@ -584,7 +580,7 @@ function get_line_scrollbar() {
 		}
 		// output
 		if (method == "none") {
-			dom.cssLH.innerHTML = sb+"[api is blocked]"+sc + strFont
+			dom.cssLH.innerHTML = zB + strFont
 		} else {
 			dom.cssLH.innerHTML = lh + "px "+ sbZoom + os + s2+"["+method+"]"+sc
 		}
@@ -750,36 +746,36 @@ function get_orientation(runtype) {
 	// mm
 	let l="landscape", p="portrait", q="(orientation: ", s="square",
 		a="aspect-ratio", o1=zNS, o2=zNS, o3=zNS, o4=zNS;
-	o1 = (function () {
+	o1 = (function() {
 		if (window.matchMedia("(-moz-device-orientation:"+l+")").matches) return l
 		if (window.matchMedia("(-moz-device-orientation:"+p+")").matches) return p
 	})()
-	o2 = (function () {
+	o2 = (function() {
 		if (window.matchMedia(q+p+")").matches) return p
 		if (window.matchMedia(q+l+")").matches) return l
 	})()
-	o3 = (function () {
+	o3 = (function() {
 		if (window.matchMedia("("+a+":1/1)").matches) return s
 		if (window.matchMedia("(min-"+a+":10000/9999)").matches) return l
 		if (window.matchMedia("(max-"+a+":9999/10000)").matches) return p
 	})()
-	o4 = (function () {
+	o4 = (function() {
 		if (window.matchMedia("(device-"+a+":1/1)").matches) return s
 		if (window.matchMedia("(min-device-"+a+":10000/9999)").matches) return l
 		if (window.matchMedia("(max-device-"+a+":9999/10000)").matches) return p
 	})()
 	dom.mmO = o1+" | "+o2+" | "+o3+" | "+o4
 	// screen*
-	dom.ScrOrient.innerHTML = (function () {
+	dom.ScrOrient.innerHTML = (function() {
 		let r = screen.orientation.type+" | "+screen.mozOrientation+" | "+screen.orientation.angle
 		r = r.replace(/landscape-secondary/g, "upside down")
 		r = r.replace(/-primary/g, "")
 		r = r.replace(/-secondary/g, "")
-		r = (r == "landscape | landscape | 0" ? r+rfp_green : r+rfp_red)
+		r += (r == "landscape | landscape | 0" ? rfp_green : rfp_red)
 		return r
 	})()
 	// display-mode
-	dom.mmDM = (function () {
+	dom.mmDM = (function() {
 		q="(display-mode:"
 		if (window.matchMedia(q+"fullscreen)").matches) return "fullscreen"
 		if (window.matchMedia(q+"browser)").matches) return "browser"
@@ -974,13 +970,13 @@ function get_screen_metrics(runtype) {
 		r = (m1 ? sg : sb) + "[sizes match x4]"+sc
 		// pos
 		let items = [p1,p2,p3,p4,p5,p6,p7,p8]
-		for(let i=0; i < items.length; i++) {if (items[i] != 0) {m2 = false}}
+		for (let i=0; i < items.length; i++) {if (items[i] != 0) {m2 = false}}
 		r += " +" + (m2 ? sg : sb) + "[0,0 x4]"+sc
 		dom.match.innerHTML = r
 		// color
 		if (m1 && m2) {c = "#8cdc8c"}
 		items = document.getElementsByClassName("group")
-		for(let i=0; i < items.length; i++) {	items[i].style.color = c}
+		for (let i=0; i < items.length; i++) {items[i].style.color = c}
 	}
 	// update zoom/viewport except on load
 	if (runtype !== "load") {
@@ -1013,7 +1009,7 @@ function get_ua_nav() {
 		r = "",
 		zBT = zB.trim()
 	for(let i=0; i < list.length; i++) {
-		try {r = navigator[list[i]]} catch(e) {r = "error"}
+		try {r = navigator[list[i]]} catch(e) {r = zBT}
 		if (r == "") {r = zU}
 		if (r == undefined && isFF) {r = zBT}
 		let n = (i).toString().padStart(2,"0")
@@ -1038,7 +1034,7 @@ function get_ua_nav_checks() {
 		r = "",
 		zBT = zB.trim()
 	for (let i=0; i < list.length; i++) {
-		try {r = navigator[list[i]]} catch(e) {r = "error"}
+		try {r = navigator[list[i]]} catch(e) {r = zBT}
 		if (r == "") {r = "undefined"}
 		if (r == undefined && isFF) {r = zBT}
 		res.push((i).toString().padStart(2,"0")+" "+r)
@@ -1611,7 +1607,7 @@ function goNW_UA() {
 	let newWin = window.open()
 	let navigator = newWin.navigator
 	for(let i=0; i < list.length; i++) {
-		try {r = navigator[list[i]]} catch(e) {r="error"}
+		try {r = navigator[list[i]]} catch(e) {r = zBT}
 		if (r == "") {r = zU}
 		if (r == undefined && isFF) {r = zBT}
 		res.push((i).toString().padStart(2,"0")+" "+r)
@@ -1676,18 +1672,18 @@ function outputMath() {
 		let list = ['1e251','1e140','1e12','1e130','1e272','1e0','1e284','1e75'],
 			res = []
 		for (let i=0; i < list.length; i++) {
-			try {r = Math.cos(list[i])} catch(e) {r = "error"}
+			try {r = Math.cos(list[i])} catch(e) {r = zB}
 			res.push(r)
 			document.getElementById("cos"+i).innerHTML = r
 		}
 		h1 = res.join("-")
 		// 6th
 		let x, y;
-		x = 0.5; try {r = Math.log((1 + x) / (1 - x)) / 2} catch(e) {r = "error"} // atanh(0.5)
+		x = 0.5; try {r = Math.log((1 + x) / (1 - x)) / 2} catch(e) {r = zB} // atanh(0.5)
 		dom.math1 = r; h6 = r
-		x=1; try {r = Math.exp(x) - 1} catch(e) {r = "error"} // expm1(1)
+		x=1; try {r = Math.exp(x) - 1} catch(e) {r = zB} // expm1(1)
 		dom.math2 = r; h6 += "-"+r
-		x = 1; try {y = Math.exp(x); r = (y - 1 / y) / 2} catch(e) {r = "error"} // sinh(1)
+		x = 1; try {y = Math.exp(x); r = (y - 1 / y) / 2} catch(e) {r = zB} // sinh(1)
 		dom.math3 = r; h6 += "-"+r
 		// hashes
 		m1hash = sha1(h1)
@@ -1826,9 +1822,7 @@ function outputUA(runtype) {
 	} else {
 		// non-FF hide
 		let items = document.getElementsByClassName("group")
-		for(let i=0; i < items.length; i++) {
-			items[i].style.display = "none"
-		}
+		for (let i=0; i < items.length; i++) {items[i].style.display = "none"}
 		// non-FF needs these
 		if (runtype == "load") {
 			get_zoom("load")
@@ -1848,7 +1842,7 @@ function outputStart() {
 	gt0 = performance.now()
 	// not-coded
 	let items = document.getElementsByClassName("faint")
-	for(let i=0; i < items.length; i++) {	items[i].textContent = "not coded yet"}	
+	for (let i=0; i < items.length; i++) {items[i].textContent = "not coded yet"}
 	// run once
 	dom.debugperf = "       start:    screen.js loaded"
 	if ((location.protocol) == "file:") {isFile = true; note_file = sn+"[file:]"+sc}
