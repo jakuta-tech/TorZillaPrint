@@ -69,7 +69,6 @@ function get_media_devices() {
 			})
 		} catch(e) {
 			dom.eMD.innerHTML = zB.trim()
-			console.debug("enum devices", e.name, e.message)
 		}
 	}	else {
 		dom.nMD = zD; dom.eMD = zNA
