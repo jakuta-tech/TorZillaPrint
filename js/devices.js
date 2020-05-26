@@ -68,7 +68,8 @@ function get_media_devices() {
 				dom.eMD.innerHTML = e.name +": "+ e.message
 			})
 		} catch(e) {
-			dom.eMD.innerHTML = zB
+			dom.eMD.innerHTML = zB.trim()
+			console.debug("enum devices", e.name, e.message)
 		}
 	}	else {
 		dom.nMD = zD; dom.eMD = zNA
