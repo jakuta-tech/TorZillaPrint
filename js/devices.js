@@ -26,6 +26,7 @@ function get_hardware_concurrency() {
 			dom.nHWC.innerHTML = (h == "2" ? h + rfp_green : h + rfp_red)
 		} catch(e) {
 			dom.nHWC = "error"
+			console.debug("hwc", e.name, e.message)
 		}
 	} else {
 		dom.nHWC = zD
@@ -88,6 +89,7 @@ function get_mimetypes() {
 			}
 		} catch(e) {
 			dom.mimeTypes = "error"
+			console.debug("mimetypes", e.name, e.message)
 		}
 	} else {
 		dom.mimeTypes = zD
@@ -100,7 +102,7 @@ function get_mm_hover(type){
 	try {
 		if (window.matchMedia(q+n+")").matches) x=n
 		if (window.matchMedia(q+h+")").matches) x=h
-	} catch(e) {x = "error"}
+	} catch(e) {x = "error"; console.debug("matchmedia", e.name, e.message)}
 	return x
 }
 
@@ -130,6 +132,7 @@ function get_plugins() {
 			}
 		} catch(e) {
 			dom.plugins.innerHTML = "error"
+			console.debug("plugins", e.name, e.message)
 		}
 	} else {
 		dom.plugins = zD
