@@ -21,8 +21,12 @@ function get_gamepads() {
 
 function get_hardware_concurrency() {
 	if ("hardwareConcurrency" in navigator) {
-		let h = navigator.hardwareConcurrency
-		dom.nHWC.innerHTML = (h == "2" ? h + rfp_green : h + rfp_red)
+		try {
+			let h = navigator.hardwareConcurrency
+			dom.nHWC.innerHTML = (h == "2" ? h + rfp_green : h + rfp_red)
+		} catch(e) {
+			dom.nHWC = "error"
+		}
 	} else {
 		dom.nHWC = zD
 	}
@@ -70,16 +74,20 @@ function get_media_devices() {
 
 function get_mimetypes() {
 	if ("mimeTypes" in navigator) {
-		let m = navigator.mimeTypes
-		if (m.length > 0) {
-			let s=""
-			for (let i=0; i < m.length; i++) {
-				s += m[i].type + (m[i].description == "" ? ": * " : ": " + m[i].type)
-					+ (m[i].suffixes == "" ? ": *" : ": " + m[i].suffixes) + "<br>"
+		try {
+			let m = navigator.mimeTypes
+			if (m.length > 0) {
+				let s=""
+				for (let i=0; i < m.length; i++) {
+					s += m[i].type + (m[i].description == "" ? ": * " : ": " + m[i].type)
+						+ (m[i].suffixes == "" ? ": *" : ": " + m[i].suffixes) + "<br>"
+				}
+				dom.mimeTypes.innerHTML = s
+			} else {
+				dom.mimeTypes.innerHTML = "none"
 			}
-			dom.mimeTypes.innerHTML = s
-		} else {
-			dom.mimeTypes.innerHTML = "none"
+		} catch(e) {
+			dom.mimeTypes = "error"
 		}
 	} else {
 		dom.mimeTypes = zD
@@ -104,16 +112,20 @@ function get_mm_pointer(type){
 
 function get_plugins() {
 	if ("plugins" in navigator) {
-		let p = navigator.plugins
-		if (p.length > 0) {
-			let s=""
-			for (let i=0; i < p.length; i++) {
-				s += p[i].name + (p[i].filename == "" ? ": * " : ": " + p[i].filename)
-					+ (p[i].description == "" ? ": *" : ": " + p[i].description) + "<br>"
+		try {
+			let p = navigator.plugins
+			if (p.length > 0) {
+				let s=""
+				for (let i=0; i < p.length; i++) {
+					s += p[i].name + (p[i].filename == "" ? ": * " : ": " + p[i].filename)
+						+ (p[i].description == "" ? ": *" : ": " + p[i].description) + "<br>"
+				}
+				dom.plugins.innerHTML = s
+			} else {
+				dom.plugins.innerHTML = "none"
 			}
-			dom.plugins.innerHTML = s
-		} else {
-			dom.plugins.innerHTML = "none"
+		} catch(e) {
+			dom.plugins.innerHTML = "error"
 		}
 	} else {
 		dom.plugins = zD
