@@ -64,6 +64,8 @@ function analyzeCanvas(runtype, res1, res2) {
 					value1 = value1.replace("2d: supported", "2d: supported" + rfp_green)
 				} else {
 					value1 = value1.replace("2d: not supported", "2d: not supported" + rfp_red)
+				} else {
+					value1 += rfp_red
 				}
 			}
 			if (sname == "mozG") {
