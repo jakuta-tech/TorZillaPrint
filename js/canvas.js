@@ -1,9 +1,8 @@
 "use strict";
 
-/* code courtesy of kkapsner and canvasblocker
-- https://canvasblocker.kkapsner.de/test/
-- https://github.com/kkapsner/CanvasBlocker
-- tiny modifications by newbie Thorin-Oakenpants */
+/* outputCancnvas() code courtesy of kkapsner and canvasblocker
+https://canvasblocker.kkapsner.de/test/
+https://github.com/kkapsner/CanvasBlocker */
 
 var t0canvas
 
@@ -171,7 +170,7 @@ function analyzeCanvas(runtype, res1, res2) {
 		dom.chash1.innerHTML = hash[0] + (isFile ? note_file : "")
 		if (!isFile) {console.log("CANVAS hash: " + hash[0] +"\n" + chash1.join("\n"))}
 		// perf
-		if (logPerf) {debug_log("display " + runtype + " [canvas]",t0)}
+		if (logPerf) {debug_log("analyze " + runtype + " [canvas]",t0)}
 		debug_page("perf","canvas",t0canvas,gt0)
 	})
 }
@@ -226,7 +225,7 @@ function outputCanvas() {
 							})
 							}
 							catch (e){
-								resolve(e.message)
+								resolve(e.name + ": " + e.message)
 							}
 						})
 					}
