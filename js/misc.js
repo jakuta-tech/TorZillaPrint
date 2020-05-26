@@ -44,10 +44,15 @@ function get_mathml(type) {
 }
 
 function get_nav_prototype() {
-	let nProto = Object.keys(Object.getPrototypeOf(navigator)).join(", ")
-	dom.nProto.innerHTML = sha1(nProto) + s18 +"["+ nProto.split(', ').length +" items]"+ sc
-	dom.nProto2 = nProto
-	dom.nProto2.style.color = zshow
+	try {
+		let nProto = Object.keys(Object.getPrototypeOf(navigator)).join(", ")
+		dom.nProto.innerHTML = sha1(nProto) + s18 +"["+ nProto.split(', ').length +" items]"+ sc
+		dom.nProto2 = nProto
+		dom.nProto2.style.color = zshow
+	} catch(e) {
+		dom.nProto.innerHTML = zB
+		dom.nProto2 = ""
+	}
 }
 
 function get_reporting_api() {
@@ -97,9 +102,7 @@ function get_perf2() {
 				+ ", " + performance.getEntriesByName("a","mark").length
 			performance.clearMarks()
 			r1 += (r1 == "0, 0, 0, 0" ? rfp_green: rfp_red)
-		} catch(e) {
-			r1 = "error"
-		}
+		} catch(e) {r1 = zB}
 	}
 	dom.perf1.innerHTML = r1
 
@@ -109,18 +112,17 @@ function get_perf2() {
 		let timing = performance.timing
 		r3 = timing.navigationStart - timing.loadEventEnd
 		r3 = (r3 == 0 ? r3 + rfp_green : "not zero" + rfp_red)
-	} catch(e) {
-		r3 = "error"
-	}
+	} catch(e) {r3 = zB}
 	dom.perf3.innerHTML = r3
 
-	// also: dom.enable_performance_navigation_timing)
+	// also: dom.enable_performance_navigation_timing
 	let r4 = zD
-	if (window.PerformanceNavigationTiming) {r4 = zE}
-	if (isFF && isVer > 77) {
-		//78+: 1511941:
-		r4 += (r4 == zD ? rfp_green : rfp_red)
-	}
+	try {
+		if (window.PerformanceNavigationTiming) {r4 = zE}
+		if (isFF && isVer > 77) {
+			r4 += (r4 == zD ? rfp_green : rfp_red) //78+: 1511941
+		}
+	} catch(e) {r4 = zB}
 	dom.perf4.innerHTML = r4
 }
 
@@ -171,12 +173,12 @@ function get_windowcontent() {
 function outputMisc(type) {
 	let t0 = performance.now()
 	// one-liners
-	dom.nBeacon = (navigator.sendBeacon ? zE : zD)
+	try {dom.nBeacon = (navigator.sendBeacon ? zE : zD)} catch(e) {dom.nBeacon.innerHTML = zB}
+	try {dom.webshare = (navigator.share ? zE : zD)} catch(e) {dom.webshare.innerHTML = zB}
 	dom.nClipboard = ("clipboard" in navigator ? zE: zD) // FF63+
 	dom.reqIdleCB = ("requestIdleCallback" in window ? zE: zD)
 	dom.mediaSession = ("mediaSession" in navigator ? zE: zD) // FF71+
 	dom.webauth = ("credentials" in navigator ? zE: zD) +" | "+ ("u2f" in window ? zE: zD)
-	dom.webshare = (navigator.share ? zE : zD)
 	dom.wincon = get_windowcontent()
 	// other
 	get_component_shims()
