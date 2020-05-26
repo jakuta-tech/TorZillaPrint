@@ -97,16 +97,20 @@ function get_mimetypes() {
 
 function get_mm_hover(type){
 	let x=zNS, h="hover", n="none", q="("+type+":"
-	if (window.matchMedia(q+n+")").matches) x=n
-	if (window.matchMedia(q+h+")").matches) x=h
+	try {
+		if (window.matchMedia(q+n+")").matches) x=n
+		if (window.matchMedia(q+h+")").matches) x=h
+	} catch(e) {x = "error"}
 	return x
 }
 
 function get_mm_pointer(type){
 	let x=zNS, f="fine", c="coarse", n="none", q="("+type+": "
-	if (window.matchMedia(q+n+")").matches) x=n
-	if (window.matchMedia(q+c+")").matches) x=c
-	if (window.matchMedia(q+f+")").matches) x=f
+	try {
+		if (window.matchMedia(q+n+")").matches) x=n
+		if (window.matchMedia(q+c+")").matches) x=c
+		if (window.matchMedia(q+f+")").matches) x=f
+	} catch(e) {x = "error"}
 	return x
 }
 
