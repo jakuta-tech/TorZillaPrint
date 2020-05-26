@@ -6,20 +6,20 @@ function outputHeaders() {
 	let t0 = performance.now(),
 		r = ""
 	// DNT
-	try {r = navigator.doNotTrack} catch(e) {r = "error"}
-	dom.nDNT = r
+	try {r = navigator.doNotTrack} catch(e) {r = zB}
+	dom.nDNT.innerHTML = r
 	// online
-	try {r = navigator.onLine} catch(e) {r = "error"}
-	dom.nOnLine = r
+	try {r = navigator.onLine} catch(e) {r = zB}
+	dom.nOnLine.innerHTML = r
 	// network info api
 	if ("connection" in navigator) {
 		dom.nNetwork = zE
-		try {r = navigator.connection.type} catch(e) {r = "error"}
+		try {r = navigator.connection.type} catch(e) {r = zB}
 		dom.nConnection.innerHTML = r += (r == "unknown" ? rfp_green : rfp_red)
 	} else {
 		dom.nNetwork = zD
-		try {r = navigator.connection} catch(e) {r = "error"}
-		dom.nConnection = r
+		try {r = navigator.connection} catch(e) {r = zB}
+		dom.nConnection.innerHTML = r
 	}
 	// perf
 	debug_page("perf","headers",t0,gt0)
@@ -89,8 +89,9 @@ function get_tz_lang() {
 	} else if (typeof(Worker) == "undefined") {
 	} else {
 		try {
-			let workerlang = new Worker("js/worker_lang.js")
+			let workerlang = new Worker("js/language_worker.js")
 			workerlang.addEventListener("message", function(e) {
+				workerlang.terminate
 				// timezone
 				let isLeak = false
 				if (e.data[0] !== tz1) {dom.tz1.innerHTML = tz1 +" | "+ sb + e.data[0] + sc; isLeak = true}
@@ -110,7 +111,6 @@ function get_tz_lang() {
 						+ sha1(e.data[2]+"-"+e.data[3]+"-"+e.data[4]+"-"+e.data[5]+"-"+e.data[6])
 						+ " [see details]" +sc
 				}
-				workerlang.terminate
 			}, false)
 			workerlang.postMessage("hi")
 		} catch(e) {}
