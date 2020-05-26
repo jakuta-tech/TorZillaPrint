@@ -25,8 +25,7 @@ function get_hardware_concurrency() {
 			let h = navigator.hardwareConcurrency
 			dom.nHWC.innerHTML = (h == "2" ? h + rfp_green : h + rfp_red)
 		} catch(e) {
-			dom.nHWC = "error"
-			console.debug("hwc", e.name, e.message)
+			dom.nHWC.innerHTML = zB
 		}
 	} else {
 		dom.nHWC = zD
@@ -38,35 +37,39 @@ function get_media_devices() {
 		dom.nMD = zE
 		// enumerate
 		let str="", pad=13, strPad=""
-		navigator.mediaDevices.enumerateDevices().then(function(devices) {
-			let aCount=0, vCount=0, oCount=0
-			devices.forEach(function(d) {
-				if (d.kind == "audioinput") {aCount++}
-				else if (d.kind == "videoinput") {vCount++}	else {oCount++}
-				str += (d.kind+": ").padStart(pad)+d.deviceId
-				if (d.groupId.length > 0) {
-					strPad = ("group: ").padStart(pad)
-					str += "<br>"+strPad+d.groupId
+		try {
+			navigator.mediaDevices.enumerateDevices().then(function(devices) {
+				let aCount=0, vCount=0, oCount=0
+				devices.forEach(function(d) {
+					if (d.kind == "audioinput") {aCount++}
+					else if (d.kind == "videoinput") {vCount++}	else {oCount++}
+					str += (d.kind+": ").padStart(pad)+d.deviceId
+					if (d.groupId.length > 0) {
+						strPad = ("group: ").padStart(pad)
+						str += "<br>"+strPad+d.groupId
+					}
+					if (d.label.length > 0) {
+						strPad = ("label: ").padStart(pad)
+						str += "<br>"+strPad+d.label
+					}
+					str += "<br>"
+				})
+				// rfp
+				if (isFF) {
+					if (aCount == 1 && vCount == 1 && oCount == 0) {
+						str = str.replace("<br>", rfp_green+"<br>")
+					} else {
+						str = str.replace("<br>", rfp_red+"<br>")
+					}
 				}
-				if (d.label.length > 0) {
-					strPad = ("label: ").padStart(pad)
-					str += "<br>"+strPad+d.label
-				}
-				str += "<br>"
+				dom.eMD.innerHTML = str
 			})
-			// rfp
-			if (isFF) {
-				if (aCount == 1 && vCount == 1 && oCount == 0) {
-					str = str.replace("<br>", rfp_green+"<br>")
-				} else {
-					str = str.replace("<br>", rfp_red+"<br>")
-				}
-			}
-			dom.eMD.innerHTML = str
-		})
-		.catch(function(e) {
-			dom.eMD.innerHTML = e.name +": "+ e.message
-		})
+			.catch(function(e) {
+				dom.eMD.innerHTML = e.name +": "+ e.message
+			})
+		} catch(e) {
+			dom.eMD.innerHTML = zB
+		}
 	}	else {
 		dom.nMD = zD; dom.eMD = zNA
 	}
@@ -88,8 +91,7 @@ function get_mimetypes() {
 				dom.mimeTypes.innerHTML = "none"
 			}
 		} catch(e) {
-			dom.mimeTypes = "error"
-			console.debug("mimetypes", e.name, e.message)
+			dom.mimeTypes.innerHTML = zB
 		}
 	} else {
 		dom.mimeTypes = zD
@@ -102,7 +104,7 @@ function get_mm_hover(type){
 	try {
 		if (window.matchMedia(q+n+")").matches) x=n
 		if (window.matchMedia(q+h+")").matches) x=h
-	} catch(e) {x = "error"; console.debug("matchmedia", e.name, e.message)}
+	} catch(e) {x = zB}
 	return x
 }
 
@@ -112,7 +114,7 @@ function get_mm_pointer(type){
 		if (window.matchMedia(q+n+")").matches) x=n
 		if (window.matchMedia(q+c+")").matches) x=c
 		if (window.matchMedia(q+f+")").matches) x=f
-	} catch(e) {x = "error"}
+	} catch(e) {x = zB}
 	return x
 }
 
@@ -131,11 +133,10 @@ function get_plugins() {
 				dom.plugins.innerHTML = "none"
 			}
 		} catch(e) {
-			dom.plugins.innerHTML = "error"
-			console.debug("plugins", e.name, e.message)
+			dom.plugins.innerHTML = zB
 		}
 	} else {
-		dom.plugins = zD
+		dom.plugins.innerHTML = zD
 	}
 	dom.plugins.style.color = zshow
 }
@@ -208,36 +209,39 @@ function get_speech_rec() {
 
 function get_touch() {
 	// vars
-	let m = zNS,
-		q="(-moz-touch-enabled:",
-		t = false
+	let m = zNS, p = "", t = false,
+		q="(-moz-touch-enabled:"
 	// m
-	if (window.matchMedia(q+"0)").matches) m=0
-	if (window.matchMedia(q+"1)").matches) m=1
-	// t
 	try {
-		document.createEvent("TouchEvent")
-		t = true
-	} catch (e) {}
+		if (window.matchMedia(q+"0)").matches) m=0
+		if (window.matchMedia(q+"1)").matches) m=1
+	} catch(e) {m = zB}
+	// t
+	try {document.createEvent("TouchEvent"); t = true} catch (e) {}
+	// p
+	try {p = navigator.maxTouchPoints} catch(e) {p = zB}
 	// output
-	dom.touch = navigator.maxTouchPoints +" | "+ m +" | "
-		+("ontouchstart" in window)+" | "+("ontouchend" in window)+" | "+ t
+	dom.touch.innerHTML = p +" | "+ m +" | "+("ontouchstart" in window)+" | "+("ontouchend" in window)+" | "+ t
 }
 
 function get_vr() {
 	if ("getVRDisplays" in navigator) {
 		dom.nVR = zE
 		if ("activeVRDisplays" in navigator) {
-			let d = navigator.activeVRDisplays
-			if (d.length == 0) {
-				dom.aVR = "none"
-			} else {
-				// ToDo: VR: enum
-				let items = " item" + (d.length == 1 ? "" : "s") + "]"
-				dom.aVR.innerHTML = note_ttc+" ["+d.length + items
-				for (let i=0; i < d.length; i++) {
-					// console.debug(d[i].displayId)
+			try {
+				let d = navigator.activeVRDisplays
+				if (d.length == 0) {
+					dom.aVR = "none"
+				} else {
+					// ToDo: VR: enum
+					let items = " item" + (d.length == 1 ? "" : "s") + "]"
+					dom.aVR.innerHTML = note_ttc+" ["+d.length + items
+					for (let i=0; i < d.length; i++) {
+						// console.debug(d[i].displayId)
+					}
 				}
+			} catch(e) {
+				dom.aVR.innerHTML = zB
 			}
 		}
 	}	else {
