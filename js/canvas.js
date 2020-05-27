@@ -44,6 +44,10 @@ function analyzeCanvas(runtype, res1, res2) {
 		if (value1 == error_string || value2 == error_string) {
 			value1 = error_string
 			pushvalue = value1
+		} else if (value1.substring(0,14) == "ReferenceError") {
+			// blocked e.g. AOPR uses random error messages
+			value1 = zB
+			pushvalue = blocked
 		} else {
 			// randomness
 			if (value1 !== value2) {
