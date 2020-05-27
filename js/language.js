@@ -15,7 +15,7 @@ function outputHeaders() {
 	if ("connection" in navigator) {
 		dom.nNetwork = zE
 		try {r = navigator.connection.type} catch(e) {r = zB}
-		dom.nConnection.innerHTML = r += (r == "unknown" ? rfp_green : rfp_red)
+		dom.nConnection.innerHTML = r += (r == zB ? "" : (r == "unknown" ? rfp_green : rfp_red))
 	} else {
 		dom.nNetwork = zD
 		try {r = navigator.connection} catch(e) {r = zB}
