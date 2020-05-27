@@ -12,7 +12,7 @@ var t0font,
 	fntHead = "  glyph        default     sans-serif          serif"
 		+ "      monospace        cursive        fantasy<br>  -----"
 
-let spawn = (function () {
+let spawn = (function() {
 	/* arthur's spawn code */
 	let promiseFromGenerator
 	// returns true if aValue is a generator object
@@ -96,7 +96,7 @@ function get_fpjs2(type) {
 	let fontsDiv = document.createElement('div')
 	let defaultWidth = {}
 	let defaultHeight = {}
-	let createSpan = function () {
+	let createSpan = function() {
 		let s = document.createElement('spanFP')
 		s.style.position = "absolute"
 		s.style.left = "-9999px"
@@ -118,13 +118,13 @@ function get_fpjs2(type) {
 	}
 
 	// creates a span and load the font to detect and a base font for fallback
-	let createSpanWithFonts = function (fontToDetect, baseFont) {
+	let createSpanWithFonts = function(fontToDetect, baseFont) {
 		let s = createSpan()
 		s.style.fontFamily = "'" + fontToDetect + "'," + baseFont
 		return s
 	}
 	// creates spans for the base fonts and adds them to baseFontsDiv
-	let initializeBaseFontsSpans = function () {
+	let initializeBaseFontsSpans = function() {
 		let spans = []
 		for (let index=0, length=baseFonts.length; index<length; index++) {
 			let s = createSpan()
@@ -135,7 +135,7 @@ function get_fpjs2(type) {
 		return spans
 	}
 	// creates spans for the fonts to detect and adds them to fontsDiv
-	let initializeFontsSpans = function () {
+	let initializeFontsSpans = function() {
 		let spans = {}
 		for (let i = 0; i < fntList.length; i++) {
 			let fontSpans = []
@@ -149,7 +149,7 @@ function get_fpjs2(type) {
 		return spans
 	}
 	// compare
-	let present = function (fontSpans) {
+	let present = function(fontSpans) {
 		let r = false
 		for (let i=0; i < baseFonts.length; i++) {
 			r = (fontSpans[i].offsetWidth !== defaultWidth[baseFonts[i]] || fontSpans[i].offsetHeight !== defaultHeight[baseFonts[i]])
@@ -191,7 +191,7 @@ function get_fallback(type, list) {
 		outputD = document.getElementById(type+"_fontFBFound"),
 		t0 = performance.now()
 	// measure
-	let measure = function (font) {
+	let measure = function(font) {
 		t.style.fontSize = "256px"
 		t.style.fontStyle = "normal"
 		t.style.fontWeight = "normal"
@@ -206,14 +206,14 @@ function get_fallback(type, list) {
 		return t.offsetWidth
 	}
 	// compare
-	let present = function (font) {
+	let present = function(font) {
 		width0 = width0 || measure("fontFallback")
 		let width1 = measure("'" + font + "', fontFallback")
 		return width0 !== width1
 	}
 	// detect
 	let found = []
-	let enumerate = function (possible) {
+	let enumerate = function(possible) {
 		for (let font of possible) {if (present(font)) {found.push(font)}}
 	}
 	// run
@@ -444,9 +444,9 @@ function get_unicode() {
 		//console.debug("combined TM hash \n" + tmhash.join("\n")) // temp
 
 		// de-dupe
-		unique = unique.filter(function (item, position) {return unique.indexOf(item) === position})
-		diffsb = diffsb.filter(function (item, position) {return diffsb.indexOf(item) === position})
-		diffsc = diffsc.filter(function (item, position) {return diffsc.indexOf(item) === position})
+		unique = unique.filter(function(item, position) {return unique.indexOf(item) === position})
+		diffsb = diffsb.filter(function(item, position) {return diffsb.indexOf(item) === position})
+		diffsc = diffsc.filter(function(item, position) {return diffsc.indexOf(item) === position})
 		// show/hide
 		let bhash = sha1(bounding.join()), chash = sha1(client.join())
 		if (bhash == chash) {
@@ -654,7 +654,7 @@ function outputFonts2(type) {
 				}
 			}
 			function getData(filename) {
-				return new Promise(function (resolve) {
+				return new Promise(function(resolve) {
 					let xhr = new XMLHttpRequest()
 					xhr.onreadystatechange = function() {
 						if (xhr.readyState == 4) {
@@ -677,7 +677,7 @@ function outputFonts2(type) {
 				if (xhr_font_error == false) {
 					// sort & remove duplicates
 					fntList.sort()
-					fntList = fntList.filter(function (font, position) {
+					fntList = fntList.filter(function(font, position) {
 						return fntList.indexOf(font) === position
 					})
 					// perf
