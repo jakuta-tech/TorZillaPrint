@@ -47,7 +47,7 @@ function analyzeCanvas(runtype, res1, res2) {
 		} else if (value1.substring(0,14) == "ReferenceError") {
 			// blocked e.g. AOPR uses random error messages
 			value1 = zB
-			pushvalue = blocked
+			pushvalue = "blocked"
 		} else {
 			// randomness
 			if (value1 !== value2) {
