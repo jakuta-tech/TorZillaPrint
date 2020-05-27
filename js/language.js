@@ -75,12 +75,20 @@ function get_tz_lang() {
 	dom.lHash0.innerHTML = lHash0
 
 	// language
-	let lang1 = navigator.languages; dom.lang1 = lang1
-	let lang2 = navigator.language; dom.lang2 = lang2
-	let lang3 = navigator.languages[0]; dom.lang3 = lang3
-	let lang4 = new Intl.PluralRules().resolvedOptions().locale; dom.lang4 = lang4
-	let lang5 = Intl.DateTimeFormat().resolvedOptions().locale; dom.lang5 = lang5
+	let isB = "blocked"
+	let lang1 = isB, lang2 = isB, lang3 = isB, lang4 = isB, lang5 = isB
+	try {lang1 = navigator.languages} catch(e) {}
+	dom.lang1.innerHTML = (lang1 == isB ? zB : lang1)
+	try {lang2 = navigator.language} catch(e) {}
+	dom.lang2.innerHTML = (lang2 == isB ? zB : lang2)
+	try {lang3 = navigator.languages[0]} catch(e) {}
+	dom.lang3.innerHTML = (lang3 == isB ? zB : lang3)
+	try {lang4 = new Intl.PluralRules().resolvedOptions().locale} catch(e) {}
+	dom.lang4.innerHTML = (lang4 == isB ? zB : lang4)
+	try {lang5 = Intl.DateTimeFormat().resolvedOptions().locale} catch(e) {}
+	dom.lang5.innerHTML = (lang5 == isB ? zB : lang5)
 	let lHash1 = sha1(lang1 +"-"+ lang2 +"-"+ lang3 +"-"+ lang4 +"-"+ lang5)
+	console.debug(lang1 +"-"+ lang2 +"-"+ lang3 +"-"+ lang4 +"-"+ lang5) // temp
 	lHash1 += (lHash1 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98" ? enUS_green : enUS_red)
 	dom.lHash1.innerHTML = lHash1
 
