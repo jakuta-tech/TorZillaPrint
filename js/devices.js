@@ -23,7 +23,8 @@ function get_hardware_concurrency() {
 	if ("hardwareConcurrency" in navigator) {
 		try {
 			let h = navigator.hardwareConcurrency
-			dom.nHWC.innerHTML = (h == "2" ? h + rfp_green : h + rfp_red)
+			h += (h == "2" ? rfp_green : rfp_red)
+			dom.nHWC.innerHTML = h
 		} catch(e) {
 			dom.nHWC.innerHTML = zB
 		}
@@ -55,12 +56,10 @@ function get_media_devices() {
 					str += "<br>"
 				})
 				// rfp
-				if (isFF) {
-					if (aCount == 1 && vCount == 1 && oCount == 0) {
-						str = str.replace("<br>", rfp_green+"<br>")
-					} else {
-						str = str.replace("<br>", rfp_red+"<br>")
-					}
+				if (aCount == 1 && vCount == 1 && oCount == 0) {
+					str = str.replace("<br>", rfp_green+"<br>")
+				} else {
+					str = str.replace("<br>", rfp_red+"<br>")
 				}
 				dom.eMD.innerHTML = str
 			})
@@ -176,12 +175,10 @@ function get_speech_synth() {
 			for (let i=0; i < v.length; i++) {
 				s += v[i].name + " (" + v[i].lang + ")" + (v[i].default ? " : default" : "") + "<br>"
 			}
-			if (isFF) {
-				if (s == "") {
-					s = "none" + rfp_green // RFP: 1333641
-				} else {
-					s = s.replace("<br>", rfp_red + "<br>")
-				}
+			if (s == "") {
+				s = "none" + rfp_green // RFP: 1333641
+			} else {
+				s = s.replace("<br>", rfp_red + "<br>")
 			}
 			dom.sEngines.innerHTML = s
 		}
