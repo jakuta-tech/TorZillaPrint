@@ -34,7 +34,7 @@ function get_colors(runtype) {
 		m+'win-accentcolor',m+'win-accentcolortext',m+'win-communications-toolbox',
 		m+'win-communicationstext',	m+'win-media-toolbox',m+'win-mediatext']
 	}
-	list.forEach(function (item) {
+	list.forEach(function(item) {
 		element.style.backgroundColor = item
 		let x = window.getComputedStyle(element, null).getPropertyValue("background-color")
 		results.push(x)
