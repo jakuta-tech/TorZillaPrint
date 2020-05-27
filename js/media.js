@@ -73,14 +73,14 @@ function get_media(runtype) {
 		if (list[i] == prev) {console.debug(runtype+" dupe:", list[i])}
 		prev = list[i]
 	}
-	list = list.filter(function (item, position) {return list.indexOf(item) === position})
+	list = list.filter(function(item, position) {return list.indexOf(item) === position})
 	// log pretty list for dev
 	// console.log(runtype + " list [" + list.length + " items]\n" + list.join("\n"))
 
 	// run
 	let canm = [], canp = [], src = [], rec = []
 	let obj = document.createElement(runtype)
-	list.forEach(function (item) {
+	list.forEach(function(item) {
 		let tmp = item.replace(runtype+"\/","")
 		let str = obj.canPlayType(item)
 		if (str == "probably") {canp.push(tmp)}
