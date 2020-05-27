@@ -1019,9 +1019,9 @@ function get_screen_metrics(runtype) {
 		if (logExtra) {console.log("C [must follow zoom]: ", runtype, ": screen_metrics")}
 	}
 	// the rest
+	try {dom.fsState = window.fullScreen} catch(e) {dom.fsState.innerHTML = zB}
 	get_orientation(runtype)
 	get_mm_metrics(runtype)
-	dom.fsState = window.fullScreen
 	if (logExtra) {console.log("D [must follow zoom]: ", runtype, ": mm_metrics, orientation, fullscreen")}
 }
 
@@ -1860,7 +1860,29 @@ function outputUA(runtype) {
 		get_resources() // isTB
 		get_line_scrollbar() // calls zoom & viewport
 	} else {
-		// non-FF hide
+		// don't notate
+		tb_green = ""
+		tb_red = ""
+		tb_standard = ""
+		tb_safer = ""
+		rfp_green = ""
+		rfp_red = ""
+		rfp_random_green = ""
+		rfp_random_red = ""
+		lb_green = ""
+		lb_red = ""
+		lb_orange = ""
+		nw_green = ""
+		nw_red = ""
+		enUS_green = ""
+		enUS_red = ""
+		spoof_both_green = ""
+		spoof_both_red = ""
+		default_tb_green = ""
+		default_tb_red = ""
+		default_ff_green = ""
+		default_ff_red = ""
+		// hide
 		let items = document.getElementsByClassName("group")
 		for (let i=0; i < items.length; i++) {items[i].style.display = "none"}
 		// non-FF needs these
