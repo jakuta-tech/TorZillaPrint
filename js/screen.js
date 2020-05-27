@@ -611,10 +611,10 @@ function get_mm_metrics(runtype) {
 			callback("device-width", "max-device-width", "px", 512, 0.01),
 			callback("device-height", "max-device-height", "px", 512, 0.01)
 		]).then(function(device){
-			dom.ScrMM = device.join(" x ")
+			dom.ScrMM.innerHTML = device.join(" x ")
 			count++; perf()
 		}).catch(function(err){
-			dom.ScrMM = err
+			dom.ScrMM.innerHTML = err
 			count++; perf()
 		})
 		// inner
@@ -622,10 +622,10 @@ function get_mm_metrics(runtype) {
 			callback("width", "max-width", "px", 512, 0.01),
 			callback("height", "max-height", "px", 512, 0.01)
 		]).then(function(inner){
-			dom.WndInMM = inner.join(" x ")
+			dom.WndInMM.innerHTML = inner.join(" x ")
 			count++; perf()
 		}).catch(function(err){
-			dom.WndInMM = err
+			dom.WndInMM.innerHTML = err
 			count++; perf()
 		})
 		// moz
@@ -635,7 +635,7 @@ function get_mm_metrics(runtype) {
 				dom.mmDPRm.innerHTML = moz += (moz == 1 ? rfp_green : rfp_red)
 				count++; perf()
 			}).catch(function(err){
-				dom.mmDPRm = err
+				dom.mmDPRm.innerHTML = err
 				count++; perf()
 			})
 		} else {
@@ -646,10 +646,10 @@ function get_mm_metrics(runtype) {
 		if (!isFF || isVer > 62) {
 			callback("-webkit-device-pixel-ratio", "-webkit-max-device-pixel-ratio", "", 2, 0.0000001
 			).then(function(web){
-				dom.mmDPRw = web
+				dom.mmDPRw.innerHTML = web
 				count++; perf()
 			}).catch(function(err){
-				dom.mmDPRw = err
+				dom.mmDPRw.innerHTML = err
 				count++; perf()
 			})
 		} else {
@@ -742,7 +742,6 @@ function get_mm_metrics(runtype) {
 					return Promise.resolve(searchValue.isBigger)
 				}
 			} catch(e) {
-				// testing
 				return Promise.reject(zB)
 			}
 		}, maxValue, precision)
