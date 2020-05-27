@@ -141,14 +141,17 @@ function get_color() {
 	let r = r1+" | "+r2
 	dom.ScrColor.innerHTML = r += (r == "24 | 24" ? rfp_green : rfp_red)
 	// color
-	r = (function() {
-		for (let i=0; i < 1000; i++) {
-			if (matchMedia("(color:"+i+")").matches === true) {return i}
-		}
-		return i
-	})()
+	try {
+		r = (function() {
+			for (let i=0; i < 1000; i++) {
+				if (matchMedia("(color:"+i+")").matches === true) {return i}
+			}
+			return i
+		})()
+	} catch(e) {
+		r = zB
+	}
 	dom.mmC.innerHTML = (r == 8 ? r+rfp_green : r+rfp_red)
-	store_data("sc","bits",r1+", "+r2+", "+r)
 }
 
 function get_errors() {
@@ -745,43 +748,59 @@ function get_orientation(runtype) {
 	let t0 = performance.now()
 	// mm
 	let l="landscape", p="portrait", q="(orientation: ", s="square",
-		a="aspect-ratio", o1=zNS, o2=zNS, o3=zNS, o4=zNS;
-	o1 = (function() {
-		if (window.matchMedia("(-moz-device-orientation:"+l+")").matches) return l
-		if (window.matchMedia("(-moz-device-orientation:"+p+")").matches) return p
-	})()
-	o2 = (function() {
-		if (window.matchMedia(q+p+")").matches) return p
-		if (window.matchMedia(q+l+")").matches) return l
-	})()
-	o3 = (function() {
-		if (window.matchMedia("("+a+":1/1)").matches) return s
-		if (window.matchMedia("(min-"+a+":10000/9999)").matches) return l
-		if (window.matchMedia("(max-"+a+":9999/10000)").matches) return p
-	})()
-	o4 = (function() {
-		if (window.matchMedia("(device-"+a+":1/1)").matches) return s
-		if (window.matchMedia("(min-device-"+a+":10000/9999)").matches) return l
-		if (window.matchMedia("(max-device-"+a+":9999/10000)").matches) return p
-	})()
-	dom.mmO = o1+" | "+o2+" | "+o3+" | "+o4
+		a="aspect-ratio", o1=zNS, o2=zNS, o3=zNS, o4=zNS
+	try {
+		o1 = (function() {
+			if (window.matchMedia("(-moz-device-orientation:"+l+")").matches) return l
+			if (window.matchMedia("(-moz-device-orientation:"+p+")").matches) return p
+		})()
+	} catch(e) {o1 = zB}
+	try {
+		o2 = (function() {
+			if (window.matchMedia(q+p+")").matches) return p
+			if (window.matchMedia(q+l+")").matches) return l
+		})()
+	} catch(e) {o3 = zB}
+	try {
+		o3 = (function() {
+			if (window.matchMedia("("+a+":1/1)").matches) return s
+			if (window.matchMedia("(min-"+a+":10000/9999)").matches) return l
+			if (window.matchMedia("(max-"+a+":9999/10000)").matches) return p
+		})()
+	} catch(e) {o3 = zB}
+	try {
+		o4 = (function() {
+			if (window.matchMedia("(device-"+a+":1/1)").matches) return s
+			if (window.matchMedia("(min-device-"+a+":10000/9999)").matches) return l
+			if (window.matchMedia("(max-device-"+a+":9999/10000)").matches) return p
+		})()
+	} catch(e) {o4 = zB}
+	dom.mmO.innerHTML = o1+" | "+o2+" | "+o3+" | "+o4
 	// screen*
-	dom.ScrOrient.innerHTML = (function() {
-		let r = screen.orientation.type+" | "+screen.mozOrientation+" | "+screen.orientation.angle
-		r = r.replace(/landscape-secondary/g, "upside down")
-		r = r.replace(/-primary/g, "")
-		r = r.replace(/-secondary/g, "")
-		r += (r == "landscape | landscape | 0" ? rfp_green : rfp_red)
-		return r
-	})()
+	try {
+		dom.ScrOrient.innerHTML = (function() {
+			let r = screen.orientation.type+" | "+screen.mozOrientation+" | "+screen.orientation.angle
+			r = r.replace(/landscape-secondary/g, "upside down")
+			r = r.replace(/-primary/g, "")
+			r = r.replace(/-secondary/g, "")
+			r += (r == "landscape | landscape | 0" ? rfp_green : rfp_red)
+			return r
+		})()
+	} catch(e) {
+		dom.ScrOrient.innerHTML = zB
+	}
 	// display-mode
-	dom.mmDM = (function() {
-		q="(display-mode:"
-		if (window.matchMedia(q+"fullscreen)").matches) return "fullscreen"
-		if (window.matchMedia(q+"browser)").matches) return "browser"
-		if (window.matchMedia(q+"minimal-ui)").matches) return "minimal-ui"
-		if (window.matchMedia(q+p+")").matches) return p
-	})()
+	try {
+		dom.mmDM = (function() {
+			q="(display-mode:"
+			if (window.matchMedia(q+"fullscreen)").matches) return "fullscreen"
+			if (window.matchMedia(q+"browser)").matches) return "browser"
+			if (window.matchMedia(q+"minimal-ui)").matches) return "minimal-ui"
+			if (window.matchMedia(q+p+")").matches) return p
+		})()
+	} catch(e) {
+		dom.mmDM.innerHTML = zB
+	}
 	// perf
 	let str = (runtype == "load" ? "" : "ignore")
 	if (logPerf) {debug_log("orientation [screen]",t0, str)}
@@ -996,8 +1015,8 @@ function get_screen_metrics(runtype) {
 		if (logExtra) {console.log("C [must follow zoom]: ", runtype, ": screen_metrics")}
 	}
 	// the rest
-	get_mm_metrics(runtype)
 	get_orientation(runtype)
+	get_mm_metrics(runtype)
 	dom.fsState = window.fullScreen
 	if (logExtra) {console.log("D [must follow zoom]: ", runtype, ": mm_metrics, orientation, fullscreen")}
 }
@@ -1346,7 +1365,8 @@ function get_widgets() {
 }
 
 function get_zoom(runtype) {
-	let t0 = performance.now()
+	let t0 = performance.now(),
+		dpr2 = ""
 
 	// devicePixelRatio
 	let dpr = window.devicePixelRatio || 1;
@@ -1354,7 +1374,7 @@ function get_zoom(runtype) {
 	// add extra dpr: 477157
 	if (isFF) {
 		let element = document.getElementById("dprdroid")
-		let dpr2 = getComputedStyle(element).borderTopWidth
+		dpr2 = getComputedStyle(element).borderTopWidth
 		dpr2 = dpr2.slice(0, -2) // trim "px"
 		if (dpr2 > 0) {
 			dpr2 = (1/dpr2)
@@ -1367,8 +1387,13 @@ function get_zoom(runtype) {
 	// ToDo: when zooming, getting divDPI is much slower
 	// divDPI relies on css: if css is blocked (dpi_y = 0) this causes issues
 	let t1 = performance.now()
-	varDPI = return_mm_dpi("dpi")
-	dom.mmDPI = varDPI+" | "+return_mm_dpi("dppx")+" | "+return_mm_dpi("dpcm")
+
+	let aDPI = return_mm_dpi("dpi"),
+		bDPI = return_mm_dpi("dppx"),
+		cDPI = return_mm_dpi("dpcm")
+
+	if (aDPI !== zB) {varDPI = aDPI}
+	dom.mmDPI.innerHTML = aDPI +" | "+ bDPI +" | "+ cDPI
 	dpi_x = Math.round(dom.divDPI.offsetWidth * dpr)
 	dpi_y = Math.round(dom.divDPI.offsetHeight * dpr)
 	dom.jsDPI = dpi_x
@@ -1380,8 +1405,19 @@ function get_zoom(runtype) {
 		// or if css is blocked (dpi_y = 0, dpi_x = body width)
 		jsZoom = Math.round(dpr*100).toString()
 	} else {
-		// otherwise it could be spoofed
-		jsZoom = Math.round((varDPI/dpi_x)*100).toString()
+		
+		if (varDPI == undefined) {
+			// matchMedia is blocked
+			if (isFF) {
+				// fallback to dpr2
+				jsZoom = Math.round(dpr2*100).toString()
+			} else {
+				jsZoom = Math.round((dpi_x/dpi_x)*100).toString()
+			}
+		} else {
+			// otherwise it could be spoofed
+			jsZoom = Math.round((varDPI/dpi_x)*100).toString()
+		}
 	}
 
 	// ToDo: zoom: css=blocked (dpi_y == 0) AND RFP=true: detect this state
@@ -1645,9 +1681,9 @@ function goNW_UA() {
 function outputScreen(runtype) {
 	let t0 = performance.now()
 	// do these once
-	get_color()
 	get_pbmode()
 	get_fullscreen()
+	get_color()
 	get_screen_metrics(runtype) // calls the rest, also used on resize
 	// perf
 	debug_page("perf","screen",t0,gt0)
