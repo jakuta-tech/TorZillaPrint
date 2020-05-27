@@ -89,23 +89,6 @@ function get_perf() {
 }
 
 function get_perf2() {
-	// mark (seems only RFP affects this)
-	let r1 = ""
-	try {
-		if (performance.mark === undefined) {
-			r1 = "not supported"
-		} else {
-				performance.mark("a")
-				r1 = performance.getEntriesByName("a","mark").length
-					+ ", " + performance.getEntries().length
-					+ ", " + performance.getEntries({name:"a", entryType:"mark"}).length
-					+ ", " + performance.getEntriesByName("a","mark").length
-				performance.clearMarks()
-				r1 += (r1 == "0, 0, 0, 0" ? rfp_green: rfp_red)
-		}
-	} catch(e) {r1 = zB}
-	dom.perf1.innerHTML = r1
-
 	// loadEventEnd (also dom.enable_performance)
 	let r3 = ""
 	try {
@@ -124,6 +107,24 @@ function get_perf2() {
 		}
 	} catch(e) {r4 = zB}
 	dom.perf4.innerHTML = r4
+
+	// mark (seems only RFP affects this)
+	let r1 = ""
+	try {
+		performance.mark("test")
+		if (performance.mark === undefined) {
+			r1 = "not supported"
+		} else {
+				performance.mark("a")
+				r1 = performance.getEntriesByName("a","mark").length
+					+ ", " + performance.getEntries().length
+					+ ", " + performance.getEntries({name:"a", entryType:"mark"}).length
+					+ ", " + performance.getEntriesByName("a","mark").length
+				performance.clearMarks()
+				r1 += (r1 == "0, 0, 0, 0" ? rfp_green: rfp_red)
+		}
+	} catch(e) {r1 = zB}
+	dom.perf1.innerHTML = r1
 }
 
 function get_svg() {
@@ -188,8 +189,8 @@ function outputMisc(type) {
 	get_reporting_api()
 	get_svg()
 	get_wasm()
-	get_perf2()
 	get_perf()
+	get_perf2()
 	// perf
 	debug_page("perf","misc",t0,gt0)
 }
