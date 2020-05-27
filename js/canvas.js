@@ -17,7 +17,7 @@ function analyzeCanvas(runtype, res1, res2) {
 		t0 = performance.now()
 
 	// RFP
-	if (isFF && isVer > 77 && performance.mark !== undefined) {
+	if (isFF && isVer > 77) {
 		if (get_RFP() == true) {is78rfp = true}
 	}
 
