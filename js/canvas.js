@@ -221,7 +221,7 @@ function outputCanvas() {
 							})
 							}
 							catch (e){
-								resolve(e.name + ": " + e.message)
+								resolve((e.name == "TypeError" ? "" : e.name + ":" ) + e.message)
 							}
 						})
 					}
