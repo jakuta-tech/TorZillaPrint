@@ -37,10 +37,9 @@ function get_mathml(type) {
 		control = dom.nOnLine.offsetHeight, // a row with plain text and info icon
 		diff = Math.abs(test-control)
 	// compare: use a range as zoom affects diff
-	dom.mathml.innerHTML = (diff < 10 ?
-		zD+" | offsetHeight difference: "+ diff+ tb_safer :
-		zE+" | offsetHeight difference: "+ diff+ tb_standard
-	)
+	let pre = " | offsetHeight difference: ",
+		post = (diff < 10 ? tb_safer : tb_standard)
+	dom.mathml.innerHTML = (diff < 10 ?	zD : zE) + pre + diff + post
 }
 
 function get_nav_prototype() {
@@ -102,7 +101,7 @@ function get_perf2() {
 	let r4 = zD
 	try {
 		if (window.PerformanceNavigationTiming) {r4 = zE}
-		if (isFF && isVer > 77) {
+		if (isVer > 77) {
 			r4 += (r4 == zD ? rfp_green : rfp_red) //78+: 1511941
 		}
 	} catch(e) {r4 = zB}
