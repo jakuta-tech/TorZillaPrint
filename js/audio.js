@@ -116,7 +116,7 @@ function get_audio2_hybrid() {
 	scriptProcessor.connect(gain) // connect scriptProcessor output to gain input
 	gain.connect(audioCtx.destination) // connect gain output to audiocontext destination
 
-	scriptProcessor.onaudioprocess = function (bins) {
+	scriptProcessor.onaudioprocess = function(bins) {
 		bins = new Float32Array(analyser.frequencyBinCount)
 		analyser.getFloatFrequencyData(bins)
 		for (let i=0; i < bins.length; i=i+1) {
@@ -160,7 +160,7 @@ function get_audio2_oscillator() {
 	scriptProcessor.connect(gain)
 	gain.connect(audioCtx.destination)
 
-	scriptProcessor.onaudioprocess = function (bins) {
+	scriptProcessor.onaudioprocess = function(bins) {
 		bins = new Float32Array(analyser.frequencyBinCount)
 		analyser.getFloatFrequencyData(bins)
 		for (let i=0; i < bins.length; i=i+1) {
