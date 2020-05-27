@@ -18,7 +18,9 @@ function lookup_cookie(name) {
 
 function get_cookies() {
 	// support
-	dom.ctest0 = (navigator.cookieEnabled == true ? zE : zD)
+	let ctest0 = zB
+	try {ctest0 = navigator.cookieEnabled} catch(e) {}
+	dom.ctest0.innerHTML = (ctest0 == zB ? zB : (ctest0 ? zE : zD))
 	// session
 	let rndA = rnd_string("sc_")
 	let rndB = rnd_string("")
