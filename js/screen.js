@@ -731,14 +731,19 @@ function get_mm_metrics(runtype) {
 
 	runTest(function(prefix, maxPrefix, suffix, maxValue, precision){
 		return searchValue(function(valueToTest){
-			if (window.matchMedia("("+prefix+": "+valueToTest+suffix+")").matches){
-				return Promise.resolve(searchValue.isEqual)
-			}
-			else if (window.matchMedia("("+maxPrefix+": "+valueToTest+suffix+")").matches){
-				return Promise.resolve(searchValue.isSmaller)
-			}
-			else {
-				return Promise.resolve(searchValue.isBigger)
+			try {
+				if (window.matchMedia("("+prefix+": "+valueToTest+suffix+")").matches){
+					return Promise.resolve(searchValue.isEqual)
+				}
+				else if (window.matchMedia("("+maxPrefix+": "+valueToTest+suffix+")").matches){
+					return Promise.resolve(searchValue.isSmaller)
+				}
+				else {
+					return Promise.resolve(searchValue.isBigger)
+				}
+			} catch(e) {
+				// testing
+				return Promise.reject(zB)
 			}
 		}, maxValue, precision)
 	})
