@@ -7,7 +7,6 @@ https://github.com/kkapsner/CanvasBlocker */
 var t0canvas
 
 function analyzeCanvas(runtype, res1, res2) {
-
 	// vars
 	let chash1 = [],
 		diff78 = false,
@@ -17,7 +16,7 @@ function analyzeCanvas(runtype, res1, res2) {
 		t0 = performance.now()
 
 	// RFP
-	if (isFF && isVer > 77) {
+	if (isVer > 77) {
 		if (get_RFP() == true) {is78rfp = true}
 	}
 
@@ -59,42 +58,38 @@ function analyzeCanvas(runtype, res1, res2) {
 		}
 
 		// supported/not-supported
-		if (isFF) {
-			if (sname == "wind" || sname == "fill" || sname == "stro") {
-				value1 += (value1 == "supported" ? rfp_green : rfp_red)
-			}
-			if (sname == "getC") {
-				control = "2d: supported"
+		if (sname == "wind" || sname == "fill" || sname == "stro") {
+			value1 += (value1 == "supported" ? rfp_green : rfp_red)
+		}
+		if (sname == "getC") {
+			control = "2d: supported"
+			value1 += (value1 == control ? rfp_green : rfp_red )
+		}
+		if (sname == "mozG") {
+			if (isVer > 73) {
+				// supported
+				control = "not supported"
 				value1 += (value1 == control ? rfp_green : rfp_red )
-			}
-			if (sname == "mozG") {
-				if (isVer > 73) {
-					// supported
-					control = "not supported"
-					value1 += (value1 == control ? rfp_green : rfp_red )
-				} else {
-					// hash
-					control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
-					if (isRandom) {value1 = combined}
-					value1 += (value1 == control ? rfp_green : rfp_red)
-				}
+			} else {
+				// hash
+				control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
+				if (isRandom) {value1 = combined}
+				value1 += (value1 == control ? rfp_green : rfp_red)
 			}
 		}
 		// hashes: static RFP
 		if (sname == "isPo") {
 			control = "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8"
 			if (isRandom) {
-				value1 = combined + (isFF ? rfp_red : "")
+				value1 = combined + rfp_red
 			} else {
-				if (isFF) {value1 += (value1 == control ? rfp_green : rfp_red)}
+				value1 += (value1 == control ? rfp_green : rfp_red)
 			}
 		}
 		// hashes: 1621433: randomized 78+ or static RFP
 		if (sname == "toDa" || sname == "toBl" || sname == "getI") {
 			if (value1 == error_string) {
-				if (isFF) {
-					value1 += (isVer > 77 ? rfp_random_red : rfp_red)
-				}
+				value1 += (isVer > 77 ? rfp_random_red : rfp_red)
 			} else {
 				if (isFF) {
 					if (isVer > 77) {
@@ -398,17 +393,15 @@ function outputCanvas() {
 				return new Promise(function(resolve, reject){
 					var displayValue
 					try {
-					var supported = output.supported? output.supported(): isSupported(output);
-					if (supported){
+						var supported = output.supported? output.supported(): isSupported(output);
+						if (supported){
 							displayValue = output.value()
-						}
-						else {
+						} else {
 							displayValue = "not supported"
 						}
+					} catch (e){
+						displayValue = (e.name == "TypeError" ? "" : e.name + ": ") + e.message
 					}
-						catch (e){
-							displayValue = (e.name == "TypeError" ? "" : e.name + ": ") + e.message
-						}
 					Promise.resolve(displayValue).then(function(displayValue){
 						output.displayValue = displayValue
 						resolve(output)
