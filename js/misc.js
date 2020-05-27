@@ -91,19 +91,19 @@ function get_perf() {
 function get_perf2() {
 	// mark (seems only RFP affects this)
 	let r1 = ""
-	if (performance.mark === undefined) {
-		r1 = "not supported"
-	} else {
-		try {
-			performance.mark("a")
-			r1 = performance.getEntriesByName("a","mark").length
-				+ ", " + performance.getEntries().length
-				+ ", " + performance.getEntries({name:"a", entryType:"mark"}).length
-				+ ", " + performance.getEntriesByName("a","mark").length
-			performance.clearMarks()
-			r1 += (r1 == "0, 0, 0, 0" ? rfp_green: rfp_red)
-		} catch(e) {r1 = zB}
-	}
+	try {
+		if (performance.mark === undefined) {
+			r1 = "not supported"
+		} else {
+				performance.mark("a")
+				r1 = performance.getEntriesByName("a","mark").length
+					+ ", " + performance.getEntries().length
+					+ ", " + performance.getEntries({name:"a", entryType:"mark"}).length
+					+ ", " + performance.getEntriesByName("a","mark").length
+				performance.clearMarks()
+				r1 += (r1 == "0, 0, 0, 0" ? rfp_green: rfp_red)
+		}
+	} catch(e) {r1 = zB}
 	dom.perf1.innerHTML = r1
 
 	// loadEventEnd (also dom.enable_performance)
