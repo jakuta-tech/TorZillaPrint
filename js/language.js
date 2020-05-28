@@ -88,7 +88,6 @@ function get_tz_lang() {
 	try {lang5 = Intl.DateTimeFormat().resolvedOptions().locale} catch(e) {}
 	dom.lang5.innerHTML = (lang5 == isB ? zB : lang5)
 	let lHash1 = sha1(lang1 +"-"+ lang2 +"-"+ lang3 +"-"+ lang4 +"-"+ lang5)
-	console.debug(lang1 +"-"+ lang2 +"-"+ lang3 +"-"+ lang4 +"-"+ lang5) // temp
 	lHash1 += (lHash1 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98" ? enUS_green : enUS_red)
 	dom.lHash1.innerHTML = lHash1
 
