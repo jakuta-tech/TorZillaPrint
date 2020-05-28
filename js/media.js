@@ -89,6 +89,8 @@ function get_media(runtype) {
 		} catch(e) {}
 		try {
 			if (MediaSource.isTypeSupported(item)) {src.push(tmp)}
+		} catch(e) {}
+		try {
 			if (MediaRecorder.isTypeSupported(item)) {rec.push(tmp)}
 		} catch(e) {}
 	})
