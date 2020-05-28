@@ -79,18 +79,38 @@ function get_media(runtype) {
 
 	// run
 	let canm = [], canp = [], src = [], rec = []
+
+	// temp
+	let err1 = [], err2 = []
+
 	let obj = document.createElement(runtype)
 	list.forEach(function(item) {
 		let tmp = item.replace(runtype+"\/","")
-		let str = obj.canPlayType(item)
-		if (str == "probably") {canp.push(tmp)}
-		if (str == "maybe") {canm.push(tmp)}
-		if (MediaSource.isTypeSupported(item)) {src.push(tmp)}
-		if (MediaRecorder.isTypeSupported(item)) {rec.push(tmp)}
+		try {
+			let str = obj.canPlayType(item)
+			if (str == "probably") {canp.push(tmp)}
+			if (str == "maybe") {canm.push(tmp)}
+		} catch(e) {
+			err1.push(e.name+": " + e.message)
+		}
+		try {
+			if (MediaSource.isTypeSupported(item)) {src.push(tmp)}
+			if (MediaRecorder.isTypeSupported(item)) {rec.push(tmp)}
+		} catch(e) {
+			err2.push(e.name+": " + e.message)
+		}
+
 	})
 	// ToDo: media: remove audio/video element?
 
 	// output elements
+	// check errors
+	if (!isFile) {
+		console.debug("canPlay\n" + err1.join())
+		console.debug("isTypeSupported\n" + err2.join())
+	}
+
+
 	let ecan = document.getElementById(runtype+"can"),
 		etype = document.getElementById(runtype+"type"),
 		edata = document.getElementById(runtype+"data")
