@@ -79,50 +79,50 @@ function get_media(runtype) {
 
 	// run
 	let canm = [], canp = [], src = [], rec = []
-
-	// temp
-	let err1 = [], err2 = []
-
 	let obj = document.createElement(runtype)
 	list.forEach(function(item) {
 		let tmp = item.replace(runtype+"\/","")
 		try {
 			let str = obj.canPlayType(item)
-			if (str == "probably") {canp.push(tmp)}
 			if (str == "maybe") {canm.push(tmp)}
-		} catch(e) {
-			err1.push(e.name+": " + e.message)
-		}
+			if (str == "probably") {canp.push(tmp)}
+		} catch(e) {}
 		try {
 			if (MediaSource.isTypeSupported(item)) {src.push(tmp)}
 			if (MediaRecorder.isTypeSupported(item)) {rec.push(tmp)}
-		} catch(e) {
-			err2.push(e.name+": " + e.message)
-		}
-
+		} catch(e) {}
 	})
 	// ToDo: media: remove audio/video element?
 
 	// output elements
-	// check errors
-	if (!isFile) {
-		console.debug("canPlay\n" + err1.join())
-		console.debug("isTypeSupported\n" + err2.join())
-	}
-
-
 	let ecan = document.getElementById(runtype+"can"),
 		etype = document.getElementById(runtype+"type"),
 		edata = document.getElementById(runtype+"data")
+	// blocks
+	let block1 = (canm.length == 0),
+		block2 = (canp.length == 0),
+		block3 = (src.length == 0),
+		block4 = (rec.length == 0)
 	// output
-	let hashcan = "maybe,"+ canm.join() + ",probably,"+ canp.join(),
-		hashtype = "mediasource,"+ src.join() + ",mediarecoder,"+ rec.join()
-	ecan.innerHTML = sha1(hashcan) + s13 +" ["+ canm.length +"|"+ canp.length +"/"+ list.length +"]"+ sc
-	etype.innerHTML = sha1(hashtype) + s13 +" ["+ src.length  +"|"+ rec.length +"/"+ list.length +"]"+ sc
-	edata.innerHTML = s13+"maybe: "+sc + canm.join(", ") + " "
-		+ s13+"probably: "+sc + canp.join(", ") + " "
-		+ s13+"mediasource: "+sc + src.join(", ") + " "
-		+ s13+"mediarecorder: "+sc + rec.join(", ")
+	let hashcan = s13+"maybe: "+sc + (block1 ? "blocked" :canm.join(", "))
+		+ s13+" probably: "+sc + (block2 ? "blocked" :canp.join(", "))
+	let hashtype = s13+"mediasource: "+sc + (block3 ? "blocked" :src.join(", "))
+		+ s13+" mediarecoder: "+sc + (block4 ? "blocked" : rec.join(", "))
+	// play
+	let notation = s13 +" ["+ canm.length +"|"+ canp.length +"/"+ list.length +"]"+ sc,
+		blockP = block1 + block2,
+		partblock = sb+"[partial block]"+sc
+	if (blockP == 2) {notation = zB}
+	if (blockP == 1) {notation += partblock}
+	ecan.innerHTML = sha1(hashcan) + notation
+	// type
+	notation = s13 +" ["+ src.length +"|"+ rec.length +"/"+ list.length +"]"+ sc
+	let blockT = block3 + block4
+	if (blockT == 2) {notation = zB}
+	if (blockT == 1) {notation += partblock}
+	etype.innerHTML = sha1(hashtype) + notation
+	// details
+	edata.innerHTML = hashcan + hashtype
 	edata.style.color = zshow
 	// perf
 	if (logPerf) {debug_log(runtype +" [media]",t0)}
