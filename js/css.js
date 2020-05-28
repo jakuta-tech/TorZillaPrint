@@ -36,40 +36,44 @@ function get_colors(runtype) {
 	}
 	list.forEach(function(item) {
 		element.style.backgroundColor = item
-		let x = window.getComputedStyle(element, null).getPropertyValue("background-color")
-		results.push(x)
-		if (runtype == "n") {
-			data.push(item.padStart(11) + ": " + x)
-		}
+		try {
+			let x = window.getComputedStyle(element, null).getPropertyValue("background-color")
+			results.push(x)
+			if (runtype == "n") {
+				data.push(item.padStart(11) + ": " + x)
+			}
+		} catch(e) {}
 	})
-	let hash = sha1(results.join())
-	let count = s14 + "["+list.length+"] " + sc
+	let hash = sha1(results.join()),
+		notation = s14 + "["+list.length+"] " + sc 
+	if (results.length == 0) {notation = zB}
 	if (runtype == "s") {
-		if (hash == "c833ed5e44c6da5e9fc2964259bf34b280891b73") {
-			dom.sColorHash.innerHTML = hash + count + rfp_green
-		} else {
-			dom.sColorHash.innerHTML = hash + count + rfp_red
-		}
+		let control = "c833ed5e44c6da5e9fc2964259bf34b280891b73"
+		dom.sColorHash.innerHTML = hash += notation + (notation == zB ? "" : (hash == control ? rfp_green : rfp_red))
 	} else if (runtype == "n") {
-		dom.sColorHashNew.innerHTML = hash + count
-		dom.sColorHashData.innerHTML = data.join("<br>")
+		dom.sColorHashNew.innerHTML = hash + notation
+		dom.sColorHashData.innerHTML = (notation == zB ? "blocked" : data.join("<br>"))
 		dom.sColorHashData.style.color = zshow
 	} else {
-		dom.mColorHash.innerHTML = hash + count
+		dom.mColorHash.innerHTML = hash + notation
 	}
 }
 
-function get_mm_prefers(type){
+function get_mm_prefers(type) {
 	let x=zNS, l="light", d="dark", n="no-preference", r="reduce", q="(prefers-"+type+": "
 	if (type == "color-scheme") {
-		if (window.matchMedia(q+l+")").matches) x = l+rfp_green
-		if (window.matchMedia(q+d+")").matches) x = d+rfp_red
-		if (window.matchMedia(q+n+")").matches) x = n+rfp_red
+		try {
+			if (window.matchMedia(q+l+")").matches) x = l+rfp_green
+			if (window.matchMedia(q+d+")").matches) x = d+rfp_red
+			if (window.matchMedia(q+n+")").matches) x = n+rfp_red
+		} catch(e) {x = zB}
 		dom.mmPCS.innerHTML = x
 	}
 	if (type == "reduced-motion") {
-		if (window.matchMedia(q+r+")").matches) x = r+rfp_red
-		if (window.matchMedia(q+n+")").matches) x = n+rfp_green
+		try {
+			if (window.matchMedia(q+r+")").matches) x = r+rfp_red
+			if (window.matchMedia(q+n+")").matches) x = n+rfp_green
+		} catch(e) {x = zB}
 		dom.mmPRM.innerHTML = x
 	}
 }
