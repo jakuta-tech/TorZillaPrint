@@ -24,7 +24,7 @@ function analyzeCanvas(runtype, res1, res2) {
 		// vars
 		let isRandom = false,
 			pushvalue = value1,
-			control = "",
+			control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc",
 			combined = "",
 			sname = item.substring(0,4)
 		let element = table.querySelector("." + item)
@@ -57,34 +57,17 @@ function analyzeCanvas(runtype, res1, res2) {
 			}
 		}
 
-		// supported/not-supported
-		if (sname == "wind" || sname == "fill" || sname == "stro") {
-			value1 += (value1 == "supported" ? rfp_green : rfp_red)
-		}
-		if (sname == "getC") {
-			control = "2d: supported"
-			value1 += (value1 == control ? rfp_green : rfp_red )
-		}
-		if (sname == "mozG") {
-			if (isVer > 73) {
-				// supported
-				control = "not supported"
-				value1 += (value1 == control ? rfp_green : rfp_red )
-			} else {
-				// hash
-				control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
-				if (isRandom) {value1 = combined}
-				value1 += (value1 == control ? rfp_green : rfp_red)
-			}
-		}
 		// hashes: static RFP
 		if (sname == "isPo") {
-			control = "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8"
 			if (isRandom) {
 				value1 = combined + rfp_red
 			} else {
-				value1 += (value1 == control ? rfp_green : rfp_red)
+				value1 += (value1 == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8" ? rfp_green : rfp_red)
 			}
+		}
+		if (sname == "mozG" && isVer < 74) {
+			if (isRandom) {value1 = combined}
+			value1 += (value1 == control ? rfp_green : rfp_red)
 		}
 		// hashes: 1621433: randomized 78+ or static RFP
 		if (sname == "toDa" || sname == "toBl" || sname == "getI") {
@@ -115,8 +98,6 @@ function analyzeCanvas(runtype, res1, res2) {
 						} else {
 							if (sname == "getI") {
 								control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
-							} else {
-								control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc"
 							}
 							value1 += (value1 == control ? rfp_green : rfp_red)
 						}
@@ -129,7 +110,7 @@ function analyzeCanvas(runtype, res1, res2) {
 		}
 		// push + display
 		chash1.push(item+", "+pushvalue)
-		element.innerHTML = value1
+		element.innerHTML = (pushvalue == "blocked" ? zB : value1)
 	}
 
 	// 78+: track toDataURL vs toBlob randomness
