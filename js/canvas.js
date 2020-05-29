@@ -11,7 +11,6 @@ function analyzeCanvas(runtype, res1, res2) {
 	let chash1 = [],
 		diff78 = false,
 		is78rfp = false,
-		table = dom.tb9,
 		error_string = "error while testing",
 		t0 = performance.now()
 
@@ -27,84 +26,60 @@ function analyzeCanvas(runtype, res1, res2) {
 			control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc",
 			combined = "",
 			sname = item.substring(0,4)
-		let element = table.querySelector("." + item)
-		// simulate random
-		let sim = false
-		if (sim) {
-			if (sname == "toDa" || sname == "toBl" || sname == "getI" || sname == "isPo" || sname == "mozG") {
-				if (value1.length == 64) {
-					diff78 = true
-					value1 = (Math.random().toString(36).replace(/[^a-z]+/g, '') + value1).substring(0,64)
-					value2 = (Math.random().toString(36).replace(/[^a-z]+/g, '') + value1).substring(0,64)
-				}
-			}
-		}
-		// push/output error if not two valid results
+		let element = dom.tb9.querySelector("." + item)
+		// cleanup
 		if (value1 == error_string || value2 == error_string) {
+			// not two valid results
 			value1 = error_string
 			pushvalue = value1
 		} else if (value1.substring(0,14) == "ReferenceError") {
-			// blocked e.g. AOPR uses random error messages
+			// blocked
 			value1 = zB
 			pushvalue = "blocked"
-		} else {
+		} else if (value1 !== value2) {
 			// randomness
-			if (value1 !== value2) {
-				isRandom = true
-				pushvalue = "random"
-				combined = "random " + s9 +" [1] "+ sc + value1.substring(0,22) + ".."
-					+ s9 +" [2] "+ sc + value2.substring(0,22) + ".."
-			}
+			isRandom = true
+			pushvalue = "random"
+			combined = "random " + s9 +" [1] "+ sc + value1.substring(0,22) + ".."
+				+ s9 +" [2] "+ sc + value2.substring(0,22) + ".."
 		}
-
-		// hashes: static RFP
+		// hashes: static
 		if (sname == "isPo") {
-			if (isRandom) {
-				value1 = combined + rfp_red
-			} else {
-				value1 += (value1 == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8" ? rfp_green : rfp_red)
-			}
+			if (isRandom) {value1 = combined}
+			value1 += (value1 == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8" ? rfp_green : rfp_red)
 		}
 		if (sname == "mozG" && isVer < 74) {
 			if (isRandom) {value1 = combined}
 			value1 += (value1 == control ? rfp_green : rfp_red)
 		}
-		// hashes: 1621433: randomized 78+ or static RFP
+		// hashes: randomized/static
 		if (sname == "toDa" || sname == "toBl" || sname == "getI") {
 			if (value1 == error_string) {
 				value1 += (isVer > 77 ? rfp_random_red : rfp_red)
 			} else {
-				if (isFF) {
-					if (isVer > 77) {
-						// 78+: random
-						if (isRandom) {
-							if (is78rfp) {
-								pushvalue = "random rfp"
-								// toDataURL vs toBlob
-								if (sname == "toDa" || sname == "toBl") {
-									if (!diff78) {pushvalue = "random ext"}
-								}
-							} else {
-								pushvalue = "random ext"
+				if (isRandom) {value1 = combined}
+				if (isVer > 77) {
+					// 78+: random
+					if (isRandom) {
+						if (is78rfp) {
+							pushvalue = "random rfp"
+							// toDataURL vs toBlob
+							if (sname == "toDa" || sname == "toBl") {
+								if (!diff78) {pushvalue = "random ext"}
 							}
-							value1 = combined + (pushvalue == "random rfp" ? rfp_random_green : rfp_random_red)
 						} else {
-							value1 += rfp_random_red
+							pushvalue = "random ext"
 						}
+						value1 += (pushvalue == "random rfp" ? rfp_random_green : rfp_random_red)
 					} else {
-						// <78: static
-						if (isRandom) {
-							value1 = combined + rfp_red
-						} else {
-							if (sname == "getI") {
-								control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
-							}
-							value1 += (value1 == control ? rfp_green : rfp_red)
-						}
+						value1 += rfp_random_red
 					}
 				} else {
-					// non-FF
-					if (isRandom) {value1 = combined}
+					// <78: static
+					if (sname == "getI") {
+						control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
+					}
+					value1 += (value1 == control ? rfp_green : rfp_red)
 				}
 			}
 		}
