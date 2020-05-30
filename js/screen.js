@@ -1032,7 +1032,7 @@ function get_ua_nav() {
 		r = "",
 		zBT = zB.trim()
 	for(let i=0; i < list.length; i++) {
-		try {r = navigator[list[i]]} catch(e) {r = zBT}
+		try {r = navigator[list[i]]} catch(e) {r = zBT; console.log("ua block:", e.name, e.message)}
 		if (r == "") {r = zU}
 		if (r == undefined && isFF) {r = zBT}
 		let n = (i).toString().padStart(2,"0")
