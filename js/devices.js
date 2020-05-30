@@ -68,6 +68,11 @@ function get_media_devices() {
 			})
 		} catch(e) {
 			dom.eMD.innerHTML = zB.trim()
+			if (e.name == "ReferenceError") {
+				console.log("enum devices: block type 1")
+			} else {
+				console.log("enum devices: block type 2")
+			}
 		}
 	}	else {
 		dom.nMD = zD; dom.eMD = zNA
