@@ -3,40 +3,41 @@
 let	bTZ = false
 
 function outputHeaders() {
-	let t0 = performance.now(),
-		r = ""
+	let t0 = performance.now()
 	// DNT
+	let r1 = ""
 	try {
-		r = navigator.doNotTrack
-		if (r == undefined) {r = zB2}
-	} catch(e) {r = zB1}
-	dom.nDNT.innerHTML = r
+		r1 = navigator.doNotTrack
+		if (r1 == undefined) {r1 = zB2}
+	} catch(e) {r1 = zB1}
+	dom.nDNT.innerHTML = r1
 	// online
+	let r2 = ""
 	try {
-		r = navigator.onLine
-		if (r == undefined) {r = zB2}
-	} catch(e) {r = zB1}
-	dom.nOnLine.innerHTML = r
-
+		r2 = navigator.onLine
+		if (r2 == undefined) {r2 = zB2}
+	} catch(e) {r2 = zB1}
+	dom.nOnLine.innerHTML = r2
 	// network info api
+	let r3 = ""
 	if ("connection" in navigator) {
 		dom.nNetwork = zE
 		try {
-			r = navigator.connection.type
-			if (r == undefined) {r = zB2}
-		} catch(e) {r = zB1}
-		if (r == zB1 || r == ZB2) {
-			dom.nConnection.innerHTML = r
+			r3 = navigator.connection.type
+			if (r3 == undefined) {r3 = zB2}
+		} catch(e) {r3 = zB1}
+		if (r3 == zB1 || r3 == ZB2) {
+			dom.nConnection.innerHTML = r3
 		} else {
-			dom.nConnection.innerHTML = r += (r == "unknown" ? rfp_green : rfp_red)
+			dom.nConnection.innerHTML = r3 += (r3 == "unknown" ? rfp_green : rfp_red)
 		}
 	} else {
 		dom.nNetwork = zD
 		try {
-			r = navigator.connection
-			if (r == undefined) {r = zB2}
-		} catch(e) {r = zB1}
-		dom.nConnection.innerHTML = r
+			r3 = navigator.connection
+			if (r3 == undefined) {r3 = zB2}
+		} catch(e) {r3 = zB1}
+		dom.nConnection.innerHTML = r3
 	}
 	// perf
 	debug_page("perf","headers",t0,gt0)
