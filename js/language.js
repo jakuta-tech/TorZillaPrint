@@ -25,7 +25,7 @@ function outputHeaders() {
 			let test = navigator.connection
 			dom.nNetwork = (test == undefined ? zB2 : zE)
 		} catch(e) {
-			dom.nNetwork = zB1)
+			dom.nNetwork = zB1
 		}
 
 		try {
