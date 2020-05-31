@@ -186,23 +186,18 @@ function get_speech_synth() {
 				dom.sEngines.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)
 			}
 		}
-		populateVoiceList()
-
 		try {
 			if (speechSynthesis.onvoiceschanged !== undefined) {
-
+				populateVoiceList()
+				if (typeof speechSynthesis !== "undefined") {
+					speechSynthesis.onvoiceschanged = populateVoiceList
+				}
 			}
 		} catch(e) {
-			if (e.name == "ReferenceError") {
-				console.debug("onvoiceschanged type 1")
-			} else {
-				console.debug("onvoiceschanged type 2")
-			}
+			dom.sEngines.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)
 		}
 		try {
-			if (typeof speechSynthesis !== "undefined" && speechSynthesis.onvoiceschanged !== undefined) {
-				speechSynthesis.onvoiceschanged = populateVoiceList
-			}
+
 		} catch(e) {}
 	} else {
 		dom.sSynth = zD; dom.sEngines = zNA
