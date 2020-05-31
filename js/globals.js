@@ -39,6 +39,8 @@ let avh = "",
 	zshow = "#b3b3b3",
 // common results
 	zB = sb+"[blocked]"+sc,
+	zB1 = "script blocked [method 1]",
+	zB2 = "script blocked [method 2]",
 	zD = "disabled",
 	zE = "enabled",
 	zNS = "not supported",
