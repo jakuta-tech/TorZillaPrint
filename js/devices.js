@@ -23,7 +23,7 @@ function get_hardware_concurrency() {
 	if ("hardwareConcurrency" in navigator) {
 		try {
 			let h = navigator.hardwareConcurrency
-			h += (h == "2" ? rfp_green : rfp_red)
+			h = (h == "undefined" ? zB2 : h + (h == "2" ? rfp_green : rfp_red))
 			dom.nHWC.innerHTML = h
 		} catch(e) {
 			dom.nHWC.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)
@@ -167,24 +167,41 @@ function get_speech_synth() {
 		dom.sSynth = zE
 		// speech engines
 		function populateVoiceList() {
-			if(typeof speechSynthesis == "undefined") {
-				return
-			}
-			let v = speechSynthesis.getVoices()
 			let s=""
-			for (let i=0; i < v.length; i++) {
-				s += v[i].name + " (" + v[i].lang + ")" + (v[i].default ? " : default" : "") + "<br>"
-			}
-			if (s == "") {
-				s = "none" + rfp_green // RFP: 1333641
-			} else {
-				s = s.replace("<br>", rfp_red + "<br>")
+			try {
+				if(typeof speechSynthesis == "undefined") {
+					return
+				}
+				let v = speechSynthesis.getVoices()
+				for (let i=0; i < v.length; i++) {
+					s += v[i].name + " (" + v[i].lang + ")" + (v[i].default ? " : default" : "") + "<br>"
+				}
+				if (s == "") {
+					s = "none" + rfp_green // RFP: 1333641
+				} else {
+					s = s.replace("<br>", rfp_red + "<br>")
+				}
+			} catch(e) {
+				if (e.name == "ReferenceError") {
+					console.debug("getVoices type 1")
+				} else {
+					console.debug("getVoices type 2")
+				}
+				s = (e.name == "ReferenceError" ? zB1 : zB2)
 			}
 			dom.sEngines.innerHTML = s
 		}
 		populateVoiceList()
-		if (typeof speechSynthesis !== "undefined" && speechSynthesis.onvoiceschanged !== undefined) {
-			speechSynthesis.onvoiceschanged = populateVoiceList
+		try {
+			if (typeof speechSynthesis !== "undefined" && speechSynthesis.onvoiceschanged !== undefined) {
+				speechSynthesis.onvoiceschanged = populateVoiceList
+			}
+		} catch(e) {
+			if (e.name == "ReferenceError") {
+				console.debug("onvoiceschanged type 1")
+			} else {
+				console.debug("onvoiceschanged type 2")
+			}
 		}
 	} else {
 		dom.sSynth = zD; dom.sEngines = zNA
