@@ -25,7 +25,10 @@ function outputHeaders() {
 		try {
 			r3 = navigator.connection.type
 			if (r3 == undefined) {r3 = zB2}
-		} catch(e) {r3 = zB1}
+		} catch(e) {
+			console.debug("A", e.name, e.message)
+			r3 = zB1
+		}
 		if (r3 == zB1 || r3 == ZB2) {
 			dom.nConnection.innerHTML = r3
 		} else {
@@ -35,7 +38,10 @@ function outputHeaders() {
 		dom.nNetwork = zD
 		try {
 			r3 = navigator.connection
-		} catch(e) {r3 = (e.name = "ReferenceError" ? zB1 : zB2)}
+		} catch(e) {
+			console.debug("B", e.name, e.message)
+			r3 = (e.name = "ReferenceError" ? zB1 : zB2)
+		}
 		dom.nConnection.innerHTML = r3
 	}
 	// perf
