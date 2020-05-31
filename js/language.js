@@ -25,7 +25,7 @@ function outputHeaders() {
 			r = navigator.connection.type
 			if (r == undefined) {r = zB2}
 		} catch(e) {r = zB1}
-		if (r == zB1 || r = ZB2) {
+		if (r == zB1 || r == ZB2) {
 			dom.nConnection.innerHTML = r
 		} else {
 			dom.nConnection.innerHTML = r += (r == "unknown" ? rfp_green : rfp_red)
