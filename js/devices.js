@@ -181,20 +181,16 @@ function get_speech_synth() {
 				} else {
 					s = s.replace("<br>", rfp_red + "<br>")
 				}
+				dom.sEngines.innerHTML = s
 			} catch(e) {
-				if (e.name == "ReferenceError") {
-					console.debug("getVoices type 1")
-				} else {
-					console.debug("getVoices type 2")
-				}
-				s = (e.name == "ReferenceError" ? zB1 : zB2)
+				dom.sEngines.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)
 			}
-			dom.sEngines.innerHTML = s
 		}
 		populateVoiceList()
+
 		try {
-			if (typeof speechSynthesis !== "undefined" && speechSynthesis.onvoiceschanged !== undefined) {
-				speechSynthesis.onvoiceschanged = populateVoiceList
+			if (speechSynthesis.onvoiceschanged !== undefined) {
+
 			}
 		} catch(e) {
 			if (e.name == "ReferenceError") {
@@ -203,6 +199,11 @@ function get_speech_synth() {
 				console.debug("onvoiceschanged type 2")
 			}
 		}
+		try {
+			if (typeof speechSynthesis !== "undefined" && speechSynthesis.onvoiceschanged !== undefined) {
+				speechSynthesis.onvoiceschanged = populateVoiceList
+			}
+		} catch(e) {}
 	} else {
 		dom.sSynth = zD; dom.sEngines = zNA
 	}
