@@ -24,7 +24,7 @@ function outputHeaders() {
 		// recheck
 		try {
 			test = navigator.connection
-			dom.nNetwork = (test == undefined ? zB2 : zE)
+			dom.nNetwork = (test == undefined ? zB3 : zE)
 		} catch(e) {
 			console.debug("network s/be enabled: checking:", e.name, e.message)
 			dom.nNetwork = zB1
@@ -35,9 +35,9 @@ function outputHeaders() {
 			if (r3 == undefined) {r3 = zB3}
 		} catch(e) {
 			console.debug("A", e.name, e.message)
-			r3 = (e.name = "ReferenceError" ? zB1 : zB2)
+			r3 = (e.name == "ReferenceError" ? zB1 : zB2)
 		}
-		if (r3 == zB1 || r3 == zB2) {
+		if (r3 == zB1 || r3 == zB2 || r3 == zB3) {
 			dom.nConnection.innerHTML = r3
 		} else {
 			dom.nConnection.innerHTML = r3 += (r3 == "unknown" ? rfp_green : rfp_red)
@@ -56,7 +56,7 @@ function outputHeaders() {
 			r3 = navigator.connection
 		} catch(e) {
 			console.debug("B", e.name, e.message)
-			r3 = (e.name = "ReferenceError" ? zB1 : zB2)
+			r3 = (e.name == "ReferenceError" ? zB1 : zB2)
 		}
 		dom.nConnection.innerHTML = r3
 	}
