@@ -29,7 +29,7 @@ function outputHeaders() {
 			console.debug("A", e.name, e.message)
 			r3 = zB1
 		}
-		if (r3 == zB1 || r3 == ZB2) {
+		if (r3 == zB1 || r3 == zB2) {
 			dom.nConnection.innerHTML = r3
 		} else {
 			dom.nConnection.innerHTML = r3 += (r3 == "unknown" ? rfp_green : rfp_red)
