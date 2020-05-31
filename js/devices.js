@@ -26,7 +26,7 @@ function get_hardware_concurrency() {
 			h += (h == "2" ? rfp_green : rfp_red)
 			dom.nHWC.innerHTML = h
 		} catch(e) {
-			dom.nHWC.innerHTML = (e.name = "ReferenceError" ? zB1 : zB2)
+			dom.nHWC.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)
 		}
 	} else {
 		dom.nHWC = zD
@@ -67,7 +67,7 @@ function get_media_devices() {
 				dom.eMD.innerHTML = e.name +": "+ e.message
 			})
 		} catch(e) {
-			dom.eMD.innerHTML = (e.name = "ReferenceError" ? zB1 : zB2)
+			dom.eMD.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)
 		}
 	}	else {
 		dom.nMD = zD; dom.eMD = zNA
@@ -90,7 +90,7 @@ function get_mimetypes() {
 				dom.mimeTypes.innerHTML = "none"
 			}
 		} catch(e) {
-			dom.mimeTypes.innerHTML = (e.name = "ReferenceError" ? zB1 : zB2)
+			dom.mimeTypes.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)
 		}
 	} else {
 		dom.mimeTypes = zD
@@ -103,7 +103,7 @@ function get_mm_hover(type){
 	try {
 		if (window.matchMedia(q+n+")").matches) x=n
 		if (window.matchMedia(q+h+")").matches) x=h
-	} catch(e) {x = (e.name = "ReferenceError" ? zB1 : zB2)}
+	} catch(e) {x = (e.name == "ReferenceError" ? zB1 : zB2)}
 	return x
 }
 
@@ -113,7 +113,7 @@ function get_mm_pointer(type){
 		if (window.matchMedia(q+n+")").matches) x=n
 		if (window.matchMedia(q+c+")").matches) x=c
 		if (window.matchMedia(q+f+")").matches) x=f
-	} catch(e) {x = (e.name = "ReferenceError" ? zB1 : zB2)}
+	} catch(e) {x = (e.name == "ReferenceError" ? zB1 : zB2)}
 	return x
 }
 
@@ -132,7 +132,7 @@ function get_plugins() {
 				dom.plugins.innerHTML = "none"
 			}
 		} catch(e) {
-			dom.plugins.innerHTML = (e.name = "ReferenceError" ? zB1 : zB2)
+			dom.plugins.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)
 		}
 	} else {
 		dom.plugins.innerHTML = zD
@@ -212,11 +212,11 @@ function get_touch() {
 	try {
 		if (window.matchMedia(q+"0)").matches) m=0
 		if (window.matchMedia(q+"1)").matches) m=1
-	} catch(e) {m = (e.name = "ReferenceError" ? zB1 : zB2)}
+	} catch(e) {m = (e.name == "ReferenceError" ? zB1 : zB2)}
 	// t
 	try {document.createEvent("TouchEvent"); t = true} catch (e) {}
 	// p
-	try {p = navigator.maxTouchPoints} catch(e) {p = (e.name = "ReferenceError" ? zB1 : zB2)}
+	try {p = navigator.maxTouchPoints} catch(e) {p = (e.name == "ReferenceError" ? zB1 : zB2)}
 	// output
 	dom.touch.innerHTML = p +" | "+ m +" | "+("ontouchstart" in window)+" | "+("ontouchend" in window)+" | "+ t
 }
@@ -238,7 +238,7 @@ function get_vr() {
 					}
 				}
 			} catch(e) {
-				dom.aVR.innerHTML = (e.name = "ReferenceError" ? zB1 : zB2)
+				dom.aVR.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)
 			}
 		}
 	}	else {
