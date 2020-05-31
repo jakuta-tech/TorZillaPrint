@@ -21,7 +21,14 @@ function outputHeaders() {
 	// network info api
 	let r3 = ""
 	if ("connection" in navigator) {
-		dom.nNetwork = zE
+		try {
+			let test = navigator.connection
+			dom.nNetwork = zE
+		} catch(e) {
+			console.debug("C", e.name, e.message)
+			dom.nNetwork = (e.name = "ReferenceError" ? zB1 : zB2)
+		}
+
 		try {
 			r3 = navigator.connection.type
 			if (r3 == undefined) {r3 = zB2}
