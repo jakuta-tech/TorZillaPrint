@@ -35,7 +35,6 @@ function outputHeaders() {
 		dom.nNetwork = zD
 		try {
 			r3 = navigator.connection
-			if (r3 == undefined) {r3 = zB2}
 		} catch(e) {r3 = zB1}
 		dom.nConnection.innerHTML = r3
 	}
