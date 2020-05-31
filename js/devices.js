@@ -192,9 +192,11 @@ function get_speech_synth() {
 				if (typeof speechSynthesis !== "undefined") {
 					speechSynthesis.onvoiceschanged = populateVoiceList
 				}
+			} else if (speechSynthesis.onvoiceschanged == undefined) {
+				dom.sEngines.innerHTML = zB4
 			}
 		} catch(e) {
-			dom.sEngines.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)
+			dom.sEngines.innerHTML = zB3
 		}
 		try {
 
