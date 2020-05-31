@@ -6,19 +6,36 @@ function outputHeaders() {
 	let t0 = performance.now(),
 		r = ""
 	// DNT
-	try {r = navigator.doNotTrack} catch(e) {r = zB}
+	try {
+		r = navigator.doNotTrack
+		if (r == undefined) {r = zB2}
+	} catch(e) {r = zB1}
 	dom.nDNT.innerHTML = r
 	// online
-	try {r = navigator.onLine} catch(e) {r = zB}
+	try {
+		r = navigator.onLine
+		if (r == undefined) {r = zB2}
+	} catch(e) {r = zB1}
 	dom.nOnLine.innerHTML = r
+
 	// network info api
 	if ("connection" in navigator) {
 		dom.nNetwork = zE
-		try {r = navigator.connection.type} catch(e) {r = zB}
-		dom.nConnection.innerHTML = r += (r == zB ? "" : (r == "unknown" ? rfp_green : rfp_red))
+		try {
+			r = navigator.connection.type
+			if (r == undefined) {r = zB2}
+		} catch(e) {r = zB1}
+		if (r == zB1 || r = ZB2) {
+			dom.nConnection.innerHTML = r
+		} else {
+			dom.nConnection.innerHTML = r += (r == "unknown" ? rfp_green : rfp_red)
+		}
 	} else {
 		dom.nNetwork = zD
-		try {r = navigator.connection} catch(e) {r = zB}
+		try {
+			r = navigator.connection
+			if (r == undefined) {r = zB2}
+		} catch(e) {r = zB1}
 		dom.nConnection.innerHTML = r
 	}
 	// perf
