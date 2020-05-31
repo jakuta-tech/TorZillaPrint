@@ -23,7 +23,7 @@ function get_hardware_concurrency() {
 	if ("hardwareConcurrency" in navigator) {
 		try {
 			let h = navigator.hardwareConcurrency
-			h = (h == "undefined" ? zB2 : h + (h == "2" ? rfp_green : rfp_red))
+			h = (h == undefined ? zB2 : h + (h == "2" ? rfp_green : rfp_red))
 			dom.nHWC.innerHTML = h
 		} catch(e) {
 			dom.nHWC.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)
