@@ -19,27 +19,23 @@ function outputHeaders() {
 	} catch(e) {r2 = zB1}
 	dom.nOnLine.innerHTML = r2
 	// network info api
-	let r3 = ""
+	let r3 = "", test = ""
 	if ("connection" in navigator) {
+		// recheck
 		try {
-			let test = navigator.connection
+			test = navigator.connection
 			dom.nNetwork = (test == undefined ? zB2 : zE)
 		} catch(e) {
+			console.debug("network s/be enabled: checking:", e.name, e.message)
 			dom.nNetwork = zB1
 		}
-
+		// type
 		try {
 			r3 = navigator.connection.type
-			if (r3 == undefined) {r3 = zB2}
+			if (r3 == undefined) {r3 = zB3}
 		} catch(e) {
-			// *##+js(aopr, navigator.connection.type) = referenceerror
-			// *##+js(aopr, navigator.connection) = ditto
-
-			// *##+js(set, navigator.connection.type, undefined) == Type Error
-			// *##+js(set, navigator.connection, undefined) = ditto
-
 			console.debug("A", e.name, e.message)
-			r3 = zB1
+			r3 = (e.name = "ReferenceError" ? zB1 : zB2)
 		}
 		if (r3 == zB1 || r3 == zB2) {
 			dom.nConnection.innerHTML = r3
@@ -47,17 +43,18 @@ function outputHeaders() {
 			dom.nConnection.innerHTML = r3 += (r3 == "unknown" ? rfp_green : rfp_red)
 		}
 	} else {
-		dom.nNetwork = zD
+		// recheck
+		try {
+			test = navigator.connection
+			dom.nNetwork = zD
+		} catch(e) {
+			console.debug("network s/be disabled: checking:", e.name, e.message)
+			dom.nNetwork = zB1
+		}
+		// type
 		try {
 			r3 = navigator.connection
 		} catch(e) {
-			// *##+js(aopr, navigator.connection.type) = referenceerror
-			// *##+js(aopr, navigator.connection) = ditto
-
-			// *##+js(set, navigator.connection.type, undefined) == Type Error
-			// *##+js(set, navigator.connection, undefined) = ditto
-
-
 			console.debug("B", e.name, e.message)
 			r3 = (e.name = "ReferenceError" ? zB1 : zB2)
 		}
