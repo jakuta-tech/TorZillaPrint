@@ -198,9 +198,6 @@ function get_speech_synth() {
 		} catch(e) {
 			dom.sEngines.innerHTML = zB3
 		}
-		try {
-
-		} catch(e) {}
 	} else {
 		dom.sSynth = zD; dom.sEngines = zNA
 	}
