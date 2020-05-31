@@ -35,7 +35,7 @@ function outputHeaders() {
 		dom.nNetwork = zD
 		try {
 			r3 = navigator.connection
-		} catch(e) {r3 = (e.name = "ReferenceError" ? zB1 : zB2}
+		} catch(e) {r3 = (e.name = "ReferenceError" ? zB1 : zB2)}
 		dom.nConnection.innerHTML = r3
 	}
 	// perf
