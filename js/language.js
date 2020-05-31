@@ -23,16 +23,21 @@ function outputHeaders() {
 	if ("connection" in navigator) {
 		try {
 			let test = navigator.connection
-			dom.nNetwork = zE
+			dom.nNetwork = (test == undefined ? zB2 : zE)
 		} catch(e) {
-			console.debug("C", e.name, e.message)
-			dom.nNetwork = (e.name = "ReferenceError" ? zB1 : zB2)
+			dom.nNetwork = zB1)
 		}
 
 		try {
 			r3 = navigator.connection.type
 			if (r3 == undefined) {r3 = zB2}
 		} catch(e) {
+			// *##+js(aopr, navigator.connection.type) = referenceerror
+			// *##+js(aopr, navigator.connection) = ditto
+
+			// *##+js(set, navigator.connection.type, undefined) == Type Error
+			// *##+js(set, navigator.connection, undefined) = ditto
+
 			console.debug("A", e.name, e.message)
 			r3 = zB1
 		}
@@ -46,6 +51,13 @@ function outputHeaders() {
 		try {
 			r3 = navigator.connection
 		} catch(e) {
+			// *##+js(aopr, navigator.connection.type) = referenceerror
+			// *##+js(aopr, navigator.connection) = ditto
+
+			// *##+js(set, navigator.connection.type, undefined) == Type Error
+			// *##+js(set, navigator.connection, undefined) = ditto
+
+
 			console.debug("B", e.name, e.message)
 			r3 = (e.name = "ReferenceError" ? zB1 : zB2)
 		}
