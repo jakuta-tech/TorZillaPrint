@@ -152,9 +152,11 @@ function get_tz_lang() {
 				}
 				// hashes
 				let wHash0 = sha1(res.slice(0,5).join("-"))
-				if (wHash0 !== lHash0) {dom.lHash0.innerHTML = lHash0 +"<br>"+ sb + wHash0 +" [see details]"+sc}
+				console.debug("lHash0: ", lHash0)
+				console.debug("wHash0: ", wHash0)
+				if (wHash0 !== lHash0) {dom.lHash0.innerHTML = lHash0 +"<br>"+ sb + wHash0 + sc+"[see details]"}
 				let wHash1 = sha1(res.slice(5,7).join("-"))
-				if (wHash1 !== lHash1) {dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 +" [see details]"+sc}
+				if (wHash1 !== lHash1) {dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+"[see details]"}
 			}, false)
 			workerlang.postMessage("hi")
 		} catch(e) {}
