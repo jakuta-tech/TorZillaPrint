@@ -3,7 +3,9 @@
 addEventListener("message", function(e) {
 	let d1 = new Date("January 30, 2019 13:00:00"),
 		d2 = new Date("July 30, 2018 13:00:00"),
-		res = []
+		res = [],
+		zB1 = "script blocked [a]",
+		zB2 = "script blocked [b]"
 	function get_item(item) {
 		try {
 			if (item == 0) {return navigator.languages
