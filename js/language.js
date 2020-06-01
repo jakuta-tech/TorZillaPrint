@@ -18,15 +18,15 @@ function outputHeaders() {
 		if (r2 == undefined) {r2 = zB2}
 	} catch(e) {r2 = zB1}
 	dom.nOnLine.innerHTML = r2
+
 	// network info api
 	let r3 = "", test = ""
 	if ("connection" in navigator) {
 		// recheck
 		try {
 			test = navigator.connection
-			dom.nNetwork = (test == undefined ? zB3 : zE)
+			dom.nNetwork = (test == undefined ? zB2 : zE)
 		} catch(e) {
-			console.debug("network s/be enabled: checking:", e.name, e.message)
 			dom.nNetwork = zB1
 		}
 		// type
@@ -34,7 +34,6 @@ function outputHeaders() {
 			r3 = navigator.connection.type
 			if (r3 == undefined) {r3 = zB3}
 		} catch(e) {
-			console.debug("A", e.name, e.message)
 			r3 = (e.name == "ReferenceError" ? zB1 : zB2)
 		}
 		if (r3 == zB1 || r3 == zB2 || r3 == zB3) {
@@ -48,15 +47,13 @@ function outputHeaders() {
 			test = navigator.connection
 			dom.nNetwork = zD
 		} catch(e) {
-			console.debug("network s/be disabled: checking:", e.name, e.message)
-			dom.nNetwork = zB1
+			dom.nNetwork = zB3
 		}
 		// type
 		try {
 			r3 = navigator.connection
 		} catch(e) {
-			console.debug("B", e.name, e.message)
-			r3 = (e.name == "ReferenceError" ? zB1 : zB2)
+			r3 = (e.name == "ReferenceError" ? zB4 : "script blocked [method 5]")
 		}
 		dom.nConnection.innerHTML = r3
 	}
