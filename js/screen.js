@@ -1,6 +1,6 @@
 'use strict';
 
-var jsZoom, varDPI, dpi_x, dpi_y;
+var jsZoom, varDPI, dpi_x, dpi_y, zoomAssume;
 
 /* FUNCTIONS */
 
@@ -30,7 +30,7 @@ function return_mm_dpi(type) {
 			} return i
 		})()
 	} catch(e) {
-		r = zB
+		r = (e.name == "ReferenceError" ? zB1 : zB2)
 	}
 	return r
 }
@@ -149,7 +149,7 @@ function get_color() {
 			return i
 		})()
 	} catch(e) {
-		r = zB
+		r = (e.name == "ReferenceError" ? zB1 : zB2)
 	}
 	dom.mmC.innerHTML = (r == 8 ? r+rfp_green : r+rfp_red)
 }
@@ -459,10 +459,22 @@ function get_line_scrollbar() {
 		os = ""
 		// computedStyle
 		let element = dom.spanLH,
-			lh = getComputedStyle(element).getPropertyValue("line-height")
+			lh = "normal"
+		try {lh = getComputedStyle(element).getPropertyValue("line-height")} catch(e) {}
 		// font
-		let font = getComputedStyle(element).getPropertyValue("font-family")
-		if (font.slice(1,16) !== "Times New Roman") {strFont = sb+"[document fonts are disabled]"+sc}
+		let font = "", fontProp = false, isTNR = false
+		try {
+			font = getComputedStyle(element).getPropertyValue("font-family")
+			fontProp = true
+			if (font.slice(1,16) == "Times New Roman") {
+				isTNR = true
+			} else {
+				strFont = sb+"[document fonts are disabled]"+sc
+			}
+		} catch(e) {
+			strFont = sb+"[font property is blocked]" +sc
+			fontProp = false
+		}
 		// clientrect
 		if (lh == "normal") {
 			element = dom.divLH
@@ -477,6 +489,32 @@ function get_line_scrollbar() {
 				method = "none"
 			}
 		}
+
+		// simulate
+		let simulate = 10
+		if (simulate == 1) {
+			// no clientrect
+			method = "none"
+		} else if (simulate == 2) {
+			// no font property
+			strFont = sb+"[font property is blocked]"+sc
+			fontProp = false
+		} else if (simulate == 3) {
+			// doc fonts blocked
+			strFont = sb+"[document fonts are disabled]"+sc
+			isTNR = false
+		} else if (simulate == 4) {
+			// 1+2
+			method = "none"
+			strFont = sb+"[font property is blocked]"+sc
+			fontProp = false
+		} else if (simulate == 5) {
+			// 1+3
+			method = "none"
+			strFont = sb+"[document fonts are disabled]"+sc
+			isTNR = false
+		}
+
 		// build
 		if (method !== "none") {
 			// trim
@@ -575,7 +613,7 @@ function get_line_scrollbar() {
 				// guess
 				os = osLA+" [logical guess]"
 			} else {
-				if (font.slice(1,16) == "Times New Roman") {
+				if (isTNR && fontProp) {
 					// known
 					os += " [known metric]"
 				}
@@ -583,7 +621,11 @@ function get_line_scrollbar() {
 		}
 		// output
 		if (method == "none") {
-			dom.cssLH.innerHTML = zB + strFont
+			if (fontProp) {
+				dom.cssLH.innerHTML = sb+"[clientrect blocked" + (isTNR ? strFont : " | document fonts disabled")  + "]"+sc 
+			} else {
+				dom.cssLH.innerHTML = sb+"[clientrect + font properties blocked]"+sc
+			}
 		} else {
 			dom.cssLH.innerHTML = lh + "px "+ sbZoom + os + s2+"["+method+"]"+sc
 		}
@@ -742,7 +784,8 @@ function get_mm_metrics(runtype) {
 					return Promise.resolve(searchValue.isBigger)
 				}
 			} catch(e) {
-				return Promise.reject(zB)
+				let reason = (e.name == "ReferenceError" ? zB1 : zB2)
+				return Promise.reject(reason)
 			}
 		}, maxValue, precision)
 	})
@@ -758,27 +801,27 @@ function get_orientation(runtype) {
 			if (window.matchMedia("(-moz-device-orientation:"+l+")").matches) return l
 			if (window.matchMedia("(-moz-device-orientation:"+p+")").matches) return p
 		})()
-	} catch(e) {o1 = zB}
+	} catch(e) {o1 = (e.name == "ReferenceError" ? zB1 : zB2)}
 	try {
 		o2 = (function() {
 			if (window.matchMedia(q+p+")").matches) return p
 			if (window.matchMedia(q+l+")").matches) return l
 		})()
-	} catch(e) {o3 = zB}
+	} catch(e) {o3 = (e.name == "ReferenceError" ? zB1 : zB2)}
 	try {
 		o3 = (function() {
 			if (window.matchMedia("("+a+":1/1)").matches) return s
 			if (window.matchMedia("(min-"+a+":10000/9999)").matches) return l
 			if (window.matchMedia("(max-"+a+":9999/10000)").matches) return p
 		})()
-	} catch(e) {o3 = zB}
+	} catch(e) {o3 = (e.name == "ReferenceError" ? zB1 : zB2)}
 	try {
 		o4 = (function() {
 			if (window.matchMedia("(device-"+a+":1/1)").matches) return s
 			if (window.matchMedia("(min-device-"+a+":10000/9999)").matches) return l
 			if (window.matchMedia("(max-device-"+a+":9999/10000)").matches) return p
 		})()
-	} catch(e) {o4 = zB}
+	} catch(e) {o4 = (e.name == "ReferenceError" ? zB1 : zB2)}
 	dom.mmO.innerHTML = o1+" | "+o2+" | "+o3+" | "+o4
 	// screen*
 	try {
@@ -791,7 +834,7 @@ function get_orientation(runtype) {
 			return r
 		})()
 	} catch(e) {
-		dom.ScrOrient.innerHTML = zB
+		dom.ScrOrient.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)
 	}
 	// display-mode
 	try {
@@ -803,7 +846,7 @@ function get_orientation(runtype) {
 			if (window.matchMedia(q+p+")").matches) return p
 		})()
 	} catch(e) {
-		dom.mmDM.innerHTML = zB
+		dom.mmDM.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)
 	}
 	// perf
 	let str = (runtype == "load" ? "" : "ignore")
@@ -1019,7 +1062,7 @@ function get_screen_metrics(runtype) {
 		if (logExtra) {console.log("C [must follow zoom]: ", runtype, ": screen_metrics")}
 	}
 	// the rest
-	try {dom.fsState = window.fullScreen} catch(e) {dom.fsState.innerHTML = zB}
+	try {dom.fsState = window.fullScreen} catch(e) {dom.fsState.innerHTML = (e.name == "ReferenceError" ? zB1 : zB2)}
 	get_orientation(runtype)
 	get_mm_metrics(runtype)
 	if (logExtra) {console.log("D [must follow zoom]: ", runtype, ": mm_metrics, orientation, fullscreen")}
@@ -1029,12 +1072,11 @@ function get_ua_nav() {
 	let list = ['userAgent','appCodeName','appName','product','appVersion',
 		'oscpu','platform','buildID','productSub','vendor','vendorSub'],
 		res = [],
-		r = "",
-		zBT = zB.trim()
+		r = ""
 	for(let i=0; i < list.length; i++) {
-		try {r = navigator[list[i]]} catch(e) {r = zBT; console.log("ua block:", e.name, e.message)}
+		try {r = navigator[list[i]]} catch(e) {r = (e.name == "ReferenceError" ? zB1 : zB2)}
 		if (r == "") {r = zU}
-		if (r == undefined && isFF) {r = zBT}
+		if (r == undefined && isFF) {r = zB3}
 		let n = (i).toString().padStart(2,"0")
 		res.push(n+" "+r)
 		document.getElementById("nUA"+n).innerHTML = r
@@ -1054,12 +1096,11 @@ function get_ua_nav_checks() {
 	// control
 	let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
 		res = [],
-		r = "",
-		zBT = zB.trim()
+		r = ""
 	for (let i=0; i < list.length; i++) {
-		try {r = navigator[list[i]]} catch(e) {r = zBT}
+		try {r = navigator[list[i]]} catch(e) {r = (e.name == "ReferenceError" ? zB1 : zB2)}
 		if (r == "") {r = "undefined"}
-		if (r == undefined && isFF) {r = zBT}
+		if (r == undefined && isFF) {r = zB3}
 		res.push((i).toString().padStart(2,"0")+" "+r)
 	}
 	let control = sha1(res.join())
@@ -1315,8 +1356,12 @@ function get_widgets() {
 	// loop elements
 	for (let i=0; i < 9; i++) {
 		let el = document.getElementById("widget"+i)
-		font = getComputedStyle(el).getPropertyValue("font-family")
-		size = getComputedStyle(el).getPropertyValue("font-size")
+		try {
+			font = getComputedStyle(el).getPropertyValue("font-family")
+		} catch(e) {font = "unknown"}
+		try {
+			size = getComputedStyle(el).getPropertyValue("font-size")
+		} catch(e) {size = "unknown"}
 		if (runS) {
 			if (i == 1) {font = "-apple-system"; size="11px"} // font + size
 			//if (i == 4) {font = "-apple-system"} // font
@@ -1334,7 +1379,6 @@ function get_widgets() {
 		document.getElementById("wid"+i).innerHTML = output
 		hash.push(output)
 	}
-
 	// output
 	if (fontdiff + sizediff > 0) {
 		// combined
@@ -1356,10 +1400,11 @@ function get_widgets() {
 			if (font0.slice(0,12) == "MS Shell Dlg") {os="Windows"}
 			else if (font0 == "Roboto") {os="Android"}
 			else if (font0 == "-apple-system") {os="Mac"}
+			else if (font0 == "unknown") {os = ""}
 			else {os="Linux"}
 			isOS = os.toLowerCase()
 	}
-	os += " ["+font0+", "+size0+"]"
+	os = (os == "" ? zB : os) + " ["+font0+", "+size0+"]"
 
 	// output
 	dom.widgetH = sha1(hash.join()) + (runS ? zSIM : "")
@@ -1370,7 +1415,8 @@ function get_widgets() {
 
 function get_zoom(runtype) {
 	let t0 = performance.now(),
-		dpr2 = ""
+		dpr2 = "",
+		zoomAssume = false
 
 	// devicePixelRatio
 	let dpr = window.devicePixelRatio || 1;
@@ -1378,11 +1424,15 @@ function get_zoom(runtype) {
 	// add extra dpr: 477157
 	if (isFF) {
 		let element = document.getElementById("dprdroid")
-		dpr2 = getComputedStyle(element).borderTopWidth
-		dpr2 = dpr2.slice(0, -2) // trim "px"
-		if (dpr2 > 0) {
-			dpr2 = (1/dpr2)
-			if (dpr2 != 1 ) {dprStr += " | "+dpr2+rfp_red}
+		try {
+			dpr2 = getComputedStyle(element).borderTopWidth
+			dpr2 = dpr2.slice(0, -2) // trim "px"
+			if (dpr2 > 0) {
+				dpr2 = (1/dpr2)
+				if (dpr2 != 1 ) {dprStr += " | "+dpr2+rfp_red}
+			}
+		} catch(e) {
+			// ToDo: we can't use dpr2 later on
 		}
 	}
 	dom.dpr.innerHTML = dprStr
@@ -1409,12 +1459,17 @@ function get_zoom(runtype) {
 		// or if css is blocked (dpi_y = 0, dpi_x = body width)
 		jsZoom = Math.round(dpr*100).toString()
 	} else {
-		
 		if (varDPI == undefined) {
-			// matchMedia is blocked
+			// e.g. matchMedia is blocked
 			if (isFF) {
-				// fallback to dpr2
-				jsZoom = Math.round(dpr2*100).toString()
+				if (dpr2 == "") {
+					// e.g. getComputedStyle is blocked
+					jsZoom = 100
+					zoomAssume = true
+				} else {
+					// fallback to dpr2
+					jsZoom = Math.round(dpr2*100).toString()
+				}
 			} else {
 				jsZoom = Math.round((dpi_x/dpi_x)*100).toString()
 			}
@@ -1442,7 +1497,7 @@ function get_zoom(runtype) {
 		if (jsZoom == 250) {jsZoom=240}
 	}
 	if (logExtra) {console.log("A [ must come first]: ", runtype, ": zoom, dpi, devicePixelRatio")}
-	dom.jsZoom = jsZoom
+	dom.jsZoom.innerHTML = jsZoom + (zoomAssume ? s1+"[assumed]"+sc :"")
 	if (runtype !== "resize" && logPerf) {debug_log("zoom ["+runtype+ "]",t0)}
 	return jsZoom
 }
@@ -1640,16 +1695,15 @@ function goNW_UA() {
 	let list = ['userAgent','appCodeName','appName','product','appVersion',
 		'oscpu','platform','buildID','productSub','vendor','vendorSub'],
 		res = [],
-		r = "",
-		zBT = zB.trim()
+		r = ""
 	dom.sectionUA8.innerHTML = "&nbsp"
 	// open, get results, close
 	let newWin = window.open()
 	let navigator = newWin.navigator
 	for(let i=0; i < list.length; i++) {
-		try {r = navigator[list[i]]} catch(e) {r = zBT}
+		try {r = navigator[list[i]]} catch(e) {r = (e.name == "ReferenceError" ? zB1 : zB2)}
 		if (r == "") {r = zU}
-		if (r == undefined && isFF) {r = zBT}
+		if (r == undefined && isFF) {r = zB3}
 		res.push((i).toString().padStart(2,"0")+" "+r)
 	}
 	newWin.close()
