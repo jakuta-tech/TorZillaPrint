@@ -1704,7 +1704,8 @@ function outputMath() {
 		mc = "",
 		fdMath1 = "", // strings for browser/os
 		fdMath6 = "",
-		strNew = zNEW + (runS ? zSIM : "")
+		strNew = zNEW + (runS ? zSIM : ""),
+		scriptBlock = false
 
 	function get_hashes() {
 		let h1 = "", h6 = "", r = ""
@@ -1712,18 +1713,41 @@ function outputMath() {
 		let list = ['1e251','1e140','1e12','1e130','1e272','1e0','1e284','1e75'],
 			res = []
 		for (let i=0; i < list.length; i++) {
-			try {r = Math.cos(list[i])} catch(e) {r = zB}
+			try {
+				r = Math.cos(list[i])
+			} catch(e) {
+				r = (e.name == "ReferenceError" ? zB1 :zB2)
+				scriptBlock = true
+			}
 			res.push(r)
 			document.getElementById("cos"+i).innerHTML = r
 		}
 		h1 = res.join("-")
 		// 6th
-		let x, y;
-		x = 0.5; try {r = Math.log((1 + x) / (1 - x)) / 2} catch(e) {r = zB} // atanh(0.5)
+		let x, y
+		x = 0.5
+		try {
+			r = Math.log((1 + x) / (1 - x)) / 2 // atanh(0.5)
+		} catch(e) {
+			r = (e.name == "ReferenceError" ? zB1 :zB2)
+			scriptBlock = true
+		}
 		dom.math1 = r; h6 = r
-		x=1; try {r = Math.exp(x) - 1} catch(e) {r = zB} // expm1(1)
+		x=1
+		try {
+			r = Math.exp(x) - 1 // expm1(1)
+		} catch(e) {
+			r = (e.name == "ReferenceError" ? zB1 :zB2)
+			scriptBlock = true
+		}
 		dom.math2 = r; h6 += "-"+r
-		x = 1; try {y = Math.exp(x); r = (y - 1 / y) / 2} catch(e) {r = zB} // sinh(1)
+		x = 1
+		try {
+			y = Math.exp(x); r = (y - 1 / y) / 2 // sinh(1)
+		} catch(e) {
+			r = (e.name == "ReferenceError" ? zB1 :zB2)
+			scriptBlock = true
+		}
 		dom.math3 = r; h6 += "-"+r
 		// hashes
 		m1hash = sha1(h1)
@@ -1819,7 +1843,11 @@ function outputMath() {
 			if (m1 == "") {m1hash += strNew} else {m1hash += s3+" ["+m1+"]"+sc}
 			if (m6 == "") {m6hash += strNew} else {m6hash += s3+" ["+m6+"]"+sc}
 			if (mc.length < 2) {mchash += strNew} else {mchash += s3+" ["+mc+"]"+sc}
-			strNew = not_seen+" math combo before"+sc + (runS ? zSIM : "")
+			if (scriptBlock) {
+				strNew = "script blocking detected"+ sb +"[see math details]"+sc + (runS ? zSIM : "")
+			} else {
+				strNew = not_seen+" math combo before"+sc + (runS ? zSIM : "")
+			}
 			// runS: alternate new vs os-check (runS sets isOS ="")
 			if (runS) {if (stateSIM) {fdMath1 = "Windows"}}
 			// os-check
@@ -1827,7 +1855,7 @@ function outputMath() {
 				let check = fdMath1.replace(" [32-bit]","")
 				check = check.replace(" [64-bit]","")
 				check = check.toLowerCase()
-				if (isOS !== check) {fdMath1 += sb+"[!= widget]"+sc + zSIM}
+				if (isOS !== check) {fdMath1 += sb+"[!= widget]"+sc + (runS ? zSIM : "")}
 			}
 			// output
 			dom.fdMathOS.innerHTML = (fdMath1 == "" ? strNew : fdMath1)
