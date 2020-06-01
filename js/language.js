@@ -123,9 +123,11 @@ function get_tz_lang() {
 	// output
 	for (let i=0; i < 7; i++) {
 		let result = get_item(i)
+		if (result == undefined) {result = zB3}
 		res.push(result)
 		document.getElementById("tzl"+i).innerHTML = result
 	}
+	console.debug("main\n" + res.join("\n"))
 	// hashes
 	let lHash0 = sha1(res.slice(0,5).join("-"))
 	dom.lHash0.innerHTML = lHash0 + (lHash0 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98" ? enUS_green : enUS_red)
@@ -142,6 +144,7 @@ function get_tz_lang() {
 			let workerlang = new Worker("js/language_worker.js")
 			workerlang.addEventListener("message", function(e) {
 				workerlang.terminate
+				console.debug("worker\n" + e.data.join("\n"))
 				// compare
 				for (let i=0; i < 7; i++) {
 					if (res[i].toString() !== e.data[i].toString()) {
