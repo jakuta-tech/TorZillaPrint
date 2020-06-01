@@ -123,7 +123,8 @@
 		<tr><td>[matchMedia max-resolution] dpi | dppx | dpcm</td><td class="c" id="mmDPI"></td></tr>
 		<tr><td>zoom %</td><td class="c" id="jsZoom"></td></tr>
 		<tr><td>devicePixelRatio</td><td class="c" id="dpr"></td></tr>
-		<tr><td>[matchMedia -webkit- | -moz-] device-pixel-ratio</td><td><span class="c" id="mmDPRw"></span> | <span class="c" id="mmDPRm"></span></td></tr>
+		<tr><td>[matchMedia -webkit- | -moz-] device-pixel-ratio</td>
+			<td><span class="c" id="mmDPRw"></span> | <span class="c" id="mmDPRm"></span></td></tr>
 		<tr class="togOS1"><td colspan="2" class="center">--- android ---</td></tr>
 		<tr class="togOS1"><td></td><td><input type="text" id="kbt" placeholder="tap in here" onfocus="get_android_kbh()"></td></tr>
 		<tr class="togOS1"><td>keyboard height</td><td class="c" id="kbh"></td></tr>
@@ -285,8 +286,8 @@
 		</th></tr></thead>
 		<tr><td><div>
 			<div class="btn-left"><button class="btn4 btn" onClick="outputSection(`4`, `c`, `m`)">[ re-run tests ]</button></div>
-			<div>language & locale</div></div></td><td class="c mono" id="lHash1"></td></tr>
-		<tr><td>timezone</td><td class="c mono" id="lHash0"></td></tr>
+			<div>language & locale</div></div></td><td class="c mono" id="lHash0"></td></tr>
+		<tr><td>timezone</td><td class="c mono" id="lHash1"></td></tr>
 		<tr><td>date/time & format</td><td class="c mono" id="lHash2"></td></tr>
 		<tr><td>geolocation</td><td class="c mono" id="lHash3"></td></tr>
 		<!--details-->
@@ -295,15 +296,15 @@
 			<label for="collapseL" class="lbl-toggle" id="labelL">&#9660; show details</label>
 		</td></tr>
 		<tr class="togL"><td></td><td class="s4">language & locale</td></tr>
-			<tr class="togL"><td>http_accept_language</td><td class="faint" id="lang0"></td></tr>
-			<tr class="togL"><td>languages</td><td class="c" id="lang1"></td></tr>
-			<tr class="togL"><td>language</td><td class="c" id="lang2"></td></tr>
-			<tr class="togL"><td>languages[0]</td><td class="c" id="lang3"></td></tr>
-			<tr class="togL"><td>[Intl.PluralRules] locale</td><td class="c" id="lang4"></td></tr>
-			<tr class="togL"><td>[resolvedOptions] locale</td><td class="c" id="lang5"></td></tr>
+			<tr class="togL"><td>http_accept_language</td><td class="faint" id="tzl99"></td></tr>
+			<tr class="togL"><td>languages</td><td class="c" id="tzl0"></td></tr>
+			<tr class="togL"><td>language</td><td class="c" id="tzl1"></td></tr>
+			<tr class="togL"><td>languages[0]</td><td class="c" id="tzl2"></td></tr>
+			<tr class="togL"><td>[Intl.PluralRules] locale</td><td class="c" id="tzl3"></td></tr>
+			<tr class="togL"><td>[resolvedOptions] locale</td><td class="c" id="tzl4"></td></tr>
 		<tr class="togL"><td></td><td class="s4">timezone</td></tr>
-			<tr class="togL"><td>timezone offsets</td><td class="c" id="tz1"></td></tr>
-			<tr class="togL"><td>[resolvedOptions] timezone</td><td class="c" id="tz2"></td></tr>
+			<tr class="togL"><td>timezone offsets</td><td class="c" id="tzl5"></td></tr>
+			<tr class="togL"><td>[resolvedOptions] timezone</td><td class="c" id="tzl6"></td></tr>
 		<tr class="togL"><td></td><td class="s4">date/time & format</td></tr>
 			<tr class="togL"><td>date/time</td><td class="c" id="dtf0"></td></tr>
 			<tr class="togL"><td>toString</td><td class="c" id="dtf1"></td></tr>
