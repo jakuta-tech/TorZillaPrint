@@ -146,7 +146,7 @@ function get_tz_lang() {
 				workerlang.terminate
 				// compare
 				for (let i=0; i < 7; i++) {
-					if (res[i] !== e.data[i]) {
+					if (res[i].toString() !== e.data[i].toString()) {
 						document.getElementById("tzl"+i).innerHTML = res[i] + " | " + sb + e.data[i] + sc
 					}
 				}
