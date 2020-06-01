@@ -3,9 +3,9 @@
 addEventListener("message", function(e) {
 	let list = ['userAgent','appCodeName','appName','product','appVersion','platform'],
 		res = [],
-		zB1 = "script blocked [method 1]",
-		zB2 = "script blocked [method 2]",
-		zB3 = "script blocked [method 3]",
+		zB1 = "script blocked [a]",
+		zB2 = "script blocked [b]",
+		zB3 = "script blocked [c]",
 		r = ""
 	// e.data = isFF
 	for(let i=0; i < list.length; i++) {
