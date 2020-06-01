@@ -5,7 +5,8 @@ addEventListener("message", function(e) {
 		d2 = new Date("July 30, 2018 13:00:00"),
 		res = [],
 		zB1 = "script blocked [a]",
-		zB2 = "script blocked [b]"
+		zB2 = "script blocked [b]",
+		zB3 = "script blocked [c]"
 	function get_item(item) {
 		try {
 			if (item == 0) {return navigator.languages
@@ -22,6 +23,7 @@ addEventListener("message", function(e) {
 	// build
 	for (let i=0; i < 7; i++) {
 		let result = get_item(i)
+		if (result == undefined) {result = zB3}
 		res.push(result)
 	}
 	// post
