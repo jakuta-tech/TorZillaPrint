@@ -1454,7 +1454,14 @@ function get_zoom(runtype) {
 	if (logPerf) {debug_log("dpi [part of zoom]",t1,"ignore")}
 
 	// zoom: chose method
+	console.debug("dpr", dpr)
+	console.debug("dpr2", dpr2)
+	console.debug("dpi_y", dpi_y)
+	console.debug("dpi_x", dpi_x)
+	console.debug("varDPI", varDPI)
+
 	if (dpr !== 1 || dpi_y == 0) {
+		console.debug("A")
 		// use devicePixelRatio if we know RFP is off
 		// or if css is blocked (dpi_y = 0, dpi_x = body width)
 		jsZoom = Math.round(dpr*100).toString()
@@ -1463,18 +1470,22 @@ function get_zoom(runtype) {
 			// e.g. matchMedia is blocked
 			if (isFF) {
 				if (dpr2 == "") {
+					console.debug("B")
 					// e.g. getComputedStyle is blocked
 					jsZoom = 100
 					zoomAssume = true
 				} else {
 					// fallback to dpr2
+					console.debug("C")
 					jsZoom = Math.round(dpr2*100).toString()
 				}
 			} else {
+				console.debug("D")
 				jsZoom = Math.round((dpi_x/dpi_x)*100).toString()
 			}
 		} else {
 			// otherwise it could be spoofed
+			console.debug("E")
 			jsZoom = Math.round((varDPI/dpi_x)*100).toString()
 		}
 	}
