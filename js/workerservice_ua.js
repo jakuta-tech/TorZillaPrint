@@ -5,7 +5,8 @@ addEventListener("message", function(e) {
 		res = [],
 		zB1 = "script blocked [method 1]",
 		zB2 = "script blocked [method 2]",
-		zB3 = "script blocked [method 3]"
+		zB3 = "script blocked [method 3]",
+		r = ""
 	// e.data = isFF
 	for(let i=0; i < list.length; i++) {
 		try {r = navigator[list[i]]} catch(e) {r = (e.name == "ReferenceError" ? zB1 : zB2)}
