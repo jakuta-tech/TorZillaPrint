@@ -54,7 +54,7 @@ function outputHeaders() {
 			r3 = navigator.connection
 		} catch(e) {
 			// this doesn't seem to ever be used
-			r3 = (e.name == "ReferenceError" ? zB4 : "script blocked [method 5]")
+			r3 = (e.name == "ReferenceError" ? zB4 : zB5)
 		}
 		dom.nConnection.innerHTML = r3
 	}
