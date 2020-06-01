@@ -105,29 +105,35 @@ function get_geo() {
 function get_tz_lang() {
 	// timezone
 	let d1 = new Date("January 30, 2019 13:00:00"),
-		d2 = new Date("July 30, 2018 13:00:00")
-	let tz1 = d1.getTimezoneOffset()+ ' | ' + d2.getTimezoneOffset(); dom.tz1 = tz1
-	let tz2 = Intl.DateTimeFormat().resolvedOptions().timeZone; dom.tz2 = tz2
-	let lHash0 = sha1(tz1 + "-"	+ tz2)
-	bTZ = (lHash0 == "f8296e18b30a4ae7669d1992c943b90dde8bf94f" ? true : false)
-	lHash0 += (bTZ ? rfp_green : rfp_red)
+		d2 = new Date("July 30, 2018 13:00:00"),
+		res = []
+	function get_item(item) {
+		try {
+			if (item == 0) {return navigator.languages
+			} else if (item == 1) {return navigator.language
+			} else if (item == 2) {return navigator.languages[0]
+			} else if (item == 3) {return new Intl.PluralRules().resolvedOptions().locale
+			} else if (item == 4) {return Intl.DateTimeFormat().resolvedOptions().locale
+			} else if (item == 5) {return d1.getTimezoneOffset()+ ' | ' + d2.getTimezoneOffset()
+			} else if (item == 6) {return Intl.DateTimeFormat().resolvedOptions().timeZone}
+		} catch(e) {
+			if (e.name = "ReferenceError") {return zB1} else {return zB2}
+		}
+	}
+	// output
+	for (let i=0; i < 7; i++) {
+		let result = get_item(i)
+		res.push(result)
+		document.getElementById("tzl"+i).innerHTML = result
+	}
+	// hashes
+	let lHash0 = sha1(res.slice(0,5).join("-"))
+	lHash0 += (lHash0 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98" ? enUS_green : enUS_red)
 	dom.lHash0.innerHTML = lHash0
 
-	// language
-	let isB = "blocked"
-	let lang1 = isB, lang2 = isB, lang3 = isB, lang4 = isB, lang5 = isB
-	try {lang1 = navigator.languages} catch(e) {}
-	dom.lang1.innerHTML = (lang1 == isB ? zB : lang1)
-	try {lang2 = navigator.language} catch(e) {}
-	dom.lang2.innerHTML = (lang2 == isB ? zB : lang2)
-	try {lang3 = navigator.languages[0]} catch(e) {}
-	dom.lang3.innerHTML = (lang3 == isB ? zB : lang3)
-	try {lang4 = new Intl.PluralRules().resolvedOptions().locale} catch(e) {}
-	dom.lang4.innerHTML = (lang4 == isB ? zB : lang4)
-	try {lang5 = Intl.DateTimeFormat().resolvedOptions().locale} catch(e) {}
-	dom.lang5.innerHTML = (lang5 == isB ? zB : lang5)
-	let lHash1 = sha1(lang1 +"-"+ lang2 +"-"+ lang3 +"-"+ lang4 +"-"+ lang5)
-	lHash1 += (lHash1 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98" ? enUS_green : enUS_red)
+	let lHash1 = sha1(res.slice(5,7).join("-"))
+	bTZ = (lHash1 == "f8296e18b30a4ae7669d1992c943b90dde8bf94f" ? true : false)
+	lHash1 += (bTZ ? rfp_green : rfp_red)
 	dom.lHash1.innerHTML = lHash1
 
 	// worker
@@ -138,25 +144,17 @@ function get_tz_lang() {
 			let workerlang = new Worker("js/language_worker.js")
 			workerlang.addEventListener("message", function(e) {
 				workerlang.terminate
-				// timezone
-				let isLeak = false
-				if (e.data[0] !== tz1) {dom.tz1.innerHTML = tz1 +" | "+ sb + e.data[0] + sc; isLeak = true}
-				if (e.data[1] !== tz2) {dom.tz2.innerHTML = tz2 +" | "+ sb + e.data[1] + sc; isLeak = true}
-				if (isLeak) {
-					dom.lHash0.innerHTML = lHash0 +"<br>"+ sb + sha1(e.data[0]+"-"+e.data[1]) + " [see details]" +sc
+				// compare
+				for (let i=0; i < 7; i++) {
+					if (res[i] !== e.date[i]) {
+						document.getElementById("tzl"+i).innerHTML = res[i] + " | " + sb + e.data[i] + sc
+					}
 				}
-				// language
-				isLeak = false
-				if (sha1(e.data[2]) !== sha1(lang1)) {dom.lang1.innerHTML = lang1 +" | "+ sb + e.data[2] + sc; isLeak = true}
-				if (e.data[3] !== lang2) {dom.lang2.innerHTML = lang2 +" | "+ sb + e.data[3] + sc; isLeak = true}
-				if (e.data[4] !== lang3) {dom.lang3.innerHTML = lang3 +" | "+ sb + e.data[4] + sc; isLeak = true}
-				if (e.data[5] !== lang4) {dom.lang4.innerHTML = lang4 +" | "+ sb + e.data[5] + sc; isLeak = true}
-				if (e.data[6] !== lang5) {dom.lang5.innerHTML = lang5 +" | "+ sb + e.data[6] + sc; isLeak = true}
-				if (isLeak) {
-					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb
-						+ sha1(e.data[2]+"-"+e.data[3]+"-"+e.data[4]+"-"+e.data[5]+"-"+e.data[6])
-						+ " [see details]" +sc
-				}
+				// hashes
+				let wHash0 = sha1(res.slice(0,5).join("-"))
+				if (wHash0 !== lHash0) {dom.lHash0.innerHTML = lHash0 +"<br>"+ sb + wHash0 +" [see details]"+sc}
+				let wHash1 = sha1(res.slice(5,7).join("-"))
+				if (wHash1 !== lHash1) {dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 +" [see details]"+sc}
 			}, false)
 			workerlang.postMessage("hi")
 		} catch(e) {}
