@@ -1446,7 +1446,7 @@ function get_zoom(runtype) {
 		bDPI = return_mm_dpi("dppx"),
 		cDPI = return_mm_dpi("dpcm")
 
-	if (aDPI !== zB) {varDPI = aDPI}
+	if (aDPI !== zB1 && aDPI !== zB2) {varDPI = aDPI}
 	dom.mmDPI.innerHTML = aDPI +" | "+ bDPI +" | "+ cDPI
 	dpi_x = Math.round(dom.divDPI.offsetWidth * dpr)
 	dpi_y = Math.round(dom.divDPI.offsetHeight * dpr)
