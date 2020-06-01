@@ -4,13 +4,6 @@ let	bTZ = false
 
 function outputHeaders() {
 	let t0 = performance.now()
-	// DNT
-	let r1 = ""
-	try {
-		r1 = navigator.doNotTrack
-		if (r1 == undefined) {r1 = zB2}
-	} catch(e) {r1 = zB1}
-	dom.nDNT.innerHTML = r1
 	// online
 	let r2 = ""
 	try {
@@ -18,45 +11,54 @@ function outputHeaders() {
 		if (r2 == undefined) {r2 = zB2}
 	} catch(e) {r2 = zB1}
 	dom.nOnLine.innerHTML = r2
-
-	// network info api
-	let r3 = "", test = ""
-	if ("connection" in navigator) {
-		// recheck
+	// FF
+	if (isFF) {
+		// DNT
+		let r1 = ""
 		try {
-			test = navigator.connection
-			dom.nNetwork = (test == undefined ? zB2 : zE)
-		} catch(e) {
-			dom.nNetwork = zB1
-		}
-		// type
-		try {
-			r3 = navigator.connection.type
-			if (r3 == undefined) {r3 = zB3}
-		} catch(e) {
-			r3 = (e.name == "ReferenceError" ? zB1 : zB2)
-		}
-		if (r3 == zB1 || r3 == zB2 || r3 == zB3) {
-			dom.nConnection.innerHTML = r3
+			r1 = navigator.doNotTrack
+			if (r1 == undefined) {r1 = zB2}
+		} catch(e) {r1 = zB1}
+		dom.nDNT.innerHTML = r1
+		// network
+		let r3 = "", test = ""
+		if ("connection" in navigator) {
+			// retest
+			try {
+				test = navigator.connection
+				dom.nNetwork = (test == undefined ? zB2 : zE)
+			} catch(e) {dom.nNetwork = zB1}
+			// type
+			try {
+				r3 = navigator.connection.type
+				if (r3 == undefined) {r3 = zB3}
+			} catch(e) {
+				r3 = (e.name == "ReferenceError" ? zB1 : zB2)
+			}
+			if (r3 == zB1 || r3 == zB2 || r3 == zB3) {
+				dom.nConnection.innerHTML = r3
+			} else {
+				dom.nConnection.innerHTML = r3 += (r3 == "unknown" ? rfp_green : rfp_red)
+			}
 		} else {
-			dom.nConnection.innerHTML = r3 += (r3 == "unknown" ? rfp_green : rfp_red)
+			// retest
+			try {
+				test = navigator.connection; dom.nNetwork = zD
+			} catch(e) {dom.nNetwork = zB3}
+			// type
+			try {
+				r3 = navigator.connection
+			} catch(e) {r3 = (e.name == "ReferenceError" ? zB4 : zB5)} // never used
+			dom.nConnection.innerHTML = r3
 		}
 	} else {
-		// recheck
-		try {
-			test = navigator.connection
-			dom.nNetwork = zD
-		} catch(e) {
-			dom.nNetwork = zB3
+		// non-FF
+		dom.nDNT = navigator.doNotTrack
+		if ("connection" in navigator) {
+			dom.nNetwork = zE; dom.nConnection.innerHTML = navigator.connection.type
+		} else {
+			dom.nNetwork = zD; dom.nConnection = navigator.connection
 		}
-		// type
-		try {
-			r3 = navigator.connection
-		} catch(e) {
-			// this doesn't seem to ever be used
-			r3 = (e.name == "ReferenceError" ? zB4 : zB5)
-		}
-		dom.nConnection.innerHTML = r3
 	}
 	// perf
 	debug_page("perf","headers",t0,gt0)
