@@ -423,10 +423,15 @@ function get_datetime() {
 			} else {
 				return sf.trim() +"not coded yet"+sc
 			}
-
 		} catch(e) {
-			err.push(item +": "+ e.name + " : " + e.message)
-			if (e.name = "ReferenceError") {return zB1} else {return zB2}
+			if (isFF) {
+				err.push(item +": "+ e.name + " : " + e.message)
+				if (e.name == "ReferenceError") {return zB1
+				} else if (e.name == "TypeError") {return zB2
+				} else {return zB3}
+			} else {
+				return "error"
+			}
 		}
 	}
 
