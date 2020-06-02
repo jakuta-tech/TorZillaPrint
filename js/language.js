@@ -239,8 +239,8 @@ function get_datetime() {
 					}
 				} catch(e) {
 					// TypeError Intl.RelativeTimeFormat is not a constructor
-					if (e.type == "TypeError") { return zNS
-					} else if (e.type == "ReferenceError") {return zB1
+					if (e.name == "TypeError") { return zNS
+					} else if (e.name == "ReferenceError") {return zB1
 					} else {return zB2}
 				}
 			} else if (item == 18) {
