@@ -1595,7 +1595,7 @@ function goFS() {
 }
 
 function goNW() {
-	dom.newWinLeak = "&nbsp"
+	dom.newWinLeak.innerHTML = "&nbsp"
 	let sizesi = [], // inner history
 		sizeso = [], // outer history
 		n = 1, // setInterval counter
