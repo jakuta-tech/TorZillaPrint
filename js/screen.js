@@ -1551,7 +1551,6 @@ function goNW() {
 		sizeso = [], // outer history
 		n = 1, // setInterval counter
 		newWinLeak = "",
-		newWinLength = "",
 		strError = ""
 
 	// open
@@ -1567,10 +1566,12 @@ function goNW() {
 
 	function output_newwin(output){
 		setTimeout(function(){
-			// 1611534: window.length
-			newWinLength = newWin.length
+			let newWinLength = newWin.length
+			let newWinFrames = newWin.frames.length
 			dom.newWinLeak.innerHTML = output + "<br>window.length: " + newWinLength
-				+ (newWinLength == 0 ? rfp_green : rfp_red)
+				//+ (newWinLength == 0 ? rfp_green : rfp_red)
+				+ " | window.frames: " + newWinFrames
+				// + (newWinFrames == 0 ? rfp_green : rfp_red)
 		}, 1000)
 	}
 
