@@ -160,23 +160,9 @@ function get_errors() {
 		hash = "",
 		code = "",
 		ff = "",
-		unusual = false,
 		t0 = performance.now()
 	// output
 	function output() {
-		let str = ""
-		code = s2+"["+code+"]"+sc
-		dom.errh.innerHTML = hash + code + (runS ? zSIM : "")
-		if (isBrand == "Developer") {
-			str = isBrand.toLowerCase() +" "
-		} else if (isBrand == "Beta") {
-			str = "release/beta "
-		}
-		dom.fdError.innerHTML = zFF +" "+ ff + (unusual ? sb+"["+str+"non-standard: see details]"+sc : "")
-		dom.labelErr2.innerHTML = (unusual ? sb+"["+str+"non-standard] "+sc + "error2" : "error2")
-	}
-	// build
-	function build() {
 		hash = sha1(res.join())
 		let temp = hash.substring(0,10)
 		if (isErr == "") {isErr = hash.substring(0,4)}
@@ -194,27 +180,20 @@ function get_errors() {
 		} else if (temp == "fa8efa5727") {
 			code = "E1"; ff = "[FF72-74]"
 		} else if (temp == "fb19e1bedb") {
-			code = "E2"; ff = "[FF74]"; unusual = true
+			code = "E2"; ff = "[FF74]"
 		} else if (temp == "214fc55f92") {
 			code = "F1"; ff = "[FF75+]"
 		} else if (temp == "5186bfbb76") {
-			code = "F2"; ff = "[FF75+]"; unusual = true
+			code = "F2"; ff = "[FF75+]"
 		} else if (temp == "0dc5e92b7d") {
-			code = "N1"; ff = "[Nightly]"
+			code = "G1"; ff = "[FF78+]"
 		} else if (temp == "b75bad7247") {
-			code = "N2"; ff = "[Nightly]"; unusual = true
+			code = "G2"; ff = "[FF78+]"
 		}
 		if (code !== "") {
 			isFF = true
-			// don't show F1/F2 yet
-			if (code == "F1" || code == "F2") {
-				// output non unusual
-				dom.fdError.innerHTML = zFF +" "+ ff
-				dom.errh.innerHTML = hash + s2+"["+code+"]"+sc + (runS ? zSIM : "")
-			} else {
-				// output
-				output()
-			}
+			dom.fdError.innerHTML = zFF +" "+ ff
+			dom.errh.innerHTML = hash + s2+"["+code+"]"+sc + (runS ? zSIM : "")
 		} else if (isFF) {
 			code = zNEW
 			dom.errh.innerHTML = hash + code + (runS ? zSIM : "")
@@ -224,27 +203,6 @@ function get_errors() {
 		}
 		store_data("ua","1 err",hash)
 		if (logPerf) {debug_log("errors [ua]",t0)}
-
-		// 1636195: 77+ [F1/F2] dev=normal beta=unusual: need isVer & isBrand
-		if (code == "F1" || code == "F2") {
-			// wait for isBrand
-			function check_brand() {
-				if (isBrand !== "") {
-					clearInterval(checking)
-					if (isVer > 76) {
-						if (isBrand == "unknown") {
-							// no brand = do nothing: e.g android
-							unusual = false
-						} else if (isBrand == "Developer") {
-							// dev = flip logic
-							unusual = !unusual
-						}
-					}
-					output()
-				}
-			}
-			let checking = setInterval(check_brand, 50)
-		}
 	}
 	// run
 	function run() {
@@ -293,7 +251,7 @@ function get_errors() {
 		} catch(e) {
 			test = e.name+": "+e.message; dom.err5=test; res.push(test)
 		}
-		build()
+		output()
 	}
 	run()
 }
@@ -883,14 +841,8 @@ function get_resources() {
 
 	// output
 	function output() {
-		// set isBrand for get_error: which is only used for 77+
-		if (channel == "Developer/Nightly") {
-			isBrand = "Developer"
-		} else if (channel == "Release/Beta") {
-			isBrand = "Beta"
-		} else {
-			isBrand == "unknown"
-		}
+		// set isChannel
+		isChannel = channel
 		// output
 		dom.fdResource.innerHTML = browser + " " + result
 		store_data("ua","2 res",browser+" "+wFF+"x"+hFF+" "+extra)
@@ -1270,9 +1222,7 @@ function get_version() {
 		//77: 1627285
 		if (go) {if (isNaN(new DOMRect(0, 0, NaN, NaN).top)) {verNo = "77"; go = false}}
 		//76: 1608010
-		if (go) {if (test76.validity.rangeOverflow) {verNo = "75"} else {verNo = "76"; go = false}}
-		// current nghtly only sigs
-		verNo += ((isErr == "0dc5" || isErr == "b75b") ? " [Nightly]": "")
+		if (go) {if (test76.validity.rangeOverflow) {verNo = "75"} else {verNo = "76"}}
 	}
 	function v74minus () {
 		//74: 1605835
@@ -1453,6 +1403,7 @@ function get_zoom(runtype) {
 	dom.jsDPI = dpi_x
 	if (logPerf) {debug_log("dpi [part of zoom]",t1,"ignore")}
 
+	// zoom: choose method
 	if (dpr !== 1 || dpi_y == 0) {
 		// use devicePixelRatio if we know RFP is off
 		// or if css is blocked (dpi_y = 0, dpi_x = body width)
