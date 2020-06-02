@@ -310,36 +310,27 @@ function get_datetime() {
 						}
 					}
 				}
-				try {
-					// ToDo: formatToParts Intl.NumberFormat: add more types
-						// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat/formatToParts
-						// currency, fraction, literal, percentSign, plusSign
-
-					// decimal
-					type19 = "decimal"
-					str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(1000.2)[3])
-					tmp19 += clean_string(type19, str19, true)
-					// group: e.g fr = narrow no-break space
-					type19 = "group"
-					str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(1000)[1])
-					tmp19 += " | "+ clean_string(type19, str19, true)
-					// infinity
-					type19 = "infinity"
-					str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(Infinity)[0])
-					tmp19 += " | "+ clean_string(type19, str19, true)
-					// minusSign
-					type19 = "minusSign"
-					str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(-5)[0])
-					tmp19 += " | " + clean_string(type19, str19, true)
-					// nan: e.g. zh-TW
-					type19 = "nan"
-					str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(4/5 + "%")[0])
-					tmp19 += " | "+ clean_string(type19, str19, false)
-				} catch(e) {
-					console.debug("tmp19 error:", type19 + ":", e.message)
-				}
+				// decimal
+				type19 = "decimal"
+				str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(1000.2)[3])
+				tmp19 += clean_string(type19, str19, true)
+				// group: e.g fr = narrow no-break space
+				type19 = "group"
+				str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(1000)[1])
+				tmp19 += " | "+ clean_string(type19, str19, true)
+				// infinity
+				type19 = "infinity"
+				str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(Infinity)[0])
+				tmp19 += " | "+ clean_string(type19, str19, true)
+				// minusSign
+				type19 = "minusSign"
+				str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(-5)[0])
+				tmp19 += " | " + clean_string(type19, str19, true)
+				// nan: e.g. zh-TW
+				type19 = "nan"
+				str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(4/5 + "%")[0])
+				tmp19 += " | "+ clean_string(type19, str19, false)
 				return tmp19
-
 			} else if (item == 20) {
 				// 70+: [BigInt] Intl.NumberFormat
 				try {
@@ -434,7 +425,7 @@ function get_datetime() {
 			}
 
 		} catch(e) {
-			err.push(item +": "+ e.name)
+			err.push(item +": "+ e.name + " : " + e.message)
 			if (e.name = "ReferenceError") {return zB1} else {return zB2}
 		}
 	}
@@ -490,7 +481,7 @@ function get_datetime() {
 
 	// debug
 	//console.debug(res.join("\n"))
-	if (err.length > 0) {console.log(err.join("dtf errors\n"))}
+	if (err.length > 0) {console.log("dtf errors\n" + err.join("\n"))}
 
 }
 
