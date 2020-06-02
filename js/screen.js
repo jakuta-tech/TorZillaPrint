@@ -1600,6 +1600,7 @@ function goNW() {
 		sizeso = [], // outer history
 		n = 1, // setInterval counter
 		newWinLeak = "",
+		newWinLength = "",
 		strError = ""
 
 	// open
@@ -1614,7 +1615,12 @@ function goNW() {
 	newWinLeak = iw+" x "+ih+" [inner] "+ow+" x "+oh+" [outer]"
 
 	function output_newwin(output){
-		dom.newWinLeak.innerHTML = output
+		setTimeout(function(){
+			// 1611534: window.length
+			newWinLength = newWin.length
+			dom.newWinLeak.innerHTML = output + "<br>window.length: " + newWinLength
+				+ (newWinLength == 0 ? rfp_green : rfp_red)
+		}, 1000)
 	}
 
 	// DESKTOP
