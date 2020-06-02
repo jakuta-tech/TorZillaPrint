@@ -85,7 +85,7 @@ function get_geo() {
 	}
 	function geoState(state) {
 		dom.geo2 = state
-		r = sha1(r + "-" + state)
+		r = sha1(r +"-"+ state)
 		// isTB2
 		if (isFF & isTB2 == "") {
 			function checkTB() {
@@ -103,6 +103,8 @@ function get_geo() {
 		navigator.permissions.query({name:"geolocation"}).then(e => geoState(e.state))
 	} catch(e) {
 		dom.geo2 = (e.name == "ReferenceError" ? zB1 : zB2)
+		r = sha1(r +"-"+ (e.name == "ReferenceError" ? zB1 : zB2))
+		geoWrite(r)
 	}
 }
 
