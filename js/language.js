@@ -452,7 +452,10 @@ function get_datetime() {
 	if (bTZ) {
 		// state1: both green
 		if (lHash2 == "b4a4fa60d3ba4887249ae8aaca6a9d910386bea2") {
+			// nightly has dayPeriod
 			ff = " [Nightly]"
+		} else if (lHash2 == "b295a51dce74c7ae0711ed1f6d42dc2c6331fad4") {
+			ff = " [FF78+]"
 		} else if (lHash2 == "10e9861618442970d570def914617958d03b570a") {
 			ff = " [FF71+]"
 		} else if (lHash2 == "445067b74382877c6b2239181515a94809fe9ceb") {
