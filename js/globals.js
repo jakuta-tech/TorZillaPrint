@@ -102,7 +102,7 @@ let avh = "",
 	isOS = "",
 	isErr = "",
 	isVer = "",
-	isBrand = "",
+	isChannel = "",
 	isFile = false,
 	isSecure = false,
 // dev
