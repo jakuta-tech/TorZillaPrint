@@ -1,6 +1,6 @@
 'use strict';
 
-let	bTZ = false
+let bTZ = false
 
 function outputHeaders() {
 	let t0 = performance.now()
@@ -99,7 +99,11 @@ function get_geo() {
 			geoWrite(r)
 		}
 	}
-	navigator.permissions.query({name:"geolocation"}).then(e => geoState(e.state))
+	try {
+		navigator.permissions.query({name:"geolocation"}).then(e => geoState(e.state))
+	} catch(e) {
+		dom.geo2 = (e.name == "ReferenceError" ? zB1 : zB2)
+	}
 }
 
 function get_tz_lang() {
@@ -167,256 +171,281 @@ function get_tz_lang() {
 }
 
 function get_datetime() {
-	// vars: d = date o = options f = format
+	let t0 = performance.now()
+
+	// vars: d = date o = options
 	let d = new Date("January 30, 2019 13:00:00"),
-	o = { weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric",
-		minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long" },
-	f = Intl.DateTimeFormat(undefined, { weekday: "long", month: "long", day: "numeric",
-		year: "numeric", hour: "numeric", minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long" })
+	o = {weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric",
+		minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long"},
+	res = [],
+	err = []
 
-	// one liners
-	let tmp0 = d
-	let tmp1 = d.toString()
-	let tmp2 = d.toLocaleString(undefined, o)
-	let tmp3 = d.toLocaleDateString(undefined, o)
-	let tmp4 = d.toLocaleTimeString(undefined, o)
-	let tmp5 = Intl.DateTimeFormat(undefined, o).format(d)
-	let temp = f.formatToParts(d)
-		let tmp6 = temp.map(function(entry){return entry.value}).join("")
-	let tmp7 = d.toGMTString()
-	let tmp8 = d.toUTCString()
-	let tmp9 = d.toLocaleString()
-	let tmp10 = [d].toLocaleString()
-	let tmp11 = d.toLocaleDateString()
-	let tmp12 = Intl.DateTimeFormat().format(d)
-	let tmp13 = d.toLocaleTimeString()
-	let tmp14 = d.toTimeString()
-	let tmp15 = Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle
+	function get_item(item) {
+		try {
+			if (item == 0) {return d
+			} else if (item == 1) {return d.toString()
+			} else if (item == 2) {return d.toLocaleString(undefined, o)
+			} else if (item == 3) {return d.toLocaleDateString(undefined, o)
+			} else if (item == 4) {return d.toLocaleTimeString(undefined, o)
+			} else if (item == 5) {return Intl.DateTimeFormat(undefined, o).format(d)
+			} else if (item == 6) {
+				let f = Intl.DateTimeFormat(undefined, { weekday: "long", month: "long", day: "numeric",
+					year: "numeric", hour: "numeric", minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long" })
+				let temp = f.formatToParts(d)
+				return temp.map(function(entry){return entry.value}).join("")
+			} else if (item == 7) {return d.toGMTString()
+			} else if (item == 8) {return d.toUTCString()
+			} else if (item == 9) {return d.toLocaleString()
+			} else if (item == 10) {return [d].toLocaleString()
+			} else if (item == 11) {return d.toLocaleDateString()
+			} else if (item == 12) {return Intl.DateTimeFormat().format(d)
+			} else if (item == 13) {return d.toLocaleTimeString()
+			} else if (item == 14) {return d.toTimeString()
+			} else if (item == 15) {
+				return Intl.DateTimeFormat(undefined, {hour: "numeric"}).resolvedOptions().hourCycle
+			} else if (item == 16 || item == 17) {
+				try {
+					// 65+: Intl.RelativeTimeFormat
+					let rtf = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"})
+					if (item == 16) {
+						return rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
+							rtf.format(1, "day") +", "+ rtf.format(1, "month") +", "+ rtf.format(2, "year")
+					}
+					// 70+: Intl.RelativeTimeFormat formatToParts
+					if (item == 17) {
+						let is70 = false
+						function concat_parts(length, value) {
+							let output = ""
+							let rtf2 = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"})
+							let rtf3 = rtf2.formatToParts(length, value)
+							for (let x=0; x < rtf3.length; x++) {
+								output += rtf3[x].value
+							}
+							return output
+						}
+						try {
+							let test17 = rtf.formatToParts(-1, "year")
+							is70 = true
+							return concat_parts("-1", "year")
+								+ ", " + concat_parts("-3", "week")
+								+ ", " + concat_parts("-1", "hour")
+								+ ", " + concat_parts("45", "second")
+								+ ", " + concat_parts("1", "day")
+								+ ", " + concat_parts("1", "quarter")
+						} catch(e) {
+							return (is70 == false ? zNS : "supported" + sb + "[error: bad developer]" + sc)
+						}
 
-	let tmp16 = "",	tmp17 = "", is70 = false
-	try {
-		// 65+: Intl.RelativeTimeFormat
-		let rtf = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"})
-		tmp16 = rtf.format(-7, "day") +", "+ rtf.format(-1, "day") +", "+
-			rtf.format(1, "day") +", "+ rtf.format(1, "month") +", "+ rtf.format(2, "year")
+					}
+				} catch(e) {
+					// TypeError Intl.RelativeTimeFormat is not a constructor
+					if (e.type == "TypeError") { return zNS
+					} else if (e.type == "ReferenceError") {return zB1
+					} else {return zB2}
+				}
+			} else if (item == 18) {
+				// Intl.NumberFormat
+				let tmp18 = "", err18 = ""
+				function err_check(error) {
+					if (error == "5e74394a663ce1f31667968d4dbe3de7a21da4d2") {
+						// 70-: invalid value unit...
+						return " | unit " + zNS
+					} else if (error == "dabc0b854a78cdfdf4c0e8e3aa744da7056dc9ed") {
+						// 71+: invalid value "unit"...
+						return " | \"unit\" " + zNS
+					} else {
+						return " | "+ error
+					}
+				}
+				// decimals & groups
+				tmp18 = new Intl.NumberFormat(undefined).format(123456.789)
+				// unit long
+				try {
+					tmp18 += " | "+ new Intl.NumberFormat(undefined, {style: "unit", unit: "mile-per-hour", unitDisplay: "long"}).format(5)
+				} catch(e) {
+					tmp18 += err_check(sha1(e.message))
+				}
+				// notation: scientific
+				try {
+					tmp18 += " | "+ new Intl.NumberFormat(undefined, {notation: "scientific"}).format(987654321)
+				} catch(e) {}
+				// unit percent
+				try {
+					tmp18 += " | "+ new Intl.NumberFormat(undefined, {style: "unit", unit: "percent"}).format(1/2)
+				} catch(e) {
+					tmp18 += err_check(sha1(e.message))
+				}
+				// notation: long compact
+				try {
+					tmp18 += " | "+ new Intl.NumberFormat(undefined, {notation: "compact", compactDisplay: "long"}).format(654321987)
+				} catch(e) {}
+				// signDisplay
+				try {
+					tmp18 += " | "+ (55).toLocaleString(undefined, {signDisplay: "always"})
+				} catch(e) {}
+				return tmp18
+			} else if (item == 19) {
+				// [formatToParts] Intl.NumberFormat
+				let tmp19 = "", str19 = "", type19 ="", charcode = ""
+				function clean_string(type, string, extra) {
+					// prettify
+					try {
+						string = string.replace(/"/g, "")
+						string = string.replace("{type:", "")
+						string = string.replace(",value:", " ")
+						string = string.replace("}", "")
+						if (extra == true) {
+							// charCode single chars: e.g group/fr
+							charcode = string.charCodeAt(string.length-1)
+							string = string+" <code>"+ charcode +"</code>"
+						}
+						return string
+					} catch(e) {
+						if (e.message == "string is undefined") {
+							return type+" "+zU
+						} else {
+							return type+" error"
+						}
+					}
+				}
+				try {
+					// ToDo: formatToParts Intl.NumberFormat: add more types
+						// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat/formatToParts
+						// currency, fraction, literal, percentSign, plusSign
 
-		// 70+: Intl.RelativeTimeFormat formatToParts
-		function concat_parts(length, value) {
-			let output = ""
-			let rtf2 = new Intl.RelativeTimeFormat(undefined, {style: "long", numeric: "auto"})
-			let rtf3 = rtf2.formatToParts(length, value)
-			for (let x=0; x < rtf3.length; x++) {
-				output += rtf3[x].value
-			}
-			return output
-		}
-		try {
-			let test17 = rtf.formatToParts(-1, "year")
-			is70 = true
-			tmp17 = concat_parts("-1", "year")
-				+ ", " + concat_parts("-3", "week")
-				+ ", " + concat_parts("-1", "hour")
-				+ ", " + concat_parts("45", "second")
-				+ ", " + concat_parts("1", "day")
-				+ ", " + concat_parts("1", "quarter")
-		} catch(e) {
-			tmp17 = (is70 == false ? zNS : "supported" + sb + "[error: bad developer]" + sc)
-		}
-	} catch(e) {
-		tmp16 = zNS
-		tmp17 = zNS
-	}
+					// decimal
+					type19 = "decimal"
+					str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(1000.2)[3])
+					tmp19 += clean_string(type19, str19, true)
+					// group: e.g fr = narrow no-break space
+					type19 = "group"
+					str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(1000)[1])
+					tmp19 += " | "+ clean_string(type19, str19, true)
+					// infinity
+					type19 = "infinity"
+					str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(Infinity)[0])
+					tmp19 += " | "+ clean_string(type19, str19, true)
+					// minusSign
+					type19 = "minusSign"
+					str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(-5)[0])
+					tmp19 += " | " + clean_string(type19, str19, true)
+					// nan: e.g. zh-TW
+					type19 = "nan"
+					str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(4/5 + "%")[0])
+					tmp19 += " | "+ clean_string(type19, str19, false)
+				} catch(e) {
+					console.debug("tmp19 error:", type19 + ":", e.message)
+				}
+				return tmp19
 
-	// Intl.NumberFormat
-	let tmp18 = "", err18 = ""
-	function err_check(error) {
-		if (error == "5e74394a663ce1f31667968d4dbe3de7a21da4d2") {
-			// 70-: invalid value unit...
-			return " | unit " + zNS
-		} else if (error == "dabc0b854a78cdfdf4c0e8e3aa744da7056dc9ed") {
-			// 71+: invalid value "unit"...
-			return " | \"unit\" " + zNS
-		} else {
-			return " | "+ error
-		}
-	}
-	try {
-		// decimals & groups
-		tmp18 = new Intl.NumberFormat(undefined).format(123456.789)
-		// unit long
-		try {
-			tmp18 += " | "+ new Intl.NumberFormat(undefined, {style: "unit", unit: "mile-per-hour", unitDisplay: "long"}).format(5)
-		} catch(e) {
-			tmp18 += err_check(sha1(e.message))
-		}
-		// notation: scientific
-		try {
-			tmp18 += " | "+ new Intl.NumberFormat(undefined, {notation: "scientific"}).format(987654321)
-		} catch(e) {}
-		// unit percent
-		try {
-			tmp18 += " | "+ new Intl.NumberFormat(undefined, {style: "unit", unit: "percent"}).format(1/2)
-		} catch(e) {
-			tmp18 += err_check(sha1(e.message))
-		}
-		// notation: long compact
-		try {
-			tmp18 += " | "+ new Intl.NumberFormat(undefined, {notation: "compact", compactDisplay: "long"}).format(654321987)
-		} catch(e) {}
-		// signDisplay
-		try {
-			tmp18 += " | "+ (55).toLocaleString(undefined, {signDisplay: "always"})
-		} catch(e) {}
-	} catch(e) {
-		console.debug("tmp18 error:", e.message)
-	}
+			} else if (item == 20) {
+				// 70+: [BigInt] Intl.NumberFormat
+				try {
+					let bint1 = BigInt(9007199254740991)
+					bint1 = eval("987654321987654321n")
+					let numFormat = new Intl.NumberFormat(undefined)
+					return numFormat.format(bint1)
+				} catch(e) {
+					// condition ? 67- : 68-69
+					return (e.message == "BigInt is not defined" ? zNS + " [BigInt]" : zNS)
+				}
+			} else if (item == 21) {
+				// 70+: [BigInt] toLocaleString
+				let tmp21 = ""
+				try {
+					let bint2 = BigInt(9007199254740991)
+					bint2 = eval("123456789123456789n")
+					tmp21 = bint2.toLocaleString()
+					if (tmp21 == "123456789123456789") {
+						// 68-69
+						tmp21 = zNS
+					}
+					return tmp21
+				} catch(e) {
+					// 67-
+					return (e.message == "BigInt is not defined" ? zNS + " [BigInt]" : "error:" + e.message)
+				}
+			} else if (item == 22) {
+				return Number(1234567.89).toLocaleString(undefined, {style: "currency", currency: "USD", currencyDisplay: "symbol"})
+			} else if (item == 23) {
+				return Intl.DateTimeFormat().resolvedOptions().calendar
+			} else if (item == 24) {
+				let tmp24 = Intl.DateTimeFormat().resolvedOptions().numberingSystem
+				let tmp24b = ""
+				try {
+					// 70+
+					tmp24b = new Intl.RelativeTimeFormat().resolvedOptions().numberingSystem
+					// 65-69
+					if (tmp24b == undefined) {tmp24b = "undefined"}
+				} catch(e) {
+					// <65: ...not a constructor
+					tmp24b = zNS
+				}
+				return tmp24 += " | "+ tmp24b
+			} else if (item == 25) {
+				// relatedYear, yearName
+				let tmp25 = Intl.DateTimeFormat(undefined, {relatedYear: "long"})
+					tmp25 = tmp25.formatToParts(d)
+					tmp25 = tmp25.map(function(entry){return entry.value}).join("")
+				let tmp25b = Intl.DateTimeFormat(undefined, {year: "numeric", yearName: "long"})
+					tmp25b = tmp25b.formatToParts(d)
+					tmp25b = tmp25b.map(function(entry){return entry.value}).join("")
+				return tmp25 += " | "+ tmp25b
 
-	// [formatToParts] Intl.NumberFormat
-	let tmp19 = "", str19 = "", type19 ="", charcode = ""
-	function clean_string(type, string, extra) {
-		// prettify
-		try {
-			string = string.replace(/"/g, "")
-			string = string.replace("{type:", "")
-			string = string.replace(",value:", " ")
-			string = string.replace("}", "")
-			if (extra == true) {
-				// charCode single chars: e.g group/fr
-				charcode = string.charCodeAt(string.length-1)
-				string = string+" <code>"+ charcode +"</code>"
-			}
-			return string
-		} catch(e) {
-			if (e.message == "string is undefined") {
-				return type+" "+zU
+			} else if (item == 26) {
+				// dayPeriod: 1569103: nightly-only FF78+
+				function get_day_period(date) {
+					return new Intl.DateTimeFormat(undefined, {dayPeriod: "long"}).format(date)
+				}
+				let tmp26 = "",
+					dayA = get_day_period(new Date("2019-01-30T08:00:00")),
+					dayB = get_day_period(new Date("2019-01-30T12:00:00"))
+				if (dayA == dayB) {
+					tmp26 = zNS
+				} else {
+					// in the morning, noon, in the afternoon, in the evening, at night
+					tmp26 = dayA + ", " + dayB
+						+ ", " + get_day_period(new Date("2019-01-30T15:00:00"))
+						+ ", " + get_day_period(new Date("2019-01-30T18:00:00"))
+						+ ", " + get_day_period(new Date("2019-01-30T22:00:00"))
+				}
+				return tmp26
+			} else if (item == 27) {
+				// ListFormat: 1589095: 78+
+				let tmp27 = "", results27 = []
+				try {
+					let	styles = ['long','short','narrow'],
+						types = ['conjunction', 'disjunction','unit']
+					styles.forEach(function(s){
+						types.forEach(function(t){
+							results27.push(new Intl.ListFormat(undefined,{style: s, type: t}).format(["a","b","c"]))
+						})
+					})
+				} catch(e) {
+					tmp27 = zNS
+				}
+				if (tmp27 !== zNS) {tmp27 = results27.join(" | ")}
+				return tmp27
+
 			} else {
-				return type+" error"
+				return sf.trim() +"not coded yet"+sc
 			}
+
+		} catch(e) {
+			err.push(i +": "+ e.name)
+			if (e.name = "ReferenceError") {return zB1} else {return zB2}
 		}
 	}
-	try {
-		// ToDo: formatToParts Intl.NumberFormat: add more types
-			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat/formatToParts
-			// currency, fraction, literal, percentSign, plusSign
 
-		// decimal
-		type19 = "decimal"
-		str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(1000.2)[3])
-		tmp19 += clean_string(type19, str19, true)
-		// group: e.g fr = narrow no-break space
-		type19 = "group"
-		str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(1000)[1])
-		tmp19 += " | "+ clean_string(type19, str19, true)
-		// infinity
-		type19 = "infinity"
-		str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(Infinity)[0])
-		tmp19 += " | "+ clean_string(type19, str19, true)
-		// minusSign
-		type19 = "minusSign"
-		str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(-5)[0])
-		tmp19 += " | " + clean_string(type19, str19, true)
-		// nan: e.g. zh-TW
-		type19 = "nan"
-		str19 = JSON.stringify(new Intl.NumberFormat(undefined).formatToParts(4/5 + "%")[0])
-		tmp19 += " | "+ clean_string(type19, str19, false)
-	} catch(e) {
-		console.debug("tmp19 error:", type19 + ":", e.message)
-	}
-
-	// 70+: [BigInt] Intl.NumberFormat
-	let tmp20 = ""
-	try {
-		let bint1 = BigInt(9007199254740991)
-		bint1 = eval("987654321987654321n")
-		let numFormat = new Intl.NumberFormat(undefined)
-		tmp20 = numFormat.format(bint1)
-	} catch(e) {
-		// condition ? 67- : 68-69
-		tmp20 = (e.message == "BigInt is not defined" ? zNS + " [BigInt]" : zNS)
-	}
-
-	// 70+: [BigInt] toLocaleString
-	let tmp21 = ""
-	try {
-		let bint2 = BigInt(9007199254740991)
-		bint2 = eval("123456789123456789n")
-		tmp21 = bint2.toLocaleString()
-		if (tmp21 == "123456789123456789") {
-			// 68-69
-			tmp21 = zNS
-		}
-	} catch(e) {
-		// 67-
-		tmp21 = (e.message == "BigInt is not defined" ? zNS + " [BigInt]" : "error:" + e.message)
-	}
-
-	// currency
-	let tmp22 = Number(1234567.89).toLocaleString(undefined, {style: "currency", currency: "USD", currencyDisplay: "symbol"})
-
-	// calendar/numbering
-	let tmp23 = Intl.DateTimeFormat().resolvedOptions().calendar
-	let tmp24 = Intl.DateTimeFormat().resolvedOptions().numberingSystem
-	let tmp24b = ""
-	try {
-		// 70+
-		tmp24b = new Intl.RelativeTimeFormat().resolvedOptions().numberingSystem
-		// 65-69
-		if (tmp24b == undefined) {tmp24b = "undefined"}
-	} catch(e) {
-		// <65: ...not a constructor
-		tmp24b = zNS
-	}
-	tmp24 += " | "+ tmp24b
-
-	// relatedYear, yearName
-	let tmp25 = Intl.DateTimeFormat(undefined, {relatedYear: "long"})
-		tmp25 = tmp25.formatToParts(d)
-		tmp25 = tmp25.map(function(entry){return entry.value}).join("")
-	let tmp25b = Intl.DateTimeFormat(undefined, {year: "numeric", yearName: "long"})
-		tmp25b = tmp25b.formatToParts(d)
-		tmp25b = tmp25b.map(function(entry){return entry.value}).join("")
-	tmp25 += " | "+ tmp25b
-
-	// dayPeriod: 1569103: enabled nightly-only FF78+
-	function get_day_period(date) {
-		return new Intl.DateTimeFormat(undefined, {dayPeriod: "long"}).format(date)
-	}
-	let tmp26 = "",
-		dayA = get_day_period(new Date("2019-01-30T08:00:00")),
-		dayB = get_day_period(new Date("2019-01-30T12:00:00"))
-	if (dayA == dayB) {
-		tmp26 = zNS
-	} else {
-		// in the morning, noon, in the afternoon, in the evening, at night
-		tmp26 = dayA + ", " + dayB
-			+ ", " + get_day_period(new Date("2019-01-30T15:00:00"))
-			+ ", " + get_day_period(new Date("2019-01-30T18:00:00"))
-			+ ", " + get_day_period(new Date("2019-01-30T22:00:00"))
-	}
-
-	// ListFormat: 1589095: 78+
-	let tmp27 = "", results27 = []
-	try {
-		let	styles = ['long','short','narrow'],
-			types = ['conjunction', 'disjunction','unit']
-		styles.forEach(function(s){
-			types.forEach(function(t){
-				results27.push(new Intl.ListFormat(undefined,{style: s, type: t}).format(["a","b","c"]))
-			})
-		})
-	} catch(e) {
-		tmp27 = zNS
-	}
-	if (tmp27 !== zNS) {tmp27 = results27.join(" | ")}
-
-	// output
-	let results = [tmp0,tmp1,tmp2,tmp3,tmp4,tmp5,tmp6,tmp7,tmp8,tmp9,tmp10,tmp11,tmp12,tmp13,
-		tmp14,tmp15,tmp16,tmp17,tmp18,tmp19,tmp20,tmp21,tmp22,tmp23,tmp24,tmp25,tmp26,tmp27]
-	for (let i=0; i < results.length; i++) {
-		document.getElementById("dtf"+i).innerHTML = results[i]
+	// build
+	for (let i=0; i < 28; i++) {
+		let result = get_item(i)
+		if (result == undefined) {result = zB3}
+		res.push(result)
+		document.getElementById("dtf"+i).innerHTML = result
 	}
 	// hash
-	let lHash2 = sha1(results.join("-"))
+	let lHash2 = sha1(res.join("-"))
 	dom.lHash2 = lHash2
 	// RFP
 	let ff = ""
@@ -453,6 +482,10 @@ function get_datetime() {
 		lHash2 += spoof_both_green
 	}
 	dom.lHash2.innerHTML = lHash2 += (isFF ? ff : "")
+
+	// debug
+	//console.debug(res.join("\n"))
+	if (err.length > 0) {console.log(err.join("dtf errors\n"))}
 
 }
 
