@@ -434,7 +434,7 @@ function get_datetime() {
 			}
 
 		} catch(e) {
-			err.push(i +": "+ e.name)
+			err.push(item +": "+ e.name)
 			if (e.name = "ReferenceError") {return zB1} else {return zB2}
 		}
 	}
