@@ -228,7 +228,12 @@ function get_touch() {
 	// t
 	try {document.createEvent("TouchEvent"); t = true} catch (e) {}
 	// p
-	try {p = navigator.maxTouchPoints} catch(e) {p = (e.name == "ReferenceError" ? zB1 : zB2)}
+	try {
+		p = navigator.maxTouchPoints
+		if (p == undefined) {p = zB3}
+	} catch(e) {
+		p = (e.name == "ReferenceError" ? zB1 : zB2)
+	}
 	// output
 	dom.touch.innerHTML = p +" | "+ m +" | "+("ontouchstart" in window)+" | "+("ontouchend" in window)+" | "+ t
 }
