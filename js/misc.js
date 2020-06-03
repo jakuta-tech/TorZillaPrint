@@ -93,7 +93,7 @@ function get_perf2() {
 	try {
 		let timing = performance.timing
 		r3 = timing.navigationStart - timing.loadEventEnd
-		r3 = (r3 == 0 ? r3 + rfp_green : "not zero" + rfp_red)
+		r3 = (r3 == 0 ? "zero" : "not zero")
 	} catch(e) {r3 = zB}
 	dom.perf3.innerHTML = r3
 
