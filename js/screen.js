@@ -160,9 +160,11 @@ function get_errors() {
 		hash = "",
 		code = "",
 		ff = "",
+		isBlock = false,
 		t0 = performance.now()
 	// output
 	function output() {
+		if (!isFile) {console.log("error hash array\n" + res.join("\n"))}
 		hash = sha1(res.join())
 		let temp = hash.substring(0,10)
 		if (isErr == "") {isErr = hash.substring(0,4)}
@@ -192,12 +194,16 @@ function get_errors() {
 		}
 		if (code !== "") {
 			isFF = true
-			dom.fdError.innerHTML = zFF +" "+ ff
+			dom.fdError.innerHTML = zFF +" " + ff
 			dom.errh.innerHTML = hash + s2+"["+code+"]"+sc + (runS ? zSIM : "")
 		} else if (isFF) {
 			code = zNEW
 			dom.errh.innerHTML = hash + code + (runS ? zSIM : "")
-			dom.fdError.innerHTML = not_seen+" error combo before"+sc + (runS ? zSIM : "")
+			if (isBlock) {
+				dom.fdError.innerHTML = "script blocking detected"+ sb +"[see details]"+sc + (runS ? zSIM : "")
+			} else {
+				dom.fdError.innerHTML = not_seen+" error combo before"+sc + (runS ? zSIM : "")
+			}
 		} else {
 			dom.errh = hash
 		}
@@ -206,6 +212,7 @@ function get_errors() {
 	}
 	// run
 	function run() {
+		isErr = ""
 		//1
 		try {eval("alert('A)")} catch(e) {
 			dom.err1=e; res.push(e)
@@ -223,18 +230,44 @@ function get_errors() {
 		try {
 			test = BigInt(2.5)
 		} catch(e) {
-			test = e.message.substring(0,3)
-			if (test == "can") {
-				try {
-					test = eval("987654321987654321n")
-					let num = new Intl.NumberFormat(undefined)
-					test = num.format(test)
+			if (isFF) {
+				test = e.message.substring(0,3)
+				if (test == "2.5") {
+					// 75+
 					test = e.name+": "+ e.message
-				} catch (e) {
-					test = e.name+": "+ e.message
+				} else if (test == "can") {
+					// 68-74: trap NumberFormat
+					try {
+						test = eval("987654321987654321n")
+						let num = new Intl.NumberFormat(undefined)
+						test = num.format(test)
+						test = e.name+": "+ e.message
+					} catch (e) {
+						if (e.name == "ReferenceError") {
+							test = zB4; isBlock = true
+						} else if (e.message.substring(0,5) == "Intl.") {
+							test = zB5; isBlock = true
+						} else if (e.name == "TypeError") {
+							// 68-69 expected
+							test = e.name+": "+ e.message
+						} else {
+							test = zB6; isBlock = true
+						}
+					}
+				} else if (e.name == "ReferenceError") {
+					if (test == "Big") {
+						// 60-67
+						test = e.name+": "+ e.message
+					} else {
+						test = zB1; isBlock = true
+					}
+				} else {
+					if (e.name == "TypeError") {
+						test = zB2; isBlock = true
+					} else {
+						test = zB3; isBlock = true
+					}
 				}
-			} else if (test == "Big") {
-				test = e.name+": "+ e.message
 			} else {
 				test = e.name+": "+ e.message
 			}
@@ -249,7 +282,20 @@ function get_errors() {
 		try {
 			test = new Intl.NumberFormat("en", {style:"unit", unit:"percent"}).format(1/2)
 		} catch(e) {
-			test = e.name+": "+e.message; dom.err5=test; res.push(test)
+			if (isFF) {
+				if (e.name == "RangeError") {
+					test = e.name+": "+e.message
+				} else if (e.name == "ReferenceError") {
+					test = zB1; isBlock = true
+				} else if (e.name == "TypeError") {
+					test = zB2; isBlock = true
+				} else {
+					test = zB3; isBlock = true
+				}
+			} else {
+				test = e.name+": "+e.message
+			}
+			dom.err5=test; res.push(test)
 		}
 		output()
 	}
@@ -1169,6 +1215,7 @@ function get_version() {
 		verNo = "",
 		isNew = false,
 		t0 = performance.now()
+
 	function output(){
 		// set isVer
 		if (isVer == "") {
@@ -1190,25 +1237,12 @@ function get_version() {
 	// javascript.options.property_error_message_fix
 	} else if (isErr == "fa8e" || isErr == "fb19") { v74minus()
 	} else if (isErr == "214f" || isErr == "5186") { v75plus()
-	} else if (isErr == "0dc5" || isErr == "b75b") { v75plus() // nightly
+	} else if (isErr == "0dc5" || isErr == "b75b") { v75plus()
 	} else {
-		// new
+		// new: cascade down all tests: this helps covers the error
+		// hash being meddled with: e.g. aopr script blocking
 		isNew = true
-		//75: 1615600
-		// we only care about 75+ but need to know 68+/67- for UA BS purposes
-		// we still get a new error hash notation for good measure
-		try {
-			let newtest = BigInt(2.5)
-		} catch(e) {
-			let str = e.message.substring(0,3)
-			if (str == "2.5") {
-				v75plus()
-			} else if (str == "can") {
-				verNo = "68+"
-			} else {
-				v67minus()
-			}
-		}
+		v75plus()
 	}
 	// run
 	function v75plus() {
@@ -1217,22 +1251,53 @@ function get_version() {
 			try {
 				let test78 = new Intl.NumberFormat(undefined, {style: "unit", unit: "percent"}).format(1/2)
 				verNo = "78+"; go = false
-			} catch(e) {}
+			} catch(e) {
+				// catch blocking, try something else
+			}
 		}
 		//77: 1627285
 		if (go) {if (isNaN(new DOMRect(0, 0, NaN, NaN).top)) {verNo = "77"; go = false}}
 		//76: 1608010
-		if (go) {if (test76.validity.rangeOverflow) {verNo = "75"} else {verNo = "76"}}
+		if (go) {if (test76.validity.rangeOverflow) {} else {verNo = "76"; go = false}}
+		//75: 1615600
+		if (isNew && go) {
+			try {let test75 = BigInt(2.5)} catch(e) {
+				if (e.message.substring(0,3) == "2.5") {verNo = "75"} else {v74minus()}
+			}
+		} else if (go) {verNo = "75"}
 	}
 	function v74minus () {
 		//74: 1605835
 		if (go) {try {eval("let t = ({ 1n: 1 })"); verNo = "74"; go = false;} catch(e) {}}
 		//73: 1605803
-		if (go) {if (getComputedStyle(dom.test73).content == "normal") {verNo = "73"} else {verNo = "72"}}
+		if (go) {if (getComputedStyle(dom.test73).content == "normal") {verNo = "73"; go = false} else {}}
+		//new
+		if (isNew && go) {
+			//72: 1589072
+			try {let test72 = eval('let a = 100_00_;')} catch(e) {
+				if (e.message.substring(0,6) == "unders") {verNo = "72"; go = false}
+			}
+			//71: 1575980
+			if (go) {
+				try {
+					let test71 = new StaticRange()
+				} catch(e) {
+					if (e.name == "TypeError" && e.message.substring(0,4) == "Stat") {verNo = "71"; go = false}
+				}
+			}
+			//70: 1435818
+			if (go) {
+				try {eval("let t = 1_050"); verNo = "70"} catch(e) {v69minus()}
+			}
+		} else if (go) {verNo = "72"}
 	}
 	function v69minus() {
 		//69: 1558387
-		if (go) {try {let test69 = new DOMError('a'); verNo = "68"} catch(e) {verNo = "69"}}
+		if (go) {try {let test69 = new DOMError('a'); verNo = "68"} catch(e) {verNo = "69"; go = false}}
+		if (isNew && go) {
+			//68: 1548773
+			if (dom.test68.typeMustMatch == false) {v67minus()} else {verNo = "68"}
+		} else if (go) {verNo = "68"}
 	}
 	function v67minus() {
 		//67: 1531830
@@ -1262,7 +1327,20 @@ function get_version() {
 			console.timeEnd("v62")
 		}
 		//61
-		if (go) {try {let test61 = (" a").trimStart(); verNo="61"; go = false} catch(e) {verNo="60" + (isNew ? " or lower": "")}}
+		if (go) {try {let test61 = (" a").trimStart(); verNo="61"; go = false} catch(e) {}}
+		//60
+		if (isNew && go) {
+			console.debug("bananananan")
+			try {(Object.getOwnPropertyDescriptor(Document.prototype, "body")
+				|| Object.getOwnPropertyDescriptor(HTMLDocument.prototype, "body")).get.call((new DOMParser).parseFromString(
+					"<html xmlns='http://www.w3.org/1999/xhtml'><body/></html>","application/xhtml+xml")) !== null
+				verNo = "60"
+			} catch(e) {
+				verNo = "59 or lower"
+			}
+		} else {
+			verNo = "60"
+		}
 	}
 	output()
 }
@@ -1566,6 +1644,7 @@ function goNW() {
 
 	function output_newwin(output){
 		setTimeout(function(){
+			// 1611534
 			let newWinLength = newWin.length
 			let newWinFrames = newWin.frames.length
 			dom.newWinLeak.innerHTML = output + "<br>window.length: " + newWinLength
