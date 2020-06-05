@@ -1215,7 +1215,6 @@ function get_version() {
 		verNo = "",
 		isNew = false,
 		t0 = performance.now()
-
 	function output(){
 		// set isVer
 		if (isVer == "") {
@@ -1254,14 +1253,27 @@ function get_version() {
 				verNo = "79+"; go = false
 			} catch(e) {}
 		}
+		// 78: multiple checks
+		//78: 1634135
+		if (go) {
+			try {
+				let regex78b = new RegExp('b')
+				if (regex78b.dotAll == false) {verNo = "78"; go = false}
+			} catch(e) {}
+		}
 		//78: 1633836
 		if (go) {
 			try {
 				let test78 = new Intl.NumberFormat(undefined, {style: "unit", unit: "percent"}).format(1/2)
-				verNo = "78"; go = false
-			} catch(e) {
-				// catch blocking, try something else
-			}
+				verNo = "78"; go = false; console.log("version: v78 NumberFormat used")
+			} catch(e) {}
+		}
+		//78: 1589095
+		if (go) {
+			try {
+				let test78a = new Intl.ListFormat(undefined,{style: 'long', type: 'unit'}).format(['a','b','c'])
+				verNo = "78"; go = false; console.log("version: v78 ListFormat used")
+			} catch(e) {}
 		}
 		//77: 1627285
 		if (go) {if (isNaN(new DOMRect(0, 0, NaN, NaN).top)) {verNo = "77"; go = false}}
