@@ -1246,11 +1246,19 @@ function get_version() {
 	}
 	// run
 	function v75plus() {
+		//79: 1639591
+		if (go) {
+			try {
+				let x = 3, y = 3
+				eval('let z = (x ??= x * y)')
+				verNo = "79+"; go = false
+			} catch(e) {}
+		}
 		//78: 1633836
 		if (go) {
 			try {
 				let test78 = new Intl.NumberFormat(undefined, {style: "unit", unit: "percent"}).format(1/2)
-				verNo = "78+"; go = false
+				verNo = "78"; go = false
 			} catch(e) {
 				// catch blocking, try something else
 			}
