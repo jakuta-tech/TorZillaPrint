@@ -118,27 +118,37 @@ function get_tz_lang() {
 			if (item == 0) {return navigator.languages
 			} else if (item == 1) {return navigator.language
 			} else if (item == 2) {return navigator.languages[0]
-			} else if (item == 3) {return new Intl.PluralRules().resolvedOptions().locale
-			} else if (item == 4) {return Intl.DateTimeFormat().resolvedOptions().locale
-			} else if (item == 5) {return d1.getTimezoneOffset()+ ' | ' + d2.getTimezoneOffset()
-			} else if (item == 6) {return Intl.DateTimeFormat().resolvedOptions().timeZone}
+			} else if (item == 3) {return Intl.DateTimeFormat().resolvedOptions().locale
+			} else if (item == 4) {return new Intl.PluralRules().resolvedOptions().locale
+			} else if (item == 5) {return new Intl.ListFormat(undefined).resolvedOptions().locale
+			} else if (item == 6) {return d1.getTimezoneOffset()+ ' | ' + d2.getTimezoneOffset()
+			} else if (item == 7) {return Intl.DateTimeFormat().resolvedOptions().timeZone}
 		} catch(e) {
-			if (e.name = "ReferenceError") {return zB1} else {return zB2}
+			if (isFF) {
+				if (e.message == "Intl.ListFormat is not a constructor") {return zNS
+				} else if (e.name == "ReferenceError") {return zB1} else {return zB2}
+			} else {
+				return e.name + ": " + e.message
+			}
 		}
 	}
 	// output
-	for (let i=0; i < 7; i++) {
+	for (let i=0; i < 8; i++) {
 		let result = get_item(i)
 		if (result == undefined) {result = zB3}
 		res.push(result)
 		document.getElementById("tzl"+i).innerHTML = result
 	}
 	// hashes
-	let lHash0 = sha1(res.slice(0,5).join("-"))
-	lHash0 += (lHash0 == "a8d1f16a67efa3d7659d71d7bb08a08e21f34b98" ? enUS_green : enUS_red)
+	let lHash0 = sha1(res.slice(0,6).join("-"))
+	if (lHash0 == "53173ef1cd3c7e699e74c84e0adc88d14519e72b") {
+		lHash0 += enUS_green + " [FF77 or lower]"
+	} else {
+		lHash0 += (lHash0 == "9424371eb3e055c06bf0c9a63ab93769fd90f318" ? enUS_green + " [FF78+]" : enUS_red)
+	}
 	dom.lHash0.innerHTML = lHash0
 
-	let lHash1 = sha1(res.slice(5,7).join("-"))
+	let lHash1 = sha1(res.slice(6,8).join("-"))
 	bTZ = (lHash1 == "f8296e18b30a4ae7669d1992c943b90dde8bf94f" ? true : false)
 	lHash1 += (bTZ ? rfp_green : rfp_red)
 	dom.lHash1.innerHTML = lHash1
@@ -152,18 +162,18 @@ function get_tz_lang() {
 			workerlang.addEventListener("message", function(e) {
 				workerlang.terminate
 				// compare
-				for (let i=0; i < 7; i++) {
+				for (let i=0; i < 8; i++) {
 					if (res[i].toString() !== e.data[i].toString()) {
 						document.getElementById("tzl"+i).innerHTML = res[i] + " | " + sb + e.data[i] + sc
 					}
 				}
 				// hashes
-				let wHash0 = sha1(e.data.slice(0,5).join("-"))
-				if (wHash0 !== sha1(res.slice(0,5).join("-"))) {
+				let wHash0 = sha1(e.data.slice(0,6).join("-"))
+				if (wHash0 !== sha1(res.slice(0,6).join("-"))) {
 					dom.lHash0.innerHTML = lHash0 +"<br>"+ sb + wHash0 + sc+" [see details]"
 				}
-				let wHash1 = sha1(e.data.slice(5,7).join("-"))
-				if (wHash1 !== sha1(res.slice(5,7).join("-"))) {
+				let wHash1 = sha1(e.data.slice(6,8).join("-"))
+				if (wHash1 !== sha1(res.slice(6,8).join("-"))) {
 					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
 				}
 			}, false)
