@@ -425,11 +425,24 @@ function get_datetime() {
 						})
 					})
 				} catch(e) {
-					tmp27 = zNS
+					if (isFF) {
+						if (e.message == "Intl.ListFormat is not a constructor") {tmp27 = zNS
+						} else if (e.name == "ReferenceError") {tmp27 = zB1} else {tmp27 = zB2}
+					} else {
+						tmp27 = "error"
+					}
 				}
-				if (tmp27 !== zNS) {tmp27 = results27.join(" | ")}
+				if (results27.length > 0) {tmp27 = results27.join(" | ")}
 				return tmp27
-
+			} else if (item == 28) {
+					// 1557718: 79+
+					let list28 = ["short", "medium","long"],
+						res28 = []
+					list28.forEach(function(s){
+						let style28 = Intl.DateTimeFormat(undefined, {timeStyle: s,	dateStyle: s})
+						res28.push(style28.format(d))
+					})
+					return res28.join(" | ")
 			} else {
 				return sf.trim() +"not coded yet"+sc
 			}
@@ -446,7 +459,7 @@ function get_datetime() {
 	}
 
 	// build
-	for (let i=0; i < 28; i++) {
+	for (let i=0; i < 29; i++) {
 		let result = get_item(i)
 		if (result == undefined) {result = zB3}
 		res.push(result)
@@ -455,26 +468,28 @@ function get_datetime() {
 	// hash
 	let lHash2 = sha1(res.join("-"))
 	dom.lHash2 = lHash2
+	console.debug(res[28])
 	// RFP
 	let ff = ""
 	if (bTZ) {
 		// state1: both green
-		if (lHash2 == "b4a4fa60d3ba4887249ae8aaca6a9d910386bea2") {
-			// nightly has dayPeriod
+		if (lHash2 == "435f031e0f42a621ed69602b17e0c582ccdbecf9") {
+			// note this will split
+			// nightly has dayPeriod, 79+ has date+timeStyle
 			ff = " [Nightly]"
-		} else if (lHash2 == "b295a51dce74c7ae0711ed1f6d42dc2c6331fad4") {
-			ff = " [FF78+]"
-		} else if (lHash2 == "10e9861618442970d570def914617958d03b570a") {
-			ff = " [FF71+]"
-		} else if (lHash2 == "445067b74382877c6b2239181515a94809fe9ceb") {
+		} else if (lHash2 == "89fdb820a29b8c6314d5acfd16b9417bb37d77d7") {
+			ff = " [FF78]"
+		} else if (lHash2 == "b5daa5e53530871e1df40f506d68ff8f66e51503") {
+			ff = " [FF71-77]"
+		} else if (lHash2 == "e0197d5d5aac16d61ef8c4721098bab8d0f1b93a") {
 			ff = " [FF70]"
-		} else if (lHash2 == "1b3671c4e6901e4bb855611876a6880e85fa866b") {
+		} else if (lHash2 == "7e6f587e0677c01f5d7579b59b13264db122ce10") {
 			ff = " [FF68-69]"
-		} else if (lHash2 == "3c2486895b44a8494841e8c6aef22d475d71afd3") {
+		} else if (lHash2 == "1cd22b700906d763f1dbbc6f87d9af95527df5d8") {
 			ff = " [FF65-67]"
-		} else if (lHash2 == "8e43263e3dc552bdf118b99042a82fe6d0a4005f") {
+		} else if (lHash2 == "83db1cd0f78d6df6be99572e84e7a0f21f1600fb") {
 			ff = " [FF63-64]"
-		} else if (lHash2 == "168bdac2cbbc42a7b233f5fb435c7285291ae2be") {
+		} else if (lHash2 == "38f4014476870e361ba89160014a188ab8446dd0") {
 			ff = " [FF60-62]"
 		}
 	}
