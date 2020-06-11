@@ -141,10 +141,12 @@ function get_tz_lang() {
 	}
 	// hashes
 	let lHash0 = sha1(res.slice(0,6).join("-"))
-	if (lHash0 == "53173ef1cd3c7e699e74c84e0adc88d14519e72b") {
-		lHash0 += enUS_green + " [FF77 or lower]"
-	} else {
-		lHash0 += (lHash0 == "9424371eb3e055c06bf0c9a63ab93769fd90f318" ? enUS_green + " [FF78+]" : enUS_red)
+	if (isFF) {
+		if (lHash0 == "53173ef1cd3c7e699e74c84e0adc88d14519e72b") {
+			lHash0 += enUS_green + " [FF77 or lower]"
+		} else {
+			lHash0 += (lHash0 == "9424371eb3e055c06bf0c9a63ab93769fd90f318" ? enUS_green + " [FF78+]" : enUS_red)
+		}
 	}
 	dom.lHash0.innerHTML = lHash0
 
@@ -468,46 +470,47 @@ function get_datetime() {
 	// hash
 	let lHash2 = sha1(res.join("-"))
 	dom.lHash2 = lHash2
-	console.debug(res[28])
 	// RFP
 	let ff = ""
-	if (bTZ) {
-		// state1: both green
-		if (lHash2 == "435f031e0f42a621ed69602b17e0c582ccdbecf9") {
-			// note this will split
-			// nightly has dayPeriod, 79+ has date+timeStyle
-			ff = " [Nightly]"
-		} else if (lHash2 == "89fdb820a29b8c6314d5acfd16b9417bb37d77d7") {
-			ff = " [FF78]"
-		} else if (lHash2 == "b5daa5e53530871e1df40f506d68ff8f66e51503") {
-			ff = " [FF71-77]"
-		} else if (lHash2 == "e0197d5d5aac16d61ef8c4721098bab8d0f1b93a") {
-			ff = " [FF70]"
-		} else if (lHash2 == "7e6f587e0677c01f5d7579b59b13264db122ce10") {
-			ff = " [FF68-69]"
-		} else if (lHash2 == "1cd22b700906d763f1dbbc6f87d9af95527df5d8") {
-			ff = " [FF65-67]"
-		} else if (lHash2 == "83db1cd0f78d6df6be99572e84e7a0f21f1600fb") {
-			ff = " [FF63-64]"
-		} else if (lHash2 == "38f4014476870e361ba89160014a188ab8446dd0") {
-			ff = " [FF60-62]"
+	if (isFF) {
+		if (bTZ) {
+			// state1: both green
+			if (lHash2 == "435f031e0f42a621ed69602b17e0c582ccdbecf9") {
+				// note this will split
+				// nightly has dayPeriod, 79+ has date+timeStyle
+				ff = " [Nightly]"
+			} else if (lHash2 == "89fdb820a29b8c6314d5acfd16b9417bb37d77d7") {
+				ff = " [FF78]"
+			} else if (lHash2 == "b5daa5e53530871e1df40f506d68ff8f66e51503") {
+				ff = " [FF71-77]"
+			} else if (lHash2 == "e0197d5d5aac16d61ef8c4721098bab8d0f1b93a") {
+				ff = " [FF70]"
+			} else if (lHash2 == "7e6f587e0677c01f5d7579b59b13264db122ce10") {
+				ff = " [FF68-69]"
+			} else if (lHash2 == "1cd22b700906d763f1dbbc6f87d9af95527df5d8") {
+				ff = " [FF65-67]"
+			} else if (lHash2 == "83db1cd0f78d6df6be99572e84e7a0f21f1600fb") {
+				ff = " [FF63-64]"
+			} else if (lHash2 == "38f4014476870e361ba89160014a188ab8446dd0") {
+				ff = " [FF60-62]"
+			}
 		}
-	}
-	if (ff == "") {
-		if (bTZ == true) {
-			// state2: lang red, time green
-			lHash2 += enUS_red + rfp_green
-		} else {
-			// state3: lang green, time red
-			// lHash2 += enUS_green + rfp_red
+		if (ff == "") {
+			if (bTZ == true) {
+				// state2: lang red, time green
+				lHash2 += enUS_red + rfp_green
+			} else {
+				// state3: lang green, time red
+				// lHash2 += enUS_green + rfp_red
 
-			// state4: both red: just default to "and/or"
-			lHash2 += spoof_both_red
+				// state4: both red: just default to "and/or"
+				lHash2 += spoof_both_red
+			}
+		} else {
+			lHash2 += spoof_both_green
 		}
-	} else {
-		lHash2 += spoof_both_green
 	}
-	dom.lHash2.innerHTML = lHash2 += (isFF ? ff : "")
+	dom.lHash2.innerHTML = lHash2 + (isFF ? ff : "")
 
 	// debug
 	//console.debug(res.join("\n"))
