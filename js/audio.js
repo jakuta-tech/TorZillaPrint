@@ -18,7 +18,7 @@ function reset_audio2() {
 	dom.audio1data.innerHTML = str
 }
 
-function get_audio2_context() {
+function get_audio2_context(attempt) {
 	let t0 = performance.now()
 	latencyTries++
 
@@ -56,6 +56,7 @@ function get_audio2_context() {
 			if (runS) {v = 0}
 			if (v == 0) {
 				latencyError = true
+				//console.log("latency error", attempt)
 				v = v + sb+"["+zF+"]"+sc
 			} else {
 				// isOS = "mac" // simulate mac
@@ -138,7 +139,7 @@ function get_audio2_hybrid() {
 			if (showperf) {debug_page("perf","audio 2",t0audio)}
 		})
 		// re-test context
-		if (latencyError == true && latencyTries == 1) {get_audio2_context()}
+		if (latencyError == true && latencyTries == 1) {get_audio2_context(2)}
 	}
 	oscillator.start(0)
 }
@@ -181,7 +182,7 @@ function get_audio2_oscillator() {
 			if (logPerf) {debug_log("oscillator [audio]",t0,t0audio)}
 		})
 		// next test
-		get_audio2_context()
+		get_audio2_context(1)
 	}
 	oscillator.start(0)
 }
@@ -234,8 +235,8 @@ function outputAudio1(runtype) {
 				crypto.subtle.digest("SHA-256", getTest),
 				crypto.subtle.digest("SHA-256", copyTest),
 				]).then(function(hashes){
-					dom.audioCopy = byteArrayToHex(hashes[0])
-					dom.audioGet = byteArrayToHex(hashes[1])
+					dom.audioGet = byteArrayToHex(hashes[0])
+					dom.audioCopy = byteArrayToHex(hashes[1])
 				})
 				let sum = 0
 				for (let i=4500; i < 5000; i++) {
