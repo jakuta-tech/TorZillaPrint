@@ -179,7 +179,7 @@ function get_tz_lang() {
 					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
 				}
 			}, false)
-			workerlang.postMessage("hi")
+			workerlang.postMessage(isFF)
 		} catch(e) {}
 	}
 }
