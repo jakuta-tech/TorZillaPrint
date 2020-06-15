@@ -1349,7 +1349,7 @@ function get_version() {
 		//61
 		if (go) {try {let test61 = (" a").trimStart(); verNo="61"; go = false} catch(e) {}}
 		//60
-		if (isNew && go) {
+		if (go) {
 			console.debug("bananananan")
 			try {(Object.getOwnPropertyDescriptor(Document.prototype, "body")
 				|| Object.getOwnPropertyDescriptor(HTMLDocument.prototype, "body")).get.call((new DOMParser).parseFromString(
@@ -1358,8 +1358,6 @@ function get_version() {
 			} catch(e) {
 				verNo = "59 or lower"
 			}
-		} else {
-			verNo = "60"
 		}
 	}
 	output()
