@@ -1245,15 +1245,15 @@ function get_version() {
 	}
 	// run
 	function v75plus() {
-		//79: 1639591
+		//79: 1644878
 		if (go) {
 			try {
-				let x = 3, y = 3
-				eval('let z = (x ??= x * y)')
-				verNo = "79+"; go = false
-			} catch(e) {}
+				Map.prototype.entries.call(true)
+			} catch(e) {
+				if ((e.message).substring(0,3) == "ent") {verNo = "79+"; go = false}
+			}
 		}
-		// 78: multiple checks
+		//78: multiple checks
 		//78: 1634135
 		if (go) {
 			try {
