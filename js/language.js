@@ -459,6 +459,8 @@ function get_lang_datetime() {
 			let workerlang = new Worker("js/language_worker.js")
 			workerlang.addEventListener("message", function(e) {
 				workerlang.terminate
+				console.debug("from worker\n" + e.data.join("\n"))
+
 				// compare
 				for (let i=0; i < 38; i++) {
 					let divider = " | "
