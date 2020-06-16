@@ -459,12 +459,6 @@ function get_lang_datetime() {
 			let workerlang = new Worker("js/language_worker.js")
 			workerlang.addEventListener("message", function(e) {
 				workerlang.terminate
-				try {
-					console.debug("from worker\n" + (e.data).join("\n"))
-				} catch(k) {
-					console.debug("joining e.data", k.name, k.message)
-				}
-
 				// compare
 				for (let i=0; i < 38; i++) {
 					let divider = " | "
@@ -501,10 +495,10 @@ function get_lang_datetime() {
 					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
 				}
 
-				// 8 seems problematic: lets drop it for now
-				let wHash2 = sha1(e.data.slice(9,38).join("-"))
-				console.debug("document hash", sha1(res.slice(9,38).join("-")))
-				console.debug("worker hash", wHash2)
+				// item 8 (date object) causes an error
+				//let wHash2 = sha1(e.data.slice(8,38).join("-"))
+				//console.debug("document hash", sha1(res.slice(8,38).join("-")))
+				//console.debug("worker hash", wHash2)
 
 				//if (wHash2 !== sha1(res.slice(8,38).join("-"))) {
 				//	dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
