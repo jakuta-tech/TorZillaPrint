@@ -480,11 +480,14 @@ function get_lang_datetime() {
 							}
 						} else if (i == 8) {
 							// date object
-							console.debug("doc", res[i])
-							console.debug("wrk", e.data[i])
+							console.debug("doc: item 8  array", ""+res[i], "\n", res[i])
+							console.debug("wrk: item 8  array", ""+e.data[i], "\n", e.data[i])
 							console.debug("doc", res[i].getTime())
 							console.debug("wrk", e.data[i].getTime())
-							// getTime only handles the time, not the timezone-name
+							// getTime only handles time, not timezone-name
+							//if (""+res[i] !== ""+e.data[i]) {
+							//	document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
+							//}
 
 						} else {
 							if (res[i] !== e.data[i]) {
