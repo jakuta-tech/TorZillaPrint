@@ -474,6 +474,11 @@ function get_lang_datetime() {
 							}
 						} else if (i == 8) {
 							// date object
+							console.debug("doc", res[i])
+							console.debug("wrk", e.data[i])
+							console.debug("doc", res[i].getTime())
+							console.debug("wrk", e.data[i].getTime())
+
 							if (res[i].getTime() !== e.data[i].getTime()) {
 								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
 							}
