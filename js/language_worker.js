@@ -1,6 +1,6 @@
 'use strict';
 
-addEventListener("message", function(e) {
+addEventListener("message", function(msg) {
 	let d1 = new Date("January 30, 2019 13:00:00"),
 		d2 = new Date("July 30, 2018 13:00:00"),
 		res = [],
@@ -18,9 +18,9 @@ addEventListener("message", function(e) {
 			} else if (item == 6) {return d1.getTimezoneOffset()+ ' | ' + d2.getTimezoneOffset()
 			} else if (item == 7) {return Intl.DateTimeFormat().resolvedOptions().timeZone}
 		} catch(e) {
-			console.debug("isFF", e.data)
+			console.debug("isFF", msg.data)
 			// e.data = isFF
-			if (e.data) {
+			if (msg.data) {
 				if (e.message == "Intl.ListFormat is not a constructor") {return zNS
 				} else if (e.name == "ReferenceError") {return zB1} else {return zB2}
 			} else {
