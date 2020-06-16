@@ -495,13 +495,14 @@ function get_lang_datetime() {
 					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
 				}
 
-				let wHash2 = sha1(e.data.slice(8,38).join("-"))
-				console.debug("document hash", sha1(res.slice(8,38).join("-")))
+				// 8 seems problematic: lets drop it for now
+				let wHash2 = sha1(e.data.slice(9,38).join("-"))
+				console.debug("document hash", sha1(res.slice(9,38).join("-")))
 				console.debug("worker hash", wHash2)
 
-				if (wHash2 !== sha1(res.slice(8,38).join("-"))) {
-					dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
-				}
+				//if (wHash2 !== sha1(res.slice(8,38).join("-"))) {
+				//	dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
+				//}
 			}, false)
 			workerlang.postMessage(msgWorker)
 		} catch(e) {}
