@@ -379,8 +379,12 @@ function get_lang_datetime() {
 		let result = get_item(i)
 		if (result == undefined) {result = zB4}
 		if (result == "undefined") {result = zB5}
-		if (i == 8) {console.debug("doc: item 8 array value", result)}
 		res.push(result)
+		if (i == 8) {
+			console.debug("doc: item 8 result", ""+result+"", "\n", result)
+			console.debug("doc: item 8  array", ""+res[i]+"", "\n", res[i])
+		}
+
 		document.getElementById("ldt"+i).innerHTML = result
 	}
 	// debugging: error tracking
@@ -480,13 +484,8 @@ function get_lang_datetime() {
 							console.debug("wrk", e.data[i])
 							console.debug("doc", res[i].getTime())
 							console.debug("wrk", e.data[i].getTime())
+							// getTime only handles the time, not the timezone-name
 
-							if (res[i].getTime() !== e.data[i].getTime()) {
-								console.debug("no-match")
-								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
-							} else {
-								console.debug("match")
-							}
 						} else {
 							if (res[i] !== e.data[i]) {
 								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
