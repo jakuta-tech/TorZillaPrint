@@ -361,14 +361,12 @@ function get_lang_datetime() {
 				}
 				// script blocking
 				if (msg == "") {
-					console.log("caught error", item, e.name, e.message)
-
-					err.push(item +": "+ e.name + " : " + e.message)
+					err.push(item +" [unexpected]: "+ e.name + " : " + e.message)
 					if (e.name == "ReferenceError") {return zB1
 					} else if (e.name == "TypeError") {return zB2
 					} else {return zB3}
 				} else {
-					err.push(item +" [standard FF error]: "+ e.name + " : " + e.message)
+					err.push(item +" [expected]: "+ e.name + " : " + e.message)
 				}
 				return msg
 			} else {
@@ -384,9 +382,8 @@ function get_lang_datetime() {
 		res.push(result)
 		document.getElementById("ldt"+i).innerHTML = result
 	}
-
 	// debugging: error tracking
-	if (err.length > 0) {console.log("errors\n" + err.join("\n"))}
+	if (err.length > 0) {console.log("language/datetime errors\n" + err.join("\n"))}
 
 	// hash language
 	let lHash0 = sha1(res.slice(0,6).join("-"))
