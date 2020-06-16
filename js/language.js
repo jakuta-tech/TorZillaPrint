@@ -379,6 +379,7 @@ function get_lang_datetime() {
 		let result = get_item(i)
 		if (result == undefined) {result = zB4}
 		if (result == "undefined") {result = zB5}
+		if (i == 8) {console.debug("doc: item 8 array value", result)}
 		res.push(result)
 		document.getElementById("ldt"+i).innerHTML = result
 	}
