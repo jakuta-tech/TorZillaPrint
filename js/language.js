@@ -480,7 +480,10 @@ function get_lang_datetime() {
 							console.debug("wrk", e.data[i].getTime())
 
 							if (res[i].getTime() !== e.data[i].getTime()) {
+								console.debug("no-match")
 								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
+							} else {
+								console.debug("match")
 							}
 						} else {
 							if (res[i] !== e.data[i]) {
