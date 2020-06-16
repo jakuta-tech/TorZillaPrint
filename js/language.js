@@ -462,12 +462,12 @@ function get_lang_datetime() {
 				// compare
 				for (let i=0; i < 38; i++) {
 					let divider = " | "
-					if (i > 8 && i < 15) {divider = "<br>"}
+					if (i > 7 && i < 15) {divider = "<br>"}
 					if (i == 22) {divider = "<br>"}
 					if (i > 23 && i < 28) {divider = "<br>"}
 					if (i > 34) {divider = "<br>"}
 					try {
-						if (i == 0) {
+						if (i == 0 || i == 8) {
 							if (res[i].toString() !== e.data[i].toString()) {
 								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
 							}
