@@ -467,8 +467,12 @@ function get_lang_datetime() {
 					if (i > 23 && i < 28) {divider = "<br>"}
 					if (i > 34) {divider = "<br>"}
 					try {
-						if (i !== 8) {
+						if (i == 0) {
 							if (res[i].toString() !== e.data[i].toString()) {
+								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
+							}
+						}	else {
+							if (res[i] !== e.data[i]) {
 								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
 							}
 						}
