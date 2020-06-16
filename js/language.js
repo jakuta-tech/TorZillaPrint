@@ -467,17 +467,20 @@ function get_lang_datetime() {
 					if (i > 23 && i < 28) {divider = "<br>"}
 					if (i > 34) {divider = "<br>"}
 					try {
-						if (i == 0 || i == 8) {
+						if (i == 0) {
+							// languages object
 							if (res[i].toString() !== e.data[i].toString()) {
 								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
-							}
+						} else if (i == 8) {
+							// date
+							// if I use toString to compare: TypeError can't access property "date"
+
 						}	else {
 							if (res[i] !== e.data[i]) {
 								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
 							}
 						}
 					} catch(e) {
-						// 8: TypeError can't access property "date"
 						console.debug("compare", i, e.name, e.message)
 					}
 				}
@@ -491,13 +494,13 @@ function get_lang_datetime() {
 					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
 				}
 
-				let wHash2 = sha1(e.data.slice(8,38).join("-"))
-				console.debug("document hash", sha1(res.slice(8,38).join("-")))
-				console.debug("worker hash", wHash2)
+				//let wHash2 = sha1(e.data.slice(8,38).join("-"))
+				//console.debug("document hash", sha1(res.slice(8,38).join("-")))
+				//console.debug("worker hash", wHash2)
 
-				if (wHash2 !== sha1(res.slice(8,38).join("-"))) {
-					dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
-				}
+				//if (wHash2 !== sha1(res.slice(8,38).join("-"))) {
+				//	dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
+				//}
 			}, false)
 			workerlang.postMessage(msgWorker)
 		} catch(e) {}
