@@ -474,18 +474,9 @@ function get_lang_datetime() {
 							}
 						} else if (i == 8) {
 							// date object
-							// if I use toString to compare: TypeError can't access property "date"
-							// using toString = stupid anyway, that's item 9
-
-							// if I use the else fallback below, it's always different, even when it shouldn't be
-							console.debug("doc", res[i])
-							console.debug("wrk", e.data[i])
-							try {
-								if (res[i] == e.data[i]) {console.debug("match")} else {console.debug("no-match")}
-							} catch(k) {
-								console.debug("item 8 error", k.name, k.message)
+							if (res[i].getTime() !== e.data[i].getTime()) {
+								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
 							}
-
 						} else {
 							if (res[i] !== e.data[i]) {
 								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
