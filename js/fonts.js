@@ -441,7 +441,7 @@ function get_unicode() {
 		dom.tm11.innerHTML = status(tm11s,"3",sha1(tm11.join()))
 		// combined
 		dom.ug2.innerHTML = sha1(tmhash.join()) + tm00r + (mgo ? "" : sb+"[canvas]"+sc)
-		//console.debug("combined TM hash \n" + tmhash.join("\n")) // temp
+		if (!isFile) {console.log("HASH: TM combined: " + sha1(tmhash.join()) + "\n - " + tmhash.join("\n - "))}
 
 		// de-dupe
 		unique = unique.filter(function(item, position) {return unique.indexOf(item) === position})
@@ -469,7 +469,7 @@ function get_unicode() {
 			r = ""
 			if (bgo) {r = "measuretext vs bounding\n" + diffsb.join("\n")}
 			if (cgo && cgo !== bgo) {r += "measuretext vs clientrects\n" + diffsc.join("\n")}
-			if (r !== "") {console.log(r)}
+			//if (r !== "") {console.log(r)}
 		}
 		// perf
 		if (logPerf) {debug_log("unicode glyphs [fonts]",t0)}
