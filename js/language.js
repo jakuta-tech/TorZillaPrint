@@ -461,11 +461,17 @@ function get_lang_datetime() {
 				workerlang.terminate
 				// compare
 				for (let i=0; i < 38; i++) {
+					let divider = " | "
+					if (i > 8 && i < 15) {divider = "<br>"}
+					if (i == 22) {divider = "<br>"}
+					if (i > 23 && i < 28) {divider = "<br>"}
+					if (i > 34) {divider = "<br>"}
 					try {
 						if (res[i].toString() !== e.data[i].toString()) {
-							document.getElementById("ldt"+i).innerHTML = res[i] + " | " + sb + e.data[i] + sc
+							document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
 						}
 					} catch(e) {
+						// 8: TypeError can't access property "date"
 						console.debug("compare", i, e.name, e.message)
 					}
 				}
