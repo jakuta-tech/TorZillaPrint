@@ -459,7 +459,11 @@ function get_lang_datetime() {
 			let workerlang = new Worker("js/language_worker.js")
 			workerlang.addEventListener("message", function(e) {
 				workerlang.terminate
-				console.debug("from worker\n" + e.data.join("\n"))
+				try {
+					console.debug("from worker\n" + (e.data).join("\n"))
+				} catch(k) {
+					console.debug("joining e.data", k.name, k.message)
+				}
 
 				// compare
 				for (let i=0; i < 38; i++) {
@@ -483,8 +487,8 @@ function get_lang_datetime() {
 								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
 							}
 						}
-					} catch(e) {
-						console.debug("compare", i, e.name, e.message)
+					} catch(k) {
+						console.debug("compare", i, k.name, k.message)
 					}
 				}
 				// hashes
