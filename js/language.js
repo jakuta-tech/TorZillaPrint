@@ -471,8 +471,9 @@ function get_lang_datetime() {
 							// languages object
 							if (res[i].toString() !== e.data[i].toString()) {
 								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
+							}
 						} else if (i == 8) {
-							// date
+							// date object
 							// if I use toString to compare: TypeError can't access property "date"
 
 						}	else {
