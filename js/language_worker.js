@@ -18,6 +18,7 @@ addEventListener("message", function(e) {
 			} else if (item == 6) {return d1.getTimezoneOffset()+ ' | ' + d2.getTimezoneOffset()
 			} else if (item == 7) {return Intl.DateTimeFormat().resolvedOptions().timeZone}
 		} catch(e) {
+			console.debug("isFF", e.data)
 			// e.data = isFF
 			if (e.data) {
 				if (e.message == "Intl.ListFormat is not a constructor") {return zNS
