@@ -282,7 +282,7 @@ addEventListener("message", function(msg) {
 		res.push(result)
 	}
 	// debug
-	console.debug("worker results\n" + res.join(\n))
+	console.debug("worker results\n" + res.join("\n"))
 
 	// post
 	self.postMessage(res)
