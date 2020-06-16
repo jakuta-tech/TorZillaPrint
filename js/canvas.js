@@ -120,7 +120,7 @@ function analyzeCanvas(runtype, res1, res2) {
 		sha256_str(chash1.join())
 	]).then(function(hash){
 		dom.chash1.innerHTML = hash[0] + (isFile ? note_file : "")
-		if (!isFile) {console.log("CANVAS hash: " + hash[0] +"\n" + chash1.join("\n"))}
+		if (!isFile) {console.log("HASH: canvas combined: " + hash[0] +"\n - " + chash1.join("\n - "))}
 		// perf
 		if (logPerf) {debug_log("analyze " + runtype + " [canvas]",t0)}
 		debug_page("perf","canvas",t0canvas,gt0)
