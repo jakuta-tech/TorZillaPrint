@@ -460,7 +460,7 @@ function get_lang_datetime() {
 			workerlang.addEventListener("message", function(e) {
 				workerlang.terminate
 				// compare
-				for (let i=0; i < 8; i++) {
+				for (let i=0; i < 38; i++) {
 					if (res[i].toString() !== e.data[i].toString()) {
 						document.getElementById("ldt"+i).innerHTML = res[i] + " | " + sb + e.data[i] + sc
 					}
@@ -473,6 +473,10 @@ function get_lang_datetime() {
 				let wHash1 = sha1(e.data.slice(6,8).join("-"))
 				if (wHash1 !== sha1(res.slice(6,8).join("-"))) {
 					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
+				}
+				let wHash2 = sha1(e.data.slice(8,38).join("-"))
+				if (wHash2 !== sha1(res.slice(8,38).join("-"))) {
+					dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
 				}
 			}, false)
 			workerlang.postMessage(msgWorker)
