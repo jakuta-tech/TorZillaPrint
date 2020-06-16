@@ -467,8 +467,10 @@ function get_lang_datetime() {
 					if (i > 23 && i < 28) {divider = "<br>"}
 					if (i > 34) {divider = "<br>"}
 					try {
-						if (res[i].toString() !== e.data[i].toString()) {
-							document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
+						if (i !== 8) {
+							if (res[i].toString() !== e.data[i].toString()) {
+								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
+							}
 						}
 					} catch(e) {
 						// 8: TypeError can't access property "date"
@@ -484,6 +486,7 @@ function get_lang_datetime() {
 				if (wHash1 !== sha1(res.slice(6,8).join("-"))) {
 					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
 				}
+
 				let wHash2 = sha1(e.data.slice(8,38).join("-"))
 				console.debug("document hash", sha1(res.slice(8,38).join("-")))
 				console.debug("worker hash", wHash2)
