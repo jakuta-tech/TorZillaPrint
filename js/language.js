@@ -417,9 +417,9 @@ function get_lang_datetime() {
 				// note this will split
 				// nightly has dayPeriod, 79+ has date+timeStyle
 				ff = " [Nightly]"
-			} else if (lHash2 == "89fdb820a29b8c6314d5acfd16b9417bb37d77d7") {
-				ff = " [FF78+]"
 			} else if (lHash2 == "d0047c24e2b65ef772fabd3e07f5ec334a2e8a0d") {
+				ff = " [FF78+]"
+			} else if (lHash2 == "5e9ddd42ab4a9c633d2f0abc8956e66304cb8edc") {
 				ff = " [FF71-77]"
 			} else if (lHash2 == "f1308e9bb7ccd184af13bd9c6b96422f8d6707d5") {
 				ff = " [FF70]"
