@@ -164,7 +164,6 @@ function get_errors() {
 		t0 = performance.now()
 	// output
 	function output() {
-		if (!isFile) {console.log("error hash array\n" + res.join("\n"))}
 		hash = sha1(res.join())
 		let temp = hash.substring(0,10)
 		if (isErr == "") {isErr = hash.substring(0,4)}
@@ -1350,7 +1349,6 @@ function get_version() {
 		if (go) {try {let test61 = (" a").trimStart(); verNo="61"; go = false} catch(e) {}}
 		//60
 		if (go) {
-			console.debug("bananananan")
 			try {(Object.getOwnPropertyDescriptor(Document.prototype, "body")
 				|| Object.getOwnPropertyDescriptor(HTMLDocument.prototype, "body")).get.call((new DOMParser).parseFromString(
 					"<html xmlns='http://www.w3.org/1999/xhtml'><body/></html>","application/xhtml+xml")) !== null
