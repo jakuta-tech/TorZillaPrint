@@ -461,8 +461,12 @@ function get_lang_datetime() {
 				workerlang.terminate
 				// compare
 				for (let i=0; i < 38; i++) {
-					if (res[i].toString() !== e.data[i].toString()) {
-						document.getElementById("ldt"+i).innerHTML = res[i] + " | " + sb + e.data[i] + sc
+					try {
+						if (res[i].toString() !== e.data[i].toString()) {
+							document.getElementById("ldt"+i).innerHTML = res[i] + " | " + sb + e.data[i] + sc
+						}
+					} catch(e) {
+						console.debug("compare", i, e.name, e.message)
 					}
 				}
 				// hashes
@@ -475,6 +479,9 @@ function get_lang_datetime() {
 					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
 				}
 				let wHash2 = sha1(e.data.slice(8,38).join("-"))
+				console.debug("document hash", sha1(res.slice(8,38).join("-")))
+				console.debug("worker hash", wHash2)
+
 				if (wHash2 !== sha1(res.slice(8,38).join("-"))) {
 					dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
 				}
