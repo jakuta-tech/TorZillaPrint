@@ -281,6 +281,9 @@ addEventListener("message", function(msg) {
 		if (result == "undefined") {result = zB5}
 		res.push(result)
 	}
+	// debug
+	console.debug("worker results\n" + res.join("\n"))
+
 	// post
 	self.postMessage(res)
 }, false)
