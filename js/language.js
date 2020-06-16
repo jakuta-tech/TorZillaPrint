@@ -448,6 +448,10 @@ function get_lang_datetime() {
 	dom.lHash2.innerHTML = lHash2 + (isFF ? ff : "")
 
 	// worker
+	let msgWorker = []
+	msgWorker.push(isFF)
+	if (isVer == "") {msgWorker.push("0")} else {msgWorker.push(isVer)}
+
 	if (isFile) {
 	} else if (typeof(Worker) == "undefined") {
 	} else {
@@ -471,7 +475,7 @@ function get_lang_datetime() {
 					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
 				}
 			}, false)
-			workerlang.postMessage(isFF)
+			workerlang.postMessage(msgWorker)
 		} catch(e) {}
 	}
 }
