@@ -31,7 +31,7 @@ addEventListener("message", function(msg) {
 					+ " | "+ ((d2.getTime() - 1532955600000)/60000)
 			} else if (item == 7) {return Intl.DateTimeFormat().resolvedOptions().timeZone
 			// date/time format
-			} else if (item == 8) {return d
+			} else if (item == 8) {return ""+d
 			} else if (item == 9) {return d.toString()
 			} else if (item == 10) {return d.toLocaleString(undefined, o)
 			} else if (item == 11) {return d.toLocaleDateString(undefined, o)
