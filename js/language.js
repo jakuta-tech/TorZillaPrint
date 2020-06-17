@@ -478,7 +478,7 @@ function get_lang_datetime() {
 							}
 						} else if (i == 8) {
 							// date object
-							if (""+res[i] !== +e.data[i]) {
+							if (""+res[i] !== e.data[i]) {
 								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
 							}
 						} else {
@@ -500,6 +500,8 @@ function get_lang_datetime() {
 					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
 				}
 				let wHash2 = sha1(e.data.slice(8,38).join("-"))
+				console.debug(wHash2)
+
 				if (wHash2 !== sha1(res.slice(8,38).join("-"))) {
 					dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
 				}
