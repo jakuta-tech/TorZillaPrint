@@ -500,8 +500,6 @@ function get_lang_datetime() {
 					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
 				}
 				let wHash2 = sha1(e.data.slice(8,38).join("-"))
-				console.debug(wHash2)
-
 				if (wHash2 !== sha1(res.slice(8,38).join("-"))) {
 					dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
 				}
