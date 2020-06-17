@@ -126,7 +126,10 @@ function get_lang_datetime() {
 			} else if (item == 4) {return new Intl.PluralRules().resolvedOptions().locale
 			} else if (item == 5) {return new Intl.ListFormat(undefined).resolvedOptions().locale
 			// timezone
-			} else if (item == 6) {return d.getTimezoneOffset()+ ' | ' + d2.getTimezoneOffset()
+			} else if (item == 6) {
+				return d.getTimezoneOffset() +' | '+ d2.getTimezoneOffset()
+					+ " | "+ ((d.getTime() - 1548853200000)/60000)
+					+ " | "+ ((d2.getTime() - 1532955600000)/60000)
 			} else if (item == 7) {return Intl.DateTimeFormat().resolvedOptions().timeZone
 			// date/time format
 			} else if (item == 8) {return d
@@ -384,7 +387,6 @@ function get_lang_datetime() {
 			console.debug("doc: item 8 result", result.getTime(), "\n", ""+result, "\n", result)
 			console.debug("doc: item 8  array", res[i].getTime(), "\n", ""+res[i], "\n", res[i])
 		}
-
 		document.getElementById("ldt"+i).innerHTML = result
 	}
 	// debugging: error tracking
@@ -404,7 +406,7 @@ function get_lang_datetime() {
 
 	// hash timezone
 	let lHash1 = sha1(res.slice(6,8).join("-"))
-	bTZ = (lHash1 == "f8296e18b30a4ae7669d1992c943b90dde8bf94f" ? true : false)
+	bTZ = (lHash1 == "cefa0a3ef1c0da5aa853a26b797a3ddaa3572ca9" ? true : false)
 	lHash1 += (bTZ ? rfp_green : rfp_red)
 	dom.lHash1.innerHTML = lHash1
 
