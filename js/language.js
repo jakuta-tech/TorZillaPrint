@@ -383,10 +383,6 @@ function get_lang_datetime() {
 		if (result == undefined) {result = zB4}
 		if (result == "undefined") {result = zB5}
 		res.push(result)
-		if (i == 8) {
-			console.debug("doc: item 8 result", result.getTime(), "\n", ""+result, "\n", result)
-			console.debug("doc: item 8  array", res[i].getTime(), "\n", ""+res[i], "\n", res[i])
-		}
 		document.getElementById("ldt"+i).innerHTML = result
 	}
 	// debugging: error tracking
@@ -482,15 +478,9 @@ function get_lang_datetime() {
 							}
 						} else if (i == 8) {
 							// date object
-							console.debug("doc: item 8  array", ""+res[i], "\n", res[i])
-							console.debug("wrk: item 8  array", ""+e.data[i], "\n", e.data[i])
-							console.debug("doc", res[i].getTime())
-							console.debug("wrk", e.data[i].getTime())
-							// getTime only handles time, not timezone-name
-							//if (""+res[i] !== ""+e.data[i]) {
-							//	document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
-							//}
-
+							if (""+res[i] !== +e.data[i]) {
+								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
+							}
 						} else {
 							if (res[i] !== e.data[i]) {
 								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
@@ -500,7 +490,7 @@ function get_lang_datetime() {
 						console.debug("compare", i, k.name, k.message)
 					}
 				}
-				// hashes
+				// compare hashes
 				let wHash0 = sha1(e.data.slice(0,6).join("-"))
 				if (wHash0 !== sha1(res.slice(0,6).join("-"))) {
 					dom.lHash0.innerHTML = lHash0 +"<br>"+ sb + wHash0 + sc+" [see details]"
@@ -509,15 +499,10 @@ function get_lang_datetime() {
 				if (wHash1 !== sha1(res.slice(6,8).join("-"))) {
 					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
 				}
-
-				// item 8 (date object) causes an error
-				//let wHash2 = sha1(e.data.slice(8,38).join("-"))
-				//console.debug("document hash", sha1(res.slice(8,38).join("-")))
-				//console.debug("worker hash", wHash2)
-
-				//if (wHash2 !== sha1(res.slice(8,38).join("-"))) {
-				//	dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
-				//}
+				let wHash2 = sha1(e.data.slice(8,38).join("-"))
+				if (wHash2 !== sha1(res.slice(8,38).join("-"))) {
+					dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
+				}
 			}, false)
 			workerlang.postMessage(msgWorker)
 		} catch(e) {}
