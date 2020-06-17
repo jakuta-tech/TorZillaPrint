@@ -381,8 +381,9 @@ function get_lang_datetime() {
 		if (result == "undefined") {result = zB5}
 		res.push(result)
 		if (i == 8) {
-			console.debug("doc: item 8 result", ""+result+"", "\n", result)
-			console.debug("doc: item 8  array", ""+res[i]+"", "\n", res[i])
+			let item8gt = result.getTime()
+			console.debug("doc: item 8 result", item8gt, "\n", ""+result, "\n", result)
+			console.debug("doc: item 8  array", result.getTime(), ""+res[i], "\n", res[i])
 		}
 
 		document.getElementById("ldt"+i).innerHTML = result
