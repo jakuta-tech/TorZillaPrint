@@ -315,6 +315,7 @@ function get_lang_datetime() {
 					dayB = get_day_period(new Date("2019-01-30T12:00:00"))
 				if (dayA == dayB) {
 					tmp35 = zNS
+					if (isFF && isVer > 77) {tmp35 = zB1}
 				} else {
 					// in the morning, noon, in the afternoon, in the evening, at night
 					tmp35 = dayA + ", " + dayB
