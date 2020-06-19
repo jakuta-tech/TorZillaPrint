@@ -197,13 +197,19 @@ table td.showhide {text-align: center; padding-top: 7px; padding-bottom: 7px;}
 /*domrect*/
 #divrect {
   position: fixed;
-  top: 0;
-  left: 0;
 	padding: 8px;
 	opacity: 0;
 	z-index: -1;
 }
-#insideDOMRect{
+.divrect1 {
+  top: 0;
+  left: 0;
+}
+.divrect2 {
+  top: 0.25px;
+  left: 0.25px;
+}
+.insideDOMRect{
 	white-space: nowrap;
 	color:#5B5B5B;
 	position: absolute;
