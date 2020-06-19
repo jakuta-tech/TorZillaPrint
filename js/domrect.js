@@ -53,7 +53,7 @@ function outputDomRect() {
 	}
 
 	let t0 = performance.now()
-	let compare = []
+	let compare = [], analysis = []
 
 	// run
 	function run(runtype) {
@@ -83,28 +83,38 @@ function outputDomRect() {
 	dom.divrect.classList.add("divrect1");
 	dom.divrect.classList.remove("divrect2");
 	run(1)
-	// move div
-	dom.divrect.classList.add("divrect2");
-	dom.divrect.classList.remove("divrect1");
-	run(2)
 
-	setTimeout(function(){
-		// compare
-		compare.sort()
-		let prev_item = "", prev_value, random = []
-		compare.forEach(function(item) {
-			let delim = item.split(":")
-			if (prev_item == delim[0] + delim[1]) {
-				if ((delim[3]-prev_value) !== 0.25) {random.push(delim[0])}
-			}
-			prev_item = delim[0] + delim[1]
-			prev_value = delim[3]
-		})
-		random = random.filter(function(item, position) {return random.indexOf(item) === position})
-		random.forEach(function(item) {
-			document.getElementById(item).innerHTML = document.getElementById(item).textContent + s8 + note_random
-		})
-	}, 100)
+	if (isFF) {
+		// move div
+		dom.divrect.classList.add("divrect2");
+		dom.divrect.classList.remove("divrect1");
+		run(2)
+
+		setTimeout(function(){
+			// compare
+			compare.sort()
+			let prev_item = "", prev_value, random = []
+			compare.forEach(function(item) {
+				let delim = item.split(":")
+				if (prev_item == delim[0] + delim[1]) {
+					let diff = (delim[3]-prev_value)
+					if (diff !== 0.25) {
+						random.push(delim[0])
+						let margin = (0.25 - diff)
+						analysis.push(prev_item +", "+ diff +", "+ margin)
+						analysis.push(" - "+ prev_value + "\n - "+ delim[3])
+					}
+				}
+				prev_item = delim[0] + delim[1]
+				prev_value = delim[3]
+			})
+			console.log("DOMRect analysis\n" + analysis.join("\n"))
+			random = random.filter(function(item, position) {return random.indexOf(item) === position})
+			random.forEach(function(item) {
+				document.getElementById(item).innerHTML = document.getElementById(item).textContent + s8 + note_random
+			})
+		}, 100)
+	}
 
 	// cleanup details
 	setTimeout(function(){
