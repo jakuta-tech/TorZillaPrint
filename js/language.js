@@ -495,17 +495,19 @@ function get_lang_datetime() {
 					}
 				}
 				// compare hashes
-				let wHash0 = sha1(e.data.slice(0,6).join("-"))
-				if (wHash0 !== sha1(res.slice(0,6).join("-"))) {
-					dom.lHash0.innerHTML = lHash0 +"<br>"+ sb + wHash0 + sc+" [see details]"
-				}
-				let wHash1 = sha1(e.data.slice(6,8).join("-"))
-				if (wHash1 !== sha1(res.slice(6,8).join("-"))) {
-					dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
-				}
-				let wHash2 = sha1(e.data.slice(8,38).join("-"))
-				if (wHash2 !== sha1(res.slice(8,38).join("-"))) {
-					dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
+				if (isFF) {
+					let wHash0 = sha1(e.data.slice(0,6).join("-"))
+					if (wHash0 !== sha1(res.slice(0,6).join("-"))) {
+						dom.lHash0.innerHTML = lHash0 +"<br>"+ sb + wHash0 + sc+" [see details]"
+					}
+					let wHash1 = sha1(e.data.slice(6,8).join("-"))
+					if (wHash1 !== sha1(res.slice(6,8).join("-"))) {
+						dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
+					}
+					let wHash2 = sha1(e.data.slice(8,38).join("-"))
+					if (wHash2 !== sha1(res.slice(8,38).join("-"))) {
+						dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
+					}
 				}
 			}, false)
 			workerlang.postMessage(msgWorker)
