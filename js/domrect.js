@@ -26,7 +26,7 @@ function outputDomRect() {
 					properties.forEach(function(property, j){
 						// select rect: "top","left","right","bottom"
 						if (i == 3 && j > 3) {
-							compare.push(method+":"+ property +":"+ runtype +":"+ rect[property])
+							compare.push(method+":"+ j +":"+ runtype +":"+ rect[property])
 						}
 						data[i * properties.length + j] = rect[property]
 					})
@@ -34,7 +34,7 @@ function outputDomRect() {
 				// hash
 				if (runtype == 1) {
 					crypto.subtle.digest("SHA-256", data).then(function(hash){
-						document.getElementById(method).innerHTML = byteArrayToHex(hash) + note_file
+						document.getElementById(method).innerHTML = byteArrayToHex(hash)
 					})
 				}
 				// results
@@ -59,37 +59,52 @@ function outputDomRect() {
 	function run(runtype) {
 		try {
 			createTest("dr1", runtype, function(element){return element.getClientRects()[0]})
-		} catch(e) {dom.dr1.innerHTML = zB; console.debug(e.name, e.message)}
+		} catch(e) {if (runtype == 1) {dom.dr1.innerHTML = zB}}
 		try {
 			createTest("dr2", runtype, function(element){return element.getBoundingClientRect()})
-		} catch(e) {dom.dr2.innerHTML = zB}
+		} catch(e) {if (runtype == 2) {dom.dr2.innerHTML = zB}}
 		try {
 			createTest("dr3", runtype, function(element){
 				let range = document.createRange()
 				range.selectNode(element)
 				return range.getClientRects()[0]
 			})
-		} catch(e) {dom.dr3.innerHTML = zB}
+		} catch(e) {if (runtype == 1) {dom.dr3.innerHTML = zB}}
 		try {
 			createTest("dr4", runtype, function(element){
 				let range = document.createRange()
 				range.selectNode(element)
 				return range.getBoundingClientRect()
 			})
-		} catch(e) {dom.dr4.innerHTML = zB}
+		} catch(e) {if (runtype == 1) {dom.dr4.innerHTML = zB}}
 	}
 
 	// reset div
-	document.getElementById("divrect").classList.add("divrect1");
-	document.getElementById("divrect").classList.remove("divrect2");
+	dom.divrect.classList.add("divrect1");
+	dom.divrect.classList.remove("divrect2");
 	run(1)
 	// move div
-	document.getElementById("divrect").classList.add("divrect2");
-	document.getElementById("divrect").classList.remove("divrect1");
+	dom.divrect.classList.add("divrect2");
+	dom.divrect.classList.remove("divrect1");
 	run(2)
-	// debug select values
-	compare.sort()
-	console.debug(compare.join("\n"))
+
+	setTimeout(function(){
+		// compare
+		compare.sort()
+		let prev_item = "", prev_value, random = []
+		compare.forEach(function(item) {
+			let delim = item.split(":")
+			if (prev_item == delim[0] + delim[1]) {
+				if ((delim[3]-prev_value) !== 0.25) {random.push(delim[0])}
+			}
+			prev_item = delim[0] + delim[1]
+			prev_value = delim[3]
+		})
+		random = random.filter(function(item, position) {return random.indexOf(item) === position})
+		random.forEach(function(item) {
+			document.getElementById(item).innerHTML = document.getElementById(item).textContent + s8 + note_random
+		})
+	}, 100)
 
 	// cleanup details
 	setTimeout(function(){
