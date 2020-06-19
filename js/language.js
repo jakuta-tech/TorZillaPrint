@@ -315,7 +315,8 @@ function get_lang_datetime() {
 					dayB = get_day_period(new Date("2019-01-30T12:00:00"))
 				if (dayA == dayB) {
 					tmp35 = zNS
-					if (isFF && isVer > 77) {tmp35 = zB1}
+					// ToDo: > 78 is really Nightly
+					if (isFF && isVer > 78) {tmp35 = zB1; err.push(item +" [unexpected]: dayPeriod")}
 				} else {
 					// in the morning, noon, in the afternoon, in the evening, at night
 					tmp35 = dayA + ", " + dayB
@@ -381,8 +382,10 @@ function get_lang_datetime() {
 	// output
 	for (let i=0; i < 38; i++) {
 		let result = get_item(i)
-		if (result == undefined) {result = zB4}
-		if (result == "undefined") {result = zB5}
+		if (isFF) {
+			if (result == undefined) {result = zB4; err.push(i +" [unexpected]: undefined")}
+			if (result == "undefined") {result = zB5; err.push(i +" [unexpected]: \"undefined\"")}
+		}
 		res.push(result)
 		document.getElementById("ldt"+i).innerHTML = result
 	}
