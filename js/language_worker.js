@@ -26,9 +26,11 @@ addEventListener("message", function(msg) {
 			} else if (item == 5) {return new Intl.ListFormat(undefined).resolvedOptions().locale
 			// timezone
 			} else if (item == 6) {
-				return d.getTimezoneOffset() +' | '+ d2.getTimezoneOffset()
+				return d.getTimezoneOffset() +", "+ d2.getTimezoneOffset()
 					+ " | "+ ((d.getTime() - 1548853200000)/60000)
-					+ " | "+ ((d2.getTime() - 1532955600000)/60000)
+					+ ", "+ ((d2.getTime() - 1532955600000)/60000)
+					+ " | "+ ((Date.parse(d) - 1548853200000)/60000)
+					+ ", "+ ((Date.parse(d2) - 1532955600000)/60000)
 			} else if (item == 7) {return Intl.DateTimeFormat().resolvedOptions().timeZone
 			// date/time format
 			} else if (item == 8) {return ""+d
