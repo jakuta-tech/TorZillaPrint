@@ -127,9 +127,11 @@ function get_lang_datetime() {
 			} else if (item == 5) {return new Intl.ListFormat(undefined).resolvedOptions().locale
 			// timezone
 			} else if (item == 6) {
-				return d.getTimezoneOffset() +' | '+ d2.getTimezoneOffset()
+				return d.getTimezoneOffset() +", "+ d2.getTimezoneOffset()
 					+ " | "+ ((d.getTime() - 1548853200000)/60000)
-					+ " | "+ ((d2.getTime() - 1532955600000)/60000)
+					+ ", "+ ((d2.getTime() - 1532955600000)/60000)
+					+ " | "+ ((Date.parse(d) - 1548853200000)/60000)
+					+ ", "+ ((Date.parse(d2) - 1532955600000)/60000)
 			} else if (item == 7) {return Intl.DateTimeFormat().resolvedOptions().timeZone
 			// date/time format
 			} else if (item == 8) {return d
@@ -180,6 +182,7 @@ function get_lang_datetime() {
 					+ ", " + concat_parts("1", "quarter")
 			} else if (item == 26) {
 				// Intl.NumberFormat
+					// ToDo: trap script blocking
 				let tmp26 = "", err26 = ""
 				function err_check(error) {
 					if (error == "5e74394a663ce1f31667968d4dbe3de7a21da4d2") {
@@ -221,6 +224,7 @@ function get_lang_datetime() {
 				return tmp26
 			} else if (item == 27) {
 				// [formatToParts] Intl.NumberFormat
+					// ToDo: trap script blocking
 				let tmp27 = "", str27 = "", type27 ="", charcode = ""
 				function clean_string(type, string, extra) {
 					// prettify
@@ -353,7 +357,7 @@ function get_lang_datetime() {
 				let msg = ""
 				if (item == 5 || item == 36) {
 					if (e.message == "Intl.ListFormat is not a constructor" && isVer < 78) {msg = zNS}
-				} else if (item == 24) {
+				} else if (item == 24 || item == 33) {
 					if (e.message == "Intl.RelativeTimeFormat is not a constructor" && isVer < 65) {msg = zNS}
 				} else if (item == 25 ) {
 					if (e.message == "Intl.RelativeTimeFormat is not a constructor" && isVer < 65) {msg = zNS}
@@ -361,8 +365,6 @@ function get_lang_datetime() {
 				} else if (item == 28 || item == 29) {
 					if (e.message == "BigInt is not defined" && isVer < 68) {msg = zNS + " [BigInt]"}
 					if (e.message == "can't convert BigInt to number" && isVer > 67 && isVer < 70) {msg = zNS}
-				} else if (item == 33) {
-					if (e.message == "Intl.RelativeTimeFormat is not a constructor" && isVer < 65) {msg = zNS}
 				}
 				// script blocking
 				if (msg == "") {
@@ -406,7 +408,7 @@ function get_lang_datetime() {
 
 	// hash timezone
 	let lHash1 = sha1(res.slice(6,8).join("-"))
-	bTZ = (lHash1 == "cefa0a3ef1c0da5aa853a26b797a3ddaa3572ca9" ? true : false)
+	bTZ = (lHash1 == "9980172d797fef59685f592069837fbbb1157bd3" ? true : false)
 	lHash1 += (bTZ ? rfp_green : rfp_red)
 	dom.lHash1.innerHTML = lHash1
 
