@@ -2043,12 +2043,7 @@ function outputStart() {
 	dom.debugperf = "       start:    screen.js loaded"
 	if ((location.protocol) == "file:") {isFile = true; note_file = sn+"[file:]"+sc}
 	if ((location.protocol) == "https:") {isSecure = true}
-	if ("undefined" != typeof InstallTrigger) {
-		isFF = true
-		if ("Geolocation" in window) {} else {
-			isTB = true; debug_page("tb","   geo in window = false")
-		}
-	}
+	if ("undefined" != typeof InstallTrigger) {isFF = true}
 	// sim = FF only
 	if (isFF == false) {runS = false}
 	// run UA first: checks isFF; sets isOS, isTB*, isVer
