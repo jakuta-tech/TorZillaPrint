@@ -6,7 +6,6 @@ addEventListener("message", function(msg) {
 		o = {weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric",
 			minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long"},
 		res = [],
-		err = [],
 		zNS = "not supported",
 		zB1 = "script blocked [a]",
 		zB2 = "script blocked [b]",
@@ -83,16 +82,21 @@ addEventListener("message", function(msg) {
 					+ ", " + concat_parts("1", "quarter")
 			} else if (item == 26) {
 				// Intl.NumberFormat
+					// ToDo: trap script blocking
 				let tmp26 = "", err26 = ""
 				function err_check(error) {
-					if (error == "5e74394a663ce1f31667968d4dbe3de7a21da4d2") {
-						// 70-: invalid value unit...
-						return " | unit " + zNS
-					} else if (error == "dabc0b854a78cdfdf4c0e8e3aa744da7056dc9ed") {
-						// 71+: invalid value "unit"...
-						return " | \"unit\" " + zNS
+					if (isFF) {
+						if (error == "invalid value unit for option style") {
+							// 70-
+							return " | unit " + zNS
+						} else if (error == "invalid value \"unit\" for option style") {
+							// 71-77
+							return " | \"unit\" " + zNS
+						} else {
+							return " | "+ error
+						}
 					} else {
-						return " | "+ error
+						return " | error"
 					}
 				}
 				// decimals & groups
@@ -101,7 +105,7 @@ addEventListener("message", function(msg) {
 				try {
 					tmp26 += " | "+ new Intl.NumberFormat(undefined, {style: "unit", unit: "mile-per-hour", unitDisplay: "long"}).format(5)
 				} catch(e) {
-					tmp26 += err_check(sha1(e.message))
+					tmp26 += err_check(e.message)
 				}
 				// notation: scientific
 				try {
@@ -111,7 +115,7 @@ addEventListener("message", function(msg) {
 				try {
 					tmp26 += " | "+ new Intl.NumberFormat(undefined, {style: "unit", unit: "percent"}).format(1/2)
 				} catch(e) {
-					tmp26 += err_check(sha1(e.message))
+					tmp26 += err_check(e.message)
 				}
 				// notation: long compact
 				try {
@@ -269,9 +273,7 @@ addEventListener("message", function(msg) {
 				}
 				// script blocking
 				if (msg == "") {
-					console.log(item)
-					console.log(item +": "+ e.name +": "+ e.message)
-					err.push(item +": "+ e.name +": "+ e.message)
+					console.log("language worker error: "+ item +": "+ e.name +": "+ e.message)
 					if (e.name == "ReferenceError") {msg = zB1
 					} else if (e.name == "TypeError") {msg = zB2
 					} else {msg = zB3}
@@ -282,8 +284,6 @@ addEventListener("message", function(msg) {
 			}
 		}
 	}
-	// log unexpected errors
-	if (err.length > 0) {console.log("language worker errors\n" + err.join("\n - "))}
 
 	// build
 	for (let i=0; i < 38; i++) {
