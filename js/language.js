@@ -194,18 +194,22 @@ function get_lang_datetime() {
 					+ ", " + concat_parts("1", "quarter")
 			} else if (item == 26) {
 				// Intl.NumberFormat
-					// ToDo: trap script blocking
 				let tmp26 = "", err26 = ""
-				function err_check(error) {
+				function err_check(name, error) {
 					if (isFF) {
-						if (error == "invalid value unit for option style") {
+						if (error == "invalid value unit for option style" && isVer < 71) {
 							// 70-
+							err.push(item +" [expected]: "+ name + " : " + error)
 							return " | unit " + zNS
-						} else if (error == "invalid value \"unit\" for option style") {
+						} else if (error == "invalid value \"unit\" for option style" && isVer > 70 && isVer < 78) {
 							// 71-77
+							err.push(item +" [expected]: "+ name + " : " + error)
 							return " | \"unit\" " + zNS
 						} else {
-							return " | "+ error
+							err.push(item +" [unexpected]: "+ name + " : " + error)
+							if (name == "ReferenceError") {return " | "+ zB1
+							} else if (name == "TypeError") {return " | "+ zB2
+							} else {return " | "+ zB3}
 						}
 					} else {
 						return " | error"
@@ -217,7 +221,7 @@ function get_lang_datetime() {
 				try {
 					tmp26 += " | "+ new Intl.NumberFormat(undefined, {style: "unit", unit: "mile-per-hour", unitDisplay: "long"}).format(5)
 				} catch(e) {
-					tmp26 += err_check(e.message)
+					tmp26 += err_check(e.name, e.message)
 				}
 				// notation: scientific
 				try {
@@ -227,7 +231,7 @@ function get_lang_datetime() {
 				try {
 					tmp26 += " | "+ new Intl.NumberFormat(undefined, {style: "unit", unit: "percent"}).format(1/2)
 				} catch(e) {
-					tmp26 += err_check(e.message)
+					tmp26 += err_check(e.name, e.message)
 				}
 				// notation: long compact
 				try {
