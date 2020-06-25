@@ -197,14 +197,18 @@ function get_lang_datetime() {
 					// ToDo: trap script blocking
 				let tmp26 = "", err26 = ""
 				function err_check(error) {
-					if (error == "5e74394a663ce1f31667968d4dbe3de7a21da4d2") {
-						// 70-: invalid value unit...
-						return " | unit " + zNS
-					} else if (error == "dabc0b854a78cdfdf4c0e8e3aa744da7056dc9ed") {
-						// 71+: invalid value "unit"...
-						return " | \"unit\" " + zNS
+					if (isFF) {
+						if (error == "invalid value unit for option style") {
+							// 70-
+							return " | unit " + zNS
+						} else if (error == "invalid value \"unit\" for option style") {
+							// 71-77
+							return " | \"unit\" " + zNS
+						} else {
+							return " | "+ error
+						}
 					} else {
-						return " | "+ error
+						return " | error"
 					}
 				}
 				// decimals & groups
@@ -213,7 +217,7 @@ function get_lang_datetime() {
 				try {
 					tmp26 += " | "+ new Intl.NumberFormat(undefined, {style: "unit", unit: "mile-per-hour", unitDisplay: "long"}).format(5)
 				} catch(e) {
-					tmp26 += err_check(sha1(e.message))
+					tmp26 += err_check(e.message)
 				}
 				// notation: scientific
 				try {
@@ -223,7 +227,7 @@ function get_lang_datetime() {
 				try {
 					tmp26 += " | "+ new Intl.NumberFormat(undefined, {style: "unit", unit: "percent"}).format(1/2)
 				} catch(e) {
-					tmp26 += err_check(sha1(e.message))
+					tmp26 += err_check(e.message)
 				}
 				// notation: long compact
 				try {
