@@ -38,7 +38,7 @@ function get_colors(runtype) {
 		element.style.backgroundColor = item
 		try {
 			let x = window.getComputedStyle(element, null).getPropertyValue("background-color")
-			results.push(x)
+			results.push(item+": "+x)
 			if (runtype == "n") {
 				data.push(item.padStart(11) + ": " + x)
 			}
@@ -48,7 +48,7 @@ function get_colors(runtype) {
 		notation = s14 + "["+list.length+"] " + sc 
 	if (results.length == 0) {notation = zB}
 	if (runtype == "s") {
-		let control = "c833ed5e44c6da5e9fc2964259bf34b280891b73"
+		let control = "1580959336948bb37120a893e8b1cb99c620129e"
 		dom.sColorHash.innerHTML = hash += notation + (notation == zB ? "" : (hash == control ? rfp_green : rfp_red))
 	} else if (runtype == "n") {
 		dom.sColorHashNew.innerHTML = hash + notation
@@ -78,6 +78,45 @@ function get_mm_prefers(type) {
 	}
 }
 
+function get_system_fonts() {
+	let results = [],
+		data = [],
+		m = "-moz-"
+	let fonts = ["caption","icon","menu","message-box","small-caption","status-bar",m+"window",m+"desktop",
+		m+"document",m+"workspace",m+"info",m+"pull-down-menu",m+"dialog",m+"button",m+"list",m+"field"]
+	let el = document.getElementById("sysFont")
+	// build
+	fonts.forEach(function(font){
+		el.style.font = "99px sans-serif"		
+		try {
+			el.style.font = font
+		} catch (e) {}
+		let s = ""
+		if (window.getComputedStyle) {
+			s = getComputedStyle(el, null)
+		} else {
+			s = el.currentStyle
+		}
+		let f = undefined
+		if (s.fontSize != "99px") {
+			f = s.fontFamily + " " + s.fontSize;
+			if (s.fontWeight != 400 && s.fontWeight != "normal") {
+				f += ", " +	(s.fontWeight == 700 ? "bold" :
+					typeof s.fontWeight == "number" ? "weight " + s.fontWeight :
+					s.fontWeight)
+			}
+			if (s.fontStyle != "normal") {
+				f += ", " + s.fontStyle
+			}
+		}
+		data.push(font.padStart(20) + ": " + f)
+		results.push(font+":"+f)
+	})
+	// output
+	dom.sFontsHash.innerHTML = sha1(results.join()) + s14 + " [" + results.length + "]"
+	dom.sFontsHashData.innerHTML = data.join("<br>")
+}
+
 function outputCSS() {
 	let t0 = performance.now()
 	// functions
@@ -86,6 +125,7 @@ function outputCSS() {
 	get_colors("s")
 	get_colors("n")
 	get_colors("m")
+	get_system_fonts()
 	// perf
 	debug_page("perf","css",t0,gt0)
 }
