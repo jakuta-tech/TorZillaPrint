@@ -6,6 +6,7 @@ addEventListener("message", function(msg) {
 		o = {weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric",
 			minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long"},
 		res = [],
+		err = [],
 		zNS = "not supported",
 		zB1 = "script blocked [a]",
 		zB2 = "script blocked [b]",
@@ -268,6 +269,7 @@ addEventListener("message", function(msg) {
 				}
 				// script blocking
 				if (msg == "") {
+					err.push(item +": "+ e.name +": "+ e,message)
 					if (e.name == "ReferenceError") {msg = zB1
 					} else if (e.name == "TypeError") {msg = zB2
 					} else {msg = zB3}
@@ -278,6 +280,8 @@ addEventListener("message", function(msg) {
 			}
 		}
 	}
+	// log unexpected errors
+	if (err.length > 0) { console.debug("language worker errors\n" + err.join("\n - "))}
 
 	// build
 	for (let i=0; i < 38; i++) {
