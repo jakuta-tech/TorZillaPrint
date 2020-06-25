@@ -87,14 +87,11 @@ addEventListener("message", function(msg) {
 					if (isFF) {
 						if (error == "invalid value unit for option style" && isVer < 71) {
 							// 70-
-							err.push(item +" [expected]: "+ name + " : " + error)
 							return " | unit " + zNS
 						} else if (error == "invalid value \"unit\" for option style" && isVer > 70 && isVer < 78) {
 							// 71-77
-							err.push(item +" [expected]: "+ name + " : " + error)
 							return " | \"unit\" " + zNS
 						} else {
-							err.push(item +" [unexpected]: "+ name + " : " + error)
 							if (name == "ReferenceError") {return " | "+ zB1
 							} else if (name == "TypeError") {return " | "+ zB2
 							} else {return " | "+ zB3}
