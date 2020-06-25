@@ -6,6 +6,7 @@ addEventListener("message", function(msg) {
 		o = {weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric",
 			minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long"},
 		res = [],
+		zNS = "not supported",
 		zB1 = "script blocked [a]",
 		zB2 = "script blocked [b]",
 		zB3 = "script blocked [c]",
