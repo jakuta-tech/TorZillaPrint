@@ -268,9 +268,9 @@ addEventListener("message", function(msg) {
 				}
 				// script blocking
 				if (msg == "") {
-					if (e.name == "ReferenceError") {return zB1
-					} else if (e.name == "TypeError") {return zB2
-					} else {return zB3}
+					if (e.name == "ReferenceError") {msg = zB1
+					} else if (e.name == "TypeError") {msg = zB2
+					} else {msg = zB3}
 				}
 				return msg
 			} else {
