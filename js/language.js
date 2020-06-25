@@ -66,17 +66,29 @@ function outputHeaders() {
 
 function get_geo() {
 	let r = ("geolocation" in navigator ? zE : zD)
+		+ " | " + ("Geolocation" in window ? "true" : "false")
 	dom.geo1 = r
 	function geoWrite(r) {
+		r= sha1(r)
 		if (isTB2 == "y") {
-			if (r == "8845161313a6aace13d9a29c675144b09840b11a") {
-				r += default_tb_green
+			if (r == "e9870617411d57d9cc8f722098a0ac7ff694f825" && isVer < 72) {
+				// TB ESR68-: disabled, false, prompt
+				r += default_tb_green + " [ESR68 or lower]"
+			} else if (r == "ce3ac8f48088499747d70a031d3f4eaaed61da46" && isVer > 71) {
+				// TB ESR78+: disabled, true, prompt
+				r += default_tb_green + " [ESR78+]"
 			} else {
 				r += default_tb_red
 			}
 		} else {
-			if (r == "175f198d52a4381a6cf15505aae8cd85101f8e72") {
-				r += default_ff_green
+			if (isFF) {
+				if (r == "e672602411121842c18d9fa63c964c5ea288b74c" && isVer < 72) {
+					// FF71-: enabled, false, prompt
+					r += default_ff_green + " [FF71 or lower]"
+				} else if (r == "d053193ca561271fb2d1f6c888c9a268d5d02e5b" && isVer > 71) {
+					// FF72+: enabled, true, prompt
+					r += default_ff_green + " [FF72+]"
+				}
 			} else {
 				r += default_ff_red
 			}
@@ -85,13 +97,13 @@ function get_geo() {
 	}
 	function geoState(state) {
 		dom.geo2 = state
-		r = sha1(r +"-"+ state)
+		r += "-"+ state
 		// isTB2
 		if (isFF & isTB2 == "") {
 			function checkTB() {
 				if (isTB2 !== "") {
 					clearInterval(tbCheck)
-					geoWrite(r)		
+					geoWrite(r)
 				}
 			}
 			let tbCheck = setInterval(checkTB, 50)
@@ -103,7 +115,7 @@ function get_geo() {
 		navigator.permissions.query({name:"geolocation"}).then(e => geoState(e.state))
 	} catch(e) {
 		dom.geo2 = (e.name == "ReferenceError" ? zB1 : zB2)
-		r = sha1(r +"-"+ (e.name == "ReferenceError" ? zB1 : zB2))
+		r += "-"+ (e.name == "ReferenceError" ? zB1 : zB2)
 		geoWrite(r)
 	}
 }
