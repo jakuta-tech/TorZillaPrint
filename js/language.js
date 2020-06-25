@@ -381,9 +381,9 @@ function get_lang_datetime() {
 				// script blocking
 				if (msg == "") {
 					err.push(item +" [unexpected]: "+ e.name + " : " + e.message)
-					if (e.name == "ReferenceError") {return zB1
-					} else if (e.name == "TypeError") {return zB2
-					} else {return zB3}
+					if (e.name == "ReferenceError") {msg = zB1
+					} else if (e.name == "TypeError") {msg = zB2
+					} else {msg = zB3}
 				} else {
 					err.push(item +" [expected]: "+ e.name + " : " + e.message)
 				}
