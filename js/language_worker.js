@@ -269,7 +269,7 @@ addEventListener("message", function(msg) {
 				}
 				// script blocking
 				if (msg == "") {
-					err.push(item +": "+ e.name +": "+ e,message)
+					err.push(item +": "+ e.name +": "+ e.message)
 					if (e.name == "ReferenceError") {msg = zB1
 					} else if (e.name == "TypeError") {msg = zB2
 					} else {msg = zB3}
