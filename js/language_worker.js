@@ -269,6 +269,8 @@ addEventListener("message", function(msg) {
 				}
 				// script blocking
 				if (msg == "") {
+					console.log(item)
+					console.log(item +": "+ e.name +": "+ e.message)
 					err.push(item +": "+ e.name +": "+ e.message)
 					if (e.name == "ReferenceError") {msg = zB1
 					} else if (e.name == "TypeError") {msg = zB2
@@ -281,7 +283,7 @@ addEventListener("message", function(msg) {
 		}
 	}
 	// log unexpected errors
-	if (err.length > 0) { console.debug("language worker errors\n" + err.join("\n - "))}
+	if (err.length > 0) {console.log("language worker errors\n" + err.join("\n - "))}
 
 	// build
 	for (let i=0; i < 38; i++) {
