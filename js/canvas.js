@@ -1,12 +1,12 @@
 "use strict";
 
-/* outputCancnvas() code courtesy of kkapsner and canvasblocker
+/* outputCanvas() based on kkapsner and canvasblocker
 https://canvasblocker.kkapsner.de/test/
 https://github.com/kkapsner/CanvasBlocker */
 
 var t0canvas
 
-function analyzeCanvas(runtype, res1, res2) {
+function analyzeCanvas(runtype, res1, res2, res3) {
 	// vars
 	let chash1 = [],
 		diff78 = false,
@@ -19,11 +19,11 @@ function analyzeCanvas(runtype, res1, res2) {
 		if (get_RFP() == true) {is78rfp = true}
 	}
 
-	function display_value(item, value1, value2) {
+	function display_value(item, value1, value2, value3) {
 		// vars
 		let isRandom = false,
 			pushvalue = value1,
-			control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc",
+			control = "d87b36e65e37d411ac204db663f0ec05fe94bf7b6df537bab3f11052d1621ecc", // white RFP
 			combined = "",
 			sname = item.substring(0,4)
 		let element = dom.tb9.querySelector("." + item)
@@ -43,17 +43,30 @@ function analyzeCanvas(runtype, res1, res2) {
 			combined = "random " + s9 +" [1] "+ sc + value1.substring(0,22) + ".."
 				+ s9 +" [2] "+ sc + value2.substring(0,22) + ".."
 		}
+		// noise: used only if not isRandom
+		let noise = "noise " + s9 +" [both] "+ sc + value1.substring(0,49) + ".."
+		// only use noise for FF for now
+		if (!isFF) {value3 = "true"}
+
 		// hashes: static
 		if (sname == "isPo") {
 			if (isRandom) {value1 = combined}
 			value1 += (value1 == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8" ? rfp_green : rfp_red)
 		}
 		if (sname == "mozG" && isVer < 74) {
-			if (isRandom) {value1 = combined}
+			if (isRandom) {value1 = combined
+			} else if (value3 == "false") {
+				value1 = noise
+				pushvalue = "tampered"
+			}
 			value1 += (value1 == control ? rfp_green : rfp_red)
 		}
 		// hashes: randomized/static
 		if (sname == "toDa" || sname == "toBl" || sname == "getI") {
+			// control
+			if (sname == "getI") {
+				control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
+			}
 			if (value1 == error_string) {
 				value1 += (isVer > 77 ? rfp_random_red : rfp_red)
 			} else {
@@ -72,12 +85,24 @@ function analyzeCanvas(runtype, res1, res2) {
 						}
 						value1 += (pushvalue == "random rfp" ? rfp_random_green : rfp_random_red)
 					} else {
-						value1 += rfp_random_red
+						// 78+: not random
+						if (value3 == "false") {
+							// noise
+							pushvalue = "tampered"
+							value1 = noise + rfp_random_red
+						} else {
+							// no-noise
+							value1 += rfp_random_red
+						}
 					}
 				} else {
 					// <78: static
-					if (sname == "getI") {
-						control = "ae8d89f4cb47814af5d79e63a1a60b3f3f28d9309189b7518f1ecc23d8bda282"
+					if (value1 !== control) {
+						// noise
+						if (isRandom == false && value3 == "false") {
+							pushvalue = "tampered"
+							value1 = noise
+						}
 					}
 					value1 += (value1 == control ? rfp_green : rfp_red)
 				}
@@ -105,14 +130,19 @@ function analyzeCanvas(runtype, res1, res2) {
 	// sort arrays, output values
 	res1.sort()
 	res2.sort()
+	res3.sort()
+	console.debug(res3.join("\n"))
+
 	for (let i=0; i < res1.length; i++) {
 		let str1 = res1[i],
 			str2 = res2[i],
+			str3 = res3[i],
 			delim = str1.search(","),
 			display = str1.substring(0,delim),
 			value1 = str1.substring(delim+1, str1.length),
-			value2 = str2.substring(delim+1, str2.length)
-		display_value(display, value1, value2)
+			value2 = str2.substring(delim+1, str2.length),
+			value3 = str3.substring(delim+1, str3.length)
+		display_value(display, value1, value2, value3)
 	}
 	// overall hash
 	chash1.sort()
@@ -371,23 +401,159 @@ function outputCanvas() {
 		}
 	}
 
+	var known = {
+		createHashes: function(window){
+			let outputs = [
+				{
+					name: "toDataURL",
+					value: function(){
+						return (sha1(getKnown().canvas.toDataURL()) == known1 ? true : false)
+					}
+				},
+				{
+					name: "toBlob",
+					value: function(){
+						return new Promise(function(resolve, reject){
+							try {
+								var timeout = window.setTimeout(function(){
+									reject(false)
+								}, 750)
+							getKnown().canvas.toBlob(function(blob){
+								window.clearTimeout(timeout)
+								var reader = new FileReader()
+								reader.onload = function(){
+									resolve(sha1(reader.result) == known1 ? true : false)
+								}
+								reader.onerror = function(){
+									reject(false)
+								}
+								reader.readAsDataURL(blob)
+							})
+							}
+							catch (e){
+								resolve(false)
+							}
+						})
+					}
+				},
+				{
+					name: "mozGetAsFile",
+					value: function(){
+						return new Promise(function(resolve, reject){
+							var file = getKnown().canvas.mozGetAsFile("known.png")
+							var reader = new FileReader()
+							reader.onload = function(){
+								resolve(sha1(reader.result) == known1 ? true : false)
+							}
+							reader.readAsDataURL(file)
+						})
+					}
+				},
+				{
+					class: window.CanvasRenderingContext2D,
+					name: "getImageData",
+					value: function(){
+						var context = getKnown()
+						let imageData = []
+						for (let x=0; x < 16; x++) {
+							for (let y=0; y < 16; y++) {
+								let pixel = context.getImageData(x,y,1,1)
+								imageData.push(pixel.data)
+							}
+						}
+						return (sha1(imageData.join()) == known2 ? true : false)
+					}
+				},
+				{
+					name: "isPointInPath", // ToDo
+					value: function(){
+						return true
+					}
+				},
+				{
+					name: "isPointInStroke", // ToDo
+					value: function(){
+						return true
+					}
+				},
+				// add these so arrays match
+				{ name: "getContext", value: function(){return false} },
+				{ name: "fillText", value: function(){return false} },
+				{ name: "winding", value: function(){return false} },
+				{ name: "strokeText", value: function(){return false} },
+			];
+			function isSupported(output){
+				return !!(output.class? output.class: window.HTMLCanvasElement).prototype[output.name]
+			}
+			function getCanvas(){
+				return window.document.createElement("canvas")
+			}
+			function getContext(type){
+				return getCanvas().getContext(type || "2d")
+			}
+			function getKnown(){
+				var context = getContext()
+				var canvas = context.canvas
+				canvas.width = 16
+				canvas.height = 16
+				canvas.style.display = "inline"
+				for (let x=0; x < 16; x++) {
+					for (let y=0; y < 16; y++) {
+						context.fillStyle = "rgba(" + (x*y) +","+ (x*16) + ","+ (y*16) + ",255)"
+						context.fillRect(x, y, 1, 1)
+					}
+				}
+				return context
+			}
+			var finished = Promise.all(outputs.map(function(output){
+				return new Promise(function(resolve, reject){
+					var displayValue
+					try {
+						var supported = output.supported? output.supported(): isSupported(output);
+						if (supported){
+							displayValue = output.value()
+						} else {
+							displayValue = false
+						}
+					} catch (e){
+						displayValue = false
+					}
+					Promise.resolve(displayValue).then(function(displayValue){
+						output.displayValue = displayValue
+						resolve(output)
+					}, function(e){
+						output.displayValue = false
+						resolve(output)
+					})
+				})
+			}))
+			return finished
+		}
+	}
+
 	// vars
 	t0canvas = performance.now()
 	let t0 = performance.now(),
-		main1 = [], main2 = []
+		main0 = [], main1 = [], main2 = []
+	let known1 = "8c70ed9a7dbe6d72e3d1a4e448522012661cfbed",
+		known2 = "67a2c3bc2f7ccf8c92d57b94586784f19d98a2f0"
 
 	Promise.all([
 		canvas.createHashes(window),
-		canvas.createHashes(window)
+		canvas.createHashes(window),
+		known.createHashes(window),
 	]).then(function(outputs){
 		outputs[0].forEach(function(output){
-			main1.push(output.name+","+output.displayValue)
+			main0.push(output.name+","+output.displayValue)
 		})
 		outputs[1].forEach(function(output){
-			main2.push(output.name+","+output.displayValue)
+			main1.push(output.name+","+output.displayValue)
 		})
+		outputs[2].forEach(function(output){
+			main2.push(output.name+","+output.displayValue)
+		})		
 		if (logPerf) {debug_log("main [canvas]",t0)}
-		analyzeCanvas("main", main1, main2)
+		analyzeCanvas("main", main0, main1, main2)
 	})
 	// ToDo: canvas: iframes: each with two passes
 
