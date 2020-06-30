@@ -55,7 +55,7 @@ function analyzeCanvas(runtype, res1, res2, res3) {
 		}
 		if (sname == "mozG" && isVer < 74) {
 			if (isRandom) {value1 = combined
-			} else if (value3 == "false") {
+			} else if (value3 == "false" && value1 !== control) {
 				value1 = noise
 				pushvalue = "tampered"
 			}
