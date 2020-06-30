@@ -131,8 +131,6 @@ function analyzeCanvas(runtype, res1, res2, res3) {
 	res1.sort()
 	res2.sort()
 	res3.sort()
-	console.debug(res3.join("\n"))
-
 	for (let i=0; i < res1.length; i++) {
 		let str1 = res1[i],
 			str2 = res2[i],
