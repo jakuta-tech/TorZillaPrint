@@ -44,7 +44,7 @@ function analyzeCanvas(runtype, res1, res2, res3) {
 				+ s9 +" [2] "+ sc + value2.substring(0,22) + ".."
 		}
 		// noise: used only if not isRandom
-		let noise = "noise " + s9 +" [both] "+ sc + value1.substring(0,49) + ".."
+		let noise = "noise detected " + s9 +" [both] "+ sc + value1.substring(0,40) + ".."
 		// only use noise for FF for now
 		if (!isFF) {value3 = "true"}
 
