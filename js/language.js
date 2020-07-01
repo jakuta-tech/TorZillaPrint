@@ -339,8 +339,8 @@ function get_lang_datetime() {
 					dayB = get_day_period(new Date("2019-01-30T12:00:00"))
 				if (dayA == dayB) {
 					tmp35 = zNS
-					// ToDo: > 78 is really Nightly
-					if (isFF && isVer > 78) {tmp35 = zB1; err.push(item +" [unexpected]: dayPeriod")}
+					// ToDo: dayPeriod: version check when this leaves Nightly
+					//if (isFF && isVer > 79) {tmp35 = zB1; err.push(item +" [unexpected]: dayPeriod")}
 				} else {
 					// in the morning, noon, in the afternoon, in the evening, at night
 					tmp35 = dayA + ", " + dayB
@@ -441,11 +441,12 @@ function get_lang_datetime() {
 		if (bTZ) {
 			// state1: both green
 			if (lHash2 == "e89556c7124ee4a2f294c8d14b9673785df3a46c") {
-				// note this will split
-				// nightly has dayPeriod, 79+ has date+timeStyle
+				// nightly has dayPeriod
 				ff = " [Nightly]"
+			} else if (lHash2 == "e4db6146f375ed7e9580902b77adfb22baaf3eca") {
+				ff = " [FF79+]"
 			} else if (lHash2 == "d0047c24e2b65ef772fabd3e07f5ec334a2e8a0d") {
-				ff = " [FF78+]"
+				ff = " [FF78]"
 			} else if (lHash2 == "5e9ddd42ab4a9c633d2f0abc8956e66304cb8edc") {
 				ff = " [FF71-77]"
 			} else if (lHash2 == "f1308e9bb7ccd184af13bd9c6b96422f8d6707d5") {
