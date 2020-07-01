@@ -2,6 +2,7 @@
 
 function reset_css() {
 	dom.sColorHashData.style.color = zhide
+	dom.sFontsHashData.style.color = zhide
 }
 
 function get_colors(runtype) {
@@ -42,7 +43,10 @@ function get_colors(runtype) {
 			if (runtype == "n") {
 				data.push(item.padStart(11) + ": " + x)
 			}
-		} catch(e) {}
+		} catch(e) {
+			// script blocked
+			console.debug("getColors", e.name, e.message)
+		}
 	})
 	let hash = sha1(results.join()),
 		notation = s14 + "["+list.length+"] " + sc 
@@ -66,7 +70,10 @@ function get_mm_prefers(type) {
 			if (window.matchMedia(q+l+")").matches) x = l+rfp_green
 			if (window.matchMedia(q+d+")").matches) x = d+rfp_red
 			if (window.matchMedia(q+n+")").matches) x = n+rfp_red
-		} catch(e) {x = zB}
+		} catch(e) {
+			x = zB
+			console.debug("mm_prefers", e.name, e.message)
+		}
 		dom.mmPCS.innerHTML = x
 	}
 	if (type == "reduced-motion") {
@@ -75,6 +82,15 @@ function get_mm_prefers(type) {
 			if (window.matchMedia(q+n+")").matches) x = n+rfp_green
 		} catch(e) {x = zB}
 		dom.mmPRM.innerHTML = x
+	}
+	if (type == "contrast") {
+		try {
+			if (window.matchMedia(q+n+")").matches) x = n
+			if (window.matchMedia(q+"forced)").matches) x = "forced"
+			if (window.matchMedia(q+"high)").matches) x = "high"
+			if (window.matchMedia(q+"low)").matches) x = "low"
+		} catch(e) {x = zB}
+		dom.mmPC.innerHTML = x
 	}
 }
 
@@ -86,35 +102,38 @@ function get_system_fonts() {
 		m+"document",m+"workspace",m+"info",m+"pull-down-menu",m+"dialog",m+"button",m+"list",m+"field"]
 	let el = document.getElementById("sysFont")
 	// build
-	fonts.forEach(function(font){
-		el.style.font = "99px sans-serif"		
-		try {
-			el.style.font = font
-		} catch (e) {}
-		let s = ""
-		if (window.getComputedStyle) {
-			s = getComputedStyle(el, null)
-		} else {
-			s = el.currentStyle
-		}
-		let f = undefined
-		if (s.fontSize != "99px") {
-			f = s.fontFamily + " " + s.fontSize;
-			if (s.fontWeight != 400 && s.fontWeight != "normal") {
-				f += ", " +	(s.fontWeight == 700 ? "bold" :
-					typeof s.fontWeight == "number" ? "weight " + s.fontWeight :
-					s.fontWeight)
+	try {
+		fonts.forEach(function(font){
+			el.style.font = "99px sans-serif"		
+			try {
+				el.style.font = font
+			} catch(err) {}
+			let s = ""
+			if (window.getComputedStyle) {s = getComputedStyle(el, null)} else {s = el.currentStyle}
+			let f = undefined
+			if (s.fontSize != "99px") {
+				f = s.fontFamily + " " + s.fontSize;
+				if (s.fontWeight != 400 && s.fontWeight != "normal") {
+					f += ", " +	(s.fontWeight == 700 ? "bold" :
+						typeof s.fontWeight == "number" ? "weight " + s.fontWeight :
+						s.fontWeight)
+				}
+				if (s.fontStyle != "normal") {
+					f += ", " + s.fontStyle
+				}
 			}
-			if (s.fontStyle != "normal") {
-				f += ", " + s.fontStyle
-			}
-		}
-		data.push(font.padStart(20) + ": " + f)
-		results.push(font+":"+f)
-	})
+			data.push(font.padStart(20) + ": " + f)
+			results.push(font+":"+f)
+		})
+	} catch(e) {
+		// script blocked
+		console.debug("systemFonts",e.name, e.message)
+
+	}
 	// output
 	dom.sFontsHash.innerHTML = sha1(results.join()) + s14 + " [" + results.length + "]"
 	dom.sFontsHashData.innerHTML = data.join("<br>")
+	dom.sFontsHashData.style.color = zshow
 }
 
 function outputCSS() {
@@ -122,6 +141,7 @@ function outputCSS() {
 	// functions
 	get_mm_prefers("color-scheme")
 	get_mm_prefers("reduced-motion")
+	get_mm_prefers("contrast")
 	get_colors("s")
 	get_colors("n")
 	get_colors("m")
