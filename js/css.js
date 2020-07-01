@@ -122,13 +122,23 @@ function get_system_fonts() {
 	let fonts = ["caption","icon","menu","message-box","small-caption","status-bar",m+"window",m+"desktop",
 		m+"document",m+"workspace",m+"info",m+"pull-down-menu",m+"dialog",m+"button",m+"list",m+"field"]
 	let el = document.getElementById("sysFont")
+	try {
+		//
+		let test = getComputedStyle(element).getPropertyValue("font-family")
+	} catch(e) {
+		console.debug("system_fonts", e,name, e.message)
+	}
+
+
 	// build
 	fonts.forEach(function(font){
 		el.style.font = "99px sans-serif"		
 		try {el.style.font = font} catch(err) {}
 		let s = ""
 		if (window.getComputedStyle) {
-			s = getComputedStyle(el, null)
+			try {
+				s = getComputedStyle(el, null)
+			} catch(e) {}
 		} else {
 			s = el.currentStyle
 		}
@@ -152,7 +162,7 @@ function get_system_fonts() {
 	// output
 	console.debug("got this far")
 	let hash = sha1(results.join()),
-		notation = s14 + " [" + results.length + "]" + sc
+		notation = s14 + " [" + fonts.length + "]" + sc
 	dom.sFontsHash.innerHTML = hash + notation
 	dom.sFontsHashData.innerHTML = data.join("<br>")
 	dom.sFontsHashData.style.color = zshow
