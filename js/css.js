@@ -74,10 +74,10 @@ function get_mm_prefers(type) {
 	let msg = ""
 	function get_block(name) {
 		if (name == undefined) {return zB4
-		else if (name == "") {return zB5
-		else if (name == "ReferenceError") {return zB1
-		else if (name == "TypeError") {return zB2
-		else {return zB3}
+		} else if (name == "") {return zB5
+		} else if (name == "ReferenceError") {return zB1
+		} else if (name == "TypeError") {return zB2
+		} else {return zB3}
 	}
 
 	if (type == "color-scheme") {
