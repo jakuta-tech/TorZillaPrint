@@ -84,11 +84,7 @@ function get_mm_prefers(type) {
 			if (window.matchMedia(q+l+")").matches) x = l+rfp_green
 			if (window.matchMedia(q+d+")").matches) x = d+rfp_red
 			if (window.matchMedia(q+n+")").matches) x = n+rfp_red
-		} catch(e) {
-			console.debug("eeek", e.name, e.message)
-			x = get_css_block(e.name)
-
-		}
+		} catch(e) {x = get_css_block(e.name)}
 		if (isFF) {
 			if (x == zNS && isVer > 66) {x = zB6}
 		}
@@ -113,7 +109,7 @@ function get_mm_prefers(type) {
 			if (window.matchMedia(q+"high)").matches) x = "high"
 			if (window.matchMedia(q+"low)").matches) x = "low"
 		} catch(e) {x = get_css_block(e.name)}
-		// ToDo: prefers-contrast isVer check 80+
+		// ToDo: prefers-contrast: isVer check 80+ / add RFP notation
 		dom.mmPC.innerHTML = x //+ (x.substring(0,6) == "script" ? rfp_red : "")
 	}
 }
