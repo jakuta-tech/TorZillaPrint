@@ -9,7 +9,9 @@ function get_colors(runtype) {
 	let results = [],
 		data = [],
 		list = [],
-		m = "-moz-", mm = m+"mac-",
+		error = "",
+		m = "-moz-",
+		mm = m+"mac-",
 		element = dom.sColorElement
 	if (runtype == "s") {
 		list = ['ActiveBorder','ActiveCaption','AppWorkspace','Background','ButtonFace',
@@ -44,19 +46,23 @@ function get_colors(runtype) {
 				data.push(item.padStart(11) + ": " + x)
 			}
 		} catch(e) {
-			// script blocked
-			console.debug("getColors", e.name, e.message)
+			if (isFF) {
+				if (e.name == "ReferenceError") {error = zB1
+				} else if (e.name == "TypeError") {error = zB2
+				} else {error = zB3}
+			} else {
+				error = "error"
+			}
 		}
 	})
 	let hash = sha1(results.join()),
 		notation = s14 + "["+list.length+"] " + sc 
-	if (results.length == 0) {notation = zB}
 	if (runtype == "s") {
 		let control = "1580959336948bb37120a893e8b1cb99c620129e"
-		dom.sColorHash.innerHTML = hash += notation + (notation == zB ? "" : (hash == control ? rfp_green : rfp_red))
+		dom.sColorHash.innerHTML = error + (error == "" ? hash + (hash == control ? rfp_green : rfp_red) : "")
 	} else if (runtype == "n") {
-		dom.sColorHashNew.innerHTML = hash + notation
-		dom.sColorHashData.innerHTML = (notation == zB ? "blocked" : data.join("<br>"))
+		dom.sColorHashNew.innerHTML = error + (error == "" ? hash + notation : "")
+		dom.sColorHashData.innerHTML = error + (error == "" ? data.join("<br>") : "")
 		dom.sColorHashData.style.color = zshow
 	} else {
 		dom.mColorHash.innerHTML = hash + notation
@@ -64,6 +70,8 @@ function get_colors(runtype) {
 }
 
 function get_mm_prefers(type) {
+	// false func = zNS
+
 	let x=zNS, l="light", d="dark", n="no-preference", r="reduce", q="(prefers-"+type+": "
 	if (type == "color-scheme") {
 		try {
@@ -73,6 +81,7 @@ function get_mm_prefers(type) {
 		} catch(e) {
 			x = zB
 			console.debug("mm_prefers", e.name, e.message)
+			// ReferenceError zB1
 		}
 		dom.mmPCS.innerHTML = x
 	}
