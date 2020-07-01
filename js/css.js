@@ -84,7 +84,11 @@ function get_mm_prefers(type) {
 			if (window.matchMedia(q+l+")").matches) x = l+rfp_green
 			if (window.matchMedia(q+d+")").matches) x = d+rfp_red
 			if (window.matchMedia(q+n+")").matches) x = n+rfp_red
-		} catch(e) {x = get_css_block(e.name)}
+		} catch(e) {
+			console.debug("eeek", e.name, e.message)
+			x = get_css_block(e.name)
+
+		}
 		if (isFF) {
 			if (x == zNS && isVer > 66) {x = zB6}
 		}
