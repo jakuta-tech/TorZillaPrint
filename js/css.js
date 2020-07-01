@@ -65,31 +65,34 @@ function get_colors(runtype) {
 		dom.sColorHashData.innerHTML = error + (error == "" ? data.join("<br>") : "")
 		dom.sColorHashData.style.color = zshow
 	} else {
-		dom.mColorHash.innerHTML = hash + notation
+		dom.mColorHash.innerHTML = error + (error == "" ? hash + notation : "")
 	}
 }
 
 function get_mm_prefers(type) {
-	// false func = zNS
-
 	let x=zNS, l="light", d="dark", n="no-preference", r="reduce", q="(prefers-"+type+": "
+	let msg = ""
+	function get_block(name) {
+		if (name == undefined) {return zB4
+		else if (name == "") {return zB5
+		else if (name == "ReferenceError") {return zB1
+		else if (name == "TypeError") {return zB2
+		else {return zB3}
+	}
+
 	if (type == "color-scheme") {
 		try {
 			if (window.matchMedia(q+l+")").matches) x = l+rfp_green
 			if (window.matchMedia(q+d+")").matches) x = d+rfp_red
 			if (window.matchMedia(q+n+")").matches) x = n+rfp_red
-		} catch(e) {
-			x = zB
-			console.debug("mm_prefers", e.name, e.message)
-			// ReferenceError zB1
-		}
+		} catch(e) {x = get_block(e.name)}
 		dom.mmPCS.innerHTML = x
 	}
 	if (type == "reduced-motion") {
 		try {
 			if (window.matchMedia(q+r+")").matches) x = r+rfp_red
 			if (window.matchMedia(q+n+")").matches) x = n+rfp_green
-		} catch(e) {x = zB}
+		} catch(e) {x = get_block(e.name)}
 		dom.mmPRM.innerHTML = x
 	}
 	if (type == "contrast") {
@@ -98,7 +101,7 @@ function get_mm_prefers(type) {
 			if (window.matchMedia(q+"forced)").matches) x = "forced"
 			if (window.matchMedia(q+"high)").matches) x = "high"
 			if (window.matchMedia(q+"low)").matches) x = "low"
-		} catch(e) {x = zB}
+		} catch(e) {x = get_block(e.name)}
 		dom.mmPC.innerHTML = x
 	}
 }
