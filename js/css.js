@@ -127,6 +127,7 @@ function get_system_fonts() {
 			try {
 				s = getComputedStyle(el, null)
 			} catch(e) {
+				console.debug("getComputedStyle error", e.name, e.message)
 				if (isFF) {
 					if (e.name == "ReferenceError") {error = zB1
 					} else if (e.name == "TypeError") {error = zB2
