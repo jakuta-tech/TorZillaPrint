@@ -124,7 +124,7 @@ function get_system_fonts() {
 	let el = document.getElementById("sysFont")
 	try {
 		//
-		let test = getComputedStyle(element).getPropertyValue("font-family")
+		let test = getComputedStyle(el).getPropertyValue("font-family")
 	} catch(e) {
 		console.debug("system_fonts", e,name, e.message)
 	}
