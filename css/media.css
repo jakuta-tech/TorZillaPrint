@@ -58,3 +58,25 @@
 #cssPRM:after{content:"not supported";}
 @media (prefers-reduced-motion:no-preference){#cssPRM:after{content:"no-preference";}}
 @media (prefers-reduced-motion:reduce){#cssPRM:after{content:"reduce";}}
+
+#cssPC:after{content:"not supported";}
+@media (prefers-contrast:no-preference){#cssPC:after{content:"no-preference";}}
+@media (prefers-contrast:forced){#cssPC:after{content:"forced";}}
+@media (prefers-contrast:high){#cssPC:after{content:"high";}}
+@media (prefers-contrast:low){#cssPC:after{content:"low";}}
+
+#cssPRT:after{content:"not supported";}
+@media (prefers-reduced-transparency:no-preference){#cssPRT:after{content:"no-preference";}}
+@media (prefers-reduced-transparency:reduce){#cssPRT:after{content:"reduce";}}
+
+#cssPRD:after{content:"not supported";}
+@media (prefers-reduced-data:no-preference){#cssPRD:after{content:"no-preference";}}
+@media (prefers-reduced-data:reduce){#cssPRD:after{content:"reduce";}}
+
+#cssFC:after{content:"not supported";}
+@media (forced-colors:none){#cssFC:after{content:"none";}}
+@media (forced-colors:active){#cssFC:after{content:"active";}}
+
+#cssIC:after{content:"not supported";}
+@media (inverted-colors:none){#cssIC:after{content:"none";}}
+@media (inverted-colors:inverted){#cssIC:after{content:"inverted";}}
