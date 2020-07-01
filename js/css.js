@@ -59,7 +59,7 @@ function get_colors(runtype) {
 		notation = s14 + "["+list.length+"] " + sc 
 	if (runtype == "s") {
 		let control = "1580959336948bb37120a893e8b1cb99c620129e"
-		dom.sColorHash.innerHTML = error + (error == "" ? hash + (hash == control ? rfp_green : rfp_red) : "")
+		dom.sColorHash.innerHTML = error + (error == "" ? hash + notation + (hash == control ? rfp_green : rfp_red) : "")
 	} else if (runtype == "n") {
 		dom.sColorHashNew.innerHTML = error + (error == "" ? hash + notation : "")
 		dom.sColorHashData.innerHTML = error + (error == "" ? data.join("<br>") : "")
@@ -72,6 +72,9 @@ function get_colors(runtype) {
 function get_mm_prefers(type) {
 	let x=zNS, l="light", d="dark", n="no-preference", r="reduce", q="(prefers-"+type+": "
 	let msg = ""
+
+	// falseFunc returns zNS: do isFF + isVer checks
+
 	function get_block(name) {
 		if (name == undefined) {return zB4
 		} else if (name == "") {return zB5
@@ -79,7 +82,6 @@ function get_mm_prefers(type) {
 		} else if (name == "TypeError") {return zB2
 		} else {return zB3}
 	}
-
 	if (type == "color-scheme") {
 		try {
 			if (window.matchMedia(q+l+")").matches) x = l+rfp_green
@@ -109,19 +111,34 @@ function get_mm_prefers(type) {
 function get_system_fonts() {
 	let results = [],
 		data = [],
+		error = "",
 		m = "-moz-"
 	let fonts = ["caption","icon","menu","message-box","small-caption","status-bar",m+"window",m+"desktop",
 		m+"document",m+"workspace",m+"info",m+"pull-down-menu",m+"dialog",m+"button",m+"list",m+"field"]
 	let el = document.getElementById("sysFont")
 	// build
-	try {
-		fonts.forEach(function(font){
-			el.style.font = "99px sans-serif"		
+	fonts.forEach(function(font){
+		el.style.font = "99px sans-serif"		
+		try {
+			el.style.font = font
+		} catch(err) {}
+		let s = ""
+		if (window.getComputedStyle) {
 			try {
-				el.style.font = font
-			} catch(err) {}
-			let s = ""
-			if (window.getComputedStyle) {s = getComputedStyle(el, null)} else {s = el.currentStyle}
+				s = getComputedStyle(el, null)
+			} catch(e) {
+				if (isFF) {
+					if (e.name == "ReferenceError") {error = zB1
+					} else if (e.name == "TypeError") {error = zB2
+					} else {error = zB3}
+				} else {
+					error = "error"
+				}
+			}
+		} else {
+			s = el.currentStyle
+		}
+		if (s !== "") {
 			let f = undefined
 			if (s.fontSize != "99px") {
 				f = s.fontFamily + " " + s.fontSize;
@@ -136,15 +153,13 @@ function get_system_fonts() {
 			}
 			data.push(font.padStart(20) + ": " + f)
 			results.push(font+":"+f)
-		})
-	} catch(e) {
-		// script blocked
-		console.debug("systemFonts",e.name, e.message)
-
-	}
+		}
+	})
 	// output
-	dom.sFontsHash.innerHTML = sha1(results.join()) + s14 + " [" + results.length + "]"
-	dom.sFontsHashData.innerHTML = data.join("<br>")
+	let hash = sha1(results.join()),
+		notation = s14 + " [" + results.length + "]" + sc
+	dom.sFontsHash.innerHTML = error + (error == "" ? hash + notation : "")
+	dom.sFontsHashData.innerHTML = error + (error == "" ? data.join("<br>") : "")
 	dom.sFontsHashData.style.color = zshow
 }
 
