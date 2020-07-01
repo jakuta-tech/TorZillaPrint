@@ -155,7 +155,7 @@ function get_system_fonts() {
 			}
 		})
 	} catch(e) {
-		error = get_cssBlock(e.name)
+		error = get_css_block(e.name)
 	}
 	// output
 	let hash = sha1(results.join()),
