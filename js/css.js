@@ -72,9 +72,6 @@ function get_colors(runtype) {
 function get_mm_prefers(type) {
 	let x=zNS, l="light", d="dark", n="no-preference", r="reduce", q="(prefers-"+type+": "
 	let msg = ""
-
-	// falseFunc returns zNS: do isFF + isVer checks
-
 	function get_block(name) {
 		if (name == undefined) {return zB4
 		} else if (name == "") {return zB5
@@ -83,35 +80,44 @@ function get_mm_prefers(type) {
 		} else {return zB3}
 	}
 	if (type == "color-scheme") {
+		// FF67+
 		try {
 			if (window.matchMedia(q+l+")").matches) x = l+rfp_green
 			if (window.matchMedia(q+d+")").matches) x = d+rfp_red
 			if (window.matchMedia(q+n+")").matches) x = n+rfp_red
 		} catch(e) {x = get_block(e.name)}
-		dom.mmPCS.innerHTML = x
+		if (isFF) {
+			if (x == zNS && isVer > 66) {x = zB6}
+		}
+		dom.mmPCS.innerHTML = x + (x.substring(0,6) == "script" ? rfp_red : "")
 	}
 	if (type == "reduced-motion") {
+		// FF63+
 		try {
 			if (window.matchMedia(q+r+")").matches) x = r+rfp_red
 			if (window.matchMedia(q+n+")").matches) x = n+rfp_green
 		} catch(e) {x = get_block(e.name)}
-		dom.mmPRM.innerHTML = x
+		if (isFF) {
+			if (x == zNS && isVer > 62) {x = zB6}
+		}
+		dom.mmPRM.innerHTML = x + (x.substring(0,6) == "script" ? rfp_red : "")
 	}
 	if (type == "contrast") {
+		// FF80+
 		try {
 			if (window.matchMedia(q+n+")").matches) x = n
 			if (window.matchMedia(q+"forced)").matches) x = "forced"
 			if (window.matchMedia(q+"high)").matches) x = "high"
 			if (window.matchMedia(q+"low)").matches) x = "low"
 		} catch(e) {x = get_block(e.name)}
-		dom.mmPC.innerHTML = x
+		// ToDo: prefers-contrast isVer check 80+
+		dom.mmPC.innerHTML = x //+ (x.substring(0,6) == "script" ? rfp_red : "")
 	}
 }
 
 function get_system_fonts() {
 	let results = [],
 		data = [],
-		error = "",
 		m = "-moz-"
 	let fonts = ["caption","icon","menu","message-box","small-caption","status-bar",m+"window",m+"desktop",
 		m+"document",m+"workspace",m+"info",m+"pull-down-menu",m+"dialog",m+"button",m+"list",m+"field"]
@@ -119,23 +125,10 @@ function get_system_fonts() {
 	// build
 	fonts.forEach(function(font){
 		el.style.font = "99px sans-serif"		
-		try {
-			el.style.font = font
-		} catch(err) {}
+		try {el.style.font = font} catch(err) {}
 		let s = ""
 		if (window.getComputedStyle) {
-			try {
-				s = getComputedStyle(el, null)
-			} catch(e) {
-				console.debug("getComputedStyle error", e.name, e.message)
-				if (isFF) {
-					if (e.name == "ReferenceError") {error = zB1
-					} else if (e.name == "TypeError") {error = zB2
-					} else {error = zB3}
-				} else {
-					error = "error"
-				}
-			}
+			s = getComputedStyle(el, null)
 		} else {
 			s = el.currentStyle
 		}
@@ -157,10 +150,11 @@ function get_system_fonts() {
 		}
 	})
 	// output
+	console.debug("got this far")
 	let hash = sha1(results.join()),
 		notation = s14 + " [" + results.length + "]" + sc
-	dom.sFontsHash.innerHTML = error + (error == "" ? hash + notation : "")
-	dom.sFontsHashData.innerHTML = error + (error == "" ? data.join("<br>") : "")
+	dom.sFontsHash.innerHTML = hash + notation
+	dom.sFontsHashData.innerHTML = data.join("<br>")
 	dom.sFontsHashData.style.color = zshow
 }
 
