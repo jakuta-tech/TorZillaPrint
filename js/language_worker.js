@@ -223,8 +223,8 @@ addEventListener("message", function(msg) {
 					dayB = get_day_period(new Date("2019-01-30T12:00:00"))
 				if (dayA == dayB) {
 					tmp35 = zNS
-					// ToDo: > 78 is really Nightly
-					if (isFF && isVer > 78) {tmp35 = zB1}
+					// ToDo: dayPeriod: version check when this leaves Nightly
+					//if (isFF && isVer > 79) {tmp35 = zB1}
 				} else {
 					// in the morning, noon, in the afternoon, in the evening, at night
 					tmp35 = dayA + ", " + dayB
