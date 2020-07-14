@@ -1244,12 +1244,21 @@ function get_version() {
 	}
 	// run
 	function v75plus() {
+		// 80: 1651732
+		if (go) {
+			let obj80 = {[Symbol.toPrimitive]: () => Symbol()}
+			let proxy80 = (new Proxy({},{get: (obj80, prop, proxy80) => prop}))
+			try {
+				for (let i = 0; i < 11; i++) {if (typeof proxy80[obj80] == 'symbol') {}}
+				verNo = "80+"; go = false
+			} catch (e) {}
+		}
 		//79: 1644878
 		if (go) {
 			try {
 				Map.prototype.entries.call(true)
 			} catch(e) {
-				if ((e.message).substring(0,3) == "ent") {verNo = "79+"; go = false}
+				if ((e.message).substring(0,3) == "ent") {verNo = "79"; go = false}
 			}
 		}
 		//78: multiple checks
