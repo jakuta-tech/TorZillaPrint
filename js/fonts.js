@@ -73,15 +73,6 @@ function reset_unicode() {
 	dom.ug10.innerHTML = fntHead + r
 }
 
-function get_str_from_codepoint(n) {
-	if (n <= 0xffff) {
-		return String.fromCharCode(n)
-	} else {
-		n -= 0x10000
-		return String.fromCharCode(0xd800 + (n >> 10), 0xdc00 + (n % 0x400))
-	}
-}
-
 function get_fpjs2(type) {
 	/* based on https://github.com/Valve/fingerprintjs2 */
 	// vars
@@ -278,8 +269,7 @@ function get_fallback_string() {
 
 	// [43] dcf
 	for (let i=0; i < fntCode.length; i++) {
-		let n = fntCode[i]
-		strA += "</span>\n<span>" + get_str_from_codepoint(n)
+		strA += "</span>\n<span>" + String.fromCodePoint(fntCode[i])
 	}
 	// [1] fpjs2
 	strA += "</span>\n<span>" + fntStrA
@@ -482,7 +472,7 @@ function get_unicode() {
 			canvas = dom.ugCanvas, ctx = canvas.getContext("2d")
 		// each char
 		for (let i=0; i < fntCode.length; i++) {
-			let	c = get_str_from_codepoint(fntCode[i]),
+			let	c = String.fromCodePoint(fntCode[i]),
 				cp = "u+" + (fntCode[i]).substr(2)
 			display += "<br>" + cp.padStart(7)
 			// each style
