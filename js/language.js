@@ -413,7 +413,7 @@ function get_lang_datetime() {
 	}
 	// debugging: error tracking
 	if (err.length > 0) {console.log("language/datetime errors\n" + err.join("\n"))}
-	if (!isFile) {console.log("HASH: date/time-format combined: " + sha1(res.slice(8,38).join("-")) +"\n - " + res.slice(8,38).join("\n - "))}
+	console.log("HASH: date/time-format combined: " + sha1(res.slice(8,38).join("-")), res.slice(8,38))
 
 	// hash language
 	let lHash0 = sha1(res.slice(0,6).join("-"))
