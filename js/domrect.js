@@ -100,15 +100,14 @@ function outputDomRect() {
 				if (diff !== 0.25) {
 					random.push(delim[0])
 					let margin = (0.25 - diff)
-					analysis.push(prev_item +", "+ diff +", "+ margin)
-					analysis.push(" - "+ prev_value + "\n - "+ delim[3])
+					analysis.push(prev_item +", "+ diff +", "+ margin +", "+ prev_value + ", "+ delim[3])
 				}
 			}
 			prev_item = delim[0] + delim[1]
 			prev_value = delim[3]
 		})
 		if (analysis.length > 0) {
-			console.log("DOMRect analysis\n" + analysis.join("\n"))
+			console.log("DOMRect analysis [item, diff, diff from 0.25, 1st measurement, 2nd measurement]", analysis)
 		}
 		random = random.filter(function(item, position) {return random.indexOf(item) === position})
 		if (isFF) {
