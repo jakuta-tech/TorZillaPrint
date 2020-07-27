@@ -482,9 +482,16 @@ function outputCanvas() {
 				},
 				{
 					class: window.CanvasRenderingContext2D,
-					name: "isPointInStroke", // ToDo
+					name: "isPointInStroke",
 					value: function(){
-						return true
+						let context2 = getKnownPath()
+						let pathStroke = []
+						for (let x = 0; x < 16; x++){
+							for (let y = 0; y < 16; y++){
+								pathStroke.push(context2.isPointInStroke(x, y))
+							}
+						}
+						return (sha1(pathStroke.join()) == known4 ? true : false)
 					}
 				},
 				// add these so arrays match
@@ -549,7 +556,8 @@ function outputCanvas() {
 		main0 = [], main1 = [], main2 = []
 	let known1 = "8c70ed9a7dbe6d72e3d1a4e448522012661cfbed",
 		known2 = "67a2c3bc2f7ccf8c92d57b94586784f19d98a2f0",
-		known3 = "f44c70171a197cc26df382603e76f4ba581e2d8f"
+		known3 = "f44c70171a197cc26df382603e76f4ba581e2d8f",
+		known4 = "1b636fb26edee73d7ca832edd1112e0021566a50"
 
 	Promise.all([
 		canvas.createHashes(window),
