@@ -50,12 +50,14 @@ function analyzeCanvas(runtype, res1, res2, res3) {
 
 		// hashes: static
 		if (sname == "isPo") {
+			control = "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8"
 			if (isRandom) {value1 = combined
+			} else if (value1 == control) {
 			} else if (value3 == "false") {
 				value1 = noise
 				pushvalue = "tampered"
 			}
-			value1 += (value1 == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8" ? rfp_green : rfp_red)
+			value1 += (value1 == control ? rfp_green : rfp_red)
 		}
 		if (sname == "mozG" && isVer < 74) {
 			if (isRandom) {value1 = combined
