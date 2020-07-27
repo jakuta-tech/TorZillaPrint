@@ -1613,19 +1613,47 @@ function get_android_kbh() {
 
 function goFS() {
 	if (isFF) {
+		dom.fsLeak = ""
 		let ih1 = window.innerHeight,
-			delay = 1
+			delay = 1, n = 1,
+			sizeS = [], sizeE = []
 		function exitFS() {
 			if (isVer > 63) {document.exitFullscreen()} else {document.mozCancelFullScreen()}
 			document.removeEventListener("mozfullscreenchange", getFS)
 		}
 		function getFS() {
-			if ( document.mozFullScreen ) {
-				setTimeout(function(){
+			if (document.mozFullScreen) {
+				setTimeout(function() {
 					let iw = document.mozFullScreenElement.clientWidth,
 						ih = document.mozFullScreenElement.clientHeight
 					dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+iw+" x "+ih+" [mozFullScreenElement client]"
-					exitFS()
+
+					// are we grabbing too soon on some OSes?
+					if (isOS == "android") {
+						exitFS()
+					} else {
+						function check_fs() {
+							exitFS()
+							console.log("SCREEN history\n - " + sizeS.join("\n - "))
+							console.log("ELEMENT history\n - " + sizeE.join("\n - "))
+						}
+						function build_fs() {
+							if (n == 30) {
+								clearInterval(checking)
+								check_fs()
+							} else {
+								try {
+									sizeS.push(screen.width+" x "+screen.height)
+									sizeE.push(document.mozFullScreenElement.clientWidth+" x "+document.mozFullScreenElement.clientHeight)
+								} catch(e) {
+									clearInterval(checking)
+									check_fs()
+								}
+							}
+							n++
+						}
+						let checking = setInterval(build_fs, 3)
+					}
 					// TB desktop warning panel
 					if (isTB == true && isOS !== "android") {
 						setTimeout(function(){
