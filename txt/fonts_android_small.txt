@@ -1,4 +1,4 @@
-// 30-May-2020
+// 26-Jul-2020
 // fonts_android_small
 // work-in-progress
 // https://trac.torproject.org/projects/tor/ticket/31917
@@ -14,6 +14,7 @@ Droid Sans Mono
 
 // WIDGET
 Roboto
+Roboto Condensed
 
 // NOTO
 Noto Color Emoji
