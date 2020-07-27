@@ -50,7 +50,11 @@ function analyzeCanvas(runtype, res1, res2, res3) {
 
 		// hashes: static
 		if (sname == "isPo") {
-			if (isRandom) {value1 = combined}
+			if (isRandom) {value1 = combined
+			} else if (value3 == "false") {
+				value1 = noise
+				pushvalue = "tampered"
+			}
 			value1 += (value1 == "957c80fa4be3af7e53b40c852edf96a090f09958cc7f832aaf9a9fd544fb69a8" ? rfp_green : rfp_red)
 		}
 		if (sname == "mozG" && isVer < 74) {
@@ -463,45 +467,55 @@ function outputCanvas() {
 					}
 				},
 				{
-					name: "isPointInPath", // ToDo
+					class: window.CanvasRenderingContext2D,
+					name: "isPointInPath",
 					value: function(){
-						return true
+						let context2 = getKnownPath()
+						let pathData = []
+						for (let x = 0; x < 16; x++){
+							for (let y = 0; y < 16; y++){
+								pathData.push(context2.isPointInPath(x, y))
+							}
+						}
+						return (sha1(pathData.join()) == known3 ? true : false)
 					}
 				},
 				{
+					class: window.CanvasRenderingContext2D,
 					name: "isPointInStroke", // ToDo
 					value: function(){
 						return true
 					}
 				},
 				// add these so arrays match
-				{ name: "getContext", value: function(){return false} },
-				{ name: "fillText", value: function(){return false} },
-				{ name: "winding", value: function(){return false} },
-				{ name: "strokeText", value: function(){return false} },
+				{ name: "getContext", value: function(){return true}},
+				{ name: "fillText", value: function(){return true}},
+				{ name: "winding", value: function(){return true}},
+				{ name: "strokeText", value: function(){return true}},
 			];
 			function isSupported(output){
 				return !!(output.class? output.class: window.HTMLCanvasElement).prototype[output.name]
 			}
-			function getCanvas(){
-				return window.document.createElement("canvas")
-			}
-			function getContext(type){
-				return getCanvas().getContext(type || "2d")
-			}
 			function getKnown(){
-				var context = getContext()
-				var canvas = context.canvas
-				canvas.width = 16
-				canvas.height = 16
-				canvas.style.display = "inline"
+				let canvas = document.getElementById("kcanvas1")
+				let ctx = canvas.getContext('2d')
 				for (let x=0; x < 16; x++) {
 					for (let y=0; y < 16; y++) {
-						context.fillStyle = "rgba(" + (x*y) +","+ (x*16) + ","+ (y*16) + ",255)"
-						context.fillRect(x, y, 1, 1)
+						ctx.fillStyle = "rgba(" + (x*y) +","+ (x*16) + ","+ (y*16) + ",255)"
+						ctx.fillRect(x, y, 1, 1)
 					}
 				}
-				return context
+				return ctx
+			}
+			function getKnownPath(){
+				let canvas2 = document.getElementById("kcanvas2")
+				let ctx2 = canvas2.getContext('2d')
+				ctx2.fillStyle = "rgba(255,255,255,255)"
+				ctx2.beginPath()
+				ctx2.rect(2,5,8,7)
+				ctx2.closePath()
+				ctx2.fill()
+				return ctx2
 			}
 			var finished = Promise.all(outputs.map(function(output){
 				return new Promise(function(resolve, reject){
@@ -534,7 +548,8 @@ function outputCanvas() {
 	let t0 = performance.now(),
 		main0 = [], main1 = [], main2 = []
 	let known1 = "8c70ed9a7dbe6d72e3d1a4e448522012661cfbed",
-		known2 = "67a2c3bc2f7ccf8c92d57b94586784f19d98a2f0"
+		known2 = "67a2c3bc2f7ccf8c92d57b94586784f19d98a2f0",
+		known3 = "f44c70171a197cc26df382603e76f4ba581e2d8f"
 
 	Promise.all([
 		canvas.createHashes(window),
@@ -549,7 +564,7 @@ function outputCanvas() {
 		})
 		outputs[2].forEach(function(output){
 			main2.push(output.name+","+output.displayValue)
-		})		
+		})
 		if (logPerf) {debug_log("main [canvas]",t0)}
 		analyzeCanvas("main", main0, main1, main2)
 	})
