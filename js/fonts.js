@@ -431,7 +431,7 @@ function get_unicode() {
 		dom.tm11.innerHTML = status(tm11s,"3",sha1(tm11.join()))
 		// combined
 		dom.ug2.innerHTML = sha1(tmhash.join()) + tm00r + (mgo ? "" : sb+"[canvas]"+sc)
-		if (!isFile) {console.log("HASH: TM combined: " + sha1(tmhash.join()) + "\n - " + tmhash.join("\n - "))}
+		console.log("HASH: TM combined: " + sha1(tmhash.join()), tmhash)
 
 		// de-dupe
 		unique = unique.filter(function(item, position) {return unique.indexOf(item) === position})
