@@ -96,7 +96,7 @@ function get_computed_styles() {
 					keys.push(key)
 				}
 			})
-			dom.sCStyles.innerHTML = sha1(keys.join()) + s14 +"["+ keys.length +" keys]"+sc
+			dom.sCStyles.innerHTML = sha1(keys.join()) + s14 +"["+ keys.length +"]"+sc
 		}
 	} catch(e) {
 		let msg = ""
