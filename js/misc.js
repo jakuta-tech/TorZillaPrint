@@ -14,6 +14,29 @@ function get_component_shims() {
 	dom.shim.innerHTML = shim
 }
 
+function get_iframe_props() {
+	/* https://github.com/abrahamjuliot/creepjs */
+	try {
+		// create iframe & append
+		let id = "iframe-window-version"
+		let el = document.createElement("iframe")
+		el.setAttribute("id", id)
+		el.setAttribute('style', 'display: none')
+		document.body.appendChild(el)
+		// get properties
+		let iframe = document.getElementById(id)
+		let contentWindow = iframe.contentWindow
+		let props = Object.getOwnPropertyNames(contentWindow)
+		// remove iframe
+		iframe.parentNode.removeChild(iframe)
+		// output
+    dom.iProps.innerHTML = sha1(props.join()) + s18 +"["+ props.length +"]"+sc
+	} catch(e) {
+		dom.iProps.innerHTML = "error"
+		console.debug("iframe", e.name, e.message)
+	}
+}
+
 function get_int_observer() {
 	let callback = function(entries, observer) {}
 	try {
@@ -182,6 +205,7 @@ function outputMisc(type) {
 	dom.wincon = get_windowcontent()
 	// other
 	get_component_shims()
+	get_iframe_props()
 	get_int_observer()
 	get_mathml(type)
 	get_nav_prototype()
