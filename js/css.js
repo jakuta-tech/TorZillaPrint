@@ -75,6 +75,33 @@ function get_colors(runtype) {
 	}
 }
 
+function get_computed_styles() {
+	/* https://github.com/abrahamjuliot/creepjs */
+	try {
+		if ('getComputedStyle' in window) {
+			let body = document.querySelector('body')
+			let computedStyle = getComputedStyle(body)
+			let keys = [] // collect native keywords and properties
+			Object.keys(computedStyle).forEach(key => {
+				let isNumericKey = !isNaN(key)
+				let value = computedStyle[key]
+				let cssVar = /^--.*$/
+				let customProp = cssVar.test(key) || cssVar.test(value)
+				// FF has only numeric keys, ignore CSS custom properties
+				if (isNumericKey && !customProp) {keys.push(value)
+				}	else if (!customProp) {keys.push(key)}
+			})
+			dom.sCStyles.innerHTML = sha1(keys.join()) + s14 +"["+ keys.length +" keys]"+sc
+		}
+	} catch(e) {
+		let msg = ""
+		if (e.name == "ReferenceError") {msg = zB1
+		} else if (e.name == "TypeError") {msg = zB2
+		} else {msg = zB3}
+		dom.sCStyles.innerHTML = msg
+	}
+}
+
 function get_mm_prefers(type) {
 	let x=zNS, l="light", d="dark", n="no-preference", r="reduce", q="(prefers-"+type+": "
 	let msg = ""
@@ -102,15 +129,17 @@ function get_mm_prefers(type) {
 		dom.mmPRM.innerHTML = x + (x.substring(0,6) == "script" ? rfp_red : "")
 	}
 	if (type == "contrast") {
-		// FF80+
+		// FF80+: 1506364
 		try {
 			if (window.matchMedia(q+n+")").matches) x = n
 			if (window.matchMedia(q+"forced)").matches) x = "forced"
 			if (window.matchMedia(q+"high)").matches) x = "high"
 			if (window.matchMedia(q+"low)").matches) x = "low"
 		} catch(e) {x = get_css_block(e.name)}
-		// ToDo: prefers-contrast: isVer check 80+ / add RFP notation
-		dom.mmPC.innerHTML = x //+ (x.substring(0,6) == "script" ? rfp_red : "")
+		// ToDo: isVer check 80+ / add RFP notation
+			// master pref: layout.css.prefers-contrast.enabled
+			// browser.display.prefers_low_contrast boolean [hidden pref]
+		dom.mmPC.innerHTML = x
 	}
 }
 
@@ -174,6 +203,7 @@ function outputCSS() {
 	get_colors("s")
 	get_colors("n")
 	get_colors("m")
+	get_computed_styles()
 	get_system_fonts()
 	// perf
 	debug_page("perf","css",t0,gt0)
