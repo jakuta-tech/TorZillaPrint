@@ -83,13 +83,18 @@ function get_computed_styles() {
 			let computedStyle = getComputedStyle(body)
 			let keys = [] // collect native keywords and properties
 			Object.keys(computedStyle).forEach(key => {
-				let isNumericKey = !isNaN(key)
-				let value = computedStyle[key]
-				let cssVar = /^--.*$/
-				let customProp = cssVar.test(key) || cssVar.test(value)
-				// FF has only numeric keys, ignore CSS custom properties
-				if (isNumericKey && !customProp) {keys.push(value)
-				}	else if (!customProp) {keys.push(key)}
+				let isNumericKey = !isNaN(key),
+					value = computedStyle[key],
+					cssVar = /^--.*$/,
+					customPropKey = cssVar.test(key),
+					customPropValue = cssVar.test(value)
+				if (isNumericKey && !customPropValue) {
+					// no need to check customPropKey since key is not collected
+					keys.push(value)
+				} else if (!isNumericKey && !customPropKey) {
+					// no need to check customPropValue since value is not collected
+					keys.push(key)
+				}
 			})
 			dom.sCStyles.innerHTML = sha1(keys.join()) + s14 +"["+ keys.length +" keys]"+sc
 		}
