@@ -32,8 +32,7 @@ function get_iframe_props() {
 		// output
     dom.iProps.innerHTML = sha1(props.join()) + s18 +"["+ props.length +"]"+sc
 	} catch(e) {
-		dom.iProps.innerHTML = "error"
-		console.debug("iframe", e.name, e.message)
+		dom.iProps.innerHTML = error_iframe
 	}
 }
 
