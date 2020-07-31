@@ -10,7 +10,7 @@ function get_component_shims() {
 	let shim = (typeof Components === "undefined") ? zU : Object.getOwnPropertyNames(Components.interfaces).join(", ")
 	dom.shimdata = shim
 	dom.shimdata.style.color = zshow
-	if (shim !== zU) {shim = sha1(shim) + s18 +"["+ shim.split(", ").length +" items]"+ sc}
+	if (shim !== zU) {shim = sha1(shim) + s18 +"["+ shim.split(", ").length +"]"+ sc}
 	dom.shim.innerHTML = shim
 }
 
@@ -67,7 +67,7 @@ function get_mathml(type) {
 function get_nav_prototype() {
 	try {
 		let nProto = Object.keys(Object.getPrototypeOf(navigator)).join(", ")
-		dom.nProto.innerHTML = sha1(nProto) + s18 +"["+ nProto.split(', ').length +" items]"+ sc
+		dom.nProto.innerHTML = sha1(nProto) + s18 +"["+ nProto.split(', ').length +"]"+ sc
 		dom.nProto2 = nProto
 		dom.nProto2.style.color = zshow
 	} catch(e) {
