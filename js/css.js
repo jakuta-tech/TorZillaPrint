@@ -107,6 +107,37 @@ function get_computed_styles() {
 	}
 }
 
+function get_computed_styles_creep() {
+	/* https://github.com/abrahamjuliot/creepjs */
+	try {
+		if ('getComputedStyle' in window) {
+			let body = document.querySelector('body'),
+				computedStyle = getComputedStyle(body),
+				keys = []
+			Object.keys(computedStyle).forEach(key => {
+				let numericKey = !isNaN(key),
+					value = computedStyle[key],
+					cssVar = /^--.*$/,
+					caps = /[A-Z]/,
+					camelCaseKey = caps.test(key),
+					customPropKey = cssVar.test(key),
+					customPropValue = cssVar.test(value)
+				if (numericKey && !customPropValue) {
+					keys.push(value)
+				} else if (!numericKey && !customPropKey && !camelCaseKey) {
+					keys.push(key)
+				}
+			})
+			let moz = keys.filter(key => (/-moz-/).test(key)).length,
+				webkit = keys.filter(key => (/-webkit-/).test(key)).length
+			console.debug("CreepJS\n" + sha1(keys.join()) + " ["+ keys.length +"|" + moz +"|"+ webkit +"]")
+		}
+	} catch(e) {
+		console.debug("CreepJS error", e.name, e.message)
+	}
+}
+
+
 function get_mm_prefers(type) {
 	let x=zNS, l="light", d="dark", n="no-preference", r="reduce", q="(prefers-"+type+": "
 	let msg = ""
@@ -209,6 +240,7 @@ function outputCSS() {
 	get_colors("n")
 	get_colors("m")
 	get_computed_styles()
+	get_computed_styles_creep()
 	get_system_fonts()
 	// perf
 	debug_page("perf","css",t0,gt0)
