@@ -79,24 +79,24 @@ function get_computed_styles() {
 	/* https://github.com/abrahamjuliot/creepjs */
 	try {
 		if ('getComputedStyle' in window) {
-			let body = document.querySelector('body')
-			let computedStyle = getComputedStyle(body)
-			let keys = [] // collect native keywords and properties
+			let body = document.querySelector('body'),
+				computedStyle = getComputedStyle(body),
+				keys = []
 			Object.keys(computedStyle).forEach(key => {
-				let isNumericKey = !isNaN(key),
+				let numericKey = !isNaN(key),
 					value = computedStyle[key],
 					cssVar = /^--.*$/,
 					customPropKey = cssVar.test(key),
 					customPropValue = cssVar.test(value)
-				if (isNumericKey && !customPropValue) {
-					// no need to check customPropKey since key is not collected
+				if (numericKey && !customPropValue) {
 					keys.push(value)
-				} else if (!isNumericKey && !customPropKey) {
-					// no need to check customPropValue since value is not collected
+				} else if (!numericKey && !customPropKey) {
 					keys.push(key)
 				}
 			})
-			dom.sCStyles.innerHTML = sha1(keys.join()) + s14 +"["+ keys.length +"]"+sc
+			let moz = keys.filter(key => (/-moz-/).test(key)).length,
+				webkit = keys.filter(key => (/-webkit-/).test(key)).length
+			dom.sCStyles.innerHTML = sha1(keys.join()) + s14 +"["+ keys.length +"|" + moz +"|"+ webkit +"]"+sc
 		}
 	} catch(e) {
 		let msg = ""
