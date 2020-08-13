@@ -1627,33 +1627,7 @@ function goFS() {
 					let iw = document.mozFullScreenElement.clientWidth,
 						ih = document.mozFullScreenElement.clientHeight
 					dom.fsLeak = screen.width+" x "+screen.height+" [screen] "+iw+" x "+ih+" [mozFullScreenElement client]"
-
-					// are we grabbing too soon on some OSes?
-					if (isOS == "android") {
-						exitFS()
-					} else {
-						function check_fs() {
-							exitFS()
-							console.log("SCREEN history\n - " + sizeS.join("\n - "))
-							console.log("ELEMENT history\n - " + sizeE.join("\n - "))
-						}
-						function build_fs() {
-							if (n == 30) {
-								clearInterval(checking)
-								check_fs()
-							} else {
-								try {
-									sizeS.push(screen.width+" x "+screen.height)
-									sizeE.push(document.mozFullScreenElement.clientWidth+" x "+document.mozFullScreenElement.clientHeight)
-								} catch(e) {
-									clearInterval(checking)
-									check_fs()
-								}
-							}
-							n++
-						}
-						let checking = setInterval(build_fs, 3)
-					}
+					exitFS()
 					// TB desktop warning panel
 					if (isTB == true && isOS !== "android") {
 						setTimeout(function(){
@@ -1695,18 +1669,6 @@ function goNW() {
 	// default output
 	newWinLeak = iw+" x "+ih+" [inner] "+ow+" x "+oh+" [outer]"
 
-	function output_newwin(output){
-		setTimeout(function(){
-			// 1611534
-			let newWinLength = newWin.length
-			let newWinFrames = newWin.frames.length
-			dom.newWinLeak.innerHTML = output + "<br>window.length: " + newWinLength
-				//+ (newWinLength == 0 ? rfp_green : rfp_red)
-				+ " | window.frames: " + newWinFrames
-				// + (newWinFrames == 0 ? rfp_green : rfp_red)
-		}, 1000)
-	}
-
 	// DESKTOP
 	if (isOS !== "android") {
 
@@ -1740,7 +1702,7 @@ function goNW() {
 			// append file:/// error debug
 			if (strError !== "") {newWinLeak = newWinLeak+"<br>"+strError}
 			// output
-			output_newwin(newWinLeak)
+			dom.newWinLeak.innerHTML = newWinLeak
 		}
 
 		function build_newwin() {
@@ -1775,7 +1737,7 @@ function goNW() {
 			// should be the same
 			newWinLeak = iw+" x "+ih+" [inner] [toolbar visible] "+ow+" x "+oh+" [outer]"
 		}
-		output_newwin(newWinLeak)
+		dom.newWinLeak.innerHTML = newWinLeak
 	}
 
 }
