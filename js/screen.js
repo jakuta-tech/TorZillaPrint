@@ -1244,13 +1244,19 @@ function get_version() {
 	}
 	// run
 	function v75plus() {
+		// 81: 1657437
+		if (go) {
+			try {
+				if (dom.test81a.offsetWidth < dom.test81b.offsetWidth) {verNo = "81+"; go = false}
+			} catch(e) {}
+		}
 		// 80: 1651732
 		if (go) {
 			let obj80 = {[Symbol.toPrimitive]: () => Symbol()}
 			let proxy80 = (new Proxy({},{get: (obj80, prop, proxy80) => prop}))
 			try {
 				for (let i = 0; i < 11; i++) {if (typeof proxy80[obj80] == 'symbol') {}}
-				verNo = "80+"; go = false
+				verNo = "80"; go = false
 			} catch (e) {}
 		}
 		//79: 1644878
