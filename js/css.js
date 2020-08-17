@@ -1,5 +1,7 @@
 'use strict';
 
+var t0css
+
 function reset_css() {
 	dom.sColorHashData.style.color = zhide
 	dom.sFontsHashData.style.color = zhide
@@ -191,7 +193,8 @@ function get_computed_styles() {
 			}
 		}
 		if (logPerf) {debug_log("computed styles [css]",t0)}
-		debug_log("computed styles [css]",t0)
+		// perf
+		debug_page("perf","css",t0css,gt0)
 	}).catch(error => {
 		console.error(error)
 	})
@@ -219,9 +222,6 @@ function get_computed_styles_old() {
 			let moz = keys.filter(key => (/-moz-/).test(key)).length,
 				webkit = keys.filter(key => (/-webkit-/).test(key)).length
 			dom.cStyles4.innerHTML = sha1(keys.join()) + s14 +"["+ keys.length +"|" + moz +"|"+ webkit +"]"+sc
-			// debug
-			//keys.sort()
-			//console.debug(keys.join("\n"))
 		}
 	} catch(e) {
 		let msg = ""
@@ -325,7 +325,7 @@ function get_system_fonts() {
 }
 
 function outputCSS() {
-	let t0 = performance.now()
+	t0css = performance.now()
 	// functions
 	get_mm_prefers("color-scheme")
 	get_mm_prefers("reduced-motion")
@@ -336,8 +336,6 @@ function outputCSS() {
 	get_computed_styles()
 	get_computed_styles_old()
 	get_system_fonts()
-	// perf
-	debug_page("perf","css",t0,gt0)
 }
 
 outputCSS()
