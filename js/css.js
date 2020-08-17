@@ -77,6 +77,123 @@ function get_colors(runtype) {
 
 function get_computed_styles() {
 	/* https://github.com/abrahamjuliot/creepjs */
+	let t0 = performance.now()
+
+	let styleVersion = type => {
+		// get CSSStyleDeclaration
+		try {
+			let cssStyleDeclaration = (
+				type == 0 ? getComputedStyle(document.body) :
+				type == 1 ? document.body.style :
+				type == 2 ? document.styleSheets[0].cssRules[0].style :
+				undefined
+			)
+			if (!cssStyleDeclaration) {
+				throw new TypeError("invalid argument string")
+			}
+			// get properties
+			let prototype = Object.getPrototypeOf(cssStyleDeclaration),
+				prototypeProperties = Object.getOwnPropertyNames(prototype),
+				ownEnumerablePropertyNames = [],
+				cssVar = /^--.*$/
+			Object.keys(cssStyleDeclaration).forEach(key => {
+				let numericKey = !isNaN(key),
+					value = cssStyleDeclaration[key],
+					customPropKey = cssVar.test(key),
+					customPropValue = cssVar.test(value)
+				if (numericKey && !customPropValue) {
+					return ownEnumerablePropertyNames.push(value)
+				} else if (!numericKey && !customPropKey) {
+					return ownEnumerablePropertyNames.push(key)
+				}
+				return
+			})
+			// get properties in prototype chain (required only in chrome)
+			let propertiesInPrototypeChain = {}
+			let capitalize = str => str.charAt(0).toUpperCase() + str.slice(1),
+				uncapitalize = str => str.charAt(0).toLowerCase() + str.slice(1),
+				removeFirstChar = str => str.slice(1),
+				caps = /[A-Z]/g
+			ownEnumerablePropertyNames.forEach(key => {
+				if (propertiesInPrototypeChain[key]) {
+					return
+				}
+				// determine attribute type
+				let isNamedAttribute = key.indexOf('-') > -1,
+					isAliasAttribute = caps.test(key)
+				// reduce key for computation
+				let firstChar = key.charAt(0),
+					isPrefixedName = isNamedAttribute && firstChar == '-',
+					isCapitalizedAlias = isAliasAttribute && firstChar == firstChar.toUpperCase()
+				key = (
+					isPrefixedName ? removeFirstChar(key) :
+					isCapitalizedAlias ? uncapitalize(key) :
+					key
+				)
+				// find counterpart in CSSStyleDeclaration object or its prototype chain
+				if (isNamedAttribute) {
+					let aliasAttribute = key.split('-').map((word, index) => index == 0 ? word : capitalize(word)).join('')
+					if (aliasAttribute in cssStyleDeclaration) {
+						propertiesInPrototypeChain[aliasAttribute] = true
+					} else if (capitalize(aliasAttribute) in cssStyleDeclaration) {
+						propertiesInPrototypeChain[capitalize(aliasAttribute)] = true
+					}
+				} else if (isAliasAttribute) {
+					let namedAttribute = key.replace(caps, char => '-' + char.toLowerCase())
+					if (namedAttribute in cssStyleDeclaration) {
+						propertiesInPrototypeChain[namedAttribute] = true
+					} else if (`-${namedAttribute}` in cssStyleDeclaration) {
+						propertiesInPrototypeChain[`-${namedAttribute}`] = true
+					}
+				}
+				return
+			})
+			// compile keys
+			let keys = [
+				...new Set([
+					...prototypeProperties,
+					...ownEnumerablePropertyNames,
+					...Object.keys(propertiesInPrototypeChain)
+				])
+			]
+			// checks
+			let moz = keys.filter(key => (/moz/i).test(key)).length,
+				webkit = keys.filter(key => (/webkit/i).test(key)).length,
+				prototypeName = ('' + prototype).match(/\[object (.+)\]/)[1]
+			// output
+			return {
+				keys,
+				moz,
+				webkit,
+				prototypeName
+			}
+		} catch(e) {}
+	}
+	Promise.all([
+		styleVersion(0),
+		styleVersion(1),
+		styleVersion(2)
+	]).then(res => {
+		// loop
+		for (let i=0; i < 3; i=i+1) {
+			let el = document.getElementById("cStyles"+i)
+			try {
+				let results = res[i],
+					array = res[i].keys
+				if (!isFF) {array.sort()}
+				el.innerHTML = sha1(array.join()) + s14+"["+ array.length +"|"+ res[i].moz +"|"+ res[i].webkit +"]"+sc
+			} catch(e) {
+				el.innerHTML = "error"
+			}
+		}
+		if (logPerf) {debug_log("computed styles [css]",t0)}
+	}).catch(error => {
+		console.error(error)
+	})
+}
+
+function get_computed_styles_old() {
+	/* https://github.com/abrahamjuliot/creepjs */
 	try {
 		if ('getComputedStyle' in window) {
 			let body = document.querySelector('body'),
@@ -96,7 +213,10 @@ function get_computed_styles() {
 			})
 			let moz = keys.filter(key => (/-moz-/).test(key)).length,
 				webkit = keys.filter(key => (/-webkit-/).test(key)).length
-			dom.sCStyles.innerHTML = sha1(keys.join()) + s14 +"["+ keys.length +"|" + moz +"|"+ webkit +"]"+sc
+			dom.cStyles4.innerHTML = sha1(keys.join()) + s14 +"["+ keys.length +"|" + moz +"|"+ webkit +"]"+sc
+			// debug
+			//keys.sort()
+			//console.debug(keys.join("\n"))
 		}
 	} catch(e) {
 		let msg = ""
@@ -209,6 +329,7 @@ function outputCSS() {
 	get_colors("n")
 	get_colors("m")
 	get_computed_styles()
+	get_computed_styles_old()
 	get_system_fonts()
 	// perf
 	debug_page("perf","css",t0,gt0)
