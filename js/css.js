@@ -80,94 +80,98 @@ function get_computed_styles() {
 	let t0 = performance.now()
 
 	let styleVersion = type => {
-		// get CSSStyleDeclaration
-		try {
-			let cssStyleDeclaration = (
-				type == 0 ? getComputedStyle(document.body) :
-				type == 1 ? document.body.style :
-				type == 2 ? document.styleSheets[0].cssRules[0].style :
-				undefined
-			)
-			if (!cssStyleDeclaration) {
-				throw new TypeError("invalid argument string")
-			}
-			// get properties
-			let prototype = Object.getPrototypeOf(cssStyleDeclaration),
-				prototypeProperties = Object.getOwnPropertyNames(prototype),
-				ownEnumerablePropertyNames = [],
-				cssVar = /^--.*$/
-			Object.keys(cssStyleDeclaration).forEach(key => {
-				let numericKey = !isNaN(key),
-					value = cssStyleDeclaration[key],
-					customPropKey = cssVar.test(key),
-					customPropValue = cssVar.test(value)
-				if (numericKey && !customPropValue) {
-					return ownEnumerablePropertyNames.push(value)
-				} else if (!numericKey && !customPropKey) {
-					return ownEnumerablePropertyNames.push(key)
-				}
-				return
-			})
-			// get properties in prototype chain (required only in chrome)
-			let propertiesInPrototypeChain = {}
-			let capitalize = str => str.charAt(0).toUpperCase() + str.slice(1),
-				uncapitalize = str => str.charAt(0).toLowerCase() + str.slice(1),
-				removeFirstChar = str => str.slice(1),
-				caps = /[A-Z]/g
-			ownEnumerablePropertyNames.forEach(key => {
-				if (propertiesInPrototypeChain[key]) {
-					return
-				}
-				// determine attribute type
-				let isNamedAttribute = key.indexOf('-') > -1,
-					isAliasAttribute = caps.test(key)
-				// reduce key for computation
-				let firstChar = key.charAt(0),
-					isPrefixedName = isNamedAttribute && firstChar == '-',
-					isCapitalizedAlias = isAliasAttribute && firstChar == firstChar.toUpperCase()
-				key = (
-					isPrefixedName ? removeFirstChar(key) :
-					isCapitalizedAlias ? uncapitalize(key) :
-					key
+		return new Promise(resolve =>  {
+			// get CSSStyleDeclaration
+			try {
+				let cssStyleDeclaration = (
+					type == 0 ? getComputedStyle(document.body) :
+					type == 1 ? document.body.style :
+					type == 2 ? document.styleSheets[0].cssRules[0].style :
+					undefined
 				)
-				// find counterpart in CSSStyleDeclaration object or its prototype chain
-				if (isNamedAttribute) {
-					let aliasAttribute = key.split('-').map((word, index) => index == 0 ? word : capitalize(word)).join('')
-					if (aliasAttribute in cssStyleDeclaration) {
-						propertiesInPrototypeChain[aliasAttribute] = true
-					} else if (capitalize(aliasAttribute) in cssStyleDeclaration) {
-						propertiesInPrototypeChain[capitalize(aliasAttribute)] = true
-					}
-				} else if (isAliasAttribute) {
-					let namedAttribute = key.replace(caps, char => '-' + char.toLowerCase())
-					if (namedAttribute in cssStyleDeclaration) {
-						propertiesInPrototypeChain[namedAttribute] = true
-					} else if (`-${namedAttribute}` in cssStyleDeclaration) {
-						propertiesInPrototypeChain[`-${namedAttribute}`] = true
-					}
+				if (!cssStyleDeclaration) {
+					throw new TypeError("invalid argument string")
 				}
-				return
-			})
-			// compile keys
-			let keys = [
-				...new Set([
-					...prototypeProperties,
-					...ownEnumerablePropertyNames,
-					...Object.keys(propertiesInPrototypeChain)
-				])
-			]
-			// checks
-			let moz = keys.filter(key => (/moz/i).test(key)).length,
-				webkit = keys.filter(key => (/webkit/i).test(key)).length,
-				prototypeName = ('' + prototype).match(/\[object (.+)\]/)[1]
-			// output
-			return {
-				keys,
-				moz,
-				webkit,
-				prototypeName
+				// get properties
+				let prototype = Object.getPrototypeOf(cssStyleDeclaration),
+					prototypeProperties = Object.getOwnPropertyNames(prototype),
+					ownEnumerablePropertyNames = [],
+					cssVar = /^--.*$/
+				Object.keys(cssStyleDeclaration).forEach(key => {
+					let numericKey = !isNaN(key),
+						value = cssStyleDeclaration[key],
+						customPropKey = cssVar.test(key),
+						customPropValue = cssVar.test(value)
+					if (numericKey && !customPropValue) {
+						return ownEnumerablePropertyNames.push(value)
+					} else if (!numericKey && !customPropKey) {
+						return ownEnumerablePropertyNames.push(key)
+					}
+					return
+				})
+				// get properties in prototype chain (required only in chrome)
+				let propertiesInPrototypeChain = {}
+				let capitalize = str => str.charAt(0).toUpperCase() + str.slice(1),
+					uncapitalize = str => str.charAt(0).toLowerCase() + str.slice(1),
+					removeFirstChar = str => str.slice(1),
+					caps = /[A-Z]/g
+				ownEnumerablePropertyNames.forEach(key => {
+					if (propertiesInPrototypeChain[key]) {
+						return
+					}
+					// determine attribute type
+					let isNamedAttribute = key.indexOf('-') > -1,
+						isAliasAttribute = caps.test(key)
+					// reduce key for computation
+					let firstChar = key.charAt(0),
+						isPrefixedName = isNamedAttribute && firstChar == '-',
+						isCapitalizedAlias = isAliasAttribute && firstChar == firstChar.toUpperCase()
+					key = (
+						isPrefixedName ? removeFirstChar(key) :
+						isCapitalizedAlias ? uncapitalize(key) :
+						key
+					)
+					// find counterpart in CSSStyleDeclaration object or its prototype chain
+					if (isNamedAttribute) {
+						let aliasAttribute = key.split('-').map((word, index) => index == 0 ? word : capitalize(word)).join('')
+						if (aliasAttribute in cssStyleDeclaration) {
+							propertiesInPrototypeChain[aliasAttribute] = true
+						} else if (capitalize(aliasAttribute) in cssStyleDeclaration) {
+							propertiesInPrototypeChain[capitalize(aliasAttribute)] = true
+						}
+					} else if (isAliasAttribute) {
+						let namedAttribute = key.replace(caps, char => '-' + char.toLowerCase())
+						if (namedAttribute in cssStyleDeclaration) {
+							propertiesInPrototypeChain[namedAttribute] = true
+						} else if (`-${namedAttribute}` in cssStyleDeclaration) {
+							propertiesInPrototypeChain[`-${namedAttribute}`] = true
+						}
+					}
+					return
+				})
+				// compile keys
+				let keys = [
+					...new Set([
+						...prototypeProperties,
+						...ownEnumerablePropertyNames,
+						...Object.keys(propertiesInPrototypeChain)
+					])
+				]
+				// checks
+				let moz = keys.filter(key => (/moz/i).test(key)).length,
+					webkit = keys.filter(key => (/webkit/i).test(key)).length,
+					prototypeName = ('' + prototype).match(/\[object (.+)\]/)[1]
+				// output
+				return resolve({
+					keys,
+					moz,
+					webkit,
+					prototypeName
+				})
+			} catch(e) {
+				return resolve(undefined)
 			}
-		} catch(e) {}
+		})
 	}
 	Promise.all([
 		styleVersion(0),
@@ -187,6 +191,7 @@ function get_computed_styles() {
 			}
 		}
 		if (logPerf) {debug_log("computed styles [css]",t0)}
+		debug_log("computed styles [css]",t0)
 	}).catch(error => {
 		console.error(error)
 	})
