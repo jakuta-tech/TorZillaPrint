@@ -232,45 +232,49 @@ function get_computed_styles_old() {
 	}
 }
 
-function get_mm_prefers(type) {
-	let x=zNS, l="light", d="dark", n="no-preference", r="reduce", q="(prefers-"+type+": "
-	let msg = ""
-	if (type == "color-scheme") {
-		// FF67+
-		try {
-			if (window.matchMedia(q+l+")").matches) x = l+rfp_green
-			if (window.matchMedia(q+d+")").matches) x = d+rfp_red
-			if (window.matchMedia(q+n+")").matches) x = n+rfp_red
-		} catch(e) {x = get_css_block(e.name)}
-		if (isFF) {
-			if (x == zNS && isVer > 66) {x = zB6}
-		}
-		dom.mmPCS.innerHTML = x + (x.substring(0,6) == "script" ? rfp_red : "")
+function get_mm_prefers() {
+	// FF63+: reduced-motion
+	let x=zNS, q="(prefers-reduced-motion: ", n="no-preference", r="reduce"
+	try {
+		if (window.matchMedia(q+r+")").matches) x = r+rfp_red
+		if (window.matchMedia(q+n+")").matches) x = n+rfp_green
+	} catch(e) {x = get_css_block(e.name)}
+	if (isFF) {
+		if (x == zNS && isVer > 62) {x = zB6}
 	}
-	if (type == "reduced-motion") {
-		// FF63+
-		try {
-			if (window.matchMedia(q+r+")").matches) x = r+rfp_red
-			if (window.matchMedia(q+n+")").matches) x = n+rfp_green
-		} catch(e) {x = get_css_block(e.name)}
-		if (isFF) {
-			if (x == zNS && isVer > 62) {x = zB6}
-		}
-		dom.mmPRM.innerHTML = x + (x.substring(0,6) == "script" ? rfp_red : "")
+	dom.mmPRM.innerHTML = x + (x.substring(0,6) == "script" ? rfp_red : "")
+	// FF67+: color-scheme
+	x=zNS, q="(prefers-color-scheme: "
+	let l="light", d="dark"
+	try {
+		if (window.matchMedia(q+l+")").matches) x = l+rfp_green
+		if (window.matchMedia(q+d+")").matches) x = d+rfp_red
+		if (window.matchMedia(q+n+")").matches) x = n+rfp_red
+	} catch(e) {x = get_css_block(e.name)}
+	if (isFF) {
+		if (x == zNS && isVer > 66) {x = zB6}
 	}
-	if (type == "contrast") {
-		// FF80+: 1506364
-		try {
-			if (window.matchMedia(q+n+")").matches) x = n
-			if (window.matchMedia(q+"forced)").matches) x = "forced"
-			if (window.matchMedia(q+"high)").matches) x = "high"
-			if (window.matchMedia(q+"low)").matches) x = "low"
-		} catch(e) {x = get_css_block(e.name)}
-		// ToDo: isVer check 80+ / add RFP notation
-			// master pref: layout.css.prefers-contrast.enabled
-			// browser.display.prefers_low_contrast boolean [hidden pref]
-		dom.mmPC.innerHTML = x
-	}
+	dom.mmPCS.innerHTML = x + (x.substring(0,6) == "script" ? rfp_red : "")
+	// contrast
+		// ToDo: notation: 1506364: layout.css.prefers-contrast.enabled
+		// browser.display.prefers_low_contrast boolean [hidden]
+	x=zNS, q="(prefers-contrast: "
+	try {
+		if (window.matchMedia(q+n+")").matches) x = n
+		if (window.matchMedia(q+"forced)").matches) x = "forced"
+		if (window.matchMedia(q+"high)").matches) x = "high"
+		if (window.matchMedia(q+"low)").matches) x = "low"
+	} catch(e) {x = get_css_block(e.name)}
+	dom.mmPC.innerHTML = x
+	// forced-colors
+		// ToDo: notation: 1659511: layout.css.forced-colors.enabled
+	x=zNS, q="(prefers-forced-colors: "
+	try {
+		if (window.matchMedia(q+n+")").matches) x = n
+		if (window.matchMedia(q+"active)").matches) x = "active"
+		if (window.matchMedia(q+"none)").matches) x = "none"
+	} catch(e) {x = get_css_block(e.name)}
+	dom.mmFC.innerHTML = x
 }
 
 function get_system_fonts() {
@@ -327,15 +331,13 @@ function get_system_fonts() {
 function outputCSS() {
 	t0css = performance.now()
 	// functions
-	get_mm_prefers("color-scheme")
-	get_mm_prefers("reduced-motion")
-	get_mm_prefers("contrast")
+	get_mm_prefers()
 	get_colors("s")
 	get_colors("n")
 	get_colors("m")
-	get_computed_styles()
-	get_computed_styles_old()
 	get_system_fonts()
+	get_computed_styles_old()
+	get_computed_styles()
 }
 
 outputCSS()
