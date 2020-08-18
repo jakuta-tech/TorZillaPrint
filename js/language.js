@@ -122,7 +122,9 @@ function get_geo() {
 
 function get_lang_datetime() {
 	let d = new Date("January 30, 2019 13:00:00"),
-		d2 = new Date("July 30, 2018 13:00:00"),
+		d2 = new Date("October 30, 2018 13:00:00"),
+		d3 = new Date("July 30, 2018 13:00:00"),
+		d4 = new Date("April 30, 2018 13:00:00"),
 		o = {weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric",
 			minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long"},
 		res = [],
@@ -139,11 +141,20 @@ function get_lang_datetime() {
 			} else if (item == 5) {return new Intl.ListFormat(undefined).resolvedOptions().locale
 			// timezone
 			} else if (item == 6) {
+				// ms since January 1, 1970, 00:00:00 UTC
+				let ms1 = 1548853200000,
+					ms2 = 1540904400000,
+					ms3 = 1532955600000,
+					ms4 = 1525093200000
+				let k = 60000 // ms in a minute
 				return d.getTimezoneOffset() +", "+ d2.getTimezoneOffset()
-					+ " | "+ ((d.getTime() - 1548853200000)/60000)
-					+ ", "+ ((d2.getTime() - 1532955600000)/60000)
-					+ " | "+ ((Date.parse(d) - 1548853200000)/60000)
-					+ ", "+ ((Date.parse(d2) - 1532955600000)/60000)
+					+", "+ d3.getTimezoneOffset() +", "+ d4.getTimezoneOffset()
+					// getTime
+					+ " | "+ ((d.getTime() - ms1)/k) + ", "+ ((d2.getTime() - ms2)/k)
+					+ ", "+ ((d3.getTime() - ms3)/k) + ", "+ ((d4.getTime() - ms4)/k)
+					// Date.parse
+					+ " | "+ ((Date.parse(d) - ms1)/k) + ", "+ ((Date.parse(d2) - ms2)/k)
+					+ ", "+ ((Date.parse(d3) - ms3)/k) + ", "+ ((Date.parse(d4) - ms4)/k)
 			} else if (item == 7) {return Intl.DateTimeFormat().resolvedOptions().timeZone
 			// date/time format
 			} else if (item == 8) {return d
@@ -370,6 +381,13 @@ function get_lang_datetime() {
 					res37.push(style37.format(d))
 				})
 				return res37.join(" | ")
+			} else if (item == 38) {
+				// FF80+: 1496584, 1653024: formatRange
+				let date1 = new Date(Date.UTC(2020, 0, 15, 11, 59, 59)),
+					date2 = new Date(Date.UTC(2020, 0, 15, 12, 0, 1)),
+					date3 = new Date(Date.UTC(2020, 8, 19, 23, 15, 30))
+				let f = Intl.DateTimeFormat(undefined, o)
+				return f.formatRange(date1, date2) +"<br>"+ f.formatRange(date1, date3)
 			}
 		} catch(e) {
 			if (isFF) {
@@ -385,6 +403,9 @@ function get_lang_datetime() {
 				} else if (item == 28 || item == 29) {
 					if (e.message == "BigInt is not defined" && isVer < 68) {msg = zNS + " [BigInt]"}
 					if (e.message == "can't convert BigInt to number" && isVer > 67 && isVer < 70) {msg = zNS}
+				} else if (item == 38) {
+					// ToDo: formatRange is nighly only: 1653024 add version when it rides the train
+					if (e.message == "f.formatRange is not a function") {msg = zNS}
 				}
 				// script blocking
 				if (msg == "") {
@@ -402,7 +423,7 @@ function get_lang_datetime() {
 		}
 	}
 	// output
-	for (let i=0; i < 38; i++) {
+	for (let i=0; i < 39; i++) {
 		let result = get_item(i)
 		if (isFF) {
 			if (result == undefined) {result = zB4; err.push(i +" [unexpected]: undefined")}
@@ -414,7 +435,7 @@ function get_lang_datetime() {
 	// debugging: error tracking
 	if (err.length > 0) {console.log("language/datetime errors\n" + err.join("\n"))}
 
-	// hash language
+	// hash 1-6: language
 	let lHash0 = sha1(res.slice(0,6).join("-"))
 	if (isFF) {
 		if (lHash0 == "53173ef1cd3c7e699e74c84e0adc88d14519e72b") {
@@ -425,39 +446,39 @@ function get_lang_datetime() {
 	}
 	dom.lHash0.innerHTML = lHash0
 
-	// hash timezone
+	// hash 7-8: timezone
 	let lHash1 = sha1(res.slice(6,8).join("-"))
-	bTZ = (lHash1 == "9980172d797fef59685f592069837fbbb1157bd3" ? true : false)
+	bTZ = (lHash1 == "73496b322fb9f2f893f3f4852d92a5a0d81f9588" ? true : false)
 	lHash1 += (bTZ ? rfp_green : rfp_red)
 	dom.lHash1.innerHTML = lHash1
 
-	// hash datetime
-	let lHash2 = sha1(res.slice(8,38).join("-"))
+	// hash 9+: datetime
+	let lHash2 = sha1(res.slice(8,res.length).join("-"))
 	dom.lHash2 = lHash2
 	// RFP
 	let ff = ""
 	if (isFF) {
 		if (bTZ) {
 			// state1: both green
-			if (lHash2 == "e89556c7124ee4a2f294c8d14b9673785df3a46c") {
-				// nightly has dayPeriod
+			if (lHash2 == "6867ae6a4a913fa06ae982c92a60ccc1bde31caa") {
+				// nightly has dayPeriod, formatRange
 				ff = " [Nightly]"
-			} else if (lHash2 == "e4db6146f375ed7e9580902b77adfb22baaf3eca") {
+			} else if (lHash2 == "cc6f7571d808eb771d3f58e7bbb777e7d81245e0") {
 				ff = " [FF79+]"
-			} else if (lHash2 == "d0047c24e2b65ef772fabd3e07f5ec334a2e8a0d") {
+			} else if (lHash2 == "dae7f19d89b7a2a1c757b7bace5fd733777d23f2") {
 				ff = " [FF78]"
-			} else if (lHash2 == "5e9ddd42ab4a9c633d2f0abc8956e66304cb8edc") {
+			} else if (lHash2 == "3e6df2010fa7856c301ecce8dad8bfc4f2a6161e") {
 				ff = " [FF71-77]"
-			} else if (lHash2 == "f1308e9bb7ccd184af13bd9c6b96422f8d6707d5") {
+			} else if (lHash2 == "c71432d27a17f412ee473e1f92fa7252d08bf2d7") {
 				ff = " [FF70]"
-			} else if (lHash2 == "3f1d5af38a4cdafac8acfc151c7e5f9fa6193f66") {
+			} else if (lHash2 == "91d94c698bebe93c9dd2c2b5000fd0272ea0bf9a") {
 				ff = " [FF68-69]"
-			} else if (lHash2 == "7c7aba1e2d3a8ac858cc2f22c467c4c785af6169") {
+			} else if (lHash2 == "b30c43333fb7b86bd728b678615c2284ab5443cf") {
 				ff = " [FF65-67]"
-			} else if (lHash2 == "bb03b960e9fee1dba7ada7486a713bf6a0d1a632") {
+			} else if (lHash2 == "a6ddd1ebd802136e576dcde0e2779a8b945ea4c9") {
 				ff = " [FF63-64]"
-			} else if (lHash2 == "106a4ed98d0077e7a06586e88ccec098c6a90a84") {
-				ff = " [FF60-62]"
+			} else if (lHash2 == "85c8185a8bbe1abfe7a0a850406818708f3f58fd") {
+				ff = " [FF62 or lower]"
 			}
 		}
 		if (ff == "") {
@@ -493,9 +514,9 @@ function get_lang_datetime() {
 				for (let i=0; i < 38; i++) {
 					let divider = " | "
 					if (i > 7 && i < 15) {divider = "<br>"}
-					if (i == 22) {divider = "<br>"}
-					if (i > 23 && i < 28) {divider = "<br>"}
-					if (i > 34) {divider = "<br>"}
+					else if (i == 22 || i == 6) {divider = "<br>"}
+					else if (i > 23 && i < 28) {divider = "<br>"}
+					else if (i > 34) {divider = "<br>"}
 					try {
 						if (i == 0) {
 							// languages object
