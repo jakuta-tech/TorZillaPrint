@@ -343,8 +343,6 @@ function outputSection(id, cls, page) {
 		if (id=="12" && cls=="c3") {outputFonts2("all")}
 	} else if (page=="e") {
 		isPage = "extra"
-		if (id=="1") {outputScreen()}
-		if (id=="2") {outputResource()}
 		if (id=="3") {outputChrome()}
 		if (id=="5") {outputFonts2("monsta")}
 	}
