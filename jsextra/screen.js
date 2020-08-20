@@ -94,6 +94,8 @@ function get_dpr() {
 function outputScreen() {
 	// FF only
 	if ("undefined" != typeof InstallTrigger) {
+		dom.dprclientRect.innerHTML = "&nbsp"
+		dom.dprscrollY.innerHTML = "&nbsp"
 		get_dpr()
 	}
 }
