@@ -34,7 +34,7 @@
 	<table id="tb1">
 		<col width="37%"><col width="73%">
 		<thead><tr><th colspan="2">screen</th></tr></thead>
-		<tr><td><div class="btn-left"><button class="btn1 btn" onClick="outputSection(`1`, `c`, `e`)">[ reset ]</button></div>
+		<tr><td><div class="btn-left"><button class="btn1 btn" onClick="outputScreen()">[ reset ]</button></div>
 			[clientRect] devicePixelRatio <sup>1</sup></td><td class="c mono" id="dprclientRect"></td></tr>
 		<tr><td>[scrollY] devicePixelRatio <sup>1</sup></td><td class="c" id="dprscrollY"></td></tr>
 		<tr><td colspan="2"><span class="no_color">code based on work by </span>
@@ -47,7 +47,7 @@
 		<col width="37%"></a><col width="63%">
 		<thead><tr><th colspan="2">[tor browser] chrome:// & resource://</th></tr></thead>
 		<tr><td><div>
-				<div class="btn-left"><button class="btn2 btn" id="resourceRun" onClick="outputSection(`2`, `c`, `e`)">[ run tests ]</button></div>
+				<div class="btn-left"><button class="btn2 btn" id="resourceRun" onClick="outputResource()">[ run tests ]</button></div>
 				<div>images</div></div></td>
 			<td class="c mono" id="imgHashR"></td></tr>
 		<tr><td>js</td><td class="c mono" id="jsHashR"></td></tr>
