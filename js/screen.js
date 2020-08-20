@@ -525,7 +525,7 @@ function get_line_scrollbar() {
 			// check font
 			if (strFont !== "") {
 				os = strFont
-			} else if (lh == "19.2") {
+			} else if (lh == "19.2" || lh == "19.2000") {
 				// TB DESKTOP: 19.2 seems TB unique any-zoom/any-platform
 				os = tb_green
 				isTB = true; debug_page("tb"," css line height = 19.2")
