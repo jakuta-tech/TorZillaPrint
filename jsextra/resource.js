@@ -3,8 +3,14 @@
 function outputResource() {
 // FF only
 if ("undefined" != typeof InstallTrigger) {
+	// clear
+	dom.imgHashR.innerHTML = "&nbsp"
+	dom.allHashR.innerHTML = "&nbsp"
+	dom.allLoadedR.innerHTML = "&nbsp"
+	// wait msg
 	dom.jsHashR = "tests are running"
 	dom.cssHashR = "give it a second"
+	//vars
 	let c = "chrome://browser/content/",
 		ca = c+"abouttbupdate/",
 		co = c+"onionservices/",
