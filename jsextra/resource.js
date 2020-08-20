@@ -13,7 +13,7 @@ if ("undefined" != typeof InstallTrigger) {
 		oi = o+"img/",
 		oif = oi+"figure_tor-",
 		ol = o+"lib/",
-		s = "chrome://browser/skin/",
+		s = "chrome://browser/skin/"
 
 	let jsUris = [
 		'resource://torbutton-abouttor/aboutTor.js', 
