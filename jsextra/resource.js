@@ -6,19 +6,30 @@ if ("undefined" != typeof InstallTrigger) {
 	dom.jsHashR = "tests are running"
 	dom.cssHashR = "give it a second"
 	let c = "chrome://browser/content/",
+		ca = c+"abouttbupdate/",
+		co = c+"onionservices/",
+		ct = c+"torpreferences/",
 		o = "resource://onboarding/",
 		oi = o+"img/",
 		oif = oi+"figure_tor-",
 		ol = o+"lib/",
-		s = "chrome://browser/skin/"
+		s = "chrome://browser/skin/",
 
 	let jsUris = [
-		'resource://torbutton-abouttor/aboutTor.js', // added in 9.5a5+ -> 9.0.6+?
+		'resource://torbutton-abouttor/aboutTor.js', 
 		o+'onboarding-tor-circuit-display.js',
+		ca+'aboutTBUpdate.js',
+		ct+'torPane.js',
+		// TB78
+		co+'authPreferences.js',
+		co+'authPrompt.js',
+		co+'onionlocationPreferences.js',
+		co+'savedKeysDialog.js',
+		co+'netError/onionNetError.js',
 	]
 	let imgUris = [
 		c+'securitylevel/securityLevelButton.svg',
-		c+'torpreferences/torPreferencesIcon.svg', //9+
+		ct+'torPreferencesIcon.svg', //9+
 		s+'new_circuit.svg', //9+
 		s+'new_identity.svg', //9+
 		s+'onion.svg',
@@ -35,9 +46,20 @@ if ("undefined" != typeof InstallTrigger) {
 		oif+'welcome.png',
 		oi+'icons_no-icon.png',
 		oi+'tor-watermark.png',
+		// TB78+
+		co+'onionlocation.svg',
+		co+'netError/onionsite.svg',
+		co+'netError/browser.svg',
+		co+'netError/network.svg',
 	]
 	let cssUris = [
 		'resource://torbutton-assets/aboutTor.css',
+		ca+'aboutTBUpdate.css',
+		ct+'torPreferences.css',
+		// TB78
+		co+'authPreferences.css',
+		co+'onionlocationPreferences.css',
+		co+'netError/onionNetError.css',
 	]
 
 	// JS
