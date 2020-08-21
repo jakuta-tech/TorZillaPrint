@@ -434,6 +434,7 @@ function get_lang_datetime() {
 		}
 	}
 	// output
+	let combo1 = "", combo2 = ""
 	for (let i=0; i < 43; i++) {
 		let result = get_item(i)
 		if (isFF) {
@@ -441,7 +442,16 @@ function get_lang_datetime() {
 			if (result == "undefined") {result = zB5; err.push(i +" [unexpected]: \"undefined\"")}
 		}
 		res.push(result)
-		document.getElementById("ldt"+i).innerHTML = result
+		// combine 0-2, 3-9
+		if (i < 3) {
+			combo1 += (i == 0 ? "" : " | ") + result
+			if (i == 2) {dom.ldt2.innerHTML = combo1}
+		} else if (i < 10) {
+			combo2 += (i == 3 ? "" : " | ") + result
+			if (i == 9) {dom.ldt9.innerHTML = combo2}
+		} else {
+			document.getElementById("ldt"+i).innerHTML = result
+		}
 	}
 	// debugging: error tracking
 	if (err.length > 0) {console.log("language/datetime errors\n" + err.join("\n"))}
@@ -526,6 +536,7 @@ function get_lang_datetime() {
 			workerlang.addEventListener("message", function(e) {
 				workerlang.terminate
 				// compare
+				let swcombo1 = "", swcombo2 = ""
 				for (let i=0; i < 42; i++) {
 					let divider = " | "
 					if (i > 11 && i < 19) {divider = "<br>"}
@@ -533,10 +544,19 @@ function get_lang_datetime() {
 					else if (i > 27 && i < 32) {divider = "<br>"}
 					else if (i > 38) {divider = "<br>"}
 					try {
-						if (i == 0) {
-							// languages object
-							if (res[i].toString() !== e.data[i].toString()) {
-								document.getElementById("ldt"+i).innerHTML = res[i] + divider + sb + e.data[i] + sc
+						if (i < 3) {
+							swcombo1 +=  (i == 0 ? e.data[i].toString() : " | " + e.data[i])
+							if (i == 2) {
+								if (combo1 !== swcombo1) {
+									dom.ldt2.innerHTML = combo1 + " | " + sb + swcombo1 + sc
+								}
+							}
+						} else if (i < 10) {
+							swcombo2 += (i == 3 ? "" : " | ") + e.data[i]
+							if (i == 9) {
+								if (combo2 !== swcombo2) {
+									dom.ldt9.innerHTML = combo2 + "<br>" + sb + swcombo2 + sc
+								}								
 							}
 						} else if (i == 12) {
 							// date object
