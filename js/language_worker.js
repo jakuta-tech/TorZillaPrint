@@ -49,7 +49,7 @@ addEventListener("message", function(msg) {
 					r2 = new Date("April 15, "+yr+" 13:00:00"),
 					r3 = new Date("July 15, "+yr+" 13:00:00"),
 					r4 = new Date("October 15, "+yr+" 13:00:00")
-				return = r1.getTimezoneOffset() +", "+ r2.getTimezoneOffset()
+				return r1.getTimezoneOffset() +", "+ r2.getTimezoneOffset()
 					+", "+ r3.getTimezoneOffset() +", "+ r4.getTimezoneOffset()
 					// getTime
 					+ " | "+ ((r1.getTime() - c1.getTime())/k) + ", "+ ((r2.getTime() - c2.getTime())/k)
