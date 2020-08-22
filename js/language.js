@@ -123,8 +123,6 @@ function get_geo() {
 function get_lang_datetime() {
 	let d = new Date("January 30, 2019 13:00:00"),
 		d2 = new Date("October 30, 2018 13:00:00"),
-		d3 = new Date("July 30, 2018 13:00:00"),
-		d4 = new Date("April 30, 2018 13:00:00"),
 		o = {weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric",
 			minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long"},
 		res = [],
@@ -146,20 +144,42 @@ function get_lang_datetime() {
 			} else if (item == 9) {return new Intl.RelativeTimeFormat().resolvedOptions().locale
 			// timezone
 			} else if (item == 10) {
-				// ms since January 1, 1970, 00:00:00 UTC
-				let ms1 = 1548853200000,
-					ms2 = 1540904400000,
-					ms3 = 1532955600000,
-					ms4 = 1525093200000
-				let k = 60000 // ms in a minute
-				return d.getTimezoneOffset() +", "+ d2.getTimezoneOffset()
-					+", "+ d3.getTimezoneOffset() +", "+ d4.getTimezoneOffset()
-					// getTime
-					+ " | "+ ((d.getTime() - ms1)/k) + ", "+ ((d2.getTime() - ms2)/k)
-					+ ", "+ ((d3.getTime() - ms3)/k) + ", "+ ((d4.getTime() - ms4)/k)
-					// Date.parse
-					+ " | "+ ((Date.parse(d) - ms1)/k) + ", "+ ((Date.parse(d2) - ms2)/k)
-					+ ", "+ ((Date.parse(d3) - ms3)/k) + ", "+ ((Date.parse(d4) - ms4)/k)
+				//let t90 = performance.now()
+				let tzarray = [], tzstr = ""
+				let yrs = ['1905','1915','1925','1935','1945','1955','1965','1975','1985','1995','2005','2015']
+				let yr = "2020", k = 60000
+				try {
+					let nd = new Date()
+					yr = nd.getFullYear()
+				} catch(e) {}
+				yrs.push(yr)
+
+				for (let i=0; i < yrs.length; i++) {
+					yr = yrs[i], tzstr = ""
+					// control
+					let c1 = new Date("January 15, "+yr+" 13:00:00 UTC"),
+						c2 = new Date("April 15, "+yr+" 13:00:00 UTC"),
+						c3 = new Date("July 15, "+yr+" 13:00:00 UTC"),
+						c4 = new Date("October 15, "+yr+" 13:00:00 UTC")
+					// real
+					let r1 = new Date("January 15, "+yr+" 13:00:00"),
+						r2 = new Date("April 15, "+yr+" 13:00:00"),
+						r3 = new Date("July 15, "+yr+" 13:00:00"),
+						r4 = new Date("October 15, "+yr+" 13:00:00")
+					tzstr = r1.getTimezoneOffset() +", "+ r2.getTimezoneOffset()
+						+", "+ r3.getTimezoneOffset() +", "+ r4.getTimezoneOffset()
+						// getTime
+						+ " | "+ ((r1.getTime() - c1.getTime())/k) + ", "+ ((r2.getTime() - c2.getTime())/k)
+						+ ", "+ ((r3.getTime() - c3.getTime())/k) + ", "+ ((r4.getTime() - c4.getTime())/k)
+						// Date.parse
+						+ " | "+ ((Date.parse(r1) - Date.parse(c1))/k) + ", "+ ((Date.parse(r2) - Date.parse(c2))/k)
+						+ ", "+ ((Date.parse(r3) - Date.parse(c3))/k) + ", "+ ((Date.parse(r4) - Date.parse(c4))/k)
+					tzarray.push(yr+ ":"+ tzstr)
+				}
+				//console.debug(tzarray.join("\n"))
+				//console.debug(performance.now()-t90 + "ms")
+				return tzstr
+
 			} else if (item == 11) {return Intl.DateTimeFormat().resolvedOptions().timeZone
 			// date/time format
 			} else if (item == 12) {
