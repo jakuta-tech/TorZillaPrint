@@ -122,7 +122,6 @@ function get_geo() {
 
 function get_lang_datetime() {
 	let d = new Date("January 30, 2019 13:00:00"),
-		d2 = new Date("October 30, 2018 13:00:00"),
 		o = {weekday: "long", month: "long", day: "numeric", year: "numeric", hour: "numeric",
 			minute: "numeric", second: "numeric", hour12: true, timeZoneName: "long"},
 		res = [],
