@@ -176,7 +176,7 @@ function get_lang_datetime() {
 						+ ", "+ ((Date.parse(r3) - Date.parse(c3))/k) + ", "+ ((Date.parse(r4) - Date.parse(c4))/k)
 					tzarray.push(yr+ ":"+ tzstr)
 				}
-				//console.debug(tzarray.join("\n"))
+				console.debug(tzarray.join("\n"))
 				//console.debug(performance.now()-t90 + "ms")
 				return tzstr
 
