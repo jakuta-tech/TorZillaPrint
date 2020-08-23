@@ -143,16 +143,10 @@ function get_lang_datetime() {
 			} else if (item == 9) {return new Intl.RelativeTimeFormat().resolvedOptions().locale
 			// timezone
 			} else if (item == 10) {
-				//let t90 = performance.now()
+
 				let tzarray = [], tzstr = ""
 				let yrs = ['1905','1915','1925','1935','1945','1955','1965','1975','1985','1995','2005','2015']
-				let yr = "2020", k = 60000
-				try {
-					let nd = new Date()
-					yr = nd.getFullYear()
-				} catch(e) {}
-				yrs.push(yr)
-
+				let k = 60000, yr = Date().split` `[3]
 				for (let i=0; i < yrs.length; i++) {
 					yr = yrs[i], tzstr = ""
 					// control
@@ -176,7 +170,7 @@ function get_lang_datetime() {
 					tzarray.push(yr+ ":"+ tzstr)
 				}
 				console.debug(tzarray.join("\n"))
-				//console.debug(performance.now()-t90 + "ms")
+				// return current year only for now
 				return tzstr
 
 			} else if (item == 11) {return Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -412,6 +406,20 @@ function get_lang_datetime() {
 					date3 = new Date(Date.UTC(2020, 8, 19, 23, 15, 30))
 				let f = Intl.DateTimeFormat(undefined, o)
 				return f.formatRange(date1, date2) +"<br>"+ f.formatRange(date1, date3)
+			} else if (item == 43) {
+				let prules = [], nos = [0,1,2,3,4,6,7,11,20,21,100]
+				let prev = "", current = ""
+				for (let i=0; i < nos.length; i++) {
+					try {
+						current = new Intl.PluralRules(undefined).select(nos[i])
+					} catch(e) {
+						current = "error"
+					}
+					// record changes only
+					if (prev !== current) {prules.push(nos[i] + ": "+ current)}
+					prev = current
+				}
+				return prules.join(", ")
 			}
 		} catch(e) {
 			if (isFF) {
@@ -454,7 +462,7 @@ function get_lang_datetime() {
 	}
 	// output
 	let combo1 = "", combo2 = ""
-	for (let i=0; i < 43; i++) {
+	for (let i=0; i < 44; i++) {
 		let result = get_item(i)
 		if (isFF) {
 			if (result == undefined) {result = zB4; err.push(i +" [unexpected]: undefined")}
@@ -592,6 +600,8 @@ function get_lang_datetime() {
 					}
 				}
 				// compare hashes
+				let workerend = e.data.length
+				console.debug("worker array length", workerend)
 				if (isFF) {
 					let wHash0 = sha1(e.data.slice(0,10).join("-"))
 					if (wHash0 !== sha1(res.slice(0,10).join("-"))) {
@@ -601,8 +611,8 @@ function get_lang_datetime() {
 					if (wHash1 !== sha1(res.slice(10,12).join("-"))) {
 						dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
 					}
-					let wHash2 = sha1(e.data.slice(12,42).join("-"))
-					if (wHash2 !== sha1(res.slice(12,42).join("-"))) {
+					let wHash2 = sha1(e.data.slice(12,43).join("-"))
+					if (wHash2 !== sha1(res.slice(12,43).join("-"))) {
 						dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
 					}
 				}
