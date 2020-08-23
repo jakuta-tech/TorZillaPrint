@@ -512,24 +512,24 @@ function get_lang_datetime() {
 	if (isFF) {
 		if (bTZ) {
 			// state1: both green
-			if (lHash2 == "6867ae6a4a913fa06ae982c92a60ccc1bde31caa") {
+			if (lHash2 == "79d7dddb43af8873e5f9271bc03c5e65c022c48e") {
 				// nightly has dayPeriod, formatRange
 				ff = " [Nightly]"
-			} else if (lHash2 == "cc6f7571d808eb771d3f58e7bbb777e7d81245e0") {
+			} else if (lHash2 == "1850636a34767cc10c2e72de7e9a460bf136bc4d") {
 				ff = " [FF79+]"
-			} else if (lHash2 == "dae7f19d89b7a2a1c757b7bace5fd733777d23f2") {
+			} else if (lHash2 == "ed964df4e555954fb897a3e868c4f18729335d73") {
 				ff = " [FF78]"
-			} else if (lHash2 == "3e6df2010fa7856c301ecce8dad8bfc4f2a6161e") {
+			} else if (lHash2 == "4009d40e41812b66e6c0f66494bb4a1781ff9a80") {
 				ff = " [FF71-77]"
-			} else if (lHash2 == "c71432d27a17f412ee473e1f92fa7252d08bf2d7") {
+			} else if (lHash2 == "657b6ea41edca81376a65c2fa81fa6bc641ec5a1") {
 				ff = " [FF70]"
-			} else if (lHash2 == "91d94c698bebe93c9dd2c2b5000fd0272ea0bf9a") {
+			} else if (lHash2 == "e8c8aaecdf81f60e2295c9beaeec6dd86ffa4caa") {
 				ff = " [FF68-69]"
-			} else if (lHash2 == "b30c43333fb7b86bd728b678615c2284ab5443cf") {
+			} else if (lHash2 == "02f4b55b856e182cc2626a04246aee0c8d5499c6") {
 				ff = " [FF65-67]"
-			} else if (lHash2 == "a6ddd1ebd802136e576dcde0e2779a8b945ea4c9") {
+			} else if (lHash2 == "b9d2ca0773957025f370d4060e666c405c3bf84d") {
 				ff = " [FF63-64]"
-			} else if (lHash2 == "85c8185a8bbe1abfe7a0a850406818708f3f58fd") {
+			} else if (lHash2 == "5df6cb0174d57eeda7900ef81ca8aa1fd49587d7") {
 				ff = " [FF60-62]"
 			}
 		}
@@ -600,8 +600,6 @@ function get_lang_datetime() {
 					}
 				}
 				// compare hashes
-				let workerend = e.data.length
-				console.debug("worker array length", workerend)
 				if (isFF) {
 					let wHash0 = sha1(e.data.slice(0,10).join("-"))
 					if (wHash0 !== sha1(res.slice(0,10).join("-"))) {
@@ -611,8 +609,8 @@ function get_lang_datetime() {
 					if (wHash1 !== sha1(res.slice(10,12).join("-"))) {
 						dom.lHash1.innerHTML = lHash1 +"<br>"+ sb + wHash1 + sc+" [see details]"
 					}
-					let wHash2 = sha1(e.data.slice(12,43).join("-"))
-					if (wHash2 !== sha1(res.slice(12,43).join("-"))) {
+					let wHash2 = sha1(e.data.slice(12,e.data.length).join("-"))
+					if (wHash2 !== sha1(res.slice(12,e.data.length).join("-"))) {
 						dom.lHash2.innerHTML = lHash2 +"<br>"+ sb + wHash2 + sc+" [see details]"
 					}
 				}
