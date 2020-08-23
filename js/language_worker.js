@@ -34,11 +34,7 @@ addEventListener("message", function(msg) {
 			// timezone
 			} else if (item == 10) {
 				// just do the one year in service worker for now while I experiment
-				let yr = "2020", k = 60000
-				try {
-					let nd = new Date()
-					yr = nd.getFullYear()
-				} catch(e) {}
+				let k = 60000, yr = Date().split` `[3]
 				// control
 				let c1 = new Date("January 15, "+yr+" 13:00:00 UTC"),
 					c2 = new Date("April 15, "+yr+" 13:00:00 UTC"),
@@ -290,6 +286,20 @@ addEventListener("message", function(msg) {
 					date3 = new Date(Date.UTC(2020, 8, 19, 23, 15, 30))
 				let f = Intl.DateTimeFormat(undefined, o)
 				return f.formatRange(date1, date2) +"<br>"+ f.formatRange(date1, date3)
+			} else if (item == 43) {
+				let prules = [], nos = [0,1,2,3,4,6,7,11,20,21,100]
+				let prev = "", current = ""
+				for (let i=0; i < nos.length; i++) {
+					try {
+						current = new Intl.PluralRules(undefined).select(nos[i])
+					} catch(e) {
+						current = "error"
+					}
+					// record changes only
+					if (prev !== current) {prules.push(nos[i] + ": "+ current)}
+					prev = current
+				}
+				return prules.join(", ")
 			}
 		} catch(e) {
 			if (isFF) {
