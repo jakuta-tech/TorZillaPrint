@@ -724,7 +724,6 @@ function outputFonts2(type) {
 					if (lastvalue == fntList.length) {
 						// we need the same result in succession
 						clearInterval(checking)
-						console.log("time taken to get the font list", type, performance.now()-t0, "ms")
 						run_enumerate()
 					} else if (fntList.length > 0) {
 						// the array is underway
