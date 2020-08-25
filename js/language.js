@@ -88,9 +88,9 @@ function get_geo() {
 				} else if (r == "e672602411121842c18d9fa63c964c5ea288b74c" && isVer < 72) {
 					// FF71-: enabled, false, prompt
 					r += default_ff_green + " [FF60-71]"
+				} else {
+					r += default_ff_red
 				}
-			} else {
-				r += default_ff_red
 			}
 		}
 		dom.lHash3.innerHTML = r
