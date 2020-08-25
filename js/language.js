@@ -144,11 +144,11 @@ function get_lang_datetime() {
 			// timezone
 			} else if (item == 10) {
 
-				let tzarray = [], tzstr = ""
-				let yrs = ['1905','1915','1925','1935','1945','1955','1965','1975','1985','1995','2005','2015']
-				let k = 60000, yr = Date().split` `[3]
+				let k = 60000, tzarray = [], tzstr = ""
+				let yrs = [2,555,995,1066,1815,1905,1915,1925,1935,1945,1955,1965,1975,1985,1995,2005,2015]
+				yrs.push(Date().split` `[3])
 				for (let i=0; i < yrs.length; i++) {
-					yr = yrs[i], tzstr = ""
+					let yr = yrs[i]
 					// control
 					let c1 = new Date("January 15, "+yr+" 13:00:00 UTC"),
 						c2 = new Date("April 15, "+yr+" 13:00:00 UTC"),
