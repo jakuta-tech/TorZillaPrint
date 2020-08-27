@@ -2039,8 +2039,6 @@ function outputUA(runtype) {
 }
 
 function outputStart() {
-	// stack depth
-	console.debug("                   [ASAP] stack depth", get_stack_depth())
 	// perf
 	gt0 = performance.now()
 	// not-coded
