@@ -76,6 +76,25 @@ function get_nav_prototype() {
 	}
 }
 
+function get_recursion() {
+	var level = 0
+	function recurse() {
+    level++
+    recurse()
+	}
+	try {
+    recurse()
+	} catch (e) {
+		console.log("recursion 1:", level)
+	}
+	level = 0
+	try {
+    recurse()
+	} catch (e) {
+		console.log("recursion 2:", level)
+	}
+}
+
 function get_reporting_api() {
 	// FF65+
 	try {
@@ -194,12 +213,6 @@ function get_windowcontent() {
 
 function outputMisc(type) {
 	let t0 = performance.now()
-	// stack depth
-	if (gRerun) {
-		console.debug("          [manual re-run] stack depth", get_stack_depth())
-	} else {
-		console.debug("[run when misc js called] stack depth", get_stack_depth())
-	}
 	// one-liners
 	try {dom.nBeacon = (navigator.sendBeacon ? zE : zD)} catch(e) {dom.nBeacon.innerHTML = zB}
 	try {dom.webshare = (navigator.share ? zE : zD)} catch(e) {dom.webshare.innerHTML = zB}
@@ -219,6 +232,7 @@ function outputMisc(type) {
 	get_wasm()
 	get_perf()
 	get_perf2()
+	get_recursion()
 	// perf
 	debug_page("perf","misc",t0,gt0)
 }
