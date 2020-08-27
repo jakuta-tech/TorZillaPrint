@@ -145,7 +145,7 @@ function get_lang_datetime() {
 			} else if (item == 10) {
 
 				let k = 60000, tzarray = [], tzstr = ""
-				let yrs = [2,555,995,1066,1815,1905,1915,1925,1935,1945,1955,1965,1975,1985,1995,2005,2015]
+				let yrs = [1066,1905,1915,1925,1935,1945,1955,1965,1975,1985,1995,2005,2015]
 				yrs.push(Date().split` `[3])
 				for (let i=0; i < yrs.length; i++) {
 					let yr = yrs[i]
@@ -169,7 +169,7 @@ function get_lang_datetime() {
 						+ ", "+ ((Date.parse(r3) - Date.parse(c3))/k) + ", "+ ((Date.parse(r4) - Date.parse(c4))/k)
 					tzarray.push(yr+ ":"+ tzstr)
 				}
-				console.debug(tzarray.join("\n"))
+				console.log("TESTING: multi-timezones: " + sha1(tzarray.join()) + "\n - " + tzarray.join("\n - "))
 				// return current year only for now
 				return tzstr
 
