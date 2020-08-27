@@ -35,19 +35,6 @@ function get_RFP() {
 	return r
 }
 
-function get_stack_depth() {
-	var level = 0
-	function recurse() {
-    level++
-    recurse()
-	}
-	try {
-    recurse()
-	} catch (e) {
-		return level
-	}
-}
-
 function count_decimals(value) {
 	if(Math.floor(value) === value) return 0
 	return value.toString().split(".")[1].length || 0
