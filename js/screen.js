@@ -1213,6 +1213,10 @@ function get_version() {
 	let go = true,
 		verNo = "",
 		isNew = false,
+		alt0 = sb+" [fallback test ",
+		alt1 = alt0 +"1]"+sc,
+		alt2 = alt0 +"2]"+sc,
+		alt3 = alt0 +"3]"+sc,
 		t0 = performance.now()
 	function output(){
 		// set isVer
@@ -1244,11 +1248,18 @@ function get_version() {
 	}
 	// run
 	function v75plus() {
-		// 81: 1657437
+		// 81
 		if (go) {
 			try {
-				if (dom.test81a.offsetWidth < dom.test81b.offsetWidth) {verNo = "81+"; go = false}
-			} catch(e) {}
+				// 81: 1650607
+				let file81 = new File(["bits"], "a/b.txt")
+				if (file81.name == "a/b.txt") {verNo = "81+"; go = false}
+			} catch(e) {
+				try {
+					// 81: 1657437
+					if (dom.test81a.offsetWidth < dom.test81b.offsetWidth) {verNo = "81+" + alt1; go = false}
+				} catch(e) {}
+			}
 		}
 		// 80: 1651732
 		if (go) {
@@ -1267,27 +1278,25 @@ function get_version() {
 				if ((e.message).substring(0,3) == "ent") {verNo = "79"; go = false}
 			}
 		}
-		//78: multiple checks
-		//78: 1634135
+		//78
 		if (go) {
 			try {
-				let regex78b = new RegExp('b')
-				if (regex78b.dotAll == false) {verNo = "78"; go = false}
-			} catch(e) {}
-		}
-		//78: 1633836
-		if (go) {
-			try {
-				let test78 = new Intl.NumberFormat(undefined, {style: "unit", unit: "percent"}).format(1/2)
-				verNo = "78"; go = false; console.log("version: v78 NumberFormat used")
-			} catch(e) {}
-		}
-		//78: 1589095
-		if (go) {
-			try {
+				//78: 1589095
 				let test78a = new Intl.ListFormat(undefined,{style: 'long', type: 'unit'}).format(['a','b','c'])
-				verNo = "78"; go = false; console.log("version: v78 ListFormat used")
-			} catch(e) {}
+				verNo = "78"; go = false
+			} catch(e) {
+				try {
+				//78: 1633836
+					let test78 = new Intl.NumberFormat(undefined, {style: "unit", unit: "percent"}).format(1/2)
+					verNo = "78" + alt1; go = false
+				} catch(e) {
+					try {
+					//78: 1634135
+						let regex78b = new RegExp('b')
+						if (regex78b.dotAll == false) {verNo = "78" + alt2; go = false}
+					} catch(e) {}
+				}
+			}
 		}
 		//77: 1627285
 		if (go) {if (isNaN(new DOMRect(0, 0, NaN, NaN).top)) {verNo = "77"; go = false}}
