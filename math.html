@@ -12,27 +12,26 @@
 <body>
 	<br>
 	<table id="tb3">
-		<col width="25%"><col width="75%">
+		<col width="20%"><col width="80%">
 		<thead><tr><th colspan="2">math</th></tr></thead>
 		<tr><td>hash</td><td class="c mono" id="hash0"></td></tr>
 		<tr><td>function</td><td class="c mono" id="hash1"></td></tr>
 		<tr><td>polyfill</td><td class="c mono" id="hash2"></td></tr>
 		<tr><td colspan="2" class="center"></td></tr>
 
-		<tr><td></td><td class="s3">tests in play</td></tr>
-		<tr><td>test no's</td><td class="c mono" id="num"></td></tr>
+		<tr><td></td><td class="s3">vs control [FF78-64bit Win7-64bit]</td></tr>
+		<tr><td></td><td class="mono">denoted in <span class="s1">pale red</span></td></tr>
+		<tr><td>function</td><td class="c mono" id="diff1"></td></tr>
+		<tr><td>polyfill</td><td class="c mono" id="diff2"></td></tr>
+		<tr><td>test no's in play</td><td class="c mono" id="num"></td></tr>
 		<tr><td colspan="2" class="center"></td></tr>
 
 		<tr><td></td><td class="s3">function vs polyfill</td></tr>
+		<tr><td></td><td class="mono">denoted with <span class = "s1">[match]</span></td></tr>
 		<tr><td>diffs</td><td class="c mono" id="diff0"></td></tr>
 		<tr><td colspan="2" class="center"></td></tr>
 
-		<tr><td></td><td class="s3">vs control [FF78-64bit Win7-64bit]</td></tr>
-		<tr><td>function</td><td class="c mono" id="diff1"></td></tr>
-		<tr><td>polyfill</td><td class="c mono" id="diff2"></td></tr>
-		<tr><td colspan="2" class="center"></td></tr>
-
-		<tr><td colspan="2" class="center">--- data ---</td></tr>
+		<tr><td></td><td class="s3">data</td></tr>
 		<tr><td><button class="btn3 btn" onClick="copyclip(`mathdata`)">[ copy to clipboard ]</button></td>
 			<td class="c mono spaces" id="mathdata"></td></tr>
 	</table>
@@ -55,104 +54,128 @@ function outputMath() {
 	let n = 0.123
 	let bigN = 5.860847362277284e+38
 	let fns = [
-		// [function, value, testnumber for easy reference, control
+		// [item number for easy reference, function, value, description, control
 		// control value is FF78 64bit on Windows7 64bit
-		['acos', [n], 0, 1.4474840516030247, "acos(n)"],
-		['acos', [Math.SQRT1_2], 1, 0.7853981633974483],
-		['acosh', [1e308], 2, 709.889355822726],
-		['acosh', [Math.PI], 3, 1.811526272460853],
-		['acosh', [Math.SQRT2], 4, 0.881373587019543],
-		['asin', [n], 5, 0.12331227519187199],
-		['asinh', [1e300], 6, 691.4686750787736],
-		['asinh', [Math.PI], 7, 1.8622957433108482],
-		['atan', [2], 8, 1.1071487177940904],
-		['atan', [Math.PI], 9, 1.2626272556789115],
-		['atanh', [0.5], 10, 0.5493061443340548],
-		['atan2', [1e-310, 2], 11, 5e-311],
-		['atan2', [Math.PI, 2], 12, 1.0038848218538872],
-		['cbrt', [100], 13, 4.641588833612779],
-		['cbrt', [Math.PI], 14, 1.4645918875615231],
-		['cos', [n], 15, 0.9924450321351935],
-		['cos', [Math.PI], 16, -1],
-		['cos', [bigN],17, -0.10868049424995659], // creep says unique in Tor
-		['cosh', [1],18, 1.5430806348152437],
-		['cosh', [Math.PI], 19, 11.591953275521519],
-		['expm1', [1],20, 1.718281828459045],
-		['expm1', [Math.PI], 21, 22.140692632779267],
-		['exp', [n], 22, 1.1308844209474893],
-		['exp', [Math.PI], 23, 23.140692632779267],
-		['hypot', [1, 2, 3, 4, 5, 6], 24, 9.539392014169456],
-		['hypot', [bigN, bigN], 25, 8.288489826731114e+38],
-		['log', [n], 26, -2.0955709236097197],
-		['log', [Math.PI], 27, 1.1447298858494002],
-		['log1p', [n], 28, 0.11600367575630613],
-		['log1p', [Math.PI], 29, 1.4210804127942926],
-		['log10', [n], 30, -0.9100948885606021],
-		['log10', [Math.PI], 31, 0.49714987269413385],
-		['log10', [Math.E], 32, 0.4342944819032518],
-		['log10', [Math.LN2], 33, -0.1591745389548616],
-		['log10', [Math.LOG2E], 34, 0.15917453895486158],
-		['log10', [Math.LOG10E], 35, -0.36221568869946325],
-		['log10', [Math.SQRT1_2], 36, -0.15051499783199057],
-		['log10', [Math.SQRT2], 37, 0.15051499783199063],
-		['sin', [bigN], 38, 0.994076732536068], // creep says unique in Tor
-		['sin', [Math.PI], 39, 1.2246467991473532e-16], // creep says unique in Tor
-		['sin', [Math.E], 40, 0.41078129050290885],
-		['sin', [Math.LN2], 41, 0.6389612763136348],
-		['sin', [Math.LOG2E], 42, 0.9918062443936637],
-		['sin', [Math.LOG10E], 43, 0.4207704833137573],
-		['sin', [Math.SQRT1_2], 44, 0.6496369390800625],
-		['sin', [Math.SQRT2], 45, 0.9877659459927356],
-		['sinh', [1], 46, 1.1752011936438014],
-		['sinh', [Math.PI], 47, 11.548739357257748],
-		['sinh', [Math.E], 48, 7.544137102816975],
-		['sinh', [Math.LN2], 49, 0.75],
-		['sinh', [Math.LOG2E], 50, 1.9978980091062795],
-		['sinh', [Math.LOG10E], 51, 0.44807597941469024],
-		['sinh', [Math.SQRT1_2], 52, 0.7675231451261164],
-		['sinh', [Math.SQRT2], 53, 1.935066822174357],
-		['sqrt', [n], 54, 0.3507135583350036],
-		['sqrt', [Math.PI], 55, 1.7724538509055159],
-		['tan', [-1e308], 56, 0.5086861259107568],
-		['tan', [Math.PI], 57, -1.2246467991473532e-16],
-		['tanh', [n], 58, 0.12238344189440875],
-		['tanh', [Math.PI], 59, 0.99627207622075],
-		['pow', [n, -100], 60, 1.0220893335845176e+91],
-		['pow', [Math.PI, -100], 61, 1.9275814160560185e-50],
-		['pow', [Math.E, -100], 62, 3.720075976020851e-44],
-		['pow', [Math.LN2, -100], 63, 8269017203802410],
-		['pow', [Math.LN10, -100], 64, 6.003867926738811e-37],
-		['pow', [Math.LOG2E, -100], 65, 1.2093335584550061e-16],
-		['pow', [Math.LOG10E, -100], 66, 1.665592934758592e+36],
-		['pow', [Math.SQRT1_2, -100], 67, 1125899906842611.5],
-		['pow', [Math.SQRT2, -100], 68, 8.881784197001154e-16]
+		[ 20,  'acos', [n], n, 1.4474840516030247, true, "acos"],
+		[ 21,  'acos', [Math.SQRT1_2], "Math.SQRT1_2", 0.7853981633974483],
+
+		[ 40, 'acosh', [1e308], "1e300", 709.889355822726, true, "acosh"],
+		[ 41, 'acosh', [Math.PI], "Math.PI", 1.811526272460853],
+		[ 42, 'acosh', [Math.SQRT2], "Math.SQRT2", 0.881373587019543],
+
+		[ 60,  'asin', [n], n, 0.12331227519187199, true, "asin"],
+
+		[ 80, 'asinh', [1e300], "1e300", 691.4686750787736, true, "asinh"],
+		[ 81, 'asinh', [Math.PI], "Math.PI", 1.8622957433108482],
+
+		[100,  'atan', [2], "2", 1.1071487177940904, true, "atan"],
+		[101,  'atan', [Math.PI], "Math.PI", 1.2626272556789115],
+
+		[120, 'atanh', [0.5], "0.5", 0.5493061443340548, true, "atanh"],
+
+		[140, 'atan2', [1e-310, 2], "1e-310, 2", 5e-311, true, "atan2"],
+		[141, 'atan2', [Math.PI, 2], "Math.PI, 2", 1.0038848218538872],
+
+		[160,  'cbrt', [100], "100", 4.641588833612779, true, "cbrt"],
+		[161,  'cbrt', [Math.PI], "Math.PI", 1.4645918875615231],
+
+		[180,   'cos', [n], n, 0.9924450321351935, true, "cos"],
+		[181,   'cos', [Math.PI], "Math.PI", -1],
+		[182,   'cos', [bigN], "bigN", -0.10868049424995659], // creep says unique in Tor
+
+		[200,  'cosh', [1], "1", 1.5430806348152437, true, "cosh"],
+		[201,  'cosh', [Math.PI], "Math.PI", 11.591953275521519],
+
+		[220, 'expm1', [1], "1", 1.718281828459045, true, "exmpl"],
+		[221, 'expm1', [Math.PI], "Math.PI", 22.140692632779267],
+
+		[240,   'exp', [n], n, 1.1308844209474893, true, "exp"],
+		[241,   'exp', [Math.PI], "Math.PI", 23.140692632779267],
+
+		[260, 'hypot', [1, 2, 3, 4, 5, 6], "1,2,3,4,5,6", 9.539392014169456, true, "hypot"],
+		[261, 'hypot', [bigN, bigN], "bigN, bigN", 8.288489826731114e+38],
+
+		[280,   'log', [n], n, -2.0955709236097197, true, "log"],
+		[281,   'log', [Math.PI], "Math.PI", 1.1447298858494002],
+
+		[300, 'log1p', [n], n, 0.11600367575630613, true, "logplp"],
+		[301, 'log1p', [Math.PI], "Math.PI", 1.4210804127942926],
+
+		[320, 'log10', [n], n, -0.9100948885606021, true, "log10"],
+		[321, 'log10', [Math.PI], "Math.PI", 0.49714987269413385],
+		[322, 'log10', [Math.E], "Math.E", 0.4342944819032518],
+		[323, 'log10', [Math.LN2], "Math.LN2", -0.1591745389548616],
+		[324, 'log10', [Math.LOG2E], "Math.LOG2E", 0.15917453895486158],
+		[325, 'log10', [Math.LOG10E], "Math.LOG10E", -0.36221568869946325],
+		[326, 'log10', [Math.SQRT1_2], "Math.SQRT1_2", -0.15051499783199057],
+		[327, 'log10', [Math.SQRT2], "Math.SQRT2", 0.15051499783199063],
+
+		[340,   'sin', [bigN], "bigN", 0.994076732536068, true, "sin"], // creep says unique in Tor
+		[341,   'sin', [Math.PI], "Math.PI", 1.2246467991473532e-16], // creep says unique in Tor
+		[342,   'sin', [Math.E], "Math.E", 0.41078129050290885],
+		[343,   'sin', [Math.LN2], "Math.LN2", 0.6389612763136348],
+		[344,   'sin', [Math.LOG2E], "Math.LOG2E", 0.9918062443936637],
+		[345,   'sin', [Math.LOG10E], "Math.LOG10E", 0.4207704833137573],
+		[346,   'sin', [Math.SQRT1_2], "Math.SQRT1_2", 0.6496369390800625],
+		[347,   'sin', [Math.SQRT2], "Math.SQRT2", 0.9877659459927356],
+
+		[360,  'sinh', [1], "1", 1.1752011936438014, true, "sinh"],
+		[361,  'sinh', [Math.PI], "Math.PI", 11.548739357257748],
+		[362,  'sinh', [Math.E], "Math.E", 7.544137102816975],
+		[363,  'sinh', [Math.LN2], "Math.LN2", 0.75],
+		[364,  'sinh', [Math.LOG2E], "Math.LOG2E", 1.9978980091062795],
+		[365,  'sinh', [Math.LOG10E], "Math.LOG10E", 0.44807597941469024],
+		[366,  'sinh', [Math.SQRT1_2], "Math.SQRT1_2", 0.7675231451261164],
+		[367,  'sinh', [Math.SQRT2], "Math.SQRT2", 1.935066822174357],
+
+		[380,  'sqrt', [n], n, 0.3507135583350036, true, "sqrt"],
+		[381,  'sqrt', [Math.PI], "Math.PI", 1.7724538509055159],
+
+		[400,   'tan', [-1e308], "-1e308", 0.5086861259107568, true, "tan"],
+		[401,   'tan', [Math.PI], "Math.PI", -1.2246467991473532e-16],
+
+		[420,  'tanh', [n], n, 0.12238344189440875, true, "tanh"],
+		[421,  'tanh', [Math.PI], "Math.PI", 0.99627207622075],
+
+		[440,   'pow', [n, -100], n+", -100", 1.0220893335845176e+91, true, "pow"],
+		[441,   'pow', [Math.PI, -100], "Math.PI", 1.9275814160560185e-50],
+		[442,   'pow', [Math.E, -100], "Math.E", 3.720075976020851e-44],
+		[443,   'pow', [Math.LN2, -100], "Math.LN2", 8269017203802410],
+		[444,   'pow', [Math.LN10, -100], "Math.LN10", 6.003867926738811e-37],
+		[445,   'pow', [Math.LOG2E, -100], "Math.LOG2E", 1.2093335584550061e-16],
+		[446,   'pow', [Math.LOG10E, -100], "Math.LOG10E", 1.665592934758592e+36],
+		[447,   'pow', [Math.SQRT1_2, -100], "Math.SQRT1_2", 1125899906842611.5],
+		[448,   'pow', [Math.SQRT2, -100], "Math.SQRT2", 8.881784197001154e-16]
 	]
 
 	// polyfills
 	let polyfills = [], res = "", ctl = ""
 	for(let i=0; i < fns.length; i++) {
 		res = "n/a", ctl = "n/a"
-		if (i == 10) {
+		let item = fns[i]
+		let j = item[0]
+		if (j == 120) {
 			res = Math.log((1.5) / (.5)) / 2 // atanh(0.5)
 			ctl = 0.5493061443340548
-		} else if (i == 20) {
+		} else if (j == 220) {
 			res = Math.exp(1) - 1 // expm1(1)
 			ctl = 1.718281828459045
-		} else if (i == 21) {
+		} else if (j == 221) {
 			res = Math.exp(Math.PI) - 1 // expm1(Math.PI)
 			ctl = 22.140692632779267
-		} else if (i == 25) {
+		} else if (j == 261) {
 			res = hypot(bigN, bigN) // hypot(bigN, bigN)
 			ctl = 8.288489826731114e+38
-		} else if (i == 46) {
+		} else if (j == 360) {
 			res = (Math.exp(1) - 1 / Math.exp(1)) / 2 // sinh(1)
 			ctl = 1.1752011936438014
-		} else if (i == 47) {
+		} else if (j == 361) {
 			res = ((Math.exp(Math.PI) - 1 / Math.exp(Math.PI)) / 2) // sinh(Math.PI)
 			ctl = 11.548739357257748
 		}
 		polyfills.push(res +":" + ctl)
 	}
+	//console.debug(polyfills.join("\n"))
 
 	// build test results
 	let	math1 = [],	// functions
@@ -165,67 +188,70 @@ function outputMath() {
 
 	for(let i=0; i < fns.length; i++) {
 		let fn = fns[i]
-		let ipad = (i.toString()).padStart(2)
-		let fnResult = Math[fn[0]](...fn[1])
+		let k = fn[0]
+		let demarc = fn[5]
+		let kpad = (k.toString()).padStart(5)
+		let fnResult = Math[fn[1]](...fn[2])
 			fnResult = fnResult.toString()
-		let fnControl = fn[3].toString()
+		let fnName = (fn[3].toString()).padEnd(15)
+		let fnControl = fn[4].toString()
 		let polyResult = polyfills[i].split(":")[0]
 		let polyControl = polyfills[i].split(":")[1]
 		// fn results
-		let isFnDiff = false, isPolyDiff = false
+		let isFnDiff = false, isPolyDiff = false, isDiff = false
 		if (fnResult !== fnControl) {
 			isFnDiff = true
-			fnmatch.push(i+":"+fnControl +":"+fnResult)
-			numbers.push(i)
+			fnmatch.push(k+":"+fnControl +":"+fnResult)
+			numbers.push(k)
 		}
-		math1.push(i+":"+fnResult)
+		math1.push(k+":"+fnResult)
 		// poly results
 		if (polyResult !== "n/a") {
 			if (polyResult !== polyControl) {
 				isPolyDiff = true
-				polymatch.push(i+":"+polyControl +":"+polyResult)
-				numbers.push(i+"p")
+				polymatch.push(k+":"+polyControl +":"+polyResult)
+				numbers.push(k+"p")
 			}
-			math2.push(i+":"+polyResult)
+			math2.push(k+":"+polyResult)
 			// does not match fn
 			if (polyResult !== fnResult) {
-				diffs.push(i+":"+fnResult+":"+polyResult)
-				numbers.push(i+"p")
+				isDiff = true
+				diffs.push(k+":"+fnResult+":"+polyResult)
+				//numbers.push(k+"p") // don't collect: we only care about those that don't match control
 			}
 		}
 		// display
 		if (isFnDiff) { fnResult = s1.trim() + fnResult + sc }
 		if (isPolyDiff) { polyResult = s1.trim() + polyResult + sc }
+		if (isDiff) { polyResult += "," + s1 + "[match]" +sc }
 		if (polyResult !== "n/a") {
 			fnResult += ", " + polyResult
 		}
-		display.push(ipad+": "+ fnResult)
+		if (demarc == true) { display.push(s3.trim()
+			+ "---------------------------------------------<br>" + (fn[6]).toUpperCase() + sc ) }
+		display.push(kpad+": "+ s3 + fnName + sc + ": " +fnResult)
+		//display.push(kpad+": "+fnResult)
 	}
 
-	// hashes
-	let hash1 = sha1(math1.join())
-	let hash2 = sha1(math2.join())
-	let hash0 = sha1(hash1 + hash2)
-		//ToDo: assign short codes
-	dom.hash1.innerHTML = hash1 + s3 +"["+ math1.length +"]"+sc
-	dom.hash2.innerHTML = hash2 + s3 +"["+ math2.length +"]"+sc
-	dom.hash0.innerHTML = hash0 // ToDo: add [CODE] or [NEW]
-	dom.mathdata.innerHTML = display.join("<br>")
 	// numbers
 	numbers.sort((a,b) => a-b)
 	numbers = numbers.filter(function(item, position) {return numbers.indexOf(item) === position})
 	numbers.sort((a,b) => a-b)
-	dom.num = numbers.join(", ")
+	let numstr = "none"
+	if (numbers.length > 0) {
+		numstr = numbers.join(", ")
+	}
+	dom.num = numstr
 	// diffs
 	function output_diffs(array, type) {
 		let output = []
 		if (array.length > 0) {
 			for(let i=0; i < array.length; i++) {
 				let part0 = array[i].split(":")[0]
-				part0 = (part0.toString()).padStart(2)
+				part0 = (part0.toString()).padStart(3)
 				let part1 = array[i].split(":")[1]
 				let part2 = array[i].split(":")[2]
-				output.push(part0 + ": expected " + sg + part1 + sc + " got " + s2 + part2 + sc)
+				output.push(part0 + ": expected " + s3.trim() + part1 + sc + " got " + s1 + part2 + sc)
 			}
 			document.getElementById("diff" + type).innerHTML = output.join("<br>")
 		} else {
@@ -235,6 +261,21 @@ function outputMath() {
 	output_diffs(diffs, 0)
 	output_diffs(fnmatch, 1)
 	output_diffs(polymatch, 2)
+
+	// hashes
+	let hash1 = sha1(math1.join())
+	let hash2 = sha1(math2.join())
+	let hash0 = sha1(hash1 + hash2)
+		//ToDo: assign short codes
+	dom.hash1.innerHTML = hash1 + s3 +"["+ math1.length +"]"+sc
+	dom.hash2.innerHTML = hash2 + s3 +"["+ math2.length +"]"+sc
+	dom.hash0.innerHTML = hash0 // ToDo: add [CODE] or [NEW]
+	// data
+	let bigNstr = "* bigN = " + bigN
+	
+	dom.mathdata.innerHTML = hash0 + "<br>" + numstr + "<br><br>"
+		+ bigNstr.padStart(45) + "<br>" + display.join("<br>")
+
 
 }
 
