@@ -14,9 +14,10 @@
 	<table id="tb3">
 		<col width="20%"><col width="80%">
 		<thead><tr><th colspan="2">math</th></tr></thead>
-		<tr><td>hash</td><td class="c mono" id="hash0"></td></tr>
+		<tr><td>[fn + poly] hash</td><td class="c mono" id="hash0"></td></tr>
 		<tr><td>function</td><td class="c mono" id="hash1"></td></tr>
 		<tr><td>polyfill</td><td class="c mono" id="hash2"></td></tr>
+		<tr><td><span class="s12">tzp</span></td><td class="c mono" id="hash3"></td></tr>
 		<tr><td colspan="2" class="center"></td></tr>
 
 		<tr><td></td><td class="s3">vs control [FF78-64bit Win7-64bit]</td></tr>
@@ -41,6 +42,38 @@
 'use strict';
 
 function outputMath() {
+
+	// TZP ECMA 1st edition
+	let list = ['1e251','1e140','1e12','1e130','1e272','1e0','1e284','1e75'],
+		tzpdisplay = [],
+		tzpres = [],
+		strDemarc = "---------------------------------------------<br>"
+
+	for (let i=0; i < list.length; i++) {
+		let cositem = "cos("+ list[i] + ")"
+			cositem = cositem.padStart(12)
+		let temp = Math.cos(list[i]) 
+		tzpres.push(temp)
+		tzpdisplay.push(s12 + cositem + sc +": "+ temp)
+	}
+	let hash3 = sha1(tzpres.join("-")), m1 = ""
+	if ("undefined" != typeof InstallTrigger) {isFF = true}
+	if (isFF) {
+		// known FF hashes (os)
+		if (hash3 == "46f7c2bbe55a2cd28252d059604f8c3bac316c23") {m1="A"}
+		else if (hash3 == "8464b989070dcff22c136e4d0fe21d466b708ece") {m1="B"}
+		else if (hash3 == "97eee44856b0d2339f7add0d22feb01bcc0a430e") {m1="C"}
+		else if (hash3 == "96895e004b623552b9543dcdc030640d1b108816") {m1="D"}
+		else if (hash3 == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {m1="E"}
+		else if (hash3 == "ae434b101452888b756da5916d81f68adeb2b6ae") {m1="F"}
+		else if (hash3 == "19df0b54c852f35f011187087bd3a0dce12b4071") {m1="G"}
+		else if (hash3 == "8ee641f01271d500e5c1d40e831232214c0bbbdc") {m1="H"}
+		if (m1 == "") {
+			m1 = zNEW
+		} else {
+			m1 = s12 + "["+ m1 +"]" + sc
+		}
+	}
 
 	// hypot from https://github.com/MaxArt2501/es6-math/blob/master/es6-math.js	
 	function hypot(value1, value2) {
@@ -201,7 +234,7 @@ function outputMath() {
 		let isFnDiff = false, isPolyDiff = false, isDiff = false
 		if (fnResult !== fnControl) {
 			isFnDiff = true
-			fnmatch.push(k+":"+fnControl +":"+fnResult)
+			fnmatch.push(k+":"+fn[1]+"("+fn[3]+"):"+fnControl +":"+fnResult)
 			numbers.push(k)
 		}
 		math1.push(k+":"+fnResult)
@@ -209,14 +242,14 @@ function outputMath() {
 		if (polyResult !== "n/a") {
 			if (polyResult !== polyControl) {
 				isPolyDiff = true
-				polymatch.push(k+":"+polyControl +":"+polyResult)
+				polymatch.push(k+":"+fn[1]+"("+fn[3]+"):"+polyControl +":"+polyResult)
 				numbers.push(k+"p")
 			}
 			math2.push(k+":"+polyResult)
 			// does not match fn
 			if (polyResult !== fnResult) {
 				isDiff = true
-				diffs.push(k+":"+fnResult+":"+polyResult)
+				diffs.push(k+":"+fn[1]+"("+fn[3]+"):"+fnResult +":"+polyResult)
 				//numbers.push(k+"p") // don't collect: we only care about those that don't match control
 			}
 		}
@@ -227,10 +260,8 @@ function outputMath() {
 		if (polyResult !== "n/a") {
 			fnResult += ", " + polyResult
 		}
-		if (demarc == true) { display.push(s3.trim()
-			+ "---------------------------------------------<br>" + (fn[6]).toUpperCase() + sc ) }
+		if (demarc == true) { display.push(s3.trim() + strDemarc + (fn[6]).toUpperCase() + sc)}
 		display.push(kpad+": "+ s3 + fnName + sc + ": " +fnResult)
-		//display.push(kpad+": "+fnResult)
 	}
 
 	// numbers
@@ -251,7 +282,8 @@ function outputMath() {
 				part0 = (part0.toString()).padStart(3)
 				let part1 = array[i].split(":")[1]
 				let part2 = array[i].split(":")[2]
-				output.push(part0 + ": expected " + s3.trim() + part1 + sc + " got " + s1 + part2 + sc)
+				let part3 = array[i].split(":")[3]
+				output.push(part0 + ":" + s3 + part1 + sc + " s/be " + s3.trim() + part2 + sc + " got " + s1 + part3 + sc)
 			}
 			document.getElementById("diff" + type).innerHTML = output.join("<br>")
 		} else {
@@ -269,11 +301,14 @@ function outputMath() {
 		//ToDo: assign short codes
 	dom.hash1.innerHTML = hash1 + s3 +"["+ math1.length +"]"+sc
 	dom.hash2.innerHTML = hash2 + s3 +"["+ math2.length +"]"+sc
+	dom.hash3.innerHTML = hash3 + (isFF ? m1 : "")
 	dom.hash0.innerHTML = hash0 // ToDo: add [CODE] or [NEW]
 	// data
 	let bigNstr = "* bigN = " + bigN
-	
-	dom.mathdata.innerHTML = hash0 + "<br>" + numstr + "<br><br>"
+	dom.mathdata.innerHTML = (s12 +"TZP").padStart(40) + "<br>" + strDemarc + sc
+		+ hash3 + " " + m1 + "<br>"	+ tzpdisplay.join("<br>") + "<br><br>"
+		+ (s3.trim() +"NEW TESTS").padStart(43) + "<br>" + strDemarc + sc
+		+ hash0 + "<br>" + numstr + "<br><br>"
 		+ bigNstr.padStart(45) + "<br>" + display.join("<br>")
 
 
