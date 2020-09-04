@@ -515,6 +515,7 @@ function get_results(type) {
 			// known FF hashes
 			if (tzphash2 == "da51d38c6fcfc30599124515a36779c0d021a58d") {tzpcode2="A"}
 			else if (tzphash2 == "ee9207e29c9d8ddb58d77a447a112854dec5ba50") {tzpcode2="B"}
+			else if (tzphash2 == "ace0a461947f4a157233e001b8d18d79113fa825") {tzpcode2="F"} // Fenix
 			// new
 			else if (tzphash2 == "25e085626b57813701d5f2f4c33029a1e4c56f27") {tzpcode2="Z"} //TB60 32bit Win7 64bit
 			// notation
@@ -569,8 +570,18 @@ function get_maincode(hash) {
 	//else if (hash == "") { r=""}
 
 	// FF
-	if (hash == "55b23bcbc0a5f9e6479a219442a753de42945632") {r="F1"}        // FF78 64bit Win7 64bit [CONTROL]
+	if (hash == "55b23bcbc0a5f9e6479a219442a753de42945632") {r="F1"}        // FF68-82 64bit Win7 64bit [CONTROL]
 	else if (hash == "387ec24f7d465f6cc8586810ab573d33b4deb1bd") {r="F2"}   // FF60-76 64bit Win7 64bit
+
+
+	else if (hash == "90b975639f11fffdff221f89ffc773b545198cf0") { r="F10"} // Fenix80
+ 
+
+	// 32bit FF60
+	// 32bit FF68
+	// 32bit FF80
+
+
 	// TB
 	else if (hash == "2665ead0ed40201e071f3a55cafcb4d5de7c655b") { r="F96"} // TB68-78 64bit Win7 64bit
 	else if (hash == "b7971966da5399fec9ff39963080beae71fd1930") { r="F97"} // TB68-78 32bit Win7 64bit
