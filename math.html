@@ -28,18 +28,23 @@
 		<tr><td colspan="2">polyfill</td><td class="c mono" id="hash2"></td></tr>
 
 		<tr><td colspan="3"><hr></td></tr>
+		<tr><td colspan="3"><button class="btn0 btn" onClick="copyclip(`report`)">[ copy to clipboard ]</button> SHORT REPORT</td></tr>
+		<tr><td colspan="2"></td><td class="c mono" id="report"></td></tr>
+		<tr><td colspan="3"></td></tr>
+
+		<tr><td colspan="3"><hr></td></tr>
 		<tr><td colspan="3">DIFFS ANALYSIS</td></tr>
 		<tr><td colspan="2"></td><td class="s3">vs control <span class="s12" id="controlname"></span></td></tr>
 		<tr><td colspan="2"></td><td class="mono">denoted in <span class="s1">pale red</span></td></tr>
 		<tr><td colspan="2">function</td><td class="c mono spaces" id="diff1"></td></tr>
 		<tr><td colspan="2">polyfill</td><td class="c mono spaces" id="diff2"></td></tr>
 		<tr><td colspan="2">test no's</td><td class="c mono" id="newnum"></td></tr>
-		<tr><td colspan="3" class="center"></td></tr>
+		<tr><td colspan="3"></td></tr>
 
 		<tr><td colspan="2"></td><td class="s3">polyfill vs function</td></tr>
 		<tr><td colspan="2"></td><td class="mono">denoted with <span class = "s1">[match]</span></td></tr>
 		<tr><td colspan="2">diffs</td><td class="c mono spaces" id="diff0"></td></tr>
-		<tr><td colspan="3" class="center"></td></tr>
+		<tr><td colspan="3"></td></tr>
 
 		<tr><td colspan="3"><hr></td></tr>
 		<tr><td colspan="3"><button class="btn0 btn" onClick="copyclip(`mathdata`)">[ copy to clipboard ]</button> DATA</td></tr>
@@ -301,6 +306,7 @@ function build_arrays(engine) {
 
 var tzpdisplay = [],
 	newdisplay = []
+	report = []
 
 function get_results(type) {
 	// vars
@@ -322,9 +328,12 @@ function get_results(type) {
 		tzpdisplay = [s3.trim() + "control: " + controlname + sc + "<br>"]
 		tzpdisplay.push(bigNstr.padStart(52) + "<br>")
 		tzpdisplay.push(sColor.trim() +"TZP" + "<br>" + strDemarc + sc)
+		report = [s3.trim() + "control: " + controlname + sc + "<br>"]
+		report.push(sColor.trim() +"TZP" + "<br>" + strDemarc + sc)
 	} else {
 		fns = newfns
 		newdisplay = ["<br><br>" + sColor.trim() +"NEW TESTS" + "<br>" + strDemarc + sc]
+		report.push("<br><br>" + sColor.trim() +"NEW TESTS" + "<br>" + strDemarc + sc)
 	}
 
 	// BUILD TEST RESULTS
@@ -530,6 +539,10 @@ function get_results(type) {
 		tzpdisplay.push("nos: " + numstr)
 		tzpdisplay = tzpdisplay.concat(display)
 
+		report.push("tzp: " + tzphash1 + (isFF ? tzpcode1 : ""))
+		report.push("new: " + tzphash2 + (isFF ? tzpcode2 : ""))
+		report.push("nos: " + numstr)
+
 	} else {
 		// hashes
 		let hash1 = sha1(math1.join())
@@ -552,6 +565,10 @@ function get_results(type) {
 		newdisplay.push("poly: " + hash2)
 		newdisplay.push(" nos: " + numstr)
 		newdisplay = newdisplay.concat(display)
+
+		report.push(" a11: " + hash0 + maincode)
+		report.push(" nos: " + numstr)
+
 		// diffs
 		output_diffs(diffs, 0)
 		output_diffs(fnmatch, 1)
@@ -561,6 +578,7 @@ function get_results(type) {
 	// display
 	if (type == "new") {
 		dom.mathdata.innerHTML = tzpdisplay.join("<br>") + newdisplay.join("<br>")
+		dom.report.innerHTML = report.join("<br>")
 	}
 }
 
@@ -572,7 +590,7 @@ function get_maincode(hash) {
 	// FF
 	if (hash == "55b23bcbc0a5f9e6479a219442a753de42945632") {r="F1"}        // FF68-82 64bit Win7 64bit [CONTROL]
 	else if (hash == "387ec24f7d465f6cc8586810ab573d33b4deb1bd") {r="F2"}   // FF60-76 64bit Win7 64bit
-	else if (hash == "90b975639f11fffdff221f89ffc773b545198cf0") { r="F10"} // Fenix80, TBA68 (and therefore FF68)
+	else if (hash == "90b975639f11fffdff221f89ffc773b545198cf0") { r="F10"} // aarch64: Fenix80, TBA68 (and therefore FF68)
 	// TB
 	else if (hash == "2665ead0ed40201e071f3a55cafcb4d5de7c655b") { r="F96"} // TB68-78 64bit Win7 64bit
 	else if (hash == "b7971966da5399fec9ff39963080beae71fd1930") { r="F97"} // TB68-78 32bit Win7 64bit
