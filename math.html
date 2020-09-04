@@ -478,7 +478,8 @@ function get_results(type) {
 
 	// hashes
 	if (type == "tzp") {
-		// first eight items: strip the numbers
+
+		// OLD HASH
 		let tzptemp = math1.slice(0,8)
 		let tzparray1 = []
 		for(let i=0; i < tzptemp.length; i++) {
@@ -486,28 +487,45 @@ function get_results(type) {
 			tzparray1.push(part1)
 		}
 		let tzphash1 = sha1(tzparray1.join("-")) // use "-" to match TZP
-		let tzpcode = ""
+		let tzpcode1 = ""
 		if (isFF) {
-			// known FF hashes (os)
-			if (tzphash1 == "46f7c2bbe55a2cd28252d059604f8c3bac316c23") {tzpcode="A"}
-			else if (tzphash1 == "8464b989070dcff22c136e4d0fe21d466b708ece") {tzpcode="B"}
-			else if (tzphash1 == "97eee44856b0d2339f7add0d22feb01bcc0a430e") {tzpcode="C"}
-			else if (tzphash1 == "96895e004b623552b9543dcdc030640d1b108816") {tzpcode="D"}
-			else if (tzphash1 == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {tzpcode="E"}
-			else if (tzphash1 == "ae434b101452888b756da5916d81f68adeb2b6ae") {tzpcode="F"}
-			else if (tzphash1 == "19df0b54c852f35f011187087bd3a0dce12b4071") {tzpcode="G"}
-			else if (tzphash1 == "8ee641f01271d500e5c1d40e831232214c0bbbdc") {tzpcode="H"}
-			if (tzpcode == "") {
-				tzpcode = zNEW
+			// known FF hashes
+			if (tzphash1 == "46f7c2bbe55a2cd28252d059604f8c3bac316c23") {tzpcode1="A"}
+			else if (tzphash1 == "8464b989070dcff22c136e4d0fe21d466b708ece") {tzpcode1="B"}
+			else if (tzphash1 == "97eee44856b0d2339f7add0d22feb01bcc0a430e") {tzpcode1="C"}
+			else if (tzphash1 == "96895e004b623552b9543dcdc030640d1b108816") {tzpcode1="D"}
+			else if (tzphash1 == "06a01549b5841e0ac26c875b456a33f95b5c5c11") {tzpcode1="E"}
+			else if (tzphash1 == "ae434b101452888b756da5916d81f68adeb2b6ae") {tzpcode1="F"}
+			else if (tzphash1 == "19df0b54c852f35f011187087bd3a0dce12b4071") {tzpcode1="G"}
+			else if (tzphash1 == "8ee641f01271d500e5c1d40e831232214c0bbbdc") {tzpcode1="H"}
+			if (tzpcode1 == "") {
+				tzpcode1 = zNEW
 			} else {
-				tzpcode = s12 + "["+ tzpcode +"]" + sc
+				tzpcode1 = s12 + "["+ tzpcode1 +"]" + sc
 			}
 		}
+
+		// NEW HASH
 		let tzparray2 = math1.slice(9,math1.length)
 		let tzphash2 = sha1(tzparray2.join()) // the rest
-
-		tzpdisplay.push("tzp: " + tzphash1 + (isFF ? tzpcode : ""))
-		tzpdisplay.push("new: " + tzphash2)
+		let tzpcode2 = ""
+		if (isFF) {
+			// template
+			//else if (tzphash2 == "") {tzpcode2=""}
+			// known FF hashes
+			if (tzphash2 == "da51d38c6fcfc30599124515a36779c0d021a58d") {tzpcode2="A"}
+			else if (tzphash2 == "ee9207e29c9d8ddb58d77a447a112854dec5ba50") {tzpcode2="B"}
+			// new
+			else if (tzphash2 == "25e085626b57813701d5f2f4c33029a1e4c56f27") {tzpcode2="Z"} //TB60 32bit Win7 64bit
+			// notation
+			if (tzpcode2 == "") {
+				tzpcode2 = zNEW
+			} else {
+				tzpcode2 = s12 + "["+ tzpcode2 +"]" + sc
+			}
+		}
+		tzpdisplay.push("tzp: " + tzphash1 + (isFF ? tzpcode1 : ""))
+		tzpdisplay.push("new: " + tzphash2 + (isFF ? tzpcode2 : ""))
 		tzpdisplay.push("nos: " + numstr)
 		tzpdisplay = tzpdisplay.concat(display)
 
@@ -517,16 +535,18 @@ function get_results(type) {
 		let hash2 = sha1(math2.join())
 		let math3 = math1.concat(math2)
 		let hash0 = sha1(math3.join())
+		let maincode = get_maincode(hash0)
+
 		//ToDo: assign short codes
-		dom.hash1.innerHTML = hash1 + sColor +"["+ math1.length +"]"+sc
+		dom.hash1.innerHTML = hash1 //+ sColor +"["+ math1.length +"]"+sc
 		if (math2.length > 0) {
-			dom.hash2.innerHTML = hash2 + sColor +"["+ math2.length +"]"+sc
+			dom.hash2.innerHTML = hash2 //+ sColor +"["+ math2.length +"]"+sc
 		} else {
 			dom.hash2.innerHTML = "none run"
 		}
-		dom.hash0.innerHTML = hash0 // ToDo: add [CODE] or [NEW]
+		dom.hash0.innerHTML = hash0 + maincode
 
-		newdisplay.push(" a11: " + hash0)
+		newdisplay.push(" a11: " + hash0 + maincode)
 		newdisplay.push("func: " + hash1)
 		newdisplay.push("poly: " + hash2)
 		newdisplay.push(" nos: " + numstr)
@@ -541,6 +561,29 @@ function get_results(type) {
 	if (type == "new") {
 		dom.mathdata.innerHTML = tzpdisplay.join("<br>") + newdisplay.join("<br>")
 	}
+}
+
+function get_maincode(hash) {
+	let r = ""
+	// template
+	//else if (hash == "") { r=""}
+
+	// FF
+	if (hash == "55b23bcbc0a5f9e6479a219442a753de42945632") {r="F1"}        // FF78 64bit Win7 64bit [CONTROL]
+	else if (hash == "387ec24f7d465f6cc8586810ab573d33b4deb1bd") {r="F2"}   // FF60-76 64bit Win7 64bit
+	// TB
+	else if (hash == "2665ead0ed40201e071f3a55cafcb4d5de7c655b") { r="F96"} // TB68-78 64bit Win7 64bit
+	else if (hash == "b7971966da5399fec9ff39963080beae71fd1930") { r="F97"} // TB68-78 32bit Win7 64bit
+	else if (hash == "ab9409fb13ee526847ffa797a4696f139e5922cf") { r="F98"} // TB60 64bit Win7 64bit
+	else if (hash == "21e7548068a0aef1cfe56c6e58ca6f8524da581d") { r="F99"} // TB60 32bit Win7 64bit
+	// CHROME
+	else if (hash == "0434f008dc65d44cd67a49656aa21f38e8e93a6e") { r="C1"}  // 72-85 32+64bit Win7 64bit
+	// MAC
+	else if (hash == "") { r=""}
+
+	// NEW
+	if (r == "") {r = zNEW} else {r = s3+"["+ r +"]"+sc}
+	return r
 }
 
 function outputMath(control) {
