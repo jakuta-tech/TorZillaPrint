@@ -577,8 +577,11 @@ function get_code(type, hash) {
 	// MAIN TEST
 	if (type == "new") {
 		// FF
-		if (hash == "55b23bcbc0a5f9e6479a219442a753de42945632")      {r="F1" } // Win7 64bit: FF68-82 64bit [CONTROL]
+		     if (hash == "55b23bcbc0a5f9e6479a219442a753de42945632") {r="F1" } // Win7 64bit: FF68-82 64bit [CONTROL]
 		else if (hash == "387ec24f7d465f6cc8586810ab573d33b4deb1bd") {r="F2" } // Win7 64bit: FF60-76 64bit
+		else if (hash == "b028a9521f53fe3cd88f66ebb5b3b86fa32876cd") {r="F3" } // Win7 64bit: FF60-67 32bit
+		else if (hash == "3de2c514f27f8342093010267f3f132b70f15c09") {r="F4" } // Win7 64bit: FF68-82 32bit
+
 		else if (hash == "90b975639f11fffdff221f89ffc773b545198cf0") {r="F10"} // aarch64: Fenix80, TBA68 (and therefore FF68)
 		else if (hash == "28e670c427690c9e06fee99660e42cd44face90d") {r="F20"} // Linux64 (homebrew): FF82 64bit
 		// TB
@@ -587,7 +590,7 @@ function get_code(type, hash) {
 		else if (hash == "ab9409fb13ee526847ffa797a4696f139e5922cf") {r="F98"} // Win7 64bit: TB60 64bit
 		else if (hash == "21e7548068a0aef1cfe56c6e58ca6f8524da581d") {r="F99"} // Win7 64bit: TB60 32bit
 		// CHROME
-		else if (hash == "0434f008dc65d44cd67a49656aa21f38e8e93a6e") { r="C1"}  // 72-85 32+64bit Win7 64bit
+		else if (hash == "0434f008dc65d44cd67a49656aa21f38e8e93a6e") { r="C1"} // Win7 64bit: Chrome72-85 64+32bit
 		// MAC
 		else if (hash == "") { r=""}
 
@@ -595,8 +598,10 @@ function get_code(type, hash) {
 	} else {
 			color = s12
 			// known FF hashes
-			if (hash == "da51d38c6fcfc30599124515a36779c0d021a58d")      {r="A"}
+			if      (hash == "da51d38c6fcfc30599124515a36779c0d021a58d") {r="A"}
 			else if (hash == "ee9207e29c9d8ddb58d77a447a112854dec5ba50") {r="B"}
+			else if (hash == "2f3b87caa7d3b56b4b8ffc74149ed855ba64b7a2") {r="C"}
+
 			else if (hash == "ace0a461947f4a157233e001b8d18d79113fa825") {r="F"} // aarch64 + pixel3: Fenix
 			else if (hash == "99502fa552f399f8d9151e7fbfaf12ef905de3a3") {r="G"} // Linux64 (homebrew): FF82 64bit
 			// new to TZP
