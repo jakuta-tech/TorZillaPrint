@@ -519,20 +519,7 @@ function get_results(type) {
 		let tzphash2 = sha1(tzparray2.join()) // the rest
 		let tzpcode2 = ""
 		if (isFF) {
-			// template
-			//else if (tzphash2 == "") {tzpcode2=""}
-			// known FF hashes
-			if (tzphash2 == "da51d38c6fcfc30599124515a36779c0d021a58d") {tzpcode2="A"}
-			else if (tzphash2 == "ee9207e29c9d8ddb58d77a447a112854dec5ba50") {tzpcode2="B"}
-			else if (tzphash2 == "ace0a461947f4a157233e001b8d18d79113fa825") {tzpcode2="F"} // Fenix
-			// new
-			else if (tzphash2 == "25e085626b57813701d5f2f4c33029a1e4c56f27") {tzpcode2="Z"} //TB60 32bit Win7 64bit
-			// notation
-			if (tzpcode2 == "") {
-				tzpcode2 = zNEW
-			} else {
-				tzpcode2 = s12 + "["+ tzpcode2 +"]" + sc
-			}
+			tzpcode2 = get_code(type, tzphash2)
 		}
 		tzpdisplay.push("tzp: " + tzphash1 + (isFF ? tzpcode1 : ""))
 		tzpdisplay.push("new: " + tzphash2 + (isFF ? tzpcode2 : ""))
@@ -549,7 +536,7 @@ function get_results(type) {
 		let hash2 = sha1(math2.join())
 		let math3 = math1.concat(math2)
 		let hash0 = sha1(math3.join())
-		let maincode = get_maincode(hash0)
+		let maincode = get_code(type,hash0)
 
 		//ToDo: assign short codes
 		dom.hash1.innerHTML = hash1 //+ sColor +"["+ math1.length +"]"+sc
@@ -582,27 +569,42 @@ function get_results(type) {
 	}
 }
 
-function get_maincode(hash) {
-	let r = ""
+function get_code(type, hash) {
+	let r = "", color = s3
 	// template
-	//else if (hash == "") { r=""}
+	//else if (hash == "") {r=""}
 
-	// FF
-	if (hash == "55b23bcbc0a5f9e6479a219442a753de42945632") {r="F1"}        // FF68-82 64bit Win7 64bit [CONTROL]
-	else if (hash == "387ec24f7d465f6cc8586810ab573d33b4deb1bd") {r="F2"}   // FF60-76 64bit Win7 64bit
-	else if (hash == "90b975639f11fffdff221f89ffc773b545198cf0") { r="F10"} // aarch64: Fenix80, TBA68 (and therefore FF68)
-	// TB
-	else if (hash == "2665ead0ed40201e071f3a55cafcb4d5de7c655b") { r="F96"} // TB68-78 64bit Win7 64bit
-	else if (hash == "b7971966da5399fec9ff39963080beae71fd1930") { r="F97"} // TB68-78 32bit Win7 64bit
-	else if (hash == "ab9409fb13ee526847ffa797a4696f139e5922cf") { r="F98"} // TB60 64bit Win7 64bit
-	else if (hash == "21e7548068a0aef1cfe56c6e58ca6f8524da581d") { r="F99"} // TB60 32bit Win7 64bit
-	// CHROME
-	else if (hash == "0434f008dc65d44cd67a49656aa21f38e8e93a6e") { r="C1"}  // 72-85 32+64bit Win7 64bit
-	// MAC
-	else if (hash == "") { r=""}
+	// MAIN TEST
+	if (type == "new") {
+		// FF
+		if (hash == "55b23bcbc0a5f9e6479a219442a753de42945632")      {r="F1" } // Win7 64bit: FF68-82 64bit [CONTROL]
+		else if (hash == "387ec24f7d465f6cc8586810ab573d33b4deb1bd") {r="F2" } // Win7 64bit: FF60-76 64bit
+		else if (hash == "90b975639f11fffdff221f89ffc773b545198cf0") {r="F10"} // aarch64: Fenix80, TBA68 (and therefore FF68)
+		else if (hash == "28e670c427690c9e06fee99660e42cd44face90d") {r="F20"} // Linux64 (homebrew): FF82 64bit
+		// TB
+		else if (hash == "2665ead0ed40201e071f3a55cafcb4d5de7c655b") {r="F96"} // Win7 64bit: TB68-78 64bit
+		else if (hash == "b7971966da5399fec9ff39963080beae71fd1930") {r="F97"} // Win7 64bit: TB68-78 32bit
+		else if (hash == "ab9409fb13ee526847ffa797a4696f139e5922cf") {r="F98"} // Win7 64bit: TB60 64bit
+		else if (hash == "21e7548068a0aef1cfe56c6e58ca6f8524da581d") {r="F99"} // Win7 64bit: TB60 32bit
+		// CHROME
+		else if (hash == "0434f008dc65d44cd67a49656aa21f38e8e93a6e") { r="C1"}  // 72-85 32+64bit Win7 64bit
+		// MAC
+		else if (hash == "") { r=""}
 
+	// TZP EXTENDED
+	} else {
+			color = s12
+			// known FF hashes
+			if (hash == "da51d38c6fcfc30599124515a36779c0d021a58d")      {r="A"}
+			else if (hash == "ee9207e29c9d8ddb58d77a447a112854dec5ba50") {r="B"}
+			else if (hash == "ace0a461947f4a157233e001b8d18d79113fa825") {r="F"} // aarch64 + pixel3: Fenix
+			else if (hash == "99502fa552f399f8d9151e7fbfaf12ef905de3a3") {r="G"} // Linux64 (homebrew): FF82 64bit
+			// new to TZP
+			else if (hash == "25e085626b57813701d5f2f4c33029a1e4c56f27") {r="Z"} // TB60 32bit Win7 64bit
+			// notation
+	}
 	// NEW
-	if (r == "") {r = zNEW} else {r = s3+"["+ r +"]"+sc}
+	if (r == "") {r = zNEW} else {r = color+"["+ r +"]"+sc}
 	return r
 }
 
