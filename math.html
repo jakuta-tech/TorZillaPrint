@@ -512,17 +512,21 @@ function get_code(hash) {
 }
 
 function outputMath(control) {
-	t0 = performance.now()
 	// clear
 	let items = document.getElementsByClassName("c mono")
-	for (let i=0; i < items.length; i++) {items[i].textContent = ""}	
+	for (let i=0; i < items.length; i++) {items[i].textContent = ""}
 	// control
 	if (control == "firefox") {controlname = "Firefox 78 64bit on Windows 64bit"
 	} else if (control == "chrome") {controlname = "Chrome 85 64bit on Windows 64bit"
 	} else if (control == "safari") {controlname = "Safari 13.0.5 on macOS Catalina [VM 64bit on Windows 10 64bit]"}
 	// build control & run
 	build_controlset(control)
-	get_results()
+
+	// delay so user can see things being reset
+	setTimeout(function(){
+		t0 = performance.now()
+		get_results()
+	}, 200)
 }
 
 </script>
