@@ -485,24 +485,25 @@ function get_code(hash) {
 	let r = ""
 	// FF
 		// windows
-	if      (hash == "705ce673653a27a23c61d7d67e6aa5e112d5e6fe") {r="F1" } // v2: Win7 64bit: FF68-82 64bit [CONTROL]
-	else if (hash == "6b0b141fe76e4091700552577a28ad78343fe72d") {r="F2" } // v2: Win7 64bit: FF60-67 64bit <- obsolete
-	else if (hash == "9ae3368c45a88ef832f9f53ae45049479cf2d8c6") {r="F3" } // v2: Win7 64bit: FF60-67 32bit <- obsolete
-	else if (hash == "5c4a31fca60d278930c82fc0a3a1e458fa6ce20a") {r="F4" } // v2: Win7 64bit: FF68-82 32bit
+	if      (hash == "705ce673653a27a23c61d7d67e6aa5e112d5e6fe") {r="F1" } // Win7 64bit: FF68-82 64bit [CONTROL]
+	else if (hash == "5c4a31fca60d278930c82fc0a3a1e458fa6ce20a") {r="F2" } // Win7 64bit: FF68-82 32bit
+	else if (hash == "6b0b141fe76e4091700552577a28ad78343fe72d") {r="F3" } // Win7 64bit: FF60-67 64bit [obsolete versions]
+	else if (hash == "9ae3368c45a88ef832f9f53ae45049479cf2d8c6") {r="F4" } // Win7 64bit: FF60-67 32bit [obsolete versions]
+
 
 		// android
-	else if (hash == "90b975639f11fffdff221f89ffc773b545198cf0") {r="F10"} // v1: aarch64: Fenix80, TBA68 (and therefore FF68)
+	else if (hash == "12c96ad6a0f2130e32dbc11b2ec9bb0d652db243") {r="F10"} // aarch64: Fenix80, TBA68 (and therefore FF68)
 		// linux
-	else if (hash == "28e670c427690c9e06fee99660e42cd44face90d") {r="F20"} // v1: Linux64 (homebrew): FF82 64bit
+	else if (hash == "retest1") {r="F20"} //
 		// mac
-	else if (hash == "1bd1a1407d2a695d9adda3159cadbdcb525fe702") {r="F30"} // v1: macOS: FF81/TB78
+	else if (hash == "retest2") {r="F30"} //
 		// TB
-	else if (hash == "2665ead0ed40201e071f3a55cafcb4d5de7c655b") {r="F96"} // v1: Win7 64bit: TB68-78 64bit
-	else if (hash == "b7971966da5399fec9ff39963080beae71fd1930") {r="F97"} // v1: Win7 64bit: TB68-78 32bit
-	else if (hash == "ab9409fb13ee526847ffa797a4696f139e5922cf") {r="F98"} // v1: Win7 64bit: TB60 64bit <- obsolete
-	else if (hash == "21e7548068a0aef1cfe56c6e58ca6f8524da581d") {r="F99"} // v1: Win7 64bit: TB60 32bit <- obsolete
+	else if (hash == "b816bd7b99e6e7bdf7bb24fb928325dd8638c7e3") {r="F96"} // Win7 64bit: TB68-78 64bit
+	else if (hash == "fd102512c49e217064a6b24a883644381b108992") {r="F97"} // Win7 64bit: TB68-78 32bit
+	else if (hash == "e8a35fa59f8a910963f78c4da2116207894c612c") {r="F98"} // Win7 64bit: TB60 64bit [obsolete versions]
+	else if (hash == "76b33085f23462984e999bb63537a7ece82c385f") {r="F99"} // Win7 64bit: TB60 32bit [obsolete versions]
 	// CHROME
-	else if (hash == "0434f008dc65d44cd67a49656aa21f38e8e93a6e") { r="C1"} // v1: Win7 64bit: Chrome72-85 64+32bit
+	else if (hash == "50306dba44684891d8f85b709bf3dd8d41add6ab") { r="C1"} // Win7 64bit: Chrome72-85 64+32bit
 	// SAFARI
 
 	// NEW
