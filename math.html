@@ -460,6 +460,7 @@ function get_results() {
 	let hash2 = sha1(math2.join())
 	let math3 = math1.concat(math2)
 	let hash0 = sha1(math3.join())
+	//console.debug(math3.join("\n"))
 	let maincode = get_code(hash0)
 	if (numstr == "none") {
 		numstr = s12.trim() + "  nos: "+ sc + numstr
@@ -497,8 +498,8 @@ function get_code(hash) {
 		// android
 	else if (hash == "571b9a318869bd09dab3fd83fd88883a66188011") {r="F20"} // aarch64: Fenix80, TBA68 (and therefore FF68)
 		// linux
-	else if (hash == "f") {r="F30"} // Linux 64bit: Fedora v32, Debian: FF80 64bit, TB68 64bit
-	else if (hash == "g") {r="F31"} // Linux 64bit: Mint: FF78 64bit
+	else if (hash == "e6c7b364678e8ecec909088314318acb8430ee47") {r="F30"} // Linux 64bit: Debian Buster: FF80 64bit
+	else if (hash == "g") {r="F31"} // Linux 64bit: 
 		// mac
 	else if (hash == "retest") {r="F50"} // macOS
 		// TB
