@@ -406,7 +406,7 @@ function get_results() {
 	// NUMBER+NAME DUPE CHECK
 	numberchk = numberchk.filter(function(item, position) {return numberchk.indexOf(item) === position})
 	if (fns.length !== numberchk.length) {
-		console.debug("fns array has duplicate user defined test numbers")
+		console.debug("fns array has duplicate user defined test ids")
 	}
 
 	// NUMBERS
@@ -512,7 +512,7 @@ function get_code(hash) {
 	else if (hash == "e6c7b364678e8ecec909088314318acb8430ee47") {r="F30"} // Linux 64bit
 	else if (hash == "05ea8b9bed51553711e3bbaa552449d8ea40c4be") {r="F31"} // Linux 64bit
 		// mac
-	else if (hash == "retest") {r="F50"} // macOS
+	else if (hash == "84ad7bbb52342b6c224c0fe45977184bc943bb92") {r="F50"} // macOS
 		// TB
 	else if (hash == "3ada7d492e4fa7a7a6acea446fa24ec3ff370556") {r="F96"} // Win7 64bit: FF60-67 64bit [obsolete versions]
 	else if (hash == "a8b5e74f336489c1df701a95650ab091ff6de436") {r="F97"} // Win7 64bit: FF60-67 32bit [obsolete versions]
@@ -520,8 +520,9 @@ function get_code(hash) {
 	else if (hash == "4796b1d067dd047768dcd2e9ecd740c0ef353d31") {r="F99"} // Win7 64bit: TB60 32bit [obsolete versions]
 
 	// CHROME
-	else if (hash == "42550bb913168ddbb8be40f970adc51344017cad") { r="C1"} // Win7 64bit: Chrome72-85 64+32bit
+	else if (hash == "42550bb913168ddbb8be40f970adc51344017cad") { r="C1"}
 	// SAFARI
+	else if (hash == "4423be6d9bec5550ad38ea9dde7ef2daf0609e0f") { r="S1"}
 
 	// NEW
 	if (r == "") {r = zNEW} else {r = s12+"["+ r +"]"+sc}
