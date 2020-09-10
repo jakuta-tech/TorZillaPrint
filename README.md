@@ -2,7 +2,7 @@
 
 TorZillaPrint aims to provide a comprehensive, all-in-one, fingerprinting test bed, nicely broken into suitable sections with relevant information together. We're into regression tests, Proof of Concepts, the lot. Ideally, we'd also like to provide the means to export or submit results, and the ability to upload/paste results for comparisons.
 
-The test page is right [here](https://ghacksuserjs.github.io/TorZillaPrint/TorZillaPrint.html) ... it's early days. If a result is blank, then we haven't coded for it yet.
+The test page is right [here](https://torzillafox.github.io/tzp/tzp.html) ... it's early days. If a result is blank, then we haven't coded for it yet.
 
 
 ### :heart: What we do care about:
